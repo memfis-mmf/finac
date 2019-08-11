@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="TitleModalJournal">Journal</h5>
+                <h5 class="modal-title" id="TitleModalJournal">Chart Of Account</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -58,7 +58,7 @@
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
-                                    Description @include('label::required')
+                                    Description @include('label::optional')
                                 </label>
 
                                 @component('input::textarea')
