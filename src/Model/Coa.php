@@ -1,6 +1,6 @@
 <?php
 
-namespace Memfis\Financeaccounting\Model;
+namespace Directoryxx\Finac\Model;
 
 use Illuminate\Database\Eloquent\Model;
 

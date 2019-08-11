@@ -1,6 +1,6 @@
 <?php
-Route::get('/coa', 'Memfis\Financeaccounting\Controllers\CoaController@create')->name('coa.index');
-Route::post('/coa/getdata','Memfis\Financeaccounting\Controllers\CoaController@getdata');
+Route::get('/coa', 'Directoryxx\Finac\Controllers\CoaController@create')->name('coa.index');
+Route::post('/coa/getdata','Directoryxx\Finac\Controllers\CoaController@getdata');
 Route::get('test', function(){
 	echo 'Hello from the Finance Accounting package!';
 });

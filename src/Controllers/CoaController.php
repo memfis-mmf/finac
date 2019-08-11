@@ -1,9 +1,9 @@
 <?php
 
-namespace Memfis\Financeaccounting\Controllers;
+namespace Directoryxx\Finac\Controllers;
 
 use Illuminate\Http\Request;
-use Memfis\Financeaccounting\Model\Coa;
+use Directoryxx\Finac\Model\Coa;
 use App\Http\Controllers\Controller;
 
 
