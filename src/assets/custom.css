@@ -1,0 +1,55 @@
+.flex {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.action-buttons {
+    flex-direction: row-reverse;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.child:nth-child(3) {
+    order: -1;
+}
+
+div.hidden {
+    display: none;
+}
+
+div.row > .col-sm-12.col-md-12.col-lg-12.footer {
+    border-top: 1px solid #e9ecef;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+#shrink div {
+    transition: 1s ease;
+}
+
+#shrink :hover {
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8);
+    transition: 1s ease;
+}
+
+.responsive {
+    width: 100%;
+    height: auto;
+}
+
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-text{
+    padding-left: 14rem !important;
+}
+
+.m-timeline-2:before{
+    left: 13.89rem !important;
+}
+
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-cricle{
+    left: 13.1rem !important;
+}

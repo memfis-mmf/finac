@@ -1,0 +1,12 @@
+{
+    "name": "directoryxx/fa",
+    "description": "FA Module for Memfis",
+    "authors": [
+        {
+            "name": "directoryx",
+            "email": "anggawijaya4567@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
