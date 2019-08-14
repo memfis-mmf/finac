@@ -38,11 +38,12 @@ class Install extends Command
     public function handle()
     {
         $this->copyright();
-
         $this->info('[START] Publishing asset..........');
         $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assets']);
-
         $this->info('[DONE ] Publishing asset..........');
+        $this->info('[START] Install initial data..........');
+        $this->call('db:seed', ['--class' => "Directoryxx\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
+        $this->info('[DONE ] Install initial data.');
     }
 
 
