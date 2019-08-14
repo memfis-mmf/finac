@@ -72,22 +72,15 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: 'created_by',
-                    title: 'CreatedBy',
+                    field: 'created_at',
+                    title: 'CreatedDate',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'update_by',
-                    title: 'UpdateBy',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'update_date',
-                    title: 'UpdateDate',
+                    field: 'updated_at',
+                    title: 'UpdatedDate',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150

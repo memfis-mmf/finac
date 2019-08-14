@@ -1,7 +1,7 @@
 $(document).ready(function () {
     type = function () {
         $.ajax({
-            url: '/type',
+            url: '/coa/type',
             type: 'GET',
             dataType: 'json',
             success: function (data) {

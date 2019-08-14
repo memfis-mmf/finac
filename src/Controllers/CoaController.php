@@ -16,28 +16,22 @@ class CoaController extends Controller
     }
 
     public function getData(){
-        echo "{
-            \"iTotalRecords\": 350,
-            \"iTotalDisplayRecords\": 350,
-            \"sEcho\": 0,
-            \"sColumns\": \"\",
-            \"aaData\": [
-                {
-                    \"RecordID\": 1,
-                    \"OrderID\": \"61715-075\",
-                    \"Country\": \"China\",
-                    \"ShipCity\": \"Tieba\",
-                    \"ShipAddress\": \"746 Pine View Junction\",
-                    \"CompanyAgent\": \"Nixie Sailor\",
-                    \"CompanyName\": \"Gleichner, Ziemann and Gutkowski\",
-                    \"ShipDate\": \"2\/12\/2018\",
-                    \"Status\": 3,
-                    \"Type\": 2,
-                    \"Actions\": null
-                },
-                
-            ]
-        }";
+        $type = [
+            '1' => 'AKTIVA',
+            '2' => 'PASIVA',
+            '3' => 'EKUITAS',
+            '4' => 'PENDAPATAN',
+            '5' => 'BIAYA'
+        ];
+
+        return json_encode($type,JSON_PRETTY_PRINT);
+
+
+
+
+
+
+
     }
 
     public function create()

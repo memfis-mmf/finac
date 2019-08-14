@@ -3,8 +3,16 @@
 namespace Directoryxx\Finac\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Directoryxx\Finac\Traits\UuidKey;
+
 
 class TypeJurnal extends Model
 {
-    protected $table = 'typejurnal';
+    use UuidKey;
+
+    protected $fillable = [
+        'code',
+        'name',
+        'active',
+    ];
 }

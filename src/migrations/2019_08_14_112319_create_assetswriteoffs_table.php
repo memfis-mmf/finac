@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCoaTable extends Migration
+class CreateAssetswriteoffsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,18 @@ class CreateCoaTable extends Migration
      */
     public function up()
     {
-        Schema::create('coas', function (Blueprint $table) {
+        Schema::create('assetswriteoffs', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('uuid')->unique();
+            $table->uuid('uuid');
             $table->integer('id_branch')->nullable();
-            $table->string('code');
-            $table->string('name');
-            $table->string('type');
+            $table->integer('approve')->default(0);
+            $table->string('transactionnumber');
+            $table->dateTime('transactiondate');
+            $table->integer('id_asset')->nullable();
+            $table->decimal('sellingprice',18,5);
+            $table->string('accountcode');
+            $table->string('coapl');
             $table->string('description');
-            $table->string('level')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +36,6 @@ class CreateCoaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('assetswriteoffs');
     }
 }

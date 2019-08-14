@@ -13,7 +13,7 @@ class CreateTypejurnalTable extends Migration
      */
     public function up()
     {
-        Schema::create('typejurnal', function (Blueprint $table) {
+        Schema::create('type_jurnals', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
             $table->string('code');
