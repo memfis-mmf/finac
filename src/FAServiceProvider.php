@@ -4,6 +4,7 @@ namespace Directoryxx\Finac;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Artisan;
+use Directoryxx\Finac\Commands\Install;
 
 class FAServiceProvider extends ServiceProvider
 {
@@ -27,10 +28,9 @@ class FAServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/assets' => public_path('vendor/courier'),
         ],'assets');
-        if ($this->app->environment('local')) {
-            Artisan::call('vendor:publish', [
-                '--force' => true,
-                '--tag' => 'assets'
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
             ]);
         }
     }
