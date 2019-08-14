@@ -24,7 +24,7 @@ class CreateAssetswriteoffsTable extends Migration
             $table->decimal('sellingprice',18,5);
             $table->string('accountcode');
             $table->string('coapl');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

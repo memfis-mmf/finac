@@ -15,4 +15,9 @@ class TypeJurnal extends Model
         'name',
         'active',
     ];
+    
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 }

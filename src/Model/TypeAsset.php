@@ -16,4 +16,9 @@ class TypeAsset extends Model
         'accountcode',
         'usefullife',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 }
