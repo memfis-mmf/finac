@@ -8,7 +8,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "ramsey/uuid": "^3.8"
+    },
     "autoload": {
         "psr-4": {
             "Directoryxx\\Finac\\": "src/"

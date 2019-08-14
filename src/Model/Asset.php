@@ -4,7 +4,7 @@ namespace Directoryxx\Finac\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coa extends Model
+class Asset extends Model
 {
     public function getRouteKeyName()
     {
