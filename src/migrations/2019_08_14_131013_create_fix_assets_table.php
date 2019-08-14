@@ -15,6 +15,13 @@ class CreateFixAssetsTable extends Migration
     {
         Schema::create('fix_assets', function (Blueprint $table) {
             $table->increments('id');
+            $table->uuid('uuid');
+            $table->integer('id_branch')->nullable();
+            $table->integer('approve')->default(0);
+            $table->string('transactionnumber');
+            $table->dateTime('transactiondate');
+            $table->dateTime('xdate');
+            $table->string('description');
             $table->timestamps();
         });
     }
