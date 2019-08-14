@@ -25,6 +25,9 @@ class FAServiceProvider extends ServiceProvider
             __DIR__.'/views' => base_path('resources/views/fa'),
         ],'views');
         */
+        $this->publishes([
+            __DIR__.'/assets' => public_path('vendor/courier'),
+        ],'assets');
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Install::class,
