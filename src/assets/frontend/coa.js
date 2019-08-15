@@ -169,7 +169,7 @@ let Coa = {
 
                         $('#code-error').html('');
 
-                        let table = $('coa_datatable').mDatatable();
+                        let table = $('.coa_datatable').mDatatable();
 
                         table.originalDataSet = [];
                         table.reload();
