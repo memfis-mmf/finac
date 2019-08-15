@@ -22,7 +22,7 @@ class CreateCoaTable extends Migration
             $table->string('type');
             $table->text('description')->nullable();
             $table->string('level')->nullable();
-            $table->dateTime('deleted_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

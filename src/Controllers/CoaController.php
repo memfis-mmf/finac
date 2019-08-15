@@ -5,6 +5,7 @@ namespace Directoryxx\Finac\Controllers;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\Coa;
 use Directoryxx\Finac\Request\CoaUpdate;
+use Directoryxx\Finac\Request\CoaStore;
 use App\Http\Controllers\Controller;
 
 
@@ -42,19 +43,10 @@ class CoaController extends Controller
         return view('coaview::index');
     }
 
-    public function store(Request $request)
+    public function store(CoaStore $request)
     {
-        $this->validate($request,[
-            'code' => 'required',
-            'name' => 'required',
-            'type_id' => 'required',
-        ]);
-        Coa::create([
-            'code' => $request->code,
-            'name' => $request->name,
-            'type' => $request->type_id,
-            'description' => $request->description
-        ]);
+        $coa = Coa::create($request->all());
+        return response()->json($coa);
 
         
     }

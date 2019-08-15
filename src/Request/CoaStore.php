@@ -28,6 +28,8 @@ class CoaStore extends FormRequest
     {
         return [
             'code' => 'required',
+            'name' => 'required',
+            'type_id' => 'required'
         ];
     }
 
