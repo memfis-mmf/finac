@@ -14,7 +14,8 @@ class Coa extends MemfisModel
         'code',
         'name',
         'type',
-        'description'
+        'description',
+        'deleted_at'
     ];
 
     
