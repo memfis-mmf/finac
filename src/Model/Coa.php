@@ -2,14 +2,12 @@
 
 namespace Directoryxx\Finac\Model;
 
-use Illuminate\Database\Eloquent\Model;
-use Directoryxx\Finac\Traits\UuidKey;
+use Directoryxx\Finac\Model\MemfisModel;
 
 
-class Coa extends Model
+class Coa extends MemfisModel
 {
 
-    use UuidKey;
 
     protected $fillable = [
         'id_branch',
@@ -19,8 +17,5 @@ class Coa extends Model
         'description'
     ];
 
-    public function getRouteKeyName()
-    {
-        return 'uuid';
-    }
+    
 }
