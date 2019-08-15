@@ -12,6 +12,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/type','Directoryxx\Finac\Controllers\CoaController@getdata');
 		Route::post('/','Directoryxx\Finac\Controllers\CoaController@store')->name('coa.store');
 		Route::put('/{coa}','Directoryxx\Finac\Controllers\CoaController@update')->name('coa.update');
+		Route::delete('/{coa}','Directoryxx\Finac\Controllers\CoaController@destroy')->name('coa.delete');
 		Route::get('/datatables','Directoryxx\Finac\Controllers\CoaController@datatables')->name('coa.datatables');
 		Route::get('/{coa}/edit','Directoryxx\Finac\Controllers\CoaController@edit');
 		Route::get('/type/{id}','Directoryxx\Finac\Controllers\CoaController@gettype');

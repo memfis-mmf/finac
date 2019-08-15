@@ -72,9 +72,11 @@ class CoaController extends Controller
         return response()->json($coa);
     }
 
-    public function destroy($id)
+    public function destroy(Coa $coa)
     {
-        
+        $coa->delete();
+
+        return response()->json($coa);
     }
 
     public function getType($id){
