@@ -42,7 +42,7 @@ class Install extends Command
         $this->warn('Run This Command After Running memfis:rebuild !!!');
         if ($this->confirm('Continue?')) {
             $this->info('[START] Publishing asset..........');
-            $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assets']);
+            $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assetsfa']);
             $this->info('[DONE ] Publishing asset..........');
             $this->info('[START] Install initial data..........');
             $this->call('db:seed', ['--class' => "Directoryxx\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
