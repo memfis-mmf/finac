@@ -1,4 +1,4 @@
-let Journal = {
+let Coa = {
     init: function () {
         $('.coa_datatable').mDatatable({
             data: {
@@ -6,7 +6,7 @@ let Journal = {
                 source: {
                     read: {
                         method: 'GET',
-                        url: '/datatables/journal',
+                        url: '/coa/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -58,7 +58,7 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: 'type_id',
+                    field: 'type',
                     title: 'Type',
                     sortable: 'asc',
                     filterable: !1,
@@ -93,7 +93,7 @@ let Journal = {
                     overflow: 'visible',
                     template: function (t, e, i) {
                         return (
-                            '<button data-toggle="modal" data-target="#modal_journal" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                            '<button data-toggle="modal" data-target="#modal_coa" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                             t.uuid +
                             '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                             '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -106,7 +106,7 @@ let Journal = {
         });
 
         $('.modal-footer').on('click', '.reset', function () {
-            journal_reset();
+            coa_reset();
         });
 
 
@@ -138,13 +138,12 @@ let Journal = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'post',
-                url: '/journal',
+                url: '/coa',
                 data: {
                     _token: $('input[name=_token]').val(),
                     code: code,
                     name: name,
                     type_id: type,
-                    level: level,
                     description: description
                 },
                 success: function (data) {
@@ -162,7 +161,7 @@ let Journal = {
 
 
                     } else {
-                        $('#modal_journal').modal('hide');
+                        $('#modal_coa').modal('hide');
 
                         toastr.success('Data berhasil disimpan.', 'Sukses', {
                             timeOut: 5000
@@ -170,7 +169,7 @@ let Journal = {
 
                         $('#code-error').html('');
 
-                        let table = $('journal_datatable').mDatatable();
+                        let table = $('coa_datatable').mDatatable();
 
                         table.originalDataSet = [];
                         table.reload();
@@ -179,7 +178,7 @@ let Journal = {
             });
         });
 
-        let edit = $('.journal_datatable').on('click', '.edit', function () {
+        let edit = $('.coa_datatable').on('click', '.edit', function () {
             // $('#button').show();
             // $('#simpan').text('Perbarui');
 
@@ -189,7 +188,7 @@ let Journal = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'get',
-                url: '/journal/' + triggerid + '/edit',
+                url: '/coa/' + triggerid + '/edit',
                 success: function (data) {
                     let select = document.getElementById('type');
 
@@ -207,10 +206,13 @@ let Journal = {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         type: 'get',
-                        url: '/type/'+data.type_id+'/edit',
+                        url: '/coa/type/'+data.type,
                         success: function (data2) {
+                            var obj = JSON.parse(data2);
+                            console.log(obj);
+                            console.log(obj.id);
                             $('select[name="type"]').append(
-                                '<option value="'+data2.id+'" selected>'+data2.name+'</option>'
+                                '<option value="'+obj.id+'" selected>'+obj.name+'</option>'
                             );
                         }
                     });
@@ -221,7 +223,7 @@ let Journal = {
                     let errors = jqXhr.responseJSON;
 
                     $.each(errors.errors, function (index, value) {
-                        $('#journal-error').html(value);
+                        $('#coa-error').html(value);
                     });
                 }
             });
@@ -244,7 +246,7 @@ let Journal = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'put',
-                url: '/journal/' + triggerid,
+                url: '/coa/' + triggerid,
                 data: {
                     _token: $('input[name=_token]').val(),
                     code: code,
@@ -261,13 +263,13 @@ let Journal = {
 
                     } else {
                         save_button();
-                        $('#modal_journal').modal('hide');
+                        $('#modal_coa').modal('hide');
 
                         toastr.success('Data berhasil disimpan.', 'Sukses', {
                             timeOut: 5000
                         });
 
-                        let table = $('.journal_datatable').mDatatable();
+                        let table = $('.coa_datatable').mDatatable();
 
                         table.originalDataSet = [];
                         table.reload();
@@ -283,7 +285,7 @@ let Journal = {
             });
         });
 
-        let remove = $('.journal_datatable').on('click', '.delete', function () {
+        let remove = $('.coa_datatable').on('click', '.delete', function () {
             let triggerid = $(this).data('uuid');
 
             swal({
@@ -303,14 +305,14 @@ let Journal = {
                             )
                         },
                         type: 'DELETE',
-                        url: '/journal/' + triggerid + '',
+                        url: '/coa/' + triggerid + '',
                         success: function (data) {
-                            toastr.success('Journal has been deleted.', 'Deleted', {
+                            toastr.success('COA has been deleted.', 'Deleted', {
                                     timeOut: 5000
                                 }
                             );
 
-                            let table = $('.journal_datatable').mDatatable();
+                            let table = $('.coa_datatable').mDatatable();
 
                             table.originalDataSet = [];
                             table.reload();
@@ -332,5 +334,5 @@ let Journal = {
 };
 
 jQuery(document).ready(function () {
-    Journal.init();
+    Coa.init();
 });

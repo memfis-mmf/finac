@@ -10,12 +10,13 @@ class Coa extends Model
 {
 
     use UuidKey;
-    
+
     protected $fillable = [
         'id_branch',
         'code',
         'name',
         'type',
+        'description'
     ];
 
     public function getRouteKeyName()
