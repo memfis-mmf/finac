@@ -48,7 +48,7 @@ class Install extends Command
             }
             if ($this->confirm('Install initial data?')) {
                 $this->info('[START] Install initial data..........');
-                $this->call('db:seed', ['--class' => "Directoryxx\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
+                $this->callSilent('db:seed', ['--class' => "Directoryxx\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
                 $this->info('[DONE ] Install initial data.');
             }
         }
