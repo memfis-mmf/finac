@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFixAssetsTable extends Migration
+class CreateAPaymentCTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateFixAssetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fix_assets', function (Blueprint $table) {
+        Schema::create('a_payment_c', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('id_branch')->nullable();
-            $table->integer('approve')->default(0);
             $table->string('transactionnumber');
-            $table->dateTime('transactiondate');
-            $table->dateTime('xdate');
-            $table->string('description');
+            $table->integer('id_payment');
+            $table->string('code');
+            $table->decimal('difference',18,5);
+            $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateFixAssetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fix_assets');
+        Schema::dropIfExists('a_payment_cs');
     }
 }

@@ -25,6 +25,7 @@ class CreateAssetswriteoffsTable extends Migration
             $table->string('accountcode');
             $table->string('coapl');
             $table->string('description')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

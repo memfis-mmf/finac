@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCloseJurnalsTable extends Migration
+class CreateTransJurBTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateCloseJurnalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('close_jurnals', function (Blueprint $table) {
+        Schema::create('trans_jur_b', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('id_branch')->nullable();
-            $table->integer('approve')->default(0);
-            $table->string('transactionnumber');
-            $table->dateTime('transactiondate');
-            $table->integer('year');
-            $table->string('accountcode');
+            $table->string('branchcode');
+            $table->string('voucherno');
             $table->string('description');
+            $table->string('accountcode');
+            $table->decimal('debit',18,3);
+            $table->decimal('credit',18,3);
+            $table->decimal('subareacode',18,3);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -34,6 +35,6 @@ class CreateCloseJurnalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('close_jurnals');
+        Schema::dropIfExists('trans_jur_bs');
     }
 }

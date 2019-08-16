@@ -33,6 +33,7 @@ class CreateBudgetsTable extends Migration
             $table->decimal('10',18,4);
             $table->decimal('11',18,4);
             $table->decimal('12',18,4);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateARecieveATable extends Migration
+class CreateBudgetOfMonthsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateARecieveATable extends Migration
      */
     public function up()
     {
-        Schema::create('a_recieve_a', function (Blueprint $table) {
+        Schema::create('budget_of_months', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->string('transactionnumber');
-            $table->integer('id_invoice');
-            $table->string('code');
-            $table->string('currency');
-            $table->decimal('exchangerate',18,5);
-            $table->decimal('debit',18,5);
-            $table->decimal('credit',18,5);
+            $table->integer('id_branch')->nullable();
+            $table->integer('year');
+            $table->integer('id_month');
+            $table->string('xtype');
+            $table->string('accountcode');
             $table->text('description');
+            $table->decimal('value',18,4);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -35,6 +35,6 @@ class CreateARecieveATable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a_recieve_as');
+        Schema::dropIfExists('budget_of_months');
     }
 }

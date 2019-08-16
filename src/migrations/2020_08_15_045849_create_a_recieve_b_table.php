@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTransJurBTable extends Migration
+class CreateARecieveBTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateTransJurBTable extends Migration
      */
     public function up()
     {
-        Schema::create('trans_jur_b', function (Blueprint $table) {
+        Schema::create('a_recieve_b', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->string('branchcode');
-            $table->string('voucherno');
-            $table->string('description');
-            $table->string('accountcode');
-            $table->decimal('debit',18,3);
-            $table->decimal('credit',18,3);
-            $table->decimal('subareacode',18,3);
+            $table->string('transactionnumber');
+            $table->string('code');
+            $table->string('name');
+            $table->decimal('debit',18,5);
+            $table->decimal('credit',18,5);
+            $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateTransJurBTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trans_jur_bs');
+        Schema::dropIfExists('a_recieve_bs');
     }
 }

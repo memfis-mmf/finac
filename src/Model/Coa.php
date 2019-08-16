@@ -13,7 +13,7 @@ class Coa extends MemfisModel
         'id_branch',
         'code',
         'name',
-        'type',
+        'type_id',
         'description'
     ];
 

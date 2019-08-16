@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypeassetsTable extends Migration
+class CreateAPaymentATable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,18 @@ class CreateTypeassetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_assets', function (Blueprint $table) {
+        Schema::create('a_payment_a', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
+            $table->string('transactionnumber');
+            $table->integer('id_payment');
             $table->string('code');
-            $table->string('name');
-            $table->string('accountcode');
-            $table->integer('usefullife');
+            $table->string('currency');
+            $table->decimal('exchangerate',18,5);
+            $table->decimal('debit',18,5);
+            $table->decimal('credit',18,5);
+            $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +36,6 @@ class CreateTypeassetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('typeassets');
+        Schema::dropIfExists('a_payment_as');
     }
 }

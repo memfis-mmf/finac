@@ -19,7 +19,7 @@ class CreateCoaTable extends Migration
             $table->integer('id_branch')->nullable();
             $table->string('code');
             $table->string('name');
-            $table->string('type');
+            $table->string('type_id');
             $table->text('description')->nullable();
             $table->string('level')->nullable();
             $table->softDeletes();

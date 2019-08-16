@@ -44,6 +44,7 @@ class CreateAssetsTable extends Migration
             $table->string('coaexpense');
             $table->integer('usestatus');
             $table->string('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAPaymentATable extends Migration
+class CreateCashbooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,22 @@ class CreateAPaymentATable extends Migration
      */
     public function up()
     {
-        Schema::create('a_payment_a', function (Blueprint $table) {
+        Schema::create('cashbooks', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
+            $table->integer('approve');
+            $table->integer('approve2')->default(0);
             $table->string('transactionnumber');
-            $table->integer('id_payment');
-            $table->string('code');
+            $table->dateTime('transactiondate');
+            $table->string('xstatus');
+            $table->string('personal');
+            $table->string('refno');
             $table->string('currency');
             $table->decimal('exchangerate',18,5);
-            $table->decimal('debit',18,5);
-            $table->decimal('credit',18,5);
+            $table->string('accountcode');
+            $table->decimal('totaltransaction',18,5);
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -35,6 +40,6 @@ class CreateAPaymentATable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a_payment_as');
+        Schema::dropIfExists('cashbooks');
     }
 }

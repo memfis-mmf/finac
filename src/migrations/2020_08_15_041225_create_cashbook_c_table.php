@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateARecieveBTable extends Migration
+class CreateCashbookCTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateARecieveBTable extends Migration
      */
     public function up()
     {
-        Schema::create('a_recieve_b', function (Blueprint $table) {
+        Schema::create('cashbook_c', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
             $table->string('transactionnumber');
@@ -22,6 +22,7 @@ class CreateARecieveBTable extends Migration
             $table->decimal('debit',18,5);
             $table->decimal('credit',18,5);
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ class CreateARecieveBTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a_recieve_bs');
+        Schema::dropIfExists('cashbook_cs');
     }
 }

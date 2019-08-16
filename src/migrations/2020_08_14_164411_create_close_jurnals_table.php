@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAPaymentCTable extends Migration
+class CreateCloseJurnalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class CreateAPaymentCTable extends Migration
      */
     public function up()
     {
-        Schema::create('a_payment_c', function (Blueprint $table) {
+        Schema::create('close_jurnals', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
+            $table->integer('id_branch')->nullable();
+            $table->integer('approve')->default(0);
             $table->string('transactionnumber');
-            $table->integer('id_payment');
-            $table->string('code');
-            $table->decimal('difference',18,5);
-            $table->text('description');
+            $table->dateTime('transactiondate');
+            $table->integer('year');
+            $table->string('accountcode');
+            $table->string('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,6 +35,6 @@ class CreateAPaymentCTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a_payment_cs');
+        Schema::dropIfExists('close_jurnals');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBudgetOfMonthsTable extends Migration
+class CreateTypeassetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateBudgetOfMonthsTable extends Migration
      */
     public function up()
     {
-        Schema::create('budget_of_months', function (Blueprint $table) {
+        Schema::create('type_assets', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('id_branch')->nullable();
-            $table->integer('year');
-            $table->integer('id_month');
-            $table->string('xtype');
+            $table->string('code');
+            $table->string('name');
             $table->string('accountcode');
-            $table->text('description');
-            $table->decimal('value',18,4);
+            $table->integer('usefullife');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateBudgetOfMonthsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('budget_of_months');
+        Schema::dropIfExists('typeassets');
     }
 }

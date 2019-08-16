@@ -21,6 +21,7 @@ class CreateARecieveCTable extends Migration
             $table->string('code');
             $table->decimal('difference',18,5);
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

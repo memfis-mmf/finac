@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCashbookBTable extends Migration
+class CreateFixAssetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateCashbookBTable extends Migration
      */
     public function up()
     {
-        Schema::create('cashbook_b', function (Blueprint $table) {
+        Schema::create('fix_assets', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
+            $table->integer('id_branch')->nullable();
+            $table->integer('approve')->default(0);
             $table->string('transactionnumber');
-            $table->string('code');
-            $table->string('name');
-            $table->string('currency');
-            $table->decimal('exchangerate',18,5);
-            $table->decimal('credit',18,5);
-            $table->decimal('debit',18,5);
-            $table->text('description');
+            $table->dateTime('transactiondate');
+            $table->dateTime('xdate');
+            $table->string('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ class CreateCashbookBTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cashbook_bs');
+        Schema::dropIfExists('fix_assets');
     }
 }

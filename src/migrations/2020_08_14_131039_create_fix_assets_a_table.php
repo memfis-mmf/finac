@@ -26,6 +26,7 @@ class CreateFixAssetsATable extends Migration
             $table->string('coad');
             $table->string('coac');
             $table->string('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

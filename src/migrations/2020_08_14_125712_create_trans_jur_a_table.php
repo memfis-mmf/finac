@@ -27,6 +27,7 @@ class CreateTransJurATable extends Migration
             $table->integer('postingstatus');
             $table->string('parentvoucherno');
             $table->string('automaticjournaltype');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
