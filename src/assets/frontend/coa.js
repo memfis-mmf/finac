@@ -58,7 +58,7 @@ let Coa = {
                     width: 150
                 },
                 {
-                    field: 'type',
+                    field: 'type_id',
                     title: 'Type',
                     sortable: 'asc',
                     filterable: !1,
