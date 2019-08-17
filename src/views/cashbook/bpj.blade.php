@@ -199,7 +199,7 @@
 
                                             @include('buttons::reset')
 
-                                            @include('buttons::close')
+                                            @include('buttons::back')
                                         </div>
                                     </div>
                                 </div>
