@@ -1,12 +1,12 @@
 let Coa = {
     init: function () {
-        $('.coa_datatable').mDatatable({
+        $('.cashbookbpj_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
                     read: {
                         method: 'GET',
-                        url: '/coa/datatables',
+                        url: '/cashbook-bpj/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -44,43 +44,29 @@ let Coa = {
             },
             columns: [
                 {
-                    field: 'code',
-                    title: 'Code',
+                    field: 'accountcode',
+                    title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: 'name',
-                    title: 'Name',
+                    field: 'accountname',
+                    title: 'Account Name',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'type_id',
-                    title: 'Type',
+                    field: 'amount',
+                    title: 'Amount',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
                 },
                 {
-                    field: 'description',
-                    title: 'Description',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'created_at',
-                    title: 'CreatedDate',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'updated_at',
-                    title: 'UpdatedDate',
+                    field: 'remark',
+                    title: 'Remark',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
@@ -157,7 +143,6 @@ let Coa = {
                             document.getElementById('type').value = type;
                             document.getElementById('level').value = level;
                             document.getElementById('description').value = description;
-                            coa_reset();
                         }
 
 
@@ -171,7 +156,7 @@ let Coa = {
                         $('#code-error').html('');
 
                         let table = $('.coa_datatable').mDatatable();
-                        coa_reset();
+
                         table.originalDataSet = [];
                         table.reload();
                     }
@@ -218,7 +203,6 @@ let Coa = {
                         }
                     });
                     save_changes_button();
-                   
                 },
                 error: function (jqXhr, json, errorThrown) {
                     let errorsHtml = '';
@@ -275,7 +259,6 @@ let Coa = {
 
                         table.originalDataSet = [];
                         table.reload();
-                        coa_reset();
 
                         $('#code-error').html('');
                         $('#name-error').html('');

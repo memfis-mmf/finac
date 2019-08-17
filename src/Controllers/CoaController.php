@@ -25,15 +25,7 @@ class CoaController extends Controller
             '4' => 'PENDAPATAN',
             '5' => 'BIAYA'
         ];
-
         return json_encode($type,JSON_PRETTY_PRINT);
-
-
-
-
-
-
-
     }
 
     public function create()
@@ -104,6 +96,18 @@ class CoaController extends Controller
             return json_encode($type,JSON_PRETTY_PRINT);
         }
 
+    }
+
+    public function api()
+    {
+        $coadata = Coa::all();
+
+        return json_encode($coadata);
+    }
+
+    public function apidetail(Coa $coa)
+    {
+        return response()->json($coa);
     }
 
     public function datatables(){

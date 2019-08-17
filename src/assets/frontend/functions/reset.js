@@ -27,6 +27,16 @@ let journal_reset = function () {
     $('#type').select2('val', 'All');
 }
 
+let coa_reset = function () {
+    document.getElementById('code').value = '';
+    document.getElementById('name').value = '';
+    document.getElementById('description').value = '';
+
+    $('#code-error').html('');
+    $('#nameerror').html('');
+    $('#type').select2('val', 'All');
+}
+
 let employee_employee_reset = function () {
     document.getElementById('code').value = '';
     document.getElementById('first_name').value = '';

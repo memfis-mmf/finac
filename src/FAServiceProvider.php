@@ -43,6 +43,7 @@ class FAServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadViewsFrom(__DIR__.'/views/coa', 'coaview');
+        $this->loadViewsFrom(__DIR__.'/views/cashbook', 'cashbookview');
         $this->loadViewsFrom(__DIR__.'/views/frontend', 'frontend');
         $this->loadViewsFrom(__DIR__.'/views/frontend/common/label', 'label');
         $this->loadViewsFrom(__DIR__.'/views/frontend/common/input', 'input');

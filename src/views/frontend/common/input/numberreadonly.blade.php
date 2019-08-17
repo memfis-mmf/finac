@@ -14,7 +14,7 @@
             <td style="width: 90%;">
                 <input type="number" id="{{ $id or $name }}" name="{{ $name or '' }}" class="form-control m-input
                            {{ $class or '' }}" style="{{ $style or ''}}" value="{{ $value or ''}}" placeholder="{{ $placeholder or '' }}"
-                    {{ $disabled or ''}} min="{{ $min or ''}}" max="{{ $max or ''}}">
+                    readonly min="{{ $min or ''}}" max="{{ $max or ''}}">
             </td>
 
             @if (isset($input_append))

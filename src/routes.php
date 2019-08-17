@@ -16,5 +16,15 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/datatables','Directoryxx\Finac\Controllers\CoaController@datatables')->name('coa.datatables');
 		Route::get('/{coa}/edit','Directoryxx\Finac\Controllers\CoaController@edit');
 		Route::get('/type/{id}','Directoryxx\Finac\Controllers\CoaController@gettype');
+		Route::get('/data','Directoryxx\Finac\Controllers\CoaController@api');
+		Route::get('/data/{coa}','Directoryxx\Finac\Controllers\CoaController@apidetail');
 	});
+
+	Route::resource('cashbook', 'Directoryxx\Finac\Controllers\CashbookController');
+	Route::resource('cashbook-bpj', 'Directoryxx\Finac\Controllers\CashbookBPJController');
+	Route::resource('cashbook-brj', 'Directoryxx\Finac\Controllers\CashbookBRJController');
+	Route::resource('cashbook-cpj', 'Directoryxx\Finac\Controllers\CashbookCPJController');
+	Route::resource('cashbook-crj', 'Directoryxx\Finac\Controllers\CashbookCRJController');
+
+
 });

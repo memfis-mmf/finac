@@ -1,12 +1,12 @@
-let Coa = {
+let Cashbook = {
     init: function () {
-        $('.coa_datatable').mDatatable({
+        $('.cashbook_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
                     read: {
                         method: 'GET',
-                        url: '/coa/datatables',
+                        url: '/cashbook/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -44,15 +44,15 @@ let Coa = {
             },
             columns: [
                 {
-                    field: 'code',
-                    title: 'Code',
+                    field: 'date',
+                    title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: 'name',
-                    title: 'Name',
+                    field: 'transactionno',
+                    title: 'TransactionNo',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
@@ -62,11 +62,46 @@ let Coa = {
                     title: 'Type',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 60,
+                    width: 150,
                 },
                 {
-                    field: 'description',
-                    title: 'Description',
+                    field: 'refno',
+                    title: 'Ref No',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 150
+                },
+                {
+                    field: 'totaltransaction',
+                    title: 'Total Transaction',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 150
+                },
+                {
+                    field: 'payment_by',
+                    title: 'Payment By/Received By',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 150
+                },
+                {
+                    field: 'updated_at',
+                    title: 'UpdatedDate',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 150
+                },
+                {
+                    field: 'accountcode',
+                    title: 'Account Code',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 150
+                },
+                {
+                    field: 'approvedby',
+                    title: 'Approved By',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
@@ -157,7 +192,6 @@ let Coa = {
                             document.getElementById('type').value = type;
                             document.getElementById('level').value = level;
                             document.getElementById('description').value = description;
-                            coa_reset();
                         }
 
 
@@ -171,7 +205,7 @@ let Coa = {
                         $('#code-error').html('');
 
                         let table = $('.coa_datatable').mDatatable();
-                        coa_reset();
+
                         table.originalDataSet = [];
                         table.reload();
                     }
@@ -183,7 +217,7 @@ let Coa = {
             // $('#button').show();
             // $('#simpan').text('Perbarui');
 
-            var triggerid = $(this).data('uuid');
+            let triggerid = $(this).data('uuid');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -207,7 +241,7 @@ let Coa = {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         type: 'get',
-                        url: '/coa/type/'+data.type_id,
+                        url: '/coa/type/'+data.type,
                         success: function (data2) {
                             var obj = JSON.parse(data2);
                             console.log(obj);
@@ -218,7 +252,6 @@ let Coa = {
                         }
                     });
                     save_changes_button();
-                   
                 },
                 error: function (jqXhr, json, errorThrown) {
                     let errorsHtml = '';
@@ -275,7 +308,6 @@ let Coa = {
 
                         table.originalDataSet = [];
                         table.reload();
-                        coa_reset();
 
                         $('#code-error').html('');
                         $('#name-error').html('');
@@ -310,7 +342,7 @@ let Coa = {
                         type: 'DELETE',
                         url: '/coa/' + triggerid + '',
                         success: function (data) {
-                            toastr.success('COA has been deleted.', 'Deleted', {
+                            toastr.success('Cashbook has been deleted.', 'Deleted', {
                                     timeOut: 5000
                                 }
                             );
@@ -337,5 +369,5 @@ let Coa = {
 };
 
 jQuery(document).ready(function () {
-    Coa.init();
+    Cashbook.init();
 });
