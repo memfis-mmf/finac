@@ -84,7 +84,7 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         {{csrf_field()}}
                                         <label class="form-control-label">
-                                            Received To @include('label::required')
+                                            Received From @include('label::required')
                                         </label>
 
                                         @component('input::text')

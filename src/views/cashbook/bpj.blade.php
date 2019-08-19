@@ -115,18 +115,23 @@
                                         </label>
 
                                         @component('input::select')
-                                            @slot('id', 'currency')
-                                            @slot('text', 'currency')
-                                            @slot('name', 'currency')
-                                            @slot('type', 'text')
-                                            @slot('style', 'width:100%')
-                                            @slot('help_text','Currency')
+                                        @slot('id', 'currency')
+                                        @slot('text', 'currency')
+                                        @slot('name', 'currency')
+                                        @slot('type', 'text')
+                                        @slot('style', 'width:100%')
+                                        @slot('help_text','Currency')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Exchange Rate
                                         </label>
+                                        <span id="requi" class="requi" style="font-weight: bold;color:red">
+
+                                            *
+
+                                        </span>
 
                                         @component('input::numberreadonly')
                                         @slot('id', 'exchange')
@@ -144,12 +149,12 @@
                                         </label>
 
                                         @component('input::select')
-                                            @slot('id', 'coa')
-                                            @slot('text', 'coa')
-                                            @slot('name', 'coa')
-                                            @slot('type', 'text')
-                                            @slot('style', 'width:100%')
-                                            @slot('help_text','Account Code')
+                                        @slot('id', 'coa')
+                                        @slot('text', 'coa')
+                                        @slot('name', 'coa')
+                                        @slot('type', 'text')
+                                        @slot('style', 'width:100%')
+                                        @slot('help_text','Account Code')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">

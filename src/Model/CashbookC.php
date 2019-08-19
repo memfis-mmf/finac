@@ -1,10 +1,11 @@
 <?php
 
-namespace App;
+namespace Directoryxx\Finac\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use Directoryxx\Finac\Model\MemfisModel;
 
-class CashbookC extends Model
+
+class CashbookC extends MemfisModel
 {
     //
 }
