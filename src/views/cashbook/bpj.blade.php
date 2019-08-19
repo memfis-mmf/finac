@@ -126,12 +126,13 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Exchange Rate
+                                            <span id="requi" class="requi" style="font-weight: bold;color:red">
+
+                                                *
+
+                                            </span>
                                         </label>
-                                        <span id="requi" class="requi" style="font-weight: bold;color:red">
 
-                                            *
-
-                                        </span>
 
                                         @component('input::numberreadonly')
                                         @slot('id', 'exchange')

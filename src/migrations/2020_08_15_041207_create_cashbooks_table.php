@@ -16,17 +16,17 @@ class CreateCashbooksTable extends Migration
         Schema::create('cashbooks', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('approve');
+            $table->integer('approve')->nullable();
             $table->integer('approve2')->default(0);
             $table->string('transactionnumber');
-            $table->dateTime('transactiondate');
-            $table->string('xstatus');
-            $table->string('personal');
-            $table->string('refno');
-            $table->string('currency');
-            $table->decimal('exchangerate',18,5);
-            $table->string('accountcode');
-            $table->decimal('totaltransaction',18,5);
+            $table->dateTime('transactiondate')->nullable();
+            $table->string('xstatus')->nullable();
+            $table->string('personal')->nullable();
+            $table->string('refno')->nullable();
+            $table->string('currency')->nullable();
+            $table->decimal('exchangerate',18,5)->nullable();
+            $table->string('accountcode')->nullable();
+            $table->decimal('totaltransaction',18,5)->nullable();
             $table->text('description');
             $table->softDeletes();
             $table->timestamps();

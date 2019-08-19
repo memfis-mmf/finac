@@ -6,5 +6,14 @@ use Directoryxx\Finac\Model\MemfisModel;
 
 class CashbookB extends MemfisModel
 {
-    //
+    protected $fillable = [
+        'transactionnumber',
+        'code',
+        'name',
+        'currency',
+        'exchangerate',
+        'debit',
+        'credit',
+        'description'
+    ];
 }
