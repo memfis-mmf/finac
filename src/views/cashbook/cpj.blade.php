@@ -113,6 +113,7 @@
                                         <label class="form-control-label">
                                             Currency @include('label::required')
                                         </label>
+                                        
 
                                         @component('input::select')
                                             @slot('id', 'currency')
@@ -127,6 +128,11 @@
                                         <label class="form-control-label">
                                             Exchange Rate
                                         </label>
+                                        <span id="requi" class="requi" style="font-weight: bold;color:red">
+
+                                            *
+
+                                        </span>
 
                                         @component('input::numberreadonly')
                                         @slot('id', 'exchange')
