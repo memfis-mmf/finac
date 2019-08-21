@@ -1,11 +1,11 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers;
+namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CashbookCRJController extends Controller
+class CashbookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CashbookCRJController extends Controller
      */
     public function index()
     {
-        return redirect()->route('cashbook-crj.create');
+        return view('cashbookview::index');
     }
 
     /**
@@ -24,7 +24,7 @@ class CashbookCRJController extends Controller
      */
     public function create()
     {
-        return view('cashbookview::crj');
+        //
     }
 
     /**

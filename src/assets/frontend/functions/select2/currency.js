@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
             $("#exchange").attr("readonly", false); 
             document.getElementById("requi").style.display = "block";
         } else {
-            document.getElementById('exchange').value = '';
+            document.getElementById('exchange').value = '1';
             $("#exchange").attr("readonly", true); 
             document.getElementById("requi").style.display = "none";
             

@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-
+@include('cashbookview::coamodal')
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -58,11 +58,11 @@
                                         <label class="form-control-label">
                                             Bank Payment Journal No.
                                         </label>
-
                                         @component('input::inputreadonly')
                                         @slot('id', 'bpjno')
                                         @slot('text', 'bpjno')
                                         @slot('name', 'bpjno')
+                                        @slot('value', $cashbookno)
                                         @slot('id_error', 'bpjno')
                                         @slot('help_text','Bank Payment Journal No.')
                                         @endcomponent
@@ -149,13 +149,14 @@
                                             Account Code
                                         </label>
 
-                                        @component('input::select')
+                                        @component('input::inputrightbutton')
                                         @slot('id', 'coa')
                                         @slot('text', 'coa')
                                         @slot('name', 'coa')
                                         @slot('type', 'text')
                                         @slot('style', 'width:100%')
                                         @slot('help_text','Account Code')
+                                        @slot('data_target', '#coa_modal')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -188,10 +189,61 @@
                                     </div>
 
                                 </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                            <div class="row align-items-center">
+                                                <div class="col-xl-12">
+
+                                                    <h3>Adjustment 1</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!--<div class="cashbookadj1_datatable" id="scrolling_both"></div>-->
+                                        <!--begin: Datatable -->
+                                        <div class="cashbookadj1_datatable" id="local_data"></div>
+                                        <!--end: Datatable -->
+
+                                    </div>
+                                </div>
 
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <div class="cashbookbpj_datatable" id="scrolling_both"></div>
+                                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                            <div class="row align-items-center">
+                                                <div class="col-xl-12">
+
+                                                    <h3>Adjustment 2</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @include('cashbookview::adj1')
+                                        @include('cashbookview::adj2')
+                                        @include('cashbookview::adj3')
+
+                                        <div class="cashbookadj2_datatable" id="scrolling_both"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+
+                                                    <h3>Adjustment 3</h3>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="cashbookadj3_datatable" id="scrolling_both"></div>
                                     </div>
                                 </div>
 
@@ -221,7 +273,6 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/select2/coa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
@@ -229,4 +280,11 @@
 
 
 <script src="{{ asset('vendor/courier/frontend/cashbookbpj.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj1.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj2.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj3.js')}}"></script>
+
+
+<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
+<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush

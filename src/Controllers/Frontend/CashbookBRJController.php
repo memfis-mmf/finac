@@ -1,6 +1,6 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers;
+namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

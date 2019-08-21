@@ -50,6 +50,5 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/frontend/common/buttons', 'buttons');
         $this->loadViewsFrom(__DIR__.'/views/include', 'include');
         //$this->loadViewsFrom(__DIR__.'/views/dll', 'dll');
-        $this->app->make('Directoryxx\Finac\Controllers\CoaController');
     }
 }

@@ -1,9 +1,12 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers;
+namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
 use App\Http\Controllers\Controller;
+use Directoryxx\Finac\Model\Cashbook;
+use Directoryxx\Finac\Model\Coa;
 
 class CashbookBPJController extends Controller
 {
@@ -24,7 +27,9 @@ class CashbookBPJController extends Controller
      */
     public function create()
     {
-        return view('cashbookview::bpj');
+        $cashbookCount = Cashbook::where('transactionnumber', 'like', 'BPJ-MMF/')->wherenull('xstatus')->count();
+        $cashbookno = CashbookGenerateNumber::generate('BPJ-MMF/', $cashbookCount+1);
+        return view('cashbookview::bpj')->with('cashbookno',$cashbookno);
     }
 
     /**

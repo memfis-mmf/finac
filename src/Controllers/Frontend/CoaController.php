@@ -1,6 +1,6 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers;
+namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\Coa;
@@ -17,7 +17,8 @@ class CoaController extends Controller
         return redirect()->route('coa.create');
     }
 
-    public function getData(){
+    public function getData()
+    {
         $type = [
             '1' => 'AKTIVA',
             '2' => 'PASIVA',
@@ -25,22 +26,18 @@ class CoaController extends Controller
             '4' => 'PENDAPATAN',
             '5' => 'BIAYA'
         ];
-        return json_encode($type,JSON_PRETTY_PRINT);
+        return json_encode($type, JSON_PRETTY_PRINT);
     }
 
     public function create()
     {
-        $coa = Coa::all();
-        //$submit = 'Add';
-        return view('coaview::index');
+        return view('coaview::index');        
     }
 
     public function store(CoaStore $request)
     {
         $coa = Coa::create($request->all());
         return response()->json($coa);
-
-        
     }
 
     public function edit(Coa $coa)
@@ -50,9 +47,9 @@ class CoaController extends Controller
 
     public function update(CoaUpdate $request, Coa $coa)
     {
-        
+
         $coa->update($request->all());
-        
+
         return response()->json($coa);
     }
 
@@ -63,39 +60,39 @@ class CoaController extends Controller
         return response()->json($coa);
     }
 
-    public function getType($id){
-        if ($id == 1){
+    public function getType($id)
+    {
+        if ($id == 1) {
             $type = [
                 'id' => 1,
                 'name' => 'AKTIVA',
-            ];    
-            return json_encode($type,JSON_PRETTY_PRINT);
-        } elseif ($id == 2){
+            ];
+            return json_encode($type, JSON_PRETTY_PRINT);
+        } elseif ($id == 2) {
             $type = [
                 'id' => 2,
                 'name' => 'PASIVA',
-            ];    
-            return json_encode($type,JSON_PRETTY_PRINT);
+            ];
+            return json_encode($type, JSON_PRETTY_PRINT);
         } elseif ($id == 3) {
             $type = [
                 'id' => 3,
                 'name' => 'EKUITAS',
-            ];    
-            return json_encode($type,JSON_PRETTY_PRINT);
+            ];
+            return json_encode($type, JSON_PRETTY_PRINT);
         } elseif ($id == 4) {
             $type = [
                 'id' => 4,
                 'name' => 'PENDAPATAN',
-            ];    
-            return json_encode($type,JSON_PRETTY_PRINT);
+            ];
+            return json_encode($type, JSON_PRETTY_PRINT);
         } elseif ($id == 5) {
             $type = [
                 'id' => 5,
                 'name' => 'BIAYA',
-            ];    
-            return json_encode($type,JSON_PRETTY_PRINT);
+            ];
+            return json_encode($type, JSON_PRETTY_PRINT);
         }
-
     }
 
     public function api()
@@ -110,17 +107,18 @@ class CoaController extends Controller
         return response()->json($coa);
     }
 
-    public function datatables(){
+    public function datatables()
+    {
         $data = $alldata = json_decode(Coa::All());
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 
         $filter = isset($datatable['query']['generalSearch']) && is_string($datatable['query']['generalSearch'])
-                    ? $datatable['query']['generalSearch'] : '';
+            ? $datatable['query']['generalSearch'] : '';
 
-        if (! empty($filter)) {
+        if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
-                return (boolean)preg_grep("/$filter/i", (array)$a);
+                return (bool) preg_grep("/$filter/i", (array) $a);
             });
 
             unset($datatable['query']['generalSearch']);
@@ -136,18 +134,18 @@ class CoaController extends Controller
             }
         }
 
-        $sort  = ! empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
-        $field = ! empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
+        $sort  = !empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-        $page    = ! empty($datatable['pagination']['page']) ? (int)$datatable['pagination']['page'] : 1;
-        $perpage = ! empty($datatable['pagination']['perpage']) ? (int)$datatable['pagination']['perpage'] : -1;
+        $page    = !empty($datatable['pagination']['page']) ? (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ? (int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
 
         usort($data, function ($a, $b) use ($sort, $field) {
-            if (! isset($a->$field) || ! isset($b->$field)) {
+            if (!isset($a->$field) || !isset($b->$field)) {
                 return false;
             }
 
@@ -191,9 +189,9 @@ class CoaController extends Controller
 
         $result = [
             'meta' => $meta + [
-                    'sort'  => $sort,
-                    'field' => $field,
-                ],
+                'sort'  => $sort,
+                'field' => $field,
+            ],
             'data' => $data,
         ];
 

@@ -22,6 +22,7 @@ class CreateCashbookATable extends Migration
             $table->decimal('debit',18,5);
             $table->decimal('credit',18,5);
             $table->text('description');
+            $table->foreign('transactionnumber')->references('transactionnumber')->on('cashbooks');
             $table->softDeletes();
             $table->timestamps();
         });
