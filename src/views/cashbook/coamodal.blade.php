@@ -8,6 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="hiderow" value="">
                 <table class="table table-striped table-bordered table-hover table-checkable" id="coa_datatables">
                     <thead>
                         <tr>
@@ -24,7 +25,7 @@
                         <div class="flex">
                             <div class="action-buttons">
                                 @component('frontend.common.buttons.close')
-                                    @slot('text', 'Close')
+                                @slot('text', 'Close')
                                 @endcomponent
                             </div>
                         </div>

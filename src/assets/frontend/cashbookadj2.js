@@ -25,7 +25,7 @@ var cashbookadj2 = {
                 sortable: !1,
                 textAlign: "center",
                 template: function (t) {
-                    return '<div class="input-group"> <input name="coaadj1'+t.code+'" id="coa" type="text" class="form-control m-input" value="" readonly="" placeholder=""> <div class="input-group-append"> <button class="btn m-btn m-btn--custom m-btn--pill btn-primary flaticon-search-1" data-toggle="modal" data-target="#coa_modal" type="button"></button></div></div>'
+                    return '<div class="input-group"> <input name="coaadj2-'+t.code+'" id="codeadj2-'+t.code+'" type="text" class="form-control m-input" value="" readonly="" placeholder=""> <div class="input-group-append"> <button class="open-AddRowDialog btn m-btn m-btn--custom m-btn--pill btn-primary flaticon-search-1" data-toggle="modal" data-id="adj2-'+t.code+'" data-target="#coa_modal" type="button"></button></div></div>'
                 }
                 
             }, {
@@ -33,7 +33,7 @@ var cashbookadj2 = {
                 title: "Name",
                 width: 100,
                 template: function (t) {
-                    return '<input style="width:100%" type="text" id="nameadj1'+t.code+'" name="nameadj1" class="form-control m-input">'
+                    return '<input style="width:100%" type="text" id="nameadj2-'+t.code+'" name="nameadj2-'+t.code+'" class="form-control m-input">'
                 }
             }, {
                 field: "debit",
@@ -43,14 +43,14 @@ var cashbookadj2 = {
                     visible: "lg"
                 },
                 template: function (t) {
-                    return '<input style="width:100%" type="number" id="debitadj1'+t.code+'" name="debitdja1" class="form-control m-input">'
+                    return '<input style="width:100%" type="number" id="debitadj2-'+t.code+'" name="debitadj2-'+t.code+'" class="form-control m-input">'
                 }
             }, {
                 field: "description",
                 title: "Description",
                 width: 150,
                 template: function (t) {
-                    return '<input style="width:100%" type="text" id="desriptionadj1'+t.code+'" name="descriptionadj1" class="form-control m-input">'
+                    return '<input style="width:100%" type="text" id="desriptionadj2-'+t.code+'" name="descriptionadj2-'+t.code+'" class="form-control m-input">'
                 }
             }, {
                 field: "Actions",

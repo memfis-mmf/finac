@@ -45,7 +45,7 @@ let CoaDatatables = {
 
         $('#coa_datatables').on('click', '.select-coa', function () {
             var code = $(this).data('uuid');
-            var dataid = document.getElementById('hiderow').value;
+            var dataid = $(this).data("id");
             console.log(dataid);
             console.log(code);
             $.ajax({
@@ -73,13 +73,19 @@ let CoaDatatables = {
 };
 
 jQuery(document).ready(function () {
+
+
     CoaDatatables.init();
+
+
+
 });
 jQuery(document).on("click", ".open-AddRowDialog", function () {
     var myBookId = $(this).data('id');
     console.log(myBookId);
-    document.getElementById('hiderow').value = myBookId;
-    
+    $('#userow').attr('data-id' , myBookId);   // JQuery
+    document.getElementById('userow').setAttribute('data-id', myBookId);
+
 
     
     // As pointed out in comments, 
