@@ -46,6 +46,16 @@ var cashbookadj3 = {
                     return '<input style="width:100%" type="number" id="debitadj3-'+t.code+'" name="debitadj3-'+t.code+'" class="form-control m-input">'
                 }
             }, {
+                field: "credit",
+                title: "Credit",
+                width: 100,
+                responsive: {
+                    visible: "lg"
+                },
+                template: function (t) {
+                    return '<input style="width:100%" type="number" id="creditadj3-'+t.code+'" name="creditadj3-'+t.code+'" class="form-control m-input">'
+                }
+            }, {
                 field: "description",
                 title: "Description",
                 width: 150,

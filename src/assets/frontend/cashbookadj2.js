@@ -36,6 +36,20 @@ var cashbookadj2 = {
                     return '<input style="width:100%" type="text" id="nameadj2-'+t.code+'" name="nameadj2-'+t.code+'" class="form-control m-input">'
                 }
             }, {
+                field: "currency",
+                title: "Currency",
+                width: 100,
+                template: function (t) {
+                    return '<select onchange="exchangerateadj2(this.value,this.id)" id="currencyadj2-'+t.code+'" name="currencyadj2-'+t.code+'" class="form-control m-input"><option value=""> Select a Currency</option><option id="currencyadj2-'+t.code+'" value="IDR">IDR</option><option id="currencyadj2-'+t.code+'" value="USD">USD</option></select>'
+                }
+            }, {
+                field: "exchangerate",
+                title: "Exchange Rate",
+                width: 100,
+                template: function (t) {
+                    return '<input style="width:100%" type="text" readonly id="exchangerateadj2-'+t.code+'" name="exchangerateadj2-'+t.code+'" class="form-control m-input">'
+                }
+            }, {
                 field: "debit",
                 title: "Debit",
                 width: 100,
@@ -43,7 +57,17 @@ var cashbookadj2 = {
                     visible: "lg"
                 },
                 template: function (t) {
-                    return '<input style="width:100%" type="number" id="debitadj2-'+t.code+'" name="debitadj2-'+t.code+'" class="form-control m-input">'
+                    return '<input style="width:100%" type="text" id="debitadj2-'+t.code+'" name="debitadj2-'+t.code+'" class="form-control m-input">'
+                }
+            }, {
+                field: "credit",
+                title: "Credit",
+                width: 100,
+                responsive: {
+                    visible: "lg"
+                },
+                template: function (t) {
+                    return '<input style="width:100%" type="text" id="creditadj2-'+t.code+'" name="creditadj2-'+t.code+'" class="form-control m-input">'
                 }
             }, {
                 field: "description",

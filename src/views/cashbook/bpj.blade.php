@@ -114,14 +114,17 @@
                                             Currency @include('label::required')
                                         </label>
 
-                                        @component('input::select')
-                                        @slot('id', 'currency')
-                                        @slot('text', 'currency')
-                                        @slot('name', 'currency')
-                                        @slot('type', 'text')
-                                        @slot('style', 'width:100%')
-                                        @slot('help_text','Currency')
-                                        @endcomponent
+                                        <select id="currency" name="currency" class="form-control m-input">
+                                            <option value=""> Select a Currency</option>
+                                            <option value="IDR">
+                                                IDR
+                                            </option>
+                                            <option value="USD">
+                                                USD
+                                            </option>
+
+                                        </select>
+
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -274,8 +277,6 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
 
@@ -287,4 +288,42 @@
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+
+<script>
+    var currency_choose = "";
+
+    function curformat(val, id) {
+        var num = val;
+        var output = parseFloat(num).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        document.getElementById(id).value = output;
+    }
+
+    function exchangerateadj2(val, id) {
+
+        uniquecode = id.substring(8);
+        subunique = "exchangerate" + uniquecode;
+        console.log(subunique);
+        if (val != "IDR") {
+            $(subunique).attr("readonly", false);
+        } else {
+            document.getElementById(subunique).value = '1';
+            $(subunique).attr("readonly", true);
+        }
+    }
+    jQuery(document).ready(function() {
+        $('#currency').on('change', function() {
+            currency_choose = this.value;
+            if (this.value != "IDR") {
+                $("#exchange").attr("readonly", false);
+                document.getElementById("requi").style.display = "block";
+
+            } else {
+                document.getElementById('exchange').value = '1';
+                $("#exchange").attr("readonly", true);
+                document.getElementById("requi").style.display = "none";
+
+            }
+        });
+    });
+</script>
 @endpush

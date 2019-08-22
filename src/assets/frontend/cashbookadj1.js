@@ -25,7 +25,7 @@ var cashbookadj1 = {
                 sortable: !1,
                 textAlign: "center",
                 template: function (t) {
-                    return '<div class="input-group"> <input name="coaadj1-' + t.code + '" id="codeadj1-'+t.code+'" type="text" class="form-control m-input" value="" readonly="" placeholder=""> <div class="input-group-append"> <button class="open-AddRowDialog btn m-btn m-btn--custom m-btn--pill btn-primary flaticon-search-1" data-toggle="modal" data-id="adj1-'+t.code+'" data-target="#coa_modal" type="button"></button></div></div>'
+                    return '<div class="input-group"> <input name="coaadj1-' + t.code + '" id="codeadj1-' + t.code + '" type="text" class="form-control m-input" value="" readonly="" placeholder=""> <div class="input-group-append"> <button class="open-AddRowDialog btn m-btn m-btn--custom m-btn--pill btn-primary flaticon-search-1" data-toggle="modal" data-id="adj1-' + t.code + '" data-target="#coa_modal" type="button"></button></div></div>'
                 }
 
             }, {
@@ -43,7 +43,7 @@ var cashbookadj1 = {
                     visible: "lg"
                 },
                 template: function (t) {
-                    return '<input style="width:100%" type="number" id="debitadj1-' + t.code + '" name="debitadj1-' + t.code + '" class="form-control m-input">'
+                    return '<input style="width:100%" type="text" id="debitadj1-' + t.code + '" onchange="curformat(this.value,this.id)" name="debitadj1-' + t.code + '" class="curren form-control m-input">'
                 }
             }, {
                 field: "description",
@@ -76,4 +76,6 @@ jQuery(document).ready(function () {
     $(table).find('.m-datatable__row').click(function () {
         console.log(this);
     });
+    
 });
+
