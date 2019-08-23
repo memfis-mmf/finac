@@ -304,10 +304,9 @@
         subunique = "exchangerate" + uniquecode;
         console.log(subunique);
         if (val != "IDR") {
-            $(subunique).attr("readonly", false);
+            document.getElementById(subunique).value = '';
         } else {
             document.getElementById(subunique).value = '1';
-            $(subunique).attr("readonly", true);
         }
     }
     jQuery(document).ready(function() {
