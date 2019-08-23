@@ -256,6 +256,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                             @slot('type', 'button')
+                                            @slot('id','savebpj')
                                             @endcomponent
 
                                             @include('buttons::reset')
@@ -322,6 +323,158 @@
                 document.getElementById("requi").style.display = "none";
 
             }
+        });
+        let simpan = $('#savebpj').click(function() {
+            var header = [
+                document.getElementById("bpjno").value,
+                document.getElementById("date").value,
+                document.getElementById("pto").value,
+                document.getElementById("refno").value,
+                document.getElementById("bpjno").value,
+                document.getElementById("currency").value,
+                document.getElementById("exchange").value,
+                document.getElementById("coa").value,
+                document.getElementById("remark").value,
+
+            ];
+
+            var adj1 = [
+                [document.getElementById("codeadj1-1").value, document.getElementById("nameadj1-1").value, document.getElementById("debitadj1-1").value, 0, document.getElementById("desriptionadj1-1").value],
+                [document.getElementById("codeadj1-2").value, document.getElementById("nameadj1-2").value, document.getElementById("debitadj1-2").value, 0, document.getElementById("desriptionadj1-2").value],
+                [document.getElementById("codeadj1-3").value, document.getElementById("nameadj1-3").value, document.getElementById("debitadj1-3").value, 0, document.getElementById("desriptionadj1-3").value],
+                [document.getElementById("codeadj1-4").value, document.getElementById("nameadj1-4").value, document.getElementById("debitadj1-4").value, 0, document.getElementById("desriptionadj1-4").value],
+                [document.getElementById("codeadj1-5").value, document.getElementById("nameadj1-5").value, document.getElementById("debitadj1-5").value, 0, document.getElementById("desriptionadj1-5").value],
+                [document.getElementById("codeadj1-6").value, document.getElementById("nameadj1-6").value, document.getElementById("debitadj1-6").value, 0, document.getElementById("desriptionadj1-6").value],
+                [document.getElementById("codeadj1-7").value, document.getElementById("nameadj1-7").value, document.getElementById("debitadj1-7").value, 0, document.getElementById("desriptionadj1-7").value],
+                [document.getElementById("codeadj1-8").value, document.getElementById("nameadj1-8").value, document.getElementById("debitadj1-8").value, 0, document.getElementById("desriptionadj1-8").value],
+                [document.getElementById("codeadj1-9").value, document.getElementById("nameadj1-9").value, document.getElementById("debitadj1-9").value, 0, document.getElementById("desriptionadj1-9").value],
+                [document.getElementById("codeadj1-10").value, document.getElementById("nameadj1-10").value, document.getElementById("debitadj1-10").value, 0, document.getElementById("desriptionadj1-10").value],
+            ];
+
+
+            var e1 = document.getElementById("ddlViewBy");
+            var strUser1 = e.options[e.selectedIndex].value;
+
+            var e2 = document.getElementById("ddlViewBy");
+            var strUser2 = e2.options[e2.selectedIndex].value;
+
+            var e3 = document.getElementById("ddlViewBy");
+            var strUser3 = e3.options[e3.selectedIndex].value;
+
+            var e4 = document.getElementById("ddlViewBy");
+            var strUser4 = e4.options[e4.selectedIndex].value;
+
+            var e5 = document.getElementById("ddlViewBy");
+            var strUser5 = e5.options[e5.selectedIndex].value;
+
+            var e6 = document.getElementById("ddlViewBy");
+            var strUser6 = e6.options[e6.selectedIndex].value;
+
+            var e7 = document.getElementById("ddlViewBy");
+            var strUser7 = e7.options[e7.selectedIndex].value;
+
+            var e8 = document.getElementById("ddlViewBy");
+            var strUser8 = e8.options[e8.selectedIndex].value;
+
+            var e9 = document.getElementById("ddlViewBy");
+            var strUser9 = e9.options[e9.selectedIndex].value;
+
+            var e10 = document.getElementById("ddlViewBy");
+            var strUser10 = e10.options[e10.selectedIndex].value;
+
+            var adj2 = [
+                [document.getElementById("codeadj2-1").value, document.getElementById("nameadj2-1").value, , , document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
+                [document.getElementById("codeadj2-2").value, document.getElementById("nameadj2-2").value, , , document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],
+                [document.getElementById("codeadj2-3").value, document.getElementById("nameadj2-3").value, , , document.getElementById("debitadj2-3").value, document.getElementById("creditadj2-3").value, document.getElementById("desriptionadj2-3").value],
+                [document.getElementById("codeadj2-4").value, document.getElementById("nameadj2-4").value, , , document.getElementById("debitadj2-4").value, document.getElementById("creditadj2-4").value, document.getElementById("desriptionadj2-4").value],
+                [document.getElementById("codeadj2-5").value, document.getElementById("nameadj2-5").value, , , document.getElementById("debitadj2-5").value, document.getElementById("creditadj2-5").value, document.getElementById("desriptionadj2-5").value],
+                [document.getElementById("codeadj2-6").value, document.getElementById("nameadj2-6").value, , , document.getElementById("debitadj2-6").value, document.getElementById("creditadj2-6").value, document.getElementById("desriptionadj2-6").value],
+                [document.getElementById("codeadj2-7").value, document.getElementById("nameadj2-7").value, , , document.getElementById("debitadj2-7").value, document.getElementById("creditadj2-7").value, document.getElementById("desriptionadj2-7").value],
+                [document.getElementById("codeadj2-8").value, document.getElementById("nameadj2-8").value, , , document.getElementById("debitadj2-8").value, document.getElementById("creditadj2-8").value, document.getElementById("desriptionadj2-8").value],
+                [document.getElementById("codeadj2-9").value, document.getElementById("nameadj2-9").value, , , document.getElementById("debitadj2-9").value, document.getElementById("creditadj2-9").value, document.getElementById("desriptionadj2-9").value],
+                [document.getElementById("codeadj2-10").value, document.getElementById("nameadj2-10").value, , , document.getElementById("debitadj2-10").value, document.getElementById("creditadj2-10").value, document.getElementById("desriptionadj2-10").value],
+            ];
+
+            var adj3 = [
+                [document.getElementById("codeadj3-1").value, document.getElementById("nameadj3-1").value, document.getElementById("debitadj3-1").value, document.getElementById("creditadj3-1").value, document.getElementById("desriptionadj1-1").value],
+                [document.getElementById("codeadj3-2").value, document.getElementById("nameadj3-2").value, document.getElementById("debitadj3-2").value, document.getElementById("creditadj3-2").value, document.getElementById("desriptionadj1-2").value],
+                [document.getElementById("codeadj3-3").value, document.getElementById("nameadj3-3").value, document.getElementById("debitadj3-3").value, document.getElementById("creditadj3-3").value, document.getElementById("desriptionadj1-3").value],
+                [document.getElementById("codeadj3-4").value, document.getElementById("nameadj3-4").value, document.getElementById("debitadj3-4").value, document.getElementById("creditadj3-4").value, document.getElementById("desriptionadj1-4").value],
+                [document.getElementById("codeadj3-5").value, document.getElementById("nameadj3-5").value, document.getElementById("debitadj3-5").value, document.getElementById("creditadj3-5").value, document.getElementById("desriptionadj1-5").value],
+                [document.getElementById("codeadj3-6").value, document.getElementById("nameadj3-6").value, document.getElementById("debitadj3-6").value, document.getElementById("creditadj3-6").value, document.getElementById("desriptionadj1-6").value],
+                [document.getElementById("codeadj3-7").value, document.getElementById("nameadj3-7").value, document.getElementById("debitadj3-7").value, document.getElementById("creditadj3-7").value, document.getElementById("desriptionadj1-7").value],
+                [document.getElementById("codeadj3-8").value, document.getElementById("nameadj3-8").value, document.getElementById("debitadj3-8").value, document.getElementById("creditadj3-8").value, document.getElementById("desriptionadj1-8").value],
+                [document.getElementById("codeadj3-9").value, document.getElementById("nameadj3-9").value, document.getElementById("debitadj3-9").value, document.getElementById("creditadj3-9").value, document.getElementById("desriptionadj1-9").value],
+                [document.getElementById("codeadj3-10").value, document.getElementById("nameadj3-10").value, document.getElementById("debitadj3-10").value, document.getElementById("creditadj3-10").value, document.getElementById("desriptionadj1-10").value],
+            ];
+
+            var obj = {
+                'header': {
+                    header
+                },
+                'adj1': {
+                    adj1
+                },
+                'adj2': {
+                    adj2
+                },
+                'adj3': {
+                    adj3
+                }
+            };
+
+
+
+
+            console.log(obj.header);
+            console.log(obj.adj1);
+            console.log(obj.adj2);
+            console.log(obj.adj3);
+
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: '/coa',
+                data: {
+                    _token: $('input[name=_token]').val(),
+                    code: code,
+                    name: name,
+                    type_id: type,
+                    description: description
+                },
+                success: function(data) {
+                    if (data.errors) {
+                        if (data.errors.code) {
+                            $('#code-error').html(data.errors.code[0]);
+
+
+                            document.getElementById('code').value = code;
+                            document.getElementById('name').value = name;
+                            document.getElementById('type').value = type;
+                            document.getElementById('level').value = level;
+                            document.getElementById('description').value = description;
+                        }
+
+
+                    } else {
+                        $('#modal_coa').modal('hide');
+
+                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                            timeOut: 5000
+                        });
+
+                        $('#code-error').html('');
+
+                        let table = $('.coa_datatable').mDatatable();
+
+                        table.originalDataSet = [];
+                        table.reload();
+                    }
+                }
+            });
         });
     });
 </script>
