@@ -36,14 +36,14 @@ var cashbookadj1 = {
                     return '<input style="width:100%" type="text" id="nameadj1-' + t.code + '" name="nameadj1-' + t.code + '" class="form-control m-input">'
                 }
             }, {
-                field: "debit",
-                title: "Debit",
+                field: "credit",
+                title: "Credit",
                 width: 150,
                 responsive: {
                     visible: "lg"
                 },
                 template: function (t) {
-                    return '<input style="width:100%" type="text" id="debitadj1-' + t.code + '" onchange="curformat(this.value,this.id)" name="debitadj1-' + t.code + '" class="curren form-control m-input">'
+                    return '<input style="width:100%" type="text" id="creditadj1-' + t.code + '" onchange="curformat(this.value,this.id)" name="creditadj1-' + t.code + '" class="curren form-control m-input">'
                 }
             }, {
                 field: "description",
