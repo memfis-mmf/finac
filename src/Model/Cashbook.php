@@ -19,6 +19,7 @@ class Cashbook extends MemfisModel
         'exchangerate',
         'accountcode',
         'totaltransaction',
-        'description'
+        'description',
+        'createdby',
     ];
 }

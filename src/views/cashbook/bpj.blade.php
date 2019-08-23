@@ -330,7 +330,6 @@
                 document.getElementById("date").value,
                 document.getElementById("pto").value,
                 document.getElementById("refno").value,
-                document.getElementById("bpjno").value,
                 document.getElementById("currency").value,
                 document.getElementById("exchange").value,
                 document.getElementById("coa").value,
@@ -352,47 +351,47 @@
             ];
 
 
-            var e1 = document.getElementById("ddlViewBy");
-            var strUser1 = e.options[e.selectedIndex].value;
+            var e1 = document.getElementById("currencyadj2-1");
+            var strUser1 = e1.options[e1.selectedIndex].value;
 
-            var e2 = document.getElementById("ddlViewBy");
+            var e2 = document.getElementById("currencyadj2-2");
             var strUser2 = e2.options[e2.selectedIndex].value;
 
-            var e3 = document.getElementById("ddlViewBy");
+            var e3 = document.getElementById("currencyadj2-3");
             var strUser3 = e3.options[e3.selectedIndex].value;
 
-            var e4 = document.getElementById("ddlViewBy");
+            var e4 = document.getElementById("currencyadj2-4");
             var strUser4 = e4.options[e4.selectedIndex].value;
 
-            var e5 = document.getElementById("ddlViewBy");
+            var e5 = document.getElementById("currencyadj2-5");
             var strUser5 = e5.options[e5.selectedIndex].value;
 
-            var e6 = document.getElementById("ddlViewBy");
+            var e6 = document.getElementById("currencyadj2-6");
             var strUser6 = e6.options[e6.selectedIndex].value;
 
-            var e7 = document.getElementById("ddlViewBy");
+            var e7 = document.getElementById("currencyadj2-7");
             var strUser7 = e7.options[e7.selectedIndex].value;
 
-            var e8 = document.getElementById("ddlViewBy");
+            var e8 = document.getElementById("currencyadj2-8");
             var strUser8 = e8.options[e8.selectedIndex].value;
 
-            var e9 = document.getElementById("ddlViewBy");
+            var e9 = document.getElementById("currencyadj2-9");
             var strUser9 = e9.options[e9.selectedIndex].value;
 
-            var e10 = document.getElementById("ddlViewBy");
+            var e10 = document.getElementById("currencyadj2-10");
             var strUser10 = e10.options[e10.selectedIndex].value;
-
+            
             var adj2 = [
-                [document.getElementById("codeadj2-1").value, document.getElementById("nameadj2-1").value, , , document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
-                [document.getElementById("codeadj2-2").value, document.getElementById("nameadj2-2").value, , , document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],
-                [document.getElementById("codeadj2-3").value, document.getElementById("nameadj2-3").value, , , document.getElementById("debitadj2-3").value, document.getElementById("creditadj2-3").value, document.getElementById("desriptionadj2-3").value],
-                [document.getElementById("codeadj2-4").value, document.getElementById("nameadj2-4").value, , , document.getElementById("debitadj2-4").value, document.getElementById("creditadj2-4").value, document.getElementById("desriptionadj2-4").value],
-                [document.getElementById("codeadj2-5").value, document.getElementById("nameadj2-5").value, , , document.getElementById("debitadj2-5").value, document.getElementById("creditadj2-5").value, document.getElementById("desriptionadj2-5").value],
-                [document.getElementById("codeadj2-6").value, document.getElementById("nameadj2-6").value, , , document.getElementById("debitadj2-6").value, document.getElementById("creditadj2-6").value, document.getElementById("desriptionadj2-6").value],
-                [document.getElementById("codeadj2-7").value, document.getElementById("nameadj2-7").value, , , document.getElementById("debitadj2-7").value, document.getElementById("creditadj2-7").value, document.getElementById("desriptionadj2-7").value],
-                [document.getElementById("codeadj2-8").value, document.getElementById("nameadj2-8").value, , , document.getElementById("debitadj2-8").value, document.getElementById("creditadj2-8").value, document.getElementById("desriptionadj2-8").value],
-                [document.getElementById("codeadj2-9").value, document.getElementById("nameadj2-9").value, , , document.getElementById("debitadj2-9").value, document.getElementById("creditadj2-9").value, document.getElementById("desriptionadj2-9").value],
-                [document.getElementById("codeadj2-10").value, document.getElementById("nameadj2-10").value, , , document.getElementById("debitadj2-10").value, document.getElementById("creditadj2-10").value, document.getElementById("desriptionadj2-10").value],
+                [document.getElementById("codeadj2-1").value, document.getElementById("nameadj2-1").value, strUser1, document.getElementById("exchangerateadj2-1").value, document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
+                [document.getElementById("codeadj2-2").value, document.getElementById("nameadj2-2").value, strUser2, document.getElementById("exchangerateadj2-2").value, document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],
+                [document.getElementById("codeadj2-3").value, document.getElementById("nameadj2-3").value, strUser3, document.getElementById("exchangerateadj2-3").value, document.getElementById("debitadj2-3").value, document.getElementById("creditadj2-3").value, document.getElementById("desriptionadj2-3").value],
+                [document.getElementById("codeadj2-4").value, document.getElementById("nameadj2-4").value, strUser4, document.getElementById("exchangerateadj2-4").value, document.getElementById("debitadj2-4").value, document.getElementById("creditadj2-4").value, document.getElementById("desriptionadj2-4").value],
+                [document.getElementById("codeadj2-5").value, document.getElementById("nameadj2-5").value, strUser5, document.getElementById("exchangerateadj2-5").value, document.getElementById("debitadj2-5").value, document.getElementById("creditadj2-5").value, document.getElementById("desriptionadj2-5").value],
+                [document.getElementById("codeadj2-6").value, document.getElementById("nameadj2-6").value, strUser6, document.getElementById("exchangerateadj2-6").value, document.getElementById("debitadj2-6").value, document.getElementById("creditadj2-6").value, document.getElementById("desriptionadj2-6").value],
+                [document.getElementById("codeadj2-7").value, document.getElementById("nameadj2-7").value, strUser7, document.getElementById("exchangerateadj2-7").value, document.getElementById("debitadj2-7").value, document.getElementById("creditadj2-7").value, document.getElementById("desriptionadj2-7").value],
+                [document.getElementById("codeadj2-8").value, document.getElementById("nameadj2-8").value, strUser8, document.getElementById("exchangerateadj2-8").value, document.getElementById("debitadj2-8").value, document.getElementById("creditadj2-8").value, document.getElementById("desriptionadj2-8").value],
+                [document.getElementById("codeadj2-9").value, document.getElementById("nameadj2-9").value, strUser9, document.getElementById("exchangerateadj2-9").value, document.getElementById("debitadj2-9").value, document.getElementById("creditadj2-9").value, document.getElementById("desriptionadj2-9").value],
+                [document.getElementById("codeadj2-10").value, document.getElementById("nameadj2-10").value, strUser10, document.getElementById("exchangerateadj2-10").value, document.getElementById("debitadj2-10").value, document.getElementById("creditadj2-10").value, document.getElementById("desriptionadj2-10").value],
             ];
 
             var adj3 = [
@@ -437,13 +436,10 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'post',
-                url: '/coa',
+                url: '/cashbook-bpj',
                 data: {
                     _token: $('input[name=_token]').val(),
-                    code: code,
-                    name: name,
-                    type_id: type,
-                    description: description
+                    data: obj,
                 },
                 success: function(data) {
                     if (data.errors) {
@@ -466,12 +462,8 @@
                             timeOut: 5000
                         });
 
-                        $('#code-error').html('');
+                        window.location.replace('{{route("cashbook.index")}}');
 
-                        let table = $('.coa_datatable').mDatatable();
-
-                        table.originalDataSet = [];
-                        table.reload();
                     }
                 }
             });
