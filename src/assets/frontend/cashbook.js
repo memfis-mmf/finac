@@ -44,21 +44,21 @@ let Cashbook = {
             },
             columns: [
                 {
-                    field: 'date',
+                    field: 'transactiondate',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: 'transactionno',
+                    field: 'transactionnumber',
                     title: 'TransactionNo',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'type_id',
+                    field: 'xstatus',
                     title: 'Type',
                     sortable: 'asc',
                     filterable: !1,
@@ -79,7 +79,7 @@ let Cashbook = {
                     width: 150
                 },
                 {
-                    field: 'payment_by',
+                    field: 'personal',
                     title: 'Payment By/Received By',
                     sortable: 'asc',
                     filterable: !1,

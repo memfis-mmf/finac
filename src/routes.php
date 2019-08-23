@@ -21,7 +21,13 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables/modal','Directoryxx\Finac\Controllers\Datatables\CoaDatatables@basicModal');
 	});
 
-	Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');
+	Route::prefix('cashbook')->group(function () {
+		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
+		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook.datatable');
+	});
+
+	//Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');
+	
 	Route::resource('cashbook-bpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController');
 	Route::resource('cashbook-brj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBRJController');
 	Route::resource('cashbook-cpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookCPJController');
