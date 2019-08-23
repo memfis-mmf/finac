@@ -43,7 +43,7 @@ var cashbookadj3 = {
                     visible: "lg"
                 },
                 template: function (t) {
-                    return '<input style="width:100%" type="number" onchange="curformat(this.value,this.id)" id="debitadj3-'+t.code+'" name="debitadj3-'+t.code+'" class="form-control m-input">'
+                    return '<input style="width:100%" type="text" onchange="curformat(this.value,this.id)" id="debitadj3-'+t.code+'" name="debitadj3-'+t.code+'" class="form-control m-input">'
                 }
             }, {
                 field: "credit",
@@ -53,7 +53,7 @@ var cashbookadj3 = {
                     visible: "lg"
                 },
                 template: function (t) {
-                    return '<input style="width:100%" type="number" onchange="curformat(this.value,this.id)" id="creditadj3-'+t.code+'" name="creditadj3-'+t.code+'" class="form-control m-input">'
+                    return '<input style="width:100%" type="text" onchange="curformat(this.value,this.id)" id="creditadj3-'+t.code+'" name="creditadj3-'+t.code+'" class="form-control m-input">'
                 }
             }, {
                 field: "description",

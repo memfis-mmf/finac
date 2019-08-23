@@ -294,8 +294,6 @@
     var currency_choose = "";
 
     function curformat(val, id) {
-        console.log(val);
-        console.log(id);
         var num = val;
         var output = parseFloat(num).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         document.getElementById(id).value = output;
