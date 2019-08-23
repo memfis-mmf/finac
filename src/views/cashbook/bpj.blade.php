@@ -282,7 +282,7 @@
 
 
 <script src="{{ asset('vendor/courier/frontend/cashbookbpj.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj1.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj1-pay.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/cashbookadj2.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/cashbookadj3.js')}}"></script>
 

@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-
+@include('cashbookview::coamodal')
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -58,13 +58,13 @@
                                         <label class="form-control-label">
                                             Cash Payment Journal No.
                                         </label>
-
                                         @component('input::inputreadonly')
-                                        @slot('id', 'cpjno')
-                                        @slot('text', 'cpjno')
-                                        @slot('name', 'cpjno')
-                                        @slot('id_error', 'cpjno')
-                                        @slot('help_text','Cash Payment Journal No.')
+                                        @slot('id', 'bpjno')
+                                        @slot('text', 'bpjno')
+                                        @slot('name', 'bpjno')
+                                        @slot('value', $cashbookno)
+                                        @slot('id_error', 'bpjno')
+                                        @slot('help_text','Bank Payment Journal No.')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -113,26 +113,29 @@
                                         <label class="form-control-label">
                                             Currency @include('label::required')
                                         </label>
-                                        
 
-                                        @component('input::select')
-                                            @slot('id', 'currency')
-                                            @slot('text', 'currency')
-                                            @slot('name', 'currency')
-                                            @slot('type', 'text')
-                                            @slot('style', 'width:100%')
-                                            @slot('help_text','Currency')
-                                        @endcomponent
+                                        <select id="currency" name="currency" class="form-control m-input">
+                                            <option value=""> Select a Currency</option>
+                                            <option value="IDR">
+                                                IDR
+                                            </option>
+                                            <option value="USD">
+                                                USD
+                                            </option>
+
+                                        </select>
+
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Exchange Rate
+                                            <span id="requi" class="requi" style="font-weight: bold;color:red">
+
+                                                *
+
+                                            </span>
                                         </label>
-                                        <span id="requi" class="requi" style="font-weight: bold;color:red">
 
-                                            *
-
-                                        </span>
 
                                         @component('input::numberreadonly')
                                         @slot('id', 'exchange')
@@ -149,13 +152,14 @@
                                             Account Code
                                         </label>
 
-                                        @component('input::select')
-                                            @slot('id', 'coa')
-                                            @slot('text', 'coa')
-                                            @slot('name', 'coa')
-                                            @slot('type', 'text')
-                                            @slot('style', 'width:100%')
-                                            @slot('help_text','Account Code')
+                                        @component('input::inputrightbutton')
+                                        @slot('id', 'coa')
+                                        @slot('text', 'coa')
+                                        @slot('name', 'coa')
+                                        @slot('type', 'text')
+                                        @slot('style', 'width:100%')
+                                        @slot('help_text','Account Code')
+                                        @slot('data_target', '#coa_modal')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -188,10 +192,61 @@
                                     </div>
 
                                 </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                            <div class="row align-items-center">
+                                                <div class="col-xl-12">
+
+                                                    <h3>Adjustment 1</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!--<div class="cashbookadj1_datatable" id="scrolling_both"></div>-->
+                                        <!--begin: Datatable -->
+                                        <div class="cashbookadj1_datatable" id="local_data"></div>
+                                        <!--end: Datatable -->
+
+                                    </div>
+                                </div>
 
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <div class="cashbookbpj_datatable" id="scrolling_both"></div>
+                                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                            <div class="row align-items-center">
+                                                <div class="col-xl-12">
+
+                                                    <h3>Adjustment 2</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @include('cashbookview::adj1')
+                                        @include('cashbookview::adj2')
+                                        @include('cashbookview::adj3')
+
+                                        <div class="cashbookadj2_datatable" id="scrolling_both"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+
+                                                    <h3>Adjustment 3</h3>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="cashbookadj3_datatable" id="scrolling_both"></div>
                                     </div>
                                 </div>
 
@@ -201,6 +256,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                             @slot('type', 'button')
+                                            @slot('id','savecpj')
                                             @endcomponent
 
                                             @include('buttons::reset')
@@ -221,12 +277,190 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/select2/coa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
 
 <script src="{{ asset('vendor/courier/frontend/cashbookbpj.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj1-pay.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj2.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj3.js')}}"></script>
+
+
+<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
+<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+
+<script>
+    var currency_choose = "";
+
+    function curformat(val, id) {
+        console.log(val);
+        console.log(id);
+        var num = val;
+        var output = parseFloat(num).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        document.getElementById(id).value = output;
+    }
+
+    function exchangerateadj2(val, id) {
+
+        uniquecode = id.substring(8);
+        subunique = "exchangerate" + uniquecode;
+        console.log(subunique);
+        if (val != "IDR") {
+            document.getElementById(subunique).value = '';
+        } else {
+            document.getElementById(subunique).value = '1';
+        }
+    }
+    jQuery(document).ready(function() {
+        $('#currency').on('change', function() {
+            currency_choose = this.value;
+            if (this.value != "IDR") {
+                $("#exchange").attr("readonly", false);
+                document.getElementById("requi").style.display = "block";
+
+            } else {
+                document.getElementById('exchange').value = '1';
+                $("#exchange").attr("readonly", true);
+                document.getElementById("requi").style.display = "none";
+
+            }
+        });
+        let simpan = $('#savecpj').click(function() {
+            var header = [
+                document.getElementById("bpjno").value,
+                document.getElementById("date").value,
+                document.getElementById("pto").value,
+                document.getElementById("refno").value,
+                document.getElementById("currency").value,
+                document.getElementById("exchange").value,
+                document.getElementById("coa").value,
+                document.getElementById("remark").value,
+
+            ];
+
+            var adj1 = [
+                [document.getElementById("codeadj1-1").value, document.getElementById("nameadj1-1").value, document.getElementById("debitadj1-1").value, 0, document.getElementById("desriptionadj1-1").value],
+                [document.getElementById("codeadj1-2").value, document.getElementById("nameadj1-2").value, document.getElementById("debitadj1-2").value, 0, document.getElementById("desriptionadj1-2").value],
+                [document.getElementById("codeadj1-3").value, document.getElementById("nameadj1-3").value, document.getElementById("debitadj1-3").value, 0, document.getElementById("desriptionadj1-3").value],
+                [document.getElementById("codeadj1-4").value, document.getElementById("nameadj1-4").value, document.getElementById("debitadj1-4").value, 0, document.getElementById("desriptionadj1-4").value],
+                [document.getElementById("codeadj1-5").value, document.getElementById("nameadj1-5").value, document.getElementById("debitadj1-5").value, 0, document.getElementById("desriptionadj1-5").value],
+                [document.getElementById("codeadj1-6").value, document.getElementById("nameadj1-6").value, document.getElementById("debitadj1-6").value, 0, document.getElementById("desriptionadj1-6").value],
+                [document.getElementById("codeadj1-7").value, document.getElementById("nameadj1-7").value, document.getElementById("debitadj1-7").value, 0, document.getElementById("desriptionadj1-7").value],
+                [document.getElementById("codeadj1-8").value, document.getElementById("nameadj1-8").value, document.getElementById("debitadj1-8").value, 0, document.getElementById("desriptionadj1-8").value],
+                [document.getElementById("codeadj1-9").value, document.getElementById("nameadj1-9").value, document.getElementById("debitadj1-9").value, 0, document.getElementById("desriptionadj1-9").value],
+                [document.getElementById("codeadj1-10").value, document.getElementById("nameadj1-10").value, document.getElementById("debitadj1-10").value, 0, document.getElementById("desriptionadj1-10").value],
+            ];
+
+
+            var e1 = document.getElementById("currencyadj2-1");
+            var strUser1 = e1.options[e1.selectedIndex].value;
+
+            var e2 = document.getElementById("currencyadj2-2");
+            var strUser2 = e2.options[e2.selectedIndex].value;
+
+            var e3 = document.getElementById("currencyadj2-3");
+            var strUser3 = e3.options[e3.selectedIndex].value;
+
+            var e4 = document.getElementById("currencyadj2-4");
+            var strUser4 = e4.options[e4.selectedIndex].value;
+
+            var e5 = document.getElementById("currencyadj2-5");
+            var strUser5 = e5.options[e5.selectedIndex].value;
+
+            var e6 = document.getElementById("currencyadj2-6");
+            var strUser6 = e6.options[e6.selectedIndex].value;
+
+            var e7 = document.getElementById("currencyadj2-7");
+            var strUser7 = e7.options[e7.selectedIndex].value;
+
+            var e8 = document.getElementById("currencyadj2-8");
+            var strUser8 = e8.options[e8.selectedIndex].value;
+
+            var e9 = document.getElementById("currencyadj2-9");
+            var strUser9 = e9.options[e9.selectedIndex].value;
+
+            var e10 = document.getElementById("currencyadj2-10");
+            var strUser10 = e10.options[e10.selectedIndex].value;
+            
+            var adj2 = [
+                [document.getElementById("codeadj2-1").value, document.getElementById("nameadj2-1").value, strUser1, document.getElementById("exchangerateadj2-1").value, document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
+                [document.getElementById("codeadj2-2").value, document.getElementById("nameadj2-2").value, strUser2, document.getElementById("exchangerateadj2-2").value, document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],
+                [document.getElementById("codeadj2-3").value, document.getElementById("nameadj2-3").value, strUser3, document.getElementById("exchangerateadj2-3").value, document.getElementById("debitadj2-3").value, document.getElementById("creditadj2-3").value, document.getElementById("desriptionadj2-3").value],
+                [document.getElementById("codeadj2-4").value, document.getElementById("nameadj2-4").value, strUser4, document.getElementById("exchangerateadj2-4").value, document.getElementById("debitadj2-4").value, document.getElementById("creditadj2-4").value, document.getElementById("desriptionadj2-4").value],
+                [document.getElementById("codeadj2-5").value, document.getElementById("nameadj2-5").value, strUser5, document.getElementById("exchangerateadj2-5").value, document.getElementById("debitadj2-5").value, document.getElementById("creditadj2-5").value, document.getElementById("desriptionadj2-5").value],
+                [document.getElementById("codeadj2-6").value, document.getElementById("nameadj2-6").value, strUser6, document.getElementById("exchangerateadj2-6").value, document.getElementById("debitadj2-6").value, document.getElementById("creditadj2-6").value, document.getElementById("desriptionadj2-6").value],
+                [document.getElementById("codeadj2-7").value, document.getElementById("nameadj2-7").value, strUser7, document.getElementById("exchangerateadj2-7").value, document.getElementById("debitadj2-7").value, document.getElementById("creditadj2-7").value, document.getElementById("desriptionadj2-7").value],
+                [document.getElementById("codeadj2-8").value, document.getElementById("nameadj2-8").value, strUser8, document.getElementById("exchangerateadj2-8").value, document.getElementById("debitadj2-8").value, document.getElementById("creditadj2-8").value, document.getElementById("desriptionadj2-8").value],
+                [document.getElementById("codeadj2-9").value, document.getElementById("nameadj2-9").value, strUser9, document.getElementById("exchangerateadj2-9").value, document.getElementById("debitadj2-9").value, document.getElementById("creditadj2-9").value, document.getElementById("desriptionadj2-9").value],
+                [document.getElementById("codeadj2-10").value, document.getElementById("nameadj2-10").value, strUser10, document.getElementById("exchangerateadj2-10").value, document.getElementById("debitadj2-10").value, document.getElementById("creditadj2-10").value, document.getElementById("desriptionadj2-10").value],
+            ];
+
+            var adj3 = [
+                [document.getElementById("codeadj3-1").value, document.getElementById("nameadj3-1").value, document.getElementById("debitadj3-1").value, document.getElementById("creditadj3-1").value, document.getElementById("desriptionadj1-1").value],
+                [document.getElementById("codeadj3-2").value, document.getElementById("nameadj3-2").value, document.getElementById("debitadj3-2").value, document.getElementById("creditadj3-2").value, document.getElementById("desriptionadj1-2").value],
+                [document.getElementById("codeadj3-3").value, document.getElementById("nameadj3-3").value, document.getElementById("debitadj3-3").value, document.getElementById("creditadj3-3").value, document.getElementById("desriptionadj1-3").value],
+                [document.getElementById("codeadj3-4").value, document.getElementById("nameadj3-4").value, document.getElementById("debitadj3-4").value, document.getElementById("creditadj3-4").value, document.getElementById("desriptionadj1-4").value],
+                [document.getElementById("codeadj3-5").value, document.getElementById("nameadj3-5").value, document.getElementById("debitadj3-5").value, document.getElementById("creditadj3-5").value, document.getElementById("desriptionadj1-5").value],
+                [document.getElementById("codeadj3-6").value, document.getElementById("nameadj3-6").value, document.getElementById("debitadj3-6").value, document.getElementById("creditadj3-6").value, document.getElementById("desriptionadj1-6").value],
+                [document.getElementById("codeadj3-7").value, document.getElementById("nameadj3-7").value, document.getElementById("debitadj3-7").value, document.getElementById("creditadj3-7").value, document.getElementById("desriptionadj1-7").value],
+                [document.getElementById("codeadj3-8").value, document.getElementById("nameadj3-8").value, document.getElementById("debitadj3-8").value, document.getElementById("creditadj3-8").value, document.getElementById("desriptionadj1-8").value],
+                [document.getElementById("codeadj3-9").value, document.getElementById("nameadj3-9").value, document.getElementById("debitadj3-9").value, document.getElementById("creditadj3-9").value, document.getElementById("desriptionadj1-9").value],
+                [document.getElementById("codeadj3-10").value, document.getElementById("nameadj3-10").value, document.getElementById("debitadj3-10").value, document.getElementById("creditadj3-10").value, document.getElementById("desriptionadj1-10").value],
+            ];
+
+            var obj = {
+                'header': {
+                    header
+                },
+                'adj1': {
+                    adj1
+                },
+                'adj2': {
+                    adj2
+                },
+                'adj3': {
+                    adj3
+                }
+            };
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: '/cashbook-cpj',
+                data: {
+                    _token: $('input[name=_token]').val(),
+                    data: obj,
+                },
+                success: function(data) {
+                    if (data.errors) {
+                        if (data.errors.code) {
+                            $('#code-error').html(data.errors.code[0]);
+
+
+                            document.getElementById('code').value = code;
+                            document.getElementById('name').value = name;
+                            document.getElementById('type').value = type;
+                            document.getElementById('level').value = level;
+                            document.getElementById('description').value = description;
+                        }
+
+
+                    } else {
+                        $('#modal_coa').modal('hide');
+
+                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                            timeOut: 5000
+                        });
+
+                        window.location.replace('{{route("cashbook.index")}}');
+
+                    }
+                }
+            });
+        });
+    });
+</script>
 @endpush

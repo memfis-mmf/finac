@@ -2,9 +2,11 @@
 
 namespace App;
 
+use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
-class TransJurA extends Model
+
+class TransJurA extends MemfisModel
 {
     protected $table = "";
 }

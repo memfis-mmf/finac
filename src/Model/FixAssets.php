@@ -2,9 +2,10 @@
 
 namespace App;
 
+use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
-class FixAssets extends Model
+class FixAssets extends MemfisModel
 {
     //
 }

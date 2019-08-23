@@ -3,21 +3,16 @@
 namespace Directoryxx\Finac\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Directoryxx\Finac\Traits\UuidKey;
+use Directoryxx\Finac\Model\MemfisModel;
 
 
-class TypeJurnal extends Model
+class TypeJurnal extends MemfisModel
 {
-    use UuidKey;
-
+   
     protected $fillable = [
         'code',
         'name',
         'active',
     ];
     
-    public function getRouteKeyName()
-    {
-        return 'uuid';
-    }
 }
