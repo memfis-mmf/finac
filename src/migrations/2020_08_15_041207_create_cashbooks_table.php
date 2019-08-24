@@ -16,6 +16,7 @@ class CreateCashbooksTable extends Migration
         Schema::create('cashbooks', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
+            $table->integer('id_branch')->nullable();
             $table->integer('approve')->default(0);
             $table->integer('approve2')->default(0);
             $table->string('transactionnumber')->unique();
@@ -28,10 +29,9 @@ class CreateCashbooksTable extends Migration
             $table->string('accountcode')->nullable();
             $table->decimal('totaltransaction',18,5)->nullable();
             $table->string('createdby')->nullable();
-            $table->dateTime('updateddate')->nullable();
             $table->string('deleteby')->nullable();
             $table->string('updatedby')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -84,7 +84,6 @@ class CashbookBPJController extends Controller
                     'debit' => str_replace(',', '', $data['adj2']['adj2'][$i][4]),
                     'credit' => str_replace(',', '', $data['adj2']['adj2'][$i][5]),
                     'description' => $data['adj2']['adj2'][$i][6],
-                    'createdby' => Auth::user()->id,
                 ]);
             }
         }
@@ -98,7 +97,6 @@ class CashbookBPJController extends Controller
                     'debit' => str_replace(',', '', $data['adj3']['adj3'][$i][2]),
                     'credit' => str_replace(',', '', $data['adj3']['adj3'][$i][3]),
                     'description' => $data['adj3']['adj3'][$i][4],
-                    'createdby' => Auth::user()->id,
                 ]);
             }
         }
@@ -125,9 +123,23 @@ class CashbookBPJController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cashbook $cashbook)
     {
-        //
+        $header = $cashbook;
+        $transnumber = $cashbook->transactionnumber;
+        $cashbooka = CashbookA::where('transactionnumber',$transnumber)->get();
+        $cashbookb = CashbookB::where('transactionnumber',$transnumber)->get();
+        $cashbookc = CashbookC::where('transactionnumber',$transnumber)->get();
+        return view('cashbookview::bpjedit')
+        ->with('cashbookno',$transnumber)
+        ->with('transactiondate',$cashbook->transactiondate)
+        ->with('paymentno',$cashbook->personal)
+        ->with('refno',$cashbook->refno)
+        ->with('currency',$cashbook->currency)
+        ->with('coa',$cashbook->accountcode)
+        ->with('description',$cashbook->description)
+        ->with('uuid',$cashbook->uuid)
+        ->with('exchange',$cashbook->exchangerate);
     }
 
     /**
@@ -137,9 +149,68 @@ class CashbookBPJController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cashbook $cashbook)
     {
-        //
+        $transnumber = $cashbook->transactionnumber;
+        $cashbooka = CashbookA::where('transactionnumber',$transnumber)->delete();
+        $cashbookb = CashbookB::where('transactionnumber',$transnumber)->delete();
+        $cashbookc = CashbookC::where('transactionnumber',$transnumber)->delete();
+        $data = $request->data;
+        for ($i = 0; $i <= 9; $i++) {
+            if ($data['adj1']['adj1'][$i][0] != null) {
+                CashbookA::create([
+                    'transactionnumber' => $data['header']['header'][0],
+                    'name' => $data['adj1']['adj1'][$i][1],
+                    'code' => $data['adj1']['adj1'][$i][0],
+                    'debit' => str_replace(',', '', $data['adj1']['adj1'][$i][2]),
+                    'credit' => 0,
+                    'description' => $data['adj1']['adj1'][$i][4],
+
+                ]);
+            }
+        }
+
+        for ($i = 0; $i <= 9; $i++) {
+            if ($data['adj2']['adj2'][$i][0] != null) {
+                CashbookB::create([
+                    'transactionnumber' => $data['header']['header'][0],
+                    'name' => $data['adj2']['adj2'][$i][1],
+                    'currency' => $data['adj2']['adj2'][$i][2],
+                    'exchangerate' => $data['adj2']['adj2'][$i][3],
+                    'code' => $data['adj2']['adj2'][$i][0],
+                    'debit' => str_replace(',', '', $data['adj2']['adj2'][$i][4]),
+                    'credit' => str_replace(',', '', $data['adj2']['adj2'][$i][5]),
+                    'description' => $data['adj2']['adj2'][$i][6],
+                ]);
+            }
+        }
+
+        for ($i = 0; $i <= 9; $i++) {
+            if ($data['adj3']['adj3'][$i][0] != null) {
+                CashbookC::create([
+                    'transactionnumber' => $data['header']['header'][0],
+                    'name' => $data['adj3']['adj3'][$i][1],
+                    'code' => $data['adj3']['adj3'][$i][0],
+                    'debit' => str_replace(',', '', $data['adj3']['adj3'][$i][2]),
+                    'credit' => str_replace(',', '', $data['adj3']['adj3'][$i][3]),
+                    'description' => $data['adj3']['adj3'][$i][4],
+                ]);
+            }
+        }
+        Cashbook::where('transactionnumber', $transnumber)
+        ->update([
+            'updateddate' => Carbon::now()->format('Y-m-d'),
+            'updatedby'=> Auth::user()->id,
+            'transactiondate' => $data['header']['header'][1],
+            'personal' => $data['header']['header'][2],
+            'refno' => $data['header']['header'][3],
+            'currency' => $data['header']['header'][4],
+            'exchangerate' => $data['header']['header'][5],
+            'accountcode' => $data['header']['header'][6],
+            'description' => $data['header']['header'][7],
+        ]);
+
+        TotalCashbook::calculate($data['header']['header'][0]);
     }
 
     /**
@@ -151,5 +222,19 @@ class CashbookBPJController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function detail(Request $request){
+        
+        $cashbooka = CashbookA::where('transactionnumber',$request->data)->get();
+        $cashbookb = CashbookB::where('transactionnumber',$request->data)->get();
+        $cashbookc = CashbookC::where('transactionnumber',$request->data)->get();
+        $myObj = new \stdClass();
+        $myObj->casha = $cashbooka;
+        $myObj->cashb = $cashbookb;
+        $myObj->cashc = $cashbookc;
+        
+        return response()->json($myObj);
+
     }
 }
