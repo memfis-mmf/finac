@@ -351,7 +351,7 @@ let Cashbook = {
             });
         });
 
-        let remove = $('.coa_datatable').on('click', '.delete', function () {
+        let remove = $('.cashbook_datatable').on('click', '.delete', function () {
             let triggerid = $(this).data('uuid');
 
             swal({
@@ -371,14 +371,14 @@ let Cashbook = {
                             )
                         },
                         type: 'DELETE',
-                        url: '/coa/' + triggerid + '',
+                        url: '/cashbook/' + triggerid + '',
                         success: function (data) {
                             toastr.success('Cashbook has been deleted.', 'Deleted', {
                                     timeOut: 5000
                                 }
                             );
 
-                            let table = $('.coa_datatable').mDatatable();
+                            let table = $('.cashbook_datatable').mDatatable();
 
                             table.originalDataSet = [];
                             table.reload();

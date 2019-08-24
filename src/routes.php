@@ -23,6 +23,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
 	Route::prefix('cashbook')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
+		Route::delete('/{cashbook}', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
 		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook.datatable');
 	});
 

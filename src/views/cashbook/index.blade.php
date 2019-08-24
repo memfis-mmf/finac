@@ -100,6 +100,5 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/type.js')}}"></script>
 
-
 <script src="{{ asset('vendor/courier/frontend/cashbook.js')}}"></script>
 @endpush

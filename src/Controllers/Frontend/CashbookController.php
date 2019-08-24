@@ -79,9 +79,10 @@ class CashbookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cashbook $cashbook)
     {
-        //
+        $cashbook->delete();
+        return response()->json($cashbook);
     }
 
     public function datatables()
