@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
+use Directoryxx\Finac\Helpers\TotalCashbook;
 use App\Http\Controllers\Controller;
 use Directoryxx\Finac\Model\Cashbook;
 use Directoryxx\Finac\Model\CashbookA;
@@ -31,8 +32,8 @@ class CashbookBPJController extends Controller
      */
     public function create()
     {
-        $bpjsuggest = 'BPJ-MMF/'.Carbon::now()->format('Y/m');
-        $cashbookCount = Cashbook::where('transactionnumber', 'like', $bpjsuggest.'%')->count();
+        $bpjsuggest = 'BPJ-MMF/' . Carbon::now()->format('Y/m');
+        $cashbookCount = Cashbook::where('transactionnumber', 'like', $bpjsuggest . '%')->count();
         $cashbookno = CashbookGenerateNumber::generate('BPJ-MMF/', $cashbookCount + 1);
         return view('cashbookview::bpj')->with('cashbookno', $cashbookno);
     }
@@ -45,7 +46,6 @@ class CashbookBPJController extends Controller
      */
     public function store(Request $request)
     {
-        
         $data = $request->data;
         $cash = Cashbook::create([
             'transactionnumber' => $data['header']['header'][0],
@@ -103,6 +103,8 @@ class CashbookBPJController extends Controller
             }
         }
 
+        TotalCashbook::calculate($data['header']['header'][0]);
+        
         dd($data['header']['header']);
     }
 

@@ -5,6 +5,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
 use App\Http\Controllers\Controller;
+use Directoryxx\Finac\Helpers\TotalCashbook;
 use Directoryxx\Finac\Model\Cashbook;
 use Directoryxx\Finac\Model\CashbookA;
 use Directoryxx\Finac\Model\CashbookB;
@@ -46,7 +47,8 @@ class CashbookBRJController extends Controller
     public function store(Request $request)
     {
         $data = $request->data;
-        $cash = Cashbook::create([
+        
+        Cashbook::create([
             'transactionnumber' => $data['header']['header'][0],
             'transactiondate' => $data['header']['header'][1],
             'xstatus' => "receive",
@@ -65,7 +67,7 @@ class CashbookBRJController extends Controller
                     'name' => $data['adj1']['adj1'][$i][1],
                     'code' => $data['adj1']['adj1'][$i][0],
                     'debit' => 0,
-                    'credit' => str_replace(',', '', $data['adj1']['adj1'][$i][2]),
+                    'credit' => str_replace(',', '', $data['adj1']['adj1'][$i][3]),
                     'description' => $data['adj1']['adj1'][$i][4],
 
                 ]);
@@ -101,7 +103,8 @@ class CashbookBRJController extends Controller
                 ]);
             }
         }
-
+        TotalCashbook::calculate($data['header']['header'][0]);
+        
         dd($data['header']['header']);
     }
 

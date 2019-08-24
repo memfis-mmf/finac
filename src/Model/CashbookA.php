@@ -16,4 +16,11 @@ class CashbookA extends MemfisModel
         'credit',
         'description'
     ];
+
+    public function cashbooktest()
+    {
+        return $this->hasOne('Directoryxx\Finac\Model\Cashbook');
+    }
+
+
 }

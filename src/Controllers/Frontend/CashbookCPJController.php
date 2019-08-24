@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use Directoryxx\Finac\Helpers\TotalCashbook;
 use Directoryxx\Finac\Model\Cashbook;
 use Directoryxx\Finac\Model\CashbookA;
 use Directoryxx\Finac\Model\CashbookB;
@@ -102,6 +103,8 @@ class CashbookCPJController extends Controller
             }
         }
 
+        TotalCashbook::calculate($data['header']['header'][0]);
+        
         dd($data['header']['header']);
     }
 
