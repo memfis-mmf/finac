@@ -430,7 +430,6 @@
             console.log(obj.adj2);
             console.log(obj.adj3);
 
-            debugger;
 
             $.ajax({
                 headers: {
@@ -463,7 +462,6 @@
                             timeOut: 5000
                         });
 
-                        debugger;
                         window.location.replace('{{route("cashbook.index")}}');
 
                     }
