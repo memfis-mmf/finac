@@ -262,7 +262,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                             @slot('type', 'button')
-                                            @slot('id','savebrj')
+                                            @slot('id','editbrj')
                                             @endcomponent
 
                                             @include('buttons::reset')
@@ -392,7 +392,7 @@
 
             }
         });
-        let simpan = $('#savebrj').click(function() {
+        let simpan = $('#editbrj').click(function() {
             var header = [
                 document.getElementById("bpjno").value,
                 document.getElementById("date").value,
