@@ -36,6 +36,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-bpj.datatable');
 		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@detail')->name('cashbook-bpj.datatabledetail');
 		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@update')->name('cashbook-bpj.update');
+		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@show')->name('cashbook-bpj.show');
 	});
 
 
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-brj.datatable');
 		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@detail')->name('cashbook-brj.datatabledetail');
 		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@update')->name('cashbook-brj.update');
+		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@show')->name('cashbook-brj.show');
 	});
 
 	Route::prefix('cashbook-cpj')->group(function () {
@@ -57,6 +59,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-cpj.datatable');
 		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@detail')->name('cashbook-cpj.datatabledetail');
 		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@update')->name('cashbook-cpj.update');
+		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@show')->name('cashbook-cpj.show');
 	});
 
 	Route::prefix('cashbook-crj')->group(function () {
@@ -67,6 +70,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-crj.datatable');
 		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@detail')->name('cashbook-crj.datatabledetail');
 		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@update')->name('cashbook-crj.update');
+		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@show')->name('cashbook-crj.show');
 	});
 
 	//Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');

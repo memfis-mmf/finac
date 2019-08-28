@@ -112,9 +112,23 @@ class CashbookBPJController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Cashbook $cashbook)
     {
-        //
+        $header = $cashbook;
+        $transnumber = $cashbook->transactionnumber;
+        $cashbooka = CashbookA::where('transactionnumber',$transnumber)->get();
+        $cashbookb = CashbookB::where('transactionnumber',$transnumber)->get();
+        $cashbookc = CashbookC::where('transactionnumber',$transnumber)->get();
+        return view('cashbookview::bpjshow')
+        ->with('cashbookno',$transnumber)
+        ->with('transactiondate',$cashbook->transactiondate)
+        ->with('paymentno',$cashbook->personal)
+        ->with('refno',$cashbook->refno)
+        ->with('currency',$cashbook->currency)
+        ->with('coa',$cashbook->accountcode)
+        ->with('description',$cashbook->description)
+        ->with('uuid',$cashbook->uuid)
+        ->with('exchange',$cashbook->exchangerate);
     }
 
     /**
@@ -211,6 +225,8 @@ class CashbookBPJController extends Controller
         ]);
 
         TotalCashbook::calculate($data['header']['header'][0]);
+
+        
     }
 
     /**

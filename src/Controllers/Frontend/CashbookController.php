@@ -17,6 +17,8 @@ class CashbookController extends Controller
      */
     public function index()
     {
+        
+        //dd(Cashbook::whereHas('approvals')->get());
         return view('cashbookview::index');
     }
 
@@ -89,16 +91,29 @@ class CashbookController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(Cashbook::All());
+        $cashbooks = Cashbook::all();
+
+        foreach($cashbooks as $cashbook){
+            if(!empty($cashbook->approvals->toArray())){
+                $approval = $cashbook->approvals->toArray();
+                $cashbook->status .= 'Approved';
+                $cashbook->approvedby .= $approval[0]['approved_by'];
+            }else{
+                $cashbook->status .= '';
+
+            }
+            //$quotation->customer = $quotation->project->customer;
+        }
+        $data = $alldata = json_decode($cashbooks);
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 
         $filter = isset($datatable['query']['generalSearch']) && is_string($datatable['query']['generalSearch'])
-            ? $datatable['query']['generalSearch'] : '';
+                    ? $datatable['query']['generalSearch'] : '';
 
-        if (!empty($filter)) {
+        if (! empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
-                return (bool) preg_grep("/$filter/i", (array) $a);
+                return (boolean)preg_grep("/$filter/i", (array)$a);
             });
 
             unset($datatable['query']['generalSearch']);
@@ -114,18 +129,18 @@ class CashbookController extends Controller
             }
         }
 
-        $sort  = !empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
-        $field = !empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
+        $sort  = ! empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
+        $field = ! empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-        $page    = !empty($datatable['pagination']['page']) ? (int) $datatable['pagination']['page'] : 1;
-        $perpage = !empty($datatable['pagination']['perpage']) ? (int) $datatable['pagination']['perpage'] : -1;
+        $page    = ! empty($datatable['pagination']['page']) ? (int)$datatable['pagination']['page'] : 1;
+        $perpage = ! empty($datatable['pagination']['perpage']) ? (int)$datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
 
         usort($data, function ($a, $b) use ($sort, $field) {
-            if (!isset($a->$field) || !isset($b->$field)) {
+            if (! isset($a->$field) || ! isset($b->$field)) {
                 return false;
             }
 
@@ -169,9 +184,9 @@ class CashbookController extends Controller
 
         $result = [
             'meta' => $meta + [
-                'sort'  => $sort,
-                'field' => $field,
-            ],
+                    'sort'  => $sort,
+                    'field' => $field,
+                ],
             'data' => $data,
         ];
 
