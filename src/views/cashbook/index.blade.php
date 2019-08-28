@@ -85,6 +85,7 @@
                         </div>
 
                         @include('cashbookview::modal')
+                        @include('cashbookview::approvemodal')
 
                         <div class="cashbook_datatable" id="scrolling_both"></div>
                     </div>

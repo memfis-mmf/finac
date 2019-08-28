@@ -175,4 +175,8 @@ class CashbookController extends Controller
 
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
+
+    public function approve(){
+        
+    }
 }
