@@ -324,7 +324,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'post',
-            url: '/cashbook-cpj/datatables',
+            url: 'cashbook-cpj/datatables',
             data: {
                 _token: $('input[name=_token]').val(),
                 data: "{{$cashbookno}}",

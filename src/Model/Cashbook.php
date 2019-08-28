@@ -5,7 +5,6 @@ namespace Directoryxx\Finac\Model;
 
 use Directoryxx\Finac\Model\MemfisModel;
 use App\Models\Approval;
-use Illuminate\Support\Facades\Auth;
 
 class Cashbook extends MemfisModel
 {

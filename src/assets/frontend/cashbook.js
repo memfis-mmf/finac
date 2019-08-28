@@ -200,7 +200,7 @@ let Cashbook = {
             $('.btn-success').html("<span><i class='fa fa-save'></i><span> Save New</span></span>");
         }
 
-        let simpan = $('.modal-footer').on('click', '.add', function () {
+        let approve = $('.modal-footer').on('click', '.add', function () {
             let triggerid = $("#uuid-approve").val();
             
 
@@ -224,7 +224,7 @@ let Cashbook = {
 
 
                     } else {
-                        $('#modal_coa').modal('hide');
+                        $('#modal_approvalcashbook').modal('hide');
 
                         toastr.success('Data berhasil disimpan.', 'Sukses', {
                             timeOut: 5000
