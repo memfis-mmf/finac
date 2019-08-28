@@ -139,7 +139,7 @@ let Cashbook = {
                         if (res == "BPJ"){
                             return (
                                 '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-bpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                                 t.uuid +
                                 '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                                 '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -149,7 +149,7 @@ let Cashbook = {
                         }else if(res == "BRJ"){
                             return (
                                 '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-brj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                                 t.uuid +
                                 '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                                 '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -159,7 +159,7 @@ let Cashbook = {
                         }else if (res == "CRJ"){
                             return (
                                 '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-crj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                                 t.uuid +
                                 '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                                 '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -169,7 +169,7 @@ let Cashbook = {
                         }else if(res == "CPJ"){
                             return (
                                 '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-cpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                                 t.uuid +
                                 '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                                 '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -201,28 +201,17 @@ let Cashbook = {
         }
 
         let simpan = $('.modal-footer').on('click', '.add', function () {
-            $('#simpan').text('Simpan');
-
-            let type = $('#type').val();
-            let level = $('#level').val();
-            let registerForm = $('#CustomerForm');
-            let code = $('input[name=code]').val();
-            let name = $('input[name=name]').val();
-            let formData = registerForm.serialize();
-            let description = $('#description').val();
+            let triggerid = $("#uuid-approve").val();
+            
 
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'post',
-                url: '/coa',
+                url: '/cashbook/' + triggerid + '/approve',
                 data: {
                     _token: $('input[name=_token]').val(),
-                    code: code,
-                    name: name,
-                    type_id: type,
-                    description: description
                 },
                 success: function (data) {
                     if (data.errors) {
@@ -230,11 +219,7 @@ let Cashbook = {
                             $('#code-error').html(data.errors.code[0]);
 
 
-                            document.getElementById('code').value = code;
-                            document.getElementById('name').value = name;
-                            document.getElementById('type').value = type;
-                            document.getElementById('level').value = level;
-                            document.getElementById('description').value = description;
+                          
                         }
 
 
@@ -247,7 +232,7 @@ let Cashbook = {
 
                         $('#code-error').html('');
 
-                        let table = $('.coa_datatable').mDatatable();
+                        let table = $('.cashbook_datatable').mDatatable();
 
                         table.originalDataSet = [];
                         table.reload();
@@ -409,50 +394,7 @@ let Cashbook = {
         });
 
 
-        let approve = $('.cashbook_datatable').on('click', '.approve', function () {
-            let triggerid = $(this).data('uuid');
-
-            swal({
-                title: 'Sure want to remove?',
-                type: 'warning',
-                confirmButtonText: 'Yes, Approve',
-                confirmButtonColor: '#13f022',
-                cancelButtonText: 'Cancel',
-                showCancelButton: true,
-            }).then(result => {
-                if (result.value) {
-
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            )
-                        },
-                        type: 'POST',
-                        url: '/cashbook/' + triggerid + '/approve',
-                        success: function (data) {
-                            toastr.success('Cashbook has been approved.', 'Approved', {
-                                    timeOut: 5000
-                                }
-                            );
-
-                            let table = $('.cashbook_datatable').mDatatable();
-
-                            table.originalDataSet = [];
-                            table.reload();
-                        },
-                        error: function (jqXhr, json, errorThrown) {
-                            let errorsHtml = '';
-                            let errors = jqXhr.responseJSON;
-
-                            $.each(errors.errors, function (index, value) {
-                                $('#delete-error').html(value);
-                            });
-                        }
-                    });
-                }
-            });
-        });
+        
 
     }
 };

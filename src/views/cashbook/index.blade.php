@@ -102,4 +102,14 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/type.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/cashbook.js')}}"></script>
+<script>
+$(document).on("click", ".open-AddUuidApproveDialog", function () {
+     var uuid = $(this).data('uuid');
+     //console.log(uuid);
+     $(".modal-body #uuid-approve").val(uuid);
+     // As pointed out in comments, 
+     // it is unnecessary to have to manually call the modal.
+     // $('#addBookDialog').modal('show');
+});
+</script>
 @endpush

@@ -5,6 +5,8 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Directoryxx\Finac\Model\Cashbook;
+use App\Models\Approval;
+use Illuminate\Support\Facades\Auth;
 
 class CashbookController extends Controller
 {
@@ -176,7 +178,10 @@ class CashbookController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function approve(){
-        
+    public function approve(Cashbook $cashbook){
+        $cashbook->approvals()->save(new Approval([
+            'approvable_id' => $cashbook->id,
+            'approved_by' => Auth::id(),
+        ]));
     }
 }

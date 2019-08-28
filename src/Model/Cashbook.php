@@ -4,6 +4,8 @@ namespace Directoryxx\Finac\Model;
 
 
 use Directoryxx\Finac\Model\MemfisModel;
+use App\Models\Approval;
+use Illuminate\Support\Facades\Auth;
 
 class Cashbook extends MemfisModel
 {
@@ -22,4 +24,9 @@ class Cashbook extends MemfisModel
         'description',
         'createdby',
     ];
+
+    public function approvals()
+    {
+        return $this->morphMany(Approval::class, 'approvable');
+    }
 }
