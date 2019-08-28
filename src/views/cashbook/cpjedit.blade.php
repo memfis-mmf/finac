@@ -493,7 +493,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                type: 'post',
+                type: 'POST',
                 url: '/cashbook-cpj/{{$uuid}}/',
                 data: {
                     method_field : "PUT",
