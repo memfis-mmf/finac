@@ -29,6 +29,7 @@ class CreateCashbooksTable extends Migration
             $table->string('accountcode')->nullable();
             $table->decimal('totaltransaction',18,5)->nullable();
             $table->string('createdby')->nullable();
+            $table->dateTime('updateddate')->nullable();
             $table->string('deleteby')->nullable();
             $table->string('updatedby')->nullable();
             $table->text('description')->nullable();
