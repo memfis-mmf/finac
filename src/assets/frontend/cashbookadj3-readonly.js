@@ -25,7 +25,7 @@ var cashbookadj3 = {
                 sortable: !1,
                 textAlign: "center",
                 template: function (t) {
-                    return '<div class="input-group"> <input name="coaadj1-' + t.code + '" id="codeadj1-' + t.code + '" type="text" class="form-control m-input" value="" readonly="" placeholder=""> <div class="input-group-append"> </div></div>'
+                    return '<div class="input-group"> <input name="coaadj3-' + t.code + '" id="codeadj3-' + t.code + '" type="text" class="form-control m-input" value="" readonly="" placeholder=""> <div class="input-group-append"> </div></div>'
                 }
                 
             }, {
