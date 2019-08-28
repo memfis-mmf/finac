@@ -33,7 +33,7 @@ class CashbookCPJController extends Controller
     public function create()
     {
         $cpjsuggest = 'CPJ-MMF/'.Carbon::now()->format('Y/m');
-        $cashbookCount = Cashbook::where('transactionnumber', 'like', $cpjsuggest.'%')->count();
+        $cashbookCount = Cashbook::where('transactionnumber', 'like', $cpjsuggest.'%')->withTrashed()->count();
         $cashbookno = CashbookGenerateNumber::generate('CPJ-MMF/', $cashbookCount + 1);
         return view('cashbookview::cpj')->with('cashbookno', $cashbookno);
     }

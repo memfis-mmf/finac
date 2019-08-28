@@ -8,6 +8,7 @@ use App\Models\Approval;
 
 class Cashbook extends MemfisModel
 {
+    
     protected $fillable = [
         'approve',
         'approve2',
