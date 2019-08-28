@@ -72,8 +72,7 @@
                                             Date Transaction @include('label::required')
                                         </label>
 
-                                        @component('input::datepicker')
-                                        @slot('id', 'date')
+                                        @component('input::inputreadonly')
                                         @slot('text', 'Date')
                                         @slot('name', 'date')
                                         @slot('value',$transactiondate)
@@ -275,9 +274,9 @@
 
 
 <script src="{{ asset('vendor/courier/frontend/cashbookbpj.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj1-rec.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj2.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj3.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj1-recreadonly.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj2-readonly.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj3-readonly.js')}}"></script>
 
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>

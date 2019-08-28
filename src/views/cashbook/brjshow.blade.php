@@ -72,8 +72,7 @@
                                             Date Transaction @include('label::required')
                                         </label>
 
-                                        @component('input::datepicker')
-                                        @slot('id', 'date')
+                                        @component('input::inputreadonly')
                                         @slot('text', 'Date')
                                         @slot('name', 'date')
                                         @slot('value',$transactiondate)
@@ -88,7 +87,7 @@
                                             Receive To @include('label::required')
                                         </label>
 
-                                        @component('input::text')
+                                        @component('input::inputreadonly')
                                         @slot('id', 'pto')
                                         @slot('text', 'pto')
                                         @slot('name', 'pto')
@@ -102,7 +101,7 @@
                                             Ref No
                                         </label>
 
-                                        @component('input::text')
+                                        @component('input::inputreadonly')
                                         @slot('id', 'refno')
                                         @slot('text', 'refno')
                                         @slot('name', 'refno')
@@ -156,7 +155,7 @@
                                             Account Code
                                         </label>
 
-                                        @component('input::inputrightbutton')
+                                        @component('input::inputreadonly')
                                         @slot('id', 'coa')
                                         @slot('text', 'coa')
                                         @slot('name', 'coa')
@@ -187,7 +186,7 @@
                                             Remark
                                         </label>
 
-                                        @component('input::textarea')
+                                        @component('input::inputreadonly')
                                         @slot('id', 'remark')
                                         @slot('text', 'remark')
                                         @slot('value',$description)
@@ -275,9 +274,9 @@
 
 
 <script src="{{ asset('vendor/courier/frontend/cashbookbpj.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj1-rec.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj2.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj3.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj1-recreadonly.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj2-readonly.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj3-readonly.js')}}"></script>
 
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>

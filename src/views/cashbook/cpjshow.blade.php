@@ -73,7 +73,6 @@
                                         </label>
 
                                         @component('input::inputreadonly')
-                                        @slot('id', 'date')
                                         @slot('text', 'Date')
                                         @slot('name', 'date')
                                         @slot('id_error', 'date')
@@ -276,9 +275,9 @@
 
 
 <script src="{{ asset('vendor/courier/frontend/cashbookbpj.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj1-pay.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj2.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/cashbookadj3.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj1-payreadonly.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj2-readonly.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbookadj3-readonly.js')}}"></script>
 
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
@@ -311,7 +310,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'post',
-            url: 'cashbook-cpj/datatables',
+            url: '/cashbook-cpj/datatables',
             data: {
                 _token: $('input[name=_token]').val(),
                 data: "{{$cashbookno}}",
