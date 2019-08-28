@@ -39,7 +39,7 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::edit')
+                            @include('label::show')
 
                             <h3 class="m-portlet__head-text">
                                 Cashbook - Cash Payment Journal
