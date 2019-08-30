@@ -18,7 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->uuid('uuid');
             $table->integer('id_branch')->nullable();
             $table->integer('closed')->default(0);
-            $table->string('transactionnumber');
+            $table->string('transactionnumber')->unique();
             $table->dateTime('transactiondate');
             $table->integer('id_customer');
             $table->string('currency');

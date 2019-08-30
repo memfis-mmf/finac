@@ -73,6 +73,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@show')->name('cashbook-crj.show');
 	});
 
+	Route::prefix('invoice')->group(function () {
+		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
+		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@create')->name('invoice.create');
+
+	});
+
 	//Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');
 	
 	//Route::resource('cashbook-bpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController');

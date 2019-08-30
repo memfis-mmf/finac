@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Directoryxx\Finac\Model;
 
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;

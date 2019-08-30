@@ -134,7 +134,7 @@ class CashbookBPJController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Cashbook  $cashbook
      * @return \Illuminate\Http\Response
      */
     public function edit(Cashbook $cashbook)
@@ -160,7 +160,7 @@ class CashbookBPJController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Cashhbook  $Cashbook
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Cashbook $cashbook)
