@@ -1,7 +1,7 @@
 let Bankselect2 = {
     init: function () {
         $('#bankinfo, #bankinfo_validate').select2({
-            placeholder: 'Select an Bank'
+            placeholder: 'Select a Bank'
         });
     }
 };
