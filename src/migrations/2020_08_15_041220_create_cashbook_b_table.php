@@ -17,14 +17,16 @@ class CreateCashbookBTable extends Migration
             $table->increments('id');
             $table->uuid('uuid');
             $table->string('transactionnumber');
-            $table->string('code');
+            $table->unsignedInteger('code');
             $table->string('name');
-            $table->string('currency');
+            $table->unsignedInteger('currency');
             $table->decimal('exchangerate',18,5);
             $table->decimal('credit',18,5);
             $table->decimal('debit',18,5);
             $table->text('description')->nullable();
             $table->foreign('transactionnumber')->references('transactionnumber')->on('cashbooks');
+            $table->foreign('code')->references('id')->on('coas');
+            $table->foreign('currency')->references('id')->on('currencies');
             $table->softDeletes();
             $table->timestamps();
         });

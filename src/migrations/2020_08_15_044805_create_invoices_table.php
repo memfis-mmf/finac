@@ -29,8 +29,9 @@ class CreateInvoicesTable extends Migration
             $table->decimal('ppnvalue',18,5);
             $table->decimal('grandtotalforeign',18,5);
             $table->decimal('grandtotal',18,5);
-            $table->string('accountcode');
+            $table->unsignedInteger('accountcode');
             $table->text('description');
+            $table->foreign('accountcode')->references('id')->on('coas');
             $table->softDeletes();
             $table->timestamps();
         });

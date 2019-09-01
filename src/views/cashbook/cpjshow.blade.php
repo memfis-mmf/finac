@@ -204,7 +204,6 @@
                                             <div class="row align-items-center">
                                                 <div class="col-xl-12">
 
-                                                    <h3>Adjustment 1</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -225,7 +224,7 @@
                                             <div class="row align-items-center">
                                                 <div class="col-xl-12">
 
-                                                    <h3>Adjustment 2</h3>
+                                                    <h3>Adjustment 1</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -245,7 +244,7 @@
                                             <div class="row">
                                                 <div class="col-xl-12">
 
-                                                    <h3>Adjustment 3</h3>
+                                                    <h3>Adjustment 2</h3>
                                                 </div>
 
                                             </div>
