@@ -57,10 +57,14 @@ let CoaDatatables = {
                     var idtest = "code"+dataid;
                     if(dataid == null || dataid == "" || dataid == undefined){
                         document.getElementById('coa').value = data.name;
+                        document.getElementById('coaid').value = data.id;
+                        //console.log(document.getElementById('coaid').value);
                         document.getElementById('acd').value = data.description;
 
                     } else {
                         document.getElementById(idtest).value = data.name;
+                        var coadynac = "id"+idtest;
+                        document.getElementById(coadynac).value = data.id;
                     }
                     
                     $('#coa_modal').modal('hide');
@@ -76,6 +80,7 @@ jQuery(document).ready(function () {
     CoaDatatables.init();
 });
 jQuery(document).on("click", ".open-AddRowDialog", function () {
+    
     var myBookId = $(this).data('id');
     console.log(myBookId);
     document.getElementById('hiderow').value = myBookId;

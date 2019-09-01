@@ -148,6 +148,7 @@
 
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <input hidden id="coaid">
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
@@ -379,7 +380,7 @@
 
             var e10 = document.getElementById("currencyadj2-10");
             var strUser10 = e10.options[e10.selectedIndex].value;
-            
+
             var adj2 = [
                 [document.getElementById("codeadj2-1").value, document.getElementById("nameadj2-1").value, strUser1, document.getElementById("exchangerateadj2-1").value, document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
                 [document.getElementById("codeadj2-2").value, document.getElementById("nameadj2-2").value, strUser2, document.getElementById("exchangerateadj2-2").value, document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],

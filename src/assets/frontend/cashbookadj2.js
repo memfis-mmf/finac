@@ -40,7 +40,7 @@ var cashbookadj2 = {
                 title: "Currency",
                 width: 100,
                 template: function (t) {
-                    return '<select onchange="exchangerateadj2(this.value,this.id)" id="currencyadj2-'+t.code+'" name="currencyadj2-'+t.code+'" class="form-control m-input"><option value=""> Select a Currency</option><option id="currencyadj2-'+t.code+'" value="IDR">IDR</option><option id="currencyadj2-'+t.code+'" value="USD">USD</option></select>'
+                    return '<select onchange="exchangerateadj2(this.value,this.id)" id="currencyadj2-'+t.code+'" name="currencyadj2-'+t.code+'" class="form-control m-input"><option value=""> Select a Currency</option><option id="currencyadj2-'+t.code+'" value="46">IDR</option><option id="currencyadj2-'+t.code+'" value="103">USD</option></select>'
                 }
             }, {
                 field: "exchangerate",

@@ -17,6 +17,8 @@ class Coa extends MemfisModel
         'description'
     ];
 
+    
+
 
     
 }

@@ -196,6 +196,7 @@ class CoaDatatables extends Controller
 
         $columnsDefault = [
             'name'     => true,
+            'id' => true,
             'code'     => true,
             'type'  => true,
             'description' => true,

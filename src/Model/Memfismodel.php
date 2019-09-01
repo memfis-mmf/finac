@@ -13,7 +13,7 @@ class MemfisModel extends Model implements Auditable
     use Timestampable;
     use \OwenIt\Auditing\Auditable;
 
-    protected $hidden = ['id'];
+    //protected $hidden = ['id'];
     protected $dates = ['deleted_at'];
     /***************************************** OVERRIDE *******************************************/
     public function getRouteKeyName()

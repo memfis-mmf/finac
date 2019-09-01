@@ -116,10 +116,10 @@
 
                                         <select id="currency" name="currency" class="form-control m-input">
                                             <option value=""> Select a Currency</option>
-                                            <option value="IDR">
+                                            <option value="46">
                                                 IDR
                                             </option>
-                                            <option value="USD">
+                                            <option value="103">
                                                 USD
                                             </option>
 
@@ -148,6 +148,7 @@
 
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
@@ -273,6 +274,38 @@
         </div>
     </div>
 </div>
+<input hidden id="coaid">
+<input hidden id="idcodeadj1-1">
+<input hidden id="idcodeadj1-2">
+<input hidden id="idcodeadj1-3">
+<input hidden id="idcodeadj1-4">
+<input hidden id="idcodeadj1-5">
+<input hidden id="idcodeadj1-6">
+<input hidden id="idcodeadj1-7">
+<input hidden id="idcodeadj1-8">
+<input hidden id="idcodeadj1-9">
+<input hidden id="idcodeadj1-10">
+<input hidden id="idcodeadj2-1">
+<input hidden id="idcodeadj2-2">
+<input hidden id="idcodeadj2-3">
+<input hidden id="idcodeadj2-4">
+<input hidden id="idcodeadj2-5">
+<input hidden id="idcodeadj2-6">
+<input hidden id="idcodeadj2-7">
+<input hidden id="idcodeadj2-8">
+<input hidden id="idcodeadj2-9">
+<input hidden id="idcodeadj2-10">
+<input hidden id="idcodeadj3-1">
+<input hidden id="idcodeadj3-2">
+<input hidden id="idcodeadj3-3">
+<input hidden id="idcodeadj3-4">
+<input hidden id="idcodeadj3-5">
+<input hidden id="idcodeadj3-6">
+<input hidden id="idcodeadj3-7">
+<input hidden id="idcodeadj3-8">
+<input hidden id="idcodeadj3-9">
+<input hidden id="idcodeadj3-10">
+
 @endsection
 
 @push('footer-scripts')
@@ -304,16 +337,18 @@
         uniquecode = id.substring(8);
         subunique = "exchangerate" + uniquecode;
         console.log(subunique);
-        if (val != "IDR") {
+        if (val != "46") {
             document.getElementById(subunique).value = '';
         } else {
             document.getElementById(subunique).value = '1';
         }
     }
     jQuery(document).ready(function() {
+        var currency = "";
         $('#currency').on('change', function() {
             currency_choose = this.value;
-            if (this.value != "IDR") {
+            currency = this.value;
+            if (this.value != "46") {
                 $("#exchange").attr("readonly", false);
                 document.getElementById("requi").style.display = "block";
 
@@ -330,24 +365,24 @@
                 document.getElementById("date").value,
                 document.getElementById("pto").value,
                 document.getElementById("refno").value,
-                document.getElementById("currency").value,
+                currency,
                 document.getElementById("exchange").value,
-                document.getElementById("coa").value,
+                document.getElementById("coaid").value,
                 document.getElementById("remark").value,
 
             ];
 
             var adj1 = [
-                [document.getElementById("codeadj1-1").value, document.getElementById("nameadj1-1").value, document.getElementById("debitadj1-1").value, 0, document.getElementById("desriptionadj1-1").value],
-                [document.getElementById("codeadj1-2").value, document.getElementById("nameadj1-2").value, document.getElementById("debitadj1-2").value, 0, document.getElementById("desriptionadj1-2").value],
-                [document.getElementById("codeadj1-3").value, document.getElementById("nameadj1-3").value, document.getElementById("debitadj1-3").value, 0, document.getElementById("desriptionadj1-3").value],
-                [document.getElementById("codeadj1-4").value, document.getElementById("nameadj1-4").value, document.getElementById("debitadj1-4").value, 0, document.getElementById("desriptionadj1-4").value],
-                [document.getElementById("codeadj1-5").value, document.getElementById("nameadj1-5").value, document.getElementById("debitadj1-5").value, 0, document.getElementById("desriptionadj1-5").value],
-                [document.getElementById("codeadj1-6").value, document.getElementById("nameadj1-6").value, document.getElementById("debitadj1-6").value, 0, document.getElementById("desriptionadj1-6").value],
-                [document.getElementById("codeadj1-7").value, document.getElementById("nameadj1-7").value, document.getElementById("debitadj1-7").value, 0, document.getElementById("desriptionadj1-7").value],
-                [document.getElementById("codeadj1-8").value, document.getElementById("nameadj1-8").value, document.getElementById("debitadj1-8").value, 0, document.getElementById("desriptionadj1-8").value],
-                [document.getElementById("codeadj1-9").value, document.getElementById("nameadj1-9").value, document.getElementById("debitadj1-9").value, 0, document.getElementById("desriptionadj1-9").value],
-                [document.getElementById("codeadj1-10").value, document.getElementById("nameadj1-10").value, document.getElementById("debitadj1-10").value, 0, document.getElementById("desriptionadj1-10").value],
+                [document.getElementById("idcodeadj1-1").value, document.getElementById("nameadj1-1").value, document.getElementById("debitadj1-1").value, 0, document.getElementById("desriptionadj1-1").value],
+                [document.getElementById("idcodeadj1-2").value, document.getElementById("nameadj1-2").value, document.getElementById("debitadj1-2").value, 0, document.getElementById("desriptionadj1-2").value],
+                [document.getElementById("idcodeadj1-3").value, document.getElementById("nameadj1-3").value, document.getElementById("debitadj1-3").value, 0, document.getElementById("desriptionadj1-3").value],
+                [document.getElementById("idcodeadj1-4").value, document.getElementById("nameadj1-4").value, document.getElementById("debitadj1-4").value, 0, document.getElementById("desriptionadj1-4").value],
+                [document.getElementById("idcodeadj1-5").value, document.getElementById("nameadj1-5").value, document.getElementById("debitadj1-5").value, 0, document.getElementById("desriptionadj1-5").value],
+                [document.getElementById("idcodeadj1-6").value, document.getElementById("nameadj1-6").value, document.getElementById("debitadj1-6").value, 0, document.getElementById("desriptionadj1-6").value],
+                [document.getElementById("idcodeadj1-7").value, document.getElementById("nameadj1-7").value, document.getElementById("debitadj1-7").value, 0, document.getElementById("desriptionadj1-7").value],
+                [document.getElementById("idcodeadj1-8").value, document.getElementById("nameadj1-8").value, document.getElementById("debitadj1-8").value, 0, document.getElementById("desriptionadj1-8").value],
+                [document.getElementById("idcodeadj1-9").value, document.getElementById("nameadj1-9").value, document.getElementById("debitadj1-9").value, 0, document.getElementById("desriptionadj1-9").value],
+                [document.getElementById("idcodeadj1-10").value, document.getElementById("nameadj1-10").value, document.getElementById("debitadj1-10").value, 0, document.getElementById("desriptionadj1-10").value],
             ];
 
 
@@ -382,29 +417,29 @@
             var strUser10 = e10.options[e10.selectedIndex].value;
             
             var adj2 = [
-                [document.getElementById("codeadj2-1").value, document.getElementById("nameadj2-1").value, strUser1, document.getElementById("exchangerateadj2-1").value, document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
-                [document.getElementById("codeadj2-2").value, document.getElementById("nameadj2-2").value, strUser2, document.getElementById("exchangerateadj2-2").value, document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],
-                [document.getElementById("codeadj2-3").value, document.getElementById("nameadj2-3").value, strUser3, document.getElementById("exchangerateadj2-3").value, document.getElementById("debitadj2-3").value, document.getElementById("creditadj2-3").value, document.getElementById("desriptionadj2-3").value],
-                [document.getElementById("codeadj2-4").value, document.getElementById("nameadj2-4").value, strUser4, document.getElementById("exchangerateadj2-4").value, document.getElementById("debitadj2-4").value, document.getElementById("creditadj2-4").value, document.getElementById("desriptionadj2-4").value],
-                [document.getElementById("codeadj2-5").value, document.getElementById("nameadj2-5").value, strUser5, document.getElementById("exchangerateadj2-5").value, document.getElementById("debitadj2-5").value, document.getElementById("creditadj2-5").value, document.getElementById("desriptionadj2-5").value],
-                [document.getElementById("codeadj2-6").value, document.getElementById("nameadj2-6").value, strUser6, document.getElementById("exchangerateadj2-6").value, document.getElementById("debitadj2-6").value, document.getElementById("creditadj2-6").value, document.getElementById("desriptionadj2-6").value],
-                [document.getElementById("codeadj2-7").value, document.getElementById("nameadj2-7").value, strUser7, document.getElementById("exchangerateadj2-7").value, document.getElementById("debitadj2-7").value, document.getElementById("creditadj2-7").value, document.getElementById("desriptionadj2-7").value],
-                [document.getElementById("codeadj2-8").value, document.getElementById("nameadj2-8").value, strUser8, document.getElementById("exchangerateadj2-8").value, document.getElementById("debitadj2-8").value, document.getElementById("creditadj2-8").value, document.getElementById("desriptionadj2-8").value],
-                [document.getElementById("codeadj2-9").value, document.getElementById("nameadj2-9").value, strUser9, document.getElementById("exchangerateadj2-9").value, document.getElementById("debitadj2-9").value, document.getElementById("creditadj2-9").value, document.getElementById("desriptionadj2-9").value],
-                [document.getElementById("codeadj2-10").value, document.getElementById("nameadj2-10").value, strUser10, document.getElementById("exchangerateadj2-10").value, document.getElementById("debitadj2-10").value, document.getElementById("creditadj2-10").value, document.getElementById("desriptionadj2-10").value],
+                [document.getElementById("idcodeadj2-1").value, document.getElementById("nameadj2-1").value, strUser1, document.getElementById("exchangerateadj2-1").value, document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
+                [document.getElementById("idcodeadj2-2").value, document.getElementById("nameadj2-2").value, strUser2, document.getElementById("exchangerateadj2-2").value, document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],
+                [document.getElementById("idcodeadj2-3").value, document.getElementById("nameadj2-3").value, strUser3, document.getElementById("exchangerateadj2-3").value, document.getElementById("debitadj2-3").value, document.getElementById("creditadj2-3").value, document.getElementById("desriptionadj2-3").value],
+                [document.getElementById("idcodeadj2-4").value, document.getElementById("nameadj2-4").value, strUser4, document.getElementById("exchangerateadj2-4").value, document.getElementById("debitadj2-4").value, document.getElementById("creditadj2-4").value, document.getElementById("desriptionadj2-4").value],
+                [document.getElementById("idcodeadj2-5").value, document.getElementById("nameadj2-5").value, strUser5, document.getElementById("exchangerateadj2-5").value, document.getElementById("debitadj2-5").value, document.getElementById("creditadj2-5").value, document.getElementById("desriptionadj2-5").value],
+                [document.getElementById("idcodeadj2-6").value, document.getElementById("nameadj2-6").value, strUser6, document.getElementById("exchangerateadj2-6").value, document.getElementById("debitadj2-6").value, document.getElementById("creditadj2-6").value, document.getElementById("desriptionadj2-6").value],
+                [document.getElementById("idcodeadj2-7").value, document.getElementById("nameadj2-7").value, strUser7, document.getElementById("exchangerateadj2-7").value, document.getElementById("debitadj2-7").value, document.getElementById("creditadj2-7").value, document.getElementById("desriptionadj2-7").value],
+                [document.getElementById("idcodeadj2-8").value, document.getElementById("nameadj2-8").value, strUser8, document.getElementById("exchangerateadj2-8").value, document.getElementById("debitadj2-8").value, document.getElementById("creditadj2-8").value, document.getElementById("desriptionadj2-8").value],
+                [document.getElementById("idcodeadj2-9").value, document.getElementById("nameadj2-9").value, strUser9, document.getElementById("exchangerateadj2-9").value, document.getElementById("debitadj2-9").value, document.getElementById("creditadj2-9").value, document.getElementById("desriptionadj2-9").value],
+                [document.getElementById("idcodeadj2-10").value, document.getElementById("nameadj2-10").value, strUser10, document.getElementById("exchangerateadj2-10").value, document.getElementById("debitadj2-10").value, document.getElementById("creditadj2-10").value, document.getElementById("desriptionadj2-10").value],
             ];
 
             var adj3 = [
-                [document.getElementById("codeadj3-1").value, document.getElementById("nameadj3-1").value, document.getElementById("debitadj3-1").value, document.getElementById("creditadj3-1").value, document.getElementById("desriptionadj1-1").value],
-                [document.getElementById("codeadj3-2").value, document.getElementById("nameadj3-2").value, document.getElementById("debitadj3-2").value, document.getElementById("creditadj3-2").value, document.getElementById("desriptionadj1-2").value],
-                [document.getElementById("codeadj3-3").value, document.getElementById("nameadj3-3").value, document.getElementById("debitadj3-3").value, document.getElementById("creditadj3-3").value, document.getElementById("desriptionadj1-3").value],
-                [document.getElementById("codeadj3-4").value, document.getElementById("nameadj3-4").value, document.getElementById("debitadj3-4").value, document.getElementById("creditadj3-4").value, document.getElementById("desriptionadj1-4").value],
-                [document.getElementById("codeadj3-5").value, document.getElementById("nameadj3-5").value, document.getElementById("debitadj3-5").value, document.getElementById("creditadj3-5").value, document.getElementById("desriptionadj1-5").value],
-                [document.getElementById("codeadj3-6").value, document.getElementById("nameadj3-6").value, document.getElementById("debitadj3-6").value, document.getElementById("creditadj3-6").value, document.getElementById("desriptionadj1-6").value],
-                [document.getElementById("codeadj3-7").value, document.getElementById("nameadj3-7").value, document.getElementById("debitadj3-7").value, document.getElementById("creditadj3-7").value, document.getElementById("desriptionadj1-7").value],
-                [document.getElementById("codeadj3-8").value, document.getElementById("nameadj3-8").value, document.getElementById("debitadj3-8").value, document.getElementById("creditadj3-8").value, document.getElementById("desriptionadj1-8").value],
-                [document.getElementById("codeadj3-9").value, document.getElementById("nameadj3-9").value, document.getElementById("debitadj3-9").value, document.getElementById("creditadj3-9").value, document.getElementById("desriptionadj1-9").value],
-                [document.getElementById("codeadj3-10").value, document.getElementById("nameadj3-10").value, document.getElementById("debitadj3-10").value, document.getElementById("creditadj3-10").value, document.getElementById("desriptionadj1-10").value],
+                [document.getElementById("idcodeadj3-1").value, document.getElementById("nameadj3-1").value, document.getElementById("debitadj3-1").value, document.getElementById("creditadj3-1").value, document.getElementById("desriptionadj1-1").value],
+                [document.getElementById("idcodeadj3-2").value, document.getElementById("nameadj3-2").value, document.getElementById("debitadj3-2").value, document.getElementById("creditadj3-2").value, document.getElementById("desriptionadj1-2").value],
+                [document.getElementById("idcodeadj3-3").value, document.getElementById("nameadj3-3").value, document.getElementById("debitadj3-3").value, document.getElementById("creditadj3-3").value, document.getElementById("desriptionadj1-3").value],
+                [document.getElementById("idcodeadj3-4").value, document.getElementById("nameadj3-4").value, document.getElementById("debitadj3-4").value, document.getElementById("creditadj3-4").value, document.getElementById("desriptionadj1-4").value],
+                [document.getElementById("idcodeadj3-5").value, document.getElementById("nameadj3-5").value, document.getElementById("debitadj3-5").value, document.getElementById("creditadj3-5").value, document.getElementById("desriptionadj1-5").value],
+                [document.getElementById("idcodeadj3-6").value, document.getElementById("nameadj3-6").value, document.getElementById("debitadj3-6").value, document.getElementById("creditadj3-6").value, document.getElementById("desriptionadj1-6").value],
+                [document.getElementById("idcodeadj3-7").value, document.getElementById("nameadj3-7").value, document.getElementById("debitadj3-7").value, document.getElementById("creditadj3-7").value, document.getElementById("desriptionadj1-7").value],
+                [document.getElementById("idcodeadj3-8").value, document.getElementById("nameadj3-8").value, document.getElementById("debitadj3-8").value, document.getElementById("creditadj3-8").value, document.getElementById("desriptionadj1-8").value],
+                [document.getElementById("idcodeadj3-9").value, document.getElementById("nameadj3-9").value, document.getElementById("debitadj3-9").value, document.getElementById("creditadj3-9").value, document.getElementById("desriptionadj1-9").value],
+                [document.getElementById("idcodeadj3-10").value, document.getElementById("nameadj3-10").value, document.getElementById("debitadj3-10").value, document.getElementById("creditadj3-10").value, document.getElementById("desriptionadj1-10").value],
             ];
 
             var obj = {

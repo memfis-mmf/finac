@@ -21,7 +21,7 @@ class CreateInvoicesTable extends Migration
             $table->string('transactionnumber')->unique();
             $table->dateTime('transactiondate');
             $table->integer('id_customer');
-            $table->string('currency');
+            $table->unsignedBigInteger('currency');
             $table->decimal('exchangerate',18,5);
             $table->decimal('discountpercent',18,5);
             $table->decimal('discountvalue',18,5);
@@ -32,6 +32,7 @@ class CreateInvoicesTable extends Migration
             $table->unsignedInteger('accountcode');
             $table->text('description');
             $table->foreign('accountcode')->references('id')->on('coas');
+            $table->foreign('currency')->references('id')->on('currencies');
             $table->softDeletes();
             $table->timestamps();
         });

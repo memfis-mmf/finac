@@ -153,6 +153,7 @@
 
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <input hidden id="coaid">
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
@@ -344,32 +345,32 @@
 
                 } else {
                     for (i = 1; i <= data.casha.length; i++) {
-                        document.getElementById("codeadj1-"+i).value = data.casha[i-1].code;
-                        document.getElementById("nameadj1-"+i).value = data.casha[i-1].name; 
-                        document.getElementById("debitadj1-"+i).value = data.casha[i-1].debit;
-                        document.getElementById("desriptionadj1-"+i).value = data.casha[i-1].description;
+                        document.getElementById("codeadj1-" + i).value = data.casha[i - 1].code;
+                        document.getElementById("nameadj1-" + i).value = data.casha[i - 1].name;
+                        document.getElementById("debitadj1-" + i).value = data.casha[i - 1].debit;
+                        document.getElementById("desriptionadj1-" + i).value = data.casha[i - 1].description;
                     }
                     for (i = 1; i <= data.cashb.length; i++) {
-                        document.getElementById("codeadj2-"+i).value = data.cashb[i-1].code;
-                        document.getElementById("nameadj2-"+i).value = data.cashb[i-1].name; 
-                        document.getElementById("debitadj2-"+i).value = data.cashb[i-1].debit;
-                        document.getElementById("desriptionadj2-"+i).value = data.cashb[i-1].description;
-                        document.getElementById("creditadj2-"+i).value = data.cashb[i-1].credit;
-                        if (data.cashb[i-1].currency == "USD"){
-                            document.getElementById("currencyadj2-"+i).selectedIndex = "2"; 
+                        document.getElementById("codeadj2-" + i).value = data.cashb[i - 1].code;
+                        document.getElementById("nameadj2-" + i).value = data.cashb[i - 1].name;
+                        document.getElementById("debitadj2-" + i).value = data.cashb[i - 1].debit;
+                        document.getElementById("desriptionadj2-" + i).value = data.cashb[i - 1].description;
+                        document.getElementById("creditadj2-" + i).value = data.cashb[i - 1].credit;
+                        if (data.cashb[i - 1].currency == "USD") {
+                            document.getElementById("currencyadj2-" + i).selectedIndex = "2";
                         } else {
-                            document.getElementById("currencyadj2-"+i).selectedIndex = "1";
+                            document.getElementById("currencyadj2-" + i).selectedIndex = "1";
                         }
-                        
-                        document.getElementById("exchangerateadj2-"+i).value = data.cashb[i-1].exchangerate; 
+
+                        document.getElementById("exchangerateadj2-" + i).value = data.cashb[i - 1].exchangerate;
                     }
 
                     for (i = 1; i <= data.cashc.length; i++) {
-                        document.getElementById("codeadj3-"+i).value = data.cashc[i-1].code;
-                        document.getElementById("nameadj3-"+i).value = data.cashc[i-1].name; 
-                        document.getElementById("debitadj3-"+i).value = data.cashc[i-1].debit;
-                        document.getElementById("desriptionadj3-"+i).value = data.cashc[i-1].description;
-                        document.getElementById("creditadj3-"+i).value = data.cashc[i-1].credit;
+                        document.getElementById("codeadj3-" + i).value = data.cashc[i - 1].code;
+                        document.getElementById("nameadj3-" + i).value = data.cashc[i - 1].name;
+                        document.getElementById("debitadj3-" + i).value = data.cashc[i - 1].debit;
+                        document.getElementById("desriptionadj3-" + i).value = data.cashc[i - 1].description;
+                        document.getElementById("creditadj3-" + i).value = data.cashc[i - 1].credit;
                     }
 
                 }
@@ -495,7 +496,7 @@
                 type: 'POST',
                 url: '/cashbook-cpj/{{$uuid}}',
                 data: {
-                    method_field : "PUT",
+                    method_field: "PUT",
                     _token: $('input[name=_token]').val(),
                     data: obj,
                 },

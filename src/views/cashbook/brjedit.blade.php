@@ -152,6 +152,7 @@
 
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <input hidden id="coaid">
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
@@ -497,7 +498,7 @@
                 type: 'POST',
                 url: '/cashbook-brj/{{$uuid}}',
                 data: {
-                    method_field : "PUT",
+                    method_field: "PUT",
                     _token: $('input[name=_token]').val(),
                     data: obj,
                 },

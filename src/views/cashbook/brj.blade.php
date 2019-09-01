@@ -224,6 +224,7 @@
                                         </div>
 
                                         @include('cashbookview::adj1')
+                                        @include('cashbookview::hidden')
                                         @include('cashbookview::adj2')
                                         @include('cashbookview::adj3')
 
@@ -337,16 +338,16 @@
             ];
 
             var adj1 = [
-                [document.getElementById("codeadj1-1").value, document.getElementById("nameadj1-1").value,  0,document.getElementById("creditadj1-1").value, document.getElementById("desriptionadj1-1").value],
-                [document.getElementById("codeadj1-2").value, document.getElementById("nameadj1-2").value,  0,document.getElementById("creditadj1-2").value, document.getElementById("desriptionadj1-2").value],
-                [document.getElementById("codeadj1-3").value, document.getElementById("nameadj1-3").value,  0,document.getElementById("creditadj1-3").value,  document.getElementById("desriptionadj1-3").value],
-                [document.getElementById("codeadj1-4").value, document.getElementById("nameadj1-4").value,  0,document.getElementById("creditadj1-4").value,  document.getElementById("desriptionadj1-4").value],
-                [document.getElementById("codeadj1-5").value, document.getElementById("nameadj1-5").value,  0,document.getElementById("creditadj1-5").value,  document.getElementById("desriptionadj1-5").value],
-                [document.getElementById("codeadj1-6").value, document.getElementById("nameadj1-6").value,  0,document.getElementById("creditadj1-6").value,  document.getElementById("desriptionadj1-6").value],
-                [document.getElementById("codeadj1-7").value, document.getElementById("nameadj1-7").value,  0,document.getElementById("creditadj1-7").value,  document.getElementById("desriptionadj1-7").value],
-                [document.getElementById("codeadj1-8").value, document.getElementById("nameadj1-8").value,  0,document.getElementById("creditadj1-8").value,  document.getElementById("desriptionadj1-8").value],
-                [document.getElementById("codeadj1-9").value, document.getElementById("nameadj1-9").value,  0,document.getElementById("creditadj1-9").value,  document.getElementById("desriptionadj1-9").value],
-                [document.getElementById("codeadj1-10").value, document.getElementById("nameadj1-10").value, 0,document.getElementById("creditadj1-10").value,  document.getElementById("desriptionadj1-10").value],
+                [document.getElementById("codeadj1-1").value, document.getElementById("nameadj1-1").value, 0, document.getElementById("creditadj1-1").value, document.getElementById("desriptionadj1-1").value],
+                [document.getElementById("codeadj1-2").value, document.getElementById("nameadj1-2").value, 0, document.getElementById("creditadj1-2").value, document.getElementById("desriptionadj1-2").value],
+                [document.getElementById("codeadj1-3").value, document.getElementById("nameadj1-3").value, 0, document.getElementById("creditadj1-3").value, document.getElementById("desriptionadj1-3").value],
+                [document.getElementById("codeadj1-4").value, document.getElementById("nameadj1-4").value, 0, document.getElementById("creditadj1-4").value, document.getElementById("desriptionadj1-4").value],
+                [document.getElementById("codeadj1-5").value, document.getElementById("nameadj1-5").value, 0, document.getElementById("creditadj1-5").value, document.getElementById("desriptionadj1-5").value],
+                [document.getElementById("codeadj1-6").value, document.getElementById("nameadj1-6").value, 0, document.getElementById("creditadj1-6").value, document.getElementById("desriptionadj1-6").value],
+                [document.getElementById("codeadj1-7").value, document.getElementById("nameadj1-7").value, 0, document.getElementById("creditadj1-7").value, document.getElementById("desriptionadj1-7").value],
+                [document.getElementById("codeadj1-8").value, document.getElementById("nameadj1-8").value, 0, document.getElementById("creditadj1-8").value, document.getElementById("desriptionadj1-8").value],
+                [document.getElementById("codeadj1-9").value, document.getElementById("nameadj1-9").value, 0, document.getElementById("creditadj1-9").value, document.getElementById("desriptionadj1-9").value],
+                [document.getElementById("codeadj1-10").value, document.getElementById("nameadj1-10").value, 0, document.getElementById("creditadj1-10").value, document.getElementById("desriptionadj1-10").value],
             ];
 
 
@@ -379,7 +380,7 @@
 
             var e10 = document.getElementById("currencyadj2-10");
             var strUser10 = e10.options[e10.selectedIndex].value;
-            
+
             var adj2 = [
                 [document.getElementById("codeadj2-1").value, document.getElementById("nameadj2-1").value, strUser1, document.getElementById("exchangerateadj2-1").value, document.getElementById("debitadj2-1").value, document.getElementById("creditadj2-1").value, document.getElementById("desriptionadj2-1").value],
                 [document.getElementById("codeadj2-2").value, document.getElementById("nameadj2-2").value, strUser2, document.getElementById("exchangerateadj2-2").value, document.getElementById("debitadj2-2").value, document.getElementById("creditadj2-2").value, document.getElementById("desriptionadj2-2").value],
