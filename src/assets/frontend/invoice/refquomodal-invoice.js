@@ -116,6 +116,8 @@ jQuery(document).ready(function () {
                 '<option value="' + key + '">' + value + '</option>'
             );
         });
+        $('#refquo_modal').modal('hide');
+
     });
 
 

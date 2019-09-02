@@ -273,10 +273,14 @@
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                                         <br />
                                                         <label class="form-control-label">
-                                                            Exchange Rate @include('frontend.common.label.required')
+                                                            Exchange Rate <span id="requi" class="requi" style="font-weight: bold;color:red">
+
+                                                                *
+
+                                                            </span>
                                                         </label>
 
-                                                        @component('frontend.common.input.number')
+                                                        @component('input::numberreadonly')
                                                         @slot('text', 'exchange')
                                                         @slot('name', 'exchange')
                                                         @slot('id_error', 'exchange')
@@ -442,7 +446,7 @@
 <script src="{{ asset('js/frontend/functions/select2/customer.js') }}"></script>
 {{-- <script src="{{ asset('js/frontend/functions/fill-combobox/customer.js') }}"></script> --}}
 
-<script src="{{ asset('js/frontend/functions/select2/currency.js') }}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 

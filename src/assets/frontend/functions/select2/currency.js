@@ -11,11 +11,14 @@ jQuery(document).ready(function () {
     CurrencySelect2.init();
     $('#currency').on('change', function () {
         if(this.value != 46){
+            $("#exchange").val("");
             $("#exchange").attr("readonly", false); 
+            $('#exchange').prop('readonly', false);
             document.getElementById("requi").style.display = "block";
         } else {
-            document.getElementById('exchange').value = '1';
+            $("#exchange").val("");
             $("#exchange").attr("readonly", true); 
+            $('#exchange').prop('readonly', true);
             document.getElementById("requi").style.display = "none";
             
         }
