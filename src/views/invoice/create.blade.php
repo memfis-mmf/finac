@@ -112,7 +112,7 @@
                                                                                 Customer Name
                                                                             </label>
 
-                                                                            @component('frontend.common.input.input')
+                                                                            @component('input::inputreadonly')
                                                                             @slot('text', 'XXX')
                                                                             @slot('id', 'name')
                                                                             @endcomponent
@@ -124,7 +124,7 @@
                                                                                 Level
                                                                             </label>
 
-                                                                            @component('frontend.common.input.input')
+                                                                            @component('input::inputreadonly')
                                                                             @slot('text', '')
                                                                             @slot('id', 'level')
                                                                             @slot('name', 'level')
@@ -443,7 +443,7 @@
 {{-- <script src="{{ asset('js/frontend/functions/fill-combobox/customer.js') }}"></script> --}}
 
 <script src="{{ asset('js/frontend/functions/select2/currency.js') }}"></script>
-<script src="{{ asset('js/frontend/functions/fill-combobox/currency.js') }}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 
