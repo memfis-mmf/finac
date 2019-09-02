@@ -56,6 +56,8 @@
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <input hidden id="customerid">
+                                                        <input hidden id="projectuuid">
                                                         <label class="form-control-label">
                                                             Ref Quotation No. @include('frontend.common.label.required')
                                                         </label>
@@ -63,14 +65,15 @@
                                                         @component('input::inputrightbutton')
                                                         @slot('text', 'Ref Quotation No')
                                                         @slot('id', 'refquono')
+                                                        @slot('data_target', '#refquo_modal')
                                                         @slot('name', 'refquono')
                                                         @slot('id_error', 'refquono')
                                                         @endcomponent
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
-                                            
+
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -109,14 +112,14 @@
                                                                                 Customer Name
                                                                             </label>
 
-                                                                            @component('frontend.common.label.data-info')
+                                                                            @component('frontend.common.input.input')
                                                                             @slot('text', 'XXX')
                                                                             @slot('id', 'name')
                                                                             @endcomponent
                                                                         </div>
-                                                                        <br/>
+                                                                        <br />
                                                                         <div class="col-sm-6 col-md-6 col-lg-6">
-                                                                        <br/>
+                                                                            <br />
                                                                             <label class="form-control-label">
                                                                                 Level
                                                                             </label>
@@ -128,7 +131,7 @@
                                                                             @endcomponent
                                                                         </div>
                                                                         <div class="col-sm-6 col-md-6 col-lg-6">
-                                                                        <br/>
+                                                                            <br />
                                                                             <label class="form-control-label">
                                                                                 Attention
                                                                             </label>
@@ -248,7 +251,7 @@
                                                         @slot('id_error','requested_at')
                                                         @endcomponent
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -268,7 +271,7 @@
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
-                                                        <br/>
+                                                        <br />
                                                         <label class="form-control-label">
                                                             Exchange Rate @include('frontend.common.label.required')
                                                         </label>
@@ -280,10 +283,34 @@
                                                         @slot('id', 'exchange')
                                                         @endcomponent
                                                     </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <br />
+                                                        <label class="form-control-label">
+                                                            President Director
+                                                        </label>
+
+                                                        @component('frontend.common.input.input')
+                                                        @slot('id', 'pdir')
+                                                        @slot('name', 'pdir')
+                                                        @slot('value', 'Rowin H. Mangkoesoebroto')
+                                                        @endcomponent
+                                                    </div>
+                                                    <div hidden class="col-sm-12 col-md-12 col-lg-12">
+                                                        <br />
+                                                        <label class="form-control-label">
+                                                            Bank Account Information
+                                                        </label>
+
+                                                        @component('frontend.common.input.input')
+                                                        @slot('id', 'bai')
+                                                        @slot('name', 'bai')
+                                                        @endcomponent
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row">
@@ -310,25 +337,15 @@
                                         @slot('rows', '5')
                                         @slot('id', 'coa')
                                         @slot('name', 'coa')
+                                        @slot('data_target', '#coa_modal')
+
                                         @slot('text', 'Account Code')
                                         @slot('id_error', 'coa')
                                         @endcomponent
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            President Director 
-                                        </label>
 
-                                        @component('frontend.common.input.input')
-                                        @slot('id', 'pdir')
-                                        @slot('name', 'pdir')
-                                        @slot('value', 'Rowin H. Mangkoesoebroto')
-                                        @endcomponent
-                                    </div>
-                                </div>
-                                
+
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 footer">
                                         <div class="flex">
@@ -354,6 +371,8 @@
         </div>
     </div>
 </div>
+@include('cashbookview::coamodal')
+@include('invoiceview::refquomodal')
 @endsection
 
 @push('header-scripts')
@@ -411,6 +430,10 @@
             title: 'Hello World!'
         });
     }
+
+    var customers = "";
+    var attention = "";
+    var atten_array = {};
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 
@@ -421,6 +444,7 @@
 
 <script src="{{ asset('js/frontend/functions/select2/currency.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/fill-combobox/currency.js') }}"></script>
+<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 
 <script src="{{ asset('js/frontend/functions/select2/ref.js') }}"></script>
@@ -438,6 +462,8 @@
 <script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>
 <script src="{{ asset('js/frontend/quotation/create.js') }}"></script>
 <script src="{{ asset('js/frontend/quotation/repeater.js') }}"></script>
+<script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 
 
 @endpush
