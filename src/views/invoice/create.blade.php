@@ -299,17 +299,7 @@
                                                         @slot('value', 'Rowin H. Mangkoesoebroto')
                                                         @endcomponent
                                                     </div>
-                                                    <div hidden class="col-sm-12 col-md-12 col-lg-12">
-                                                        <br />
-                                                        <label class="form-control-label">
-                                                            Bank Account Information
-                                                        </label>
 
-                                                        @component('frontend.common.input.input')
-                                                        @slot('id', 'bai')
-                                                        @slot('name', 'bai')
-                                                        @endcomponent
-                                                    </div>
 
                                                 </div>
                                             </div>
@@ -317,6 +307,7 @@
 
                                     </div>
                                 </div>
+
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -330,9 +321,23 @@
                                         @slot('id_error', 'bankinfo')
                                         @endcomponent
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div hidden id="bai_header">
+                                            <label class="form-control-label">
+                                                Bank Account Information
+                                            </label>
+
+                                            @component('input::inputreadonly')
+                                            @slot('id', 'bai')
+                                            @slot('name', 'bai')
+                                            @slot('text', 'Bank Account Information')
+                                            @slot('id_error', 'bankaccount')
+                                            @endcomponent
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <br/>
                                         <label class="form-control-label">
                                             Account Code @include('frontend.common.label.required')
                                         </label>
@@ -347,7 +352,26 @@
                                         @slot('id_error', 'coa')
                                         @endcomponent
                                     </div>
+
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div hidden id="acd_header">
+                                            <br />
+                                            <label class="form-control-label">
+                                                Account Code Description
+                                            </label>
+
+                                            @component('input::inputreadonly')
+                                            @slot('id', 'acd')
+                                            @slot('name', 'acd')
+                                            @slot('text', 'Account Code Description')
+                                            @slot('id_error', 'acd')
+                                            @endcomponent
+                                        </div>
+                                    </div>
+
+
                                 </div>
+
 
 
                                 <div class="form-group m-form__group row">
