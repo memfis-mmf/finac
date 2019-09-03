@@ -7,6 +7,7 @@ use Directoryxx\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Quotation;
+use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
@@ -17,6 +18,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
+       
         return view('invoiceview::index');
     }
 
@@ -27,7 +29,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoiceview::create');
+        $today = Carbon::today()->toDateString();
+        //dd($today);
+        return view('invoiceview::create')->with('today',$today);
     }
 
     /**
@@ -284,9 +288,11 @@ class InvoiceController extends Controller
     public function apidetail(Quotation $quotation)
     {
         $project = $quotation->project()->first();
+        $currency = $quotation->currency()->first();
         $customer = Customer::with(['levels','addresses'])->where('id','=',$project->customer_id)->first();
         $quotation->project .= $project;
         $quotation->customer .= $customer;
+        $quotation->currency .= $currency;
 
         $quotation->attention .= $customer->attention;
         return response()->json($quotation);

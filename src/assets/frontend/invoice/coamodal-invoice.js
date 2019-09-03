@@ -57,10 +57,12 @@ let CoaDatatables = {
                     var idtest = "code"+dataid;
                     if(dataid == null || dataid == "" || dataid == undefined){
                         document.getElementById('coa').value = data.name;
-
+                        $('#coa').attr("data-uuid",data.uuid);  
                     } else {
                         document.getElementById(idtest).value = data.name;
+                        $('#'+idtest).attr("data-uuid",data.uuid);  
                     }
+
                     
                     $('#coa_modal').modal('hide');
                 }

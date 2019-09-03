@@ -244,10 +244,11 @@
                                                             Date @include('frontend.common.label.required')
                                                         </label>
 
-                                                        @component('frontend.common.input.datepicker')
+                                                        @component('input::inputreadonly')
                                                         @slot('id', 'date')
                                                         @slot('text', 'Date')
                                                         @slot('name', 'date')
+                                                        @slot('value', $today)
                                                         @slot('id_error','requested_at')
                                                         @endcomponent
                                                     </div>
@@ -263,7 +264,7 @@
                                                             Currency @include('frontend.common.label.required')
                                                         </label>
 
-                                                        @component('frontend.common.input.select2')
+                                                        @component('input::inputreadonly')
                                                         @slot('id', 'currency')
                                                         @slot('text', 'Currency')
                                                         @slot('name', 'currency')
@@ -281,10 +282,9 @@
                                                         </label>
 
                                                         @component('input::numberreadonly')
-                                                        @slot('text', 'exchange')
-                                                        @slot('name', 'exchange')
-                                                        @slot('id_error', 'exchange')
-                                                        @slot('id', 'exchange')
+                                                        @slot('id', 'exchange_rate1111')
+                                                        @slot('text', 'exchange_rate1111')
+                                                        @slot('name', 'exchange_rate1111')
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -438,6 +438,7 @@
     var customers = "";
     var attention = "";
     var atten_array = {};
+    var currency = "";
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 
@@ -446,8 +447,8 @@
 <script src="{{ asset('js/frontend/functions/select2/customer.js') }}"></script>
 {{-- <script src="{{ asset('js/frontend/functions/fill-combobox/customer.js') }}"></script> --}}
 
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js') }}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>
+<!--<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js') }}"></script>-->
+<!--<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 
@@ -462,10 +463,10 @@
 <script src="{{ asset('js/frontend/functions/select2/attn.js') }}"></script>
 
 <script src="{{ asset('js/frontend/quotation/form-reset.js') }}"></script>
-<script src="{{ asset('js/frontend/functions/datepicker/date.js')}}"></script>
-<script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>
+<!--<script src="{{ asset('js/frontend/functions/datepicker/date.js')}}"></script>-->
+<!--<script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>-->
 <script src="{{ asset('js/frontend/quotation/create.js') }}"></script>
-<script src="{{ asset('js/frontend/quotation/repeater.js') }}"></script>
+<!--<script src="{{ asset('js/frontend/quotation/repeater.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 

@@ -10,15 +10,15 @@ jQuery(document).ready(function () {
     document.getElementById("requi").style.display = "none";
     CurrencySelect2.init();
     $('#currency').on('change', function () {
+        console.log(this.value);
         if(this.value != 46){
-            $("#exchange").val("");
-            $("#exchange").attr("readonly", false); 
-            $('#exchange').prop('readonly', false);
+            console.log("bukan idr");
+            $("#exchange_rate1111").val("");
             document.getElementById("requi").style.display = "block";
         } else {
-            $("#exchange").val("");
-            $("#exchange").attr("readonly", true); 
-            $('#exchange').prop('readonly', true);
+            console.log("idr");
+            $("#exchange_rate1111").val("");
+            $("#exchange_rate1111").attr("readonly", true); 
             document.getElementById("requi").style.display = "none";
             
         }
