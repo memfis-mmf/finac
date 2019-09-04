@@ -80,6 +80,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/quotation/datatables/modal/{quotation}/detail', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@apidetail')->name('invoice.apidetail');
 	});
 	Route::get('/currencyfa', 'Directoryxx\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
+	Route::get('/bankfa', 'Directoryxx\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
+	Route::get('/bankfa/{bankaccount}', 'Directoryxx\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
 	//Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');
 	
 	//Route::resource('cashbook-bpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController');

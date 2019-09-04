@@ -481,6 +481,7 @@
 <script src="{{ asset('js/frontend/functions/select2/email.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/fax.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/bank.js') }}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/bank.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/address.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/city.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/country.js') }}"></script>

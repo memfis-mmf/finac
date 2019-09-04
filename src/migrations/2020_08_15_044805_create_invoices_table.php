@@ -16,11 +16,11 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('id_branch')->nullable();
+            $table->unsignedBigInteger('id_branch')->default(1);
             $table->integer('closed')->default(0);
             $table->string('transactionnumber')->unique();
             $table->dateTime('transactiondate');
-            $table->integer('id_customer');
+            $table->unsignedBigInteger('id_customer');
             $table->unsignedBigInteger('currency');
             $table->decimal('exchangerate',18,5);
             $table->decimal('discountpercent',18,5);
@@ -33,6 +33,8 @@ class CreateInvoicesTable extends Migration
             $table->text('description');
             $table->foreign('accountcode')->references('id')->on('coas');
             $table->foreign('currency')->references('id')->on('currencies');
+            $table->foreign('id_branch')->references('id')->on('branches');
+            $table->foreign('id_customer')->references('id')->on('customers');
             $table->softDeletes();
             $table->timestamps();
         });

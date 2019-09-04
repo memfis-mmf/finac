@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Project;
 use App\Models\Quotation;
 use Carbon\Carbon;
 
@@ -187,9 +188,9 @@ class InvoiceController extends Controller
             }else{
                 $quotation->status .= '';          
             }
-            $project = $quotation->project->toArray();
+            $project = $quotation->quotationable->toArray();
             //dd($project);
-            if ($quotation->project == null){
+            if ($project == null){
                 $quotation->project_no .= "-";
                 $quotation->workorder_no .= "-";
                 $quotation->customer_no .= "-";
@@ -287,9 +288,13 @@ class InvoiceController extends Controller
 
     public function apidetail(Quotation $quotation)
     {
-        $project = $quotation->project()->first();
+        $project = $quotation->quotationable()->first();
         $currency = $quotation->currency()->first();
+        $project_init = Project::find($project->id)->workpackages()->get();
+        //$workpackages = 
+        //dd($project->customer_id);
         $customer = Customer::with(['levels','addresses'])->where('id','=',$project->customer_id)->first();
+        //dd($customer);
         $quotation->project .= $project;
         $quotation->customer .= $customer;
         $quotation->currency .= $currency;
