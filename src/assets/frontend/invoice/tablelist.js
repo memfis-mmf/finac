@@ -1,341 +1,143 @@
-let Coa = {
+
+// untuk datatable dengan accordion pada row tersebut
+var DatatableAutoColumnHideDemo = function () {
+  //== Private functions
+
+  // basic demo
+  var demo = function () {
+    // var dataJSONArrayLong = JSON.parse('[{ "OrderID" : "OrderID","ShipCountry" : "ShipCountry","ShipCity" : "ShipCity","Currency" : "Currency","ShipDate" : "ShipDate", "Latitude" : "Latitude","Longitude" : "Longitude","Notes" : "Notes","Department" : "Department","Website" : "Website", "TotalPayment" : "TotalPayment","Status" : 1,"Type" : 1},{ "OrderID" : "OrderID","ShipCountry" : "ShipCountry","ShipCity" : "ShipCity","Currency" : "Currency","ShipDate" : "ShipDate", "Latitude" : "Latitude","Longitude" : "Longitude","Notes" : "Notes","Department" : "Department","Website" : "Website", "TotalPayment" : "TotalPayment","Status" : 1,"Type" : 1}]');
+    console.log(currencyCode);
+    let locale = 'id';
+    let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let ForeignFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency: currencyCode, minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let numberFormat = new Intl.NumberFormat('id', { maximumSignificantDigits: 3, maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
+    $('.summary_datatable').mDatatable({
+      data: {
+        type: 'remote',
+        source: {
+          read: {
+            method: 'GET',
+            url: '/invoice/quotation/table/modal/' + uuidquo + '/detail',
+            map: function (raw) {
+              let dataSet = raw;
+              let total = subtotal = 0;
+
+              if (typeof raw.data !== 'undefined') {
+                dataSet = raw.data;
+              }
+
+              return dataSet;
+            }
+          }
+        },
+        pageSize: 10,
+        serverPaging: !1,
+        serverSorting: !1
+
+      },
+      responsive: true,
+
+      sortable: true,
+
+      pagination: true,
+
+      toolbar: {
+
+        items: {
+
+          pagination: {
+
+            pageSizeSelect: [10, 20, 30, 50, 100],
+          },
+        },
+      },
+
+      search: {
+        input: $('#generalSearch'),
+      },
+
+      rows: {
+
+
+      },
+      columns: [
+        {
+          field: 'code',
+          title: 'No',
+          width: '100px',
+        }, {
+          field: 'description',
+          title: 'Detail',
+          width: '700px',
+
+          template: function (t) {
+            return (
+              "<b>" + t.description + "</b><br/>"
+              +"Material Need "+t.materialitem+" item(s)<br/>"
+              +"Total "+t.total_manhours_with_performance_factor+" Manhours<br/>"
+              +"&nbsp;&nbsp;&nbsp;&nbsp;1.Basic TaskCard "+t.basic+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;2.SIP TaskCard "+t.sip+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;3.CPCP TaskCard "+t.cpcp+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.AD/SB TaskCard "+t.adsb+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;5.CMR/AWL TaskCard "+t.cmrawl+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;6.EO TaskCard "+t.eo+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;7.EA TaskCard "+t.ea+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;8.SI TaskCard "+t.si+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;9.HardTime TaskCard "+t.hardtime+" item(s)<br/>"
+
+            );
+          }
+        },
+        {
+          field: 'total',
+          title: 'Total',
+          sortable: 'asc',
+          filterable: !1,
+          template: function (t, e, i) {
+            total = 0;
+            if (t.pivot.discount_value == null && t.pivot.discount_type == null) {
+              total = t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount + t.facilities_price_amount + t.mat_tool_price;
+              subtotal = subtotal + total;
+            }
+            else {
+              if (t.pivot.discount_type == 'amount') {
+                total = t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount + t.facilities_price_amount + t.mat_tool_price;
+                subtotal = subtotal + total;
+
+              }
+              else if (t.pivot.discount_type == 'percentage') {
+                total = t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount + t.facilities_price_amount + t.mat_tool_price;
+                subtotal = subtotal + total;
+              }
+            }
+
+            if (currency.id == 1) {
+              $("#grand_total_rupiah").attr("value", subtotal);
+              $("#sub_total").attr("value", subtotal);
+              return (
+                IDRformatter.format(total)
+              );
+            } else {
+
+              return (
+                ForeignFormatter.format(total)
+              );
+            }
+          }
+        },
+      ],
+    });
+
+  };
+
+  return {
+    // public functions
     init: function () {
-        $('.coa_datatable').mDatatable({
-            data: {
-                type: 'remote',
-                source: {
-                    read: {
-                        method: 'GET',
-                        url: '/coa/datatables',
-                        map: function (raw) {
-                            let dataSet = raw;
-
-                            if (typeof raw.data !== 'undefined') {
-                                dataSet = raw.data;
-                            }
-
-                            return dataSet;
-                        }
-                    }
-                },
-                pageSize: 10,
-                serverPaging: !1,
-                serverFiltering: !0,
-                serverSorting: !1
-            },
-            layout: {
-                theme: 'default',
-                class: '',
-                scroll: false,
-                footer: !1
-            },
-            sortable: !0,
-            filterable: !1,
-            pagination: !0,
-            search: {
-                input: $('#generalSearch')
-            },
-            toolbar: {
-                items: {
-                    pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
-                    }
-                }
-            },
-            columns: [
-                {
-                    field: 'code',
-                    title: 'Code',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60
-                },
-                {
-                    field: 'name',
-                    title: 'Name',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'type_id',
-                    title: 'Type',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60,
-                },
-                {
-                    field: 'description',
-                    title: 'Description',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'created_at',
-                    title: 'CreatedDate',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'updated_at',
-                    title: 'UpdatedDate',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'Actions',
-                    width: 110,
-                    title: 'Actions',
-                    sortable: !1,
-                    overflow: 'visible',
-                    template: function (t, e, i) {
-                        return (
-                            '<button data-toggle="modal" data-target="#modal_coa" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                            t.uuid +
-                            '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                            '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                            t.uuid +
-                            ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-                        );
-                    }
-                }
-            ]
-        });
-
-        $('.modal-footer').on('click', '.reset', function () {
-            coa_reset();
-        });
-
-
-        let save_changes_button = function () {
-            $('.btn-success').removeClass('add');
-            $('.btn-success').addClass('update');
-            $('.btn-success').html("<span><i class='fa fa-save'></i><span> Save Changes</span></span>");
-        }
-
-        let save_button = function () {
-            $('.btn-success').removeClass('edit');
-            $('.btn-success').addClass('add');
-            $('.btn-success').html("<span><i class='fa fa-save'></i><span> Save New</span></span>");
-        }
-
-        let simpan = $('.modal-footer').on('click', '.add', function () {
-            $('#simpan').text('Simpan');
-
-            let type = $('#type').val();
-            let level = $('#level').val();
-            let registerForm = $('#CustomerForm');
-            let code = $('input[name=code]').val();
-            let name = $('input[name=name]').val();
-            let formData = registerForm.serialize();
-            let description = $('#description').val();
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'post',
-                url: '/coa',
-                data: {
-                    _token: $('input[name=_token]').val(),
-                    code: code,
-                    name: name,
-                    type_id: type,
-                    description: description
-                },
-                success: function (data) {
-                    if (data.errors) {
-                        if (data.errors.code) {
-                            $('#code-error').html(data.errors.code[0]);
-
-
-                            document.getElementById('code').value = code;
-                            document.getElementById('name').value = name;
-                            document.getElementById('type').value = type;
-                            document.getElementById('level').value = level;
-                            document.getElementById('description').value = description;
-                            coa_reset();
-                        }
-
-
-                    } else {
-                        $('#modal_coa').modal('hide');
-
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
-                            timeOut: 5000
-                        });
-
-                        $('#code-error').html('');
-
-                        let table = $('.coa_datatable').mDatatable();
-                        coa_reset();
-                        table.originalDataSet = [];
-                        table.reload();
-                    }
-                }
-            });
-        });
-
-        let edit = $('.coa_datatable').on('click', '.edit', function () {
-            // $('#button').show();
-            // $('#simpan').text('Perbarui');
-
-            var triggerid = $(this).data('uuid');
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'get',
-                url: '/coa/' + triggerid + '/edit',
-                success: function (data) {
-                    let select = document.getElementById('type');
-
-
-                    // FIXME: 'select' has already been declared.
-                    // let select = document.getElementById('level');
-
-                    document.getElementById('uuid').value = data.uuid;
-                    document.getElementById('code').value = data.code;
-                    document.getElementById('name').value = data.name;
-                    document.getElementById('description').value = data.description;
-
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'get',
-                        url: '/coa/type/'+data.type_id,
-                        success: function (data2) {
-                            var obj = JSON.parse(data2);
-                            console.log(obj);
-                            console.log(obj.id);
-                            $('select[name="type"]').append(
-                                '<option value="'+obj.id+'" selected>'+obj.name+'</option>'
-                            );
-                        }
-                    });
-                    save_changes_button();
-                   
-                },
-                error: function (jqXhr, json, errorThrown) {
-                    let errorsHtml = '';
-                    let errors = jqXhr.responseJSON;
-
-                    $.each(errors.errors, function (index, value) {
-                        $('#coa-error').html(value);
-                    });
-                }
-            });
-        });
-
-        let update = $('.modal-footer').on('click', '.update', function () {
-            $('#button').show();
-            $('#name-error').html('');
-            $('#simpan').text('Perbarui');
-
-            let type = $('#type').val();
-            let level = $('#level').val();
-            let code = $('input[name=code]').val();
-            let name = $('input[name=name]').val();
-            let description = $('#description').val();
-            let triggerid = $('input[name=uuid]').val();
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'put',
-                url: '/coa/' + triggerid,
-                data: {
-                    _token: $('input[name=_token]').val(),
-                    code: code,
-                    name: name,
-                    type_id: type,
-                    level: level,
-                    description: description
-                },
-                success: function (data) {
-                    if (data.errors) {
-                        if (data.errors.code) {
-                            $('#code-error').html(data.errors.code[0]);
-                        }
-
-                    } else {
-                        save_button();
-                        $('#modal_coa').modal('hide');
-
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
-                            timeOut: 5000
-                        });
-
-                        let table = $('.coa_datatable').mDatatable();
-
-                        table.originalDataSet = [];
-                        table.reload();
-                        coa_reset();
-
-                        $('#code-error').html('');
-                        $('#name-error').html('');
-                        $('#type-error').html('');
-                        $('#level-error').html('');
-                        $('#description-error').html('');
-
-                    }
-                }
-            });
-        });
-
-        let remove = $('.coa_datatable').on('click', '.delete', function () {
-            let triggerid = $(this).data('uuid');
-
-            swal({
-                title: 'Sure want to remove?',
-                type: 'question',
-                confirmButtonText: 'Yes, REMOVE',
-                confirmButtonColor: '#d33',
-                cancelButtonText: 'Cancel',
-                showCancelButton: true,
-            }).then(result => {
-                if (result.value) {
-
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            )
-                        },
-                        type: 'DELETE',
-                        url: '/coa/' + triggerid + '',
-                        success: function (data) {
-                            toastr.success('COA has been deleted.', 'Deleted', {
-                                    timeOut: 5000
-                                }
-                            );
-
-                            let table = $('.coa_datatable').mDatatable();
-
-                            table.originalDataSet = [];
-                            table.reload();
-                        },
-                        error: function (jqXhr, json, errorThrown) {
-                            let errorsHtml = '';
-                            let errors = jqXhr.responseJSON;
-
-                            $.each(errors.errors, function (index, value) {
-                                $('#delete-error').html(value);
-                            });
-                        }
-                    });
-                }
-            });
-        });
-
-    }
-};
+      demo();
+    },
+  };
+}();
 
 jQuery(document).ready(function () {
-    Coa.init();
+  $("#add-invocheck").click(function () {
+    uuidquo = $("#refquono").data('uuid');
+    console.log(uuidquo);
+    $("#hiddennext").removeAttr("hidden");
+    DatatableAutoColumnHideDemo.init();
+    //alert("The paragraph was clicked.");
+  });
+  //DatatableAutoColumnHideDemo.init();
 });

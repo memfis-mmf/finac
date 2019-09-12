@@ -391,165 +391,173 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="summary_datatable" id="scrolling_both"></div>
-                                <br>
-                                <hr>
+                                <br />
+                                <br />
+                                <div hidden id="hiddennext">
+                                    <center>
+                                        <h3 id="subjectquo">Subject</h3>
+                                    </center>
+                                    <br/>
+                                    <div class="summary_datatable" id="scrolling_both"></div>
+                                    <br>
+                                    <hr>
 
-                                <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div class="m--align-left" style="padding-top:15px">
-                                                    PPH
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="m--align-left" style="padding-top:15px">
+                                                        PPH
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                                    @component('input::input')
+                                                    @slot('id', 'sub_total')
+                                                    @slot('class', 'sub_total')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
+                                                </div>
+                                                %
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'sub_total')
+                                                    @slot('class', 'sub_total')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2 col-md-2 col-lg-2">
-                                                @component('input::input')
-                                                @slot('id', 'sub_total')
-                                                @slot('class', 'sub_total')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                            %
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                                @component('input::inputreadonly')
-                                                @slot('id', 'sub_total')
-                                                @slot('class', 'sub_total')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                            <div class="col-sm-1 col-md-1 col-lg-1">
-                                            </div>
-                                            <div class="col-sm-1 col-md-1 col-lg-1">
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="m--align-left" style="padding-top:15px">
+                                                        Schedule Payment
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
+                                                    @component('input::textarea')
+                                                    @slot('id', 'sub_total')
+                                                    @slot('class', 'sub_total')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div class="m--align-left" style="padding-top:15px">
-                                                    Schedule Payment
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        Sub Total
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'sub_total')
+                                                    @slot('class', 'sub_total')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="col-sm-9 col-md-9 col-lg-9">
-                                                @component('input::textarea')
-                                                @slot('id', 'sub_total')
-                                                @slot('class', 'sub_total')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                            <div class="col-sm-1 col-md-1 col-lg-1">
-                                            </div>
-                                            <div class="col-sm-1 col-md-1 col-lg-1">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div>
-                                                    Sub Total
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        Total Discount
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                                @component('input::inputreadonly')
-                                                @slot('id', 'sub_total')
-                                                @slot('class', 'sub_total')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div>
-                                                    Total Discount
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'total_discount')
+                                                    @slot('class', 'total_discount')
+                                                    @slot('text', '0')
+                                                    @slot('value', '0')
+                                                    @endcomponent
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                                @component('input::inputreadonly')
-                                                @slot('id', 'total_discount')
-                                                @slot('class', 'total_discount')
-                                                @slot('text', '0')
-                                                @slot('value', '0')
-                                                @endcomponent
-                                            </div>
 
-                                        </div>
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div>
-                                                    Tax 10%
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        Tax 10%
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'tax')
+                                                    @slot('class', 'tax')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                                @component('input::inputreadonly')
-                                                @slot('id', 'tax')
-                                                @slot('class', 'tax')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div>
-                                                    Others
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        Others
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'others')
+                                                    @slot('class', 'others')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                                @component('input::inputreadonly')
-                                                @slot('id', 'others')
-                                                @slot('class', 'others')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div>
-                                                    Grand Total
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        Grand Total
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'grand_total')
+                                                    @slot('class', 'grand_total')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                                @component('input::inputreadonly')
-                                                @slot('id', 'grand_total')
-                                                @slot('class', 'grand_total')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group m-form__group row">
-                                            <div class="col-sm-3 col-md-3 col-lg-3">
-                                                <div>
-                                                    Grand Total Rupiah
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        Grand Total Rupiah
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'grand_totalrp')
+                                                    @slot('class', 'grand_totalrp')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                                @component('input::inputreadonly')
-                                                @slot('id', 'grand_totalrp')
-                                                @slot('class', 'grand_totalrp')
-                                                @slot('text', '')
-                                                @slot('value', '')
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group m-form__group row">
-                                            <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
-                                                <div class="flex">
-                                                    <div class="action-buttons">
-                                                        @component('frontend.common.buttons.submit')
-                                                        @slot('type','button')
-                                                        @slot('id', 'add-invocheck')
-                                                        @slot('class', 'add-invocheck')
-                                                        @endcomponent
+                                            <div class="form-group m-form__group row">
+                                                <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
+                                                    <div class="flex">
+                                                        <div class="action-buttons">
+                                                            @component('frontend.common.buttons.submit')
+                                                            @slot('type','button')
+                                                            @slot('id', 'add-invocheck')
+                                                            @slot('class', 'add-invocheck')
+                                                            @endcomponent
 
-                                                        @include('frontend.common.buttons.reset')
+                                                            @include('frontend.common.buttons.reset')
 
-                                                        @include('frontend.common.buttons.back')
+                                                            @include('frontend.common.buttons.back')
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -628,6 +636,8 @@
     var attention = "";
     var atten_array = {};
     var currency = "";
+    var uuidquo = "";
+    var currencyCode = "";
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 
@@ -657,7 +667,9 @@
 <!--<script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>-->
 <script src="{{ asset('js/frontend/quotation/create.js') }}"></script>
 <!--<script src="{{ asset('js/frontend/quotation/repeater.js') }}"></script>-->
+<!--<script src="{{ asset('js/custom.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 
 

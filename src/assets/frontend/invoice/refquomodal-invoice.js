@@ -74,9 +74,13 @@ let RefQuoDatatables = {
                     $("#level").val(levels.name);
                     $("#refquono").val(data.number);
                     $("#currency").val(currency.name);
+
+                    $("h3#subjectquo").html("Subject : "+data.title);
+                    currencyCode = currency.code;
                     if (currency.code != "idr"){
                         $("#exchange_rate1111").attr("readonly", false); 
                     }
+                    
                     $("#exchange_rate1111").val(data.exchange_rate);
                     $('select[name="attention"]').append(
                         '<option value=""> Select a Attention</option>'
@@ -86,6 +90,8 @@ let RefQuoDatatables = {
                             '<option value="' + key + '">' + value + '</option>'
                         );
                     });
+                    $( "#refquono" ).data( "uuid", code );
+                    //console.log(code);
                     $('#refquo_modal').modal('hide');
                 }
             });
