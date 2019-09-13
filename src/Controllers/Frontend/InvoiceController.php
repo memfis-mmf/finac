@@ -16,6 +16,7 @@ use App\Models\ListUtil;
 use App\Models\WorkPackage;
 use App\Models\QuotationHtcrrItem;
 use App\Models\Pivots\ProjectWorkPackage;
+use App\Models\Pivots\QuotationWorkPackage;
 use App\Models\ProjectWorkPackageEOInstruction;
 use App\Models\ProjectWorkPackageFacility;
 use App\Models\ProjectWorkPackageTaskCard;
@@ -321,8 +322,10 @@ class InvoiceController extends Controller
     public function table(Quotation $quotation)
     {
         $workpackages = $quotation->workpackages;
-        //$items = $quotation->item;
-        //dd($quotation);
+        $items = $quotation->item;
+
+
+        //dd($items);
 
         foreach ($workpackages as $workPackage) {
             $project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
@@ -332,7 +335,8 @@ class InvoiceController extends Controller
             //dd();
 
 
-            $countWPItem = QuotationWorkPackageItem::where('quotation_workpackage_id', $workPackage->id)
+            $countWPItem = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->quotationable->id)
+                ->where('workpackage_id', $workPackage->id)
                 ->count();
 
             $workPackage->materialitem = $countWPItem;
@@ -340,43 +344,64 @@ class InvoiceController extends Controller
             $sip_count = 0;
             $cpcp_count = 0;
             $si_count = 0;
-            $adsb_count = 0;
-            $cmrawl_count = 0;
-            $eo_count = 0;
-            $ea_count = 0;
-            $basictaskcards = ProjectWorkPackageTaskCard::with(['taskcard'])->where('project_workpackage_id',$project_workpackage->id)->get();
-            foreach ($basictaskcards as $basictaskcard){
+
+
+            $basictaskcards = ProjectWorkPackageTaskCard::with(['taskcard'])->where('project_workpackage_id', $project_workpackage->id)->get();
+            foreach ($basictaskcards as $basictaskcard) {
                 $taskcard =  TaskCard::find($basictaskcard->taskcard_id)->type;
-                if($taskcard->code == "basic"){
+                if ($taskcard->code == "basic") {
                     $basic_count += 1;
-                } elseif ($taskcard->code == "sip"){
+                } elseif ($taskcard->code == "sip") {
                     $sip_count += 1;
-                } elseif ($taskcard->code == "cpcp"){
+                } elseif ($taskcard->code == "cpcp") {
                     $cpcp_count += 1;
-                } elseif ($taskcard->code == "si"){
+                } elseif ($taskcard->code == "si") {
                     $si_count += 1;
                 }
             }
-            
-            $adsbtaskcards = ProjectWorkPackageEOInstruction::where('project_workpackage_id',$project_workpackage->id)->get();
-            foreach ($adsbtaskcards as $adsbtaskcard){
+
+            $h1s = QuotationWorkPackageTaskCardItem::where('quotation_id', $quotation->quotationable->id)
+                ->where('workpackage_id', $workPackage->id)->get();
+
+            $real_h1 = 0;
+            foreach ($h1s as $h1) {
+                $calculate = ($h1->price_amount * $h1->quantity);
+                $real_h1 += $calculate;
+            }
+
+
+            $h2s = QuotationWorkPackage::where('quotation_id', $quotation->quotationable->id)
+                ->where('workpackage_id', $workPackage->id)->get();
+            //dd($h2s);
+            $real_h2 = 0;
+            foreach ($h2s as $h2) {
+                $calculate = ($h2->manhour_rate_amount * $h2->manhour_total);
+                $real_h2 += $calculate;
+            }
+
+            $adsbtaskcards = ProjectWorkPackageEOInstruction::where('project_workpackage_id', $project_workpackage->id)->get();
+            foreach ($adsbtaskcards as $adsbtaskcard) {
                 $eoinsctructions = EOInstruction::find($adsbtaskcard->eo_instruction_id)->get();
-                foreach ($eoinsctructions as $eoinsctruction){
+                $adsb_count = 0;
+                $cmrawl_count = 0;
+                $eo_count = 0;
+                $ea_count = 0;
+                foreach ($eoinsctructions as $eoinsctruction) {
                     $taskcard =  TaskCard::find($eoinsctruction->taskcard_id)->type;
-                    if($taskcard->code == "ad" || $taskcard->code == "sb"){
+                    if ($taskcard->code == "ad" || $taskcard->code == "sb") {
                         $adsb_count += 1;
-                    } elseif ($taskcard->code == "cmr" || $taskcard->code == "awl"){
+                    } elseif ($taskcard->code == "cmr" || $taskcard->code == "awl") {
                         $cmrawl_count += 1;
-                    } elseif ($taskcard->code == "eo"){
+                    } elseif ($taskcard->code == "eo") {
                         $eo_count += 1;
-                    } elseif ($taskcard->code == "ea"){
+                    } elseif ($taskcard->code == "ea") {
                         $ea_count += 1;
                     }
                 }
-                
             }
 
-            $htcrrs = HtCrr::where('project_id',$quotation->quotationable_id)->count();
+            
+
             
             if ($project_workpackage) {
                 $workPackage->total_manhours_with_performance_factor = $project_workpackage->total_manhours_with_performance_factor;
@@ -387,7 +412,7 @@ class InvoiceController extends Controller
                 $workPackage->facilities_price_amount = $ProjectWorkPackageFacility;
 
                 $workPackage->mat_tool_price = QuotationWorkPackageTaskCardItem::where('quotation_id', $quotation->id)->where('workpackage_id', $workPackage->id)->sum('subtotal');
-                
+
                 $workPackage->basic = $basic_count;
                 $workPackage->sip = $sip_count;
                 $workPackage->cpcp = $cpcp_count;
@@ -396,24 +421,25 @@ class InvoiceController extends Controller
                 $workPackage->eo = $eo_count;
                 $workPackage->ea = $ea_count;
                 $workPackage->si = $si_count;
-                $workPackage->hardtime = $htcrrs;
+                $workPackage->h1 = $real_h1;
+                $workPackage->h2 = $real_h2;
             }
         }
-        /*
-        $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->whereNull('parent_id')->get();
-        $mats_tools_htcrr = QuotationHtcrrItem::where('quotation_id', $quotation->id)->sum('price_amount');
+        
+        $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->get();
+        $parseHtccr = json_decode($quotation->data_htcrr);
+        //dd($parseHtccr);
+        $pricehtccr = $parseHtccr->manhour_rate_amount * $parseHtccr->total_manhours_with_performance_factor;
         if (sizeof($htcrrs) > 0) {
             $htcrr_workpackage = new WorkPackage();
             $htcrr_workpackage->code = "Workpackage HT CRR";
             $htcrr_workpackage->title = "Workpackage HT CRR";
-            $htcrr_workpackage->data_htcrr = json_decode($quotation->data_htcrr, true);
-            $htcrr_workpackage->mat_tool_price = $mats_tools_htcrr;
-            $htcrr_workpackage->is_template = "htcrr";
-            $htcrr_workpackage->ac_type = $quotation->quotationable->aircraft->name;
+            $htcrr_workpackage->htcrrcount = HtCrr::where('project_id', $quotation->quotationable->id)->count();
+            $htcrr_workpackage->price = $pricehtccr;
 
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
-        */
+        
 
 
         $data = $alldata = json_decode($workpackages);

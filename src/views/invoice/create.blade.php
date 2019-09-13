@@ -412,8 +412,8 @@
                                                 </div>
                                                 <div class="col-sm-2 col-md-2 col-lg-2">
                                                     @component('input::input')
-                                                    @slot('id', 'sub_total')
-                                                    @slot('class', 'sub_total')
+                                                    @slot('id', 'pph')
+                                                    @slot('class', 'pph')
                                                     @slot('text', '')
                                                     @slot('value', '')
                                                     @endcomponent
@@ -421,8 +421,8 @@
                                                 %
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     @component('input::inputreadonly')
-                                                    @slot('id', 'sub_total')
-                                                    @slot('class', 'sub_total')
+                                                    @slot('id', 'percent')
+                                                    @slot('class', 'percent')
                                                     @slot('text', '')
                                                     @slot('value', '')
                                                     @endcomponent
@@ -440,8 +440,8 @@
                                                 </div>
                                                 <div class="col-sm-9 col-md-9 col-lg-9">
                                                     @component('input::textarea')
-                                                    @slot('id', 'sub_total')
-                                                    @slot('class', 'sub_total')
+                                                    @slot('id', 'schedule_payment')
+                                                    @slot('class', 'schedule_payment')
                                                     @slot('text', '')
                                                     @slot('value', '')
                                                     @endcomponent

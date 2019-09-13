@@ -1,3 +1,7 @@
+let total = 0;
+let total1 = 0;
+let quotation = $('#quotation_uuid').val();
+let exchange_rate = parseInt($('#exchange_rate').attr('value'));
 
 // untuk datatable dengan accordion pada row tersebut
 var DatatableAutoColumnHideDemo = function () {
@@ -72,13 +76,22 @@ var DatatableAutoColumnHideDemo = function () {
           width: '700px',
 
           template: function (t) {
-            return (
-              "<b>" + t.description + "</b><br/>"
-              +"Material Need "+t.materialitem+" item(s)<br/>"
-              +"Total "+t.total_manhours_with_performance_factor+" Manhours<br/>"
-              +"&nbsp;&nbsp;&nbsp;&nbsp;1.Basic TaskCard "+t.basic+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;2.SIP TaskCard "+t.sip+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;3.CPCP TaskCard "+t.cpcp+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.AD/SB TaskCard "+t.adsb+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;5.CMR/AWL TaskCard "+t.cmrawl+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;6.EO TaskCard "+t.eo+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;7.EA TaskCard "+t.ea+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;8.SI TaskCard "+t.si+" item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;9.HardTime TaskCard "+t.hardtime+" item(s)<br/>"
+            if (t.htcrrcount == null) {
+              return (
+                "<b>" + t.description + "</b><br/>"
+                + "Material Need " + t.materialitem + " item(s)<br/>"
+                + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
+                + "&nbsp;&nbsp;&nbsp;&nbsp;1.Basic TaskCard " + t.basic + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;2.SIP TaskCard " + t.sip + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;3.CPCP TaskCard " + t.cpcp + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.AD/SB TaskCard " + t.adsb + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;5.CMR/AWL TaskCard " + t.cmrawl + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;6.EO TaskCard " + t.eo + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;7.EA TaskCard " + t.ea + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;8.SI TaskCard " + t.si + " item(s)"
 
-            );
+              );
+            } else {
+              return (
+                "&nbsp;&nbsp;&nbsp;&nbsp;HardTime TaskCard " + t.htcrrcount + " item(s)"
+
+              );
+              
+            }
+
           }
         },
         {
@@ -87,35 +100,45 @@ var DatatableAutoColumnHideDemo = function () {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            total = 0;
-            if (t.pivot.discount_value == null && t.pivot.discount_type == null) {
-              total = t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount + t.facilities_price_amount + t.mat_tool_price;
-              subtotal = subtotal + total;
-            }
-            else {
-              if (t.pivot.discount_type == 'amount') {
-                total = t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount + t.facilities_price_amount + t.mat_tool_price;
-                subtotal = subtotal + total;
-
+            if (t.htcrrcount == null) {
+              if (currency.id == 1) {
+                temptotal = t.h1 + t.h2;
+                subtotal += temptotal;
+                console.log(subtotal);
+                return (
+                  IDRformatter.format(t.h1) + "<br/>"
+                  + IDRformatter.format(t.h2) + "<br/>"
+                );
+              } else {
+                temptotal = t.h1 + t.h2;
+                subtotal += temptotal;
+                console.log(subtotal);
+                return (
+                  ForeignFormatter.format(t.h1) + "<br/>"
+                  + ForeignFormatter.format(t.h2) + "<br/>"
+                );
               }
-              else if (t.pivot.discount_type == 'percentage') {
-                total = t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount + t.facilities_price_amount + t.mat_tool_price;
-                subtotal = subtotal + total;
-              }
-            }
-
-            if (currency.id == 1) {
-              $("#grand_total_rupiah").attr("value", subtotal);
-              $("#sub_total").attr("value", subtotal);
-              return (
-                IDRformatter.format(total)
-              );
             } else {
-
-              return (
-                ForeignFormatter.format(total)
-              );
+              if (currency.id == 1) {
+                subtotal += t.price;
+                $("#grand_total_rupiah").attr("value", subtotal);
+                $("#sub_total").attr("value", subtotal);                
+                console.log(subtotal);
+                return (
+                  IDRformatter.format(t.price) + "<br/>"
+                );
+              } else {
+                subtotal += t.price;
+                $("#grand_total_rupiah").attr("value", subtotal);
+                $("#sub_total").attr("value", subtotal);              
+                console.log(subtotal);
+                return (
+                  ForeignFormatter.format(t.price) + "<br/>"
+                );
+              }
+              
             }
+            
           }
         },
       ],
