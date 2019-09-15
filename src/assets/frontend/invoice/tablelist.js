@@ -1,8 +1,8 @@
 let total = 0;
 let total1 = 0;
+var discount = 0;
 let quotation = $('#quotation_uuid').val();
 let exchange_rate = parseInt($('#exchange_rate').attr('value'));
-
 // untuk datatable dengan accordion pada row tersebut
 var DatatableAutoColumnHideDemo = function () {
   //== Private functions
@@ -26,6 +26,7 @@ var DatatableAutoColumnHideDemo = function () {
             map: function (raw) {
               let dataSet = raw;
               let total = subtotal = 0;
+              var discount = 0;
 
               if (typeof raw.data !== 'undefined') {
                 dataSet = raw.data;
@@ -77,11 +78,44 @@ var DatatableAutoColumnHideDemo = function () {
 
           template: function (t) {
             if (t.htcrrcount == null) {
+              var template = "";
+              var basic = "&nbsp;&nbsp;&nbsp;&nbsp;Basic TaskCard " + t.basic + " item(s)<br/>";
+              var sip = "&nbsp;&nbsp;&nbsp;&nbsp;SIP TaskCard " + t.sip + " item(s)<br/>";
+              var cpcp = "&nbsp;&nbsp;&nbsp;&nbsp;CPCP TaskCard " + t.cpcp + " item(s)<br/>";
+              var adsb = "&nbsp;&nbsp;&nbsp;&nbsp;AD/SB TaskCard " + t.adsb + " item(s)<br/>";
+              var cmrwl = "&nbsp;&nbsp;&nbsp;&nbsp;CMR/AWL TaskCard " + t.cmrawl + " item(s)<br/>";
+              var eo = "&nbsp;&nbsp;&nbsp;&nbsp;EO TaskCard " + t.eo + " item(s)<br/>";
+              var ea = "&nbsp;&nbsp;&nbsp;&nbsp;EA TaskCard " + t.ea + " item(s)<br/>";
+              var si = "&nbsp;&nbsp;&nbsp;&nbsp;SI TaskCard " + t.si + " item(s)";
+              if (t.basic != 0) {
+                template += basic;
+              } 
+              if (t.sip != 0) {
+                template += sip;
+              } 
+              if (t.cpcp != 0) {
+                template += cpcp;
+              }  
+              if (t.adsb != 0) {
+                template += adsb;
+              } 
+              if (t.cmrawl != 0) {
+                template += cmrwl;
+              } 
+              if (t.eo != 0) {
+                template += eo;
+              } 
+              if (t.ea != 0) {
+                template += ea;
+              } 
+              if (t.si != 0) {
+                template += si;
+              }
               return (
                 "<b>" + t.description + "</b><br/>"
                 + "Material Need " + t.materialitem + " item(s)<br/>"
                 + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;1.Basic TaskCard " + t.basic + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;2.SIP TaskCard " + t.sip + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;3.CPCP TaskCard " + t.cpcp + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;4.AD/SB TaskCard " + t.adsb + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;5.CMR/AWL TaskCard " + t.cmrawl + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;6.EO TaskCard " + t.eo + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;7.EA TaskCard " + t.ea + " item(s)<br/>&nbsp;&nbsp;&nbsp;&nbsp;8.SI TaskCard " + t.si + " item(s)"
+                + template
 
               );
             } else {
@@ -89,7 +123,7 @@ var DatatableAutoColumnHideDemo = function () {
                 "&nbsp;&nbsp;&nbsp;&nbsp;HardTime TaskCard " + t.htcrrcount + " item(s)"
 
               );
-              
+
             }
 
           }
@@ -104,7 +138,10 @@ var DatatableAutoColumnHideDemo = function () {
               if (currency.id == 1) {
                 temptotal = t.h1 + t.h2;
                 subtotal += temptotal;
-                console.log(subtotal);
+                discount += t.discount;
+                console.log(t.discount);
+                console.log(discount);
+                $("#total_discount").attr("value", discount);
                 return (
                   IDRformatter.format(t.h1) + "<br/>"
                   + IDRformatter.format(t.h2) + "<br/>"
@@ -112,7 +149,10 @@ var DatatableAutoColumnHideDemo = function () {
               } else {
                 temptotal = t.h1 + t.h2;
                 subtotal += temptotal;
-                console.log(subtotal);
+                discount += t.discount;
+                console.log(t.discount);
+                console.log(discount);
+                $("#total_discount").attr("value", discount);
                 return (
                   ForeignFormatter.format(t.h1) + "<br/>"
                   + ForeignFormatter.format(t.h2) + "<br/>"
@@ -122,23 +162,23 @@ var DatatableAutoColumnHideDemo = function () {
               if (currency.id == 1) {
                 subtotal += t.price;
                 $("#grand_total_rupiah").attr("value", subtotal);
-                $("#sub_total").attr("value", subtotal);                
-                console.log(subtotal);
+                $("#sub_total").attr("value", subtotal);
+                $("#total_discount").attr("value", discount);
                 return (
                   IDRformatter.format(t.price) + "<br/>"
                 );
               } else {
                 subtotal += t.price;
                 $("#grand_total_rupiah").attr("value", subtotal);
-                $("#sub_total").attr("value", subtotal);              
-                console.log(subtotal);
+                $("#sub_total").attr("value", subtotal);
+                $("#total_discount").attr("value", discount);
                 return (
                   ForeignFormatter.format(t.price) + "<br/>"
                 );
               }
-              
+
             }
-            
+
           }
         },
       ],

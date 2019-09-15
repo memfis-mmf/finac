@@ -323,6 +323,7 @@ class InvoiceController extends Controller
     {
         $workpackages = $quotation->workpackages;
         $items = $quotation->item;
+        //dd($quotation->taxes);
 
 
         //dd($items);
@@ -332,7 +333,7 @@ class InvoiceController extends Controller
                 ->where('workpackage_id', $workPackage->id)
                 ->first();
 
-            //dd();
+            //dd($project_workpackage);
 
 
             $countWPItem = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->quotationable->id)
@@ -344,6 +345,8 @@ class InvoiceController extends Controller
             $sip_count = 0;
             $cpcp_count = 0;
             $si_count = 0;
+
+
 
 
             $basictaskcards = ProjectWorkPackageTaskCard::with(['taskcard'])->where('project_workpackage_id', $project_workpackage->id)->get();
@@ -370,39 +373,61 @@ class InvoiceController extends Controller
             }
 
 
+
             $h2s = QuotationWorkPackage::where('quotation_id', $quotation->quotationable->id)
                 ->where('workpackage_id', $workPackage->id)->get();
-            //dd($h2s);
             $real_h2 = 0;
             foreach ($h2s as $h2) {
                 $calculate = ($h2->manhour_rate_amount * $h2->manhour_total);
                 $real_h2 += $calculate;
             }
 
-            $adsbtaskcards = ProjectWorkPackageEOInstruction::where('project_workpackage_id', $project_workpackage->id)->get();
+            $getdiscount = QuotationWorkPackage::where('quotation_id', $quotation->quotationable->id)
+                ->where('workpackage_id', $workPackage->id)->first();
+
+
+            if ($getdiscount != null) {
+                //dd($getdiscount);
+                if ($getdiscount->discount_type == "percentage") {
+                    $h1 = ($getdiscount->discount_value / 100) * $real_h1;
+                    $h2 = ($getdiscount->discount_value / 100) * $real_h2;
+                    $workPackage->discount = $h1 + $h2;
+                } else {
+                    $workPackage->discount = $getdiscount->discount_value;
+                }
+            } else {
+                $workPackage->discount = 0;
+            }
+
+
+            $adsb_count = 0;
+            $cmrawl_count = 0;
+            $eo_count = 0;
+            $ea_count = 0;
+
+            $adsbtaskcards = ProjectWorkPackageEOInstruction::with(['eo_instruction'])->where('project_workpackage_id', $project_workpackage->id)->get();
+            //dd($adsbtaskcards);
             foreach ($adsbtaskcards as $adsbtaskcard) {
-                $eoinsctructions = EOInstruction::find($adsbtaskcard->eo_instruction_id)->get();
-                $adsb_count = 0;
-                $cmrawl_count = 0;
-                $eo_count = 0;
-                $ea_count = 0;
-                foreach ($eoinsctructions as $eoinsctruction) {
-                    $taskcard =  TaskCard::find($eoinsctruction->taskcard_id)->type;
-                    if ($taskcard->code == "ad" || $taskcard->code == "sb") {
-                        $adsb_count += 1;
-                    } elseif ($taskcard->code == "cmr" || $taskcard->code == "awl") {
-                        $cmrawl_count += 1;
-                    } elseif ($taskcard->code == "eo") {
-                        $eo_count += 1;
-                    } elseif ($taskcard->code == "ea") {
-                        $ea_count += 1;
-                    }
+                //dd($adsbtaskcard->eo_instruction->taskcard_id);
+
+                $taskcard =  TaskCard::find($adsbtaskcard->eo_instruction->taskcard_id)->type;
+                //dd($taskcard);
+
+                if ($taskcard->code == "ad" || $taskcard->code == "sb") {
+                    $adsb_count += 1;
+                } elseif ($taskcard->code == "cmr" || $taskcard->code == "awl") {
+                    $cmrawl_count += 1;
+                } elseif ($taskcard->code == "eo") {
+                    $eo_count += 1;
+                } elseif ($taskcard->code == "ea") {
+                    $ea_count += 1;
                 }
             }
 
-            
 
-            
+
+
+
             if ($project_workpackage) {
                 $workPackage->total_manhours_with_performance_factor = $project_workpackage->total_manhours_with_performance_factor;
 
@@ -425,7 +450,7 @@ class InvoiceController extends Controller
                 $workPackage->h2 = $real_h2;
             }
         }
-        
+
         $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->get();
         $parseHtccr = json_decode($quotation->data_htcrr);
         //dd($parseHtccr);
@@ -439,7 +464,7 @@ class InvoiceController extends Controller
 
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
-        
+
 
 
         $data = $alldata = json_decode($workpackages);
