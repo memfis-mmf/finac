@@ -75,6 +75,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 
 	Route::prefix('invoice')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
+		Route::get('/datatables', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@datatables')->name('invoice.datatables');
+		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@store')->name('invoice.store');
 		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@create')->name('invoice.create');
 		Route::get('/quotation/datatables/modal', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@quodatatables')->name('invoice.quodatable');
 		Route::get('/quotation/datatables/modal/{quotation}/detail', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@apidetail')->name('invoice.apidetail');

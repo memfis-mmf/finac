@@ -66,7 +66,7 @@ let Invoice = {
                     width: 150,
                 },
                 {
-                    field: 'customer',
+                    field: 'id_customer',
                     title: 'Customer',
                     sortable: 'asc',
                     filterable: !1,
@@ -87,7 +87,7 @@ let Invoice = {
                     width: 150
                 },
                 {
-                    field: 'totaltransaction',
+                    field: 'grandtotal',
                     title: 'Total',
                     sortable: 'asc',
                     filterable: !1,
@@ -114,76 +114,27 @@ let Invoice = {
                     sortable: !1,
                     overflow: 'visible',
                     template: function (t, e, i) {
-                        var transno = t.transactionnumber;
-                        var res = transno.substring(0, 3);
-                        if(t.status == 'Approved'){
-                            if (res == "BPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-bpj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'
-                                );
-                            }else if(res == "BRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-brj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'
-                                );
-                            }else if (res == "CRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-crj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'
-                                );
-                            }else if(res == "CPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-cpj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'
-                                );
-                            }
+                        if (t.status == 'Approved') {
+                            return (
+                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+                                '\t\t\t\t\t\t\t'
+                            );
+
                         }
-                        else{
-                            if (res == "BPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-bpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-                                );
-                            }else if(res == "BRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-brj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-                                );
-                            }else if (res == "CRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-crj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-                                );
-                            }else if(res == "CPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-cpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-                                );
-                            }
+                        else {
+                            return (
+                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                                t.uuid +
+                                '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+                                '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                                t.uuid +
+                                ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+                            );
+
                         }
-                        
-                        
+
+
                     }
                 }
             ]
@@ -208,7 +159,7 @@ let Invoice = {
 
         let approve = $('.modal-footer').on('click', '.add', function () {
             let triggerid = $("#uuid-approve").val();
-            
+
 
             $.ajax({
                 headers: {
@@ -225,7 +176,7 @@ let Invoice = {
                             $('#code-error').html(data.errors.code[0]);
 
 
-                          
+
                         }
 
 
@@ -275,13 +226,13 @@ let Invoice = {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         type: 'get',
-                        url: '/coa/type/'+data.type,
+                        url: '/coa/type/' + data.type,
                         success: function (data2) {
                             var obj = JSON.parse(data2);
                             console.log(obj);
                             console.log(obj.id);
                             $('select[name="type"]').append(
-                                '<option value="'+obj.id+'" selected>'+obj.name+'</option>'
+                                '<option value="' + obj.id + '" selected>' + obj.name + '</option>'
                             );
                         }
                     });
@@ -377,8 +328,8 @@ let Invoice = {
                         url: '/cashbook/' + triggerid + '',
                         success: function (data) {
                             toastr.success('Cashbook has been deleted.', 'Deleted', {
-                                    timeOut: 5000
-                                }
+                                timeOut: 5000
+                            }
                             );
 
                             let table = $('.cashbook_datatable').mDatatable();
@@ -400,7 +351,7 @@ let Invoice = {
         });
 
 
-        
+
 
     }
 };

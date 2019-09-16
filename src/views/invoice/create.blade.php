@@ -397,7 +397,7 @@
                                     <center>
                                         <h3 id="subjectquo">Subject</h3>
                                     </center>
-                                    <br/>
+                                    <br />
                                     <div class="summary_datatable" id="scrolling_both"></div>
                                     <br>
                                     <hr>
@@ -499,21 +499,10 @@
                                                     @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-                                                        Others
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'others')
-                                                    @slot('class', 'others')
-                                                    @slot('text', '')
-                                                    @slot('value', '')
-                                                    @endcomponent
-                                                </div>
+                                            <div class="append-other">
+                                                
                                             </div>
+
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div>
@@ -550,8 +539,8 @@
                                                         <div class="action-buttons">
                                                             @component('frontend.common.buttons.submit')
                                                             @slot('type','button')
-                                                            @slot('id', 'add-invocheck')
-                                                            @slot('class', 'add-invocheck')
+                                                            @slot('id', 'add-invoice')
+                                                            @slot('class', 'add-invoice')
                                                             @endcomponent
 
                                                             @include('frontend.common.buttons.reset')
@@ -638,6 +627,13 @@
     var currency = "";
     var uuidquo = "";
     var currencyCode = "";
+    var tipetax = "";
+    var tax = 0;
+    var subtotal = 0;
+    let other_total = 0;
+    let schedule_payment = "";
+    let grand_total1 = 0;
+    let convertidr = 0;
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 
@@ -649,7 +645,11 @@
 <!--<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js') }}"></script>-->
 <!--<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
-
+<script>
+$( document ).ready(function() {
+    var others_data = "";
+});
+</script>
 
 <script src="{{ asset('js/frontend/functions/select2/ref.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/phone.js') }}"></script>

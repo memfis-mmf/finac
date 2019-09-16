@@ -5,11 +5,14 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
+use Directoryxx\Finac\Model\Coa;
 use App\Models\Customer;
 use App\Models\EOInstruction;
 use App\Models\Project;
 use App\Models\Quotation;
 use Carbon\Carbon;
+use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
 use App\User;
 use App\Models\HtCrr;
 use App\Models\ListUtil;
@@ -23,6 +26,8 @@ use App\Models\ProjectWorkPackageTaskCard;
 use App\Models\QuotationWorkPackageItem;
 use App\Models\QuotationWorkPackageTaskCardItem;
 use App\Models\TaskCard;
+use App\Models\Type;
+use stdClass;
 
 class InvoiceController extends Controller
 {
@@ -57,7 +62,51 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $quotation = Quotation::where('number',$request->quotation)->first();
+        $project = $quotation->quotationable()->first();
+        $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
+        $crjsuggest = 'INV-MMF/'.Carbon::now()->format('Y/m');
+        $currency = Currency::where('name',$request->currency)->first();
+        $coa = Coa::where('code',$request->account)->first();
+        //dd($coa);
+        $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest.'%')->withTrashed()->count();
+        $cashbookno = CashbookGenerateNumber::generate('INV-MMF/', $cashbookCount + 1);
+        $id_branch = 1;
+        $closed = 0;
+        $transaction_number = $cashbookno;
+        $transaction_date = Carbon::today()->toDateString();
+        $customer_id = $customer->id;
+        $currency_id = $currency->id;
+        $exchange_rate = $request->exchange_rate;
+        $discount_value = $request->discount;
+        $percent = $discount_value / $request->subtotal;
+        $percent_friendly = number_format( $percent * 100);
+        $ppn_percent = $request->pph;
+        $ppn_value = $request->pphvalue;
+        $grandtotalfrg = $request->grand_total;
+        $grandtotalidr = $request->grand_totalrp;
+        $description = "";
+        $invoice = Invoice::create([
+            'id_branch' => $id_branch,
+            'closed' => $closed,
+            'transactionnumber' => $transaction_number,
+            'transactiondate' => $transaction_date,
+            'id_customer' => $customer_id,
+            'currency' => $currency_id,
+            'exchangerate' => $exchange_rate,
+            'discountpercent' => $percent_friendly,
+            'discountvalue' => $discount_value,
+            'ppnpercent' => $ppn_percent,
+            'ppnvalue' => $ppn_value,
+            //bank => ?
+            'grandtotalforeign' => $grandtotalfrg,
+            'grandtotal' => $grandtotalidr,
+            'accountcode' => $coa->id,
+            'description' => $description,
+        ]);
+
+        return response()->json($invoice);
+
     }
 
     /**
@@ -302,6 +351,109 @@ class InvoiceController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
+    public function datatables(){
+        $invoices = Invoice::all();
+
+        foreach($invoices as $invoice){
+            if(!empty($invoice->approvals->toArray())){
+                $approval = $invoice->approvals->toArray();
+                $invoice->status .= 'Approved';
+                $invoice->approvedby .= $approval[0]['approved_by'];
+            }else{
+                $invoice->status .= 'Open';
+
+            }
+            //$quotation->customer = $quotation->project->customer;
+        }
+        $data = $alldata = json_decode($invoices);
+
+        $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
+
+        $filter = isset($datatable['query']['generalSearch']) && is_string($datatable['query']['generalSearch'])
+            ? $datatable['query']['generalSearch'] : '';
+
+        if (!empty($filter)) {
+            $data = array_filter($data, function ($a) use ($filter) {
+                return (bool) preg_grep("/$filter/i", (array) $a);
+            });
+
+            unset($datatable['query']['generalSearch']);
+        }
+
+        $query = isset($datatable['query']) && is_array($datatable['query']) ? $datatable['query'] : null;
+
+        if (is_array($query)) {
+            $query = array_filter($query);
+
+            foreach ($query as $key => $val) {
+                $data = $this->list_filter($data, [$key => $val]);
+            }
+        }
+
+        $sort  = !empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
+
+        $meta    = [];
+        $page    = !empty($datatable['pagination']['page']) ? (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ? (int) $datatable['pagination']['perpage'] : -1;
+
+        $pages = 1;
+        $total = count($data);
+
+        usort($data, function ($a, $b) use ($sort, $field) {
+            if (!isset($a->$field) || !isset($b->$field)) {
+                return false;
+            }
+
+            if ($sort === 'asc') {
+                return $a->$field > $b->$field ? true : false;
+            }
+
+            return $a->$field < $b->$field ? true : false;
+        });
+
+        if ($perpage > 0) {
+            $pages  = ceil($total / $perpage);
+            $page   = max($page, 1);
+            $page   = min($page, $pages);
+            $offset = ($page - 1) * $perpage;
+
+            if ($offset < 0) {
+                $offset = 0;
+            }
+
+            $data = array_slice($data, $offset, $perpage, true);
+        }
+
+        $meta = [
+            'page'    => $page,
+            'pages'   => $pages,
+            'perpage' => $perpage,
+            'total'   => $total,
+        ];
+
+        if (isset($datatable['requestIds']) && filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) {
+            $meta['rowIds'] = array_map(function ($row) {
+                return $row->RecordID;
+            }, $alldata);
+        }
+
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+        $result = [
+            'meta' => $meta + [
+                'sort'  => $sort,
+                'field' => $field,
+            ],
+            'data' => $data,
+        ];
+
+        echo json_encode($result, JSON_PRETTY_PRINT);
+    }
+
     public function apidetail(Quotation $quotation)
     {
         $project = $quotation->quotationable()->first();
@@ -323,11 +475,14 @@ class InvoiceController extends Controller
     {
         $workpackages = $quotation->workpackages;
         $items = $quotation->item;
-        //dd($quotation->taxes);
-
-
-        //dd($items);
-
+        $taxes =  $quotation->taxes->first();
+        if ($taxes != null){
+            $taxes_type = Type::where('id',$taxes->type_id)->first();
+        } else {
+            $taxes_type = new stdClass();
+            $taxes_type->code = 0;
+        }
+        
         foreach ($workpackages as $workPackage) {
             $project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
                 ->where('workpackage_id', $workPackage->id)
@@ -336,10 +491,11 @@ class InvoiceController extends Controller
             //dd($project_workpackage);
 
 
-            $countWPItem = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->quotationable->id)
+            $countWPItem = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
                 ->where('workpackage_id', $workPackage->id)
                 ->count();
 
+            
             $workPackage->materialitem = $countWPItem;
             $basic_count = 0;
             $sip_count = 0;
@@ -363,8 +519,9 @@ class InvoiceController extends Controller
                 }
             }
 
-            $h1s = QuotationWorkPackageTaskCardItem::where('quotation_id', $quotation->quotationable->id)
+            $h1s = QuotationWorkPackageTaskCardItem::where('quotation_id', $quotation->id)
                 ->where('workpackage_id', $workPackage->id)->get();
+            //dd($h1s);
 
             $real_h1 = 0;
             foreach ($h1s as $h1) {
@@ -374,7 +531,7 @@ class InvoiceController extends Controller
 
 
 
-            $h2s = QuotationWorkPackage::where('quotation_id', $quotation->quotationable->id)
+            $h2s = QuotationWorkPackage::where('quotation_id', $quotation->id)
                 ->where('workpackage_id', $workPackage->id)->get();
             $real_h2 = 0;
             foreach ($h2s as $h2) {
@@ -382,7 +539,7 @@ class InvoiceController extends Controller
                 $real_h2 += $calculate;
             }
 
-            $getdiscount = QuotationWorkPackage::where('quotation_id', $quotation->quotationable->id)
+            $getdiscount = QuotationWorkPackage::where('quotation_id', $quotation->id)
                 ->where('workpackage_id', $workPackage->id)->first();
 
 
@@ -461,9 +618,12 @@ class InvoiceController extends Controller
             $htcrr_workpackage->title = "Workpackage HT CRR";
             $htcrr_workpackage->htcrrcount = HtCrr::where('project_id', $quotation->quotationable->id)->count();
             $htcrr_workpackage->price = $pricehtccr;
-
+            $htcrr_workpackage->other = $quotation->charge;
+            $htcrr_workpackage->schedulepayment = $quotation->scheduled_payment_amount;
+            $htcrr_workpackage->tax_type = $taxes_type->code;
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
+
 
 
 
