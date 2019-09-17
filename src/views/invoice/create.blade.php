@@ -433,21 +433,38 @@
                                                 </div>
                                             </div>
                                             <div class="form-group m-form__group row">
-                                                <fieldset class="border p-2">
-                                                    <legend class="w-auto">Scheduled Payment :</legend>
-                                                    <div class="form-group m-form__group row">
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            
-                                                        </div>
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <fieldset class="border p-2">
+                                                        <legend class="w-auto">Scheduled Payment :</legend>
+
+                                                        <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
+                                                            <tfoot>
+                                                                <th></th>
+                                                                <th></th>
+                                                                <th colspan="2"></th>
+                                                            </tfoot>
+                                                        </table>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="m--align-left" style="padding-top:15px">
+                                                        Freemark
                                                     </div>
-                                                    <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="100%">
-                                                        <tfoot>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th colspan="2"></th>
-                                                        </tfoot>
-                                                    </table>
-                                                </fieldset>
+                                                </div>
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
+                                                    @component('input::textarea')
+                                                    @slot('id', 'desc')
+                                                    @slot('class', 'desc')
+                                                    @slot('text', '')
+                                                    @slot('value', "")
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-6 col-lg-6">
@@ -627,6 +644,8 @@
     var currencyCode = "";
     var tipetax = "";
     var tax = 0;
+    let ForeignFormatter = "";
+
     var subtotal = 0;
     let other_total = 0;
     let schedule_payment = "";
@@ -665,7 +684,7 @@
 <!--<script src="{{ asset('js/frontend/functions/datepicker/date.js')}}"></script>-->
 <!--<script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>-->
 <script src="{{ asset('js/frontend/quotation/create.js') }}"></script>
-<script src="{{ asset('js/frontend/quotation/scheduled-payment.js') }}"></script>
+<script src="{{ asset('vendor/courier/frontend/invoice/scheduled-payment.js') }}"></script>
 <!--<script src="{{ asset('js/custom.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>
