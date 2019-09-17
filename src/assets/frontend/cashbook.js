@@ -236,7 +236,7 @@ let Cashbook = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'post',
-                url: '/invoice/' + triggerid + '/approve',
+                url: '/cashbook/' + triggerid + '/approve',
                 data: {
                     _token: $('input[name=_token]').val(),
                 },
