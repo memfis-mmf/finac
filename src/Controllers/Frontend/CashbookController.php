@@ -196,7 +196,7 @@ class CashbookController extends Controller
     public function approve(Cashbook $cashbook){
         $cashbook->approvals()->save(new Approval([
             'approvable_id' => $cashbook->id,
-            'approved_by' => Auth::id(),
+            'conducted_by' => Auth::id(),
         ]));
     }
 }

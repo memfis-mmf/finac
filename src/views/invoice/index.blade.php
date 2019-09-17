@@ -83,11 +83,21 @@
         </div>
     </div>
 </div>
+@include('invoiceview::approvemodal')
 @endsection
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-
+<script>
+$(document).on("click", ".open-AddUuidApproveDialog", function () {
+     var uuid = $(this).data('uuid');
+     //console.log(uuid);
+     $(".modal-body #uuid-approve").val(uuid);
+     // As pointed out in comments, 
+     // it is unnecessary to have to manually call the modal.
+     // $('#addBookDialog').modal('show');
+});
+</script>
 
 <script src="{{ asset('vendor/courier/frontend/invoice/invoice.js')}}"></script>
 @endpush

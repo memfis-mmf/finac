@@ -5,9 +5,11 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
+use App\Models\Approval;
 use App\Models\Currency;
 use Directoryxx\Finac\Model\Coa;
 use App\Models\Customer;
+use Auth;
 use App\Models\EOInstruction;
 use App\Models\Project;
 use App\Models\Quotation;
@@ -62,14 +64,14 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $quotation = Quotation::where('number',$request->quotation)->first();
+        $quotation = Quotation::where('number', $request->quotation)->first();
         $project = $quotation->quotationable()->first();
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
-        $crjsuggest = 'INV-MMF/'.Carbon::now()->format('Y/m');
-        $currency = Currency::where('name',$request->currency)->first();
-        $coa = Coa::where('code',$request->account)->first();
+        $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
+        $currency = Currency::where('name', $request->currency)->first();
+        $coa = Coa::where('code', $request->account)->first();
         //dd($coa);
-        $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest.'%')->withTrashed()->count();
+        $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest . '%')->withTrashed()->count();
         $cashbookno = CashbookGenerateNumber::generate('INV-MMF/', $cashbookCount + 1);
         $id_branch = 1;
         $closed = 0;
@@ -80,7 +82,7 @@ class InvoiceController extends Controller
         $exchange_rate = $request->exchange_rate;
         $discount_value = $request->discount;
         $percent = $discount_value / $request->subtotal;
-        $percent_friendly = number_format( $percent * 100);
+        $percent_friendly = number_format($percent * 100);
         $ppn_percent = $request->pph;
         $ppn_value = $request->pphvalue;
         $grandtotalfrg = $request->grand_total;
@@ -106,7 +108,6 @@ class InvoiceController extends Controller
         ]);
 
         return response()->json($invoice);
-
     }
 
     /**
@@ -126,9 +127,9 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Invoice $invoice)
     {
-        //
+        return view('invoiceview::edit');
     }
 
     /**
@@ -149,9 +150,23 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Invoice $invoice)
     {
-        //
+        Invoice::where('id', $invoice->id)
+        ->update([
+            'closed' => 1,
+        ]);
+        return response()->json($invoice);
+    }
+
+    public function approve(Invoice $invoice)
+    {
+        $invoice->approvals()->save(new Approval([
+            'approvable_id' => $invoice->id,
+            'is_approved' => 0,
+            'conducted_by' => Auth::id(),
+        ]));
+        return response()->json($invoice);
     }
 
 
@@ -351,17 +366,19 @@ class InvoiceController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function datatables(){
+    public function datatables()
+    {
         $invoices = Invoice::all();
 
-        foreach($invoices as $invoice){
-            if(!empty($invoice->approvals->toArray())){
+        foreach ($invoices as $invoice) {
+            if (!empty($invoice->approvals->toArray())) {
                 $approval = $invoice->approvals->toArray();
                 $invoice->status .= 'Approved';
-                $invoice->approvedby .= $approval[0]['approved_by'];
-            }else{
+                $invoice->approvedby .= $approval[0]['conducted_by'];
+            } elseif ($invoice->closed == 1){
+                $invoice->status .= 'Closed';
+            } else {
                 $invoice->status .= 'Open';
-
             }
             //$quotation->customer = $quotation->project->customer;
         }
@@ -476,13 +493,13 @@ class InvoiceController extends Controller
         $workpackages = $quotation->workpackages;
         $items = $quotation->item;
         $taxes =  $quotation->taxes->first();
-        if ($taxes != null){
-            $taxes_type = Type::where('id',$taxes->type_id)->first();
+        if ($taxes != null) {
+            $taxes_type = Type::where('id', $taxes->type_id)->first();
         } else {
             $taxes_type = new stdClass();
             $taxes_type->code = 0;
         }
-        
+
         foreach ($workpackages as $workPackage) {
             $project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
                 ->where('workpackage_id', $workPackage->id)
@@ -495,7 +512,7 @@ class InvoiceController extends Controller
                 ->where('workpackage_id', $workPackage->id)
                 ->count();
 
-            
+
             $workPackage->materialitem = $countWPItem;
             $basic_count = 0;
             $sip_count = 0;

@@ -116,18 +116,22 @@ let Invoice = {
                     template: function (t, e, i) {
                         if (t.status == 'Approved') {
                             return (
-                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
                                 '\t\t\t\t\t\t\t'
                             );
 
-                        }
-                        else {
+                        } else if (t.status == 'Closed') {
                             return (
-                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+                                '\t\t\t\t\t\t\t'
+                            );
+                        } else {
+                            return (
+                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalinvoice" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                                 t.uuid +
                                 '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                                '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete-invoice" href="#" data-uuid=' +
                                 t.uuid +
                                 ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
                             );
@@ -166,7 +170,7 @@ let Invoice = {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'post',
-                url: '/cashbook/' + triggerid + '/approve',
+                url: '/invoice/' + triggerid + '/approve',
                 data: {
                     _token: $('input[name=_token]').val(),
                 },
@@ -181,7 +185,7 @@ let Invoice = {
 
 
                     } else {
-                        $('#modal_approvalcashbook').modal('hide');
+                        $('#modal_approvalinvoice').modal('hide');
 
                         toastr.success('Data berhasil disimpan.', 'Sukses', {
                             timeOut: 5000
@@ -189,7 +193,7 @@ let Invoice = {
 
                         $('#code-error').html('');
 
-                        let table = $('.cashbook_datatable').mDatatable();
+                        let table = $('.invoice_datatable').mDatatable();
 
                         table.originalDataSet = [];
                         table.reload();
@@ -305,7 +309,7 @@ let Invoice = {
             });
         });
 
-        let remove = $('.cashbook_datatable').on('click', '.delete', function () {
+        let remove = $('.invoice_datatable').on('click', '.delete-invoice', function () {
             let triggerid = $(this).data('uuid');
 
             swal({
@@ -325,14 +329,14 @@ let Invoice = {
                             )
                         },
                         type: 'DELETE',
-                        url: '/cashbook/' + triggerid + '',
+                        url: '/invoice/' + triggerid + '',
                         success: function (data) {
-                            toastr.success('Cashbook has been deleted.', 'Deleted', {
+                            toastr.success('Invoice has been closed.', 'Deleted', {
                                 timeOut: 5000
                             }
                             );
 
-                            let table = $('.cashbook_datatable').mDatatable();
+                            let table = $('.invoice_datatable').mDatatable();
 
                             table.originalDataSet = [];
                             table.reload();
