@@ -79,6 +79,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@store')->name('invoice.store');
 		Route::post('/{invoice}/approve', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@approve')->name('invoice.approve');
 		Route::get('/{invoice}/edit', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@edit')->name('invoice.edit');
+		Route::post('/{invoice}/edit', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@update')->name('invoice.update');
 		Route::delete('/{invoice}', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@destroy')->name('invoice.delete');
 		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@create')->name('invoice.create');
 		Route::get('/quotation/datatables/modal', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@quodatatables')->name('invoice.quodatable');

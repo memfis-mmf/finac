@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
 use App\Models\Approval;
+use App\Models\BankAccount;
 use App\Models\Currency;
 use Directoryxx\Finac\Model\Coa;
 use App\Models\Customer;
@@ -70,6 +71,8 @@ class InvoiceController extends Controller
         $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
         $currency = Currency::where('name', $request->currency)->first();
         $coa = Coa::where('code', $request->account)->first();
+        $bankaccount = BankAccount::where('uuid', $request->bank)->first();
+        //dd($bankaccount);
         //dd($coa);
         $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest . '%')->withTrashed()->count();
         $cashbookno = CashbookGenerateNumber::generate('INV-MMF/', $cashbookCount + 1);
@@ -79,11 +82,12 @@ class InvoiceController extends Controller
         $transaction_date = Carbon::today()->toDateString();
         $customer_id = $customer->id;
         $currency_id = $currency->id;
+        $quotation_id = $quotation->id;
         $exchange_rate = $request->exchange_rate;
         $discount_value = $request->discount;
         $percent = $discount_value / $request->subtotal;
         $percent_friendly = number_format($percent * 100);
-        $ppn_percent = $request->pph;
+        $ppn_percent = 10;
         $ppn_value = $request->pphvalue;
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $request->grand_totalrp;
@@ -91,6 +95,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::create([
             'id_branch' => $id_branch,
             'closed' => $closed,
+            'id_quotation' => $quotation_id,
             'transactionnumber' => $transaction_number,
             'transactiondate' => $transaction_date,
             'id_customer' => $customer_id,
@@ -100,7 +105,7 @@ class InvoiceController extends Controller
             'discountvalue' => $discount_value,
             'ppnpercent' => $ppn_percent,
             'ppnvalue' => $ppn_value,
-            //bank => ?
+            'id_bank' => $bankaccount->id,
             'grandtotalforeign' => $grandtotalfrg,
             'grandtotal' => $grandtotalidr,
             'accountcode' => $coa->id,
@@ -129,7 +134,18 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        return view('invoiceview::edit');
+        //dd($invoice->transactiondate);
+        $quotation = Quotation::where('id', $invoice->id_quotation)->first();
+        $currency = $invoice->currencies;
+        $coa = $invoice->coas;
+
+        //dd($coa);
+        return view('invoiceview::edit')
+            ->with('today', $invoice->transactiondate)
+            ->with('quotation', $quotation)
+            ->with('coa', $coa)
+            ->with('invoice',$invoice)
+            ->with('currencycode', $currency);
     }
 
     /**
@@ -139,9 +155,40 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        //
+        
+        $currency = Currency::where('name', $request->currency)->first();
+        $coa = Coa::where('code', $request->account)->first();
+        $bankaccount = BankAccount::where('uuid', $request->bank)->first();
+        //dd($bankaccount);
+        //dd($coa);
+        $currency_id = $currency->id;
+        $exchange_rate = $request->exchange_rate;
+        $discount_value = $request->discount;
+        $percent = $discount_value / $request->subtotal;
+        $percent_friendly = number_format($percent * 100);
+        $ppn_percent = 10;
+        $ppn_value = $request->pphvalue;
+        $grandtotalfrg = $request->grand_total;
+        $grandtotalidr = $request->grand_totalrp;
+        $description = $request->description;
+        $invoice = Invoice::where('id',$invoice->id)
+        ->update([
+            'currency' => $currency_id,
+            'exchangerate' => $exchange_rate,
+            'discountpercent' => $percent_friendly,
+            'discountvalue' => $discount_value,
+            'ppnpercent' => $ppn_percent,
+            'ppnvalue' => $ppn_value,
+            'id_bank' => $bankaccount->id,
+            'grandtotalforeign' => $grandtotalfrg,
+            'grandtotal' => $grandtotalidr,
+            'accountcode' => $coa->id,
+            'description' => $description,
+        ]);
+
+        return response()->json($invoice);
     }
 
     /**
@@ -153,9 +200,9 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         Invoice::where('id', $invoice->id)
-        ->update([
-            'closed' => 1,
-        ]);
+            ->update([
+                'closed' => 2,
+            ]);
         return response()->json($invoice);
     }
 
@@ -371,14 +418,34 @@ class InvoiceController extends Controller
         $invoices = Invoice::all();
 
         foreach ($invoices as $invoice) {
+            
             if (!empty($invoice->approvals->toArray())) {
+                $quotation = $invoice->quotations->toArray();
+                if ($quotation['parent_id'] == null) {
+                    $invoice->xstatus .= "Quotation Project";
+                } else {
+                    $invoice->xstatus .= "Quotation Additional";
+                }
                 $approval = $invoice->approvals->toArray();
+
                 $invoice->status .= 'Approved';
                 $invoice->approvedby .= $approval[0]['conducted_by'];
-            } elseif ($invoice->closed == 1){
-                $invoice->status .= 'Closed';
+            } elseif ($invoice->closed == 2) {
+                $invoice->status .= 'Void';
+                $quotation = $invoice->quotations->toArray();
+                if ($quotation['parent_id'] == null) {
+                    $invoice->xstatus .= "Quotation Project";
+                } else {
+                    $invoice->xstatus .= "Quotation Additional";
+                }
             } else {
                 $invoice->status .= 'Open';
+                $quotation = $invoice->quotations->toArray();
+                if ($quotation['parent_id'] == null) {
+                    $invoice->xstatus .= "Quotation Project";
+                } else {
+                    $invoice->xstatus .= "Quotation Additional";
+                }
             }
             //$quotation->customer = $quotation->project->customer;
         }

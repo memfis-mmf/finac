@@ -22,6 +22,8 @@ class CreateInvoicesTable extends Migration
             $table->dateTime('transactiondate');
             $table->unsignedBigInteger('id_customer');
             $table->unsignedBigInteger('currency');
+            $table->unsignedBigInteger('id_quotation');
+            $table->unsignedBigInteger('id_bank');
             $table->decimal('exchangerate',18,5);
             $table->decimal('discountpercent',18,5);
             $table->decimal('discountvalue',18,5);
@@ -35,6 +37,8 @@ class CreateInvoicesTable extends Migration
             $table->foreign('currency')->references('id')->on('currencies');
             $table->foreign('id_branch')->references('id')->on('branches');
             $table->foreign('id_customer')->references('id')->on('customers');
+            $table->foreign('id_quotation')->references('id')->on('quotations');
+            $table->foreign('id_bank')->references('id')->on('bank_accounts');
             $table->softDeletes();
             $table->timestamps();
         });

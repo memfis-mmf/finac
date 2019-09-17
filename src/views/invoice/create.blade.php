@@ -433,23 +433,21 @@
                                                 </div>
                                             </div>
                                             <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="m--align-left" style="padding-top:15px">
-                                                        Schedule Payment
+                                                <fieldset class="border p-2">
+                                                    <legend class="w-auto">Scheduled Payment :</legend>
+                                                    <div class="form-group m-form__group row">
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-9 col-md-9 col-lg-9">
-                                                    @component('input::textarea')
-                                                    @slot('id', 'schedule_payment')
-                                                    @slot('class', 'schedule_payment')
-                                                    @slot('text', '')
-                                                    @slot('value', '')
-                                                    @endcomponent
-                                                </div>
-                                                <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
-                                                <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
+                                                    <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="100%">
+                                                        <tfoot>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th colspan="2"></th>
+                                                        </tfoot>
+                                                    </table>
+                                                </fieldset>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-6 col-lg-6">
@@ -500,7 +498,7 @@
                                                 </div>
                                             </div>
                                             <div class="append-other">
-                                                
+
                                             </div>
 
                                             <div class="form-group m-form__group row">
@@ -634,6 +632,7 @@
     let schedule_payment = "";
     let grand_total1 = 0;
     let convertidr = 0;
+    let dataSet = "";
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 
@@ -646,9 +645,9 @@
 <!--<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
-$( document ).ready(function() {
-    var others_data = "";
-});
+    $(document).ready(function() {
+        var others_data = "";
+    });
 </script>
 
 <script src="{{ asset('js/frontend/functions/select2/ref.js') }}"></script>
@@ -666,7 +665,7 @@ $( document ).ready(function() {
 <!--<script src="{{ asset('js/frontend/functions/datepicker/date.js')}}"></script>-->
 <!--<script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>-->
 <script src="{{ asset('js/frontend/quotation/create.js') }}"></script>
-<!--<script src="{{ asset('js/frontend/quotation/repeater.js') }}"></script>-->
+<script src="{{ asset('js/frontend/quotation/scheduled-payment.js') }}"></script>
 <!--<script src="{{ asset('js/custom.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>

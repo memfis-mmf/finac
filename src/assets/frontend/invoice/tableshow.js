@@ -14,8 +14,6 @@ var DatatableAutoColumnHideDemo = function () {
     let locale = 'id';
     let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
     let ForeignFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency: currencyCode, minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    let IDRformatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    let ForeignFormatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: currencyCode, minimumFractionDigits: 0, maximumFractionDigits: 0 });
     let numberFormat = new Intl.NumberFormat('id', { maximumSignificantDigits: 3, maximumFractionDigits: 2, minimumFractionDigits: 2 });
 
     $('.summary_datatable').mDatatable({
@@ -24,7 +22,7 @@ var DatatableAutoColumnHideDemo = function () {
         source: {
           read: {
             method: 'GET',
-            url: '/invoice/quotation/table/modal/' + uuidquo + '/detail',
+            url: '/invoice/quotation/table/modal/' + quotation_uuid + '/detail',
             map: function (raw) {
               let dataSet = raw;
               let total = subtotal = 0;
@@ -182,7 +180,7 @@ var DatatableAutoColumnHideDemo = function () {
                 subtotal += t.price;
                 $("#grand_total_rupiah").attr("value", IDRformatter.format(subtotal));
                 $("#sub_total").attr("value", IDRformatter.format(subtotal));
-                $("#tax").attr("value", IDRformatterTax.format(tax));
+                $("#tax").attr("value", IDRformatter.format(tax));
                 $("#grand_total").attr("value", IDRformatter.format(grand_total1));
                 $("#total_discount").attr("value", IDRformatter.format(discount));
                 let sp_show = "";
@@ -200,7 +198,7 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#grand_total_rupiah").attr("value", ForeignFormatter.format(subtotal));
                 $("#grand_total").attr("value", ForeignFormatter.format(grand_total1));
                 $("#sub_total").attr("value", ForeignFormatter.format(subtotal));
-                $("#tax").attr("value", ForeignFormatterTax.format(tax));
+                $("#tax").attr("value", ForeignFormatter.format(tax));
                 $("#total_discount").attr("value", ForeignFormatter.format(discount));
                 let sp_show = "";
                 $.each(schedule_payment, function (k, v) {
@@ -232,14 +230,12 @@ var DatatableAutoColumnHideDemo = function () {
 }();
 
 jQuery(document).ready(function () {
-  $("#add-invocheck").click(function () {
-    uuidquo = $("#refquono").data('uuid');
-    $("#actheader").attr("hidden",true);
-    $("#hiddennext").removeAttr("hidden");
-    DatatableAutoColumnHideDemo.init();
+  uuidquo = $("#refquono").data('uuid');
+  $("#actheader").attr("hidden", true);
+  $("#hiddennext").removeAttr("hidden");
+  DatatableAutoColumnHideDemo.init();
 
-    //alert("The paragraph was clicked.");
-  });
+  //alert("The paragraph was clicked.");
   $("#pph").change(function () {
     console.log(this.value)
     let pph = subtotal - discount * (this.value / 100);
@@ -247,9 +243,9 @@ jQuery(document).ready(function () {
     console.log(fixed);
     $("#percent").attr("value", fixed);
   });
-  $('.action-buttons').on('click', '.add-invoice', function () {
+  $('.action-buttons').on('click', '.edit-invoice', function () {
     //alert("test");
-    
+
     // let type = $('#scheduled_payment_type').children("option:selected").html();
 
     // $('#scheduled_payment ').each(function (i) {
@@ -264,7 +260,7 @@ jQuery(document).ready(function () {
     data.append("quotation", $('#refquono').val());
     data.append("currency", $('#currency').val());
     data.append("exchange_rate", $('#exchange_rate1111').val());
-    data.append("bank", $( "#bankinfo option:selected" ).val());
+    data.append("bank", $("#bankinfo option:selected").val());
     data.append("pph", 10);
     data.append("pphvalue", tax);
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
@@ -275,14 +271,14 @@ jQuery(document).ready(function () {
     data.append("grand_total", grand_total1);
     data.append("grand_totalrp", convertidr);
     data.append("description",$('textarea#desc').val());
-    
+
 
     $.ajax({
       headers: {
         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
       },
       type: 'post',
-      url: '/invoice',
+      url: '/invoice/'+invoice_uuid+"/edit",
       processData: false,
       contentType: false,
       data: data,
@@ -321,11 +317,11 @@ jQuery(document).ready(function () {
 
         } else {
 
-          toastr.success('Invoice has been created.', 'Success', {
+          toastr.success('Invoice has been updated.', 'Success', {
             timeOut: 5000
           });
 
-          //window.location.href = '/invoice/';
+          window.location.href = '/invoice/';
 
         }
       }
