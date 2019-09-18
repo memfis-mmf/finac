@@ -86,6 +86,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/quotation/datatables/modal/{quotation}/detail', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@apidetail')->name('invoice.apidetail');
 		Route::get('/quotation/table/modal/{quotation}/detail', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@table')->name('invoice.table');
 	});
+
+	Route::prefix('ar')->group(function () {
+		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\ARController@index')->name('ar.index');
+		Route::get('/datatables', 'Directoryxx\Finac\Controllers\Frontend\ARController@datatables')->name('ar.datatables');
+		
+		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\ARController@create')->name('ar.create');
+		
+	});
 	Route::get('/currencyfa', 'Directoryxx\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
 	Route::get('/bankfa', 'Directoryxx\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
 	Route::get('/bankfa/{bankaccount}', 'Directoryxx\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
