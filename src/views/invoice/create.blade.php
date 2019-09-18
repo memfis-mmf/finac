@@ -548,6 +548,9 @@
                                                     @endcomponent
                                                 </div>
                                             </div>
+
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
                                             <div class="form-group m-form__group row">
                                                 <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
                                                     <div class="flex">
@@ -684,7 +687,7 @@
 <!--<script src="{{ asset('js/frontend/functions/datepicker/date.js')}}"></script>-->
 <!--<script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>-->
 <script src="{{ asset('js/frontend/quotation/create.js') }}"></script>
-<script src="{{ asset('vendor/courier/frontend/invoice/scheduled-payment.js') }}"></script>
+<!--<script src="{{ asset('vendor/courier/frontend/invoice/scheduled-payment.js') }}"></script>-->
 <!--<script src="{{ asset('js/custom.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>

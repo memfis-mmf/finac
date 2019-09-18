@@ -24,6 +24,7 @@ class Invoice extends MemfisModel
         'discountpercent',
         'discountvalue',
         'ppnpercent',
+        'attention',
         'ppnvalue',
         'grandtotalforeign',
         'grandtotal',

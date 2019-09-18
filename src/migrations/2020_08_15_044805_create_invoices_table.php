@@ -24,6 +24,7 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('currency');
             $table->unsignedBigInteger('id_quotation');
             $table->unsignedBigInteger('id_bank');
+            $table->json('attention')->nullable();
             $table->decimal('exchangerate',18,5);
             $table->decimal('discountpercent',18,5);
             $table->decimal('discountvalue',18,5);

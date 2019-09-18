@@ -234,7 +234,7 @@ var DatatableAutoColumnHideDemo = function () {
 jQuery(document).ready(function () {
   $("#add-invocheck").click(function () {
     uuidquo = $("#refquono").data('uuid');
-    $("#actheader").attr("hidden",true);
+    $("#actheader").attr("hidden", true);
     $("#hiddennext").removeAttr("hidden");
     DatatableAutoColumnHideDemo.init();
 
@@ -249,7 +249,7 @@ jQuery(document).ready(function () {
   });
   $('.action-buttons').on('click', '.add-invoice', function () {
     //alert("test");
-    
+
     // let type = $('#scheduled_payment_type').children("option:selected").html();
 
     // $('#scheduled_payment ').each(function (i) {
@@ -264,18 +264,22 @@ jQuery(document).ready(function () {
     data.append("quotation", $('#refquono').val());
     data.append("currency", $('#currency').val());
     data.append("exchange_rate", $('#exchange_rate1111').val());
-    data.append("bank", $( "#bankinfo option:selected" ).val());
+    data.append("bank", $("#bankinfo option:selected").val());
     data.append("pph", 10);
     data.append("pphvalue", tax);
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
     // data.append("scheduled_payment_note", JSON.stringify(scheduled_payment_note_array));
     data.append("discount", discount);
+    data.append('attention', $("#attention option:selected").text());
+    data.append('phone', $("#phone option:selected").text());
+    data.append('fax', $("#fax option:selected").text());
+    data.append('email', $("#email option:selected").text());
     data.append("subtotal", subtotal);
     data.append("account", $('#coa').val());
     data.append("grand_total", grand_total1);
     data.append("grand_totalrp", convertidr);
-    data.append("description",$('textarea#desc').val());
-    
+    data.append("description", $('textarea#desc').val());
+
 
     $.ajax({
       headers: {
@@ -325,7 +329,7 @@ jQuery(document).ready(function () {
             timeOut: 5000
           });
 
-          //window.location.href = '/invoice/';
+          window.location.href = '/invoice/';
 
         }
       }

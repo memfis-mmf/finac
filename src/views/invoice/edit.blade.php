@@ -321,9 +321,10 @@
                                         @slot('text', 'Bank Name Information')
                                         @slot('id_error', 'bankinfo')
                                         @endcomponent
+                                    
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <div hidden id="bai_header">
+                                        <div id="bai_header">
                                             <label class="form-control-label">
                                                 Bank Account Information
                                             </label>
@@ -331,6 +332,7 @@
                                             @component('input::inputreadonly')
                                             @slot('id', 'bai')
                                             @slot('name', 'bai')
+                                            @slot('value', "{$bankget->name}")
                                             @slot('text', 'Bank Account Information')
                                             @slot('id_error', 'bankaccount')
                                             @endcomponent
@@ -629,11 +631,12 @@
     var others_data = "";
     var customers = "";
     var attention = "";
-    var atten_array = {};
+    let atten_array = [];
     let invoice_uuid = "{{$invoice->uuid}}";
     var currency = "";
     var uuidquo = "";
     var tipetax = "";
+    let bank_uuid = "{{$bankaccountget->uuid}}";
     var tax = 0;
     var subtotal = 0;
     let quotation_uuid = "{{$quotation->uuid}}";
@@ -669,14 +672,16 @@
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
     $(document).ready(function() {
+        console.log("jalan");
         let currencyCode = "{{$currencycode->code}}";
         var others_data = "";
         var customers = "";
         var attention = "";
-        var atten_array = {};
+        let atten_array = [];
         var currency = "";
         var uuidquo = "";
         var tipetax = "";
+        let bank_uuid = "{{$bankaccountget->uuid}}";
         var tax = 0;
         var subtotal = 0;
         let quotation_uuid = "{{$quotation->uuid}}";
@@ -685,23 +690,43 @@
         let dataScheduleClear = JSON.parse(dataSchedule.replace(/&quot;/g, '"'));
         let grand_total1 = 0;
         let convertidr = 0;
-        $('select[name="attention"]').append(
-            '<option value=""> Select a Attention</option>'
-        );
+        
+        
+
+
+
+
         //console.log(quotation_uuid);
         $.ajax({
             url: '/invoice/quotation/datatables/modal/' + quotation_uuid + '/detail',
             type: 'GET',
             dataType: 'json',
             success: function(data) {
+                //console.log(data.attention);
                 customers = JSON.parse(data.customer);
+                atten_inv = JSON.parse(data.attention);
+                //console.log(atten_inv);
                 attention = JSON.parse(customers.attention);
+                //console.log(attention);
                 currency = data.currency;
                 var levels = customers.levels[0];
                 $.each(attention, function(i, attention) {
+                    console.log(atten_array);
                     atten_array[i] = attention.name;
                 });
-                $('#attention').empty();
+                //$('#attention').empty();
+                $('select[name="attention"]').append(
+                    "<option value=" + atten_inv.name + "> " + atten_inv.name + "</option>"
+                );
+                $('select[name="phone"]').append(
+                    "<option value=" + atten_inv.phone + "> " + atten_inv.phone + "</option>"
+                );
+                $('select[name="fax"]').append(
+                    "<option value=" + atten_inv.fax + "> " + atten_inv.fax + "</option>"
+                );
+                $('select[name="email"]').append(
+                    "<option value=" + atten_inv.email + "> " + atten_inv.email + "</option>"
+                );
                 $("#name").val(customers.name);
                 $("#level").val(levels.name);
                 $("#refquono").val(data.number);
@@ -714,10 +739,7 @@
                 }
 
                 $("#exchange_rate1111").val(data.exchange_rate);
-                $('select[name="attention"]').append(
-                    '<option value=""> Select a Attention</option>'
-                );
-                $.each(window.atten_array, function(key, value) {
+                $.each(atten_array, function(key, value) {
                     $('select[name="attention"]').append(
                         '<option value="' + key + '">' + value + '</option>'
                     );
@@ -906,6 +928,8 @@
 
     jQuery(document).ready(function() {
         scheduled_payments11.init();
+        let bank_uuid = "{{$bankaccountget->uuid}}";
+        $("#bankinfo").select2().val(bank_uuid).trigger("change");
     });
 </script>
 

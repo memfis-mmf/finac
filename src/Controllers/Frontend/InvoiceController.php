@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
 use App\Models\Approval;
+use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\Currency;
 use Directoryxx\Finac\Model\Coa;
@@ -86,6 +87,16 @@ class InvoiceController extends Controller
         $exchange_rate = $request->exchange_rate;
         $discount_value = $request->discount;
         $percent = $discount_value / $request->subtotal;
+        $attention = [];
+        $attention['name'] = $request->attention;
+        $attention['phone'] = $request->phone;
+        $attention['address'] = $request->address;
+        $attention['fax'] = $request->fax;
+        $attention['email'] = $request->email;
+        $fix_attention = json_encode($attention);
+        //dd($fix_attention);
+
+        //$request->merge(['attention' => json_encode($attention)]);
         $percent_friendly = number_format($percent * 100);
         $ppn_percent = 10;
         $ppn_value = $request->pphvalue;
@@ -110,6 +121,7 @@ class InvoiceController extends Controller
             'grandtotal' => $grandtotalidr,
             'accountcode' => $coa->id,
             'description' => $description,
+            'attention' => $fix_attention,
         ]);
 
         return response()->json($invoice);
@@ -138,13 +150,20 @@ class InvoiceController extends Controller
         $quotation = Quotation::where('id', $invoice->id_quotation)->first();
         $currency = $invoice->currencies;
         $coa = $invoice->coas;
-
+        $bankAccountget = BankAccount::where('id',$invoice->id_bank)->first();
+        //dd($bankAccountget->uuid);
+        $bankget = Bank::where('id',$bankAccountget->bank_id)->first();
+        $bank = BankAccount::selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
+        //dump($bank);
         //dd($coa);
         return view('invoiceview::edit')
             ->with('today', $invoice->transactiondate)
             ->with('quotation', $quotation)
             ->with('coa', $coa)
-            ->with('invoice',$invoice)
+            ->with('invoice', $invoice)
+            ->with('bankget',$bankget)
+            ->with('banks',$bank)
+            ->with('bankaccountget',$bankAccountget)
             ->with('currencycode', $currency);
     }
 
@@ -157,7 +176,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        
+
         $currency = Currency::where('name', $request->currency)->first();
         $coa = Coa::where('code', $request->account)->first();
         $bankaccount = BankAccount::where('uuid', $request->bank)->first();
@@ -173,20 +192,20 @@ class InvoiceController extends Controller
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $request->grand_totalrp;
         $description = $request->description;
-        $invoice = Invoice::where('id',$invoice->id)
-        ->update([
-            'currency' => $currency_id,
-            'exchangerate' => $exchange_rate,
-            'discountpercent' => $percent_friendly,
-            'discountvalue' => $discount_value,
-            'ppnpercent' => $ppn_percent,
-            'ppnvalue' => $ppn_value,
-            'id_bank' => $bankaccount->id,
-            'grandtotalforeign' => $grandtotalfrg,
-            'grandtotal' => $grandtotalidr,
-            'accountcode' => $coa->id,
-            'description' => $description,
-        ]);
+        $invoice = Invoice::where('id', $invoice->id)
+            ->update([
+                'currency' => $currency_id,
+                'exchangerate' => $exchange_rate,
+                'discountpercent' => $percent_friendly,
+                'discountvalue' => $discount_value,
+                'ppnpercent' => $ppn_percent,
+                'ppnvalue' => $ppn_value,
+                'id_bank' => $bankaccount->id,
+                'grandtotalforeign' => $grandtotalfrg,
+                'grandtotal' => $grandtotalidr,
+                'accountcode' => $coa->id,
+                'description' => $description,
+            ]);
 
         return response()->json($invoice);
     }
@@ -418,7 +437,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::all();
 
         foreach ($invoices as $invoice) {
-            
+
             if (!empty($invoice->approvals->toArray())) {
                 $quotation = $invoice->quotations->toArray();
                 if ($quotation['parent_id'] == null) {
@@ -545,13 +564,15 @@ class InvoiceController extends Controller
         $project_init = Project::find($project->id)->workpackages()->get();
         //$workpackages = 
         //dd($project->customer_id);
-        $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
+        $attn_quo =
+            $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
         //dd($customer);
         $quotation->project .= $project;
         $quotation->customer .= $customer;
         $quotation->currency .= $currency;
 
-        $quotation->attention .= $customer->attention;
+        $quotation->attention_cust .= $customer->attention;
+        $quotation->attention_quo .= $quotation->attention;
         return response()->json($quotation);
     }
 
