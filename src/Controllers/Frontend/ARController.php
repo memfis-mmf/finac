@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ARController extends Controller
 {
@@ -13,7 +14,7 @@ class ARController extends Controller
      */
     public function index()
     {
-        //
+        return view('arview::index');
     }
 
     /**
