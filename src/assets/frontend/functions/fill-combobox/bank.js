@@ -17,9 +17,12 @@ $(document).ready(function () {
                         '<option value="' + value + '">' + key + '</option>'
                     );
                 });
+                console.log(bank_uuid);
+                $("#bankinfo").select2().val(bank_uuid).trigger("change");
             }
         });
     };
 
     Bank();
+    
 });

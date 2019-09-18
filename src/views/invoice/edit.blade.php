@@ -928,8 +928,6 @@
 
     jQuery(document).ready(function() {
         scheduled_payments11.init();
-        let bank_uuid = "{{$bankaccountget->uuid}}";
-        $("#bankinfo").select2().val(bank_uuid).trigger("change");
     });
 </script>
 
