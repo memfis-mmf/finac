@@ -24,7 +24,7 @@ class ARController extends Controller
      */
     public function create()
     {
-        //
+        return view('arview::create');
     }
 
     /**
