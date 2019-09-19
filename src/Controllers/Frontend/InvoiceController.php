@@ -562,6 +562,11 @@ class InvoiceController extends Controller
         $project = $quotation->quotationable()->first();
         $currency = $quotation->currency()->first();
         $project_init = Project::find($project->id)->workpackages()->get();
+        $invoicecount = Invoice::where('id_quotation',$quotation->id)->count();
+        $schedule_payment = json_decode($quotation->scheduled_payment_amount);
+        //dd($schedule_payment);
+        $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
+        $last_sp = $end_sp + 1;
         //$workpackages = 
         //dd($project->customer_id);
         $attn_quo =
@@ -570,6 +575,8 @@ class InvoiceController extends Controller
         $quotation->project .= $project;
         $quotation->customer .= $customer;
         $quotation->currency .= $currency;
+        $quotation->spcount .= $last_sp;
+        $quotation->invoicecount .= $invoicecount;
 
         $quotation->attention_cust .= $customer->attention;
         $quotation->attention_quo .= $quotation->attention;
