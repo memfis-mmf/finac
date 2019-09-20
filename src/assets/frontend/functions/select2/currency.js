@@ -13,12 +13,13 @@ jQuery(document).ready(function () {
         console.log(this.value);
         if(this.value != 46){
             console.log("bukan idr");
-            $("#exchange_rate1111").val("");
+            $("#exchange").val("");
+            $("#exchange").removeAttr("readonly"); 
             document.getElementById("requi").style.display = "block";
         } else {
             console.log("idr");
-            $("#exchange_rate1111").val("");
-            $("#exchange_rate1111").attr("readonly", true); 
+            $("#exchange").val("1");
+            $("#exchange").attr("readonly", true); 
             document.getElementById("requi").style.display = "none";
             
         }

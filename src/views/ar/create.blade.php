@@ -202,7 +202,7 @@
         </div>
     </div>
 </div>
-
+<input hidden id="coaid">
 
 @endsection
 
@@ -211,6 +211,8 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/customer.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/customer.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
 
