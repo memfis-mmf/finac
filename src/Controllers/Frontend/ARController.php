@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 
 class ARController extends Controller
 {
@@ -87,5 +88,11 @@ class ARController extends Controller
     public function datatables()
     {
         # code...
+    }
+
+    public function cust_detail(Customer $customer){
+        $cust_detail = $customer->journal;
+
+        return response()->json($cust_detail);
     }
 }

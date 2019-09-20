@@ -86,24 +86,24 @@
                                             Customer @include('label::required')
                                         </label>
 
-                                        @component('input::text')
-                                        @slot('id', 'pto')
-                                        @slot('text', 'pto')
-                                        @slot('name', 'pto')
-                                        @slot('id_error', 'pto')
-                                        @slot('help_text','Payment To')
+                                        @component('input::select2')
+                                        @slot('id', 'customer')
+                                        @slot('text', 'customer')
+                                        @slot('name', 'customer')
+                                        @slot('id_error', 'customer')
+                                        @slot('help_text','Customer')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Customer Account Code
                                         </label>
-
-                                        @component('input::text')
-                                        @slot('id', 'refno')
-                                        @slot('text', 'refno')
-                                        @slot('name', 'refno')
-                                        @slot('help_text','Reference No')
+                            
+                                        @component('input::inputreadonly')
+                                        @slot('id', 'customerac')
+                                        @slot('text', 'customerac')
+                                        @slot('name', 'customerac')
+                                        @slot('help_text','Customer Account Code')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -139,13 +139,13 @@
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-                                        
+
 
                                         <label class="form-control-label">
                                             Currency @include('frontend.common.label.required')
                                         </label>
 
-                                        @component('input::inputreadonly')
+                                        @component('input::select2')
                                         @slot('id', 'currency')
                                         @slot('text', 'Currency')
                                         @slot('name', 'currency')
@@ -173,9 +173,9 @@
                                     </div>
                                 </div>
 
-                                
 
-                                
+
+
 
 
 
@@ -209,6 +209,8 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/select2/customer.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/customer.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
 
@@ -216,42 +218,30 @@
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 <script>
-    var currency_choose = "";
-
-    function curformat(val, id) {
-        var num = val;
-        var output = parseFloat(num).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        document.getElementById(id).value = output;
-    }
-
-    function exchangerateadj2(val, id) {
-
-        uniquecode = id.substring(8);
-        subunique = "exchangerate" + uniquecode;
-        console.log(subunique);
-        if (val != "46") {
-            document.getElementById(subunique).value = '';
-        } else {
-            document.getElementById(subunique).value = '1';
-        }
-    }
-    jQuery(document).ready(function() {
-        var currency = "";
-        $('#currency').on('change', function() {
-            currency_choose = this.value;
-            currency = this.value;
-            if (this.value != "46") {
-                $("#exchange").attr("readonly", false);
-                document.getElementById("requi").style.display = "block";
-
-            } else {
-                document.getElementById('exchange').value = '1';
-                $("#exchange").attr("readonly", true);
-                document.getElementById("requi").style.display = "none";
-
+    //Customer Onchange
+    $('#customer').change(function() {
+        var uuid_cust = $(this).val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'get',
+            url: '/customerfa/'+uuid_cust,
+            data: {
+                
+            },
+            success: function(data) {
+                if (data.errors) {
+                    if (data.errors.code) {
+                        
+                    }
+                } else {
+                   console.log(data);
+                   $("#customerac").val(data.name);
+                   $("#customerac").attr("uuid", data.uuid);
+                }
             }
         });
-
     });
 </script>
 @endpush

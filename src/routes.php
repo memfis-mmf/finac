@@ -97,6 +97,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 	Route::get('/currencyfa', 'Directoryxx\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
 	Route::get('/bankfa', 'Directoryxx\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
 	Route::get('/bankfa/{bankaccount}', 'Directoryxx\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
+	Route::get('/customerfa/{customer}', 'Directoryxx\Finac\Controllers\Frontend\ARController@cust_detail')->name('customer.detailfa');
 	//Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');
 	
 	//Route::resource('cashbook-bpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController');

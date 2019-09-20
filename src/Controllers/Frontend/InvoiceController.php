@@ -570,7 +570,7 @@ class InvoiceController extends Controller
         //$workpackages = 
         //dd($project->customer_id);
         $attn_quo =
-            $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
+        $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
         //dd($customer);
         $quotation->project .= $project;
         $quotation->customer .= $customer;
@@ -731,6 +731,7 @@ class InvoiceController extends Controller
             $htcrr_workpackage->htcrrcount = HtCrr::where('project_id', $quotation->quotationable->id)->count();
             $htcrr_workpackage->price = $pricehtccr;
             $htcrr_workpackage->other = $quotation->charge;
+            $htcrr_workpackage->data_htcrr = json_decode($quotation->data_htcrr, true);
             $htcrr_workpackage->schedulepayment = $quotation->scheduled_payment_amount;
             $htcrr_workpackage->tax_type = $taxes_type->code;
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;

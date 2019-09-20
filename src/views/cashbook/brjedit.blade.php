@@ -279,6 +279,37 @@
         </div>
     </div>
 </div>
+<input hidden id="coaid">
+<input hidden id="idcodeadj1-1">
+<input hidden id="idcodeadj1-2">
+<input hidden id="idcodeadj1-3">
+<input hidden id="idcodeadj1-4">
+<input hidden id="idcodeadj1-5">
+<input hidden id="idcodeadj1-6">
+<input hidden id="idcodeadj1-7">
+<input hidden id="idcodeadj1-8">
+<input hidden id="idcodeadj1-9">
+<input hidden id="idcodeadj1-10">
+<input hidden id="idcodeadj2-1">
+<input hidden id="idcodeadj2-2">
+<input hidden id="idcodeadj2-3">
+<input hidden id="idcodeadj2-4">
+<input hidden id="idcodeadj2-5">
+<input hidden id="idcodeadj2-6">
+<input hidden id="idcodeadj2-7">
+<input hidden id="idcodeadj2-8">
+<input hidden id="idcodeadj2-9">
+<input hidden id="idcodeadj2-10">
+<input hidden id="idcodeadj3-1">
+<input hidden id="idcodeadj3-2">
+<input hidden id="idcodeadj3-3">
+<input hidden id="idcodeadj3-4">
+<input hidden id="idcodeadj3-5">
+<input hidden id="idcodeadj3-6">
+<input hidden id="idcodeadj3-7">
+<input hidden id="idcodeadj3-8">
+<input hidden id="idcodeadj3-9">
+<input hidden id="idcodeadj3-10">
 @endsection
 
 @push('footer-scripts')

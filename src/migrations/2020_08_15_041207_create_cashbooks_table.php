@@ -24,15 +24,16 @@ class CreateCashbooksTable extends Migration
             $table->string('xstatus')->nullable();
             $table->string('personal')->nullable();
             $table->string('refno')->nullable();
-            $table->unsignedBigInteger('currency');
-            $table->decimal('exchangerate',18,5)->nullable();
-            $table->unsignedInteger('accountcode');
-            $table->decimal('totaltransaction',18,5)->nullable();
+            $table->string('currency');
+            $table->decimal('exchangerate', 18, 5)->nullable();
+            $table->string('accountcode');
+            $table->decimal('totaltransaction', 18, 5)->nullable();
             $table->string('createdby')->nullable();
             $table->dateTime('updateddate')->nullable();
             $table->string('deleteby')->nullable();
             $table->string('updatedby')->nullable();
             $table->text('description')->nullable();
+            /*
             $table->foreign('accountcode')
                     ->references('id')->on('coas')
                     ->onUpdate('cascade')
@@ -41,6 +42,7 @@ class CreateCashbooksTable extends Migration
                     ->references('id')->on('currencies')
                     ->onUpdate('cascade')
                     ->onDelete('restrict');
+            */
             $table->softDeletes();
             $table->timestamps();
         });

@@ -137,22 +137,50 @@ var DatatableAutoColumnHideDemo = function () {
             if (t.htcrrcount == null && t.other == null) {
 
               if (currency.id == 1) {
-                temptotal = t.h1 + t.h2;
+                temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                discount += t.discount;
-                $("#total_discount").attr("value", discount);
+                //discount += t.discount;
+                if (t.pivot.discount_type == 'amount') {
+                  discount += t.pivot.discount_value;
+                } else {
+                  if (t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
+                //$("#total_discount").attr("value", discount);
                 return (
-                  IDRformatter.format(t.h1) + "<br/>"
+                  /*IDRformatter.format(t.h1) + "<br/>"
                   + IDRformatter.format(t.h2) + "<br/>"
+                  */
+                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
+                  IDRformatter.format(t.mat_tool_price) + '<br>'
                 );
               } else {
-                temptotal = t.h1 + t.h2;
+                //temptotal = t.h1 + t.h2;
+                temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                discount += t.discount;
-                $("#total_discount").attr("value", discount);
+                //discount += t.discount;
+                
+                if (t.pivot.discount_type == 'amount') {
+                  discount += t.pivot.discount_value;
+                } else {
+                  if (t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
+                //$("#total_discount").attr("value", discount);
                 return (
+                  /*
                   ForeignFormatter.format(t.h1) + "<br/>"
                   + ForeignFormatter.format(t.h2) + "<br/>"
+                  */
+                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
+                  //ForeignFormatter.format(a.facilities_price_amount) + '<br>' +
+                  ForeignFormatter.format(t.mat_tool_price) + '<br>'
                 );
               }
             } else {
@@ -189,6 +217,15 @@ var DatatableAutoColumnHideDemo = function () {
                   //$("textarea#ExampleMessage").html(result.exampleMessage)
 
                 });
+                if (t.data_htcrr.discount_type == 'amount') {
+                  discount += t.data_htcrr.discount_value;
+                } else {
+                  if (t.data_htcrr.discount_type == 'percentage') {
+                    discount += temptotal * (t.data_htcrr.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
                 $("#schedule_payment").html(sp_show);
                 return (
                   IDRformatter.format(t.price) + "<br/>"
@@ -270,7 +307,7 @@ jQuery(document).ready(function () {
     data.append("account", $('#coa').val());
     data.append("grand_total", grand_total1);
     data.append("grand_totalrp", convertidr);
-    data.append("description",$('textarea#desc').val());
+    data.append("description", $('textarea#desc').val());
 
 
     $.ajax({
@@ -278,7 +315,7 @@ jQuery(document).ready(function () {
         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
       },
       type: 'post',
-      url: '/invoice/'+invoice_uuid+"/edit",
+      url: '/invoice/' + invoice_uuid + "/edit",
       processData: false,
       contentType: false,
       data: data,

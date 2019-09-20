@@ -137,29 +137,55 @@ var DatatableAutoColumnHideDemo = function () {
           filterable: !1,
           template: function (t, e, i) {
             if (t.htcrrcount == null && t.other == null) {
-
               if (currency.id == 1) {
-                temptotal = t.h1 + t.h2;
+                //temptotal = t.h1 + t.h2;
+                temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                discount += t.discount;
+                //discount += t.discount;
+                if(t.pivot.discount_type == 'amount'){
+                  discount += t.pivot.discount_value;
+                  }else {
+                    if(t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value/100);
+                  }else{
+                    discount += 0;
+                  } 
+                }
+                
                 $("#total_discount").attr("value", discount);
                 return (
-                  IDRformatter.format(t.h1) + "<br/>"
+                  /*IDRformatter.format(t.h1) + "<br/>"
                   + IDRformatter.format(t.h2) + "<br/>"
+                  */
+                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
+                  IDRformatter.format(t.mat_tool_price) + '<br>' 
                 );
               } else {
-                temptotal = t.h1 + t.h2;
+                //temptotal = t.h1 + t.h2;
+                temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                discount += t.discount;
+                if (t.data_htcrr.discount_type == 'amount') {
+                  discount += t.data_htcrr.discount_value;
+                } else {
+                  if (t.data_htcrr.discount_type == 'percentage') {
+                    discount += temptotal * (t.data_htcrr.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
                 $("#total_discount").attr("value", discount);
                 return (
+                  /*
                   ForeignFormatter.format(t.h1) + "<br/>"
                   + ForeignFormatter.format(t.h2) + "<br/>"
+                  */
+                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
+                  //ForeignFormatter.format(a.facilities_price_amount) + '<br>' +
+                  ForeignFormatter.format(t.mat_tool_price) + '<br>' 
                 );
               }
             } else {
               tipetax = t.tax_type;
-              console.log(tipetax);
               if (tipetax == "include") {
                 tax = (subtotal - discount) / 1.1 * 0.1;
               } else {
@@ -191,6 +217,15 @@ var DatatableAutoColumnHideDemo = function () {
                   //$("textarea#ExampleMessage").html(result.exampleMessage)
 
                 });
+                if (t.data_htcrr.discount_type == 'amount') {
+                  discount += t.data_htcrr.discount_value;
+                } else {
+                  if (t.data_htcrr.discount_type == 'percentage') {
+                    discount += temptotal * (t.data_htcrr.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
                 $("#schedule_payment").html(sp_show);
                 return (
                   IDRformatter.format(t.price) + "<br/>"
@@ -208,6 +243,15 @@ var DatatableAutoColumnHideDemo = function () {
                   //$("textarea#ExampleMessage").html(result.exampleMessage)
 
                 });
+                if (t.data_htcrr.discount_type == 'amount') {
+                  discount += t.data_htcrr.discount_value;
+                } else {
+                  if (t.data_htcrr.discount_type == 'percentage') {
+                    discount += temptotal * (t.data_htcrr.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
                 $("#schedule_payment").html(sp_show);
                 return (
                   ForeignFormatter.format(t.price) + "<br/>"
