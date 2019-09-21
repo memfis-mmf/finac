@@ -164,14 +164,14 @@ var DatatableAutoColumnHideDemo = function () {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                if (t.data_htcrr.discount_type == 'amount') {
-                  discount += t.data_htcrr.discount_value;
-                } else {
-                  if (t.data_htcrr.discount_type == 'percentage') {
-                    discount += temptotal * (t.data_htcrr.discount_value / 100);
-                  } else {
+                if(t.pivot.discount_type == 'amount'){
+                  discount += t.pivot.discount_value;
+                  }else {
+                    if(t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value/100);
+                  }else{
                     discount += 0;
-                  }
+                  } 
                 }
                 $("#total_discount").attr("value", discount);
                 return (

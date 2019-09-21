@@ -370,6 +370,7 @@
                                     </div>
 
 
+
                                 </div>
 
 
@@ -394,6 +395,23 @@
                                 <br />
                                 <br />
                                 <div hidden id="hiddennext">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <fieldset class="border p-2">
+                                                <legend class="w-auto">Scheduled Payment :</legend>
+
+                                                <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
+                                                    <tfoot>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th colspan="2"></th>
+                                                    </tfoot>
+                                                </table>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
                                     <center>
                                         <h3 id="subjectquo">Subject</h3>
                                     </center>
@@ -430,21 +448,6 @@
                                                 <div class="col-sm-1 col-md-1 col-lg-1">
                                                 </div>
                                                 <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
-                                            </div>
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                                    <fieldset class="border p-2">
-                                                        <legend class="w-auto">Scheduled Payment :</legend>
-
-                                                        <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
-                                                            <tfoot>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th colspan="2"></th>
-                                                            </tfoot>
-                                                        </table>
-                                                    </fieldset>
                                                 </div>
                                             </div>
                                             <div class="form-group m-form__group row">
