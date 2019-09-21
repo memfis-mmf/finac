@@ -22,11 +22,11 @@ class CreateARecievesTable extends Migration
             $table->dateTime('transactiondate');
             $table->integer('id_customer');
             $table->string('accountcode');
-            $table->string('refno');
+            $table->string('refno')->nullable();
             $table->string('currency');
             $table->decimal('exchangerate',18,5);
-            $table->decimal('totaltransaction',18,5);
-            $table->text('description');
+            $table->decimal('totaltransaction',18,5)->nullable();
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

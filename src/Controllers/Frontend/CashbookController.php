@@ -97,7 +97,7 @@ class CashbookController extends Controller
             if(!empty($cashbook->approvals->toArray())){
                 $approval = $cashbook->approvals->toArray();
                 $cashbook->status .= 'Approved';
-                $cashbook->approvedby .= $approval[0]['approved_by'];
+                $cashbook->approvedby .= $approval[0]['conducted_by'];
             }else{
                 $cashbook->status .= '';
 
