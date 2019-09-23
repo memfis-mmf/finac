@@ -46,6 +46,9 @@ let CoaDatatables = {
         $('#coa_datatables').on('click', '.select-coa', function () {
             var code = $(this).data('uuid');
             var dataid = document.getElementById('hiderow').value;
+            var profitcenttype = $('#proritcenttype111').val();
+            console.log(profitcenttype);
+            //var datato = document.getElementById('hiderow').value;
             console.log(dataid);
             console.log(code);
             $.ajax({
@@ -53,19 +56,35 @@ let CoaDatatables = {
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    
-                    var idtest = "code"+dataid;
-                    if(dataid == null || dataid == "" || dataid == undefined){
+
+                    var idtest = "code" + dataid;
+                    if (dataid == null && dataid == "" && dataid == undefined) {
                         document.getElementById('coa').value = data.code;
                         document.getElementById('acd').value = data.name;
                         $('#acd_header').removeAttr('hidden');
-                        $('#coa').attr("data-uuid",data.uuid);  
+                        $('#coa').attr("data-uuid", data.uuid);
+                    } else if (window.profitcenttype == "material") {
+                        console.log("material");
+                        $('.material').val(data.code);
+                        $('#material_name').val(data.name);
+                    } else if (window.profitcenttype == "manhours"){
+                        console.log("manhours");
+                        $('.manhours').val(data.code);
+                        $('#manhours_name').val(data.name);
+                    } else if (window.profitcenttype == "facility"){
+                        console.log("facility");
+                        $('.facility').val(data.code);
+                        $('#facility_name').val(data.name);
+                    } else if (window.profitcenttype == "others"){
+                        console.log("others");
+                        $('.others').val(data.code);
+                        $('#other_name').val(data.name);
                     } else {
                         document.getElementById(idtest).value = data.name;
-                        $('#'+idtest).attr("data-uuid",data.uuid);  
+                        $('#' + idtest).attr("data-uuid", data.uuid);
                     }
 
-                    
+
                     $('#coa_modal').modal('hide');
                 }
             });
@@ -82,9 +101,10 @@ jQuery(document).on("click", ".open-AddRowDialog", function () {
     var myBookId = $(this).data('id');
     console.log(myBookId);
     document.getElementById('hiderow').value = myBookId;
-    
+    console.log(profitcent_type);
 
-    
+
+
     // As pointed out in comments, 
     // it is unnecessary to have to manually call the modal.
     // $('#addBookDialog').modal('show');

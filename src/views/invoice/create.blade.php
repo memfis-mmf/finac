@@ -336,38 +336,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <br />
-                                        <label class="form-control-label">
-                                            Account Code @include('frontend.common.label.required')
-                                        </label>
 
-                                        @component('input::inputrightbutton')
-                                        @slot('rows', '5')
-                                        @slot('id', 'coa')
-                                        @slot('name', 'coa')
-                                        @slot('data_target', '#coa_modal')
-
-                                        @slot('text', 'Account Code')
-                                        @slot('id_error', 'coa')
-                                        @endcomponent
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <div hidden id="acd_header">
-                                            <br />
-                                            <label class="form-control-label">
-                                                Account Code Description
-                                            </label>
-
-                                            @component('input::inputreadonly')
-                                            @slot('id', 'acd')
-                                            @slot('name', 'acd')
-                                            @slot('text', 'Account Code Description')
-                                            @slot('id_error', 'acd')
-                                            @endcomponent
-                                        </div>
-                                    </div>
 
 
 
@@ -397,21 +366,156 @@
                                 <div hidden id="hiddennext">
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <br />
+                                            <br />
                                             <fieldset class="border p-2">
-                                                <legend class="w-auto">Scheduled Payment :</legend>
+                                                <legend class="w-auto">Profit Center :</legend>
+                                                <div class="row">
+                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:13px" class="form-control-label">
 
-                                                <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
-                                                    <tfoot>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th colspan="2"></th>
-                                                    </tfoot>
-                                                </table>
-                                            </fieldset>
+                                                                Manhours
+                                                            </label>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:35px" class="form-control-label">
+
+                                                                Material
+                                                            </label>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:15px" class="form-control-label">
+                                                                <br />
+                                                                Facility
+                                                            </label>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:34px" class="form-control-label">
+
+                                                                Other
+                                                            </label>
+
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('class', 'manhours')
+                                                            @slot('dataid','manhours')
+                                                            @slot('name', 'coa')
+                                                            @slot('type', 'text')
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('class', 'material')
+                                                            @slot('name', 'coa')
+                                                            @slot('dataid','material')
+                                                            @slot('type', 'text')
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('name', 'coa')
+                                                            @slot('type', 'text')
+                                                            @slot('class', 'facility')
+                                                            @slot('dataid','facility')
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('name', 'coa')
+                                                            @slot('class', 'others')
+                                                            @slot('dataid','others')
+                                                            @slot('type', 'text')
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                        <div style="margin-top:1px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', 'manhours_name')
+                                                            @slot('name', 'manhours_name')
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'manhours_name')
+                                                            @endcomponent
+                                                        </div>
+                                                        <div style="margin-top:22px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', 'material_name')
+                                                            @slot('name', 'material_name')
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'material_name')
+                                                            @endcomponent
+                                                        </div>
+                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', 'facility_name')
+                                                            @slot('name', 'facility_name')
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'facility_name')
+                                                            @endcomponent
+                                                        </div>
+                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', 'other_name')
+                                                            @slot('name', 'other_name')
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'other_name')
+                                                            @endcomponent
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <fieldset class="border p-2">
+                                                    <legend class="w-auto">Scheduled Payment :</legend>
+
+                                                    <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
+                                                        <tfoot>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th colspan="2"></th>
+                                                        </tfoot>
+                                                    </table>
+                                                </fieldset>
                                         </div>
                                     </div>
-                                    <br/>
-                                    <br/>
+                                    <br />
+                                    <br />
                                     <center>
                                         <h3 id="subjectquo">Subject</h3>
                                     </center>
@@ -517,9 +621,6 @@
                                                     @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="append-other">
-
-                                            </div>
 
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
@@ -582,8 +683,10 @@
         </div>
     </div>
 </div>
+<input hidden id="profitcenttype111" class="test123456" value="">
 @include('cashbookview::coamodal')
 @include('invoiceview::refquomodal')
+@include('invoiceview::coamodal1')
 @endsection
 
 @push('header-scripts')
@@ -658,6 +761,7 @@
     let grand_total1 = 0;
     let convertidr = 0;
     let dataSet = "";
+    var profitcenttype = "";
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 
@@ -672,6 +776,17 @@
 <script>
     $(document).ready(function() {
         var others_data = "";
+        $(".checkprofit").on('click', function(event) {
+            //console.log($(this).data('id'));
+            window.profitcenttype = $(this).data('id');
+            console.log(window.profitcenttype);
+            $('#proritcenttype111').val(window.profitcenttype);
+            $('.test123456').val(window.profitcenttype);
+            console.log($('.test123456').val());
+            console.log($('#proritcenttype111').val());
+            //console.log(proritcent_type);
+            //(... rest of your JS code)
+        });
     });
 </script>
 

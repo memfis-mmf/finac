@@ -587,6 +587,7 @@ class InvoiceController extends Controller
     {
         $workpackages = $quotation->workpackages;
         $items = $quotation->item;
+        //dump($quotation->charge);
         $taxes =  $quotation->taxes->first();
         if ($taxes != null) {
             $taxes_type = Type::where('id', $taxes->type_id)->first();
@@ -737,10 +738,29 @@ class InvoiceController extends Controller
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
 
-
+        if ($quotation->charge != null){
+            $encode = json_decode($quotation->charge);
+            $last_index_key = array_key_last($encode);
+            $total = 0;
+            for ($i=0;$i<=$last_index_key;$i++){
+                $total += $encode[$i]->amount;
+            }
+            //dd($encode[0]->amount);
+            $other_workpackage = new WorkPackage();
+            $other_workpackage->code = "Other";
+            $other_workpackage->title = "Other";
+            $other_workpackage->priceother = $total;
+            //$htcrr_workpackage->other = $quotation->charge;
+            $workpackages[sizeof($workpackages)] = $other_workpackage;
+        }
+        
+        
+        
 
 
         $data = $alldata = json_decode($workpackages);
+        //dump($data);
+
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 
