@@ -16,10 +16,11 @@ class CreateInvoicetotalprofitTable extends Migration
         Schema::create('invoicetotalprofit', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->unsignedBigInteger('invoice_id');
-            $table->unsignedBigInteger('accountcode');
+            $table->unsignedInteger('invoice_id');
+            $table->unsignedInteger('accountcode');
             $table->decimal('amount', 18, 5)->nullable();
             $table->string('type');
+            $table->foreign('invoice_id')->references('id')->on('invoices');
             $table->foreign('accountcode')->references('id')->on('coas');
             $table->softDeletes();
             $table->timestamps();

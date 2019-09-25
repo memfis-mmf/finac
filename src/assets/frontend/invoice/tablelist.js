@@ -145,7 +145,9 @@ var DatatableAutoColumnHideDemo = function () {
               if (currency.id == 1) {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
-
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
+                facility_price += t.facilities_price_amount;
+                material_price += t.mat_tool_price;
                 subtotal += temptotal;
                 //discount += t.discount;
                 /*
@@ -181,7 +183,9 @@ var DatatableAutoColumnHideDemo = function () {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
+                facility_price += t.facilities_price_amount;
+                material_price += t.mat_tool_price;
                 if(t.pivot.discount_type == 'amount'){
                   discount += t.pivot.discount_value;
                   }else {
@@ -229,6 +233,8 @@ var DatatableAutoColumnHideDemo = function () {
               convertidr = grand_total1 * exchange_get;
               schedule_payment = JSON.parse(t.schedulepayment);
               dataSet = schedule_payment;
+              console.log(t);
+              console.log(schedule_payment);
 
 
               $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
@@ -297,7 +303,9 @@ var DatatableAutoColumnHideDemo = function () {
 
             } else if (t.priceother != null) {
               subtotal += t.priceother;
+              others_price += t.priceother;
               if (currency.id == 1) {
+                others_price += t.priceother;
                 return (
                   IDRformatter.format(t.priceother) + "<br/>"
                 );
@@ -372,6 +380,14 @@ jQuery(document).ready(function () {
     data.append("account", $('#coa').val());
     data.append("grand_total", grand_total1);
     data.append("grand_totalrp", convertidr);
+    data.append("material",$(".material").val());
+    data.append("manhours",$(".manhours").val());
+    data.append("facility",$(".facility").val());
+    data.append("other",$(".others").val());
+    data.append("materialprice",material_price);
+    data.append("manhoursprice",manhour_price);
+    data.append("facilityprice",facility_price);
+    data.append("otherprice",others_price);
     data.append("description", $('textarea#desc').val());
 
 
@@ -423,7 +439,7 @@ jQuery(document).ready(function () {
             timeOut: 5000
           });
 
-          window.location.href = '/invoice/';
+          //window.location.href = '/invoice/';
 
         }
       }

@@ -652,6 +652,21 @@
                                                     @endcomponent
                                                 </div>
                                             </div>
+                                            <div class="form-group m-form__group row">
+                                                <div style="color:red;" class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        Due Payment Amount
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'due_payment')
+                                                    @slot('class', 'due_payment')
+                                                    @slot('text', '')
+                                                    @slot('value', '')
+                                                    @endcomponent
+                                                </div>
+                                            </div>
 
                                         </div>
                                         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -745,6 +760,7 @@
         });
     }
 
+    var n_invoice_count = 0;
     var customers = "";
     var attention = "";
     var atten_array = {};
@@ -762,6 +778,10 @@
     let convertidr = 0;
     let dataSet = "";
     var profitcenttype = "";
+    let manhour_price = 0;
+    let facility_price = 0;
+    let material_price = 0;
+    let others_price = 0;
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 

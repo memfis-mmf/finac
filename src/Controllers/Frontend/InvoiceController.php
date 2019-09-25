@@ -31,6 +31,7 @@ use App\Models\QuotationWorkPackageItem;
 use App\Models\QuotationWorkPackageTaskCardItem;
 use App\Models\TaskCard;
 use App\Models\Type;
+use Directoryxx\Finac\Model\Invoicetotalprofit;
 use stdClass;
 
 class InvoiceController extends Controller
@@ -66,12 +67,29 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        
         $quotation = Quotation::where('number', $request->quotation)->first();
+        //dd($quotation->scheduled_payment_amount);
+        
+        $invoice_check = Invoice::where('id_quotation',$quotation->id)->count();
+        //dd($invoice_check);
+        $schedule_payment = json_decode($quotation->scheduled_payment_amount);
+        //dd($schedule_payment);
+        $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
+        $last_sp = $end_sp + 1;
+        $percent_sp =$schedule_payment[$last_sp - 1]->amount_percentage;
+
+
+        
         $project = $quotation->quotationable()->first();
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
         $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
         $currency = Currency::where('name', $request->currency)->first();
         $coa = Coa::where('code', $request->account)->first();
+        $material = Coa::where('code', $request->material)->first();
+        $manhours = Coa::where('code', $request->manhours)->first();
+        $facility = Coa::where('code', $request->facility)->first();
+        $others = Coa::where('code', $request->other)->first();
         $bankaccount = BankAccount::where('uuid', $request->bank)->first();
         //dd($bankaccount);
         //dd($coa);
@@ -122,6 +140,54 @@ class InvoiceController extends Controller
             'accountcode' => $coa->id,
             'description' => $description,
             'attention' => $fix_attention,
+        ]);
+
+        $list = [
+            'manhours' => $request->manhoursprice ,
+            'manhours_percent' => $percent_sp,
+            'manhours_calc' => ($percent_sp/100),
+            'manhours_result' =>  $request->manhoursprice * ($percent_sp/100),
+            'material' => $request->materialprice ,
+            'material_percent' => $percent_sp,
+            'material_calc' => ($percent_sp/100),
+            'material_result' =>  $request->materialprice * ($percent_sp/100),
+            'facility' => $request->facilityprice ,
+            'facility_percent' => $percent_sp,
+            'facility_calc' => ($percent_sp/100),
+            'facility_result' =>  $request->facilityprice * ($percent_sp/100),
+            'others' => $request->otherprice ,
+            'others_percent' => $percent_sp,
+            'others_calc' => ($percent_sp/100),
+            'others_result' =>  $request->otherprice * ($percent_sp/100),
+
+        ];
+        dd($list);
+        $manhours_ins = Invoicetotalprofit::create([
+            'invoice_id' => $invoice->id,
+            'accountcode' => $manhours->id,
+            'amount' => $request->manhoursprice * ($percent_sp/100),
+            'type' => 'manhours'
+        ]);
+
+        $material_ins = Invoicetotalprofit::create([
+            'invoice_id' => $invoice->id,
+            'accountcode' => $material->id,
+            'amount' => $request->materialprice * ($percent_sp/100),
+            'type' => 'material'
+        ]);
+
+        $facility_ins = Invoicetotalprofit::create([
+            'invoice_id' => $invoice->id,
+            'accountcode' => $facility->id,
+            'amount' => $request->facilityprice * ($percent_sp/100),
+            'type' => 'facility'
+        ]);
+
+        $others_ins = Invoicetotalprofit::create([
+            'invoice_id' => $invoice->id,
+            'accountcode' => $others->id,
+            'amount' => $request->otherprice * ($percent_sp/100),
+            'type' => 'others'
         ]);
 
         return response()->json($invoice);
