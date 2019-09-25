@@ -63,11 +63,12 @@ let RefQuoDatatables = {
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
-                    n_invoice_count = data.invoicecount;
-                    var scheduled_payment_amount1112 = JSON.parse(data.scheduled_payment_amount);
-                    console.log(scheduled_payment_amount1112[n_invoice_count].amount);
-                    $("#due_payment").val(scheduled_payment_amount1112[n_invoice_count].amount);
                     if (data.spcount != data.invoicecount) {
+                        n_invoice_count = data.invoicecount;
+                        var scheduled_payment_amount1112 = JSON.parse(data.scheduled_payment_amount);
+                        console.log(scheduled_payment_amount1112[n_invoice_count].amount);
+                        $("#due_payment").val(scheduled_payment_amount1112[n_invoice_count].amount);
+                    
                         let dataSchedule = JSON.parse(data.scheduled_payment_amount);
                         let scheduled_payments111 = {
                             init: function () {
