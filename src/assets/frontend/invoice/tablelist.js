@@ -439,7 +439,7 @@ jQuery(document).ready(function () {
             timeOut: 5000
           });
 
-          //window.location.href = '/invoice/';
+          window.location.href = '/invoice/';
 
         }
       }
