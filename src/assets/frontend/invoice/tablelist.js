@@ -387,6 +387,7 @@ jQuery(document).ready(function () {
     data.append("materialprice",material_price);
     data.append("manhoursprice",manhour_price);
     data.append("facilityprice",facility_price);
+    data.append("schedule_payment",$("#due_payment").val());
     data.append("otherprice",others_price);
     data.append("description", $('textarea#desc').val());
 

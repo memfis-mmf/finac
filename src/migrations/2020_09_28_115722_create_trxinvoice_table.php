@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoicesTable extends Migration
+class CreateTrxinvoiceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('trxinvoice', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
             $table->unsignedBigInteger('id_branch')->default(1);
@@ -33,8 +33,8 @@ class CreateInvoicesTable extends Migration
             $table->decimal('grandtotalforeign',18,5);
             $table->decimal('grandtotal',18,5);
             $table->unsignedInteger('accountcode');
-            $table->decimal('schedule_payment',18,5);
             $table->text('description');
+            $table->decimal('schedule_payment',18,5);
             $table->foreign('accountcode')->references('id')->on('coas');
             $table->foreign('currency')->references('id')->on('currencies');
             $table->foreign('id_branch')->references('id')->on('branches');
@@ -53,6 +53,6 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('trxinvoice');
     }
 }

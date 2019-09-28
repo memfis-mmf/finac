@@ -32,6 +32,7 @@ use App\Models\QuotationWorkPackageTaskCardItem;
 use App\Models\TaskCard;
 use App\Models\Type;
 use Directoryxx\Finac\Model\Invoicetotalprofit;
+use Directoryxx\Finac\Model\Trxinvoice;
 use stdClass;
 
 class InvoiceController extends Controller
@@ -133,7 +134,30 @@ class InvoiceController extends Controller
             'discountpercent' => $percent_friendly,
             'discountvalue' => $discount_value,
             'ppnpercent' => $ppn_percent,
+            'schedule_payment' => $request->schedule_payment,
             'ppnvalue' => $ppn_value,
+            'id_bank' => $bankaccount->id,
+            'grandtotalforeign' => $grandtotalfrg,
+            'grandtotal' => $grandtotalidr,
+            'accountcode' => $coa->id,
+            'description' => $description,
+            'attention' => $fix_attention,
+        ]);
+
+        $invoicetrx = Trxinvoice::create([
+            'id_branch' => $id_branch,
+            'closed' => $closed,
+            'id_quotation' => $quotation_id,
+            'transactionnumber' => $transaction_number,
+            'transactiondate' => $transaction_date,
+            'id_customer' => $customer_id,
+            'currency' => $currency_id,
+            'exchangerate' => $exchange_rate,
+            'discountpercent' => $percent_friendly,
+            'discountvalue' => $discount_value,
+            'ppnpercent' => $ppn_percent,
+            'ppnvalue' => $ppn_value,
+            'schedule_payment' => $request->schedule_payment,
             'id_bank' => $bankaccount->id,
             'grandtotalforeign' => $grandtotalfrg,
             'grandtotal' => $grandtotalidr,
@@ -161,7 +185,6 @@ class InvoiceController extends Controller
             'others_result' =>  $request->otherprice * ($percent_sp/100),
 
         ];
-        dd($list);
         $manhours_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $manhours->id,
@@ -216,6 +239,16 @@ class InvoiceController extends Controller
         $quotation = Quotation::where('id', $invoice->id_quotation)->first();
         $currency = $invoice->currencies;
         $coa = $invoice->coas;
+        //dd($invoice->id);
+        $material = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','material')->first();
+        $material_id = Coa::where('id',$material->accountcode)->first();
+        $manhours = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','manhours')->first();
+        $manhours_id = Coa::where('id',$manhours->accountcode)->first();
+        $facility = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','facility')->first();
+        $facility_id = Coa::where('id',$facility->accountcode)->first();
+        $others = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','others')->first();
+        $others_id = Coa::where('id',$others->accountcode)->first();
+        
         $bankAccountget = BankAccount::where('id',$invoice->id_bank)->first();
         //dd($bankAccountget->uuid);
         $bankget = Bank::where('id',$bankAccountget->bank_id)->first();
@@ -226,6 +259,10 @@ class InvoiceController extends Controller
             ->with('today', $invoice->transactiondate)
             ->with('quotation', $quotation)
             ->with('coa', $coa)
+            ->with('manhours',$manhours_id)
+            ->with('material',$material_id)
+            ->with('facility',$facility_id)
+            ->with('others',$others_id)
             ->with('invoice', $invoice)
             ->with('bankget',$bankget)
             ->with('banks',$bank)
@@ -258,7 +295,8 @@ class InvoiceController extends Controller
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $request->grand_totalrp;
         $description = $request->description;
-        $invoice = Invoice::where('id', $invoice->id)
+        
+        $invoice1 = Invoice::where('id', $invoice->id)
             ->update([
                 'currency' => $currency_id,
                 'exchangerate' => $exchange_rate,
@@ -272,6 +310,25 @@ class InvoiceController extends Controller
                 'accountcode' => $coa->id,
                 'description' => $description,
             ]);
+                
+        //dd($invoice);
+        $trxinvoice = Trxinvoice::where('id', $invoice->id)
+            ->update([
+                'currency' => $currency_id,
+                'exchangerate' => $exchange_rate,
+                'discountpercent' => $percent_friendly,
+                'discountvalue' => $discount_value,
+                'ppnpercent' => $ppn_percent,
+                'ppnvalue' => $ppn_value,
+                'id_bank' => $bankaccount->id,
+                'grandtotalforeign' => $grandtotalfrg,
+                'grandtotal' => $grandtotalidr,
+                'accountcode' => $coa->id,
+                'description' => $description,
+            ]);
+
+        
+            
 
         return response()->json($invoice);
     }

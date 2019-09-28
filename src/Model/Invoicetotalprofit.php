@@ -19,4 +19,8 @@ class Invoicetotalprofit extends MemfisModel
         'type',
     ];
 
+    public function coas(){
+        return $this->hasOne(Coa::class,'id','accountcode');
+    }
+
 }

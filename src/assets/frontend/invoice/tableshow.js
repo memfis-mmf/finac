@@ -77,7 +77,7 @@ var DatatableAutoColumnHideDemo = function () {
           width: '700px',
 
           template: function (t) {
-            if (t.htcrrcount == null) {
+            if (t.htcrrcount == null && t.priceother == null) {
               var template = "";
               var basic = "&nbsp;&nbsp;&nbsp;&nbsp;Basic TaskCard " + t.basic + " item(s)<br/>";
               var sip = "&nbsp;&nbsp;&nbsp;&nbsp;SIP TaskCard " + t.sip + " item(s)<br/>";
@@ -118,13 +118,18 @@ var DatatableAutoColumnHideDemo = function () {
                 + template
 
               );
-            } else {
+            } else if (t.htcrrcount != null) {
               return (
                 "&nbsp;&nbsp;&nbsp;&nbsp;HardTime TaskCard " + t.htcrrcount + " item(s)"
 
               );
 
-            }
+            } else if (t.priceother != null) {
+              return (
+                "&nbsp;&nbsp;&nbsp;&nbsp;Others "
+
+              );
+            } 
 
           }
         },
@@ -134,22 +139,37 @@ var DatatableAutoColumnHideDemo = function () {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            if (t.htcrrcount == null && t.other == null) {
-
+            if (t.htcrrcount == null && t.priceother == null) {
               if (currency.id == 1) {
-                temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
+                //temptotal = t.h1 + t.h2;
+                temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
+                facility_price += t.facilities_price_amount;
+                material_price += t.mat_tool_price;
                 subtotal += temptotal;
                 //discount += t.discount;
-                if (t.pivot.discount_type == 'amount') {
+                /*
+                if(t.pivot.discount_type == 'amount'){
                   discount += t.pivot.discount_value;
+                  }else {
+                    if(t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value/100);
+                  }else{
+                    discount += 0;
+                  } 
+                }
+                */
+                if (t.discount_type == 'amount') {
+                  discount += t.discount_value;
                 } else {
-                  if (t.pivot.discount_type == 'percentage') {
-                    discount += temptotal * (t.pivot.discount_value / 100);
+                  if (t.discount_type == 'percentage') {
+                    discount += subtotal * (t.discount_value / 100);
                   } else {
                     discount += 0;
                   }
                 }
-                //$("#total_discount").attr("value", discount);
+
+                $("#total_discount").attr("value", discount);
                 return (
                   /*IDRformatter.format(t.h1) + "<br/>"
                   + IDRformatter.format(t.h2) + "<br/>"
@@ -161,9 +181,20 @@ var DatatableAutoColumnHideDemo = function () {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                //discount += t.discount;
-                
-                if (t.pivot.discount_type == 'amount') {
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
+                facility_price += t.facilities_price_amount;
+                material_price += t.mat_tool_price;
+                if(t.pivot.discount_type == 'amount'){
+                  discount += t.pivot.discount_value;
+                  }else {
+                    if(t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value/100);
+                  }else{
+                    discount += 0;
+                  } 
+                }
+                /*
+                if (t.discount_type == 'amount') {
                   discount += t.pivot.discount_value;
                 } else {
                   if (t.pivot.discount_type == 'percentage') {
@@ -172,7 +203,7 @@ var DatatableAutoColumnHideDemo = function () {
                     discount += 0;
                   }
                 }
-                //$("#total_discount").attr("value", discount);
+                */
                 return (
                   /*
                   ForeignFormatter.format(t.h1) + "<br/>"
@@ -183,9 +214,8 @@ var DatatableAutoColumnHideDemo = function () {
                   ForeignFormatter.format(t.mat_tool_price) + '<br>'
                 );
               }
-            } else {
+            } else if (t.htcrrcount != null) {
               tipetax = t.tax_type;
-              console.log(tipetax);
               if (tipetax == "include") {
                 tax = (subtotal - discount) / 1.1 * 0.1;
               } else {
@@ -201,6 +231,8 @@ var DatatableAutoColumnHideDemo = function () {
               convertidr = grand_total1 * exchange_get;
               schedule_payment = JSON.parse(t.schedulepayment);
               dataSet = schedule_payment;
+              console.log(t);
+              console.log(schedule_payment);
 
 
               $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
@@ -208,7 +240,7 @@ var DatatableAutoColumnHideDemo = function () {
                 subtotal += t.price;
                 $("#grand_total_rupiah").attr("value", IDRformatter.format(subtotal));
                 $("#sub_total").attr("value", IDRformatter.format(subtotal));
-                $("#tax").attr("value", IDRformatter.format(tax));
+                $("#tax").attr("value", IDRformatterTax.format(tax));
                 $("#grand_total").attr("value", IDRformatter.format(grand_total1));
                 $("#total_discount").attr("value", IDRformatter.format(discount));
                 let sp_show = "";
@@ -217,6 +249,7 @@ var DatatableAutoColumnHideDemo = function () {
                   //$("textarea#ExampleMessage").html(result.exampleMessage)
 
                 });
+                /*
                 if (t.data_htcrr.discount_type == 'amount') {
                   discount += t.data_htcrr.discount_value;
                 } else {
@@ -226,6 +259,8 @@ var DatatableAutoColumnHideDemo = function () {
                     discount += 0;
                   }
                 }
+                */
+                console.log(discount);
                 $("#schedule_payment").html(sp_show);
                 return (
                   IDRformatter.format(t.price) + "<br/>"
@@ -243,11 +278,41 @@ var DatatableAutoColumnHideDemo = function () {
                   //$("textarea#ExampleMessage").html(result.exampleMessage)
 
                 });
+                /*
+                if (t.data_htcrr.discount_type == 'amount') {
+                  discount += t.data_htcrr.discount_value;
+                } else {
+                  if (t.data_htcrr.discount_type == 'percentage') {
+                    discount += temptotal * (t.data_htcrr.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
+                console.log(t);
+                console.log(t.data_htcrr);
+                console.log(discount);
+                $("#total_discount").attr("value", discount);
+                */
                 $("#schedule_payment").html(sp_show);
                 return (
                   ForeignFormatter.format(t.price) + "<br/>"
                 );
               }
+
+            } else if (t.priceother != null) {
+              subtotal += t.priceother;
+              others_price += t.priceother;
+              if (currency.id == 1) {
+                others_price += t.priceother;
+                return (
+                  IDRformatter.format(t.priceother) + "<br/>"
+                );
+              } else {
+                return (
+                  ForeignFormatter.format(t.priceother) + "<br/>"
+                );
+              }
+
 
             }
 
@@ -303,6 +368,7 @@ jQuery(document).ready(function () {
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
     // data.append("scheduled_payment_note", JSON.stringify(scheduled_payment_note_array));
     data.append("discount", discount);
+    data.append("schedule_payment",$("#due_payment").val());
     data.append("subtotal", subtotal);
     data.append("account", $('#coa').val());
     data.append("grand_total", grand_total1);
@@ -358,7 +424,7 @@ jQuery(document).ready(function () {
             timeOut: 5000
           });
 
-          window.location.href = '/invoice/';
+          //window.location.href = '/invoice/';
 
         }
       }
