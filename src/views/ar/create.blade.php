@@ -98,7 +98,7 @@
                                         <label class="form-control-label">
                                             Customer Account Code
                                         </label>
-                            
+
                                         @component('input::inputreadonly')
                                         @slot('id', 'customerac')
                                         @slot('text', 'customerac')
@@ -185,7 +185,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                             @slot('type', 'button')
-                                            @slot('id','savebpj')
+                                            @slot('id','arsave')
                                             @endcomponent
 
                                             @include('buttons::reset')
@@ -228,19 +228,81 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'get',
-            url: '/customerfa/'+uuid_cust,
+            url: '/customerfa/' + uuid_cust,
             data: {
-                
+
             },
             success: function(data) {
                 if (data.errors) {
                     if (data.errors.code) {
-                        
+
                     }
                 } else {
-                   console.log(data);
-                   $("#customerac").val(data.name);
-                   $("#customerac").attr("uuid", data.uuid);
+                    console.log(data);
+                    $("#customerac").val(data.name);
+                    $("#customerac").attr("uuid", data.uuid);
+                }
+            }
+        });
+    });
+
+    //Create Account Receiveable
+    let simpan = $('.action-buttons').on('click', '#arsave', function() {
+        $('#simpan').text('Simpan');
+
+        let date = $('#date').val();
+        let refno = $('#refno').val();
+        let customer = $('#customer').find(":selected").text();;
+        let coa = $('#coa').val();
+        let currency = $('#currency').find(":selected").text();;
+        let exchangerate = $('#exchange').val();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            url: '/ar',
+            data: {
+                _token: $('input[name=_token]').val(),
+                date: date,
+                refno: name,
+                customer: customer,
+                coa: coa,
+                currency: currency,
+                exchangerate: exchangerate
+            },
+            success: function(data) {
+                if (data.errors) {
+                    if (data.errors.code) {
+                        /*
+                        $('#code-error').html(data.errors.code[0]);
+
+
+                        document.getElementById('code').value = code;
+                        document.getElementById('name').value = name;
+                        document.getElementById('type').value = type;
+                        document.getElementById('level').value = level;
+                        document.getElementById('description').value = description;
+                        //coa_reset();
+                        */
+                    }
+
+
+                } else {
+                    //$('#modal_coa').modal('hide');
+                    console.log(data.uuid);
+                    toastr.success('Data berhasil disimpan.', 'Sukses', {
+                        timeOut: 5000
+                    });
+                    window.location.replace("/ar/"+data.uuid+"/edit");
+
+                    //$('#code-error').html('');
+
+                    //let table = $('.coa_datatable').mDatatable();
+                    //coa_reset();
+                    //table.originalDataSet = [];
+                    //table.reload();
                 }
             }
         });
