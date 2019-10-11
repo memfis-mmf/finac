@@ -2,6 +2,7 @@
 
 namespace Directoryxx\Finac\Model;
 
+use App\Models\Approval;
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,4 +20,9 @@ class ARecieve extends MemfisModel
         'accountcode',
         'description'
     ];
+
+    public function approvals()
+    {
+        return $this->morphMany(Approval::class, 'approvable');
+    }
 }

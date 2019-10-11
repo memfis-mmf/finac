@@ -90,7 +90,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 	Route::prefix('ar')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\ARController@index')->name('ar.index');
 		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\ARController@store')->name('ar.store');
-		Route::get('/{ar}/edit', 'Directoryxx\Finac\Controllers\Frontend\ARController@edit')->name('ar.edit');
+		Route::get('/{arecieve}/edit', 'Directoryxx\Finac\Controllers\Frontend\ARController@edit')->name('ar.edit');
 		Route::get('/datatables', 'Directoryxx\Finac\Controllers\Frontend\ARController@datatables')->name('ar.datatables');
 		
 		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\ARController@create')->name('ar.create');

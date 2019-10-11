@@ -44,14 +44,14 @@ let Ar = {
             },
             columns: [
                 {
-                    field: 'date',
+                    field: 'transactiondate',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: 'arno',
+                    field: 'transactionnumber',
                     title: 'AR No',
                     sortable: 'asc',
                     filterable: !1,
@@ -86,15 +86,8 @@ let Ar = {
                     width: 150
                 },
                 {
-                    field: 'total',
+                    field: 'totaltransaction',
                     title: 'Total',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'created_by',
-                    title: 'Created By',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
@@ -114,9 +107,9 @@ let Ar = {
                     overflow: 'visible',
                     template: function (t, e, i) {
                         return (
-                            '<button data-toggle="modal" data-target="#modal_coa" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                            '<a href="ar/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                             t.uuid +
-                            '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+                            '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
                             '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                             t.uuid +
                             ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
