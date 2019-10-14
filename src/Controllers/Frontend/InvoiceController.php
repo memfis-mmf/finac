@@ -459,15 +459,16 @@ class InvoiceController extends Controller
                 $quotation->status .= '';
             }
             $project = $quotation->quotationable->toArray();
-            //dd($project);
+            $cust = Customer::where('id',$project['customer_id'])->first();
             if ($project == null) {
                 $quotation->project_no .= "-";
                 $quotation->workorder_no .= "-";
                 $quotation->customer_no .= "-";
             } else {
+                //$quotation->customername .= 
                 $quotation->project_no .= $project['code'];
                 $quotation->workorder_no .= $project['no_wo'];
-                $quotation->customer_no .= $project['customer_id'];
+                $quotation->customer_no .= $cust->name;
             }
             //$quotation->customer = $quotation->project->customer;
         }
