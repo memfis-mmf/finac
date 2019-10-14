@@ -196,36 +196,14 @@
                                                                                 Address
                                                                             </label>
 
-                                                                            @component('frontend.common.input.select2')
+                                                                            @component('input::inputreadonly')
                                                                             @slot('text', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, nulla odio consequuntur obcaecati eos error recusandae minima eveniet dolor sed tempora! Ut quidem illum accusantium expedita nulla eos reprehenderit officiis?')
                                                                             @slot('id', 'address')
                                                                             @slot('name', 'address')
                                                                             @endcomponent
                                                                         </div>
-                                                                        <div class="col-sm-6 col-md-6 col-lg-6">
-                                                                            <label class="form-control-label">
-                                                                                City
-                                                                            </label>
-
-                                                                            @component('frontend.common.input.select2')
-                                                                            @slot('text', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, nulla odio consequuntur obcaecati eos error recusandae minima eveniet dolor sed tempora! Ut quidem illum accusantium expedita nulla eos reprehenderit officiis?')
-                                                                            @slot('id', 'city')
-                                                                            @slot('name', 'city')
-                                                                            @endcomponent
-                                                                        </div>
-                                                                        <div class="col-sm-6 col-md-6 col-lg-6">
-                                                                            <label class="form-control-label">
-                                                                                Country
-                                                                            </label>
-
-                                                                            @component('frontend.common.input.select2')
-                                                                            @slot('text', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, nulla odio consequuntur obcaecati eos error recusandae minima eveniet dolor sed tempora! Ut quidem illum accusantium expedita nulla eos reprehenderit officiis?')
-                                                                            @slot('id', 'country')
-                                                                            @slot('name', 'country')
-                                                                            @endcomponent
-                                                                        </div>
+                                                                        
                                                                     </div>
-                                                                    <div id="map"></div>
 
                                                                 </div>
                                                             </div>
@@ -816,7 +794,7 @@
 <script src="{{ asset('js/frontend/functions/select2/fax.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/bank.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/bank.js') }}"></script>
-<script src="{{ asset('js/frontend/functions/select2/address.js') }}"></script>
+<!--<script src="{{ asset('js/frontend/functions/select2/address.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/functions/select2/city.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/country.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/attn.js') }}"></script>

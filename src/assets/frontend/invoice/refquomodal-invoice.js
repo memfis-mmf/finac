@@ -237,6 +237,8 @@ let RefQuoDatatables = {
                         });
                         $('#attention').empty();
                         $("#name").val(customers.name);
+                        console.log(customers.addresses[0].address);
+                        $("#address").val(customers.addresses[0].address);
                         $("#level").val(levels.name);
                         $("#refquono").val(data.number);
                         $("#currency").val(currency.name);
