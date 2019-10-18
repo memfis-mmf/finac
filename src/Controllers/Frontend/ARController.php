@@ -86,7 +86,14 @@ class ARController extends Controller
     public function edit(ARecieve $arecieve)
     {
         $data = $arecieve;
+        $coa = Coa::where('id',$arecieve->accountcode)->first();
+        $customer = Customer::where('id',$arecieve->id_customer)->first();
+        $currency = Currency::where('id',$arecieve->currency)->first();
+        //dd($data);
         return view('arview::edit')
+            ->with('coa',$coa)
+            ->with('currency',$currency)
+            ->with('customer',$customer)
             ->with('data',$data);
     }
 
@@ -108,9 +115,10 @@ class ARController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ARecieve $arecieve)
     {
-        //
+        $arecieve->delete();
+        return response()->json($arecieve);
     }
 
 

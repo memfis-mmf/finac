@@ -76,7 +76,7 @@
                                         @slot('id', 'refno')
                                         @slot('text', 'refno')
                                         @slot('name', 'refno')
-                                        @slot('value', "{$data->refno  }")
+                                        @slot('value', "{$data->refno}")
                                         @slot('help_text','Reference No')
                                         @endcomponent
                                     </div>
@@ -120,9 +120,10 @@
                                         @slot('id', 'coa')
                                         @slot('text', 'coa')
                                         @slot('name', 'coa')
-                                        @slot('value', "{$data->accountcode  }")
                                         @slot('type', 'text')
                                         @slot('style', 'width:100%')
+
+                                        @slot('value', "{$coa->name}")
                                         @slot('help_text','Account Code')
                                         @slot('data_target', '#coa_modal')
                                         @endcomponent
@@ -136,6 +137,8 @@
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
                                         @slot('name', 'acd')
+
+                                        @slot('value', "{$coa->code}")
                                         @slot('help_text','Account Code Description')
                                         @endcomponent
                                     </div>

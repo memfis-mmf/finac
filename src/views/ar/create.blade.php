@@ -266,7 +266,7 @@
             data: {
                 _token: $('input[name=_token]').val(),
                 date: date,
-                refno: name,
+                refno: refno,
                 customer: customer,
                 coa: coa,
                 currency: currency,

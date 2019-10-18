@@ -302,7 +302,7 @@ let Ar = {
             });
         });
 
-        let remove = $('.coa_datatable').on('click', '.delete', function () {
+        let remove = $('.ar_datatable').on('click', '.delete', function () {
             let triggerid = $(this).data('uuid');
 
             swal({
@@ -322,14 +322,14 @@ let Ar = {
                             )
                         },
                         type: 'DELETE',
-                        url: '/coa/' + triggerid + '',
+                        url: '/ar/' + triggerid + '',
                         success: function (data) {
-                            toastr.success('COA has been deleted.', 'Deleted', {
+                            toastr.success('AR has been deleted.', 'Deleted', {
                                     timeOut: 5000
                                 }
                             );
 
-                            let table = $('.coa_datatable').mDatatable();
+                            let table = $('.ar_datatable').mDatatable();
 
                             table.originalDataSet = [];
                             table.reload();

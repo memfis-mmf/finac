@@ -92,9 +92,9 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\ARController@store')->name('ar.store');
 		Route::get('/{arecieve}/edit', 'Directoryxx\Finac\Controllers\Frontend\ARController@edit')->name('ar.edit');
 		Route::get('/datatables', 'Directoryxx\Finac\Controllers\Frontend\ARController@datatables')->name('ar.datatables');
-		
+		Route::post('/{arecieve}/edit', 'Directoryxx\Finac\Controllers\Frontend\ARController@update')->name('ar.update');
 		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\ARController@create')->name('ar.create');
-		
+		Route::delete('/{arecieve}', 'Directoryxx\Finac\Controllers\Frontend\ARController@destroy')->name('ar.delete');
 	});
 	Route::get('/currencyfa', 'Directoryxx\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
 	Route::get('/bankfa', 'Directoryxx\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
