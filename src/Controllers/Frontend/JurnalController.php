@@ -3,9 +3,9 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\Coa;
-use Directoryxx\Finac\Request\CoaUpdate;
-use Directoryxx\Finac\Request\CoaStore;
+use Directoryxx\Finac\Model\Jurnal;
+use Directoryxx\Finac\Request\JurnalUpdate;
+use Directoryxx\Finac\Request\JurnalStore;
 use App\Http\Controllers\Controller;
 
 
@@ -14,107 +14,63 @@ class JurnalController extends Controller
 {
     public function index()
     {
-        return redirect()->route('coa.create');
-    }
-
-    public function getData()
-    {
-        $type = [
-            '1' => 'AKTIVA',
-            '2' => 'PASIVA',
-            '3' => 'EKUITAS',
-            '4' => 'PENDAPATAN',
-            '5' => 'BIAYA'
-        ];
-        return json_encode($type, JSON_PRETTY_PRINT);
+        return redirect()->route('jurnal.create');
     }
 
     public function create()
     {
-        return view('coaview::index');        
+        return view('jurnalview::index');        
     }
 
-    public function store(CoaStore $request)
+    public function store(JurnalStore $request)
     {
-        $coa = Coa::create($request->all());
-        return response()->json($coa);
+        $jurnal = Jurnal::create($request->all());
+        return response()->json($jurnal);
     }
 
-    public function edit(Coa $coa)
+    public function edit(Jurnal $jurnal)
     {
-        return response()->json($coa);
+        return response()->json($jurnal);
     }
 
-    public function update(CoaUpdate $request, Coa $coa)
+    public function update(JurnalUpdate $request, Jurnal $jurnal)
     {
 
-        $coa->update($request->all());
+        $jurnal->update($request->all());
 
-        return response()->json($coa);
+        return response()->json($jurnal);
     }
 
-    public function destroy(Coa $coa)
+    public function destroy(Jurnal $jurnal)
     {
-        $coa->delete();
+        $jurnal->delete();
 
-        return response()->json($coa);
-    }
-
-    public function getType($id)
-    {
-        if ($id == 1) {
-            $type = [
-                'id' => 1,
-                'name' => 'AKTIVA',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 2) {
-            $type = [
-                'id' => 2,
-                'name' => 'PASIVA',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 3) {
-            $type = [
-                'id' => 3,
-                'name' => 'EKUITAS',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 4) {
-            $type = [
-                'id' => 4,
-                'name' => 'PENDAPATAN',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 5) {
-            $type = [
-                'id' => 5,
-                'name' => 'BIAYA',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        }
+        return response()->json($jurnal);
     }
 
     public function api()
     {
-        $coadata = Coa::all();
+        $jurnaldata = Jurnal::all();
 
-        return json_encode($coadata);
+        return json_encode($jurnaldata);
     }
 
-    public function apidetail(Coa $coa)
+    public function apidetail(Jurnal $jurnal)
     {
-        return response()->json($coa);
+        return response()->json($jurnal);
     }
 
     public function datatables()
     {
-        $data = $alldata = json_decode(Coa::All());
+        $data = $alldata = json_decode(Jurnal::All());
 
-        $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
+		$datatable = array_merge([
+			'pagination' => [], 'sort' => [], 'query' => []
+		], $_REQUEST);
 
-        $filter = isset($datatable['query']['generalSearch']) && is_string($datatable['query']['generalSearch'])
-            ? $datatable['query']['generalSearch'] : '';
+		$filter = isset($datatable['query']['generalSearch']) && 
+			is_string($datatable['query']['generalSearch']) ? 
+			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -124,7 +80,8 @@ class JurnalController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-        $query = isset($datatable['query']) && is_array($datatable['query']) ? $datatable['query'] : null;
+		$query = isset($datatable['query']) && 
+			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -134,12 +91,16 @@ class JurnalController extends Controller
             }
         }
 
-        $sort  = !empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
-        $field = !empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
+		$sort  = !empty($datatable['sort']['sort']) ? 
+			$datatable['sort']['sort'] : 'asc';
+		$field = !empty($datatable['sort']['field']) ? 
+			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-        $page    = !empty($datatable['pagination']['page']) ? (int) $datatable['pagination']['page'] : 1;
-        $perpage = !empty($datatable['pagination']['perpage']) ? (int) $datatable['pagination']['perpage'] : -1;
+		$page    = !empty($datatable['pagination']['page']) ? 
+			(int) $datatable['pagination']['page'] : 1;
+		$perpage = !empty($datatable['pagination']['perpage']) ? 
+			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -176,7 +137,10 @@ class JurnalController extends Controller
             'total'   => $total,
         ];
 
-        if (isset($datatable['requestIds']) && filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) {
+		if (
+			isset($datatable['requestIds']) && 
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
