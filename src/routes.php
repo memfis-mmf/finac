@@ -22,38 +22,38 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables/modal','Directoryxx\Finac\Controllers\Datatables\CoaDatatables@basicModal');
 	});
 
-    Route::prefix('jurnal')->group(function () {
+    Route::prefix('journal')->group(function () {
 		Route::get(
 			'/', 
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@create'
-		)->name('jurnal.index');
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@create'
+		)->name('journal.index');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@store'
-		)->name('jurnal.store');
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@store'
+		)->name('journal.store');
 		Route::put(
-			'/{jurnal}',
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@update'
-		)->name('jurnal.update');
+			'/{journal}',
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@update'
+		)->name('journal.update');
 		Route::delete(
-			'/{jurnal}',
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@destroy'
-		)->name('jurnal.delete');
+			'/{journal}',
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@destroy'
+		)->name('journal.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@datatables'
-		)->name('jurnal.datatables');
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@datatables'
+		)->name('journal.datatables');
 		Route::get(
-			'/{jurnal}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@edit'
+			'/{journal}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@api'
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@api'
 		);
 		Route::get(
-			'/data/{jurnal}',
-			'Directoryxx\Finac\Controllers\Frontend\JurnalController@apidetail'
+			'/data/{journal}',
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@apidetail'
 		);
 	});
 

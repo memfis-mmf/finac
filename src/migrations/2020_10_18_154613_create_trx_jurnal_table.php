@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTrxJurnalTable extends Migration
+class CreateTrxJournalTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTrxJurnalTable extends Migration
      */
     public function up()
     {
-        Schema::create('trxjurnal', function (Blueprint $table) {
+        Schema::create('trxjournal', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
 			$table->integer('id_branch');
@@ -38,6 +38,6 @@ class CreateTrxJurnalTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trxjurnal');
+        Schema::dropIfExists('trxjournal');
     }
 }

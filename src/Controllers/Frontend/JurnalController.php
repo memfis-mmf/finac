@@ -3,66 +3,66 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\Trxjurnal as Jurnal;
-use Directoryxx\Finac\Request\JurnalUpdate;
-use Directoryxx\Finac\Request\JurnalStore;
+use Directoryxx\Finac\Model\Trxjournal as Journal;
+use Directoryxx\Finac\Request\JournalUpdate;
+use Directoryxx\Finac\Request\JournalStore;
 use App\Http\Controllers\Controller;
 
 
 
-class JurnalController extends Controller
+class JournalController extends Controller
 {
     public function index()
     {
-        return redirect()->route('jurnal.create');
+        return redirect()->route('journal.create');
     }
 
     public function create()
     {
-        return view('jurnalview::index');        
+        return view('journalview::index');        
     }
 
-    public function store(JurnalStore $request)
+    public function store(JournalStore $request)
     {
-        $jurnal = Jurnal::create($request->all());
-        return response()->json($jurnal);
+        $journal = Journal::create($request->all());
+        return response()->json($journal);
     }
 
-    public function edit(Jurnal $jurnal)
+    public function edit(Journal $journal)
     {
-        return response()->json($jurnal);
+        return response()->json($journal);
     }
 
-    public function update(JurnalUpdate $request, Jurnal $jurnal)
+    public function update(JournalUpdate $request, Journal $journal)
     {
 
-        $jurnal->update($request->all());
+        $journal->update($request->all());
 
-        return response()->json($jurnal);
+        return response()->json($journal);
     }
 
-    public function destroy(Jurnal $jurnal)
+    public function destroy(Journal $journal)
     {
-        $jurnal->delete();
+        $journal->delete();
 
-        return response()->json($jurnal);
+        return response()->json($journal);
     }
 
     public function api()
     {
-        $jurnaldata = Jurnal::all();
+        $journaldata = Journal::all();
 
-        return json_encode($jurnaldata);
+        return json_encode($journaldata);
     }
 
-    public function apidetail(Jurnal $jurnal)
+    public function apidetail(Journal $journal)
     {
-        return response()->json($jurnal);
+        return response()->json($journal);
     }
 
     public function datatables()
     {
-        $data = $alldata = json_decode(Jurnal::All());
+        $data = $alldata = json_decode(Journal::All());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
