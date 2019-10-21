@@ -51,6 +51,7 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/frontend/common/input', 'input');
         $this->loadViewsFrom(__DIR__.'/views/frontend/common/buttons', 'buttons');
         $this->loadViewsFrom(__DIR__.'/views/include', 'include');
+        $this->loadViewsFrom(__DIR__.'/views/journal', 'journalview');
         //$this->loadViewsFrom(__DIR__.'/views/dll', 'dll');
     }
 }
