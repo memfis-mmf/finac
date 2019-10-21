@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 
 
 
-class CoaController extends Controller
+class JurnalController extends Controller
 {
     public function index()
     {
