@@ -3,7 +3,7 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\Jurnal;
+use Directoryxx\Finac\Model\Trxjurnal as Jurnal;
 use Directoryxx\Finac\Request\JurnalUpdate;
 use Directoryxx\Finac\Request\JurnalStore;
 use App\Http\Controllers\Controller;

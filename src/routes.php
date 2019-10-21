@@ -21,6 +21,41 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables/modal','Directoryxx\Finac\Controllers\Datatables\CoaDatatables@basicModal');
 	});
 
+    Route::prefix('jurnal')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@create'
+		)->name('jurnal.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@store'
+		)->name('jurnal.store');
+		Route::put(
+			'/{jurnal}',
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@update'
+		)->name('jurnal.update');
+		Route::delete(
+			'/{jurnal}',
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@destroy'
+		)->name('jurnal.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@datatables'
+		)->name('jurnal.datatables');
+		Route::get(
+			'/{jurnal}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@api'
+		);
+		Route::get(
+			'/data/{jurnal}',
+			'Directoryxx\Finac\Controllers\Frontend\JurnalController@apidetail'
+		);
+	});
+
 	Route::prefix('cashbook')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
 		Route::delete('/{cashbook}', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
