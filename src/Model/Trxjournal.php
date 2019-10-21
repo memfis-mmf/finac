@@ -6,9 +6,9 @@ namespace Directoryxx\Finac\Model;
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Trxjurnal extends MemfisModel
+class Trxjournal extends MemfisModel
 {
-    protected $table = "trxjurnal";
+    protected $table = "trxjournal";
 
     protected $fillable = [
 		'id_branch',
