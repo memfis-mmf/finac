@@ -1,5 +1,6 @@
 <?php
 
+require('view-only.php');
 
 Route::get('test', function(){
 	echo 'Hello from the Finance Accounting package!';
