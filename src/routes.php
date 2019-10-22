@@ -197,6 +197,41 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('apayment')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\APController@create'
+		)->name('apayment.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\APController@store'
+		)->name('apayment.store');
+		Route::put(
+			'/{apayment}',
+			'Directoryxx\Finac\Controllers\Frontend\APController@update'
+		)->name('apayment.update');
+		Route::delete(
+			'/{apayment}',
+			'Directoryxx\Finac\Controllers\Frontend\APController@destroy'
+		)->name('apayment.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\APController@datatables'
+		)->name('apayment.datatables');
+		Route::get(
+			'/{apayment}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\APController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\APController@api'
+		);
+		Route::get(
+			'/data/{apayment}',
+			'Directoryxx\Finac\Controllers\Frontend\APController@apidetail'
+		);
+	});
+
 	Route::prefix('cashbook')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
 		Route::delete('/{cashbook}', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
