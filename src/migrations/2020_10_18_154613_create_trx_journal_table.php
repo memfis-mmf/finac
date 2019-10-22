@@ -13,7 +13,7 @@ class CreateTrxJournalTable extends Migration
      */
     public function up()
     {
-        Schema::create('trxjournal', function (Blueprint $table) {
+        Schema::create('trxjournals', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
 			$table->integer('id_branch');
@@ -38,6 +38,6 @@ class CreateTrxJournalTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trxjournal');
+        Schema::dropIfExists('trxjournals');
     }
 }

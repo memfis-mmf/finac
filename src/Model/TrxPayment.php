@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TrxPayment extends MemfisModel
 {
-    protected $table = "trxpayment";
+    protected $table = "trxpayments";
 
     protected $fillable = [
 		'id_branch',

@@ -13,7 +13,7 @@ class CreateTrxPaymentTable extends Migration
      */
     public function up()
     {
-        Schema::create('trxpayment', function (Blueprint $table) {
+        Schema::create('trxpayments', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
             $table->integer('id_branch');
