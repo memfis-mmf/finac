@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class JournalUpdate extends FormRequest
+class JournalAUpdate extends FormRequest
 {
 
     /**
@@ -31,12 +31,12 @@ class JournalUpdate extends FormRequest
 			'voucher_no' => 'required',
 			'description' => 'required',
 			'account_code' => 'required',
-			'debit' => 'required',
-			'credit' => 'required',
         ];
     }
 
     protected function failedValidation(Validator $validator) {
-        throw new HttpResponseException(response()->json(['errors' => $validator->errors()]));
+		throw new HttpResponseException(
+			response()->json(['errors' => $validator->errors()])
+		);
     }
 }

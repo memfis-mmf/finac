@@ -57,6 +57,41 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('journala')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@create'
+		)->name('journala.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@store'
+		)->name('journala.store');
+		Route::put(
+			'/{journala}',
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@update'
+		)->name('journala.update');
+		Route::delete(
+			'/{journala}',
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@destroy'
+		)->name('journala.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@datatables'
+		)->name('journala.datatables');
+		Route::get(
+			'/{journala}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@api'
+		);
+		Route::get(
+			'/data/{journala}',
+			'Directoryxx\Finac\Controllers\Frontend\JournalAController@apidetail'
+		);
+	});
+
 	Route::prefix('cashbook')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
 		Route::delete('/{cashbook}', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');

@@ -14,50 +14,50 @@ class JournalAController extends Controller
 {
     public function index()
     {
-        return redirect()->route('journal.create');
+        return redirect()->route('journala.create');
     }
 
     public function create()
     {
-        return view('journalview::index');        
+        return view('journalaview::index');        
     }
 
     public function store(JournalAStore $request)
     {
-        $journal = JournalA::create($request->all());
-        return response()->json($journal);
+        $journala = JournalA::create($request->all());
+        return response()->json($journala);
     }
 
-    public function edit(JournalA $journal)
+    public function edit(JournalA $journala)
     {
-        return response()->json($journal);
+        return response()->json($journala);
     }
 
-    public function update(JournalAUpdate $request, JournalA $journal)
+    public function update(JournalAUpdate $request, JournalA $journala)
     {
 
-        $journal->update($request->all());
+        $journala->update($request->all());
 
-        return response()->json($journal);
+        return response()->json($journala);
     }
 
-    public function destroy(JournalA $journal)
+    public function destroy(JournalA $journala)
     {
-        $journal->delete();
+        $journala->delete();
 
-        return response()->json($journal);
+        return response()->json($journala);
     }
 
     public function api()
     {
-        $journaldata = JournalA::all();
+        $journaladata = JournalA::all();
 
-        return json_encode($journaldata);
+        return json_encode($journaladata);
     }
 
-    public function apidetail(JournalA $journal)
+    public function apidetail(JournalA $journala)
     {
-        return response()->json($journal);
+        return response()->json($journala);
     }
 
     public function datatables()
