@@ -126,6 +126,76 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@apidetail'
 		);
 	});
+	
+    Route::prefix('trxpaymenta')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@create'
+		)->name('trxpaymenta.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@store'
+		)->name('trxpaymenta.store');
+		Route::put(
+			'/{trxpaymenta}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@update'
+		)->name('trxpaymenta.update');
+		Route::delete(
+			'/{trxpaymenta}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@destroy'
+		)->name('trxpaymenta.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@datatables'
+		)->name('trxpaymenta.datatables');
+		Route::get(
+			'/{trxpaymenta}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@api'
+		);
+		Route::get(
+			'/data/{trxpaymenta}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@apidetail'
+		);
+	});
+
+    Route::prefix('trxpaymentb')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@create'
+		)->name('trxpaymentb.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@store'
+		)->name('trxpaymentb.store');
+		Route::put(
+			'/{trxpaymentb}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@update'
+		)->name('trxpaymentb.update');
+		Route::delete(
+			'/{trxpaymentb}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@destroy'
+		)->name('trxpaymentb.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@datatables'
+		)->name('trxpaymentb.datatables');
+		Route::get(
+			'/{trxpaymentb}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@api'
+		);
+		Route::get(
+			'/data/{trxpaymentb}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@apidetail'
+		);
+	});
 
 	Route::prefix('cashbook')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
