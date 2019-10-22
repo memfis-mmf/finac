@@ -3,14 +3,14 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxJournal as Journal;
-use Directoryxx\Finac\Request\JournalUpdate;
-use Directoryxx\Finac\Request\JournalStore;
+use Directoryxx\Finac\Model\TrxJournalA as JournalA;
+use Directoryxx\Finac\Request\JournalAUpdate;
+use Directoryxx\Finac\Request\JournalAStore;
 use App\Http\Controllers\Controller;
 
 
 
-class JournalController extends Controller
+class JournalAController extends Controller
 {
     public function index()
     {
@@ -22,18 +22,18 @@ class JournalController extends Controller
         return view('journalview::index');        
     }
 
-    public function store(JournalStore $request)
+    public function store(JournalAStore $request)
     {
-        $journal = Journal::create($request->all());
+        $journal = JournalA::create($request->all());
         return response()->json($journal);
     }
 
-    public function edit(Journal $journal)
+    public function edit(JournalA $journal)
     {
         return response()->json($journal);
     }
 
-    public function update(JournalUpdate $request, Journal $journal)
+    public function update(JournalAUpdate $request, JournalA $journal)
     {
 
         $journal->update($request->all());
@@ -41,7 +41,7 @@ class JournalController extends Controller
         return response()->json($journal);
     }
 
-    public function destroy(Journal $journal)
+    public function destroy(JournalA $journal)
     {
         $journal->delete();
 
@@ -50,19 +50,19 @@ class JournalController extends Controller
 
     public function api()
     {
-        $journaldata = Journal::all();
+        $journaldata = JournalA::all();
 
         return json_encode($journaldata);
     }
 
-    public function apidetail(Journal $journal)
+    public function apidetail(JournalA $journal)
     {
         return response()->json($journal);
     }
 
     public function datatables()
     {
-        $data = $alldata = json_decode(Journal::All());
+        $data = $alldata = json_decode(JournalA::All());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
