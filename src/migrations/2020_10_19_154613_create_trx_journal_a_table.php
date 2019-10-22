@@ -20,8 +20,8 @@ class CreateTrxJournalATable extends Migration
 			$table->string('voucher_no');
 			$table->string('description');
 			$table->string('account_code');
-			$table->decimal('debit', 18, 5);
-			$table->decimal('credit', 18, 5);
+			$table->decimal('debit', 18, 5)->nullable();
+			$table->decimal('credit', 18, 5)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ class CreateTrxJournalATable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trxjournal');
+        Schema::dropIfExists('trxjournala');
     }
 }

@@ -92,6 +92,41 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('trxpayment')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@create'
+		)->name('trxpayment.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@store'
+		)->name('trxpayment.store');
+		Route::put(
+			'/{trxpayment}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@update'
+		)->name('trxpayment.update');
+		Route::delete(
+			'/{trxpayment}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@destroy'
+		)->name('trxpayment.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@datatables'
+		)->name('trxpayment.datatables');
+		Route::get(
+			'/{trxpayment}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@api'
+		);
+		Route::get(
+			'/data/{trxpayment}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@apidetail'
+		);
+	});
+
 	Route::prefix('cashbook')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
 		Route::delete('/{cashbook}', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
