@@ -23,7 +23,7 @@ class CreateTrxJournalTable extends Migration
 			$table->string('ref_no');
 			$table->string('currency_code');
 			$table->decimal('exchange_rate', 18, 5);
-			$table->string('journal_type');
+			$table->bigInteger('journal_type');
 			$table->decimal('total_transaction', 18, 5);
 			$table->integer('automatic_journal_type');
             $table->softDeletes();

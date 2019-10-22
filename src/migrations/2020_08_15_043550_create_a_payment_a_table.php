@@ -21,8 +21,8 @@ class CreateAPaymentATable extends Migration
             $table->string('code');
             $table->string('currency');
             $table->decimal('exchangerate',18,5);
-            $table->decimal('debit',18,5);
-            $table->decimal('credit',18,5);
+            $table->decimal('debit',18,5)->default(0);
+            $table->decimal('credit',18,5)->default(0);
             $table->text('description');
             $table->softDeletes();
             $table->timestamps();
