@@ -27,7 +27,6 @@ class JournalUpdate extends FormRequest
     public function rules()
     {
         return [
-			'id_branch' => 'required',
 			'approve' => 'required',
 			'voucher_no' => 'required',
 			'transaction_date' => 'required',

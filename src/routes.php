@@ -27,6 +27,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/', 
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@create'
 		)->name('journal.index');
+		Route::get(
+			'/type', 
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@getType'
+		);
+		Route::get(
+			'/currency', 
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@getCurrency'
+		);
 		Route::post(
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@store'

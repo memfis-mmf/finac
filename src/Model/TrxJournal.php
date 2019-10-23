@@ -11,7 +11,6 @@ class TrxJournal extends MemfisModel
     protected $table = "trxjournals";
 
     protected $fillable = [
-		'id_branch',
 		'approve',
 		'voucher_no',
 		'transaction_date',
@@ -23,4 +22,20 @@ class TrxJournal extends MemfisModel
 		'automatic_journal_type',
     ];
 
+	public function type_jurnal()
+	{
+		return $this->belongsTo(
+			'Directoryxx\Finac\Model\TypeJurnal',
+			'journal_type'
+		);
+	}
+
+	public function currency()
+	{
+		return $this->hasOne(
+			'App\Models\Currency',
+			'code',
+			'currency_code'
+		);
+	}
 }

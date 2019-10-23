@@ -19,7 +19,7 @@ class CreateTrxJournalATable extends Migration
 			$table->string('id_branch');
 			$table->string('voucher_no');
 			$table->string('description');
-			$table->bigIntger('account_code');
+			$table->bigInteger('account_code');
 			$table->decimal('debit', 18, 5)->nullable();
 			$table->decimal('credit', 18, 5)->nullable();
             $table->softDeletes();

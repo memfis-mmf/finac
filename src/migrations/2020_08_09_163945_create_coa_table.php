@@ -16,7 +16,6 @@ class CreateCoaTable extends Migration
         Schema::create('coas', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
-            $table->integer('id_branch')->nullable();
             $table->string('code');
             $table->string('name');
             $table->string('type_id');

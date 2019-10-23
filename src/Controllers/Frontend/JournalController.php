@@ -4,11 +4,11 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxJournal as Journal;
+use Directoryxx\Finac\Model\TypeJurnal;
 use Directoryxx\Finac\Request\JournalUpdate;
 use Directoryxx\Finac\Request\JournalStore;
 use App\Http\Controllers\Controller;
-
-
+use App\Models\Currency;
 
 class JournalController extends Controller
 {
@@ -17,6 +17,16 @@ class JournalController extends Controller
         return redirect()->route('journal.create');
     }
 
+	public function getType(Request $request)
+	{
+		return response()->json(TypeJurnal::all());
+	}
+
+	public function getCurrency(Request $request)
+	{
+		return response()->json(Currency::all());
+	}
+	
     public function create()
     {
         return view('journalview::index');        
@@ -28,8 +38,13 @@ class JournalController extends Controller
         return response()->json($journal);
     }
 
-    public function edit(Journal $journal)
+    public function edit(Request $request)
     {
+		$journal = Journal::where('uuid', $request->journal)->with([
+			'type_jurnal',
+			'currency',
+		])->first();
+
         return response()->json($journal);
     }
 
@@ -62,7 +77,10 @@ class JournalController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(Journal::All());
+		$data = $alldata = json_decode(Journal::with([
+			'type_jurnal',
+			'currency',
+		])->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
