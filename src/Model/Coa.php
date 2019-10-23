@@ -16,8 +16,12 @@ class Coa extends MemfisModel
         'description'
     ];
 
-    
-
-
-    
+	public function type()
+	{
+		return $this->belongsTo(
+			'App\Models\Type',
+			'type_id'
+		);
+	}
+	
 }

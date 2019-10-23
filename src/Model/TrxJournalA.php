@@ -19,4 +19,12 @@ class TrxJournalA extends MemfisModel
 		'credit',
     ];
 
+	public function coa()
+	{
+		return $this->belongsTo(
+			Coa::class,
+			'account_code'
+		);
+	}
+	
 }

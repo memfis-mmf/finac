@@ -16,7 +16,6 @@ class CreateTrxJournalATable extends Migration
         Schema::create('trxjournala', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
-			$table->string('id_branch');
 			$table->string('voucher_no');
 			$table->string('description');
 			$table->bigInteger('account_code');

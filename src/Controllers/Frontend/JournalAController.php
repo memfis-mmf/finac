@@ -28,8 +28,13 @@ class JournalAController extends Controller
         return response()->json($journala);
     }
 
-    public function edit(JournalA $journala)
+    public function edit(Request $request)
     {
+		$journala = JournalA::where('uuid', $request->journala)->with([
+			'coa',
+			'coa.type',
+		])->first();
+
         return response()->json($journala);
     }
 
@@ -62,7 +67,10 @@ class JournalAController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(JournalA::All());
+		$data = $alldata = json_decode(JournalA::with([
+			'coa',
+			'coa.type',
+		])->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

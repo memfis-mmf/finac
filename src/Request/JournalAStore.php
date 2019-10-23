@@ -27,7 +27,6 @@ class JournalAStore extends FormRequest
     public function rules()
     {
         return [
-			'id_branch' => 'required',
 			'voucher_no' => 'required',
 			'description' => 'required',
 			'account_code' => 'required',
