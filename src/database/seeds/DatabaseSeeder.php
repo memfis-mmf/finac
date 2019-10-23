@@ -12,5 +12,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(TypeAssetTableSeeder::class);
         $this->call(TypeJurnalTableSeeder::class);
+        $this->call(CoaTableSeeder::class);
     }
 }

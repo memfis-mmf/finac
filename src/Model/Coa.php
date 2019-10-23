@@ -10,7 +10,6 @@ class Coa extends MemfisModel
 
 
     protected $fillable = [
-        'id_branch',
         'code',
         'name',
         'type_id',

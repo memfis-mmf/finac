@@ -7,8 +7,7 @@ use Directoryxx\Finac\Model\Coa;
 use Directoryxx\Finac\Request\CoaUpdate;
 use Directoryxx\Finac\Request\CoaStore;
 use App\Http\Controllers\Controller;
-
-
+use App\Models\Type;
 
 class CoaController extends Controller
 {
@@ -19,13 +18,15 @@ class CoaController extends Controller
 
     public function getData()
     {
-        $type = [
-            '1' => 'AKTIVA',
-            '2' => 'PASIVA',
-            '3' => 'EKUITAS',
-            '4' => 'PENDAPATAN',
-            '5' => 'BIAYA'
-        ];
+		$coaType = Type::where('of', 'coa')->get();
+
+		$type = [];
+
+		for ($i = 0; $i < count($coaType); $i++) {
+			$x = $coaType[$i];
+			$type[$i+1] = $x->name;
+		}
+
         return json_encode($type, JSON_PRETTY_PRINT);
     }
 
