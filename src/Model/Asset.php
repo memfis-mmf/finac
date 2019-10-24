@@ -39,4 +39,9 @@ class Asset extends MemfisModel
 		'description',
     ];
 
+	public function type()
+	{
+		return $this->belongsTo(TypeAsset::class, 'group', 'code');
+	}
+
 }

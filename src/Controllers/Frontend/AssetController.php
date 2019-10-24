@@ -29,7 +29,10 @@ class AssetController extends Controller
 
     public function edit(Request $request)
     {
-		$asset = Asset::where('uuid', $request->asset)->first();
+		$asset = Asset::where('uuid', $request->asset)->with([
+			'type',
+			'type.coa',
+		])->first();
 
         return response()->json($asset);
     }
@@ -63,7 +66,10 @@ class AssetController extends Controller
 
     public function datatables()
     {
-		$data = $alldata = json_decode(Asset::get());
+		$data = $alldata = json_decode(Asset::with([
+			'type',
+			'type.coa',
+		])->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
