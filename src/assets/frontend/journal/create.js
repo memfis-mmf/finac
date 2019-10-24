@@ -109,6 +109,51 @@ let JournalCreate = {
             ]
         });
 
+        let simpan = $('body').on('click', '#journalsave', function () {
+
+            let form = $(this).parents('form');
+            let _data = form.serialize();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: '/journal',
+                data: _data,
+                success: function (data) {
+                    if (data.errors) {
+                        if (data.errors.code) {
+                            $('#code-error').html(data.errors.code[0]);
+
+
+                            document.getElementById('code').value = code;
+                            document.getElementById('name').value = name;
+                            document.getElementById('type').value = type;
+                            document.getElementById('level').value = level;
+                            document.getElementById('description').value = description;
+                            coa_reset();
+                        }
+
+
+                    } else {
+                        $('#modal_coa').modal('hide');
+
+                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                            timeOut: 5000
+                        });
+
+                        $('#code-error').html('');
+
+                        let table = $('.coa_datatable').mDatatable();
+                        coa_reset();
+                        table.originalDataSet = [];
+                        table.reload();
+                    }
+                }
+            });
+        });
+
     }
 };
 

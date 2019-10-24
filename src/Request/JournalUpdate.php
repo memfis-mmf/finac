@@ -27,15 +27,11 @@ class JournalUpdate extends FormRequest
     public function rules()
     {
         return [
-			'approve' => 'required',
-			'voucher_no' => 'required',
 			'transaction_date' => 'required',
 			'ref_no' => 'required',
 			'currency_code' => 'required',
 			'exchange_rate' => 'required',
 			'journal_type' => 'required',
-			'total_transaction' => 'required',
-			'automatic_journal_type' => 'required',
         ];
     }
 

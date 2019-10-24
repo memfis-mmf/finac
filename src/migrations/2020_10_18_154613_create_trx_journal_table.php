@@ -16,15 +16,15 @@ class CreateTrxJournalTable extends Migration
         Schema::create('trxjournals', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
-			$table->integer('approve');
+			$table->integer('approve')->default(0);
 			$table->string('voucher_no');
 			$table->dateTime('transaction_date');
 			$table->string('ref_no');
 			$table->string('currency_code');
 			$table->decimal('exchange_rate', 18, 5);
 			$table->bigInteger('journal_type');
-			$table->decimal('total_transaction', 18, 5);
-			$table->integer('automatic_journal_type');
+			$table->decimal('total_transaction', 18, 5)->nullable();
+			$table->integer('automatic_journal_type')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

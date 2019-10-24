@@ -60,7 +60,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date')
                                             @slot('text', 'Date')
-                                            @slot('name', 'date')
+                                            @slot('name', 'transaction_date')
                                             @slot('id_error', 'date')
                                         @endcomponent
                                     </div>
@@ -72,7 +72,7 @@
                                         @component('input::select')
                                             @slot('id', 'type')
                                             @slot('text', 'Type')
-                                            @slot('name', 'type')
+                                            @slot('name', 'journal_type')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                         @endcomponent
@@ -84,10 +84,10 @@
                                             Currency @include('label::required')
                                         </label>
 
-                                        @component('input::select2')
+                                        @component('input::select')
                                             @slot('id', 'currency')
                                             @slot('text', 'Currency')
-                                            @slot('name', 'currency')
+                                            @slot('name', 'currency_code')
                                             @slot('id_error', 'currency')
                                         @endcomponent
                                     </div>
@@ -99,7 +99,8 @@
                                         @component('input::numberreadonly')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
-                                            @slot('name', 'exchange')
+                                            @slot('name', 'exchange_rate')
+                                            @slot('value', '1')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -112,7 +113,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'refdoc')
                                             @slot('text', 'refdoc')
-                                            @slot('name', 'refdoc')
+                                            @slot('name', 'ref_no')
                                             @slot('rows','5')
                                         @endcomponent
                                     </div>
