@@ -6,7 +6,7 @@ let Journal = {
                 source: {
                     read: {
                         method: 'GET',
-                        url: '/ar/datatables',
+                        url: '/journal/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -55,42 +55,42 @@ let Journal = {
                     }
                 },
                 {
-                    field: '',
+                    field: 'transaction_date',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: '',
+                    field: 'voucher_no',
                     title: 'Transaction No',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'ref_no',
                     title: 'Ref Doc',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
                 },
                 {
-                    field: '',
+                    field: 'currency_code',
                     title: 'Currency',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'exchange_rate',
                     title: 'Exchange Rate',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'type_jurnal.name',
                     title: 'Journal Type',
                     sortable: 'asc',
                     filterable: !1,
