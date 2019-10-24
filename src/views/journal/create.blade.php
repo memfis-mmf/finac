@@ -100,7 +100,6 @@
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
                                             @slot('name', 'exchange_rate')
-                                            @slot('value', '1')
                                         @endcomponent
                                     </div>
                                 </div>

@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
     CurrencySelect2.init();
     $('#currency').on('change', function () {
         console.log(this.value);
-        if(this.value != 46){
+        if(this.value != 'idr'){
             console.log("bukan idr");
             $("#exchange").val("");
             $("#exchange").removeAttr("readonly"); 
