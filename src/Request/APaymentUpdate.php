@@ -27,7 +27,6 @@ class APaymentUpdate extends FormRequest
     public function rules()
     {
         return [
-			'id_branch' => 'required',
 			'approve' => 'required',
 			'transactionnumber' => 'required',
 			'transactiondate' => 'required',

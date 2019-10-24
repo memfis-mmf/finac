@@ -10,7 +10,6 @@ class APayment extends MemfisModel
     protected $table = "a_payments";
 
     protected $fillable = [
-		'id_branch',
 		'approve',
 		'transactionnumber',
 		'transactiondate',

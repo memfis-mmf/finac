@@ -205,7 +205,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
-    Route::prefix('apayment')->group(function () {
+    Route::prefix('ap')->group(function () {
 		Route::get(
 			'/', 
 			'Directoryxx\Finac\Controllers\Frontend\APController@create'
@@ -272,6 +272,76 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/data/{apaymenta}',
 			'Directoryxx\Finac\Controllers\Frontend\APAController@apidetail'
+		);
+	});
+
+    Route::prefix('asset')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@create'
+		)->name('asset.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@store'
+		)->name('asset.store');
+		Route::put(
+			'/{asset}',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@update'
+		)->name('asset.update');
+		Route::delete(
+			'/{asset}',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@destroy'
+		)->name('asset.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@datatables'
+		)->name('asset.datatables');
+		Route::get(
+			'/{asset}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@api'
+		);
+		Route::get(
+			'/data/{asset}',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@apidetail'
+		);
+	});
+
+    Route::prefix('typeasset')->group(function () {
+		Route::get(
+			'/', 
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@create'
+		)->name('typeasset.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@store'
+		)->name('typeasset.store');
+		Route::put(
+			'/{typeasset}',
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@update'
+		)->name('typeasset.update');
+		Route::delete(
+			'/{typeasset}',
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@destroy'
+		)->name('typeasset.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@datatables'
+		)->name('typeasset.datatables');
+		Route::get(
+			'/{typeasset}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@api'
+		);
+		Route::get(
+			'/data/{typeasset}',
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@apidetail'
 		);
 	});
 

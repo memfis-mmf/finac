@@ -10,9 +10,33 @@ class Asset extends MemfisModel
 {
    
     protected $fillable = [
-        'code',
-        'name',
-        'active',
+		'active',
+		'code',
+		'name',
+		'group',
+		'manufacturername',
+		'brandname',
+		'modeltype',
+		'productiondate',
+		'serialno',
+		'warrantystart',
+		'warrantyend',
+		'ownership',
+		'location',
+		'pic',
+		'grnno',
+		'pono',
+		'povalue',
+		'salvagevalue',
+		'supplier',
+		'fixedtype',
+		'usefullife',
+		'depreciationstart',
+		'depreciationend',
+		'coaacumulated',
+		'coaexpense',
+		'usestatus',
+		'description',
     ];
 
 }

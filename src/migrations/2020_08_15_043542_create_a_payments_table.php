@@ -16,7 +16,6 @@ class CreateAPaymentsTable extends Migration
         Schema::create('a_payments', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('id_branch')->nullable();
             $table->integer('approve');
             $table->string('transactionnumber');
             $table->dateTime('transactiondate');

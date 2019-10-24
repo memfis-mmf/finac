@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class JournalStore extends FormRequest
+class TypeAssetUpdate extends FormRequest
 {
 
     /**
@@ -27,15 +27,10 @@ class JournalStore extends FormRequest
     public function rules()
     {
         return [
-			'approve' => 'required',
-			'voucher_no' => 'required',
-			'transaction_date' => 'required',
-			'ref_no' => 'required',
-			'currency_code' => 'required',
-			'exchange_rate' => 'required',
-			'journal_type' => 'required',
-			'total_transaction' => 'required',
-			'automatic_journal_type' => 'required',
+            'code' => 'required',
+            'name' => 'required',
+            'accountcode' => 'required',
+            'usefullife' => 'required',
         ];
     }
 
