@@ -22,6 +22,13 @@ class TrxJournal extends MemfisModel
 		'automatic_journal_type',
     ];
 
+	public function getTransactionDateYmdAttribute()
+	{
+		return date(
+			'Y-m-d', strtotime($this->transaction_date)
+		);
+	}
+
 	public function type_jurnal()
 	{
 		return $this->belongsTo(

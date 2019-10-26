@@ -63,34 +63,42 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'date')
                                             @slot('id_error', 'date')
+																						@slot('value', $journal->transaction_date_ymd)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+
                                         <label class="form-control-label">
                                             Journal Type @include('label::required')
                                         </label>
+
+																				<select id="type" name="journal_type" class="form-control m-select2">
+																						@foreach ($journal_type as $x)
+																								<option value="{{ $x->id }}"
+																										@if ($x->id == $journal->journal_type) selected @endif>
+																										{{ $x->name }}
+																								</option>
+																						@endforeach
+																				</select>
         
-                                        @component('input::select')
-                                            @slot('id', 'type')
-                                            @slot('text', 'Type')
-                                            @slot('name', 'type')
-                                            @slot('type', 'text')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+
                                         <label class="form-control-label">
                                             Currency @include('label::required')
                                         </label>
 
-                                        @component('input::select2')
-                                            @slot('id', 'currency')
-                                            @slot('text', 'Currency')
-                                            @slot('name', 'currency')
-                                            @slot('id_error', 'currency')
-                                        @endcomponent
+																				<select id="currency" name="currency_code" class="form-control m-select2">
+																						@foreach ($currency as $x)
+																								<option value="{{ $x->code }}"
+																										@if ($x->code == $journal->currency_code) selected @endif>
+																										{{ $x->full_name }}
+																								</option>
+																						@endforeach
+																				</select>
+
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -101,6 +109,7 @@
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
                                             @slot('name', 'exchange')
+																						@slot('value', (int) $journal->exchange_rate)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -115,6 +124,7 @@
                                             @slot('text', 'refdoc')
                                             @slot('name', 'refdoc')
                                             @slot('rows','5')
+																						@slot('value',$journal->ref_no)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -197,14 +207,10 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/type.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/journal/edit.js')}}"></script>
 
-
-<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 @endpush
