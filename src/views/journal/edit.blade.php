@@ -61,7 +61,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date')
                                             @slot('text', 'Date')
-                                            @slot('name', 'date')
+                                            @slot('name', 'transaction_date')
                                             @slot('id_error', 'date')
 																						@slot('value', $journal->transaction_date_ymd)
                                         @endcomponent
@@ -108,7 +108,7 @@
                                         @component('input::numberreadonly')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
-                                            @slot('name', 'exchange')
+                                            @slot('name', 'exchange_rate')
 																						@slot('value', (int) $journal->exchange_rate)
                                         @endcomponent
                                     </div>
@@ -122,7 +122,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'refdoc')
                                             @slot('text', 'refdoc')
-                                            @slot('name', 'refdoc')
+                                            @slot('name', 'ref_no')
                                             @slot('rows','5')
 																						@slot('value',$journal->ref_no)
                                         @endcomponent
@@ -185,6 +185,7 @@
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
                                                 @slot('id','journalsave')
+                                                @slot('data_uuid', Request::segment(2))
                                             @endcomponent
 
                                             @include('buttons::reset')

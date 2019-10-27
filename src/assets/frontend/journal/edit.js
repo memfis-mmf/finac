@@ -1,5 +1,7 @@
 let JournalEdit = {
     init: function () {
+				let _url = window.location.origin;
+
         $('.accountcode_datatable').mDatatable({
             data: {
                 type: 'remote',
@@ -107,6 +109,48 @@ let JournalEdit = {
                 }
 
             ]
+        });
+
+        let ubah = $('body').on('click', '#journalsave', function () {
+
+						let button = $(this);
+            let form = button.parents('form');
+            let _data = form.serialize();
+						let uuid = button.data('uuid');
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'put',
+                url: `/journal/${uuid}`,
+                data: _data,
+                success: function (data) {
+                    if (data.errors) {
+                        if (data.errors.code) {
+                            $('#code-error').html(data.errors.code[0]);
+
+
+                            document.getElementById('code').value = code;
+                            document.getElementById('name').value = name;
+                            document.getElementById('type').value = type;
+                            document.getElementById('level').value = level;
+                            document.getElementById('description').value = description;
+                            coa_reset();
+                        }
+
+
+                    } else {
+                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                            timeOut: 5000
+                        });
+
+												setTimeout(function(){ 
+													location.href = `${_url}/journal`; 
+												}, 2000);
+                    }
+                }
+            });
         });
 
     }

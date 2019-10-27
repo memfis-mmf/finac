@@ -9,6 +9,7 @@
                {{ $class or '' }} add"
     style="{{ $style or '' }}"
     target="{{ $target or '' }}"
+    data-uuid="{{ $data_uuid or '' }}"
 >
 
     <span>
