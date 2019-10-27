@@ -212,6 +212,7 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/journal/edit.js')}}"></script>
 
+<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 @endpush
