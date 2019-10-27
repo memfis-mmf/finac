@@ -5,8 +5,10 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxJournal as Journal;
 use Directoryxx\Finac\Model\TypeJurnal;
+use Directoryxx\Finac\Model\JurnalA;
 use Directoryxx\Finac\Request\JournalUpdate;
 use Directoryxx\Finac\Request\JournalStore;
+use Directoryxx\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 
@@ -53,6 +55,25 @@ class JournalController extends Controller
 		$code = "JADJ-".date('Y/m')."/".$number;
 		
 		return $code;
+	}
+
+	public function getTypeJson()
+	{
+		$journalType = TypeJurnal::all();
+
+		$type = [];
+
+		for ($i = 0; $i < count($journalType); $i++) {
+			$x = $journalType[$i];
+			$type[$i+1] = $x->name;
+		}
+
+        return json_encode($type, JSON_PRETTY_PRINT);
+	}
+
+	public function journalaStore(Request $request)
+	{
+		JournalA::create($request->all());
 	}
 
     public function store(JournalStore $request)

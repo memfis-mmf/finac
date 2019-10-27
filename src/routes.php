@@ -32,6 +32,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@getType'
 		);
 		Route::get(
+			'/type-json', 
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@getTypeJson'
+		);
+		Route::get(
 			'/currency', 
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@getCurrency'
 		);
@@ -39,6 +43,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@store'
 		)->name('journal.store');
+		Route::post(
+			'/journala',
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@journalaStore'
+		)->name('journal.coaStore');
 		Route::put(
 			'/{journal}',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@update'

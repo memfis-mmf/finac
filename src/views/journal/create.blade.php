@@ -148,7 +148,7 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/type.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/journal-type.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/journal/create.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
