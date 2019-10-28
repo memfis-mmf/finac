@@ -38,7 +38,7 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::create-new')
+                            @include('label::edit')
 
                             <h3 class="m-portlet__head-text">
                                 Supplier Invoice GRN
@@ -157,7 +157,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
+                                                <button data-target="#modal_create_grn" data-toggle="modal" type="button" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>GRN</span>
                                                     </span>
@@ -167,6 +167,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @include('supplierinvoicegrnview::modal-create')
                                 {{-- datatables --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -193,6 +194,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="grn_datatable" id="scrolling_both"></div>
+                                                @include('supplierinvoicegrnview::modal-edit')
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +236,7 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/vendor.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/supplier-invoice/grn/create.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/supplier-invoice/grn/edit.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush

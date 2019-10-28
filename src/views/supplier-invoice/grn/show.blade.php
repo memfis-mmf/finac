@@ -38,7 +38,7 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::create-new')
+                            @include('label::show')
 
                             <h3 class="m-portlet__head-text">
                                 Supplier Invoice GRN
@@ -53,26 +53,20 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Date @include('label::required')
+                                            Date  
                                         </label>
-
-                                        @component('input::datepicker')
-                                            @slot('id', 'date')
-                                            @slot('text', 'Date')
-                                            @slot('name', 'transaction_date')
-                                            @slot('id_error', 'date')
+        
+                                        @component('label::data-info')
+                                            @slot('text', 'generated')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Vendor @include('label::required')
+                                            Vendor  
                                         </label>
         
-                                        @component('input::select')
-                                            @slot('id', 'vendor')
-                                            @slot('name', 'vendor')
-                                            @slot('text', 'Supplier')
-                                            @slot('style', 'width:100%')
+                                        @component('label::data-info')
+                                            @slot('text', 'generated')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -84,11 +78,8 @@
                                                     Term Of Payment
                                                 </label>
 
-                                                @component('input::number')
-                                                    @slot('id', 'term_of_payment')
-                                                    @slot('text', 'Term Of Payment')
-                                                    @slot('name', 'term_of_payment')
-                                                    @slot('id_error', 'term_of_payment')
+                                                @component('label::data-info')
+                                                    @slot('text', 'generated')
                                                 @endcomponent
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -96,11 +87,8 @@
                                                     Due Date
                                                 </label>
 
-                                                @component('input::datepicker')
-                                                    @slot('id', 'valid_until')
-                                                    @slot('text', 'Due Date')
-                                                    @slot('name', 'valid_until')
-                                                    @slot('id_error', 'valid_until')
+                                                @component('label::data-info')
+                                                    @slot('text', 'generated')
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -109,25 +97,20 @@
                                         <div class="form-group m-form__group row ">
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <label class="form-control-label">
-                                                    Currency @include('label::required')
+                                                    Currency
                                                 </label>
         
-                                                @component('input::select')
-                                                    @slot('id', 'currency')
-                                                    @slot('text', 'Currency')
-                                                    @slot('name', 'currency_code')
-                                                    @slot('id_error', 'currency')
+                                                @component('label::data-info')
+                                                    @slot('text', 'generated')
                                                 @endcomponent
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <label class="form-control-label">
                                                     Exchange Rate 
-                                                <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                                 </label>
-                                                @component('input::numberreadonly')
-                                                    @slot('id', 'exchange')
-                                                    @slot('text', 'exchange')
-                                                    @slot('name', 'exchange_rate')
+                                               
+                                                @component('label::data-info')
+                                                    @slot('text', 'generated')
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -139,32 +122,9 @@
                                             Remark
                                         </label>
 
-                                        @component('input::textarea')
-                                            @slot('id', 'remark')
-                                            @slot('text', 'Remark')
-                                            @slot('name', 'remark')
-                                            @slot('rows','5')
+                                        @component('label::data-info')
+                                            @slot('text', 'generated')
                                         @endcomponent
-                                    </div>
-                                </div>
-                                <div class="form-group m-form__group row">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 footer">
-                                        <div class="row align-items-center">
-                                            <div class="col-xl-8 order-2 order-xl-1">
-                                                <div class="form-group m-form__group row align-items-center">
-                                                    <div class="col-md-4">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
-                                                        <i class="la la-plus-circle"></i>
-                                                        <span>GRN</span>
-                                                    </span>
-                                                </button>
-                                                <div class="m-separator m-separator--dashed d-xl-none"></div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 {{-- datatables --}}
@@ -200,13 +160,6 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
-                                            @component('buttons::submit')
-                                                @slot('type', 'button')
-                                                @slot('id','supplier_invoice_grnsave')
-                                            @endcomponent
-
-                                            @include('buttons::reset')
-
                                             @include('buttons::back')
                                         </div>
                                     </div>
@@ -223,18 +176,5 @@
 @endsection
 
 @push('footer-scripts')
-<script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/datepicker/valid-until.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/vendor.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/supplier-invoice/grn/create.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/supplier-invoice/grn/show.js')}}"></script>
 @endpush
