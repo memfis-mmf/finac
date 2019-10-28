@@ -28,7 +28,6 @@ class JournalStore extends FormRequest
     {
         return [
 			'transaction_date' => 'required',
-			'ref_no' => 'required',
 			'currency_code' => 'required',
 			'exchange_rate' => 'required',
 			'journal_type' => 'required',

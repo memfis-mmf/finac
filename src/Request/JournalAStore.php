@@ -28,7 +28,6 @@ class JournalAStore extends FormRequest
     {
         return [
 			'voucher_no' => 'required',
-			'description' => 'required',
 			'account_code' => 'required',
         ];
     }

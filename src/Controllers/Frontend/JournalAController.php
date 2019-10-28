@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxJournalA as JournalA;
+use Directoryxx\Finac\Model\Coa;
 use Directoryxx\Finac\Request\JournalAUpdate;
 use Directoryxx\Finac\Request\JournalAStore;
 use App\Http\Controllers\Controller;
@@ -24,6 +25,12 @@ class JournalAController extends Controller
 
     public function store(JournalAStore $request)
     {
+		$coa = Coa::where('code', $request->account_code)->first();
+
+		$request->merge([
+			'account_code' => $coa->id
+		]);
+
         $journala = JournalA::create($request->all());
         return response()->json($journala);
     }
@@ -38,10 +45,36 @@ class JournalAController extends Controller
         return response()->json($journala);
     }
 
-    public function update(JournalAUpdate $request, JournalA $journala)
+    public function update(Request $request)
     {
+		$journala = JournalA::where('uuid', $request->uuid)->first();
 
-        $journala->update($request->all());
+		$request->request->add([
+			'debit' => null,
+			'credit' => null,
+		]);
+
+		if ($request->methodpayment == 'debet') {
+			$method = 'debit';
+			$otherMethod = 'credit';
+		}else{
+			$method = 'credit';
+			$otherMethod = 'debit';
+		}
+
+		$request->request->add([
+			$method => $request->amount,
+			$otherMethod => null,
+			'description' => $request->remark
+		]);
+
+		JournalA::where('uuid', $request->uuid)->update(
+			$request->only([
+				$method,
+				$otherMethod,
+				'description',
+			])
+		);
 
         return response()->json($journala);
     }
@@ -65,12 +98,14 @@ class JournalAController extends Controller
         return response()->json($journala);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
-		$data = $alldata = json_decode(JournalA::with([
-			'coa',
-			'coa.type',
-		])->get());
+		$data = $alldata = json_decode(
+			JournalA::where('voucher_no', $request->voucher_no)->with([
+				'coa',
+				'coa.type',
+			])->get()
+		);
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

@@ -59,12 +59,15 @@ class JournalController extends Controller
 
 	public function getTypeJson()
 	{
-		$journalType = TypeJurnal::all();
+		$journalType = TypeJurnal::where('name', 'GENERAL JOURNAL')
+			->orWhere('name', 'JOURNAL ADJUSTMENT')
+			->get();
 
 		$type = [];
 
 		for ($i = 0; $i < count($journalType); $i++) {
 			$x = $journalType[$i];
+
 			$type[$i+1] = $x->name;
 		}
 

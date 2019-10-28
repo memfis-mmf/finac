@@ -87,6 +87,7 @@
                                 <div class="flex">
                                     <div class="action-buttons">
                                         @component('buttons::submit')
+                                            @slot('id', 'update_journala')
                                             @slot('type', 'button')
                                         @endcomponent
 

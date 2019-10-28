@@ -1,6 +1,7 @@
 @extends('frontend.master')
 
 @section('content')
+<input type="hidden" name="voucher_no" value="{{ $journal->voucher_no }}" disabled>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">

@@ -2,14 +2,15 @@ let JournalEdit = {
     init: function () {
 
 			let _url = window.location.origin;
+			let _voucher_no = $('input[name=voucher_no]').val();
 
-			$('.accountcode_datatable').mDatatable({
+			let account_code_table = $('.accountcode_datatable').mDatatable({
 					data: {
 							type: 'remote',
 							source: {
 									read: {
 											method: 'GET',
-											url: '',
+											url: '/journala/datatables?voucher_no=' + _voucher_no,
 											map: function (raw) {
 													let dataSet = raw;
 
@@ -57,37 +58,31 @@ let JournalEdit = {
 									}
 							},
 							{
-									field: '',
+									field: 'coa.code',
 									title: 'Account Code',
 									sortable: 'asc',
 									filterable: !1,
-									template: function (t) {
-											return '<a href="/item/'+t.uuid+'">' + t.code + "</a>"
-									}
 							},
 							{
-									field: '',
+									field: 'coa.name',
 									title: 'Accoount Name',
 									sortable: 'asc',
 									filterable: !1,
-									template: function (t) {
-											return t.pivot.serial_number
-									}
 							},
 							{
-									field: '',
+									field: 'debit',
 									title: 'Debet',
 									sortable: 'asc',
 									filterable: !1,
 							},
 							{
-									field: '',
+									field: 'credit',
 									title: 'Kredit',
 									sortable: 'asc',
 									filterable: !1,
 							},
 							{
-									field: '',
+									field: 'description',
 									title: 'Remark',
 									sortable: 'asc',
 									filterable: !1,
@@ -100,8 +95,7 @@ let JournalEdit = {
 									overflow: 'visible',
 									template: function (t, e, i) {
 											return (
-													'<button data-toggle="modal" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-item=' +
-													t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+													'<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
 													'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
 													t.uuid +
 													' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
@@ -110,6 +104,70 @@ let JournalEdit = {
 							}
 
 					]
+			});
+
+			let dispay_modal = $('body').on('click', '#show_modal_journala', function() {
+				let _uuid = $(this).data('uuid');
+				let _modal = $('#modal_coa_edit');
+				let form = _modal.find('form');
+				let tr = $(this).parents('tr');
+				let data = account_code_table.row(tr).data().mDatatable.dataSet[0];
+				let amount = '';
+
+				amount = parseInt(data.credit);
+
+				form.find('input[value=kredit]').prop('checked', true);
+
+				if (data.debit) {
+					amount = parseInt(data.debit);
+					form.find('input[value=debet]').prop('checked', true);
+				}
+
+				form.find('input[name=amount]').val(amount);
+				form.find('textarea[name=remark]').val(data.description);
+
+				_modal.find('input[name=uuid]').val(_uuid);
+				_modal.modal('show');
+
+			})
+
+			let ubah_journala = $('body').on('click', '#update_journala', function () {
+
+					let button = $(this);
+					let form = button.parents('form');
+					let uuid = form.find('input[name=uuid]').val();
+					let _data = form.serialize();
+
+					$.ajax({
+							headers: {
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							},
+							type: 'put',
+							url: `/journala/${uuid}`,
+							data: _data,
+							success: function (data) {
+									if (data.errors) {
+											if (data.errors.code) {
+												$('#code-error').html(data.errors.code[0]);
+
+												document.getElementById('code').value = code;
+												document.getElementById('name').value = name;
+												document.getElementById('type').value = type;
+												document.getElementById('level').value = level;
+												document.getElementById('description').value = description;
+												coa_reset();
+											}
+
+									} else {
+										toastr.success('Data berhasil disimpan.', 'Sukses', {
+												timeOut: 5000
+										});
+
+										$('#modal_coa_edit').modal('hide');
+										account_code_table.reload();
+									}
+							}
+					});
 			});
 
 			let ubah = $('body').on('click', '#journalsave', function () {
@@ -210,11 +268,14 @@ let JournalEdit = {
 						type: 'post',
 						dataType: 'json',
 						data : {
-							'account_code' : data.code 
+							'account_code' : data.code, 
+							'voucher_no' : _voucher_no
 						},
 						success: function (data) {
 
 							$('#coa_modal').modal('hide');
+
+							account_code_table.reload();
 
 							toastr.success('Data tersimpan', 'Sukses', {
 								timeOut: 2000
@@ -223,6 +284,48 @@ let JournalEdit = {
 						}
 				});
 
+			});
+
+			let remove = $('.accountcode_datatable').on('click', '.delete', function () {
+				let triggerid = $(this).data('uuid');
+
+				swal({
+						title: 'Sure want to remove?',
+						type: 'question',
+						confirmButtonText: 'Yes, REMOVE',
+						confirmButtonColor: '#d33',
+						cancelButtonText: 'Cancel',
+						showCancelButton: true,
+				}).then(result => {
+						if (result.value) {
+
+								$.ajax({
+										headers: {
+												'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+														'content'
+												)
+										},
+										type: 'DELETE',
+										url: '/journala/' + triggerid + '',
+										success: function (data) {
+												toastr.success('AR has been deleted.', 'Deleted', {
+																timeOut: 5000
+														}
+												);
+
+												account_code_table.reload();
+										},
+										error: function (jqXhr, json, errorThrown) {
+												let errorsHtml = '';
+												let errors = jqXhr.responseJSON;
+
+												$.each(errors.errors, function (index, value) {
+														$('#delete-error').html(value);
+												});
+										}
+								});
+						}
+				});
 			});
 
     }

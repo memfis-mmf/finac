@@ -147,7 +147,7 @@ let JournalCreate = {
 										});
 
 										setTimeout(function(){ 
-											location.href = `${_url}/journal`; 
+											location.href = `${_url}/journal/${data.uuid}/edit`; 
 										}, 2000);
 
 										$('#code-error').html('');

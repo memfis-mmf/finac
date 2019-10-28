@@ -17,7 +17,7 @@ class CreateTrxJournalATable extends Migration
             $table->increments('id');
             $table->uuid('uuid')->unique();
 			$table->string('voucher_no');
-			$table->string('description');
+			$table->string('description')->nullable();
 			$table->bigInteger('account_code');
 			$table->decimal('debit', 18, 5)->nullable();
 			$table->decimal('credit', 18, 5)->nullable();

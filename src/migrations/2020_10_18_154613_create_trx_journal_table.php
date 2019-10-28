@@ -19,7 +19,7 @@ class CreateTrxJournalTable extends Migration
 			$table->integer('approve')->default(0);
 			$table->string('voucher_no');
 			$table->dateTime('transaction_date');
-			$table->string('ref_no');
+			$table->string('ref_no')->nullable();
 			$table->string('currency_code');
 			$table->decimal('exchange_rate', 18, 5);
 			$table->bigInteger('journal_type');

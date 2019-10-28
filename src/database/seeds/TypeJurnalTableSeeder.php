@@ -56,10 +56,11 @@ class TypeJurnalTableSeeder extends Seeder
             'active' => '1',
         ]);
 
-
-
-
-
+        TypeJurnal::create([
+            'code' => 'ADJ',
+            'name' => 'JOURNAL ADJUSTMENT',
+            'active' => '1',
+        ]);
 
     }
 }
