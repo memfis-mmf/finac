@@ -28,7 +28,7 @@ class TrxJournal extends MemfisModel
 
 	static public function generateCode()
 	{
-		$journal = Journal::orderBy('id', 'desc');
+		$journal = TrxJournal::orderBy('id', 'desc');
 
 		if (!$journal->count()) {
 
@@ -63,6 +63,16 @@ class TrxJournal extends MemfisModel
 		$data['journal_type'] = TypeJurnal::where('code', 'PJR')->first()->id;
 		$data['currency_code'] = Currency::find($po->currency_id)->code;
 		$data['exchange_rate'] = $po->exchange_rate;
+
+		TrxJournal::create($data);
+
+		//if($component) {
+			//$data_component['code'] = '';
+
+			//JournalA::create([
+
+			//]);
+		//}
 	}
 
 	public function getTransactionDateYmdAttribute()
