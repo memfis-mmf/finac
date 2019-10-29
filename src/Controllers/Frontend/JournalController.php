@@ -34,28 +34,6 @@ class JournalController extends Controller
         return view('journalview::index');        
     }
 
-	public function generateCode()
-	{
-		$journal = Journal::orderBy('id', 'desc');
-
-		if (!$journal->count()) {
-
-			if ($journal->withTrashed()->count()) {
-				$order = $journal->withTrashed()->count() + 1;
-			}else{
-				$order = 1;
-			}
-
-		}else{
-			$order = $journal->withTrashed()->count() + 1;
-		}
-
-		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
-
-		$code = "JADJ-".date('Y/m')."/".$number;
-		
-		return $code;
-	}
 
 	public function getTypeJson()
 	{
@@ -82,7 +60,7 @@ class JournalController extends Controller
     public function store(JournalStore $request)
     {
 		$request->request->add([
-			'voucher_no' => $this->generateCode()
+			'voucher_no' => Journal::generateCode()
 		]);
 
         $journal = Journal::create($request->all());
