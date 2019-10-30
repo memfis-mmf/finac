@@ -66,13 +66,39 @@ class TrxJournal extends MemfisModel
 
 		TrxJournal::create($data);
 
-		//if($component) {
-			//$data_component['code'] = '';
+		$account_code = [
+			"105.1.1.01",
+			"105.1.1.02",
+			"105.1.1.03",
+		];
 
-			//JournalA::create([
+		$_data = [
+			$component,
+			$consumable,
+			$raw_material
+		];
 
-			//]);
-		//}
+		$total = 0;
+
+		for($a = 0; $a < count($_data); $a++) {
+
+			if($_data[$a]) {
+				JournalA::create([
+					'voucher_no' => $data['voucher_no'],
+					'account_code' => $account_code,
+					'debit' => $_data[$a],
+				]);
+
+				$total += $_data[$a];
+			}
+
+		}
+
+		JournalA::create([
+			'voucher_no' => $data['voucher_no'],
+			'account_code' => "301.1.1.01",
+			'credit' => $total,
+		]);
 	}
 
 	public function getTransactionDateYmdAttribute()
