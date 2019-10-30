@@ -59,11 +59,12 @@ class JournalController extends Controller
 
     public function store(JournalStore $request)
     {
-		$request->request->add([
-			'voucher_no' => Journal::generateCode()
-		]);
+		$code = Journal::getJournalCode($request->journal_type);
 
-        $journal = Journal::create($request->all());
+		$data = $request->all();
+		$data['voucher_no'] = Journal::generateCode($code);
+
+        $journal = Journal::create($data);
         return response()->json($journal);
     }
 

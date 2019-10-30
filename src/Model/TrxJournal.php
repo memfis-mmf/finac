@@ -26,9 +26,21 @@ class TrxJournal extends MemfisModel
 		'automatic_journal_type',
     ];
 
-	static public function generateCode()
+	static public function getJournalCode($journal_type_id)
 	{
-		$journal = TrxJournal::orderBy('id', 'desc');
+		$type = TypeJurnal::find($journal_type_id);
+
+		if($type->code == 'GJV' || $type->code == 'ADJ') {
+			$code = "J".$type->code;
+		}
+
+		return $code;
+	}
+
+	static public function generateCode($code = "JADJ")
+	{
+		$journal = TrxJournal::orderBy('id', 'desc')
+			->where('voucher_no', 'like', $code.'%');
 
 		if (!$journal->count()) {
 
@@ -44,7 +56,7 @@ class TrxJournal extends MemfisModel
 
 		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
 
-		$code = "JADJ-".date('Y/m')."/".$number;
+		$code = $code."-".date('Y/m')."/".$number;
 		
 		return $code;
 	}
