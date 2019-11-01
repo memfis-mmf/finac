@@ -39,7 +39,7 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::create-new')
+                            @include('label::edit')
 
                             <h3 class="m-portlet__head-text">
                                 Supplier Invoice General
@@ -183,7 +183,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
+                                                <button data-target="#coa_modal" data-toggle="modal" type="button" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>Add Account</span>
                                                     </span>
@@ -193,6 +193,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @include('supplierinvoicegeneralview::modal-edit')
                                 {{-- datatables --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -262,7 +263,7 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/vendor.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/supplier-invoice/general/create.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/supplier-invoice/general/edit.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush
