@@ -23,4 +23,14 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/supplier-invoice/general/edit', 'supplierinvoicegeneralview::edit')->name('supplier-invoice-general.edit');
     Route::view('/supplier-invoice/general/show', 'supplierinvoicegeneralview::show')->name('supplier-invoice-general.show');
 
+
+
+    /** SUPPLIER INVOICE */
+
+    Route::view('/account-payable', 'accountpayableview::index')->name('account-payable.index');
+
+    Route::view('/account-payable/create', 'accountpayableview::create')->name('account-payable.create');
+    Route::view('/account-payable/edit', 'accountpayableview::edit')->name('account-payable.edit');
+    Route::view('/account-payable/show', 'accountpayableview::show')->name('account-payable.show');
+
 });
