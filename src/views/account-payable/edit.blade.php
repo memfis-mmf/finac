@@ -39,7 +39,7 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::create-new')
+                            @include('label::edit')
 
                             <h3 class="m-portlet__head-text">
                                 Account Payable
