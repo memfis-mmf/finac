@@ -44,42 +44,49 @@ let Journal = {
             },
             columns: [
                 {
-                    field: 'transaction_date',
+                    field: '',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: 'voucher_no',
+                    field: '',
                     title: 'SI NO.',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'ref_no',
+                    field: '',
                     title: 'Type',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
                 },
                 {
-                    field: 'currency_code',
+                    field: '',
                     title: 'Supplier Name',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'exchange_rate',
+                    field: '',
+                    title: 'Status',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 150
+                },
+                {
+                    field: '',
                     title: 'Currency',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'type_jurnal.name',
+                    field: '',
                     title: 'Exchange Rate',
                     sortable: 'asc',
                     filterable: !1,
