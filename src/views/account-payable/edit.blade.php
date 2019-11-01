@@ -151,7 +151,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
+                                                <button data-target="#modal_create_supplier_invoice" data-toggle="modal" type="button" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>Supplier Invoice</span>
                                                     </span>
@@ -161,6 +161,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                @include('accountpayableview::modal-create-supplier-invoice')
+                                @include('accountpayableview::modal-edit-supplier-invoice')
                                 {{-- datatables --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -233,7 +235,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
+                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>Adjustment</span>
                                                     </span>
@@ -297,6 +299,17 @@
 </div>
 
 @endsection
+
+
+@push('header-scripts')
+    <style>
+        @media (min-width: 992px){
+            .modal-supplier-invoice {
+                max-width: 1300px !important;
+            }
+        }
+    </style>
+@endpush
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
