@@ -235,7 +235,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                                <button data-target="#coa_modal" data-toggle="modal" type="button" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>Adjustment</span>
                                                     </span>
@@ -245,6 +245,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @include('accountpayableview::modal-edit-adjustment')
                                 {{-- datatables --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
