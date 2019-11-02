@@ -58,35 +58,11 @@ let Coa = {
                     width: 150
                 },
                 {
-                    field: 'type_id',
+                    field: 'type.name',
                     title: 'Type',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
-                    template: function (t, e, i) {
-                        if (t.type_id == 1){
-                            return (
-                                'Aktiva'
-                            );
-                        } else if (t.type_id == 2){
-                            return (
-                                'Pasiva'
-                            );
-                        } else if (t.type_id == 3){
-                            return (
-                                'Ekuitas'
-                            );
-                        } else if (t.type_id == 4){
-                            return (
-                                'Pendapatan'
-                            );
-                        } else if (t.type_id == 5){
-                            return (
-                                'Biaya'  
-                            );
-                        }
-
-                    }
                 },
                 {
                     field: 'description',

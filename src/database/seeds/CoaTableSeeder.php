@@ -2198,6 +2198,7 @@ class CoaTableSeeder extends Seeder
 				'name' => $name[$a],
 				'description' => $description[$a],
 				'type_id' => $type_id[$a],
+				'created_at' => date('Y-m-d H:i:s'),
 			];
 		}
 

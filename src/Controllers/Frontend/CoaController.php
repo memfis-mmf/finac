@@ -110,7 +110,9 @@ class CoaController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(Coa::All());
+		$data = $alldata = json_decode(Coa::with([
+			'type'
+		])->get());
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 
