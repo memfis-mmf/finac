@@ -62,6 +62,12 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            <button class="btn m-btn--pill m-btn--air btn-success btn-sm">
+                                                Export to Excel
+                                            </button>
+                                            <button class="btn m-btn--pill m-btn--air btn-outline-info btn-sm ml-3">
+                                                Print
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 order-1 order-xl-2 m--align-right">
