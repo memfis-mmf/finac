@@ -10,6 +10,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('coa')->group(function () {
 		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CoaController@create')->name('coa.index');
+		Route::get('/export', 'Directoryxx\Finac\Controllers\Frontend\CoaController@export')->name('coa.export');
 		Route::get('/type','Directoryxx\Finac\Controllers\Frontend\CoaController@getdata');
 		Route::post('/','Directoryxx\Finac\Controllers\Frontend\CoaController@store')->name('coa.store');
 		Route::put('/{coa}','Directoryxx\Finac\Controllers\Frontend\CoaController@update')->name('coa.update');

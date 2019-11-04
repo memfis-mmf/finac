@@ -9,11 +9,20 @@ use Directoryxx\Finac\Request\CoaStore;
 use App\Http\Controllers\Controller;
 use App\Models\Type;
 
+//use for export
+use Directoryxx\Finac\Model\Exports\CoaExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class CoaController extends Controller
 {
     public function index()
     {
         return redirect()->route('coa.create');
+    }
+
+	public function export() 
+    {
+		return Excel::download(new CoaExport, 'coa.xlsx');
     }
 
     public function getData()
