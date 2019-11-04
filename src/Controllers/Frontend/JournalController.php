@@ -46,7 +46,7 @@ class JournalController extends Controller
 		for ($i = 0; $i < count($journalType); $i++) {
 			$x = $journalType[$i];
 
-			$type[$i+1] = $x->name;
+			$type[$x->id] = $x->name;
 		}
 
         return json_encode($type, JSON_PRETTY_PRINT);
