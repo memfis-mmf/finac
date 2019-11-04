@@ -19,7 +19,12 @@ class TrxPaymentController extends Controller
 
     public function create()
     {
-        return view('trxpaymentview::index');        
+        return view('supplierinvoiceview::index');        
+    }
+
+    public function grnCreate()
+    {
+        return view('supplierinvoicegrnview::create');        
     }
 
     public function store(TrxPaymentStore $request)
