@@ -157,7 +157,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
+                                                <button type="button" data-toggle="modal" data-target="#modal_create_grn" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>GRN</span>
                                                     </span>
@@ -219,7 +219,7 @@
         </div>
     </div>
 </div>
-
+@include('supplierinvoicegrnview::modal-create')
 @endsection
 
 @push('footer-scripts')
