@@ -148,6 +148,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/grn/create', 
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnCreate'
 		)->name('trxpayment.grn.create');
+
+		Route::get(
+			'/get-vendors', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@getVendor'
+		)->name('trxpayment.vendor.get');
 	});
 	
     Route::prefix('trxpaymenta')->group(function () {

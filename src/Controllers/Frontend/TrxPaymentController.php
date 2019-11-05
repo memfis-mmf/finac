@@ -7,6 +7,7 @@ use Directoryxx\Finac\Model\TrxPayment;
 use Directoryxx\Finac\Request\TrxPaymentUpdate;
 use Directoryxx\Finac\Request\TrxPaymentStore;
 use App\Http\Controllers\Controller;
+use App\Models\Vendor;
 
 
 
@@ -20,11 +21,6 @@ class TrxPaymentController extends Controller
     public function create()
     {
         return view('supplierinvoiceview::index');        
-    }
-
-    public function grnCreate()
-    {
-        return view('supplierinvoicegrnview::create');        
     }
 
     public function store(TrxPaymentStore $request)
@@ -166,4 +162,27 @@ class TrxPaymentController extends Controller
 
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
+
+	//GRN
+	
+    public function grnCreate()
+    {
+        return view('supplierinvoicegrnview::create');        
+    }
+
+	public function getVendor()
+	{
+		$vendor = Vendor::all();
+
+		$type = [];
+
+		for ($i = 0; $i < count($vendor); $i++) {
+			$x = $vendor[$i];
+
+			$type[$x->id] = $x->name;
+		}
+
+        return json_encode($type, JSON_PRETTY_PRINT);
+	}
+
 }

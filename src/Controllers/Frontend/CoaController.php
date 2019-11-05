@@ -33,7 +33,8 @@ class CoaController extends Controller
 
 		for ($i = 0; $i < count($coaType); $i++) {
 			$x = $coaType[$i];
-			$type[$i+1] = $x->name;
+
+			$type[$x->id] = $x->name;
 		}
 
         return json_encode($type, JSON_PRETTY_PRINT);
