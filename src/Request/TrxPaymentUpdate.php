@@ -27,23 +27,9 @@ class TrxPaymentUpdate extends FormRequest
     public function rules()
     {
         return [
-			'id_branch' => 'required',
-			'approve' => 'required',
-			'closed' => 'required',
-			'transaction_number' => 'required',
 			'transaction_date' => 'required',
-			'x_type' => 'required',
 			'id_supplier' => 'required',
 			'currency' => 'required',
-			'exchange_rate' => 'required',
-			'discount_percent' => 'required',
-			'discount_value' => 'required',
-			'ppn_percent' => 'required',
-			'ppn_value' => 'required',
-			'grandtotal_foreign' => 'required',
-			'grandtotal' => 'required',
-			'account_code' => 'required',
-			'description' => 'required',
         ];
     }
 

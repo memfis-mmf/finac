@@ -6,7 +6,7 @@ let Journal = {
                 source: {
                     read: {
                         method: 'GET',
-                        url: '/journal/datatables',
+                        url: '/supplier-invoice/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -44,28 +44,28 @@ let Journal = {
             },
             columns: [
                 {
-                    field: '',
+                    field: 'transaction_date',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: '',
+                    field: 'transaction_number',
                     title: 'SI NO.',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'x_type',
                     title: 'Type',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
                 },
                 {
-                    field: '',
+                    field: 'vendor.name',
                     title: 'Supplier Name',
                     sortable: 'asc',
                     filterable: !1,
@@ -79,21 +79,21 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'currency',
                     title: 'Currency',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'exchange_rate',
                     title: 'Exchange Rate',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'grandtotal',
                     title: 'Grandtotal Foreign',
                     sortable: 'asc',
                     filterable: !1,
@@ -107,7 +107,7 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'account_code',
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,
@@ -134,8 +134,14 @@ let Journal = {
                     sortable: !1,
                     overflow: 'visible',
                     template: function (t, e, i) {
+												let type = '';
+
+												if (t.x_type == "GRN") {
+													type = 'grn/';
+												}
+
                         return (
-                            '<a href="journal/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                            '<a href="'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                             t.uuid +
                             '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
                             '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +

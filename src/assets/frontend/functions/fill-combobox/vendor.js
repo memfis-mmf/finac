@@ -6,14 +6,14 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
 
-                $('select[name="vendor"]').empty();
+                $('select[id="vendor"]').empty();
 
-                $('select[name="vendor"]').append(
+                $('select[id="vendor"]').append(
                     '<option value=""> Select a Vendor </option>'
                 );
 
                 $.each(data, function (key, value) {
-                    $('select[name="vendor"]').append(
+                    $('select[id="vendor"]').append(
                         '<option value="' + key + '">' + value + '</option>'
                     );
                 });

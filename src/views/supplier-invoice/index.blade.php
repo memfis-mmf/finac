@@ -72,7 +72,7 @@
                                                 <span>GRN</span>
                                             </span>
                                         </a>
-                                        <a href="" class="btn btn-primary m-btn m-btn--pill-last text-white">
+                                        <a href="{{ route('trxpayment.create') }}" class="btn btn-primary m-btn m-btn--pill-last text-white">
                                             <span>
                                                 <i class="la la-plus-circle"></i>
                                                 <span>General</span>

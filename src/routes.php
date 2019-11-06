@@ -112,8 +112,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::prefix('supplier-invoice')->group(function () {
 		Route::get(
 			'/', 
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@create'
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@index'
 		)->name('trxpayment.index');
+		Route::get(
+			'/create', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@create'
+		)->name('trxpayment.create');
 		Route::post(
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@store'
@@ -148,7 +152,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/grn/create', 
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnCreate'
 		)->name('trxpayment.grn.create');
-
+		Route::post(
+			'/grn/create', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnStore'
+		)->name('trxpayment.grn.store');
+		Route::get(
+			'/grn/{trxpayment}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnEdit'
+		);
 		Route::get(
 			'/get-vendors', 
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@getVendor'

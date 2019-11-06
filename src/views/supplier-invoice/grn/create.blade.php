@@ -70,7 +70,7 @@
         
                                         @component('input::select')
                                             @slot('id', 'vendor')
-                                            @slot('name', 'vendor')
+                                            @slot('name', 'id_supplier')
                                             @slot('text', 'Supplier')
                                             @slot('style', 'width:100%')
                                         @endcomponent
@@ -87,7 +87,7 @@
                                                 @component('input::number')
                                                     @slot('id', 'term_of_payment')
                                                     @slot('text', 'Term Of Payment')
-                                                    @slot('name', 'term_of_payment')
+                                                    @slot('name', 'closed')
                                                     @slot('id_error', 'term_of_payment')
                                                 @endcomponent
                                             </div>
@@ -99,7 +99,6 @@
                                                 @component('input::datepicker')
                                                     @slot('id', 'valid_until')
                                                     @slot('text', 'Due Date')
-                                                    @slot('name', 'valid_until')
                                                     @slot('id_error', 'valid_until')
                                                 @endcomponent
                                             </div>
@@ -115,7 +114,7 @@
                                                 @component('input::select')
                                                     @slot('id', 'currency')
                                                     @slot('text', 'Currency')
-                                                    @slot('name', 'currency_code')
+                                                    @slot('name', 'currency')
                                                     @slot('id_error', 'currency')
                                                 @endcomponent
                                             </div>
@@ -142,7 +141,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'remark')
+                                            @slot('name', 'description')
                                             @slot('rows','5')
                                         @endcomponent
                                     </div>
@@ -157,7 +156,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button type="button" data-toggle="modal" data-target="#modal_create_grn" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                                <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>GRN</span>
                                                     </span>
@@ -219,7 +218,6 @@
         </div>
     </div>
 </div>
-@include('supplierinvoicegrnview::modal-create')
 @endsection
 
 @push('footer-scripts')

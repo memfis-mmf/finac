@@ -8,19 +8,18 @@ use Directoryxx\Finac\Request\TrxPaymentUpdate;
 use Directoryxx\Finac\Request\TrxPaymentStore;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
-
-
+use App\Models\Currency;
 
 class TrxPaymentController extends Controller
 {
     public function index()
     {
-        return redirect()->route('trxpayment.create');
+        return view('supplierinvoiceview::index');        
     }
 
     public function create()
     {
-        return view('supplierinvoiceview::index');        
+        return view('supplierinvoicegeneralview::create');        
     }
 
     public function store(TrxPaymentStore $request)
@@ -63,7 +62,11 @@ class TrxPaymentController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(TrxPayment::All());
+		$data = $alldata = json_decode(
+			TrxPayment::with([
+				'vendor'
+			])->get()
+		);
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -168,6 +171,38 @@ class TrxPaymentController extends Controller
     public function grnCreate()
     {
         return view('supplierinvoicegrnview::create');        
+    }
+
+    public function grnStore(TrxPaymentStore $request)
+    {
+		$request->merge([
+			'id_supplier' => 
+			Vendor::where('uuid', $request->id_supplier)->first()->id
+		]);
+
+		$request->request->add([
+			'transaction_number' => TrxPayment::generateCode(),
+			'x_type' => 'GRN',
+		]);
+
+        $trxpayment = TrxPayment::create($request->all());
+        return response()->json($trxpayment);
+    }
+
+    public function grnEdit(Request $request)
+    {
+		$data['data'] = TrxPayment::where(
+			'uuid', 
+			$request->trxpayment
+		)->first();
+
+		$data['vendor'] = Vendor::all();
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full_name'
+		)->whereIn('code',['idr','usd'])
+		->get();
+
+        return view('supplierinvoicegrnview::edit', $data);        
     }
 
 	public function getVendor()
