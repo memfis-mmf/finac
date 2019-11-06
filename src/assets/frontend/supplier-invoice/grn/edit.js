@@ -90,22 +90,22 @@ let SupplierInvoice = {
 				serverSide: !0,
 				lengthMenu: [5, 10, 25, 50],
 				pageLength: 5,
-				ajax: "/datatables/workpackage/modal",
+				ajax: "/supplier-invoice/grn/datatables",
 				columns: [
 					{
-						data: "code"
+						data: "received_at"
 					},
 					{
-						data: "title"
+						data: "number"
 					},
 					{
-						data: "title"
+						data: "purchase_order.number"
 					},
 					{
-						data: "aircraft.name"
+						data: "purchase_order.purchase_request.number"
 					},
 					{
-						data: "aircraft.name"
+						data: "purchase_order.total_after_tax"
 					},
 					{
 						data: "Actions"
