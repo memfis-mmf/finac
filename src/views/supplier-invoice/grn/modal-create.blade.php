@@ -8,18 +8,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped table-bordered table-hover table-checkable" id="grn_modal_datatable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>GRN No.</th>
-                            <th>PO No.</th>
-                            <th>PR No.</th>
-                            <th>Total Amount.</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
+							<div class="row mb-5">
+								<div class="col-md-6">
+									<div class="m-input-icon m-input-icon--left">
+											<input type="text" class="form-control m-input" placeholder="Search..."
+													id="generalSearch">
+											<span class="m-input-icon__icon m-input-icon__icon--left">
+													<span><i class="la la-search"></i></span>
+											</span>
+									</div>
+								</div>
+							</div>
+							<div class="grn_modal_datatable" id="scrolling_both"></div>
             </div>
             <div class="modal-footer">
                 <div class="flex">
