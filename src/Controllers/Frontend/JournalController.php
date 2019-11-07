@@ -19,6 +19,17 @@ class JournalController extends Controller
         return redirect()->route('journal.create');
     }
 
+    public function approve(Request $request)
+    {
+		$journal = Journal::where('uuid', $request->uuid);
+
+		$journal->update([
+			'approve' => 1
+		]);
+
+        return response()->json($journal->first());
+    }
+
 	public function getType(Request $request)
 	{
 		return response()->json(TypeJurnal::all());

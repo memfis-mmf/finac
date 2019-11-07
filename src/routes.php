@@ -28,6 +28,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/', 
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@create'
 		)->name('journal.index');
+		Route::post(
+			'/approve', 
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@approve'
+		);
 		Route::get(
 			'/type', 
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@getType'
