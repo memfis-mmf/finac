@@ -16,10 +16,10 @@ class CreateTrxPaymentBTable extends Migration
         Schema::create('trxpaymentb', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
-            $table->string('transaction_number');
-            $table->string('code');
-            $table->decimal('total');
-            $table->string('description');
+            $table->string('transaction_number')->nullable();
+            $table->string('code')->default(1);
+            $table->decimal('total')->default(0);
+            $table->string('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

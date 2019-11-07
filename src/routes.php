@@ -160,6 +160,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/grn/create', 
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnStore'
 		)->name('trxpayment.grn.store');
+		Route::post(
+			'/grn/use', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnUse'
+		)->name('trxpayment.grn.use');
 		Route::get(
 			'/grn/datatables', 
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnDatatables'

@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxPayment;
+use Directoryxx\Finac\Model\TrxPaymentA;
 use Directoryxx\Finac\Request\TrxPaymentUpdate;
 use Directoryxx\Finac\Request\TrxPaymentStore;
 use App\Http\Controllers\Controller;
@@ -328,4 +329,15 @@ class TrxPaymentController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
+	public function grnUse(Request $request)
+	{
+		$grn = GRN::where('uuid', $request->uuid)->first();
+		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
+
+		TrxPaymentA::create([
+			'transaction_number' => $trxpayment->transaction_number,
+			'id_grn' => $grn->id,
+		]);
+	}
+	
 }

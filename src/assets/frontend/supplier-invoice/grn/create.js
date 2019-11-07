@@ -1,5 +1,8 @@
 let SupplierInvoice = {
-    init: function () {
+	init: function () {
+
+		let _url = window.location.origin;
+
 		let grn_table = $('.grn_datatable').mDatatable({
 				data: {
 						type: 'remote',
@@ -105,22 +108,13 @@ let SupplierInvoice = {
 
 
 								} else {
-										$('#modal_coa').modal('hide');
-
-										toastr.success('Data berhasil disimpan.', 'Sukses', {
-												timeOut: 5000
+										toastr.success('Data Saved', 'Sukses', {
+												timeOut: 2000
 										});
 
 										setTimeout(function(){ 
-											location.href = `${_url}/journal/${data.uuid}/edit`; 
+											location.href = `${_url}/supplier-invoice/grn/${data.uuid}/edit`; 
 										}, 2000);
-
-										$('#code-error').html('');
-
-										let table = $('.coa_datatable').mDatatable();
-										coa_reset();
-										table.originalDataSet = [];
-										table.reload();
 								}
 						}
 				});

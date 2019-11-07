@@ -1,6 +1,7 @@
 @extends('frontend.master')
 
 @section('content')
+<input type="hidden" value="{{ Request::segment(3) }}" name="si_uuid" id=""/>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">

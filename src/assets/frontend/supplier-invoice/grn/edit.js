@@ -10,7 +10,7 @@ let SupplierInvoice = {
 							source: {
 									read: {
 											method: 'GET',
-											url: '/journala/datatables?voucher_no=' + _voucher_no,
+											url: '/trxpaymenta/datatables',
 											map: function (raw) {
 													let dataSet = raw;
 
@@ -47,7 +47,7 @@ let SupplierInvoice = {
 					},
 					columns: [
 							{
-								field: '',
+								field: 'grn.number',
 								title: 'GRN No.',
 								sortable: 'asc',
 								filterable: !1,
@@ -59,7 +59,7 @@ let SupplierInvoice = {
 								filterable: !1,
 							},
 							{
-								field: '',
+								field: 'description',
 								title: 'Invoice No.',
 								sortable: 'asc',
 								filterable: !1,
@@ -71,7 +71,7 @@ let SupplierInvoice = {
 								overflow: 'visible',
 								template: function (t, e, i) {
 									return (
-										'<button data-target="#modal_edit_grn" data-toggle="modal" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+										'<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-description='+t.description+' data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
 										'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
 										t.uuid +
 										' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
@@ -80,6 +80,15 @@ let SupplierInvoice = {
 							}
 
 					]
+			});
+
+			$('.grn_datatable').on('click', '.edit-item', function() {
+				let description = $(this).data('description');
+				let uuid = $(this).data('uuid');
+				let _modal = $('#modal_edit_grn'); 
+
+				_modal.find('#invoice_no').val(description);
+				_modal.modal('show');
 			});
 
 			let grn_modal_table = $('.grn_modal_datatable').mDatatable({
@@ -167,56 +176,22 @@ let SupplierInvoice = {
 					]
 			});
 	
-			//$("#grn_modal_datatable").DataTable({
-				//"dom": '<"top"f>rt<"bottom">pl',
-				//responsive: !0,
-				//searchDelay: 500,
-				//processing: !0,
-				//serverSide: !0,
-				//lengthMenu: [5, 10, 25, 50],
-				//pageLength: 5,
-				//ajax: "/supplier-invoice/grn/datatables",
-				//columns: [
-					//{
-						//data: "received_at"
-					//},
-					//{
-						//data: "number"
-					//},
-					//{
-						//data: "purchase_order.number"
-					//},
-					//{
-						//data: "purchase_order.purchase_request.number"
-					//},
-					//{
-						//data: "purchase_order.total_after_tax"
-					//},
-					//{
-						//data: "Actions"
-					//}
-				//],
-				//columnDefs: [{
-						//targets: -1,
-						//orderable: !1,
-						//render: function (a, e, t, n) {
-							//return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
-						//}
-					//},
-	
-				//]
-			//})
-	
-			$('#grn_modal_datatable').on('click', '.select-grn', function () {
+			$('.grn_modal_datatable').on('click', '.select-grn', function () {
+
+				let _uuid = $(this).data('uuid');
+				let _si_uuid = $('input[name=si_uuid]').val();
+				let _modal = $('.grn_modal_datatable').parents('.modal');
+
 				$.ajax({
 					headers: {
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					},
 					type: 'post',
-					url: '/project-hm/' + project_uuid +'/workpackage',
+					url: '/supplier-invoice/grn/use',
 					data: {
 						_token: $('input[name=_token]').val(),
-						workpackage: $(this).data('uuid'),
+						uuid: _uuid,
+						si_uuid: _si_uuid,
 					},
 					success: function (data) {
 						if (data.errors) {
@@ -242,16 +217,12 @@ let SupplierInvoice = {
 							document.getElementById('reg').value = data.getAll('aircraft_register');
 							document.getElementById('serial-number').value = data.getAll('aircraft_sn');
 						} else {
-							$('#modal_project').modal('hide');
 	
-							toastr.success('Work Package has been created.', 'Success',  {
-								timeOut: 5000
+							toastr.success('Data Used', 'Success',  {
+								timeOut: 3000
 							});
 	
-							let table = $('.workpackage_datatable').mDatatable();
-	
-							table.originalDataSet = [];
-							table.reload();
+							grn_table.reload();
 						}
 					}
 				});
@@ -282,7 +253,7 @@ let SupplierInvoice = {
 
 			})
 
-			let ubah_journala = $('body').on('click', '#update_journala', function () {
+			let update_trxpaymenta = $('body').on('click', '#update_grn', function () {
 
 					let button = $(this);
 					let form = button.parents('form');
@@ -321,121 +292,11 @@ let SupplierInvoice = {
 					});
 			});
 
-			let ubah = $('body').on('click', '#journalsave', function () {
-
-					let button = $(this);
-					let form = button.parents('form');
-					let _data = form.serialize();
-					let uuid = button.data('uuid');
-
-					$.ajax({
-							headers: {
-									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							},
-							type: 'put',
-							url: `/journal/${uuid}`,
-							data: _data,
-							success: function (data) {
-									if (data.errors) {
-											if (data.errors.code) {
-													$('#code-error').html(data.errors.code[0]);
-
-
-													document.getElementById('code').value = code;
-													document.getElementById('name').value = name;
-													document.getElementById('type').value = type;
-													document.getElementById('level').value = level;
-													document.getElementById('description').value = description;
-													coa_reset();
-											}
-
-
-									} else {
-											toastr.success('Data berhasil disimpan.', 'Sukses', {
-													timeOut: 5000
-											});
-
-											setTimeout(function(){ 
-												location.href = `${_url}/journal`; 
-											}, 2000);
-									}
-							}
-					});
-			});
-
-			let coa_table = $("#coa_datatables").DataTable({
-					"dom": '<"top"f>rt<"bottom">pl',
-					responsive: !0,
-					searchDelay: 500,
-					processing: !0,
-					serverSide: !0,
-					lengthMenu: [5, 10, 25, 50],
-					pageLength: 5,
-					ajax: "/coa/datatables/modal",
-					columns: [
-							{
-									data: 'code'
-							},
-							{
-									data: "name"
-							},
-							{
-									data: "Actions"
-							}
-					],
-					columnDefs: [{
-							targets: -1,
-							orderable: !1,
-							render: function (a, e, t, n) {
-									return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
-							}
-					},
-
-					]
-			})
-
-			// $('<a class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-primary btn-sm refresh" style="margin-left: 60%; color: white;"><span><i class="la la-refresh"></i><span>Reload</span></span> </button>').appendTo('div.dataTables_filter');
 			$('.paging_simple_numbers').addClass('pull-left');
 			$('.dataTables_length').addClass('pull-right');
 			$('.dataTables_info').addClass('pull-left');
 			$('.dataTables_info').addClass('margin-info');
 			$('.paging_simple_numbers').addClass('padding-datatable');
-
-			$('.dataTables_filter').on('click', '.refresh', function () {
-					$('#coa_datatables').DataTable().ajax.reload();
-
-			});
-
-			$('#coa_datatables').on('click', '.select-coa', function () {
-				let tr = $(this).parents('tr');
-
-				let data = coa_table.row(tr).data();
-
-				$.ajax({
-						url: '/journala',
-						headers: {
-							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-						},
-						type: 'post',
-						dataType: 'json',
-						data : {
-							'account_code' : data.code, 
-							'voucher_no' : _voucher_no
-						},
-						success: function (data) {
-
-							$('#coa_modal').modal('hide');
-
-							grn_table.reload();
-
-							toastr.success('Data tersimpan', 'Sukses', {
-								timeOut: 2000
-							});
-
-						}
-				});
-
-			});
 
 			let remove = $('.grn_datatable').on('click', '.delete', function () {
 				let triggerid = $(this).data('uuid');
@@ -457,10 +318,10 @@ let SupplierInvoice = {
 												)
 										},
 										type: 'DELETE',
-										url: '/journala/' + triggerid + '',
+										url: '/trxpaymenta/' + triggerid + '',
 										success: function (data) {
 												toastr.success('AR has been deleted.', 'Deleted', {
-																timeOut: 5000
+																timeOut: 2000
 														}
 												);
 
