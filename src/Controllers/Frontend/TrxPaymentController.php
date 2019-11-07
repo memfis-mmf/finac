@@ -339,5 +339,5 @@ class TrxPaymentController extends Controller
 			'id_grn' => $grn->id,
 		]);
 	}
-	
+
 }

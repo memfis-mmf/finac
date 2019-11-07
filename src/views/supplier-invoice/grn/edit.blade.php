@@ -211,7 +211,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
-                                                @slot('id','supplier_invoice_grnsave')
+                                                @slot('id','supplier_invoice_grnupdate')
                                             @endcomponent
 
                                             @include('buttons::reset')

@@ -292,6 +292,46 @@ let SupplierInvoice = {
 					});
 			});
 
+			let update = $('body').on('click', '#supplier_invoice_grnupdate', function () {
+
+				let form = $(this).parents('form');
+				let _data = form.serialize();
+				let si_uuid = $('input[name=si_uuid]').val();
+
+				$.ajax({
+						headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						type: 'PUT',
+						url: '/supplier-invoice/'+si_uuid,
+						data: _data,
+						success: function (data) {
+								if (data.errors) {
+										if (data.errors.code) {
+												$('#code-error').html(data.errors.code[0]);
+
+												document.getElementById('code').value = code;
+												document.getElementById('name').value = name;
+												document.getElementById('type').value = type;
+												document.getElementById('level').value = level;
+												document.getElementById('description').value = description;
+												coa_reset();
+										}
+
+
+								} else {
+										toastr.success('Data Saved', 'Sukses', {
+												timeOut: 2000
+										});
+
+										setTimeout(function(){ 
+											location.href = `${_url}/supplier-invoice/`; 
+										}, 2000);
+								}
+						}
+				});
+		});
+
 			$('.paging_simple_numbers').addClass('pull-left');
 			$('.dataTables_length').addClass('pull-right');
 			$('.dataTables_info').addClass('pull-left');
