@@ -40,7 +40,7 @@
                                 @component('input::textarea')
                                     @slot('id', 'invoice_no')
                                     @slot('text', 'invoice_no')
-                                    @slot('name', 'invoice_no')
+                                    @slot('name', 'description')
                                     @slot('rows','5')
                                 @endcomponent
                             </div>

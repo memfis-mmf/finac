@@ -88,6 +88,7 @@ let SupplierInvoice = {
 				let _modal = $('#modal_edit_grn'); 
 
 				_modal.find('#invoice_no').val(description);
+				_modal.find('input[name=uuid]').val(uuid);
 				_modal.modal('show');
 			});
 
@@ -253,7 +254,7 @@ let SupplierInvoice = {
 
 			})
 
-			let update_trxpaymenta = $('body').on('click', '#update_grn', function () {
+			let update = $('body').on('click', '#update_grn', function () {
 
 					let button = $(this);
 					let form = button.parents('form');
@@ -265,7 +266,7 @@ let SupplierInvoice = {
 									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 							},
 							type: 'put',
-							url: `/journala/${uuid}`,
+							url: `/trxpaymenta/${uuid}`,
 							data: _data,
 							success: function (data) {
 									if (data.errors) {
@@ -285,14 +286,14 @@ let SupplierInvoice = {
 												timeOut: 5000
 										});
 
-										$('#modal_coa_edit').modal('hide');
+										$('#modal_edit_grn').modal('hide');
 										grn_table.reload();
 									}
 							}
 					});
 			});
 
-			let update = $('body').on('click', '#supplier_invoice_grnupdate', function () {
+			let update_trxpaymenta = $('body').on('click', '#supplier_invoice_grnupdate', function () {
 
 				let form = $(this).parents('form');
 				let _data = form.serialize();

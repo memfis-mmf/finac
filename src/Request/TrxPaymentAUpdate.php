@@ -27,10 +27,6 @@ class TrxPaymentAUpdate extends FormRequest
     public function rules()
     {
         return [
-			'transaction_number' => 'required',
-			'id_grn' => 'required',
-			'total' => 'required',
-			'description' => 'required',
         ];
     }
 
