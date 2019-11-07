@@ -10,6 +10,7 @@ use Directoryxx\Finac\Request\TrxPaymentStore;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Currency;
+use App\Models\Type;
 use App\Models\GoodsReceived as GRN;
 
 class TrxPaymentController extends Controller
@@ -174,7 +175,7 @@ class TrxPaymentController extends Controller
     {
         return view('supplierinvoicegrnview::create');        
     }
-
+	
     public function grnStore(TrxPaymentStore $request)
     {
 		$request->merge([
@@ -329,9 +330,36 @@ class TrxPaymentController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
+	public function sumGrnItem($grn_id)
+	{
+		$grn = GRN::find($grn_id);
+		$tax = $grn->purchase_order->taxes;
+
+		$percent = 0;
+		//jika ada data tax
+		if (count($tax)) {
+
+			$tax_data = $tax[0];
+
+			$type = Type::find($tax_data->type_id);
+			$percent = $tax_data->percent;
+
+			//jika tax memiliki code 'none'
+			if ($type->code != 'none') {
+				$percent = 0;
+			}
+		}
+
+		$items = $grn->items;
+
+		dd($items[0]->name);
+	}
+
 	public function grnUse(Request $request)
 	{
 		$grn = GRN::where('uuid', $request->uuid)->first();
+		$this->sumGrnItem($grn->id);
+		dd('wew');
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 
 		TrxPaymentA::create([
