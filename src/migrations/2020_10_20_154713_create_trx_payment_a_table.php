@@ -18,7 +18,7 @@ class CreateTrxPaymentATable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('transaction_number')->nullable();
             $table->integer('id_grn')->default(1);
-            $table->decimal('total')->default(0);
+            $table->decimal('total', 18, 5)->default(0);
             $table->string('description')->nullable();
             $table->softDeletes();
             $table->timestamps();

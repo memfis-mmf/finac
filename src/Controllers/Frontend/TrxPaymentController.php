@@ -352,18 +352,28 @@ class TrxPaymentController extends Controller
 
 		$items = $grn->items;
 
-		dd($items[0]->name);
+		$sum = 0;
+		for ($i = 0; $i < count($items); $i++) {
+			$x = $items[$i];
+			$pivot = $x->pivot;
+			$total = $pivot->price * $pivot->quantity;
+			$percent_price = $total * ($percent/100);
+
+			$sum += ($total + $percent_price);
+		}
+
+		return $sum;
 	}
 
 	public function grnUse(Request $request)
 	{
 		$grn = GRN::where('uuid', $request->uuid)->first();
-		$this->sumGrnItem($grn->id);
-		dd('wew');
+		$total = $this->sumGrnItem($grn->id);
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 
 		TrxPaymentA::create([
 			'transaction_number' => $trxpayment->transaction_number,
+			'total' => (int) $total,
 			'id_grn' => $grn->id,
 		]);
 	}
