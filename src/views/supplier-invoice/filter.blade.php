@@ -6,7 +6,7 @@
                     Date Period
                 </label>
           
-                @component('frontend.common.input.datepicker')
+                @component('input::datepicker')
                     @slot('id', 'daterange_journal')
                     @slot('name', 'daterange_journal')
                     @slot('id_error', 'daterange_journal')
