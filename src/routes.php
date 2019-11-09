@@ -118,6 +118,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/', 
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@index'
 		)->name('trxpayment.index');
+		Route::post(
+			'/approve', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@approve'
+		);
 		Route::get(
 			'/create', 
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@create'
@@ -150,6 +154,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/data/{trxpayment}',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@apidetail'
 		);
+		Route::post(
+			'/coa/use', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@coaUse'
+		)->name('trxpayment.grn.use');
+		Route::get(
+			'/coa/items/datatables', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@coaDatatables'
+		)->name('trxpayment.grn.datatables');
 
 		//GRN
 		Route::get(

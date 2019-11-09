@@ -5,6 +5,7 @@ namespace Directoryxx\Finac\Model;
 
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
+use Directoryxx\Finac\Model\Coa;
 use App\Models\Vendor;
 
 class TrxPayment extends MemfisModel
@@ -57,6 +58,11 @@ class TrxPayment extends MemfisModel
 	public function vendor()
 	{
 		return $this->belongsTo(Vendor::class, 'id_supplier');
+	}
+
+	public function coa()
+	{
+		return $this->belongsTo(Coa::class, 'account_code', 'code');
 	}
 
 }

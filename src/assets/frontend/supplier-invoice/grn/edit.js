@@ -2,7 +2,6 @@ let SupplierInvoice = {
     init: function () {
 
 			let _url = window.location.origin;
-			let _voucher_no = $('input[name=voucher_no]').val();
 			let _si_uuid = $('input[name=si_uuid]').val();
 
 			let grn_table = $('.grn_datatable').mDatatable({
@@ -188,7 +187,7 @@ let SupplierInvoice = {
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					},
 					type: 'post',
-					url: '/supplier-invoice/grn/use',
+					url: _url+'/supplier-invoice/grn/use',
 					data: {
 						_token: $('input[name=_token]').val(),
 						uuid: _uuid,
@@ -220,41 +219,18 @@ let SupplierInvoice = {
 						} else {
 	
 							toastr.success('Data Used', 'Success',  {
-								timeOut: 3000
+								timeOut: 2000
 							});
-	
+
+							$('#modal_create_grn').modal('hide');
+
 							grn_table.reload();
 						}
 					}
 				});
 			});
 	
-			let dispay_modal = $('body').on('click', '#show_modal_journala', function() {
-				let _uuid = $(this).data('uuid');
-				let _modal = $('#modal_coa_edit');
-				let form = _modal.find('form');
-				let tr = $(this).parents('tr');
-				let data = grn_table.row(tr).data().mDatatable.dataSet[0];
-				let amount = '';
-
-				amount = parseInt(data.credit);
-
-				form.find('input[value=kredit]').prop('checked', true);
-
-				if (data.debit) {
-					amount = parseInt(data.debit);
-					form.find('input[value=debet]').prop('checked', true);
-				}
-
-				form.find('input[name=amount]').val(amount);
-				form.find('textarea[name=remark]').val(data.description);
-
-				_modal.find('input[name=uuid]').val(_uuid);
-				_modal.modal('show');
-
-			})
-
-			let update = $('body').on('click', '#update_grn', function () {
+			let update_trxpaymenta = $('body').on('click', '#update_grn', function () {
 
 					let button = $(this);
 					let form = button.parents('form');
@@ -293,7 +269,7 @@ let SupplierInvoice = {
 					});
 			});
 
-			let update_trxpaymenta = $('body').on('click', '#supplier_invoice_grnupdate', function () {
+			let update = $('body').on('click', '#supplier_invoice_grnupdate', function () {
 
 				let form = $(this).parents('form');
 				let _data = form.serialize();

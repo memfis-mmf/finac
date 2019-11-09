@@ -9,6 +9,7 @@
             </div>
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AccountForm">
+                    <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid" disabled>
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -39,7 +40,7 @@
                                 @component('input::numeric')
                                     @slot('id', 'total_amount')
                                     @slot('text', 'total_amount')
-                                    @slot('name', 'total_amount')
+                                    @slot('name', 'total')
                                 @endcomponent
                             </div>
                         </div>

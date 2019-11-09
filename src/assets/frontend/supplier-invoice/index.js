@@ -148,7 +148,7 @@ let Journal = {
                             '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                             t.uuid +
                             ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-                            '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-id="' + t.uuid + '">' +
+                            '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
                             '<i class="la la-check"></i>' +
                             '</a>'
                             );
@@ -384,6 +384,51 @@ let Journal = {
                 }
             });
         });
+
+				let approve = $('body').on('click', 'a.approve', function() {
+					let _uuid = $(this).data('uuid');
+					$.ajax({
+							headers: {
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							},
+							type: 'post',
+							url: '/supplier-invoice/approve',
+							data: {
+									_token: $('input[name=_token]').val(),
+									uuid: _uuid
+							},
+							success: function (data) {
+									if (data.errors) {
+											if (data.errors.code) {
+													$('#code-error').html(data.errors.code[0]);
+
+
+													document.getElementById('code').value = code;
+													document.getElementById('name').value = name;
+													document.getElementById('type').value = type;
+													document.getElementById('level').value = level;
+													document.getElementById('description').value = description;
+													coa_reset();
+											}
+
+
+									} else {
+											$('#modal_coa').modal('hide');
+
+											toastr.success('Data berhasil disimpan.', 'Sukses', {
+													timeOut: 5000
+											});
+
+											$('#code-error').html('');
+
+											let table = $('.coa_datatable').mDatatable();
+											coa_reset();
+											table.originalDataSet = [];
+											table.reload();
+									}
+							}
+					});
+				})
 
     }
 };

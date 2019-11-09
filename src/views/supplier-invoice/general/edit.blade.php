@@ -1,6 +1,7 @@
 @extends('frontend.master')
 
 @section('content')
+<input type="hidden" value="{{ Request::segment(2) }}" name="si_uuid" id=""/>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -62,19 +63,21 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transaction_date')
                                             @slot('id_error', 'date')
+																						@slot('value', $data->transaction_date)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Vendor @include('label::required')
                                         </label>
-        
-                                        @component('input::select')
-                                            @slot('id', 'vendor')
-                                            @slot('name', 'vendor')
-                                            @slot('text', 'Supplier')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
+																				<select id="vendor" name="id_supplier" class="form-control m-select2">
+																						@foreach ($vendor as $x)
+																								<option value="{{ $x->id }}"
+																										@if ($x->id == $data->id_supplier) selected @endif>
+																										{{ $x->name }}
+																								</option>
+																						@endforeach
+																				</select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -90,6 +93,7 @@
                                                     @slot('text', 'Term Of Payment')
                                                     @slot('name', 'term_of_payment')
                                                     @slot('id_error', 'term_of_payment')
+																										@slot('value', $data->closed)
                                                 @endcomponent
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -112,13 +116,14 @@
                                                 <label class="form-control-label">
                                                     Currency @include('label::required')
                                                 </label>
-        
-                                                @component('input::select')
-                                                    @slot('id', 'currency')
-                                                    @slot('text', 'Currency')
-                                                    @slot('name', 'currency_code')
-                                                    @slot('id_error', 'currency')
-                                                @endcomponent
+																								<select id="currency" name="currency" class="form-control m-select2">
+																										@foreach ($currency as $x)
+																												<option value="{{ $x->code }}"
+																														@if ($x->code == $data->currency) selected @endif>
+																														{{ $x->full_name }}
+																												</option>
+																										@endforeach
+																								</select>
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <label class="form-control-label">
@@ -129,6 +134,7 @@
                                                     @slot('id', 'exchange')
                                                     @slot('text', 'exchange')
                                                     @slot('name', 'exchange_rate')
+																										@slot('value', $data->exchange_rate)
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -147,10 +153,11 @@
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
+																						@slot('value', $data->coa->name)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
+                                        <label class="form-control-label">cantik lirik
                                             Account Code Name
                                         </label>
 
@@ -168,8 +175,9 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'remark')
+                                            @slot('name', 'description')
                                             @slot('rows','5')
+																						@slot('value', $data->description)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -234,7 +242,12 @@
 
                                             @include('buttons::reset')
 
-                                            @include('buttons::back')
+																						<a href="{{route('trxpayment.index')}}" class="btn btn-secondary btn-md" style="">
+																								<span>
+																										<i class="la la-undo"></i>
+																								</span>
+																								Back
+																						</a>
                                         </div>
                                     </div>
                                 </div>
@@ -252,16 +265,12 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
-
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/valid-until.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/vendor.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/supplier-invoice/general/edit.js')}}"></script>
 

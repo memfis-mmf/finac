@@ -1,12 +1,47 @@
 let SupplierInvoice = {
-    init: function () {
-		let grn_table = $('.general_datatable').mDatatable({
+	init: function () {
+
+		let _url = window.location.origin;
+		let _si_uuid = $('input[name=si_uuid]').val();
+
+		let coa_modal_table = $("#coa_datatables").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/coa/datatables/modal",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
+
+		let general_table = $('.general_datatable').mDatatable({
 				data: {
 						type: 'remote',
 						source: {
 								read: {
 										method: 'GET',
-										url: '',
+										url: '/supplier-invoice/coa/items/datatables?si_uuid='+_si_uuid,
 										map: function (raw) {
 												let dataSet = raw;
 
@@ -43,25 +78,25 @@ let SupplierInvoice = {
 				},
 				columns: [
 						{
-							field: '',
+							field: 'code',
 							title: 'Account Code',
 							sortable: 'asc',
 							filterable: !1,
 						},
 						{
-							field: '',
+							field: 'coa.name',
 							title: 'Account Name',
 							sortable: 'asc',
 							filterable: !1,
 						},
 						{
-							field: '',
+							field: 'total',
 							title: 'Total Amount',
 							sortable: 'asc',
 							filterable: !1,
 						},
 						{
-							field: '',
+							field: 'description',
 							title: 'Description',
 							sortable: 'asc',
 							filterable: !1,
@@ -73,7 +108,7 @@ let SupplierInvoice = {
 							overflow: 'visible',
 							template: function (t, e, i) {
 								return (
-									'<button data-target="#modal_edit_account" data-toggle="modal" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+									'<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-description='+t.description+' data-total='+t.total+' data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
 									'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
 									t.uuid +
 									' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
@@ -83,7 +118,171 @@ let SupplierInvoice = {
 
 				]
 		});
-    }
+
+		$('.general_datatable').on('click', '.edit-item', function() {
+			let total = $(this).data('total');
+			let description = $(this).data('description');
+			let uuid = $(this).data('uuid');
+			let _modal = $('#modal_edit_account'); 
+
+			_modal.find('#total_amount').val(total);
+			_modal.find('#description').val(description);
+			_modal.find('input[name=uuid]').val(uuid);
+			_modal.modal('show');
+		});
+
+		$('#coa_datatables').on('click', '.select-coa', function () {
+			let tr = $(this).parents('tr');
+
+			let data = coa_modal_table.row(tr).data();
+
+			$.ajax({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'post',
+					url: _url+'/supplier-invoice/coa/use',
+					data : {
+						'account_code' : data.code, 
+						'si_uuid' : _si_uuid
+					},
+					success: function (data) {
+
+						$('#coa_modal').modal('hide');
+
+						general_table.reload();
+
+						toastr.success('Data tersimpan', 'Sukses', {
+							timeOut: 2000
+						});
+
+					}
+			});
+
+		});
+
+		let remove = $('.general_datatable').on('click', '.delete', function () {
+			let triggerid = $(this).data('uuid');
+
+			swal({
+					title: 'Sure want to remove?',
+					type: 'question',
+					confirmButtonText: 'Yes, REMOVE',
+					confirmButtonColor: '#d33',
+					cancelButtonText: 'Cancel',
+					showCancelButton: true,
+			}).then(result => {
+					if (result.value) {
+
+							$.ajax({
+									headers: {
+											'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+													'content'
+											)
+									},
+									type: 'DELETE',
+									url: '/trxpaymentb/' + triggerid + '',
+									success: function (data) {
+											toastr.success('AR has been deleted.', 'Deleted', {
+															timeOut: 2000
+													}
+											);
+
+											general_table.reload();
+									},
+									error: function (jqXhr, json, errorThrown) {
+											let errorsHtml = '';
+											let errors = jqXhr.responseJSON;
+
+											$.each(errors.errors, function (index, value) {
+													$('#delete-error').html(value);
+											});
+									}
+							});
+					}
+			});
+		});
+
+		let update_trxpaymentb = $('body').on('click', '#update_account', function () {
+
+				let button = $(this);
+				let form = button.parents('form');
+				let uuid = form.find('input[name=uuid]').val();
+				let _data = form.serialize();
+
+				$.ajax({
+						headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						type: 'put',
+						url: `/trxpaymentb/${uuid}`,
+						data: _data,
+						success: function (data) {
+								if (data.errors) {
+										if (data.errors.code) {
+											$('#code-error').html(data.errors.code[0]);
+
+											document.getElementById('code').value = code;
+											document.getElementById('name').value = name;
+											document.getElementById('type').value = type;
+											document.getElementById('level').value = level;
+											document.getElementById('description').value = description;
+											coa_reset();
+										}
+
+								} else {
+									toastr.success('Data berhasil disimpan.', 'Sukses', {
+											timeOut: 5000
+									});
+
+									$('#modal_edit_account').modal('hide');
+									general_table.reload();
+								}
+						}
+				});
+		});
+
+		let update = $('body').on('click', '#supplier_invoice_generalupdate', function () {
+
+			let form = $(this).parents('form');
+			let _data = form.serialize();
+			let si_uuid = $('input[name=si_uuid]').val();
+
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'PUT',
+					url: '/supplier-invoice/'+si_uuid,
+					data: _data,
+					success: function (data) {
+							if (data.errors) {
+									if (data.errors.code) {
+											$('#code-error').html(data.errors.code[0]);
+
+											document.getElementById('code').value = code;
+											document.getElementById('name').value = name;
+											document.getElementById('type').value = type;
+											document.getElementById('level').value = level;
+											document.getElementById('description').value = description;
+											coa_reset();
+									}
+
+
+							} else {
+									toastr.success('Data Saved', 'Sukses', {
+											timeOut: 2000
+									});
+
+									setTimeout(function(){ 
+										location.href = `${_url}/supplier-invoice/`; 
+									}, 2000);
+							}
+					}
+			});
+		});
+
+	}
 };
 
 jQuery(document).ready(function () {

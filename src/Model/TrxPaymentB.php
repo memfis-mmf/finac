@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Model;
 
 
 use Directoryxx\Finac\Model\MemfisModel;
+use Directoryxx\Finac\Model\Coa;
 use Illuminate\Database\Eloquent\Model;
 
 class TrxPaymentB extends MemfisModel
@@ -17,4 +18,8 @@ class TrxPaymentB extends MemfisModel
 		'description',
     ];
 
+	public function coa()
+	{
+		return $this->belongsTo(Coa::class, 'code', 'code');
+	}
 }
