@@ -360,7 +360,7 @@ let Journal = {
                             )
                         },
                         type: 'DELETE',
-                        url: '/journal/' + triggerid + '',
+                        url: '/supplier-invoice/' + triggerid + '',
                         success: function (data) {
                             toastr.success('AR has been deleted.', 'Deleted', {
                                     timeOut: 5000

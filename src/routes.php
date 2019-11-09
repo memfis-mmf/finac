@@ -173,6 +173,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnDatatables'
 		)->name('trxpayment.grn.datatables');
 		Route::get(
+			'/grn/items/datatables', 
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnItemsDatatables'
+		)->name('trxpayment.grn.datatables');
+		Route::get(
 			'/grn/{trxpayment}/edit',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnEdit'
 		);

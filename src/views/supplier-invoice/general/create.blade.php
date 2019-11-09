@@ -71,7 +71,7 @@
         
                                         @component('input::select')
                                             @slot('id', 'vendor')
-                                            @slot('name', 'vendor')
+                                            @slot('name', 'id_supplier')
                                             @slot('text', 'Supplier')
                                             @slot('style', 'width:100%')
                                         @endcomponent
@@ -88,7 +88,7 @@
                                                 @component('input::number')
                                                     @slot('id', 'term_of_payment')
                                                     @slot('text', 'Term Of Payment')
-                                                    @slot('name', 'term_of_payment')
+                                                    @slot('name', 'closed')
                                                     @slot('id_error', 'term_of_payment')
                                                 @endcomponent
                                             </div>
@@ -116,7 +116,7 @@
                                                 @component('input::select')
                                                     @slot('id', 'currency')
                                                     @slot('text', 'Currency')
-                                                    @slot('name', 'currency_code')
+                                                    @slot('name', 'currency')
                                                     @slot('id_error', 'currency')
                                                 @endcomponent
                                             </div>
@@ -143,7 +143,7 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'account_code')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
@@ -168,7 +168,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'remark')
+                                            @slot('name', 'description')
                                             @slot('rows','5')
                                         @endcomponent
                                     </div>

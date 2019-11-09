@@ -3,6 +3,7 @@ let SupplierInvoice = {
 
 			let _url = window.location.origin;
 			let _voucher_no = $('input[name=voucher_no]').val();
+			let _si_uuid = $('input[name=si_uuid]').val();
 
 			let grn_table = $('.grn_datatable').mDatatable({
 					data: {
@@ -10,7 +11,7 @@ let SupplierInvoice = {
 							source: {
 									read: {
 											method: 'GET',
-											url: '/trxpaymenta/datatables',
+											url: '/supplier-invoice/grn/items/datatables?si_uuid='+_si_uuid,
 											map: function (raw) {
 													let dataSet = raw;
 
@@ -180,7 +181,6 @@ let SupplierInvoice = {
 			$('.grn_modal_datatable').on('click', '.select-grn', function () {
 
 				let _uuid = $(this).data('uuid');
-				let _si_uuid = $('input[name=si_uuid]').val();
 				let _modal = $('.grn_modal_datatable').parents('.modal');
 
 				$.ajax({
