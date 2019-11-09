@@ -56,6 +56,7 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/supplier-invoice/grn', 'supplierinvoicegrnview');
         $this->loadViewsFrom(__DIR__.'/views/supplier-invoice/general', 'supplierinvoicegeneralview');
         $this->loadViewsFrom(__DIR__.'/views/account-payable', 'accountpayableview');
+        $this->loadViewsFrom(__DIR__.'/views/trial-balance', 'trialbalanceview');
         //$this->loadViewsFrom(__DIR__.'/views/dll', 'dll');
     }
 }
