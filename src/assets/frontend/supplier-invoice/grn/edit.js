@@ -53,7 +53,7 @@ let SupplierInvoice = {
 								filterable: !1,
 							},
 							{
-								field: '',
+								field: 'total',
 								title: 'Total Amount',
 								sortable: 'asc',
 								filterable: !1,

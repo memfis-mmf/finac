@@ -216,7 +216,12 @@
 
                                             @include('buttons::reset')
 
-                                            @include('buttons::back')
+																						<a href="{{route('trxpayment.index')}}" class="btn btn-secondary btn-md" style="">
+																								<span>
+																										<i class="la la-undo"></i>
+																								</span>
+																								Back
+																						</a>
                                         </div>
                                     </div>
                                 </div>
