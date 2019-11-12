@@ -31,6 +31,13 @@ class TrxPayment extends MemfisModel
 		'description',
     ];
 
+	protected $appends = ['exchange_rate_fix'];
+
+	public function getExchangeRateFixAttribute()
+	{
+		return number_format($this->exchange_rate, 0, 0, '.');
+	}
+
 	static public function generateCode($code = "SITR")
 	{
 		$data = TrxPayment::orderBy('id', 'desc')

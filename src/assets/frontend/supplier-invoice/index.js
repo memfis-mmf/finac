@@ -87,7 +87,7 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: 'exchange_rate',
+                    field: 'exchange_rate_fix',
                     title: 'Exchange Rate',
                     sortable: 'asc',
                     filterable: !1,

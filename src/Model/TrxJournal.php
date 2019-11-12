@@ -26,6 +26,8 @@ class TrxJournal extends MemfisModel
 		'automatic_journal_type',
     ];
 
+	protected $appends = ['exchange_rate_fix'];
+
 	static public function getJournalCode($journal_type_id)
 	{
 		$type = TypeJurnal::find($journal_type_id);
@@ -118,6 +120,11 @@ class TrxJournal extends MemfisModel
 		return date(
 			'Y-m-d', strtotime($this->transaction_date)
 		);
+	}
+
+	public function getExchangeRateFixAttribute()
+	{
+		return number_format($this->exchange_rate, 0, 0, '.');
 	}
 
 	public function type_jurnal()
