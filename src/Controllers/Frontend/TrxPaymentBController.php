@@ -62,7 +62,7 @@ class TrxPaymentBController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(TrxPaymentB::All());
+        $data = $alldata = json_decode(TrxPaymentB::orderBy('id', 'DESC')->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

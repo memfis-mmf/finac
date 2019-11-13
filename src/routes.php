@@ -20,7 +20,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/type/{id}','Directoryxx\Finac\Controllers\Frontend\CoaController@gettype');
 		Route::get('/data','Directoryxx\Finac\Controllers\Frontend\CoaController@api');
 		Route::get('/data/{coa}','Directoryxx\Finac\Controllers\Frontend\CoaController@apidetail');
-		Route::get('/datatables/modal','Directoryxx\Finac\Controllers\Datatables\CoaDatatables@basicModal');
+		Route::get('/datatables/modal','Directoryxx\Finac\Controllers\Frontend\CoaController@basicModal');
 	});
 
     Route::prefix('journal')->group(function () {

@@ -22,6 +22,22 @@ class JournalController extends Controller
     public function approve(Request $request)
     {
 		$journal = Journal::where('uuid', $request->uuid);
+		$journala = $journal->first()->journala;
+
+		$debit = 0;
+		$credit = 0;
+
+		for ($i = 0; $i < count($journala); $i++) {
+			$x = $journala[$i];
+			$debit += $x->debit;
+			$credit += $x->credit;
+		}
+
+		if ($debit != $credit) {
+			return [
+				'errors' => 'Debit and Credit not balance'
+			];
+		}
 
 		$journal->update([
 			'approve' => 1
@@ -127,7 +143,7 @@ class JournalController extends Controller
 		$data = $alldata = json_decode(Journal::with([
 			'type_jurnal',
 			'currency',
-		])->get());
+		])->orderBy('id', 'DESC')->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

@@ -19,12 +19,27 @@ class TrxJournalA extends MemfisModel
 		'credit',
     ];
 
+	protected $appends = [
+		'debit_currency',
+		'credit_currency',
+	];
+
 	public function coa()
 	{
 		return $this->belongsTo(
 			Coa::class,
 			'account_code'
 		);
+	}
+
+	public function getDebitCurrencyAttribute()
+	{
+		return number_format($this->debit, 0, 0, '.');
+	}
+
+	public function getCreditCurrencyAttribute()
+	{
+		return number_format($this->credit, 0, 0, '.');
 	}
 	
 }

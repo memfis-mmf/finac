@@ -65,18 +65,18 @@ let JournalEdit = {
 							},
 							{
 									field: 'coa.name',
-									title: 'Accoount Name',
+									title: 'Account Name',
 									sortable: 'asc',
 									filterable: !1,
 							},
 							{
-									field: 'debit',
+									field: 'debit_currency',
 									title: 'Debet',
 									sortable: 'asc',
 									filterable: !1,
 							},
 							{
-									field: 'credit',
+									field: 'credit_currency',
 									title: 'Kredit',
 									sortable: 'asc',
 									filterable: !1,
@@ -95,7 +95,7 @@ let JournalEdit = {
 									overflow: 'visible',
 									template: function (t, e, i) {
 											return (
-													'<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+													'<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + ' data-description='+t.coa.description+'>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
 													'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
 													t.uuid +
 													' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
@@ -108,10 +108,12 @@ let JournalEdit = {
 
 			let dispay_modal = $('body').on('click', '#show_modal_journala', function() {
 				let _uuid = $(this).data('uuid');
+				let _description = $(this).data('description');
 				let _modal = $('#modal_coa_edit');
 				let form = _modal.find('form');
 				let tr = $(this).parents('tr');
-				let data = account_code_table.row(tr).data().mDatatable.dataSet[0];
+				let tr_index = tr.index();
+				let data = account_code_table.row(tr).data().mDatatable.dataSet[tr_index];
 				let amount = '';
 
 				amount = parseInt(data.credit);
@@ -123,6 +125,8 @@ let JournalEdit = {
 					form.find('input[value=debet]').prop('checked', true);
 				}
 
+				form.find('input#account_code').val(data.coa.code);
+				form.find('input#account_description').val(_description);
 				form.find('input[name=amount]').val(amount);
 				form.find('textarea[name=remark]').val(data.description);
 

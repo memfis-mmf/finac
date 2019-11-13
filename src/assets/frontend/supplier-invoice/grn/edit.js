@@ -4,6 +4,19 @@ let SupplierInvoice = {
 			let _url = window.location.origin;
 			let _si_uuid = $('input[name=si_uuid]').val();
 
+			function addCommas(nStr)
+			{
+					nStr += '';
+					x = nStr.split('.');
+					x1 = x[0];
+					x2 = x.length > 1 ? '.' + x[1] : '';
+					var rgx = /(\d+)(\d{3})/;
+					while (rgx.test(x1)) {
+							x1 = x1.replace(rgx, '$1' + '.' + '$2');
+					}
+					return x1 + x2;
+			}
+
 			let grn_table = $('.grn_datatable').mDatatable({
 					data: {
 							type: 'remote',
@@ -57,6 +70,9 @@ let SupplierInvoice = {
 								title: 'Total Amount',
 								sortable: 'asc',
 								filterable: !1,
+								template: function(t, e, i) {
+									return addCommas(parseInt(t.total));
+								}
 							},
 							{
 								field: 'description',

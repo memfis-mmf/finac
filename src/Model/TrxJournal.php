@@ -143,4 +143,13 @@ class TrxJournal extends MemfisModel
 			'currency_code'
 		);
 	}
+
+	public function journala()
+	{
+		return $this->hasMany(
+			'Directoryxx\Finac\Model\TrxJournalA',
+			'voucher_no',
+			'voucher_no'
+		);
+	}
 }

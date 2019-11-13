@@ -65,7 +65,7 @@ class TrxPaymentAController extends Controller
 		$data = $alldata = json_decode(
 			TrxPaymentA::with([
 				'grn'
-			])->get()
+			])->orderBy('id', 'DESC')->get()
 		);
 
 		$datatable = array_merge([

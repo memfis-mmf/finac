@@ -104,7 +104,7 @@ class JournalAController extends Controller
 			JournalA::where('voucher_no', $request->voucher_no)->with([
 				'coa',
 				'coa.type',
-			])->get()
+			])->orderBy('id', 'DESC')->get()
 		);
 
 		$datatable = array_merge([

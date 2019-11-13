@@ -1,5 +1,6 @@
 let Journal = {
     init: function () {
+				let _url = window.location.origin;
         $('.journal_datatable').mDatatable({
             data: {
                 type: 'remote',
@@ -80,7 +81,10 @@ let Journal = {
                     title: 'Currency',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template : function(t, e, i) {
+											return t.currency_code.toUpperCase();
+										}
                 },
                 {
                     field: 'exchange_rate_fix',
@@ -125,7 +129,7 @@ let Journal = {
                     overflow: 'visible',
                     template: function (t, e, i) {
                         return (
-                            '<a href="journal/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                            '<a href="'+_url+'/journal/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                             t.uuid +
                             '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
                             '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -174,24 +178,14 @@ let Journal = {
 							},
 							success: function (data) {
 									if (data.errors) {
-											if (data.errors.code) {
-													$('#code-error').html(data.errors.code[0]);
-
-
-													document.getElementById('code').value = code;
-													document.getElementById('name').value = name;
-													document.getElementById('type').value = type;
-													document.getElementById('level').value = level;
-													document.getElementById('description').value = description;
-													coa_reset();
-											}
-
-
+											toastr.error(data.errors, 'Invalid', {
+													timeOut: 3000
+											});
 									} else {
 											$('#modal_coa').modal('hide');
 
 											toastr.success('Data berhasil disimpan.', 'Sukses', {
-													timeOut: 5000
+													timeOut: 3000
 											});
 
 											$('#code-error').html('');
