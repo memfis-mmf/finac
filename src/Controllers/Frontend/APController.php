@@ -19,7 +19,7 @@ class APController extends Controller
 
     public function create()
     {
-        return view('apaymentview::index');        
+        return view('accountpayableview::index');        
     }
 
     public function store(APaymentStore $request)

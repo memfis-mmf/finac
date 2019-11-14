@@ -108,8 +108,8 @@
                                         <label class="form-control-label">
                                             Journal Type @include('label::required')
                                         </label>
-
-																				<select id="type" name="journal_type" class="form-control m-select2">
+																				<input type="hidden" value="{{ $journal->journal_type }}" name="journal_type" id=""/>
+																				<select id="type" name="journal_type" class="form-control m-select2" disabled>
 																						@foreach ($journal_type as $x)
 																								<option value="{{ $x->id }}"
 																										@if ($x->id == $journal->journal_type) selected @endif>

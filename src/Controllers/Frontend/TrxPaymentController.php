@@ -47,7 +47,7 @@ class TrxPaymentController extends Controller
 
 		$request->merge([
 			'account_code' => 
-			Coa::where('name', $request->account_code)->first()->code
+			$request->account_code
 		]);
 
 		$request->request->add([
@@ -81,6 +81,9 @@ class TrxPaymentController extends Controller
 
     public function update(TrxPaymentUpdate $request, TrxPayment $trxpayment)
     {
+		$request->merge([
+			'description' => $request->description_si
+		]);
 
         $trxpayment->update($request->all());
 

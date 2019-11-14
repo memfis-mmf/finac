@@ -3,6 +3,37 @@ let SupplierInvoice = {
 
 		let _url = window.location.origin;
 
+		let coa_datatables = $("#coa_datatables").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/coa/datatables/modal",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
+
 		let grn_table = $('.general_datatable').mDatatable({
 				data: {
 						type: 'remote',
@@ -123,6 +154,16 @@ let SupplierInvoice = {
 								}
 						}
 				});
+		});
+
+		$('body').on('click', '.select-coa', function() {
+			let tr = $(this).parents('tr');
+			let data = coa_datatables.row(tr).data();
+
+			$('input[name=account_code]').val(data.code);
+			$('input[name=account_name]').val(data.name);
+
+			$('.modal').modal('hide');
 		});
 	}
 };

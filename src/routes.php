@@ -268,7 +268,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
-    Route::prefix('ap')->group(function () {
+    Route::prefix('account-payable')->group(function () {
 		Route::get(
 			'/', 
 			'Directoryxx\Finac\Controllers\Frontend\APController@create'

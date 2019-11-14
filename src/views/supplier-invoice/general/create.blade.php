@@ -154,9 +154,7 @@
                                             Account Code Name
                                         </label>
 
-                                        @component('label::data-info')
-                                            @slot('text', 'generated')
-                                        @endcomponent
+																				<input type="text" name="account_name" id="grn_no" class="form-control m-input" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -250,8 +248,6 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>

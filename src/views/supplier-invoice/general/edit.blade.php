@@ -153,7 +153,7 @@
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
-																						@slot('value', $data->coa->name)
+																						@slot('value', $data->coa->code)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -161,9 +161,7 @@
                                             Account Code Name
                                         </label>
 
-                                        @component('label::data-info')
-                                            @slot('text', 'generated')
-                                        @endcomponent
+																				<input type="text" value="{{ $data->coa->name }}" id="account_name" class="form-control m-input" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -175,7 +173,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'description')
+                                            @slot('name', 'description_si')
                                             @slot('rows','5')
 																						@slot('value', $data->description)
                                         @endcomponent
@@ -237,7 +235,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
-                                                @slot('id','supplier_invoice_generalsave')
+                                                @slot('id','supplier_invoice_generalupdate')
                                             @endcomponent
 
                                             @include('buttons::reset')
