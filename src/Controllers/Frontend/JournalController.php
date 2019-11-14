@@ -102,6 +102,10 @@ class JournalController extends Controller
 			'currency',
 		])->first();
 
+		if ($data['journal']->approve) {
+			return redirect()->back();
+		}
+
 		$data['journal_type'] = TypeJurnal::all();
 		$data['currency'] = Currency::selectRaw(
 			'code, CONCAT(name, " (", symbol ,")") as full_name'

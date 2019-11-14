@@ -216,27 +216,9 @@ let SupplierInvoice = {
 					},
 					success: function (data) {
 						if (data.errors) {
-							if (data.errors.customer_id) {
-								$('#customer-error').html(data.errors.customer_id[0]);
-							}
-							if (data.errors.aircraft_register) {
-								$('#reg-error').html(data.errors.aircraft_register[0]);
-							}
-							if (data.errors.aircraft_sn) {
-								$('#serial-number-error').html(data.errors.aircraft_sn[0]);
-							}
-							if (data.errors.aircraft_id) {
-								$('#applicability-airplane-error').html(data.errors.aircraft_id[0]);
-							}
-							if (data.errors.no_wo) {
-								$('#work-order-error').html(data.errors.no_wo[0]);
-							}
-	
-							document.getElementById('customer').value = data.getAll('customer_id');
-							document.getElementById('work-order').value = data.getAll('no_wo');
-							document.getElementById('applicability_airplane').value = data.getAll('aircraft_id');
-							document.getElementById('reg').value = data.getAll('aircraft_register');
-							document.getElementById('serial-number').value = data.getAll('aircraft_sn');
+							toastr.error(data.errors, 'Invalid',  {
+								timeOut: 2000
+							});
 						} else {
 	
 							toastr.success('Data Used', 'Success',  {

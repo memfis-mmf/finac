@@ -150,6 +150,9 @@ let Journal = {
                             ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
                             '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
                             '<i class="la la-check"></i>' +
+                            '</a>'+
+                            '<a href="quotation/'+t.uuid+'/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+                                '<i class="la la-print"></i>' +
                             '</a>'
                             );
                     }

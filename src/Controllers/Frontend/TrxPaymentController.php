@@ -66,6 +66,10 @@ class TrxPaymentController extends Controller
 			$request->trxpayment
 		)->first();
 
+		if ($data['data']->approve) {
+			return redirect()->back();
+		}
+
 		$data['vendor'] = Vendor::all();
 		$data['currency'] = Currency::selectRaw(
 			'code, CONCAT(name, " (", symbol ,")") as full_name'
@@ -347,6 +351,7 @@ class TrxPaymentController extends Controller
 		$request->request->add([
 			'transaction_number' => TrxPayment::generateCode(),
 			'x_type' => 'GRN',
+			'account_code' => '303.1.1.04'
 		]);
 
         $trxpayment = TrxPayment::create($request->all());
@@ -359,6 +364,10 @@ class TrxPaymentController extends Controller
 			'uuid', 
 			$request->trxpayment
 		)->first();
+
+		if ($data['data']->approve) {
+			return redirect()->back();
+		}
 
 		$data['vendor'] = Vendor::all();
 		$data['currency'] = Currency::selectRaw(
@@ -640,7 +649,15 @@ class TrxPaymentController extends Controller
 
 	public function grnUse(Request $request)
 	{
+		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 		$grn = GRN::where('uuid', $request->uuid)->first();
+
+		if ($trxpayment->currency != $grn->purchase_order->currency->code) {
+			return [
+				'errors' => 'currency differences'
+			];
+		}
+
 		$total = $this->sumGrnItem($grn->id);
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 
