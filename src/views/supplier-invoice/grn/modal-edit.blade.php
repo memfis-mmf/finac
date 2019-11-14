@@ -17,18 +17,14 @@
                                     GRN No.
                                 </label>
 
-                                @component('label::data-info')
-                                    @slot('text', 'generated')
-                                @endcomponent
+																<input type="text" id="grn_no" class="form-control m-input" disabled>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Total Amount
                                 </label>
 
-                                @component('label::data-info')
-                                    @slot('text', 'generated')
-                                @endcomponent
+																<input type="text" id="total_amount" class="form-control m-input" disabled>
                             </div>
                         </div>
                         <div class="form-group m-form__group row ">

@@ -87,7 +87,7 @@ let SupplierInvoice = {
 								overflow: 'visible',
 								template: function (t, e, i) {
 									return (
-										'<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-description='+t.description+' data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+										'<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
 										'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
 										t.uuid +
 										' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
@@ -99,11 +99,16 @@ let SupplierInvoice = {
 			});
 
 			$('.grn_datatable').on('click', '.edit-item', function() {
-				let description = $(this).data('description');
 				let uuid = $(this).data('uuid');
 				let _modal = $('#modal_edit_grn'); 
 
-				_modal.find('#invoice_no').val(description);
+				let tr = $(this).parents('tr');
+				let tr_index = tr.index();
+				let data = grn_table.row(tr).data().mDatatable.dataSet[tr_index];
+
+				_modal.find('input#grn_no').val(data.grn.number);
+				_modal.find('input#total_amount').val(addCommas(parseInt(data.total)));
+				_modal.find('#invoice_no').val(data.description);
 				_modal.find('input[name=uuid]').val(uuid);
 				_modal.modal('show');
 			});
