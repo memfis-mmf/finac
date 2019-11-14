@@ -17,18 +17,14 @@
                                     Account Code
                                 </label>
 
-                                @component('label::data-info')
-                                    @slot('text', 'generated')
-                                @endcomponent
+																<input type="text" id="account_code" class="form-control m-input" disabled>account-payable/create
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Account Name
                                 </label>
 
-                                @component('label::data-info')
-                                    @slot('text', 'generated')
-                                @endcomponent
+																<input type="text" id="account_name" class="form-control m-input" disabled>
                             </div>
                         </div>
                         <div class="form-group m-form__group row ">

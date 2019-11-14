@@ -136,13 +136,17 @@ let SupplierInvoice = {
 		});
 
 		$('.general_datatable').on('click', '.edit-item', function() {
-			let total = $(this).data('total');
-			let description = $(this).data('description');
 			let uuid = $(this).data('uuid');
 			let _modal = $('#modal_edit_account'); 
 
-			_modal.find('#total_amount').val(total);
-			_modal.find('#description').val(description);
+			let tr = $(this).parents('tr');
+			let tr_index = tr.index();
+			let data = general_table.row(tr).data().mDatatable.dataSet[tr_index];
+
+			_modal.find('#account_code').val(data.code);
+			_modal.find('#account_name').val(data.coa.name);
+			_modal.find('#total_amount').val(parseInt(data.total));
+			_modal.find('#description').val(data.description);
 			_modal.find('input[name=uuid]').val(uuid);
 			_modal.modal('show');
 		});
