@@ -3,6 +3,37 @@ let AccountPayable = {
 
 		let _url = window.location.origin;
 
+		let coa_datatables = $("#coa_datatables").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/coa/datatables/modal",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
+
 		let suuplier_invoice = $('.supplier_invoice_datatable').mDatatable({
 				data: {
 						type: 'remote',
@@ -227,19 +258,9 @@ let AccountPayable = {
 						data: _data,
 						success: function (data) {
 								if (data.errors) {
-										if (data.errors.code) {
-												$('#code-error').html(data.errors.code[0]);
-
-
-												document.getElementById('code').value = code;
-												document.getElementById('name').value = name;
-												document.getElementById('type').value = type;
-												document.getElementById('level').value = level;
-												document.getElementById('description').value = description;
-												coa_reset();
-										}
-
-
+										toastr.error(data.errors, 'Invalid', {
+												timeOut: 2000
+										});
 								} else {
 
 										toastr.success('Data berhasil disimpan.', 'Sukses', {
@@ -252,6 +273,16 @@ let AccountPayable = {
 								}
 						}
 				});
+		});
+
+		$('body').on('click', '.select-coa', function() {
+			let tr = $(this).parents('tr');
+			let data = coa_datatables.row(tr).data();
+
+			$('input[name=accountcode]').val(data.code);
+			$('input[name=account_name]').val(data.name);
+
+			$('.modal').modal('hide');
 		});
 	}
 };

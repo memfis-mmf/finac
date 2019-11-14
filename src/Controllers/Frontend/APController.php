@@ -7,8 +7,7 @@ use Directoryxx\Finac\Model\APayment;
 use Directoryxx\Finac\Request\APaymentUpdate;
 use Directoryxx\Finac\Request\APaymentStore;
 use App\Http\Controllers\Controller;
-
-
+use App\Models\Vendor;
 
 class APController extends Controller
 {
@@ -24,6 +23,21 @@ class APController extends Controller
 
     public function store(APaymentStore $request)
     {
+		$vendor = Vendor::where('uuid', $request->id_supplier)->first();
+		if (!$vendor) {
+			return [
+				'errors' => 'Supplier not found'
+			];
+		}
+
+		$request->merge([
+			'id_supplier' => $vendor->id
+		]);
+
+		$request->request->add([
+			'approve' => 0
+		]);
+
         $apayment = APayment::create($request->all());
         return response()->json($apayment);
     }
