@@ -227,7 +227,7 @@ class ARController extends Controller
     }
 
     public function cust_detail(Customer $customer){
-        $cust_detail = $customer->journal;
+        $cust_detail = $customer->coa->first();
         return response()->json($cust_detail);
     }
 
