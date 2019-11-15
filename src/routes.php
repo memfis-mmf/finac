@@ -290,6 +290,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\APController@datatables'
 		)->name('apayment.datatables');
 		Route::get(
+			'/coa/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\APController@coaDatatables'
+		)->name('apayment.datatables');
+		Route::get(
 			'/{apayment}/edit',
 			'Directoryxx\Finac\Controllers\Frontend\APController@edit'
 		);

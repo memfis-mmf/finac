@@ -16,16 +16,16 @@ class CreateAPaymentsTable extends Migration
         Schema::create('a_payments', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('approve');
-            $table->string('transactionnumber');
-            $table->dateTime('transactiondate');
-            $table->integer('id_supplier');
-            $table->string('accountcode');
-            $table->string('refno');
-            $table->string('currency');
-            $table->decimal('exchangerate',18,5);
-            $table->decimal('totaltransaction',18,5);
-            $table->text('description');
+            $table->integer('approve')->nullable();
+            $table->string('transactionnumber')->nullable();
+            $table->dateTime('transactiondate')->nullable();
+            $table->integer('id_supplier')->nullable();
+            $table->string('accountcode')->nullable();
+            $table->string('refno')->nullable();
+            $table->string('currency')->nullable();
+            $table->decimal('exchangerate',18,5)->default(1);
+            $table->decimal('totaltransaction',18,5)->default(1);
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

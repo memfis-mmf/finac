@@ -11,7 +11,7 @@ let AccountPayable = {
 				serverSide: !0,
 				lengthMenu: [5, 10, 25, 50],
 				pageLength: 5,
-				ajax: "/coa/datatables/modal",
+				ajax: "/account-payable/coa/datatables",
 				columns: [
 						{
 								data: 'code'
