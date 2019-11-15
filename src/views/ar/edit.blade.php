@@ -73,7 +73,7 @@
                                         </label>
 
                                         @component('input::text')
-                                        @slot('id', 'refno')
+                                        @slot('id', 'refno111')
                                         @slot('text', 'refno')
                                         @slot('name', 'refno')
                                         @slot('value', "{$data->refno}")
@@ -192,7 +192,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                             @slot('type', 'button')
-                                            @slot('id','arsave')
+                                            @slot('id','aredit')
                                             @endcomponent
 
                                             @include('buttons::reset')
@@ -235,6 +235,7 @@
         $('#customer').select2().change();
         $('#currency').val("{{$currency->code}}");
         $('#currency').select2().change();
+        $('#exchange').val("{{$data->exchangerate }}");
     
     });
 
@@ -265,11 +266,12 @@
     });
 
     //Create Account Receiveable
-    let edit = $('.action-buttons').on('click', '#arsave', function() {
+    let edit = $('.action-buttons').on('click', '#aredit', function() {
         $('#simpan').text('Simpan');
 
         let date = $('#date').val();
-        let refno = $('#refno').val();
+        let refno = $('#refno111').val();
+        console.log(refno);
         let customer = $('#customer').find(":selected").text();;
         let coa = $('#coa').val();
         let currency = $('#currency').find(":selected").text();;
@@ -280,11 +282,11 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'post',
-            url: '/ar',
+            url: '/ar/{{$uuid}}/edit',
             data: {
                 _token: $('input[name=_token]').val(),
                 date: date,
-                refno: name,
+                refno: refno,
                 customer: customer,
                 coa: coa,
                 currency: currency,
@@ -313,7 +315,7 @@
                     toastr.success('Data berhasil disimpan.', 'Sukses', {
                         timeOut: 5000
                     });
-                    window.location.replace("/ar/" + data.uuid + "/edit");
+                    window.location.replace("/ar/{{$uuid}}/edit");
 
                     //$('#code-error').html('');
 

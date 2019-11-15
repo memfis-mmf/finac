@@ -89,10 +89,12 @@ class ARController extends Controller
         $coa = Coa::where('id',$arecieve->accountcode)->first();
         $customer = Customer::where('id',$arecieve->id_customer)->first();
         $currency = Currency::where('id',$arecieve->currency)->first();
+        //dd($arecieve);
         return view('arview::edit')
             ->with('coa',$coa)
             ->with('currency',$currency)
             ->with('customer',$customer)
+            ->with('uuid',$arecieve->uuid)
             ->with('data',$data);
     }
 
@@ -103,9 +105,26 @@ class ARController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ARecieve $arecieve)
     {
-        //
+        $transnumber = $arecieve->transactionnumber;
+        //dd($transnumber);
+        $customer = Customer::where('name',$request->customer)->first();
+        $accountcode = Coa::where('name', $request->coa)->first();
+        $arsuggest = 'AR-MMF/' . Carbon::now()->format('Y/m');
+        $currency_substring = substr($request->currency, 0, strpos($request->currency, ' ('));
+        $currency = Currency::where('name',$currency_substring)->first();
+        ARecieve::where('transactionnumber', $transnumber)
+        ->update([
+            'transactiondate' => $request->date,
+            'id_customer' => $customer->id,
+            'accountcode' => $accountcode->id,
+            'refno' => $request->refno,
+            'currency' => $currency->id,
+            'exchangerate' => $request->exchangerate,
+            'totaltransaction' => 0,
+            'description' => $request->description
+        ]);
     }
 
     /**
