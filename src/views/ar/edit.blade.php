@@ -138,7 +138,7 @@
                                         @slot('text', 'acd')
                                         @slot('name', 'acd')
 
-                                        @slot('value', "{$coa->code}")
+                                        @slot('value', "{$coa->description}")
                                         @slot('help_text','Account Code Description')
                                         @endcomponent
                                     </div>
@@ -174,7 +174,7 @@
                                         @slot('id', 'exchange')
                                         @slot('text', 'exchange')
                                         @slot('name', 'exchange')
-                                        @slot('value', "{$data->exchangerate  }")
+                                        @slot('value', "{$data->exchangerate }")
                                         @slot('help_text','Exchange Rate')
                                         @endcomponent
                                     </div>
@@ -227,9 +227,20 @@
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 <script>
+    $(window).on('load', function(){ 
+        /*code here*/ 
+        var cust_uuid = "{{$customer->uuid}}";
+        var curr_uuid = "{{$currency->uuid}}";
+        $('#customer').val("{{$customer->uuid}}");
+        $('#customer').select2().change();
+        $('#currency').val("{{$currency->code}}");
+        $('#currency').select2().change();
+    
+    });
+
     //Customer Onchange
     $('#customer').change(function() {
-        var uuid_cust = $(this).val();
+        var uuid_cust = $('#customer').val();
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -302,7 +313,7 @@
                     toastr.success('Data berhasil disimpan.', 'Sukses', {
                         timeOut: 5000
                     });
-                    window.location.replace("/ar/"+data.uuid+"/edit");
+                    window.location.replace("/ar/" + data.uuid + "/edit");
 
                     //$('#code-error').html('');
 

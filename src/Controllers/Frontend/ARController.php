@@ -89,7 +89,6 @@ class ARController extends Controller
         $coa = Coa::where('id',$arecieve->accountcode)->first();
         $customer = Customer::where('id',$arecieve->id_customer)->first();
         $currency = Currency::where('id',$arecieve->currency)->first();
-        //dd($data);
         return view('arview::edit')
             ->with('coa',$coa)
             ->with('currency',$currency)
