@@ -45,7 +45,7 @@ class APController extends Controller
 
 		$request->request->add([
 			'approve' => 0,
-			'transactionnumber' => APayment::generateCode($code)
+			'transactionnumber' => APayment::generateCode($code),
 		]);
 
         $apayment = APayment::create($request->all());
