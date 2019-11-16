@@ -1,12 +1,27 @@
 let Journal = {
     init: function () {
+
+				let _url = window.location.origin;
+
+				function addCommas(nStr)
+				{
+						nStr += '';
+						x = nStr.split('.');
+						x1 = x[0];
+						x2 = x.length > 1 ? '.' + x[1] : '';
+						var rgx = /(\d+)(\d{3})/;
+						while (rgx.test(x1)) {
+								x1 = x1.replace(rgx, '$1' + '.' + '$2');
+						}
+						return x1 + x2;
+				}
         $('.account_payable_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
                     read: {
                         method: 'GET',
-                        url: '/journal/datatables',
+                        url: _url+'/account-payable/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -44,46 +59,49 @@ let Journal = {
             },
             columns: [
                 {
-                    field: '',
+                    field: 'transactiondate',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: '',
+                    field: 'transactionnumber',
                     title: 'AP NO.',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'vendor.name',
                     title: 'Supplier Name',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
                 },
                 {
-                    field: '',
+                    field: 'refno',
                     title: 'Ref No.',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'currency',
                     title: 'Currency',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'exchangerate',
                     title: 'Exchange Rate',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											return addCommas(parseInt(t.exchangerate));
+										}
                 },
                 {
                     field: '',
@@ -100,7 +118,7 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'description',
                     title: 'Description',
                     sortable: 'asc',
                     filterable: !1,
@@ -263,7 +281,7 @@ let Journal = {
                         }
                     });
                     save_changes_button();
-                   
+
                 },
                 error: function (jqXhr, json, errorThrown) {
                     let errorsHtml = '';

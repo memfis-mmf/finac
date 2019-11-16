@@ -42,7 +42,12 @@ class APayment extends MemfisModel
 		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y/m')."/".$number;
-		
+
 		return $code;
+	}
+
+	public function vendor()
+	{
+		return $this->belongsTo(Vendor::class, 'id_supplier');
 	}
 }
