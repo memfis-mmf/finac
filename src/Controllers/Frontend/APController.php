@@ -19,7 +19,7 @@ class APController extends Controller
 
     public function create()
     {
-        return view('accountpayableview::index');        
+        return view('accountpayableview::index');
     }
 
     public function store(APaymentStore $request)
@@ -54,7 +54,22 @@ class APController extends Controller
 
     public function edit(APayment $apayment)
     {
-        return response()->json($apayment);
+		$data['accountpayable'] = APayment::where(
+			'uuid', $request->apayment
+		)->with([
+			'currency',
+		])->first();
+
+		if ($data['accountpayable']->approve) {
+			return redirect()->back();
+		}
+
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full_name'
+		)->whereIn('code',['idr','usd'])
+		->get();
+
+        return view('accountpayableview::edit', $data);
     }
 
     public function update(APaymentUpdate $request, APayment $apayment)
@@ -92,8 +107,8 @@ class APController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -104,7 +119,7 @@ class APController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -115,15 +130,15 @@ class APController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -162,8 +177,8 @@ class APController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
@@ -274,7 +289,7 @@ class APController extends Controller
         // get all raw data
         $coa  = Coa::where('description', 'Detail')->get();
 
-        
+
         $alldata = json_decode( $coa, true);
 
         $data = [];

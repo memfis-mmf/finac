@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Model;
 
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Currency;
 
 class APayment extends MemfisModel
 {
@@ -49,5 +50,14 @@ class APayment extends MemfisModel
 	public function vendor()
 	{
 		return $this->belongsTo(Vendor::class, 'id_supplier');
+	}
+
+	public function currency()
+	{
+		return $this->hasOne(
+			'App\Models\Currency',
+			'code',
+			'currency_code'
+		);
 	}
 }
