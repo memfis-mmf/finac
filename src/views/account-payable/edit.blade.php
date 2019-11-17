@@ -62,19 +62,21 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transaction_date')
                                             @slot('id_error', 'date')
+                                            @slot('value', $data->date)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Vendor @include('label::required')
                                         </label>
-        
-                                        @component('input::select')
-                                            @slot('id', 'vendor')
-                                            @slot('name', 'vendor')
-                                            @slot('text', 'Supplier')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
+																				<select id="vendor" name="id_supplier" class="form-control m-select2">
+																						@foreach ($vendor as $x)
+																								<option value="{{ $x->id }}"
+																										@if ($x->id == $data->id_supplier) selected @endif>
+																										{{ $x->name }}
+																								</option>
+																						@endforeach
+																				</select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -90,6 +92,7 @@
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
+																						@slot('value', $data->coa->code)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -97,9 +100,7 @@
                                             Account Name
                                         </label>
 
-                                        @component('label::data-info')
-                                            @slot('text', 'generated')
-                                        @endcomponent
+																				<input type="text" value="{{ $data->coa->name }}" id="account_name" class="form-control m-input" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -107,23 +108,25 @@
                                         <label class="form-control-label">
                                             Currency @include('label::required')
                                         </label>
-
-                                        @component('input::select')
-                                            @slot('id', 'currency')
-                                            @slot('text', 'Currency')
-                                            @slot('name', 'currency_code')
-                                            @slot('id_error', 'currency')
-                                        @endcomponent
+																					<select id="currency" name="currency" class="form-control m-select2">
+																							@foreach ($currency as $x)
+																									<option value="{{ $x->code }}"
+																											@if ($x->code == $data->currency) selected @endif>
+																											{{ $x->full_name }}
+																									</option>
+																							@endforeach
+																					</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Exchange Rate 
+                                            Exchange Rate
                                         <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                         </label>
                                         @component('input::numberreadonly')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
                                             @slot('name', 'exchange_rate')
+																						@slot('value', number_format($data->exchangerate, 0, 0, '.'))
                                         @endcomponent
                                     </div>
                                 </div>
@@ -138,6 +141,7 @@
                                             @slot('text', 'Remark')
                                             @slot('name', 'remark')
                                             @slot('rows','5')
+                                            @slot('value',$data->description)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -200,7 +204,7 @@
                                             <label class="form-control-label">
                                                 Debt Total Amount
                                             </label>
-    
+
                                             @component('label::data-info')
                                                 @slot('text', 'generated')
                                             @endcomponent
@@ -209,7 +213,7 @@
                                             <label class="form-control-label">
                                                 Payment Total Amount
                                             </label>
-    
+
                                             @component('label::data-info')
                                                 @slot('text', 'generated')
                                             @endcomponent
@@ -218,7 +222,7 @@
                                             <label class="form-control-label">
                                                 Payment Total Amount
                                             </label>
-    
+
                                             @component('label::data-info')
                                                 @slot('text', 'generated')
                                             @endcomponent
@@ -318,12 +322,10 @@
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/vendor.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/account-payable/edit.js')}}"></script>
 

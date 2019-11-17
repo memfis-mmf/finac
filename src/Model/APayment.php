@@ -23,6 +23,13 @@ class APayment extends MemfisModel
 		'description',
     ];
 
+	protected $appends = ['date'];
+
+	public function getDateAttribute()
+	{
+		return date('Y-m-d', strtotime($this->transactiondate));
+	}
+
 	static public function generateCode($code)
 	{
 		$data = APayment::orderBy('id', 'desc')
@@ -50,6 +57,11 @@ class APayment extends MemfisModel
 	public function vendor()
 	{
 		return $this->belongsTo(Vendor::class, 'id_supplier');
+	}
+
+	public function coa()
+	{
+		return $this->belongsTo(Coa::class, 'accountcode', 'code');
 	}
 
 	public function currency()

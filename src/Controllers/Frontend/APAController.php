@@ -19,7 +19,7 @@ class APAController extends Controller
 
     public function create()
     {
-        return view('apaymentaview::index');        
+        return view('apaymentaview::index');
     }
 
     public function store(APaymentAStore $request)
@@ -68,8 +68,8 @@ class APAController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -80,7 +80,7 @@ class APAController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -91,15 +91,15 @@ class APAController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -138,8 +138,8 @@ class APAController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;

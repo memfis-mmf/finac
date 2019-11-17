@@ -9,6 +9,7 @@ use Directoryxx\Finac\Request\APaymentUpdate;
 use Directoryxx\Finac\Request\APaymentStore;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
+use App\Models\Currency;
 
 class APController extends Controller
 {
@@ -52,18 +53,19 @@ class APController extends Controller
         return response()->json($apayment);
     }
 
-    public function edit(APayment $apayment)
+    public function edit(Request $request)
     {
-		$data['accountpayable'] = APayment::where(
+		$data['data'] = APayment::where(
 			'uuid', $request->apayment
 		)->with([
 			'currency',
 		])->first();
 
-		if ($data['accountpayable']->approve) {
+		if ($data['data']->approve) {
 			return redirect()->back();
 		}
 
+		$data['vendor'] = Vendor::all();
 		$data['currency'] = Currency::selectRaw(
 			'code, CONCAT(name, " (", symbol ,")") as full_name'
 		)->whereIn('code',['idr','usd'])
