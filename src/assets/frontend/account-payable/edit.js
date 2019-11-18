@@ -1,6 +1,10 @@
 let AccountPayable = {
-    init: function () {
-		let suuplier_invoice = $('.supplier_invoice_datatable').mDatatable({
+  init: function () {
+
+		let _url = window.location.origin;
+		let ap_uuid = $('input[name=si_uuid]').val();
+
+		let supplier_invoice_table = $('.supplier_invoice_datatable').mDatatable({
 				data: {
 						type: 'remote',
 						source: {
@@ -218,7 +222,7 @@ let AccountPayable = {
 			serverSide: !0,
 			lengthMenu: [5, 10, 25, 50],
 			pageLength: 5,
-			ajax: "/datatables/workpackage/modal",
+			ajax: _url+"/account-payable/si/modal/datatable/"+ap_uuid,
 			columns: [
 				{
 					data: "code"
@@ -257,59 +261,45 @@ let AccountPayable = {
 				},
 
 			]
-		})
-
-		$('#supplier_invoice_modal_datatable').on('click', '.supplier-invoice', function () {
-			$.ajax({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				},
-				type: 'post',
-				url: '/project-hm/' + project_uuid +'/workpackage',
-				data: {
-					_token: $('input[name=_token]').val(),
-					workpackage: $(this).data('uuid'),
-				},
-				success: function (data) {
-					if (data.errors) {
-						if (data.errors.customer_id) {
-							$('#customer-error').html(data.errors.customer_id[0]);
-						}
-						if (data.errors.aircraft_register) {
-							$('#reg-error').html(data.errors.aircraft_register[0]);
-						}
-						if (data.errors.aircraft_sn) {
-							$('#serial-number-error').html(data.errors.aircraft_sn[0]);
-						}
-						if (data.errors.aircraft_id) {
-							$('#applicability-airplane-error').html(data.errors.aircraft_id[0]);
-						}
-						if (data.errors.no_wo) {
-							$('#work-order-error').html(data.errors.no_wo[0]);
-						}
-
-						document.getElementById('customer').value = data.getAll('customer_id');
-						document.getElementById('work-order').value = data.getAll('no_wo');
-						document.getElementById('applicability_airplane').value = data.getAll('aircraft_id');
-						document.getElementById('reg').value = data.getAll('aircraft_register');
-						document.getElementById('serial-number').value = data.getAll('aircraft_sn');
-					} else {
-						$('#modal_project').modal('hide');
-
-						toastr.success('Work Package has been created.', 'Success',  {
-							timeOut: 5000
-						});
-
-						let table = $('.workpackage_datatable').mDatatable();
-
-						table.originalDataSet = [];
-						table.reload();
-					}
-				}
-			});
 		});
 
-    }
+		$('body').on('click', '.select-supplier-invoice', function () {
+
+			let si_uuid = $(this).data('uuid');
+
+			let tr = $(this).parents('tr');
+			let tr_index = tr.index();
+
+			console.table(supplier_invoice_table.row(tr).data());
+
+			let data = supplier_invoice_table.row(tr).data().mDatatable.dataSet[tr_index];
+
+			$.ajax({
+					url: _url+'/account-payable',
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'post',
+					dataType: 'json',
+					data : {
+						'account_code' : data.code,
+						'voucher_no' : _voucher_no
+					},
+					success: function (data) {
+
+						$('#coa_modal').modal('hide');
+
+						account_code_table.reload();
+
+						toastr.success('Data tersimpan', 'Sukses', {
+							timeOut: 2000
+						});
+
+					}
+			});
+
+		});
+  }
 };
 
 jQuery(document).ready(function () {

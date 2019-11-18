@@ -25,23 +25,23 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('journal')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@create'
 		)->name('journal.index');
 		Route::post(
-			'/approve', 
+			'/approve',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@approve'
 		);
 		Route::get(
-			'/type', 
+			'/type',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@getType'
 		);
 		Route::get(
-			'/type-json', 
+			'/type-json',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@getTypeJson'
 		);
 		Route::get(
-			'/currency', 
+			'/currency',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@getCurrency'
 		);
 		Route::post(
@@ -80,7 +80,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('journala')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\JournalAController@create'
 		)->name('journala.index');
 		Route::post(
@@ -115,15 +115,15 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('supplier-invoice')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@index'
 		)->name('trxpayment.index');
 		Route::post(
-			'/approve', 
+			'/approve',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@approve'
 		);
 		Route::get(
-			'/create', 
+			'/create',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@create'
 		)->name('trxpayment.create');
 		Route::post(
@@ -155,37 +155,37 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@apidetail'
 		);
 		Route::post(
-			'/coa/use', 
+			'/coa/use',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@coaUse'
 		)->name('trxpayment.grn.use');
 		Route::get(
-			'/coa/items/datatables', 
+			'/coa/items/datatables',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@coaDatatables'
 		)->name('trxpayment.grn.datatables');
 
 		//GRN
 		Route::get(
-			'/grn/create', 
+			'/grn/create',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnCreate'
 		)->name('trxpayment.grn.create');
 		Route::put(
-			'/grn/update', 
+			'/grn/update',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnUpdate'
 		)->name('trxpayment.grn.update');
 		Route::post(
-			'/grn/create', 
+			'/grn/create',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnStore'
 		)->name('trxpayment.grn.store');
 		Route::post(
-			'/grn/use', 
+			'/grn/use',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnUse'
 		)->name('trxpayment.grn.use');
 		Route::get(
-			'/grn/datatables', 
+			'/grn/datatables',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnDatatables'
 		)->name('trxpayment.grn.datatables');
 		Route::get(
-			'/grn/items/datatables', 
+			'/grn/items/datatables',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnItemsDatatables'
 		)->name('trxpayment.grn.datatables');
 		Route::get(
@@ -193,14 +193,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnEdit'
 		);
 		Route::get(
-			'/get-vendors', 
+			'/get-vendors',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@getVendor'
 		)->name('trxpayment.vendor.get');
 	});
-	
+
     Route::prefix('trxpaymenta')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@create'
 		)->name('trxpaymenta.index');
 		Route::post(
@@ -235,7 +235,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('trxpaymentb')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@create'
 		)->name('trxpaymentb.index');
 		Route::post(
@@ -270,7 +270,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('account-payable')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\APController@create'
 		)->name('apayment.index');
 		Route::post(
@@ -305,11 +305,15 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/data/{apayment}',
 			'Directoryxx\Finac\Controllers\Frontend\APController@apidetail'
 		);
+		Route::get(
+			'/account-payable/si/modal/datatable',
+			'Directoryxx\Finac\Controllers\Frontend\APController@SIModalDatatables'
+		)->name('apayment.datatables');
 	});
 
     Route::prefix('apaymenta')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\APAController@create'
 		)->name('apaymenta.index');
 		Route::post(
@@ -344,7 +348,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('asset')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\AssetController@create'
 		)->name('asset.index');
 		Route::post(
@@ -379,7 +383,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('typeasset')->group(function () {
 		Route::get(
-			'/', 
+			'/',
 			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@create'
 		)->name('typeasset.index');
 		Route::post(
@@ -492,11 +496,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 	Route::get('/bankfa/{bankaccount}', 'Directoryxx\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
 	Route::get('/customerfa/{customer}', 'Directoryxx\Finac\Controllers\Frontend\ARController@cust_detail')->name('detailcusttt');
 	//Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');
-	
+
 	//Route::resource('cashbook-bpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController');
 	//Route::resource('cashbook-brj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBRJController');
 	//Route::resource('cashbook-cpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookCPJController');
 	//Route::resource('cashbook-crj', 'Directoryxx\Finac\Controllers\Frontend\CashbookCRJController');
-	
+
 
 });
