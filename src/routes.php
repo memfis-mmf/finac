@@ -306,7 +306,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\APController@apidetail'
 		);
 		Route::get(
-			'/account-payable/si/modal/datatable',
+			'/si/modal/datatable',
 			'Directoryxx\Finac\Controllers\Frontend\APController@SIModalDatatables'
 		)->name('apayment.datatables');
 	});

@@ -2,7 +2,7 @@ let AccountPayable = {
   init: function () {
 
 		let _url = window.location.origin;
-		let ap_uuid = $('input[name=si_uuid]').val();
+		let ap_uuid = $('input[name=ap_uuid]').val();
 
 		let supplier_invoice_table = $('.supplier_invoice_datatable').mDatatable({
 				data: {
@@ -214,53 +214,121 @@ let AccountPayable = {
 				]
 		});
 
-		$("#supplier_invoice_modal_datatable").DataTable({
-			"dom": '<"top"f>rt<"bottom">pl',
-			responsive: !0,
-			searchDelay: 500,
-			processing: !0,
-			serverSide: !0,
-			lengthMenu: [5, 10, 25, 50],
-			pageLength: 5,
-			ajax: _url+"/account-payable/si/modal/datatable/"+ap_uuid,
-			columns: [
-				{
-					data: "code"
-				},
-				{
-					data: "title"
-				},
-				{
-					data: "title"
-				},
-				{
-					data: "aircraft.name"
-				},
-				{
-					data: "aircraft.name"
-				},
-				{
-					data: "aircraft.name"
-				},
-				{
-					data: "aircraft.name"
-				},
-				{
-					data: "aircraft.name"
-				},
-				{
-					data: "Actions"
-				}
-			],
-			columnDefs: [{
-					targets: -1,
-					orderable: !1,
-					render: function (a, e, t, n) {
-						return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
-					}
-				},
+		let supplier_invoice_modal_table = $('.supplier_invoice_modal_datatable').mDatatable({
+				data: {
+						type: 'remote',
+						source: {
+								read: {
+										method: 'GET',
+										url: _url+'/account-payable/si/modal/datatable/?ap_uuid='+ap_uuid,
+										map: function (raw) {
+												let dataSet = raw;
 
-			]
+												if (typeof raw.data !== 'undefined') {
+														dataSet = raw.data;
+												}
+
+												return dataSet;
+										}
+								}
+						},
+						pageSize: 10,
+						serverPaging: !0,
+						serverSorting: !0
+				},
+				layout: {
+						theme: 'default',
+						class: '',
+						scroll: false,
+						footer: !1
+				},
+				sortable: !0,
+				filterable: !1,
+				pagination: !0,
+				search: {
+						input: $('#generalSearch')
+				},
+				toolbar: {
+						items: {
+								pagination: {
+										pageSizeSelect: [5, 10, 20, 30, 50, 100]
+								}
+						}
+				},
+				columns: [
+						{
+							field: 'transaction_number',
+							title: 'Transaction No.',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: 'transaction_date',
+							title: 'Date',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: '',
+							title: 'Due Date',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: 'exchange_rate',
+							title: 'Exchange Rate',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: 'grandtotal',
+							title: 'Total Amount',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: '',
+							title: 'Paid Amount',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: 'accont_code',
+							title: 'Account Code',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: '',
+							title: 'Amount to Pay',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: '',
+							title: 'Exchange Rate Gap',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: 'description',
+							title: 'Description',
+							sortable: 'asc',
+							filterable: !1,
+						},
+						{
+							field: 'Actions',
+							width: 110,
+							sortable: !1,
+							overflow: 'visible',
+							template: function (t, e, i) {
+								return (
+									'<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+								);
+							}
+						}
+
+				]
 		});
 
 		$('body').on('click', '.select-supplier-invoice', function () {
