@@ -16,12 +16,12 @@ class CreateAPaymentBTable extends Migration
         Schema::create('a_payment_b', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->string('transactionnumber');
-            $table->string('code');
-            $table->string('name');
-            $table->decimal('debit',18,5);
-            $table->decimal('credit',18,5);
-            $table->text('description');
+            $table->string('transactionnumber')->nullable();
+            $table->string('code')->nullable();
+            $table->string('name')->nullable();
+            $table->decimal('debit',18,5)->default(0);
+            $table->decimal('credit',18,5)->default(0);
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

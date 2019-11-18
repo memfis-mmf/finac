@@ -120,7 +120,6 @@ let AccountPayable = {
 									);
 							}
 						}
-
 				]
 		});
 
@@ -338,12 +337,10 @@ let AccountPayable = {
 			let tr = $(this).parents('tr');
 			let tr_index = tr.index();
 
-			console.table(supplier_invoice_table.row(tr).data());
-
-			let data = supplier_invoice_table.row(tr).data().mDatatable.dataSet[tr_index];
+			let data = supplier_invoice_modal_table.row(tr).data().mDatatable.dataSet[tr_index];
 
 			$.ajax({
-					url: _url+'/account-payable',
+					url: _url+'/apaymenta',
 					headers: {
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					},
@@ -351,13 +348,13 @@ let AccountPayable = {
 					dataType: 'json',
 					data : {
 						'account_code' : data.code,
-						'voucher_no' : _voucher_no
+						'transactionnumber' : data.transaction_number
 					},
 					success: function (data) {
 
-						$('#coa_modal').modal('hide');
+						$('#modal_create_supplier_invoice').modal('hide');
 
-						account_code_table.reload();
+						supplier_invoice_modal_table.reload();
 
 						toastr.success('Data tersimpan', 'Sukses', {
 							timeOut: 2000

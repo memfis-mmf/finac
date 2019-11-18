@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class APaymentA extends MemfisModel
 {
-    protected $table = "a_payments";
+    protected $table = "a_payment_a";
 
     protected $fillable = [
 		'transactionnumber',
@@ -20,4 +20,3 @@ class APaymentA extends MemfisModel
 		'description',
     ];
 }
-

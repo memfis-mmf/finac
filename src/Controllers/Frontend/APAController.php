@@ -24,6 +24,9 @@ class APAController extends Controller
 
     public function store(APaymentAStore $request)
     {
+		$request->request->add([
+			'description' => ''
+		]);
         $apaymenta = APaymentA::create($request->all());
         return response()->json($apaymenta);
     }

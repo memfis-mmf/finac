@@ -16,11 +16,11 @@ class CreateAPaymentCTable extends Migration
         Schema::create('a_payment_c', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->string('transactionnumber');
-            $table->integer('id_payment');
-            $table->string('code');
-            $table->decimal('difference',18,5);
-            $table->text('description');
+            $table->string('transactionnumber')->nullable();
+            $table->integer('id_payment')->nullable();
+            $table->string('code')->nullable();
+            $table->decimal('difference',18,5)->default(0);
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

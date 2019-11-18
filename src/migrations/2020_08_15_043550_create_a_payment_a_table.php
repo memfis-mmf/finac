@@ -16,11 +16,11 @@ class CreateAPaymentATable extends Migration
         Schema::create('a_payment_a', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->string('transactionnumber');
-            $table->integer('id_payment');
-            $table->string('code');
-            $table->string('currency');
-            $table->decimal('exchangerate',18,5);
+            $table->string('transactionnumber')->nullable();
+            $table->integer('id_payment')->nullable();
+            $table->string('code')->nullable();
+            $table->string('currency')->nullable();
+            $table->decimal('exchangerate',18,5)->nullable();
             $table->decimal('debit',18,5)->default(0);
             $table->decimal('credit',18,5)->default(0);
             $table->text('description');
