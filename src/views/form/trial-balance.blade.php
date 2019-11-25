@@ -52,6 +52,19 @@
             margin-top:12px;
         }
 
+        #content{
+            width:100%;
+            margin-top:155px;
+            margin-bottom:34px;
+        }
+
+        #content table tr td{
+            /* border-left:  1px solid  #d4d7db;
+            border-right:  1px solid  #d4d7db;
+            border-top:  1px solid  #d4d7db; */
+            border-bottom:  1px solid  #d4d7db;
+        }
+
     </style>
 </head>
 <body>
@@ -79,5 +92,60 @@
         </table>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
     </footer>
+
+    <div id="content">
+        <div class="container">
+            <table width="100%" cellpadding="6">
+                <tr style="background:#72829c;color:white;">
+                    <th valign="top" align="left" width="14%">Account Code</th>
+                    <th valign="top" align="left" width="16%">Account Name</th>
+                    <th valign="top" align="center" width="16%">Beginning Balance</th>
+                    <th valign="top" align="center" width="18%">Debet</th>
+                    <th valign="top" align="center" width="18%">Kredit</th>
+                    <th valign="top" align="center" width="18%">Ending Balance</th>
+                </tr>
+                <tr>
+                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                    <td valign="top" width="16%">Lorem </th>
+                    <td valign="top" align="center"width="16%">11</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">Rp. 20.000.000,-</td>
+                </tr>
+                <tr>
+                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                    <td valign="top" width="16%">Lorem </th>
+                    <td valign="top" align="center"width="16%">11</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">Rp. 20.000.000,-</td>
+                </tr>
+                <tr>
+                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                    <td valign="top" width="16%">Lorem </th>
+                    <td valign="top" align="center"width="16%">11</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">Rp. 20.000.000,-</td>
+                </tr>
+                <tr>
+                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                    <td valign="top" width="16%">Lorem </th>
+                    <td valign="top" align="center"width="16%">11</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">Rp. 20.000.000,-</td>
+                </tr>
+                <tr>
+                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                    <td valign="top" width="16%">Lorem </th>
+                    <td valign="top" align="center"width="16%">11</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">Rp. 20.000.000,-</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
