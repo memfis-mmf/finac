@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class APaymentAUpdate extends FormRequest
+class APaymentBUpdate extends FormRequest
 {
 
     /**
@@ -27,10 +27,6 @@ class APaymentAUpdate extends FormRequest
     public function rules()
     {
         return [
-			'transactiondate' => 'required',
-			'id_supplier' => 'required',
-			'accountcode' => 'required',
-			'currency' => 'required',
         ];
     }
 
