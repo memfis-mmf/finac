@@ -59,20 +59,20 @@ class TrxJournal extends MemfisModel
 		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y/m')."/".$number;
-		
+
 		return $code;
 	}
 
 	static public function insertFromGRN(
-		$component, 
-		$consumable, 
-		$raw_material, 
+		$component,
+		$consumable,
+		$raw_material,
 		$id_grn
 	)
 	{
 		$po = GRN::find($id_grn)->purchase_order;
 
-		$data['voucher_no'] = $this->generateCode();
+		$data['voucher_no'] = TrxJournal::generateCode();
 		$data['transaction_date'] = date('Y-m-d H:i:s');
 		$data['journal_type'] = TypeJurnal::where('code', 'PJR')->first()->id;
 		$data['currency_code'] = Currency::find($po->currency_id)->code;
