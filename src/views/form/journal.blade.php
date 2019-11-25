@@ -51,6 +51,25 @@
             margin-left:70px;
             margin-top:12px;
         }
+        #content{
+            width:100%;
+            margin-top:155px;
+            margin-bottom:34px;
+        }
+
+        #content2 #journal_table tr td{
+            border-left:  1px solid  #d4d7db;
+            border-right:  1px solid  #d4d7db;
+            border-top:  1px solid  #d4d7db;
+            border-bottom:  1px solid  #d4d7db;
+        }
+
+        #content2 table .kredit-debet{
+            border-left:  2px solid  #d4d7db;
+            border-right:  2px solid  #d4d7db;
+            border-top:  2px solid  #d4d7db;
+            border-bottom:  2px solid  #d4d7db;
+        }
 
     </style>
 </head>
@@ -72,5 +91,59 @@
         </table>
         <img src="./vendor/courier/img/form/journal/Footer.png" width="100%" alt="" >
     </footer>
+
+    <div id="content">
+        <div class="container">
+            <table width="100%" cellpadding="4" style="font-size:15px;">
+                <tr>
+                    <td valign="top" width="20%">Date</td>
+                    <td valign="top"width="1%">:</td>
+                    <td valign="top" width="29%">10/07/2019</td>
+                    <td valign="top" width="20%">Ref. Doc</td>
+                    <td valign="top"width="1%">:</td>
+                    <td valign="top" width="29%">777777</td>
+                </tr>
+                <tr>
+                    <td valign="top" width="20%">Transaction No.</td>
+                    <td valign="top"width="1%">:</td>
+                    <td valign="top" width="29%">1232312</td>
+                    <td valign="top" width="20%"></td>
+                    <td valign="top"width="1%"></td>
+                    <td valign="top" width="29%"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="content2">
+        <div class="container">
+            <table width="100%" cellpadding="6" id="journal_table">
+                <tr style="background:#72829c;color:white;">
+                    <th valign="top" align="center" width="6%">No</th>
+                    <th valign="top" align="center" width="15%">Account Code</th>
+                    <th valign="top" align="center" width="27%">Account Description</th>
+                    <th valign="top" align="center" width="20%">Description</th>
+                    <th valign="top" align="center" width="16%">Debet</th>
+                    <th valign="top" align="center" width="16%">Kredit</th>
+                </tr>
+                <tr>
+                    <td valign="top" align="center" width="6%">1</td>
+                    <td valign="top" align="center" width="15%">Pr-12312</td>
+                    <td valign="top" width="27%">Lorem ipsum dolor, sit amet consectetur </th>
+                    <td valign="top"  width="20%">11</td>
+                    <td valign="top" align="right" width="16%">Rp. 20.000.000,-</td>
+                    <td valign="top" align="right" width="16%">Rp. 20.000.000,-</td>
+                </tr>
+            </table>
+            <table width="100%" cellpadding="6">
+                <tr>
+                    <td valign="top" align="right" width="68%"><b>Total</b></td>
+                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. 20.000.000,-</td>
+                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. 20.000.000,-</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
 </body>
 </html>
