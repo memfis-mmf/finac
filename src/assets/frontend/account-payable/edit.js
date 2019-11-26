@@ -198,12 +198,18 @@ let AccountPayable = {
 							title: 'Debet',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.debit));
+							}
 						},
 						{
 							field: 'credit',
 							title: 'Credit',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.credit));
+							}
 						},
 						{
 							field: 'description',
