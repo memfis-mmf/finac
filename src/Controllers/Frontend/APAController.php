@@ -3,6 +3,8 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use Directoryxx\Finac\Model\TrxPayment;
+use Directoryxx\Finac\Model\APayment;
 use Directoryxx\Finac\Model\APaymentA;
 use Directoryxx\Finac\Request\APaymentAUpdate;
 use Directoryxx\Finac\Request\APaymentAStore;
@@ -22,11 +24,17 @@ class APAController extends Controller
         return view('apaymentaview::index');
     }
 
-    public function store(APaymentAStore $request)
+    public function store(Request $request)
     {
+		$AP = APayment::where('uuid', $request->ap_uuid)->first();
+		$SI = TrxPayment::where('uuid', $request->si_uuid)->first();
+
 		$request->request->add([
-			'description' => ''
+			'description' => '',
+			'transactionnumber' => $AP->transactionnumber,
+			'id_payment' => $SI->id,
 		]);
+
         $apaymenta = APaymentA::create($request->all());
         return response()->json($apaymenta);
     }
@@ -63,9 +71,13 @@ class APAController extends Controller
         return response()->json($apaymenta);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
-        $data = $alldata = json_decode(APaymentA::All());
+		$AP = APayment::where('uuid', $request->ap_uuid)->first();
+        $data = $alldata = json_decode(
+			APaymentA::where('transactionnumber', $AP->transactionnumber)
+			->get()
+		);
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

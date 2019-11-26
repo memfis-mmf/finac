@@ -347,6 +347,41 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('apaymentb')->group(function () {
+		Route::get(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@create'
+		)->name('apaymentb.index');
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@store'
+		)->name('apaymentb.store');
+		Route::put(
+			'/{apaymentb}',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@update'
+		)->name('apaymentb.update');
+		Route::delete(
+			'/{apaymentb}',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@destroy'
+		)->name('apaymentb.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@datatables'
+		)->name('apaymentb.datatables');
+		Route::get(
+			'/{apaymentb}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@edit'
+		);
+		Route::get(
+			'/data',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@api'
+		);
+		Route::get(
+			'/data/{apaymentb}',
+			'Directoryxx\Finac\Controllers\Frontend\APBController@apidetail'
+		);
+	});
+
     Route::prefix('asset')->group(function () {
 		Route::get(
 			'/',

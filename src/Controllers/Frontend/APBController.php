@@ -3,6 +3,8 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use Directoryxx\Finac\Model\Coa;
+use Directoryxx\Finac\Model\APayment;
 use Directoryxx\Finac\Model\APaymentB;
 use Directoryxx\Finac\Request\APaymentBUpdate;
 use Directoryxx\Finac\Request\APaymentBStore;
@@ -22,9 +24,15 @@ class APBController extends Controller
 
     public function store(APaymentBStore $request)
     {
+		$coa = Coa::where('uuid', $request->coa_uuid)->first();
+		$ap = APayment::where('uuid', $request->ap_uuid)->first();
+
 		$request->request->add([
-			'description' => ''
+			'transactionnumber' => $ap->transactionnumber,
+			'code' => $coa->code,
+			'name' => $coa->name,
 		]);
+
         $APaymentB = APaymentB::create($request->all());
         return response()->json($APaymentB);
     }
@@ -42,11 +50,9 @@ class APBController extends Controller
         return response()->json($APaymentB);
     }
 
-    public function destroy(APaymentB $APaymentB)
+    public function destroy(Request $request)
     {
-        $APaymentB->delete();
-
-        return response()->json($APaymentB);
+		APaymentB::where('uuid', $request->apaymentb)->delete();
     }
 
     public function api()
@@ -61,9 +67,14 @@ class APBController extends Controller
         return response()->json($APaymentB);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
-        $data = $alldata = json_decode(APaymentB::All());
+		$AP = APayment::where('uuid', $request->ap_uuid)->first();
+
+        $data = $alldata = json_decode(
+			APaymentB::where('transactionnumber', $AP->transactionnumber)
+			->get()
+		);
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

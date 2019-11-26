@@ -27,10 +27,6 @@ class APaymentAUpdate extends FormRequest
     public function rules()
     {
         return [
-			'transactiondate' => 'required',
-			'id_supplier' => 'required',
-			'accountcode' => 'required',
-			'currency' => 'required',
         ];
     }
 
