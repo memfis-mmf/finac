@@ -9,6 +9,7 @@
             </div>
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm">
+									<input type="hidden" name="_uuid" value="" disabled>
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -39,7 +40,7 @@
                                 @component('input::number')
                                     @slot('id', 'debet')
                                     @slot('text', 'debet')
-                                    @slot('name', 'debet')
+                                    @slot('name', 'debit_b')
                                 @endcomponent
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -63,7 +64,7 @@
                                 @component('input::textarea')
                                     @slot('id', 'description')
                                     @slot('text', 'description')
-                                    @slot('name', 'description')
+                                    @slot('name', 'description_b')
                                     @slot('rows','5')
                                 @endcomponent
                             </div>

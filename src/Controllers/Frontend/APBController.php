@@ -44,8 +44,16 @@ class APBController extends Controller
 
     public function update(APaymentBUpdate $request, APaymentB $APaymentB)
     {
+		$request->merge([
+			'description' => $request->description_b,
+			'debit' => $request->debit_b,
+		]);
 
-        $APaymentB->update($request->all());
+		APaymentB::where('uuid', $request->apaymentb)->update($request->only([
+			'debit',
+			'credit',
+			'description',
+		]));
 
         return response()->json($APaymentB);
     }

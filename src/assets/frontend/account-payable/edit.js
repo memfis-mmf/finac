@@ -4,6 +4,19 @@ let AccountPayable = {
 		let _url = window.location.origin;
 		let ap_uuid = $('input[name=ap_uuid]').val();
 
+		function addCommas(nStr)
+		{
+			nStr += '';
+			x = nStr.split('.');
+			x1 = x[0];
+			x2 = x.length > 1 ? '.' + x[1] : '';
+			var rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+					x1 = x1.replace(rgx, '$1' + '.' + '$2');
+			}
+			return x1 + x2;
+		}
+
 		let supplier_invoice_table = $('.supplier_invoice_datatable').mDatatable({
 				data: {
 						type: 'remote',
@@ -93,6 +106,9 @@ let AccountPayable = {
 							title: 'Amount to Pay',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.debit));
+							}
 						},
 						{
 							field: '',
@@ -202,7 +218,7 @@ let AccountPayable = {
 							overflow: 'visible',
 							template: function (t, e, i) {
 								return (
-									'<button data-target="#modal_edit_adjustment" data-toggle="modal" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+									'<button data-target="#modal_edit_adjustment" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
 									'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
 									t.uuid +
 									' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
@@ -524,6 +540,53 @@ let AccountPayable = {
 
 			$(target).modal('show');
 		})
+
+		$('.adjustment_datatable').on('click', '.edit-item', function() {
+			let target = $(this).data('target');
+			let uuid = $(this).data('uuid');
+
+			let tr = $(this).parents('tr');
+			let tr_index = tr.index();
+			let data = adjustment_datatable.row(tr).data().mDatatable.dataSet[tr_index];
+
+			$(target).find('input[name=_uuid]').val(uuid);
+			$(target).find('[name=debit_b]').val(data.debit);
+			$(target).find('[name=credit]').val(data.credit);
+			$(target).find('[name=description]').val(data.description);
+
+			$(target).modal('show');
+		})
+
+		let update_adj = $('body').on('click', '#update_adjustment', function () {
+
+				let form = $(this).parents('form');
+				let _data = form.serialize();
+				let _uuid = form.find('input[name=_uuid]').val();
+
+				$.ajax({
+						headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						type: 'put',
+						url: _url+'/apaymentb/'+_uuid,
+						data: _data,
+						success: function (data) {
+								if (data.errors) {
+									toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+									});
+								} else {
+									toastr.success('Data berhasil disimpan.', 'Sukses', {
+										timeOut: 2000
+									});
+
+									$('#modal_edit_adjustment').modal('hide');
+									adjustment_datatable.reload();
+								}
+						}
+				});
+		});
+
   }
 };
 
