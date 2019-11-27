@@ -40,3 +40,9 @@ Route::get('/crj', function () {
     $pdf->setPaper('A5', 'landscape');
     return $pdf->stream();
 });
+
+Route::get('/ar-ap', function () {
+    $pdf = \PDF::loadView('formview::ar-ap');
+    $pdf->setPaper('A5', 'landscape');
+    return $pdf->stream();
+});
