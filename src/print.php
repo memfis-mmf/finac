@@ -15,3 +15,28 @@ Route::get('/coa-docs', function () {
     $pdf = \PDF::loadView('formview::coa');
     return $pdf->stream();
 });
+
+
+Route::get('/cashbook-bpj', function () {
+    $pdf = \PDF::loadView('formview::bpj');
+    $pdf->setPaper('A5', 'landscape');
+    return $pdf->stream();
+});
+
+Route::get('/cashbook-brj', function () {
+    $pdf = \PDF::loadView('formview::brj');
+    $pdf->setPaper('A5', 'landscape');
+    return $pdf->stream();
+});
+
+Route::get('/cashbook-cpj', function () {
+    $pdf = \PDF::loadView('formview::cpj');
+    $pdf->setPaper('A5', 'landscape');
+    return $pdf->stream();
+});
+
+Route::get('/cashbook-crj', function () {
+    $pdf = \PDF::loadView('formview::crj');
+    $pdf->setPaper('A5', 'landscape');
+    return $pdf->stream();
+});
