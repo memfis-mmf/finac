@@ -1,12 +1,35 @@
 let TrialBalance = {
     init: function () {
+
+			let _url = window.location.origin;
+
+			function addCommas(nStr)
+			{
+					nStr += '';
+					x = nStr.split('.');
+					x1 = x[0];
+					x2 = x.length > 1 ? '.' + x[1] : '';
+					var rgx = /(\d+)(\d{3})/;
+					while (rgx.test(x1)) {
+							x1 = x1.replace(rgx, '$1' + '.' + '$2');
+					}
+					return x1 + x2;
+			}
+
+			$('body').on('change', '#daterange_trial_balance', function() {
+
+				$('.trial_balance_datatable').remove();
+				$('.place-datatable').append(`<div class="trial_balance_datatable" id="scrolling_both"></div>`);
+
+				let _val = $(this).val();
+
         $('.trial_balance_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
                     read: {
                         method: 'GET',
-                        url: '',
+                        url: _url+'/trial-balance/datatables?daterange='+_val,
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -44,49 +67,62 @@ let TrialBalance = {
             },
             columns: [
                 {
-                    field: '',
+                    field: 'AccountCode',
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,
                     width: 160
                 },
                 {
-                    field: '',
+                    field: 'AccountName',
                     title: 'Account Name',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'BeginningBalance',
                     title: 'Beginning Balance',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150,
+										template: function(t, e, i) {
+											return addCommas(parseInt(t.BeginningBalance));
+										}
                 },
                 {
-                    field: '',
+                    field: 'Debit',
                     title: 'Debet',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											return addCommas(parseInt(t.Debit));
+										}
                 },
                 {
-                    field: '',
+                    field: 'Credit',
                     title: 'Credit',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											return addCommas(parseInt(t.Credit));
+										}
                 },
                 {
-                    field: '',
+                    field: 'ending',
                     title: 'Ending Balance',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											return addCommas(parseInt(t.ending));
+										}
                 },
             ]
-        });  
+        });
+			});
     }
 };
 

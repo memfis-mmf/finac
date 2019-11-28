@@ -88,6 +88,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/print',
 			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@print'
 		)->name('trialbalance.print');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@datatables'
+		)->name('trialbalance.datatables');
 	});
 
     Route::prefix('journala')->group(function () {
