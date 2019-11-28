@@ -4,12 +4,6 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Directoryxx\Finac\Model\TrxJournal as Journal;
-use Directoryxx\Finac\Model\TypeJurnal;
-use Directoryxx\Finac\Model\JurnalA;
-use Directoryxx\Finac\Request\JournalUpdate;
-use Directoryxx\Finac\Request\JournalStore;
-use Directoryxx\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 

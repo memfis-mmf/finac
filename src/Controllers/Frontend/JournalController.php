@@ -19,11 +19,8 @@ class JournalController extends Controller
         return redirect()->route('journal.create');
     }
 
-    public function approve(Request $request)
-    {
-		$journal = Journal::where('uuid', $request->uuid);
-		$journala = $journal->first()->journala;
-
+	public function checkBalance($journala)
+	{
 		$debit = 0;
 		$credit = 0;
 
@@ -33,7 +30,15 @@ class JournalController extends Controller
 			$credit += $x->credit;
 		}
 
-		if ($debit != $credit) {
+		return ($debit != $credit);
+	}
+
+    public function approve(Request $request)
+    {
+		$journal = Journal::where('uuid', $request->uuid);
+		$journala = $journal->first()->journala;
+
+		if ($this->checkBalance($journala)) {
 			return [
 				'errors' => 'Debit and Credit not balance'
 			];
@@ -246,4 +251,35 @@ class JournalController extends Controller
 
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
+
+	public function print(Request $request)
+	{
+		$journal = Journal::where('uuid', $request->uuid)->first();
+		$journala = $journal->journala;
+
+		if ($this->checkBalance($journala)) {
+			return redirect()->route('journal.index')->with([
+				'errors' => 'Debit and Credit not balance'
+			]);
+		}
+
+		$debit = 0;
+		$credit = 0;
+
+		for ($i = 0; $i < count($journala); $i++) {
+			$x = $journala[$i];
+			$debit += $x->debit;
+			$credit += $x->credit;
+		}
+
+		$data = [
+			'journal' => $journal,
+			'journala' => $journala,
+			'debit' => $debit,
+			'credit' => $credit,
+		];
+
+        $pdf = \PDF::loadView('formview::journal', $data);
+        return $pdf->stream();
+	}
 }

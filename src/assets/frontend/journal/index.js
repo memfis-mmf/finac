@@ -51,7 +51,7 @@ let Journal = {
                     sortable: 'asc',
                     filterable: !1,
                     textAlign: 'center',
-                    template: (row, index, datatable) => {   
+                    template: (row, index, datatable) => {
                         return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
                     }
                 },
@@ -138,7 +138,7 @@ let Journal = {
                             '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
                             '<i class="la la-check"></i>' +
                             '</a>'+
-                            '<a href="quotation/'+t.uuid+'/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+                            '<a href="journal/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
                                 '<i class="la la-print"></i>' +
                             '</a>'
                             );
@@ -295,7 +295,7 @@ let Journal = {
                         }
                     });
                     save_changes_button();
-                   
+
                 },
                 error: function (jqXhr, json, errorThrown) {
                     let errorsHtml = '';

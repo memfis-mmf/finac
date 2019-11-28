@@ -98,15 +98,15 @@
                 <tr>
                     <td valign="top" width="20%">Date</td>
                     <td valign="top"width="1%">:</td>
-                    <td valign="top" width="29%">10/07/2019</td>
+                    <td valign="top" width="29%">{{ $journal->transaction_date }}</td>
                     <td valign="top" width="20%">Ref. Doc</td>
                     <td valign="top"width="1%">:</td>
-                    <td valign="top" width="29%">777777</td>
+                    <td valign="top" width="29%">{{ $journal->ref_no }}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="20%">Transaction No.</td>
                     <td valign="top"width="1%">:</td>
-                    <td valign="top" width="29%">1232312</td>
+                    <td valign="top" width="29%">{{ $journal->voucher_no }}</td>
                     <td valign="top" width="20%"></td>
                     <td valign="top"width="1%"></td>
                     <td valign="top" width="29%"></td>
@@ -126,20 +126,25 @@
                     <th valign="top" align="center" width="16%">Debet</th>
                     <th valign="top" align="center" width="16%">Kredit</th>
                 </tr>
-                <tr>
-                    <td valign="top" align="center" width="6%">1</td>
-                    <td valign="top" align="center" width="15%">Pr-12312</td>
-                    <td valign="top" width="27%">Lorem ipsum dolor, sit amet consectetur </th>
-                    <td valign="top"  width="20%">11</td>
-                    <td valign="top" align="right" width="16%">Rp. 20.000.000,-</td>
-                    <td valign="top" align="right" width="16%">Rp. 20.000.000,-</td>
-                </tr>
+								@for ($i=0; $i < count($journala); $i++)
+									@php
+										$x = $journala[$i];
+									@endphp
+	                <tr>
+	                    <td valign="top" align="center" width="6%">{{ $i+1 }}</td>
+	                    <td valign="top" align="center" width="15%">{{ $x->account_code }}</td>
+	                    <td valign="top" width="27%">{{ $x->coa->description }}</th>
+	                    <td valign="top"  width="20%">{{ $x->description }}</td>
+	                    <td valign="top" align="right" width="16%">Rp. {{ number_format($x->debit, 0, 0, '.') }},-</td>
+	                    <td valign="top" align="right" width="16%">Rp. {{ number_format($x->credit, 0, 0, '.') }},-</td>
+	                </tr>
+								@endfor
             </table>
             <table width="100%" cellpadding="6">
                 <tr>
                     <td valign="top" align="right" width="68%"><b>Total</b></td>
-                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. 20.000.000,-</td>
-                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. 20.000.000,-</td>
+                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. {{ number_format($debit, 0, 0, '.') }},-</td>
+                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. {{ number_format($credit, 0, 0, '.') }},-</td>
                 </tr>
             </table>
         </div>

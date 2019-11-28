@@ -77,6 +77,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/data/{journal}',
 			'Directoryxx\Finac\Controllers\Frontend\JournalController@apidetail'
 		);
+		Route::get(
+			'/print',
+			'Directoryxx\Finac\Controllers\Frontend\JournalController@print'
+		);
 	});
 
     Route::prefix('trial-balance')->group(function () {
