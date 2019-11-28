@@ -29,7 +29,11 @@ class TrialBalanceController extends Controller
 		memfis.coas.Description as Tipe,
 		(
 		CASE WHEN
+<<<<<<< HEAD
 		CAST(trxjournals.Transaction_Date as date) < $startDate
+=======
+		CAST(trxjournals.Transaction_Date as date) < @prmFirstDate
+>>>>>>> 5b4779e1e127285fe7120697b8ecba2535306fa9
 		THEN
 		(
 		CASE WHEN
@@ -46,7 +50,11 @@ class TrialBalanceController extends Controller
 		) as BeginningBalance,
 		(
 		CASE WHEN
+<<<<<<< HEAD
 		CAST(trxjournals.Transaction_Date as date) between $startDate and $finishDate
+=======
+		CAST(trxjournals.Transaction_Date as date) between @prmFirstDate and @prmLastDate
+>>>>>>> 5b4779e1e127285fe7120697b8ecba2535306fa9
 		THEN
 		SUM(Debit)
 		ELSE
@@ -55,7 +63,11 @@ class TrialBalanceController extends Controller
 		) Debit,
 		(
 		CASE WHEN
+<<<<<<< HEAD
+		CAST(trxjournals.Transaction_Date as date) between $startDate and $finishDate
+=======
 		CAST(trxjournals.Transaction_Date as date) between @prmFirstDate and @prmLastDate
+>>>>>>> 5b4779e1e127285fe7120697b8ecba2535306fa9
 		THEN
 		SUM(Credit)
 		ELSE
@@ -73,13 +85,18 @@ class TrialBalanceController extends Controller
 		return $data;
 	}
 
+<<<<<<< HEAD
 	public function print(Request $request)
+=======
+	public function print_trial_balance(Request $request)
+>>>>>>> 5b4779e1e127285fe7120697b8ecba2535306fa9
 	{
 		$tmp_date = explode('-', $request->daterange);
 
 		$startDate = trim($tmp_date[0]);
 		$finishDate = trim($tmp_date[1]);
 
+<<<<<<< HEAD
 		$data = [
 			'data' =>  $this->getData($startDate, $finishDate),
 			'startDate' => $startDate,
@@ -87,6 +104,11 @@ class TrialBalanceController extends Controller
 		];
 
 		dd($data);
+=======
+		dd($this->getData($startDate, $finishDate));
+
+		$data = [];
+>>>>>>> 5b4779e1e127285fe7120697b8ecba2535306fa9
 
         $pdf = \PDF::loadView('formview::trial-balance', $data);
         return $pdf->stream();

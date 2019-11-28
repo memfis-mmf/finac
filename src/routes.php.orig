@@ -83,10 +83,17 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@index'
-		)->name('trialbalance.index');
+<<<<<<< HEAD
+		);
 		Route::get(
 			'/print',
 			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@print'
+=======
+		)->name('trialbalance.index');
+		Route::get(
+			'/print',
+			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@print_trial_balance'
+>>>>>>> 5b4779e1e127285fe7120697b8ecba2535306fa9
 		)->name('trialbalance.print');
 	});
 
