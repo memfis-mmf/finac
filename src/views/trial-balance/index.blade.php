@@ -52,12 +52,13 @@
                         <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                             <div class="row align-items-center">
                                 <div class="col-xl-8 order-2 order-xl-1">
+																	<form class="" action="{{ route('trialbalance.print') }}" method="get">
                                     <div class="form-group m-form__group row align-items-center">
                                         <div class="col-md-4">
                                             <div class="m-input-icon m-input-icon--left">
                                                 @component('input::datepicker')
                                                     @slot('id', 'daterange_trial_balance')
-                                                    @slot('name', 'daterange_trial_balance')
+                                                    @slot('name', 'daterange')
                                                     @slot('id_error', 'daterange_trial_balance')
                                                 @endcomponent
                                             </div>
@@ -66,6 +67,7 @@
                                             Print
                                         </button>
                                     </div>
+																	</form>
                                 </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                                     <div class="m-separator m-separator--dashed d-xl-none"></div>

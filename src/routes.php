@@ -79,6 +79,17 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('trial-balance')->group(function () {
+		Route::get(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@index'
+		)->name('trialbalance.index');
+		Route::get(
+			'/print',
+			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@print_trial_balance'
+		)->name('trialbalance.print');
+	});
+
     Route::prefix('journala')->group(function () {
 		Route::get(
 			'/',
