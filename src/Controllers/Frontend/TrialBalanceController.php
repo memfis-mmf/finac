@@ -80,13 +80,37 @@ class TrialBalanceController extends Controller
 		$startDate = trim($tmp_date[0]);
 		$finishDate = trim($tmp_date[1]);
 
+		$data_tb = $this->getData($startDate, $finishDate);
+
+		for ($i=0; $i < count($data_tb); $i++) {
+			$x = $data_tb[$i];
+
+			if ($x->TypeCoa == 'ACTIVA') {
+				$data_tb[$i]->ending = $x->BeginningBalance + $x->Debit - $x->Credit;
+			}
+
+			if ($x->TypeCoa == 'PASIVA') {
+				$data_tb[$i]->ending = $x->BeginningBalance - $x->Debit + $x->Credit;
+			}
+
+			if ($x->TypeCoa == 'EKUITAS') {
+				$data_tb[$i]->ending = $x->BeginningBalance + $x->Credit - $x->Debit;
+			}
+
+			if ($x->TypeCoa == 'PENDAPATAN') {
+				$data_tb[$i]->ending = $x->BeginningBalance + $x->Credit - $x->Debit;
+			}
+
+			if ($x->TypeCoa == 'BIAYA') {
+				$data_tb[$i]->ending = $x->BeginningBalance + $x->Debit - $x->Credit;
+			}
+		}
+
 		$data = [
-			'data' =>  $this->getData($startDate, $finishDate),
+			'data' => $data_tb,
 			'startDate' => $startDate,
 			'finishDate' => $finishDate,
 		];
-
-		dd($data);
 
         $pdf = \PDF::loadView('formview::trial-balance', $data);
         return $pdf->stream();
