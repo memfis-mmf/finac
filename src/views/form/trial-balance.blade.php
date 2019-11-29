@@ -65,6 +65,22 @@
             border-bottom:  1px solid  #d4d7db;
         }
 
+        #content2{
+            width:100%;
+            margin-top:155px;
+            margin-bottom:34px;
+        }
+
+        #content2 table tr td{
+            /* border-left:  1px solid  #d4d7db;
+            border-right:  1px solid  #d4d7db;
+            border-top:  1px solid  #d4d7db; */
+            border-bottom:  1px solid  #d4d7db;
+        }
+
+        .page_break {
+            page-break-before: always;
+        }
     </style>
 </head>
 <body>
@@ -77,7 +93,8 @@
                     <tr>
                         <td valign="top" width="15%">Period</td>
                         <td valign="top" width="1%">:</td>
-                        <td valign="top" width="84%">{{ $startDate }} - {{ $finishDate }}</td>
+                        {{-- <td valign="top" width="84%">{{ $startDate }} - {{ $finishDate }}</td> --}}
+                        <td valign="top" width="84%"></td>
                     </tr>
                 </table>
             </div>
@@ -104,21 +121,62 @@
                     <th valign="top" align="center" width="18%">Kredit</th>
                     <th valign="top" align="center" width="18%">Ending Balance</th>
                 </tr>
-								@for ($i=0; $i < count($data); $i++)
-									@php
-										$x = $data[$i];
-									@endphp
-	                <tr>
-	                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->AccountCode }}</td>
-	                    <td valign="top" width="16%">{{ $x->AccountName }}</th>
-	                    <td valign="top" align="center"width="16%">{{ $x->BeginningBalance }}</td>
-	                    <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
-	                    <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
-	                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->ending, 0, 0, '.') }}</td>
-	                </tr>
-								@endfor
+                    {{-- @for ($i=0; $i < count($data); $i++)
+                        @php
+                            $x = $data[$i];
+                        @endphp
+                        <tr>
+                            <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->AccountCode }}</td>
+                            <td valign="top" width="16%">{{ $x->AccountName }}</th>
+                            <td valign="top" align="center"width="16%">{{ $x->BeginningBalance }}</td>
+                            <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
+                            <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
+                            <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->ending, 0, 0, '.') }}</td>
+                        </tr>
+                    @endfor --}}
+                    <tr>
+                        <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">lorem</td>
+                        <td valign="top" width="16%">lorem ipsum dajo</th>
+                        <td valign="top" align="center"width="16%">lorem</td>
+                        <td valign="top" align="center" width="18%">lorem</td>
+                        <td valign="top" align="center" width="18%">lorem</td>
+                        <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">lorem</td>
+                    </tr>
+
+
             </table>
         </div>
     </div>
+
+    {{-- jika data lebih dari 100 --}}
+    @if(100>20)     
+        @for ($i = 1; $i <= ceil(100/20)-1; $i++)
+            <div class="page_break">
+                <div id="content2">
+                    <div class="container">
+                        <table width="100%" cellpadding="6">
+                            <tr style="background:#72829c;color:white;">
+                                <th valign="top" align="left" width="14%">Account Code</th>
+                                <th valign="top" align="left" width="16%">Account Name</th>
+                                <th valign="top" align="center" width="16%">Beginning Balance</th>
+                                <th valign="top" align="center" width="18%">Debet</th>
+                                <th valign="top" align="center" width="18%">Kredit</th>
+                                <th valign="top" align="center" width="18%">Ending Balance</th>
+                            </tr>
+                            <tr>
+                                <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">lorem</td>
+                                <td valign="top" width="16%">lorem ipsum dajo</th>
+                                <td valign="top" align="center"width="16%">lorem</td>
+                                <td valign="top" align="center" width="18%">lorem</td>
+                                <td valign="top" align="center" width="18%">lorem</td>
+                                <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">lorem</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endfor
+    @endif
+
 </body>
 </html>
