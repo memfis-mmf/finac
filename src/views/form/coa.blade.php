@@ -65,6 +65,9 @@
             border-bottom:  1px solid  #d4d7db;
         }
 
+        .page_break {
+            page-break-before: always;
+        }
     </style>
 </head>
 <body>
@@ -110,5 +113,37 @@
             </table>
         </div>
     </div>
+
+    {{-- jika data lebih dari 100 --}}
+    @if(100>20)     
+        @for ($i = 1; $i <= ceil(100/20)-1; $i++)
+            <div class="page_break">     
+                <div id="content">
+                    <div class="container">
+                        <table width="100%" cellpadding="6">
+                            <tr style="background:#72829c;color:white;">
+                                <th valign="top" align="left" width="14%">Account Code</th>
+                                <th valign="top" align="left" width="16%">Account Name</th>
+                                <th valign="top" align="center" width="52%">Description</th>
+                                <th valign="top" align="center" width="18%">Date Created</th>
+                            </tr>
+                            <tr>
+                                <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                                <td valign="top" width="16%">Lorem </th>
+                                <td valign="top" align="center"width="52%"><b>Header</b></td>
+                                <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
+                            </tr>
+                            <tr>
+                                <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                                <td valign="top" width="16%">Lorem </th>
+                                <td valign="top" align="center"width="52%">Detail</td>
+                                <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endfor
+    @endif
 </body>
 </html>

@@ -71,6 +71,10 @@
             border-bottom:  2px solid  #d4d7db;
         }
 
+        .page_break {
+            page-break-before: always;
+        }
+
     </style>
 </head>
 <body>
