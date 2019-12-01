@@ -52,6 +52,20 @@ let GeneralLedger = {
                 },
                 {
                     field: '',
+                    title: 'Account Code',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 60
+                },
+                {
+                    field: '',
+                    title: 'Account Name',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 60
+                },
+                {
+                    field: '',
                     title: 'Ref. No.',
                     sortable: 'asc',
                     filterable: !1,
