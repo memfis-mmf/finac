@@ -37,4 +37,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::view('/trial-balance', 'trialbalanceview::index')->name('trial-balance.index');
 
+
+    /** PROFIT AND LOSS */
+
+    Route::view('/profit-loss', 'profitlossview::index')->name('profit-loss.index');
+    Route::view('/profit-loss/view-pl', 'profitlossview::view-pl')->name('profit-loss.view-pl');
+    Route::view('/profit-loss/detail-pl', 'profitlossview::detail-pl')->name('profit-loss.detail-pl');
+
 });
