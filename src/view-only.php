@@ -44,4 +44,10 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/profit-loss/view-pl', 'profitlossview::view-pl')->name('profit-loss.view-pl');
     Route::view('/profit-loss/detail-pl', 'profitlossview::detail-pl')->name('profit-loss.detail-pl');
 
+
+    /** GENERAL LEDGER */
+
+    Route::view('/general-ledger', 'generalledgerview::index')->name('general-ledger.index');
+    Route::view('/general-ledger/show', 'generalledgerview::show')->name('general-ledger.show');
+
 });
