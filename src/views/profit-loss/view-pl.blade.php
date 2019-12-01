@@ -193,6 +193,7 @@
                                             @slot('type', 'button')
                                             @slot('id','printview')
                                             @slot('text','Print')
+                                            @slot('icon','fa-print')
                                         @endcomponent
 
                                         @include('buttons::back')
