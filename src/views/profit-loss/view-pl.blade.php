@@ -38,8 +38,6 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::create-new')
-
                             <h3 class="m-portlet__head-text">
                                 View Profit & Loss
                             </h3>
@@ -49,15 +47,143 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <div class="m-portlet__body">
+                            <div class="form-group m-form__group row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <h3>Date Period 12/12/12 - 12/12/20</h3>
+                                </div>
+                            </div>
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <table width="100%">
+                                    <table width="100%" cellpadding="8">
+                                        <tr style="background:#5f6b5e; color:white;font-weight: bold;">
+                                            <td width="60%">Account Name</td>
+                                            <td width="20%" align="center">Accumulated</td>
+                                            <td width="20%" align="center">Periods</td>
+                                        </tr>
+                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+                                            <td width="60%"><h3>Revenue</h3></td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
                                         <tr>
-                                            <td>Account Name</td>
-                                            <td>Accumulated</td>
-                                            <td>Periods</td>
+                                            <td width="60%">Operating Revenue</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Sales Discount</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+                                            <td width="60%"><h3>Non Operating Revenue (Expense)</h3></td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Non Operating Revenue</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr style="background:#add8f7;font-weight: bold;">
+                                            <td width="60%"><h5>Total Revenue</h5></td>
+                                            <td width="20%" align="center">Amount</td>
+                                            <td width="20%" align="center">Amount</td>
+                                        </tr>
+                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+                                            <td width="60%"><h3>Cost Of Gold</h3></td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Production Expenses</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Maintenance & Repair Expense</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Direct Labor</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Distribution Cost</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+                                            <td width="60%"><h3>Operating Expense</h3></td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Sales Cost</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Organization Expense</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">General Expenses</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Office Cost</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Depreciation & Amortization Expense</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Other Expense</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+                                            <td width="60%"><h3>Non Operating Expenses</h3></td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="60%">Non Operating Expenses MMF</td>
+                                            <td width="20%"></td>
+                                            <td width="20%"></td>
+                                        </tr>
+                                        <tr style="background:#add8f7;font-weight: bold;">
+                                            <td width="60%"><h5>Total Revenue</h5></td>
+                                            <td width="20%" align="center">Amount</td>
+                                            <td width="20%" align="center">Amount</td>
                                         </tr>
                                     </table>
+
+                                    <div class="form-group m-form__group row mt-5">
+                                        <div class="col-sm-7 col-md-7 col-lg-7">
+                                            <h4 class="text-right">Calculated Return</h4>
+                                        </div>
+                                        <div class="col-sm-5 col-md-5 col-lg-5">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center" width="50%">
+                                                        <h4>Amount</h4>
+                                                    </td>
+                                                    <td align="center" width="50%">
+                                                        <h4>Amount</h4>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
@@ -65,7 +191,8 @@
                                     <div class="action-buttons">
                                         @component('buttons::submit')
                                             @slot('type', 'button')
-                                            @slot('id','journalsave')
+                                            @slot('id','printview')
+                                            @slot('text','Print')
                                         @endcomponent
 
                                         @include('buttons::back')
