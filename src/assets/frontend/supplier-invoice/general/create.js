@@ -2,6 +2,7 @@ let SupplierInvoice = {
 	init: function () {
 
 		let _url = window.location.origin;
+		
     $.ajax({
         url: _url+'/supplier-invoice/get-vendors/',
         type: 'GET',
@@ -167,9 +168,9 @@ let SupplierInvoice = {
 												timeOut: 2000
 										});
 
-										// setTimeout(function(){
-										// 	location.href = `${_url}/supplier-invoice/${data.uuid}/edit`;
-										// }, 2000);
+										setTimeout(function(){
+											location.href = `${_url}/supplier-invoice/${data.uuid}/edit`;
+										}, 2000);
 								}
 						}
 				});

@@ -41,8 +41,7 @@ class TrxPaymentController extends Controller
     public function store(TrxPaymentStore $request)
     {
 		$request->merge([
-			'id_supplier' =>
-			Vendor::where('uuid', $request->id_supplier)->first()->id
+			'id_supplier' => $request->id_supplier
 		]);
 
 		$request->merge([
