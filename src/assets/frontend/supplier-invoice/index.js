@@ -1,7 +1,7 @@
 let Journal = {
     init: function () {
 				let _url = window.location.origin;
-        $('.supplier_invoice_datatable').mDatatable({
+        let supplier_invoice_datatable = $('.supplier_invoice_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
@@ -141,20 +141,26 @@ let Journal = {
 													type = 'grn/';
 												}
 
-                        return (
-                            '<a href="'+_url+'/supplier-invoice/'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                            t.uuid +
-                            '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-                            '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                            t.uuid +
-                            ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-                            '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
-                            '<i class="la la-check"></i>' +
-                            '</a>'+
-                            '<a href="quotation/'+t.uuid+'/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
-                                '<i class="la la-print"></i>' +
-                            '</a>'
-                            );
+												let _html =
+                          '<a href="quotation/'+t.uuid+'/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+                              '<i class="la la-print"></i>' +
+                          '</a>';
+
+												// jika belum di approve
+												if (!t.approve) {
+													_html +=
+	                            '<a href="'+_url+'/supplier-invoice/'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+	                            t.uuid +
+	                            '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
+	                            '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+	                            t.uuid +
+	                            ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
+	                            '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
+	                            '<i class="la la-check"></i>' +
+	                            '</a>';
+												}
+
+                        return ( _html );
                     }
                 }
             ]
@@ -273,7 +279,7 @@ let Journal = {
                         }
                     });
                     save_changes_button();
-                   
+
                 },
                 error: function (jqXhr, json, errorThrown) {
                     let errorsHtml = '';
@@ -416,18 +422,11 @@ let Journal = {
 
 
 									} else {
-											$('#modal_coa').modal('hide');
-
 											toastr.success('Data berhasil disimpan.', 'Sukses', {
 													timeOut: 5000
 											});
-
-											$('#code-error').html('');
-
-											let table = $('.coa_datatable').mDatatable();
-											coa_reset();
-											table.originalDataSet = [];
-											table.reload();
+											
+											supplier_invoice_datatable.reload();
 									}
 							}
 					});
