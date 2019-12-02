@@ -68,7 +68,7 @@
                                         <label class="form-control-label">
                                             Vendor @include('label::required')
                                         </label>
-        
+
                                         @component('input::select')
                                             @slot('id', 'vendor')
                                             @slot('name', 'id_supplier')
@@ -112,7 +112,7 @@
                                                 <label class="form-control-label">
                                                     Currency @include('label::required')
                                                 </label>
-        
+
                                                 @component('input::select')
                                                     @slot('id', 'currency')
                                                     @slot('text', 'Currency')
@@ -122,7 +122,7 @@
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <label class="form-control-label">
-                                                    Exchange Rate 
+                                                    Exchange Rate
                                                 <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                                 </label>
                                                 @component('input::numberreadonly')
@@ -256,7 +256,6 @@
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/valid-until.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/vendor.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/supplier-invoice/general/create.js')}}"></script>
 

@@ -2,6 +2,25 @@ let SupplierInvoice = {
 	init: function () {
 
 		let _url = window.location.origin;
+    $.ajax({
+        url: _url+'/supplier-invoice/get-vendors/',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+
+            $('select[id="vendor"]').empty();
+
+            $('select[id="vendor"]').append(
+                '<option value=""> Select a Vendor </option>'
+            );
+
+            $.each(data, function (key, value) {
+                $('select[id="vendor"]').append(
+                    '<option value="' + key + '">' + value + '</option>'
+                );
+            });
+        }
+    });
 
 		let coa_datatables = $("#coa_datatables").DataTable({
 				"dom": '<"top"f>rt<"bottom">pl',
@@ -148,9 +167,9 @@ let SupplierInvoice = {
 												timeOut: 2000
 										});
 
-										setTimeout(function(){ 
-											location.href = `${_url}/supplier-invoice/${data.uuid}/edit`; 
-										}, 2000);
+										// setTimeout(function(){
+										// 	location.href = `${_url}/supplier-invoice/${data.uuid}/edit`;
+										// }, 2000);
 								}
 						}
 				});

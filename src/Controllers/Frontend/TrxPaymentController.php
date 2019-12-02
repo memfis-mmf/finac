@@ -19,7 +19,7 @@ class TrxPaymentController extends Controller
 {
     public function index()
     {
-        return view('supplierinvoiceview::index');        
+        return view('supplierinvoiceview::index');
     }
 
     public function approve(Request $request)
@@ -35,18 +35,18 @@ class TrxPaymentController extends Controller
 
     public function create()
     {
-        return view('supplierinvoicegeneralview::create');        
+        return view('supplierinvoicegeneralview::create');
     }
 
     public function store(TrxPaymentStore $request)
     {
 		$request->merge([
-			'id_supplier' => 
+			'id_supplier' =>
 			Vendor::where('uuid', $request->id_supplier)->first()->id
 		]);
 
 		$request->merge([
-			'account_code' => 
+			'account_code' =>
 			$request->account_code
 		]);
 
@@ -62,7 +62,7 @@ class TrxPaymentController extends Controller
     public function edit(Request $request)
     {
 		$data['data'] = TrxPayment::where(
-			'uuid', 
+			'uuid',
 			$request->trxpayment
 		)->first();
 
@@ -76,7 +76,7 @@ class TrxPaymentController extends Controller
 		)->whereIn('code',['idr','usd'])
 		->get();
 
-        return view('supplierinvoicegeneralview::edit', $data);        
+        return view('supplierinvoicegeneralview::edit', $data);
     }
 
     public function update(TrxPaymentUpdate $request, TrxPayment $trxpayment)
@@ -121,8 +121,8 @@ class TrxPaymentController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -133,7 +133,7 @@ class TrxPaymentController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -144,15 +144,15 @@ class TrxPaymentController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -191,8 +191,8 @@ class TrxPaymentController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
@@ -241,8 +241,8 @@ class TrxPaymentController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -253,7 +253,7 @@ class TrxPaymentController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -264,15 +264,15 @@ class TrxPaymentController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -311,8 +311,8 @@ class TrxPaymentController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
@@ -338,16 +338,16 @@ class TrxPaymentController extends Controller
 	/*
 	 *GRN Section
 	 */
-	
+
     public function grnCreate()
     {
-        return view('supplierinvoicegrnview::create');        
+        return view('supplierinvoicegrnview::create');
     }
-	
+
     public function grnStore(TrxPaymentStore $request)
     {
 		$request->merge([
-			'id_supplier' => 
+			'id_supplier' =>
 			Vendor::where('uuid', $request->id_supplier)->first()->id
 		]);
 
@@ -364,7 +364,7 @@ class TrxPaymentController extends Controller
     public function grnEdit(Request $request)
     {
 		$data['data'] = TrxPayment::where(
-			'uuid', 
+			'uuid',
 			$request->trxpayment
 		)->first();
 
@@ -378,7 +378,7 @@ class TrxPaymentController extends Controller
 		)->whereIn('code',['idr','usd'])
 		->get();
 
-        return view('supplierinvoicegrnview::edit', $data);        
+        return view('supplierinvoicegrnview::edit', $data);
     }
 
 	public function getVendor()
@@ -412,8 +412,8 @@ class TrxPaymentController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -424,7 +424,7 @@ class TrxPaymentController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -435,15 +435,15 @@ class TrxPaymentController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -482,8 +482,8 @@ class TrxPaymentController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
@@ -506,7 +506,7 @@ class TrxPaymentController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-	
+
 
     public function grnDatatables()
     {
@@ -521,8 +521,8 @@ class TrxPaymentController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -533,7 +533,7 @@ class TrxPaymentController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -544,15 +544,15 @@ class TrxPaymentController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -591,8 +591,8 @@ class TrxPaymentController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
@@ -647,7 +647,7 @@ class TrxPaymentController extends Controller
 			$sum += ($total + $percent_price);
 		}
 
-		return $sum;	
+		return $sum;
 	}
 
 	public function grnUse(Request $request)
