@@ -137,7 +137,7 @@ let SupplierInvoice = {
 
 		$('.general_datatable').on('click', '.edit-item', function() {
 			let uuid = $(this).data('uuid');
-			let _modal = $('#modal_edit_account'); 
+			let _modal = $('#modal_edit_account');
 
 			let tr = $(this).parents('tr');
 			let tr_index = tr.index();
@@ -163,7 +163,7 @@ let SupplierInvoice = {
 					type: 'post',
 					url: _url+'/supplier-invoice/coa/use',
 					data : {
-						'account_code' : data.code, 
+						'account_code' : data.code,
 						'si_uuid' : _si_uuid
 					},
 					success: function (data) {
@@ -277,26 +277,24 @@ let SupplierInvoice = {
 					data: _data,
 					success: function (data) {
 							if (data.errors) {
-									if (data.errors.code) {
-											$('#code-error').html(data.errors.code[0]);
+								if (data.errors.code) {
+										$('#code-error').html(data.errors.code[0]);
 
-											document.getElementById('code').value = code;
-											document.getElementById('name').value = name;
-											document.getElementById('type').value = type;
-											document.getElementById('level').value = level;
-											document.getElementById('description').value = description;
-											coa_reset();
-									}
-
-
+										document.getElementById('code').value = code;
+										document.getElementById('name').value = name;
+										document.getElementById('type').value = type;
+										document.getElementById('level').value = level;
+										document.getElementById('description').value = description;
+										coa_reset();
+								}
 							} else {
-									toastr.success('Data Saved', 'Sukses', {
-											timeOut: 2000
-									});
+								toastr.success('Data Saved', 'Sukses', {
+										timeOut: 2000
+								});
 
-									setTimeout(function(){ 
-										location.href = `${_url}/supplier-invoice/`; 
-									}, 2000);
+								setTimeout(function(){
+									location.href = `${_url}/supplier-invoice/`;
+								}, 2000);
 							}
 					}
 			});

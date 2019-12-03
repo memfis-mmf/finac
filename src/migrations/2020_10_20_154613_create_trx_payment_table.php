@@ -28,8 +28,8 @@ class CreateTrxPaymentTable extends Migration
             $table->decimal('discount_value')->nullable();
             $table->decimal('ppn_percent')->nullable();
             $table->decimal('ppn_value')->nullable();
-            $table->decimal('grandtotal_foreign')->nullable();
-            $table->decimal('grandtotal')->nullable();
+            $table->decimal('grandtotal_foreign', 18, 2)->nullable();
+            $table->decimal('grandtotal', 18, 2)->nullable();
             $table->string('account_code')->nullable();
             $table->string('description')->nullable();
             $table->softDeletes();

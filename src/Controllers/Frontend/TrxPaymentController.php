@@ -80,6 +80,26 @@ class TrxPaymentController extends Controller
 
     public function update(TrxPaymentUpdate $request, TrxPayment $trxpayment)
     {
+		$currency = $request->trxpayment->currency;
+		$transaction_number = $request->trxpayment->transaction_number;
+		$exchange_rate = $request->trxpayment->exchange_rate;
+
+		$total = TrxPaymentB::where(
+			'transaction_number',
+			$transaction_number
+		)->sum('total');
+
+		if ($currency == 'idr') {
+			$request->merge([
+				'grandtotal' => $total
+			]);
+		}else{
+			$request->merge([
+				'grandtotal_foreign' => $total,
+				'grandtotal' => ($total*$exchange_rate)
+			]);
+		}
+
 		$request->merge([
 			'description' => $request->description_si
 		]);

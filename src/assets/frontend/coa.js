@@ -48,7 +48,7 @@ let Coa = {
                     title: 'Code',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 60
+                    width: 100
                 },
                 {
                     field: 'name',
@@ -218,7 +218,7 @@ let Coa = {
                         }
                     });
                     save_changes_button();
-                   
+
                 },
                 error: function (jqXhr, json, errorThrown) {
                     let errorsHtml = '';

@@ -1,6 +1,20 @@
 let Journal = {
     init: function () {
 				let _url = window.location.origin;
+
+				function addCommas(nStr)
+				{
+						nStr += '';
+						x = nStr.split('.');
+						x1 = x[0];
+						x2 = x.length > 1 ? '.' + x[1] : '';
+						var rgx = /(\d+)(\d{3})/;
+						while (rgx.test(x1)) {
+								x1 = x1.replace(rgx, '$1' + '.' + '$2');
+						}
+						return x1 + x2;
+				}
+
         let supplier_invoice_datatable = $('.supplier_invoice_datatable').mDatatable({
             data: {
                 type: 'remote',
@@ -94,18 +108,31 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: 'grandtotal',
+                    field: 'grandtotal_foreign',
                     title: 'Grandtotal Foreign',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											let result = 0;
+
+											if (t.grandtotal_foreign) {
+												result = addCommas(parseInt(t.grandtotal_foreign));
+											}
+
+											return result;
+										}
+
                 },
                 {
-                    field: '',
+                    field: 'grandtotal',
                     title: 'Grandtotal IDR',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											return addCommas(parseInt(t.grandtotal));
+										}
                 },
                 {
                     field: 'account_code',
@@ -425,7 +452,7 @@ let Journal = {
 											toastr.success('Data berhasil disimpan.', 'Sukses', {
 													timeOut: 5000
 											});
-											
+
 											supplier_invoice_datatable.reload();
 									}
 							}
