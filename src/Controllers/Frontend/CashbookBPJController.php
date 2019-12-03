@@ -32,9 +32,9 @@ class CashbookBPJController extends Controller
      */
     public function create()
     {
-        $bpjsuggest = 'BPJ-MMF/' . Carbon::now()->format('Y/m');
+        $bpjsuggest = 'CBPJ-MMF/' . Carbon::now()->format('Y/m');
         $cashbookCount = Cashbook::where('transactionnumber', 'like', $bpjsuggest . '%')->withTrashed()->count();
-        $cashbookno = CashbookGenerateNumber::generate('BPJ-MMF/', $cashbookCount + 1);
+        $cashbookno = CashbookGenerateNumber::generate('CBPJ-MMF/', $cashbookCount + 1);
         return view('cashbookview::bpj')->with('cashbookno', $cashbookno);
     }
 
