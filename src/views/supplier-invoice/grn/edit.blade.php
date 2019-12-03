@@ -126,7 +126,7 @@
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <label class="form-control-label">
-                                                    Exchange Rate 
+                                                    Exchange Rate
                                                 <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                                 </label>
                                                 @component('input::numberreadonly')
@@ -148,7 +148,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'description')
+                                            @slot('name', 'description_si')
                                             @slot('rows','5')
 																						@slot('value', $data->description)
                                         @endcomponent

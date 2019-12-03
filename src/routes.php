@@ -189,7 +189,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnCreate'
 		)->name('trxpayment.grn.create');
 		Route::put(
-			'/grn/update',
+			'/grn/{trxpayment}',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnUpdate'
 		)->name('trxpayment.grn.update');
 		Route::post(

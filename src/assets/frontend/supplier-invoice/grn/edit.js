@@ -100,7 +100,7 @@ let SupplierInvoice = {
 
 			$('.grn_datatable').on('click', '.edit-item', function() {
 				let uuid = $(this).data('uuid');
-				let _modal = $('#modal_edit_grn'); 
+				let _modal = $('#modal_edit_grn');
 
 				let tr = $(this).parents('tr');
 				let tr_index = tr.index();
@@ -197,7 +197,7 @@ let SupplierInvoice = {
 
 					]
 			});
-	
+
 			$('.grn_modal_datatable').on('click', '.select-grn', function () {
 
 				let _uuid = $(this).data('uuid');
@@ -220,7 +220,7 @@ let SupplierInvoice = {
 								timeOut: 2000
 							});
 						} else {
-	
+
 							toastr.success('Data Used', 'Success',  {
 								timeOut: 2000
 							});
@@ -232,7 +232,7 @@ let SupplierInvoice = {
 					}
 				});
 			});
-	
+
 			let update_trxpaymenta = $('body').on('click', '#update_grn', function () {
 
 					let button = $(this);
@@ -283,7 +283,7 @@ let SupplierInvoice = {
 								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 						},
 						type: 'PUT',
-						url: '/supplier-invoice/'+si_uuid,
+						url: '/supplier-invoice/grn/'+si_uuid,
 						data: _data,
 						success: function (data) {
 								if (data.errors) {
@@ -304,8 +304,8 @@ let SupplierInvoice = {
 												timeOut: 2000
 										});
 
-										setTimeout(function(){ 
-											location.href = `${_url}/supplier-invoice/`; 
+										setTimeout(function(){
+											location.href = `${_url}/supplier-invoice/`;
 										}, 2000);
 								}
 						}

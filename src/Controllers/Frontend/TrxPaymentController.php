@@ -675,7 +675,7 @@ class TrxPaymentController extends Controller
 
 		if ($trxpayment->currency != $grn->purchase_order->currency->code) {
 			return [
-				'errors' => 'currency differences'
+				'errors' => 'currency differences',
 			];
 		}
 
@@ -688,5 +688,36 @@ class TrxPaymentController extends Controller
 			'id_grn' => $grn->id,
 		]);
 	}
+
+    public function grnUpdate(TrxPaymentUpdate $request, TrxPayment $trxpayment)
+    {
+		$currency = $request->trxpayment->currency;
+		$transaction_number = $request->trxpayment->transaction_number;
+		$exchange_rate = $request->trxpayment->exchange_rate;
+
+		$total = TrxPaymentA::where(
+			'transaction_number',
+			$transaction_number
+		)->sum('total');
+
+		if ($currency == 'idr') {
+			$request->merge([
+				'grandtotal' => $total
+			]);
+		}else{
+			$request->merge([
+				'grandtotal_foreign' => $total,
+				'grandtotal' => ($total*$exchange_rate)
+			]);
+		}
+
+		$request->merge([
+			'description' => $request->description_si
+		]);
+
+        $trxpayment->update($request->all());
+
+        return response()->json($trxpayment);
+    }
 
 }
