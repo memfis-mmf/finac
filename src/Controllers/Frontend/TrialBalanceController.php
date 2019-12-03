@@ -206,10 +206,13 @@ class TrialBalanceController extends Controller
 		$startDate = trim($tmp_date[0]);
 		$finishDate = trim($tmp_date[1]);
 
-		$data = $this->getData($startDate, $finishDate);
+		$tmp_data = $this->getData($startDate, $finishDate);
+		$total_data = count($tmp_data);
+		$data_final = array_chunk($tmp_data, 19);
 
 		$data = [
-			'data' => $data,
+			'data' => $data_final,
+			'total_data' => $total_data,
 			'startDate' => $startDate,
 			'finishDate' => $finishDate,
 		];

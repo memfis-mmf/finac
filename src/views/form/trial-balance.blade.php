@@ -121,9 +121,9 @@
                     <th valign="top" align="center" width="18%">Kredit</th>
                     <th valign="top" align="center" width="18%">Ending Balance</th>
                 </tr>
-                    {{-- @for ($i=0; $i < count($data); $i++)
+                    @for ($i=0; $i < count($data[0]); $i++)
                         @php
-                            $x = $data[$i];
+                            $x = $data[0][$i];
                         @endphp
                         <tr>
                             <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->AccountCode }}</td>
@@ -133,24 +133,13 @@
                             <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
                             <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->ending, 0, 0, '.') }}</td>
                         </tr>
-                    @endfor --}}
-                    <tr>
-                        <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">lorem</td>
-                        <td valign="top" width="16%">lorem ipsum dajo</th>
-                        <td valign="top" align="center"width="16%">lorem</td>
-                        <td valign="top" align="center" width="18%">lorem</td>
-                        <td valign="top" align="center" width="18%">lorem</td>
-                        <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">lorem</td>
-                    </tr>
-
-
+                    @endfor
             </table>
         </div>
     </div>
 
-    {{-- jika data lebih dari 100 --}}
-    @if(100>20)     
-        @for ($i = 1; $i <= ceil(100/20)-1; $i++)
+    @if(count($data)>1)
+        @for ($i = 1; $i < count($data); $i++)
             <div class="page_break">
                 <div id="content2">
                     <div class="container">
@@ -163,14 +152,19 @@
                                 <th valign="top" align="center" width="18%">Kredit</th>
                                 <th valign="top" align="center" width="18%">Ending Balance</th>
                             </tr>
-                            <tr>
-                                <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">lorem</td>
-                                <td valign="top" width="16%">lorem ipsum dajo</th>
-                                <td valign="top" align="center"width="16%">lorem</td>
-                                <td valign="top" align="center" width="18%">lorem</td>
-                                <td valign="top" align="center" width="18%">lorem</td>
-                                <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">lorem</td>
-                            </tr>
+														@for ($j=0; $j < count($data[$i]); $j++)
+															@php
+																$x = $data[$i][$j];
+															@endphp
+	                            <tr>
+			                            <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->AccountCode }}</td>
+			                            <td valign="top" width="16%">{{ $x->AccountName }}</th>
+			                            <td valign="top" align="center"width="16%">{{ $x->BeginningBalance }}</td>
+			                            <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
+			                            <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
+			                            <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->ending, 0, 0, '.') }}</td>
+	                            </tr>
+														@endfor
                         </table>
                     </div>
                 </div>
