@@ -1,7 +1,7 @@
 let Journal = {
     init: function () {
 				let _url = window.location.origin;
-        $('.journal_datatable').mDatatable({
+        let journal_datatable = $('.journal_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
@@ -101,6 +101,13 @@ let Journal = {
                     width: 150
                 },
                 {
+                    field: 'total_transaction',
+                    title: 'Total Amount',
+                    sortable: 'asc',
+                    filterable: !1,
+                    width: 150
+                },
+                {
                     field: '',
                     title: 'Create By',
                     sortable: 'asc',
@@ -128,20 +135,26 @@ let Journal = {
                     sortable: !1,
                     overflow: 'visible',
                     template: function (t, e, i) {
-                        return (
-                            '<a href="'+_url+'/journal/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                            t.uuid +
-                            '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-                            '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                            t.uuid +
-                            ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-                            '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
-                            '<i class="la la-check"></i>' +
-                            '</a>'+
-                            '<a href="journal/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
-                                '<i class="la la-print"></i>' +
-                            '</a>'
-                            );
+
+											let _html =
+                          '<a href="journal/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+                              '<i class="la la-print"></i>' +
+                          '</a>';
+
+											if (!t.approve) {
+												_html +=
+                          '<a href="'+_url+'/journal/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                          t.uuid +
+                          '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
+                          '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                          t.uuid +
+                          ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
+                          '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
+                          '<i class="la la-check"></i>' +
+                          '</a>';
+											}
+
+                      return (_html);
                     }
                 }
             ]
@@ -182,18 +195,11 @@ let Journal = {
 													timeOut: 3000
 											});
 									} else {
-											$('#modal_coa').modal('hide');
-
 											toastr.success('Data berhasil disimpan.', 'Sukses', {
 													timeOut: 3000
 											});
 
-											$('#code-error').html('');
-
-											let table = $('.coa_datatable').mDatatable();
-											coa_reset();
-											table.originalDataSet = [];
-											table.reload();
+											journal_datatable.reload();
 									}
 							}
 					});

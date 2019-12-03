@@ -53,7 +53,7 @@ let JournalEdit = {
 									sortable: 'asc',
 									filterable: !1,
 									textAlign: 'center',
-									template: function (row, index, datatable) {   
+									template: function (row, index, datatable) {
 											return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
 									}
 							},
@@ -193,7 +193,6 @@ let JournalEdit = {
 											if (data.errors.code) {
 													$('#code-error').html(data.errors.code[0]);
 
-
 													document.getElementById('code').value = code;
 													document.getElementById('name').value = name;
 													document.getElementById('type').value = type;
@@ -201,16 +200,14 @@ let JournalEdit = {
 													document.getElementById('description').value = description;
 													coa_reset();
 											}
-
-
 									} else {
 											toastr.success('Data berhasil disimpan.', 'Sukses', {
 													timeOut: 5000
 											});
 
-											setTimeout(function(){ 
-												location.href = `${_url}/journal`; 
-											}, 2000);
+											// setTimeout(function(){
+											// 	location.href = `${_url}/journal`;
+											// }, 2000);
 									}
 							}
 					});
@@ -272,7 +269,7 @@ let JournalEdit = {
 						type: 'post',
 						dataType: 'json',
 						data : {
-							'account_code' : data.code, 
+							'account_code' : data.code,
 							'voucher_no' : _voucher_no
 						},
 						success: function (data) {

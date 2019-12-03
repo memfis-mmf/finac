@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxJournal as Journal;
+use Directoryxx\Finac\Model\TrxJournalA;
 use Directoryxx\Finac\Model\TypeJurnal;
 use Directoryxx\Finac\Model\JurnalA;
 use Directoryxx\Finac\Request\JournalUpdate;
@@ -122,6 +123,7 @@ class JournalController extends Controller
 
     public function update(JournalUpdate $request, Journal $journal)
     {
+		$voucher_no = $request->journal->voucher_no;
 
         $journal->update($request->all());
 
