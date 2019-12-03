@@ -5,7 +5,7 @@ namespace Directoryxx\Finac\Model;
 
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
-use Directoryxx\Finac\Model\JurnalA;
+use Directoryxx\Finac\Model\TrxJournalA;
 use Directoryxx\Finac\Model\TypeJurnal;
 use App\Models\GoodsReceived as GRN;
 use App\Models\Currency;
@@ -63,6 +63,38 @@ class TrxJournal extends MemfisModel
 		return $code;
 	}
 
+	static public function insertFromSI($header, $detail, $coa_credit)
+	{
+		$data['voucher_no'] = TrxJournal::generateCode('PRJR');
+		$data['transaction_date'] = $header->transaction_date;
+		$data['journal_type'] = TypeJurnal::where('code', 'BPJ')->first()->id;
+		$data['currency_code'] = $header->currency;
+		$data['exchange_rate'] = $header->exchange_rate;
+
+		TrxJournal::create($data);
+
+		$total = 0;
+		for($a = 0; $a < count($detail); $a++) {
+
+			if($detail[$a]) {
+				TrxJournalA::create([
+					'voucher_no' => $data['voucher_no'],
+					'account_code' => $detail[$a]->code,
+					'debit' => $detail[$a]->total,
+				]);
+
+				$total += $detail[$a]->total;
+			}
+
+		}
+
+		TrxJournalA::create([
+			'voucher_no' => $data['voucher_no'],
+			'account_code' => $coa_credit,
+			'credit' => $total,
+		]);
+	}
+
 	static public function insertFromGRN(
 		$component,
 		$consumable,
@@ -97,7 +129,7 @@ class TrxJournal extends MemfisModel
 		for($a = 0; $a < count($_data); $a++) {
 
 			if($_data[$a]) {
-				JournalA::create([
+				TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
 					'account_code' => $account_code,
 					'debit' => $_data[$a],
@@ -108,7 +140,7 @@ class TrxJournal extends MemfisModel
 
 		}
 
-		JournalA::create([
+		TrxJournalA::create([
 			'voucher_no' => $data['voucher_no'],
 			'account_code' => "301.1.1.01",
 			'credit' => $total,

@@ -3,6 +3,7 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use Directoryxx\Finac\Model\TrxJournal;
 use Directoryxx\Finac\Model\TrxPayment;
 use Directoryxx\Finac\Model\TrxPaymentA;
 use Directoryxx\Finac\Model\TrxPaymentB;
@@ -25,6 +26,15 @@ class TrxPaymentController extends Controller
     public function approve(Request $request)
     {
 		$data = TrxPayment::where('uuid', $request->uuid);
+
+		$SI_header = $data->first();
+		$coa_credit = $SI_header->vendor->coa->first()->id;
+		$SI_detail = TrxPaymentB::where(
+			'transaction_number',
+			$SI_header->transaction_number
+		)->get();
+
+		TrxJournal::insertFromSI($SI_header, $SI_detail, $coa_credit);
 
 		$data->update([
 			'approve' => 1
@@ -718,6 +728,17 @@ class TrxPaymentController extends Controller
         $trxpayment->update($request->all());
 
         return response()->json($trxpayment);
+    }
+
+    public function grnApprove(Request $request)
+    {
+		$data = TrxPayment::where('uuid', $request->uuid);
+
+		$data->update([
+			'approve' => 1
+		]);
+
+        return response()->json($data->first());
     }
 
 }

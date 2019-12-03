@@ -182,7 +182,7 @@ let Journal = {
 	                            '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
 	                            t.uuid +
 	                            ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-	                            '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
+	                            '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-type="'+t.x_type+'" data-uuid="' + t.uuid + '">' +
 	                            '<i class="la la-check"></i>' +
 	                            '</a>';
 												}
@@ -423,12 +423,20 @@ let Journal = {
 
 				let approve = $('body').on('click', 'a.approve', function() {
 					let _uuid = $(this).data('uuid');
+					let _type = $(this).data('type');
+
+					let _type_url = '';
+
+					if (_type == "GRN") {
+						_type_url = 'grn/';
+					}
+
 					$.ajax({
 							headers: {
 									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 							},
 							type: 'post',
-							url: '/supplier-invoice/approve',
+							url: `/supplier-invoice/${_type_url}approve`,
 							data: {
 									_token: $('input[name=_token]').val(),
 									uuid: _uuid

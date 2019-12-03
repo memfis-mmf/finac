@@ -184,6 +184,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 		)->name('trxpayment.grn.datatables');
 
 		//GRN
+		Route::post(
+			'/grn/approve',
+			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnApprove'
+		);
 		Route::get(
 			'/grn/create',
 			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnCreate'
