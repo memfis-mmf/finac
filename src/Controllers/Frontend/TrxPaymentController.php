@@ -28,7 +28,7 @@ class TrxPaymentController extends Controller
 		$data = TrxPayment::where('uuid', $request->uuid);
 
 		$SI_header = $data->first();
-		$coa_credit = $SI_header->vendor->coa->first()->id;
+		@$coa_credit = $SI_header->vendor->coa->first()->id;
 		$SI_detail = TrxPaymentB::where(
 			'transaction_number',
 			$SI_header->transaction_number
