@@ -14,6 +14,30 @@ class TrialBalanceController extends Controller
         return view('trialbalanceview::index');
     }
 
+	public function convertDate($date)
+	{
+		$tmp_date = explode('-', $date);
+
+		$startDate = date(
+			'Y-m-d',
+			strtotime(
+				str_replace("/", "-", trim($tmp_date[0]))
+			)
+		);
+
+		$finishDate = date(
+			'Y-m-d',
+			strtotime(
+				str_replace("/", "-", trim($tmp_date[1]))
+			)
+		);
+
+		return [
+			$startDate,
+			$finishDate
+		];
+	}
+
 	public function getData($startDate, $finishDate)
 	{
 		$query = "select
@@ -94,10 +118,10 @@ class TrialBalanceController extends Controller
 
     public function datatables(Request $request)
     {
-		$tmp_date = explode('-', $request->daterange);
+		$date = $this->convertDate($request->daterange);
 
-		$startDate = trim($tmp_date[0]);
-		$finishDate = trim($tmp_date[1]);
+		$startDate = $date[0];
+		$finishDate = $date[1];
 
 		$data = $alldata = $this->getData($startDate, $finishDate);
 
@@ -201,20 +225,10 @@ class TrialBalanceController extends Controller
 
 	public function print(Request $request)
 	{
-		$tmp_date = explode('-', $request->daterange);
+		$date = $this->convertDate($request->daterange);
 
-		$startDate = date(
-			'Y-m-d',
-			strtotime(
-				str_replace("/", "-", trim($tmp_date[0]))
-			)
-		);
-		$finishDate = date(
-			'Y-m-d',
-			strtotime(
-				str_replace("/", "-", trim($tmp_date[1]))
-			)
-		);
+		$startDate = $date[0];
+		$finishDate = $date[1];
 
 		$tmp_data = $this->getData($startDate, $finishDate);
 		$total_data = count($tmp_data);
