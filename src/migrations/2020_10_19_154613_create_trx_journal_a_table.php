@@ -19,8 +19,8 @@ class CreateTrxJournalATable extends Migration
 			$table->string('voucher_no');
 			$table->string('description')->nullable();
 			$table->bigInteger('account_code')->nullable();
-			$table->decimal('debit', 18, 5)->nullable();
-			$table->decimal('credit', 18, 5)->nullable();
+			$table->decimal('debit', 18, 5)->default(0);
+			$table->decimal('credit', 18, 5)->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

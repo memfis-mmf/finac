@@ -22,43 +22,43 @@ class TrialBalanceController extends Controller
 		memfis.types.name as TypeCoa,
 		memfis.coas.Description as Tipe,
 		(
-		CASE WHEN
-		CAST(trxjournals.Transaction_Date as date) < $startDate
-		THEN
-		(
-		CASE WHEN
-		memfis.types.name = 'ACTIVA' or memfis.types.name = 'BIAYA'
-		THEN
-		SUM(Debit-Credit)
-		ELSE
-		SUM(Credit-Debit)
-		END
-		)
-		ELSE
-		0
-		END
+			CASE WHEN
+				CAST(trxjournals.Transaction_Date as date) < '$startDate'
+			THEN
+			(
+				CASE WHEN
+					memfis.types.name = 'ACTIVA' or memfis.types.name = 'BIAYA'
+				THEN
+					SUM(Debit-Credit)
+				ELSE
+					SUM(Credit-Debit)
+				END
+			)
+			ELSE
+				0
+			END
 		) as BeginningBalance,
 		(
-		CASE WHEN
-		CAST(trxjournals.Transaction_Date as date) between $startDate and $finishDate
-		THEN
-		SUM(Debit)
-		ELSE
-		0
-		END
+			CASE WHEN
+				CAST(trxjournals.Transaction_Date as date) between '$startDate' and '$finishDate'
+			THEN
+				SUM(Debit)
+			ELSE
+				0
+			END
 		) Debit,
 		(
-		CASE WHEN
-		CAST(trxjournals.Transaction_Date as date) between @prmFirstDate and @prmLastDate
-		THEN
-		SUM(Credit)
-		ELSE
-		0
-		END
+			CASE WHEN
+				CAST(trxjournals.Transaction_Date as date) between '$startDate' and '$finishDate'
+			THEN
+				SUM(Credit)
+			ELSE
+				0
+			END
 		) Credit
 		from memfis.coas
 		left join memfis.types on (types.`of`= 'coa') and (memfis.coas.type_id = memfis.types.id)
-		left join trxjournala on trxjournala.account_code = memfis.coas.code
+		left join trxjournala on trxjournala.account_code = memfis.coas.id
 		left join trxjournals on trxjournals.voucher_no = trxjournala.voucher_no
 		group by memfis.coas.code
 		order by memfis.coas.code";
@@ -203,8 +203,8 @@ class TrialBalanceController extends Controller
 	{
 		$tmp_date = explode('-', $request->daterange);
 
-		$startDate = trim($tmp_date[0]);
-		$finishDate = trim($tmp_date[1]);
+		$startDate = date('Y-m-d', strtotime(str_replace("/", "-", trim($tmp_date[0]))));
+		$finishDate = date('Y-m-d', strtotime(str_replace("/", "-", trim($tmp_date[1]))));
 
 		$tmp_data = $this->getData($startDate, $finishDate);
 		$total_data = count($tmp_data);

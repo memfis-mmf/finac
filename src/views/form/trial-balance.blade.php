@@ -128,7 +128,7 @@
                         <tr>
                             <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->AccountCode }}</td>
                             <td valign="top" width="16%">{{ $x->AccountName }}</th>
-                            <td valign="top" align="center"width="16%">{{ $x->BeginningBalance }}</td>
+                            <td valign="top" align="center"width="16%">{{ number_format($x->BeginningBalance, 0, 0, '.') }}</td>
                             <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
                             <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
                             <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->ending, 0, 0, '.') }}</td>
@@ -159,7 +159,7 @@
 	                            <tr>
 			                            <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->AccountCode }}</td>
 			                            <td valign="top" width="16%">{{ $x->AccountName }}</th>
-			                            <td valign="top" align="center"width="16%">{{ $x->BeginningBalance }}</td>
+			                            <td valign="top" align="center"width="16%">{{ number_format($x->BeginningBalance, 0, 0, '.') }}</td>
 			                            <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
 			                            <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
 			                            <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->ending, 0, 0, '.') }}</td>
