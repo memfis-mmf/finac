@@ -203,8 +203,18 @@ class TrialBalanceController extends Controller
 	{
 		$tmp_date = explode('-', $request->daterange);
 
-		$startDate = date('Y-m-d', strtotime(str_replace("/", "-", trim($tmp_date[0]))));
-		$finishDate = date('Y-m-d', strtotime(str_replace("/", "-", trim($tmp_date[1]))));
+		$startDate = date(
+			'Y-m-d',
+			strtotime(
+				str_replace("/", "-", trim($tmp_date[0]))
+			)
+		);
+		$finishDate = date(
+			'Y-m-d',
+			strtotime(
+				str_replace("/", "-", trim($tmp_date[1]))
+			)
+		);
 
 		$tmp_data = $this->getData($startDate, $finishDate);
 		$total_data = count($tmp_data);
