@@ -55,6 +55,6 @@ Route::group(['middleware' => ['web','auth']], function () {
     /** BALANCE SHEET */
 
     Route::view('/balance-sheet', 'balancesheetview::index')->name('balance-sheet.index');
-    Route::view('/balance-sheet/show', 'balancesheetview::show')->name('balance-sheet.show');
+    Route::view('/balance-sheet/show', 'balancesheetview::view')->name('balance-sheet.view');
 
 });
