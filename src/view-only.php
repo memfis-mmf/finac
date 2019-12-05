@@ -50,4 +50,11 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/general-ledger', 'generalledgerview::index')->name('general-ledger.index');
     Route::view('/general-ledger/show', 'generalledgerview::show')->name('general-ledger.show');
 
+
+
+    /** BALANCE SHEET */
+
+    Route::view('/balance-sheet', 'balancesheetview::index')->name('balance-sheet.index');
+    Route::view('/balance-sheet/show', 'balancesheetview::show')->name('balance-sheet.show');
+
 });
