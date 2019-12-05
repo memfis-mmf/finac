@@ -68,7 +68,7 @@
                                         <label class="form-control-label">
                                             Vendor @include('label::required')
                                         </label>
-        
+
                                         @component('input::select')
                                             @slot('id', 'vendor')
                                             @slot('name', 'id_supplier')
@@ -115,7 +115,7 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Exchange Rate 
+                                            Exchange Rate
                                         <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                         </label>
                                         @component('input::numberreadonly')
@@ -196,7 +196,7 @@
                                             <label class="form-control-label">
                                                 Debt Total Amount
                                             </label>
-    
+
                                             @component('label::data-info')
                                                 @slot('text', 'generated')
                                             @endcomponent
@@ -205,7 +205,7 @@
                                             <label class="form-control-label">
                                                 Payment Total Amount
                                             </label>
-    
+
                                             @component('label::data-info')
                                                 @slot('text', 'generated')
                                             @endcomponent
@@ -214,7 +214,7 @@
                                             <label class="form-control-label">
                                                 Payment Total Amount
                                             </label>
-    
+
                                             @component('label::data-info')
                                                 @slot('text', 'generated')
                                             @endcomponent
@@ -305,7 +305,6 @@
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/vendor.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/account-payable/create.js')}}"></script>
 
