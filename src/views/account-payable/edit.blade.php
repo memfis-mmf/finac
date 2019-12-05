@@ -221,7 +221,7 @@
                                         </div>
                                         <div class="col-sm-4 col-md-4 col-lg-4">
                                             <label class="form-control-label">
-                                                Payment Total Amount
+																							Debt Balance
                                             </label>
 
                                             @component('label::data-info')

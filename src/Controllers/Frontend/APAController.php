@@ -10,8 +10,6 @@ use Directoryxx\Finac\Request\APaymentAUpdate;
 use Directoryxx\Finac\Request\APaymentAStore;
 use App\Http\Controllers\Controller;
 
-
-
 class APAController extends Controller
 {
     public function index()
@@ -29,10 +27,24 @@ class APAController extends Controller
 		$AP = APayment::where('uuid', $request->ap_uuid)->first();
 		$SI = TrxPayment::where('uuid', $request->si_uuid)->first();
 
+		$APA = APaymentA::wher('transactionnumber', $AP->transactionnumber)->get();
+
+		for ($i=0; $i < count($APA); $i++) {
+			$x = $APA[$i];
+
+			if ($x->currency != $SI->currency) {
+				return [
+					'errors' => 'currency differences',
+				];
+			}
+		}
+
 		$request->request->add([
 			'description' => '',
 			'transactionnumber' => $AP->transactionnumber,
 			'id_payment' => $SI->id,
+			'currency' => $SI->currency,
+			'exchangerate' => $SI->exchange_rate,
 		]);
 
         $apaymenta = APaymentA::create($request->all());
@@ -76,6 +88,10 @@ class APAController extends Controller
 		$AP = APayment::where('uuid', $request->ap_uuid)->first();
         $data = $alldata = json_decode(
 			APaymentA::where('transactionnumber', $AP->transactionnumber)
+			->with([
+				'ap',
+				'si',
+			])
 			->get()
 		);
 

@@ -26,7 +26,7 @@ class APController extends Controller
 
     public function store(APaymentStore $request)
     {
-		$vendor = Vendor::where('uuid', $request->id_supplier)->first();
+		$vendor = Vendor::where('id', $request->id_supplier)->first();
 		if (!$vendor) {
 			return [
 				'errors' => 'Supplier not found'

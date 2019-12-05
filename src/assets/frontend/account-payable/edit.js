@@ -66,7 +66,7 @@ let AccountPayable = {
 							filterable: !1,
 						},
 						{
-							field: '',
+							field: 'ap.transactiondate',
 							title: 'Date',
 							sortable: 'asc',
 							filterable: !1,
@@ -82,6 +82,9 @@ let AccountPayable = {
 							title: 'Exchange Rate',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.exchangerate));
+							}
 						},
 						{
 							field: '',
@@ -375,13 +378,19 @@ let AccountPayable = {
 					},
 					success: function (data) {
 
-						$('#modal_create_supplier_invoice').modal('hide');
+						if (data.errors) {
+							toastr.error(data.errors, 'Invalid',  {
+								timeOut: 2000
+							});
+						} else {
+							$('#modal_create_supplier_invoice').modal('hide');
 
-						supplier_invoice_table.reload();
+							supplier_invoice_table.reload();
 
-						toastr.success('Data tersimpan', 'Sukses', {
-							timeOut: 2000
-						});
+							toastr.success('Data tersimpan', 'Sukses', {
+								timeOut: 2000
+							});
+						}
 
 					}
 			});

@@ -19,4 +19,21 @@ class APaymentA extends MemfisModel
 		'credit',
 		'description',
     ];
+
+	public function ap()
+	{
+		return $this->belongsTo(
+			APayment::class,
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
+
+	public function si()
+	{
+		return $this->belongsTo(
+			TrxPayment::class,
+			'id_payment'
+		);
+	}
 }
