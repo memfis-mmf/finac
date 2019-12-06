@@ -62,12 +62,12 @@
                                     Description @include('label::optional')
                                 </label>
 
-                                @component('input::textarea')
-                                    @slot('rows', '3')
+                                @component('input::select')
                                     @slot('id', 'description')
-                                    @slot('name', 'description')
                                     @slot('text', 'Description')
-                                    @slot('description', 'text')
+                                    @slot('name', 'description')
+                                    @slot('type', 'text')
+                                    @slot('style', 'width:100%')
                                     @slot('help_text','description')
                                 @endcomponent
                             </div>
