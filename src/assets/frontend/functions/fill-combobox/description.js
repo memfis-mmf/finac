@@ -8,10 +8,10 @@ $(document).ready(function () {
         );
 
         $('select[id="description"]').append(
-            '<option value="header"> Header</option>'
+            '<option value="Header"> Header</option>'
         );
         $('select[id="description"]').append(
-            '<option value="detail"> Detail</option>'
+            '<option value="Detail"> Detail</option>'
         );
 
      
