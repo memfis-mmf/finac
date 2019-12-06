@@ -137,7 +137,7 @@
                                         </label>
 
 
-                                        @component('input::numberreadonly')
+                                        @component('input::number')
                                         @slot('id', 'exchange')
                                         @slot('text', 'exchange')
                                         @slot('name', 'exchange')
@@ -342,6 +342,8 @@
         }
     }
     jQuery(document).ready(function() {
+        $("#currency").val("46");
+        $("#exchange").val("1");
         $('#currency').on('change', function() {
             currency_choose = this.value;
             if (this.value != "IDR") {

@@ -137,7 +137,7 @@
                                         </label>
 
 
-                                        @component('input::numberreadonly')
+                                        @component('input::number')
                                         @slot('id', 'exchange')
                                         @slot('text', 'exchange')
                                         @slot('name', 'exchange')
@@ -344,6 +344,9 @@
         }
     }
     jQuery(document).ready(function() {
+        $("#currency").val("46");
+        $("#exchange").val("1");
+
         var currency = "";
         $('#currency').on('change', function() {
             currency_choose = this.value;
@@ -354,7 +357,7 @@
 
             } else {
                 document.getElementById('exchange').value = '1';
-                $("#exchange").attr("readonly", true);
+                //$("#exchange").attr("readonly", true);
                 document.getElementById("requi").style.display = "none";
 
             }
