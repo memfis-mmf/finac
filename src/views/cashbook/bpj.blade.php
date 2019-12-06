@@ -347,7 +347,7 @@
         $("#currency").val("46");
         $("#exchange").val("1");
 
-        var currency = "";
+        var currency = "46";
         $('#currency').on('change', function() {
             currency_choose = this.value;
             currency = this.value;
@@ -368,7 +368,7 @@
                 document.getElementById("date").value,
                 document.getElementById("pto").value,
                 document.getElementById("refno").value,
-                currency,
+                document.getElementById("currency").value,
                 document.getElementById("exchange").value,
                 document.getElementById("coaid").value,
                 document.getElementById("remark").value,

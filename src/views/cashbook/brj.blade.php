@@ -116,10 +116,10 @@
 
                                         <select id="currency" name="currency" class="form-control m-input">
                                             <option value=""> Select a Currency</option>
-                                            <option value="IDR">
+                                            <option value="46">
                                                 IDR
                                             </option>
-                                            <option value="USD">
+                                            <option value="103">
                                                 USD
                                             </option>
 
@@ -335,7 +335,7 @@
         uniquecode = id.substring(8);
         subunique = "exchangerate" + uniquecode;
         console.log(subunique);
-        if (val != "IDR") {
+        if (val != "46") {
             document.getElementById(subunique).value = '';
         } else {
             document.getElementById(subunique).value = '1';
@@ -346,13 +346,13 @@
         $("#exchange").val("1");
         $('#currency').on('change', function() {
             currency_choose = this.value;
-            if (this.value != "IDR") {
+            if (this.value != "46") {
                 $("#exchange").attr("readonly", false);
                 document.getElementById("requi").style.display = "block";
 
             } else {
                 document.getElementById('exchange').value = '1';
-                $("#exchange").attr("readonly", true);
+                //$("#exchange").attr("readonly", true);
                 document.getElementById("requi").style.display = "none";
 
             }
