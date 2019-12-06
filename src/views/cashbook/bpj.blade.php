@@ -370,7 +370,7 @@
                 document.getElementById("refno").value,
                 document.getElementById("currency").value,
                 document.getElementById("exchange").value,
-                document.getElementById("coaid").value,
+                document.getElementById("coa").value,
                 document.getElementById("remark").value,
 
             ];
