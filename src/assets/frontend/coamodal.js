@@ -55,15 +55,19 @@ let CoaDatatables = {
                 success: function (data) {
                     
                     var idtest = "code"+dataid;
+                    var nametest = "name"+dataid;
                     if(dataid == null || dataid == "" || dataid == undefined){
-                        document.getElementById('coa').value = data.name;
+                        console.log(data);
+                        document.getElementById('coa').value = data.code;
                         document.getElementById('coaid').value = data.id;
                         //console.log(document.getElementById('coaid').value);
-                        document.getElementById('acd').value = data.description;
+                        document.getElementById('acd').value = data.name;
 
                     } else {
-                        document.getElementById(idtest).value = data.name;
+                        console.log(dataid);
+                        document.getElementById(idtest).value = data.code;
                         var coadynac = "id"+idtest;
+                        document.getElementById(nametest).value = data.name;
                         document.getElementById(coadynac).value = data.id;
                     }
                     

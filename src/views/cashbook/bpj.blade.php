@@ -137,7 +137,7 @@
                                         </label>
 
 
-                                        @component('input::numberreadonly')
+                                        @component('input::number')
                                         @slot('id', 'exchange')
                                         @slot('text', 'exchange')
                                         @slot('name', 'exchange')
@@ -344,7 +344,10 @@
         }
     }
     jQuery(document).ready(function() {
-        var currency = "";
+        $("#currency").val("46");
+        $("#exchange").val("1");
+
+        var currency = "46";
         $('#currency').on('change', function() {
             currency_choose = this.value;
             currency = this.value;
@@ -354,7 +357,7 @@
 
             } else {
                 document.getElementById('exchange').value = '1';
-                $("#exchange").attr("readonly", true);
+                //$("#exchange").attr("readonly", true);
                 document.getElementById("requi").style.display = "none";
 
             }
@@ -365,9 +368,9 @@
                 document.getElementById("date").value,
                 document.getElementById("pto").value,
                 document.getElementById("refno").value,
-                currency,
+                document.getElementById("currency").value,
                 document.getElementById("exchange").value,
-                document.getElementById("coaid").value,
+                document.getElementById("coa").value,
                 document.getElementById("remark").value,
 
             ];

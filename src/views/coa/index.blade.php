@@ -96,6 +96,9 @@
     <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
     <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
     <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/type.js')}}"></script>
+    <script src="{{ asset('vendor/courier/frontend/functions/select2/description.js')}}"></script>
+    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/description.js')}}"></script>
+    
 
 
     <script src="{{ asset('vendor/courier/frontend/coa.js')}}"></script>
