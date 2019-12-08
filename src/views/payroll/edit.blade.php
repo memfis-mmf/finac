@@ -131,6 +131,27 @@
                                                     </div>
                                                 </div>
                                                 <div class="payroll_datatable" id="scrolling_both"></div>
+                                                <div class="form-group m-form__group row ">
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
+                                                        <div class="action-buttons">
+                                                            @component('buttons::submit')
+                                                                @slot('type', 'button')
+                                                                @slot('text','Process')
+                                                                @slot('icon','fa-sync-alt')
+                                                                @slot('id','payrollprocess')
+                                                            @endcomponent
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <fieldset class="border p-4">
+                                                            <legend class="w-auto">Payroll Information</legend>
+                                                            <div class="payroll_information_datatable" id="scrolling_both"></div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>  
                                             </div>
                                         </div>
                                     </div>
@@ -140,12 +161,16 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
-                                                @slot('text','Process')
-                                                @slot('icon','fa-sync-alt')
-                                                @slot('id','payrollprocess')
+                                                @slot('id','save')
                                             @endcomponent
 
-                                            @include('buttons::reset')
+                                            @component('buttons::submit')
+                                                @slot('type', 'button')
+                                                @slot('id','approve')
+                                                @slot('text','Approve')
+                                                @slot('icon','fa-check')
+                                                @slot('color','primary')
+                                            @endcomponent
 
                                             @include('buttons::back')
                                         </div>
@@ -163,7 +188,7 @@
 @endsection
 
 @push('footer-scripts')
-<script src="{{ asset('vendor/courier/frontend/payroll/create.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/payroll/edit.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/payroll.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/employee.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/employee.js')}}"></script>
