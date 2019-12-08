@@ -131,27 +131,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="payroll_datatable" id="scrolling_both"></div>
-                                                <div class="form-group m-form__group row ">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
-                                                        <div class="action-buttons">
-                                                            @component('buttons::submit')
-                                                                @slot('type', 'button')
-                                                                @slot('text','Process')
-                                                                @slot('icon','fa-sync-alt')
-                                                                @slot('id','payrollprocess')
-                                                            @endcomponent
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group m-form__group row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                                        <fieldset class="border p-4">
-                                                            <legend class="w-auto">Payroll Information</legend>
-                                                            <div class="payroll_information_datatable" id="scrolling_both"></div>
-                                                        </fieldset>
-                                                    </div>
-                                                </div>  
                                             </div>
                                         </div>
                                     </div>
@@ -161,15 +140,9 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
-                                                @slot('id','save')
-                                            @endcomponent
-
-                                            @component('buttons::submit')
-                                                @slot('type', 'button')
-                                                @slot('id','approve')
-                                                @slot('text','Approve')
-                                                @slot('icon','fa-check')
-                                                @slot('color','primary')
+                                                @slot('text','Process')
+                                                @slot('icon','fa-sync-alt')
+                                                @slot('id','payrollprocess')
                                             @endcomponent
 
                                             @include('buttons::back')

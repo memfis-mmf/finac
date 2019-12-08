@@ -38,7 +38,9 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::edit')
+                            @component('label::edit')
+                                @slot('text','Process')
+                            @endcomponent
 
                             <h3 class="m-portlet__head-text">
                                 Payroll
@@ -100,15 +102,55 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                </div>
+                                {{-- datatables --}}
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="m-portlet m-portlet--mobile">
+                                            <div class="m-portlet__body">
+                                                <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-xl-6 order-2 order-xl-1">
+                                                            <div class="form-group m-form__group row align-items-center">
+                                                                <div class="col-md-6">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 order-1 order-xl-2 m--align-right">
+                                                            <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="payroll_datatable" id="scrolling_both"></div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <fieldset class="border p-4">
+                                                            <legend class="w-auto">Payroll Information</legend>
+                                                            <div class="payroll_information_datatable" id="scrolling_both"></div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
-                                                @component('buttons::submit')
-                                                    @slot('type', 'button')
-                                                    @slot('text','Generated')
-                                                    @slot('icon','fa-forward')
-                                                    @slot('color','primary')
-                                                    @slot('id','payrollgenerate')
-                                                @endcomponent
+                                            @component('buttons::submit')
+                                                @slot('type', 'button')
+                                                @slot('id','save')
+                                            @endcomponent
+
+                                            @component('buttons::submit')
+                                                @slot('type', 'button')
+                                                @slot('id','approve')
+                                                @slot('text','Approve')
+                                                @slot('icon','fa-check')
+                                                @slot('color','primary')
+                                            @endcomponent
+
+                                            @include('buttons::back')
                                         </div>
                                     </div>
                                 </div>
@@ -124,8 +166,10 @@
 @endsection
 
 @push('footer-scripts')
-<script src="{{ asset('vendor/courier/frontend/payroll/create.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/payroll/process.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/payroll.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/employee.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/employee.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush
