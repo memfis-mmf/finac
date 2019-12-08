@@ -58,10 +58,11 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/balance-sheet/show', 'balancesheetview::view')->name('balance-sheet.view');
 
 
-    /** BALANCE SHEET */
+    /** PAYROLL */
 
     Route::view('/payroll', 'payrollview::index')->name('payroll.index');
     Route::view('/payroll/create', 'payrollview::create')->name('payroll.create');
     Route::view('/payroll/edit', 'payrollview::edit')->name('payroll.edit');
+    Route::view('/payroll/process', 'payrollview::process')->name('payroll.process');
 
 });
