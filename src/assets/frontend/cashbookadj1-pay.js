@@ -43,7 +43,7 @@ var cashbookadj1 = {
                     visible: "lg"
                 },
                 template: function (t) {
-                    return '<input style="width:100%" type="text" id="debitadj1-' + t.code + '" onchange="curformat(this.value,this.id)" name="debitadj1-' + t.code + '" class="curren form-control m-input">'
+                    return '<input style="width:100%" type="text" id="debitadj1-' + t.code + '" onchange="currformat(\'46\',this.value,this.id)" name="debitadj1-' + t.code + '" class="curren form-control m-input">'
                 }
             }, {
                 field: "description",

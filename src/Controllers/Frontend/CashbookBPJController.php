@@ -10,6 +10,7 @@ use Directoryxx\Finac\Model\Cashbook;
 use Directoryxx\Finac\Model\CashbookA;
 use Directoryxx\Finac\Model\CashbookB;
 use Directoryxx\Finac\Model\CashbookC;
+use Directoryxx\Finac\Model\Coa;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -61,11 +62,15 @@ class CashbookBPJController extends Controller
         ]);
         for ($i = 0; $i <= 9; $i++) {
             if ($data['adj1']['adj1'][$i][0] != null) {
+                $firststep = str_replace(',', '', $data['adj1']['adj1'][$i][2]);
+                $twostep = str_replace('.', '', $firststep);
+                $str2 = substr($twostep, 4);
                 CashbookA::create([
                     'transactionnumber' => $data['header']['header'][0],
                     'name' => $data['adj1']['adj1'][$i][1],
                     'code' => $data['adj1']['adj1'][$i][0],
-                    'debit' => str_replace(',', '', $data['adj1']['adj1'][$i][2]),
+                    //'debit' => str_replace(',', '', $data['adj1']['adj1'][$i][2]),
+                    'debit' => $str2,
                     'credit' => 0,
                     'description' => $data['adj1']['adj1'][$i][4],
 
@@ -75,14 +80,22 @@ class CashbookBPJController extends Controller
 
         for ($i = 0; $i <= 9; $i++) {
             if ($data['adj2']['adj2'][$i][0] != null) {
+                $firststep = str_replace(',', '', $data['adj2']['adj2'][$i][4]);
+                $twostep = str_replace('.', '', $firststep);
+                $str2 = substr($twostep, 4);
+                $firststep2 = str_replace(',', '', $data['adj2']['adj2'][$i][5]);
+                $twostep2 = str_replace('.', '', $firststep2);
+                $str22 = substr($twostep2, 4);
                 CashbookB::create([
                     'transactionnumber' => $data['header']['header'][0],
                     'name' => $data['adj2']['adj2'][$i][1],
                     'currency' => $data['adj2']['adj2'][$i][2],
                     'exchangerate' => $data['adj2']['adj2'][$i][3],
                     'code' => $data['adj2']['adj2'][$i][0],
-                    'debit' => str_replace(',', '', $data['adj2']['adj2'][$i][4]),
-                    'credit' => str_replace(',', '', $data['adj2']['adj2'][$i][5]),
+                    //'debit' => str_replace(',', '', $data['adj2']['adj2'][$i][4]),
+                    //'credit' => str_replace(',', '', $data['adj2']['adj2'][$i][5]),
+                    'debit' => $str2,
+                    'credit' => $str22,                    
                     'description' => $data['adj2']['adj2'][$i][6],
                 ]);
             }
@@ -90,12 +103,20 @@ class CashbookBPJController extends Controller
 
         for ($i = 0; $i <= 9; $i++) {
             if ($data['adj3']['adj3'][$i][0] != null) {
+                $firststep = str_replace(',', '', $data['adj3']['adj3'][$i][2]);
+                $twostep = str_replace('.', '', $firststep);
+                $str2 = substr($twostep, 4);
+                $firststep2 = str_replace(',', '', $data['adj3']['adj3'][$i][3]);
+                $twostep2 = str_replace('.', '', $firststep2);
+                $str22 = substr($twostep2, 4);
                 CashbookC::create([
                     'transactionnumber' => $data['header']['header'][0],
                     'name' => $data['adj3']['adj3'][$i][1],
                     'code' => $data['adj3']['adj3'][$i][0],
-                    'debit' => str_replace(',', '', $data['adj3']['adj3'][$i][2]),
-                    'credit' => str_replace(',', '', $data['adj3']['adj3'][$i][3]),
+                    //'debit' => str_replace(',', '', $data['adj3']['adj3'][$i][2]),
+                    //'credit' => str_replace(',', '', $data['adj3']['adj3'][$i][3]),
+                    'debit' => $str2,
+                    'credit' => $str22,
                     'description' => $data['adj3']['adj3'][$i][4],
                 ]);
             }
@@ -118,9 +139,11 @@ class CashbookBPJController extends Controller
         $transnumber = $cashbook->transactionnumber;
         $cashbooka = CashbookA::where('transactionnumber',$transnumber)->get();
         $cashbookb = CashbookB::where('transactionnumber',$transnumber)->get();
+        $coa_detail = Coa::where('code',$cashbook->accountcode)->first();
         $cashbookc = CashbookC::where('transactionnumber',$transnumber)->get();
         return view('cashbookview::bpjshow')
         ->with('cashbookno',$transnumber)
+        ->with('coa_detail',$coa_detail)
         ->with('transactiondate',$cashbook->transactiondate)
         ->with('paymentno',$cashbook->personal)
         ->with('refno',$cashbook->refno)
@@ -144,8 +167,10 @@ class CashbookBPJController extends Controller
         $cashbooka = CashbookA::where('transactionnumber',$transnumber)->get();
         $cashbookb = CashbookB::where('transactionnumber',$transnumber)->get();
         $cashbookc = CashbookC::where('transactionnumber',$transnumber)->get();
+        $coa_detail = Coa::where('code',$cashbook->accountcode)->first();
         return view('cashbookview::bpjedit')
         ->with('cashbookno',$transnumber)
+        ->with('coa_detail',$coa_detail)
         ->with('transactiondate',$cashbook->transactiondate)
         ->with('paymentno',$cashbook->personal)
         ->with('refno',$cashbook->refno)
