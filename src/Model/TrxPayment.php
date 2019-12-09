@@ -35,20 +35,7 @@ class TrxPayment extends MemfisModel
 	protected $appends = [
 		'exchange_rate_fix',
 		'total',
-		'number'
 	];
-
-	public function getNumberAttribute()
-	{
-		$number = $this->transaction_number;
-
-		if ($this->x_type == 'GRN') {
-			$trxpaymenta = TrxPaymentA::where(
-				'transaction_number',
-				$this->transaction_number
-			)->get();
-		}
-	}
 
 	public function getExchangeRateFixAttribute()
 	{
