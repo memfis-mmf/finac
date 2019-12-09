@@ -7,6 +7,7 @@ use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use Directoryxx\Finac\Model\Coa;
 use App\Models\Vendor;
+use Directoryxx\Finac\Model\TrxPaymentA;
 
 class TrxPayment extends MemfisModel
 {
@@ -33,8 +34,21 @@ class TrxPayment extends MemfisModel
 
 	protected $appends = [
 		'exchange_rate_fix',
-		'total'
+		'total',
+		'number'
 	];
+
+	public function getNumberAttribute()
+	{
+		$number = $this->transaction_number;
+
+		if ($this->x_type == 'GRN') {
+			$trxpaymenta = TrxPaymentA::where(
+				'transaction_number',
+				$this->transaction_number
+			)->get();
+		}
+	}
 
 	public function getExchangeRateFixAttribute()
 	{

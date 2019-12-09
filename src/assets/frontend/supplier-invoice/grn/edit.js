@@ -119,7 +119,7 @@ let SupplierInvoice = {
 							source: {
 									read: {
 											method: 'GET',
-											url: '/supplier-invoice/grn/datatables',
+											url: '/supplier-invoice/grn/datatables?si_uuid='+_si_uuid,
 											map: function (raw) {
 													let dataSet = raw;
 
