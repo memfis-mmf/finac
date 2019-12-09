@@ -31,11 +31,25 @@ class TrxPayment extends MemfisModel
 		'description',
     ];
 
-	protected $appends = ['exchange_rate_fix'];
+	protected $appends = [
+		'exchange_rate_fix',
+		'total'
+	];
 
 	public function getExchangeRateFixAttribute()
 	{
 		return number_format($this->exchange_rate, 0, 0, '.');
+	}
+
+	public function getTotalAttribute()
+	{
+		$total = $this->grandtotal_foreign;
+
+		if ($this->currency == 'idr') {
+			$total = $this->grandtotal;
+		}
+
+		return $total;
 	}
 
 	static public function generateCode($code = "SITR")
@@ -58,7 +72,7 @@ class TrxPayment extends MemfisModel
 		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y/m')."/".$number;
-		
+
 		return $code;
 	}
 

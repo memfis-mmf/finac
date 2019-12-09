@@ -60,7 +60,7 @@ let AccountPayable = {
 				},
 				columns: [
 						{
-							field: 'transactionnumber',
+							field: 'si.transaction_number',
 							title: 'Transaction No.',
 							sortable: 'asc',
 							filterable: !1,
@@ -87,10 +87,13 @@ let AccountPayable = {
 							}
 						},
 						{
-							field: '',
+							field: 'si.total',
 							title: 'Total Amount',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.si.total));
+							}
 						},
 						{
 							field: '',
@@ -309,6 +312,9 @@ let AccountPayable = {
 							title: 'Total Amount',
 							sortable: 'asc',
 							filterable: !1,
+							template: function (t, e, i) {
+								return addCommas(parseInt(t.grandtotal));
+							}
 						},
 						{
 							field: '',

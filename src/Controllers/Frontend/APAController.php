@@ -27,18 +27,6 @@ class APAController extends Controller
 		$AP = APayment::where('uuid', $request->ap_uuid)->first();
 		$SI = TrxPayment::where('uuid', $request->si_uuid)->first();
 
-		$APA = APaymentA::wher('transactionnumber', $AP->transactionnumber)->get();
-
-		for ($i=0; $i < count($APA); $i++) {
-			$x = $APA[$i];
-
-			if ($x->currency != $SI->currency) {
-				return [
-					'errors' => 'currency differences',
-				];
-			}
-		}
-
 		$request->request->add([
 			'description' => '',
 			'transactionnumber' => $AP->transactionnumber,
