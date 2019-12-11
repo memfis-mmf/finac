@@ -82,6 +82,14 @@ class TrxPayment extends MemfisModel
 		return $this->belongsTo(Vendor::class, 'id_supplier');
 	}
 
+	public function trxpaymenta()
+	{
+		return $this->hasMany(TrxPaymentA::class,
+			'transaction_number',
+			'transaction_number'
+		);
+	}
+
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'account_code', 'code');

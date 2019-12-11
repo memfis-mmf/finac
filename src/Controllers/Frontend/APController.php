@@ -375,9 +375,31 @@ class APController extends Controller
     public function SIModalDatatables(Request $request)
     {
 		$ap = APayment::where('uuid', $request->ap_uuid)->first();
-        $data = $alldata = json_decode(
-			TrxPayment::where('currency', $ap->currency)->get()
-		);
+
+		$trxpayment_grn = TrxPayment::where('currency', $ap->currency)
+			->where('x_type', 'GRN')
+			->get();
+
+		$arr = [];
+		$index_arr = 0;
+
+		for ($i=0; $i < count($trxpayment_grn); $i++) {
+			$x = $trxpayment_grn[$i];
+
+			for ($j=0; $j < count($x->trxpaymenta); $j++) {
+				$z = $x->trxpaymenta[$j];
+
+				$arr[$index_arr] = json_decode($x);
+				$arr[$index_arr]->transaction_number = $z->grn->number;
+				$index_arr++;
+			}
+		}
+
+		$trxpayment_non_grn = TrxPayment::where('currency', $ap->currency)
+			->where('x_type', 'NON GRN')
+			->get();
+
+        $data = $alldata = array_merge($arr, json_decode($trxpayment_non_grn));
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
