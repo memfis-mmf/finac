@@ -690,6 +690,20 @@ class TrxPaymentController extends Controller
 			];
 		}
 
+		$trxpaymenta = TrxPaymentA::all();
+
+		for ($i=0; $i < count($trxpaymenta); $i++) {
+			$x = $trxpaymenta[$i];
+			if (
+				$x->id_grn == $grn->id &&
+				$x->transaction_number != $trxpayment->transaction_number
+			) {
+				return [
+					'errors' => 'GRN already used in other SI',
+				];
+			}
+		}
+
 		$total = $this->sumGrnItem($grn->id);
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 
