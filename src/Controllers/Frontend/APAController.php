@@ -30,7 +30,7 @@ class APAController extends Controller
 		$request->request->add([
 			'description' => '',
 			'transactionnumber' => $AP->transactionnumber,
-			'id_payment' => $SI->id,
+			'id_payment' => $SI->transaction_number,
 			'currency' => $SI->currency,
 			'exchangerate' => $SI->exchange_rate,
 		]);

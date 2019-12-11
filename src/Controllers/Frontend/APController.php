@@ -391,6 +391,7 @@ class APController extends Controller
 
 				$arr[$index_arr] = json_decode($x);
 				$arr[$index_arr]->transaction_number = $z->grn->number;
+				$arr[$index_arr]->uuid = $z->grn->uuid;
 				$index_arr++;
 			}
 		}
