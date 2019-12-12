@@ -4,11 +4,13 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxPayment;
+use Directoryxx\Finac\Model\TrxPaymentA;
 use Directoryxx\Finac\Model\APayment;
 use Directoryxx\Finac\Model\APaymentA;
 use Directoryxx\Finac\Request\APaymentAUpdate;
 use Directoryxx\Finac\Request\APaymentAStore;
 use App\Http\Controllers\Controller;
+use App\Models\GoodsReceived as GRN;
 
 class APAController extends Controller
 {
@@ -25,14 +27,52 @@ class APAController extends Controller
     public function store(Request $request)
     {
 		$AP = APayment::where('uuid', $request->ap_uuid)->first();
-		$SI = TrxPayment::where('uuid', $request->si_uuid)->first();
+
+		if ($request->type == "GRN") {
+			$grn = GRN::where('uuid', $request->data_uuid)->first();
+			$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
+
+			$APA = APaymentA::where(
+				'transactionnumber',
+				$AP->transactionnumber
+			)->first();
+
+			// jika data yang sudah terinput itu bukan GRN
+			if ($APA && strpos($APA->id_payment, "GRN") !== true) {
+				return [
+					'errors' => 'Data detail must not GRN'
+				];
+			}
+
+			$x['transaction_number'] = $trxpaymenta->grn->number;
+			$x['currency'] = $trxpaymenta->si->currency;
+			$x['exchange_rate'] = $trxpaymenta->si->exchange_rate;
+		} else {
+			$si = TrxPayment::where('uuid', $request->data_uuid)->first();
+
+			$APA = APaymentA::where(
+				'transactionnumber',
+				$AP->transactionnumber
+			)->first();
+
+			// jika data yang sudah terinput itu GRN
+			if ($APA && strpos($APA->id_payment, "GRN") !== false) {
+				return [
+					'errors' => 'Data detail must be GRN'
+				];
+			}
+
+			$x['transaction_number'] = $si->transaction_number;
+			$x['currency'] = $si->currency;
+			$x['exchange_rate'] = $si->exchange_rate;
+		}
 
 		$request->request->add([
 			'description' => '',
 			'transactionnumber' => $AP->transactionnumber,
-			'id_payment' => $SI->transaction_number,
-			'currency' => $SI->currency,
-			'exchangerate' => $SI->exchange_rate,
+			'id_payment' => $x['transaction_number'],
+			'currency' => $x['currency'],
+			'exchangerate' => $x['exchange_rate'],
 		]);
 
         $apaymenta = APaymentA::create($request->all());
@@ -74,13 +114,32 @@ class APAController extends Controller
     public function datatables(Request $request)
     {
 		$AP = APayment::where('uuid', $request->ap_uuid)->first();
-        $data = $alldata = json_decode(
-			APaymentA::where('transactionnumber', $AP->transactionnumber)
+		$APA = APaymentA::where('transactionnumber', $AP->transactionnumber)
 			->with([
 				'ap',
-				'si',
 			])
-			->get()
+			->get();
+
+		for ($i=0; $i < count($APA); $i++) {
+			$x = $APA[$i];
+
+			if (strpos($x->id_payment, "GRN") !== false) {
+				$grn = GRN::where('number', $x->id_payment)->first();
+				$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
+
+				$APA[$i]->si = $trxpaymenta->si;
+			} else {
+				$APA[$i]->si = TrxPayment::where(
+					'transaction_number',
+					$x->id_payment
+				)->first();
+			}
+
+			$APA[$i]->_transaction_number = $x->id_payment;
+		}
+
+        $data = $alldata = json_decode(
+			$APA
 		);
 
 		$datatable = array_merge([

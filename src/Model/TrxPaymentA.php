@@ -4,8 +4,9 @@ namespace Directoryxx\Finac\Model;
 
 
 use Directoryxx\Finac\Model\MemfisModel;
-use Illuminate\Database\Eloquent\Model;
+use Directoryxx\Finac\Model\TrxPayment;
 use App\Models\GoodsReceived;
+use Illuminate\Database\Eloquent\Model;
 
 class TrxPaymentA extends MemfisModel
 {
@@ -23,4 +24,12 @@ class TrxPaymentA extends MemfisModel
 		return $this->belongsTo(GoodsReceived::class, 'id_grn');
 	}
 
+	public function si()
+	{
+		return $this->belongsTo(
+			TrxPayment::class,
+			'transaction_number',
+			'transaction_number'
+		);
+	}
 }

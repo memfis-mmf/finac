@@ -12,7 +12,7 @@ let AccountPayable = {
 			x2 = x.length > 1 ? '.' + x[1] : '';
 			var rgx = /(\d+)(\d{3})/;
 			while (rgx.test(x1)) {
-					x1 = x1.replace(rgx, '$1' + '.' + '$2');
+				x1 = x1.replace(rgx, '$1' + '.' + '$2');
 			}
 			return x1 + x2;
 		}
@@ -60,7 +60,7 @@ let AccountPayable = {
 				},
 				columns: [
 						{
-							field: 'si.transaction_number',
+							field: '_transaction_number',
 							title: 'Transaction No.',
 							sortable: 'asc',
 							filterable: !1,
@@ -353,7 +353,7 @@ let AccountPayable = {
 							overflow: 'visible',
 							template: function (t, e, i) {
 								return (
-									'<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+									'<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
 								);
 							}
 						}
@@ -363,7 +363,8 @@ let AccountPayable = {
 
 		$('body').on('click', '.select-supplier-invoice', function () {
 
-			let si_uuid = $(this).data('uuid');
+			let data_uuid = $(this).data('uuid');
+			let type = $(this).data('type');
 
 			let tr = $(this).parents('tr');
 			let tr_index = tr.index();
@@ -380,7 +381,8 @@ let AccountPayable = {
 					data : {
 						'account_code' : data.code,
 						'ap_uuid' : ap_uuid,
-						'si_uuid' : si_uuid,
+						'data_uuid' : data_uuid,
+						'type' : type,
 					},
 					success: function (data) {
 
