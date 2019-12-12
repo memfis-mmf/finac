@@ -164,6 +164,9 @@ class APAController extends Controller
 			$APA[$i]->_transaction_number = $x->id_payment;
 			$APA[$i]->si = $this->getDataSI($x);
 			$APA[$i]->paid_amount = $this->countPaidAmount($x);
+			$APA[$i]->exchange_rate_gap = (
+				$APA[$i]->si->exchange_rate - $AP->exchangerate
+			);
 		}
 
         $data = $alldata = json_decode(

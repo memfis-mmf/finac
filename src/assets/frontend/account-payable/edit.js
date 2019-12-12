@@ -120,10 +120,13 @@ let AccountPayable = {
 							}
 						},
 						{
-							field: '',
+							field: 'exchange_rate_gap',
 							title: 'Exchange Rate Gap',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.exchange_rate_gap));
+							}
 						},
 						{
 							field: 'description',
