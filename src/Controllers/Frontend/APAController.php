@@ -123,6 +123,8 @@ class APAController extends Controller
 		for ($i=0; $i < count($APA); $i++) {
 			$x = $APA[$i];
 
+			$APA[$i]->_transaction_number = $x->id_payment;
+
 			if (strpos($x->id_payment, "GRN") !== false) {
 				$grn = GRN::where('number', $x->id_payment)->first();
 				$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
@@ -134,8 +136,6 @@ class APAController extends Controller
 					$x->id_payment
 				)->first();
 			}
-
-			$APA[$i]->_transaction_number = $x->id_payment;
 		}
 
         $data = $alldata = json_decode(

@@ -51,6 +51,7 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <form id="SupplierInvoiceGRNForm">
+													<input type="hidden" name="ap_uuid" value="{{ Request::segment(2) }}">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">

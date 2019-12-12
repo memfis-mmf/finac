@@ -610,6 +610,36 @@ let AccountPayable = {
 				});
 		});
 
+		let update = $('body').on('click', '#account_payable_save', function () {
+
+				let form = $(this).parents('form');
+				let _data = form.serialize();
+				let ap_uuid = form.find('input[name=ap_uuid]').val();
+
+				$.ajax({
+						headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						type: 'put',
+						url: _url+'/apayment/'+ap_uuid,
+						data: _data,
+						success: function (data) {
+								if (data.errors) {
+									toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+									});
+								} else {
+									toastr.success('Data berhasil disimpan.', 'Sukses', {
+										timeOut: 2000
+									});
+
+									$('#modal_edit_supplier_invoice').modal('hide');
+									supplier_invoice_table.reload();
+								}
+						}
+				});
+		});
+
   }
 };
 
