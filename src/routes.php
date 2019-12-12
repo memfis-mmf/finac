@@ -333,6 +333,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/si/modal/datatable',
 			'Directoryxx\Finac\Controllers\Frontend\APController@SIModalDatatables'
 		)->name('apayment.datatables');
+		Route::post(
+			'/approve',
+			'Directoryxx\Finac\Controllers\Frontend\APController@approve'
+		);
 	});
 
     Route::prefix('apaymenta')->group(function () {

@@ -96,10 +96,13 @@ let AccountPayable = {
 							}
 						},
 						{
-							field: '',
+							field: 'paid_amount',
 							title: 'Paid Amount',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.paid_amount));
+							}
 						},
 						{
 							field: 'code',
@@ -621,7 +624,7 @@ let AccountPayable = {
 								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 						},
 						type: 'put',
-						url: _url+'/apayment/'+ap_uuid,
+						url: _url+'/account-payable/'+ap_uuid,
 						data: _data,
 						success: function (data) {
 								if (data.errors) {
@@ -633,8 +636,9 @@ let AccountPayable = {
 										timeOut: 2000
 									});
 
-									$('#modal_edit_supplier_invoice').modal('hide');
-									supplier_invoice_table.reload();
+									setTimeout(function(){
+										location.href = `${_url}/account-payable/`;
+									}, 2000);
 								}
 						}
 				});

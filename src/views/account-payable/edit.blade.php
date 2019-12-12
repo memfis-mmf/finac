@@ -62,7 +62,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date')
                                             @slot('text', 'Date')
-                                            @slot('name', 'transaction_date')
+                                            @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
                                             @slot('value', $data->date)
                                         @endcomponent
@@ -90,7 +90,7 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'accountcode')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
@@ -127,7 +127,7 @@
                                         @component('input::numberreadonly')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
-                                            @slot('name', 'exchange_rate')
+                                            @slot('name', 'exchangerate')
 																						@slot('value', number_format($data->exchangerate, 0, 0, '.'))
                                         @endcomponent
                                     </div>
@@ -141,7 +141,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'remark')
+                                            @slot('name', 'ap_description')
                                             @slot('rows','5')
                                             @slot('value',$data->description)
                                         @endcomponent

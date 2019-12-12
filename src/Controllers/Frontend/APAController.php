@@ -44,9 +44,9 @@ class APAController extends Controller
 				];
 			}
 
+			$si = $trxpaymenta->si;
+
 			$x['transaction_number'] = $trxpaymenta->grn->number;
-			$x['currency'] = $trxpaymenta->si->currency;
-			$x['exchange_rate'] = $trxpaymenta->si->exchange_rate;
 		} else {
 			$si = TrxPayment::where('uuid', $request->data_uuid)->first();
 
@@ -63,9 +63,11 @@ class APAController extends Controller
 			}
 
 			$x['transaction_number'] = $si->transaction_number;
-			$x['currency'] = $si->currency;
-			$x['exchange_rate'] = $si->exchange_rate;
 		}
+
+		$x['currency'] = $si->currency;
+		$x['exchange_rate'] = $si->exchange_rate;
+		@$x['code'] = ($v = $si->vendor->coa->first()->code)? $v: '';
 
 		$request->request->add([
 			'description' => '',
@@ -73,6 +75,7 @@ class APAController extends Controller
 			'id_payment' => $x['transaction_number'],
 			'currency' => $x['currency'],
 			'exchangerate' => $x['exchange_rate'],
+			'code' => $x['code'],
 		]);
 
         $apaymenta = APaymentA::create($request->all());
@@ -111,6 +114,41 @@ class APAController extends Controller
         return response()->json($apaymenta);
     }
 
+	public function getDataSI($x)
+	{
+		// if id payment is GRN number
+		if (strpos($x->id_payment, "GRN") !== false) {
+			$grn = GRN::where('number', $x->id_payment)->first();
+			$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
+
+			$result = $trxpaymenta->si;
+		} else {
+			$result = TrxPayment::where(
+				'transaction_number',
+				$x->id_payment
+			)->first();
+		}
+
+		return $result;
+	}
+
+	public function countPaidAmount($x)
+	{
+		$ap = APaymentA::where('id_payment', $x->id_payment)->get();
+
+		$total = 0;
+		for ($i=0; $i < count($ap); $i++) {
+			$y = $ap[$i];
+
+			// check if this AP is approved or not
+			if ($y->ap->approve) {
+				$total += $y->debit;
+			}
+		}
+
+		return $total;
+	}
+
     public function datatables(Request $request)
     {
 		$AP = APayment::where('uuid', $request->ap_uuid)->first();
@@ -124,18 +162,8 @@ class APAController extends Controller
 			$x = $APA[$i];
 
 			$APA[$i]->_transaction_number = $x->id_payment;
-
-			if (strpos($x->id_payment, "GRN") !== false) {
-				$grn = GRN::where('number', $x->id_payment)->first();
-				$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
-
-				$APA[$i]->si = $trxpaymenta->si;
-			} else {
-				$APA[$i]->si = TrxPayment::where(
-					'transaction_number',
-					$x->id_payment
-				)->first();
-			}
+			$APA[$i]->si = $this->getDataSI($x);
+			$APA[$i]->paid_amount = $this->countPaidAmount($x);
 		}
 
         $data = $alldata = json_decode(

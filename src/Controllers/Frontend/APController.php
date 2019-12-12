@@ -77,6 +77,9 @@ class APController extends Controller
 
     public function update(APaymentUpdate $request, APayment $apayment)
     {
+		$request->merge([
+			'description' => $request->ap_description
+		]);
 
         $apayment->update($request->all());
 
@@ -104,7 +107,7 @@ class APController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(APayment::All());
+        $data = $alldata = json_decode(APayment::orderBy('id', 'desc')->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -498,5 +501,16 @@ class APController extends Controller
         ];
 
         echo json_encode($result, JSON_PRETTY_PRINT);
+    }
+
+    public function approve(Request $request)
+    {
+		$ap = APayment::where('uuid', $request->uuid);
+
+		$ap->update([
+			'approve' => 1
+		]);
+
+        return response()->json($ap->first());
     }
 }
