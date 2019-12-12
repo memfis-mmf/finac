@@ -3,6 +3,7 @@ let AccountPayable = {
 
 		let _url = window.location.origin;
 		let ap_uuid = $('input[name=ap_uuid]').val();
+		let id_vendor = $('select[name=id_supplier]').val();
 
 		function addCommas(nStr)
 		{
@@ -253,7 +254,7 @@ let AccountPayable = {
 						source: {
 								read: {
 										method: 'GET',
-										url: _url+'/account-payable/si/modal/datatable/?ap_uuid='+ap_uuid,
+										url: `${_url}/account-payable/si/modal/datatable/?ap_uuid=${ap_uuid}&id_vendor=${id_vendor}`,
 										map: function (raw) {
 												let dataSet = raw;
 

@@ -59,6 +59,11 @@ class APayment extends MemfisModel
 		return $this->belongsTo(Vendor::class, 'id_supplier');
 	}
 
+	public function apa()
+	{
+		return $this->hasMany(APaymentA::class, 'transactionnumber');
+	}
+
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'accountcode', 'code');
