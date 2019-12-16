@@ -51,6 +51,7 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <form id="SupplierInvoiceGRNForm">
+													<input type="hidden" name="ap_uuid" value="{{ Request::segment(2) }}">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -61,7 +62,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date')
                                             @slot('text', 'Date')
-                                            @slot('name', 'transaction_date')
+                                            @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
                                             @slot('value', $data->date)
                                         @endcomponent
@@ -89,7 +90,7 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'accountcode')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
@@ -126,7 +127,7 @@
                                         @component('input::numberreadonly')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
-                                            @slot('name', 'exchange_rate')
+                                            @slot('name', 'exchangerate')
 																						@slot('value', number_format($data->exchangerate, 0, 0, '.'))
                                         @endcomponent
                                     </div>
@@ -140,7 +141,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'remark')
+                                            @slot('name', 'ap_description')
                                             @slot('rows','5')
                                             @slot('value',$data->description)
                                         @endcomponent
@@ -207,7 +208,7 @@
                                             </label>
 
                                             @component('label::data-info')
-                                                @slot('text', 'generated')
+                                                @slot('text', number_format($debt_total_amount, 0, 0, '.'))
                                             @endcomponent
                                         </div>
                                         <div class="col-sm-4 col-md-4 col-lg-4">
@@ -216,7 +217,7 @@
                                             </label>
 
                                             @component('label::data-info')
-                                                @slot('text', 'generated')
+                                                @slot('text', number_format($payment_total_amount, 0, 0, '.'))
                                             @endcomponent
                                         </div>
                                         <div class="col-sm-4 col-md-4 col-lg-4">
@@ -225,7 +226,7 @@
                                             </label>
 
                                             @component('label::data-info')
-                                                @slot('text', 'generated')
+                                                @slot('text', number_format($debt_balance, 0, 0, '.'))
                                             @endcomponent
                                         </div>
                                     </div>

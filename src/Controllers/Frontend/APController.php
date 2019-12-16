@@ -62,6 +62,7 @@ class APController extends Controller
 			'currency',
 		])->first();
 
+		//if data already approved
 		if ($data['data']->approve) {
 			return redirect()->back();
 		}
@@ -72,11 +73,39 @@ class APController extends Controller
 		)->whereIn('code',['idr','usd'])
 		->get();
 
+		$data['debt_total_amount'] = TrxPayment::where(
+			'id_supplier', 
+			$data['data']->id_supplier
+		)->sum('grandtotal');
+
+		$apayment = APayment::where('id_supplier', $data['data']->id_supplier)
+			->get();
+
+		$payment_total_amount = 0;
+
+		for ($i = 0; $i < count($apayment); $i++) {
+			$x = $apayment[$i];
+
+			for ($j = 0; $j < count($x->apa); $j++) {
+				$y = $x->apa[$j];
+
+				$payment_total_amount += $y->debit;
+			}
+		}
+
+		$data['payment_total_amount'] = $payment_total_amount;
+		$data['debt_balance'] = (
+			$data['debt_total_amount'] - $data['payment_total_amount']
+		);
+
         return view('accountpayableview::edit', $data);
     }
 
     public function update(APaymentUpdate $request, APayment $apayment)
     {
+		$request->merge([
+			'description' => $request->ap_description
+		]);
 
         $apayment->update($request->all());
 
@@ -104,7 +133,7 @@ class APController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(APayment::All());
+        $data = $alldata = json_decode(APayment::orderBy('id', 'desc')->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -375,9 +404,34 @@ class APController extends Controller
     public function SIModalDatatables(Request $request)
     {
 		$ap = APayment::where('uuid', $request->ap_uuid)->first();
-        $data = $alldata = json_decode(
-			TrxPayment::where('currency', $ap->currency)->get()
-		);
+
+		$trxpayment_grn = TrxPayment::where('currency', $ap->currency)
+			->where('id_supplier', $request->id_vendor)
+			->where('x_type', 'GRN')
+			->get();
+
+		$arr = [];
+		$index_arr = 0;
+
+		for ($i=0; $i < count($trxpayment_grn); $i++) {
+			$x = $trxpayment_grn[$i];
+
+			for ($j=0; $j < count($x->trxpaymenta); $j++) {
+				$z = $x->trxpaymenta[$j];
+
+				$arr[$index_arr] = json_decode($x);
+				$arr[$index_arr]->transaction_number = $z->grn->number;
+				$arr[$index_arr]->uuid = $z->grn->uuid;
+				$index_arr++;
+			}
+		}
+
+		$trxpayment_non_grn = TrxPayment::where('currency', $ap->currency)
+			->where('id_supplier', $request->id_vendor)
+			->where('x_type', 'NON GRN')
+			->get();
+
+        $data = $alldata = array_merge($arr, json_decode($trxpayment_non_grn));
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -475,5 +529,16 @@ class APController extends Controller
         ];
 
         echo json_encode($result, JSON_PRETTY_PRINT);
+    }
+
+    public function approve(Request $request)
+    {
+		$ap = APayment::where('uuid', $request->uuid);
+
+		$ap->update([
+			'approve' => 1
+		]);
+
+        return response()->json($ap->first());
     }
 }

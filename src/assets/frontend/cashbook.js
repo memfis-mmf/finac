@@ -136,24 +136,25 @@ let Cashbook = {
                     overflow: 'visible',
                     template: function (t, e, i) {
                         var transno = t.transactionnumber;
-                        var res = transno.substring(0, 3);
+                        var res = transno.substring(0, 4);
+                        console.log(res);
                         if(t.status == 'Approved'){
-                            if (res == "BPJ"){
+                            if (res == "CBPJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-bpj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t'
                                 );
-                            }else if(res == "BRJ"){
+                            }else if(res == "CBRJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-brj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t'
                                 );
-                            }else if (res == "CRJ"){
+                            }else if (res == "CCRJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-crj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t'
                                 );
-                            }else if(res == "CPJ"){
+                            }else if(res == "CCPJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-cpj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t'
@@ -161,7 +162,7 @@ let Cashbook = {
                             }
                         }
                         else{
-                            if (res == "BPJ"){
+                            if (res == "CBPJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-bpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
@@ -171,7 +172,7 @@ let Cashbook = {
                                     t.uuid +
                                     ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
                                 );
-                            }else if(res == "BRJ"){
+                            }else if(res == "CBRJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-brj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
@@ -181,7 +182,7 @@ let Cashbook = {
                                     t.uuid +
                                     ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
                                 );
-                            }else if (res == "CRJ"){
+                            }else if (res == "CCRJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-crj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
@@ -191,7 +192,7 @@ let Cashbook = {
                                     t.uuid +
                                     ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
                                 );
-                            }else if(res == "CPJ"){
+                            }else if(res == "CCPJ"){
                                 return (
                                     '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-cpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
                                     '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +

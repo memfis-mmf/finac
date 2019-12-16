@@ -7,6 +7,7 @@ use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use Directoryxx\Finac\Model\Coa;
 use App\Models\Vendor;
+use Directoryxx\Finac\Model\TrxPaymentA;
 
 class TrxPayment extends MemfisModel
 {
@@ -31,11 +32,25 @@ class TrxPayment extends MemfisModel
 		'description',
     ];
 
-	protected $appends = ['exchange_rate_fix'];
+	protected $appends = [
+		'exchange_rate_fix',
+		'total',
+	];
 
 	public function getExchangeRateFixAttribute()
 	{
 		return number_format($this->exchange_rate, 0, 0, '.');
+	}
+
+	public function getTotalAttribute()
+	{
+		$total = $this->grandtotal_foreign;
+
+		if ($this->currency == 'idr') {
+			$total = $this->grandtotal;
+		}
+
+		return $total;
 	}
 
 	static public function generateCode($code = "SITR")
@@ -58,13 +73,21 @@ class TrxPayment extends MemfisModel
 		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y/m')."/".$number;
-		
+
 		return $code;
 	}
 
 	public function vendor()
 	{
 		return $this->belongsTo(Vendor::class, 'id_supplier');
+	}
+
+	public function trxpaymenta()
+	{
+		return $this->hasMany(TrxPaymentA::class,
+			'transaction_number',
+			'transaction_number'
+		);
 	}
 
 	public function coa()

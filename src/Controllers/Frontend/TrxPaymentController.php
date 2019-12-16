@@ -15,6 +15,7 @@ use App\Models\Vendor;
 use App\Models\Currency;
 use App\Models\Type;
 use App\Models\GoodsReceived as GRN;
+use App\Models\PurchaseOrder as PO;
 
 class TrxPaymentController extends Controller
 {
@@ -380,7 +381,7 @@ class TrxPaymentController extends Controller
 		]);
 
 		$request->request->add([
-			'transaction_number' => TrxPayment::generateCode(),
+			'transaction_number' => TrxPayment::generateCode('GRNT'),
 			'x_type' => 'GRN',
 			'account_code' => '303.1.1.04'
 		]);
@@ -536,7 +537,7 @@ class TrxPaymentController extends Controller
 
 
 
-    public function grnDatatables()
+    public function grnDatatables(Request $request)
     {
 		$data = $alldata = json_decode(
 			GRN::with([
@@ -687,6 +688,20 @@ class TrxPaymentController extends Controller
 			return [
 				'errors' => 'currency differences',
 			];
+		}
+
+		$trxpaymenta = TrxPaymentA::all();
+
+		for ($i=0; $i < count($trxpaymenta); $i++) {
+			$x = $trxpaymenta[$i];
+			if (
+				$x->id_grn == $grn->id &&
+				$x->transaction_number != $trxpayment->transaction_number
+			) {
+				return [
+					'errors' => 'GRN already used in other SI',
+				];
+			}
 		}
 
 		$total = $this->sumGrnItem($grn->id);

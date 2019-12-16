@@ -17,7 +17,7 @@ class CreateAPaymentATable extends Migration
             $table->increments('id');
             $table->uuid('uuid');
             $table->string('transactionnumber')->nullable();
-            $table->integer('id_payment')->nullable();
+            $table->string('id_payment')->nullable();
             $table->string('code')->nullable();
             $table->string('currency')->nullable();
             $table->decimal('exchangerate',18,5)->nullable();

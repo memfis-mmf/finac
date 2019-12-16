@@ -62,13 +62,14 @@ let CoaDatatables = {
                         document.getElementById('coaid').value = data.id;
                         //console.log(document.getElementById('coaid').value);
                         document.getElementById('acd').value = data.name;
-
+                        document.getElementById('hiderow').value = "";
                     } else {
                         console.log(dataid);
                         document.getElementById(idtest).value = data.code;
                         var coadynac = "id"+idtest;
                         document.getElementById(nametest).value = data.name;
                         document.getElementById(coadynac).value = data.id;
+                        document.getElementById('hiderow').value = "";
                     }
                     
                     $('#coa_modal').modal('hide');

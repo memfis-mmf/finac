@@ -341,6 +341,30 @@
             document.getElementById(subunique).value = '1';
         }
     }
+
+    function currformat(currency,val,id, code = null){
+        let locale = 'id';
+        if (currency == "46"){
+            let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            output = IDRformatter.format(val)
+            document.getElementById(id).value = output;
+        } else {
+            var subunique = "currencyadj2-"+code;
+            var e = document.getElementById(subunique);
+            var strUser = e.options[e.selectedIndex].value;
+            if (strUser == "46"){
+                let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                output = IDRformatter.format(val)
+                document.getElementById(id).value = output;
+            } else {
+                let ForeignFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'usd', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                output = ForeignFormatter.format(val)
+                document.getElementById(id).value = output;
+            }
+            
+        }
+    }
+    
     jQuery(document).ready(function() {
         $("#currency").val("46");
         $("#exchange").val("1");

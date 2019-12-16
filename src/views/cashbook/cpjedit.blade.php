@@ -118,12 +118,10 @@
                                         </label>
 
                                         <select id="currency" name="currency" class="form-control m-input">
-                                            <option value="{{$currency}}"> {{$currency}}</option>
-
-                                            <option value="IDR">
+                                            <option value="46" {{$currency == "46" ? 'selected' : ''}}>
                                                 IDR
                                             </option>
-                                            <option value="USD">
+                                            <option value="103" {{$currency == "103" ? 'selected' : ''}}>
                                                 USD
                                             </option>
 
@@ -176,6 +174,7 @@
 
                                         @component('input::inputreadonly')
                                         @slot('id', 'acd')
+                                        @slot('value',$coa_detail->name)
                                         @slot('text', 'acd')
                                         @slot('name', 'acd')
                                         @slot('help_text','Account Code Description')
@@ -356,7 +355,7 @@
                         document.getElementById("debitadj2-" + i).value = data.cashb[i - 1].debit;
                         document.getElementById("desriptionadj2-" + i).value = data.cashb[i - 1].description;
                         document.getElementById("creditadj2-" + i).value = data.cashb[i - 1].credit;
-                        if (data.cashb[i - 1].currency == "USD") {
+                        if (data.cashb[i - 1].currency == "103") {
                             document.getElementById("currencyadj2-" + i).selectedIndex = "2";
                         } else {
                             document.getElementById("currencyadj2-" + i).selectedIndex = "1";

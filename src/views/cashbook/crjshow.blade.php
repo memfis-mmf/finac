@@ -117,11 +117,10 @@
                                         </label>
 
                                         <select id="currency" name="currency" class="form-control m-input">
-                                            <option value="{{$currency}}"> {{$currency}}</option>
-                                            <option value="IDR">
+                                            <option value="46" {{$currency == "46" ? 'selected' : ''}}>
                                                 IDR
                                             </option>
-                                            <option value="USD">
+                                            <option value="103" {{$currency == "103" ? 'selected' : ''}}>
                                                 USD
                                             </option>
 
@@ -175,6 +174,7 @@
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
                                         @slot('name', 'acd')
+                                        @slot('value',$coa_detail->name)
                                         @slot('help_text','Account Code Description')
                                         @endcomponent
                                     </div>

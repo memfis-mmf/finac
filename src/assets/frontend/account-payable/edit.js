@@ -3,6 +3,7 @@ let AccountPayable = {
 
 		let _url = window.location.origin;
 		let ap_uuid = $('input[name=ap_uuid]').val();
+		let id_vendor = $('select[name=id_supplier]').val();
 
 		function addCommas(nStr)
 		{
@@ -12,7 +13,7 @@ let AccountPayable = {
 			x2 = x.length > 1 ? '.' + x[1] : '';
 			var rgx = /(\d+)(\d{3})/;
 			while (rgx.test(x1)) {
-					x1 = x1.replace(rgx, '$1' + '.' + '$2');
+				x1 = x1.replace(rgx, '$1' + '.' + '$2');
 			}
 			return x1 + x2;
 		}
@@ -60,7 +61,7 @@ let AccountPayable = {
 				},
 				columns: [
 						{
-							field: 'transactionnumber',
+							field: '_transaction_number',
 							title: 'Transaction No.',
 							sortable: 'asc',
 							filterable: !1,
@@ -87,16 +88,22 @@ let AccountPayable = {
 							}
 						},
 						{
-							field: '',
+							field: 'si.total',
 							title: 'Total Amount',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.si.total));
+							}
 						},
 						{
-							field: '',
+							field: 'paid_amount',
 							title: 'Paid Amount',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.paid_amount));
+							}
 						},
 						{
 							field: 'code',
@@ -114,10 +121,13 @@ let AccountPayable = {
 							}
 						},
 						{
-							field: '',
+							field: 'exchange_rate_gap',
 							title: 'Exchange Rate Gap',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.exchange_rate_gap));
+							}
 						},
 						{
 							field: 'description',
@@ -244,7 +254,7 @@ let AccountPayable = {
 						source: {
 								read: {
 										method: 'GET',
-										url: _url+'/account-payable/si/modal/datatable/?ap_uuid='+ap_uuid,
+										url: `${_url}/account-payable/si/modal/datatable/?ap_uuid=${ap_uuid}&id_vendor=${id_vendor}`,
 										map: function (raw) {
 												let dataSet = raw;
 
@@ -309,6 +319,9 @@ let AccountPayable = {
 							title: 'Total Amount',
 							sortable: 'asc',
 							filterable: !1,
+							template: function (t, e, i) {
+								return addCommas(parseInt(t.grandtotal));
+							}
 						},
 						{
 							field: '',
@@ -347,7 +360,7 @@ let AccountPayable = {
 							overflow: 'visible',
 							template: function (t, e, i) {
 								return (
-									'<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+									'<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
 								);
 							}
 						}
@@ -357,7 +370,8 @@ let AccountPayable = {
 
 		$('body').on('click', '.select-supplier-invoice', function () {
 
-			let si_uuid = $(this).data('uuid');
+			let data_uuid = $(this).data('uuid');
+			let type = $(this).data('type');
 
 			let tr = $(this).parents('tr');
 			let tr_index = tr.index();
@@ -374,7 +388,8 @@ let AccountPayable = {
 					data : {
 						'account_code' : data.code,
 						'ap_uuid' : ap_uuid,
-						'si_uuid' : si_uuid,
+						'data_uuid' : data_uuid,
+						'type' : type,
 					},
 					success: function (data) {
 
@@ -597,6 +612,37 @@ let AccountPayable = {
 
 									$('#modal_edit_adjustment').modal('hide');
 									adjustment_datatable.reload();
+								}
+						}
+				});
+		});
+
+		let update = $('body').on('click', '#account_payable_save', function () {
+
+				let form = $(this).parents('form');
+				let _data = form.serialize();
+				let ap_uuid = form.find('input[name=ap_uuid]').val();
+
+				$.ajax({
+						headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						type: 'put',
+						url: _url+'/account-payable/'+ap_uuid,
+						data: _data,
+						success: function (data) {
+								if (data.errors) {
+									toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+									});
+								} else {
+									toastr.success('Data berhasil disimpan.', 'Sukses', {
+										timeOut: 2000
+									});
+
+									setTimeout(function(){
+										location.href = `${_url}/account-payable/`;
+									}, 2000);
 								}
 						}
 				});
