@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\APayment;
+use Directoryxx\Finac\Model\APaymentA;
 use Directoryxx\Finac\Model\Coa;
 use Directoryxx\Finac\Model\TrxPayment;
 use Directoryxx\Finac\Request\APaymentUpdate;
@@ -11,6 +12,7 @@ use Directoryxx\Finac\Request\APaymentStore;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Currency;
+use Directoryxx\Finac\Model\TrxJournal;
 
 class APController extends Controller
 {
@@ -533,12 +535,17 @@ class APController extends Controller
 
     public function approve(Request $request)
     {
-		$ap = APayment::where('uuid', $request->uuid);
+		$data = APayment::where('uuid', $request->uuid);
 
-		$ap->update([
+		$AP_header = $data->first();
+		$AP_detail = $AP_header->apa;
+
+		TrxJournal::insertFromAP($AP_header, $AP_detail);
+
+		$data->update([
 			'approve' => 1
 		]);
 
-        return response()->json($ap->first());
+        return response()->json($data->first());
     }
 }

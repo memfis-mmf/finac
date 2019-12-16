@@ -95,6 +95,38 @@ class TrxJournal extends MemfisModel
 		]);
 	}
 
+	static public function insertFromAP($header, $detail)
+	{
+		$data['voucher_no'] = $header->transactionnumber;
+		$data['transaction_date'] = $header->transactiondate;
+		$data['journal_type'] = TypeJurnal::where('code', 'BPJ')->first()->id;
+		$data['currency_code'] = $header->currency;
+		$data['exchange_rate'] = $header->exchangerate;
+
+		TrxJournal::create($data);
+
+		$total = 0;
+		for($a = 0; $a < count($detail); $a++) {
+
+			if($detail[$a]) {
+				TrxJournalA::create([
+					'voucher_no' => $data['voucher_no'],
+					'account_code' => $detail[$a]->code,
+					'debit' => $detail[$a]->debit,
+				]);
+
+				$total += $detail[$a]->debit;
+			}
+
+		}
+
+		TrxJournalA::create([
+			'voucher_no' => $data['voucher_no'],
+			'account_code' => '',
+			'credit' => $total,
+		]);
+	}
+
 	static public function insertFromGRN(
 		$component,
 		$consumable,

@@ -61,7 +61,11 @@ class APayment extends MemfisModel
 
 	public function apa()
 	{
-		return $this->hasMany(APaymentA::class, 'transactionnumber');
+		return $this->hasMany(
+			APaymentA::class, 
+			'transactionnumber',
+			'transactionnumber'
+		);
 	}
 
 	public function coa()
