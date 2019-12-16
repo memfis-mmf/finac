@@ -83,6 +83,41 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('bs')->group(function () {
+		Route::get(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@create'
+		)->name('journal.index');
+		Route::post(
+			'/approve',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@approve'
+		);
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@store'
+		)->name('journal.store');
+		Route::put(
+			'/{journal}',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@update'
+		)->name('journal.update');
+		Route::delete(
+			'/{journal}',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@destroy'
+		)->name('journal.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@datatables'
+		)->name('journal.datatables');
+		Route::get(
+			'/{journal}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@edit'
+		);
+		Route::get(
+			'/print',
+			'Directoryxx\Finac\Controllers\Frontend\BSController@print'
+		);
+	});
+
     Route::prefix('trial-balance')->group(function () {
 		Route::get(
 			'/',
