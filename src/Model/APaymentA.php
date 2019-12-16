@@ -36,4 +36,9 @@ class APaymentA extends MemfisModel
 			'id_payment'
 		);
 	}
+
+	public function coa()
+	{
+		return $this->belongsTo(Coa::class, 'code', 'code');
+	}
 }
