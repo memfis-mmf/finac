@@ -122,6 +122,41 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('bsr')->group(function () {
+		Route::get(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@create'
+		)->name('bsr.index');
+		Route::post(
+			'/approve',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@approve'
+		);
+		Route::post(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@store'
+		)->name('bsr.store');
+		Route::put(
+			'/{bsr}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@update'
+		)->name('bsr.update');
+		Route::delete(
+			'/{bsr}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@destroy'
+		)->name('bsr.delete');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@datatables'
+		)->name('bsr.datatables');
+		Route::get(
+			'/{bsr}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@edit'
+		);
+		Route::get(
+			'/print',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@print'
+		);
+	});
+
     Route::prefix('trial-balance')->group(function () {
 		Route::get(
 			'/',

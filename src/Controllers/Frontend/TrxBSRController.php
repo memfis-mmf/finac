@@ -3,53 +3,28 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxJournal as Journal;
-use Directoryxx\Finac\Model\TrxJournalA;
-use Directoryxx\Finac\Model\TypeJurnal;
-use Directoryxx\Finac\Model\JurnalA;
-use Directoryxx\Finac\Request\JournalUpdate;
-use Directoryxx\Finac\Request\JournalStore;
-use Directoryxx\Finac\Request\JournalAstore;
+use Directoryxx\Finac\Model\TrxBSR as BSR;
 use App\Http\Controllers\Controller;
+use Directoryxx\Finac\Request\BSRUpdate;
+use Directoryxx\Finac\Request\BSRStore;
 use App\Models\Currency;
 
-class JournalController extends Controller
+class TrxBSRController extends Controller
 {
     public function index()
     {
-        return redirect()->route('journal.create');
+        return redirect()->route('bsr.create');
     }
-
-	public function checkBalance($journala)
-	{
-		$debit = 0;
-		$credit = 0;
-
-		for ($i = 0; $i < count($journala); $i++) {
-			$x = $journala[$i];
-			$debit += $x->debit;
-			$credit += $x->credit;
-		}
-
-		return ($debit != $credit);
-	}
 
     public function approve(Request $request)
     {
-		$journal = Journal::where('uuid', $request->uuid);
-		$journala = $journal->first()->journala;
+		$bsr = BSR::where('uuid', $request->uuid);
 
-		if ($this->checkBalance($journala)) {
-			return [
-				'errors' => 'Debit and Credit not balance'
-			];
-		}
-
-		$journal->update([
+		$bsr->update([
 			'approve' => 1
 		]);
 
-        return response()->json($journal->first());
+        return response()->json($bsr->first());
     }
 
 	public function getType(Request $request)
@@ -64,20 +39,20 @@ class JournalController extends Controller
 
     public function create()
     {
-        return view('journalview::index');
+        return view('bsrview::index');
     }
 
 
 	public function getTypeJson()
 	{
-		$journalType = TypeJurnal::where('name', 'GENERAL JOURNAL')
+		$bsrType = TypeJurnal::where('name', 'GENERAL JOURNAL')
 			->orWhere('name', 'JOURNAL ADJUSTMENT')
 			->get();
 
 		$type = [];
 
-		for ($i = 0; $i < count($journalType); $i++) {
-			$x = $journalType[$i];
+		for ($i = 0; $i < count($bsrType); $i++) {
+			$x = $bsrType[$i];
 
 			$type[$x->id] = $x->name;
 		}
@@ -85,76 +60,60 @@ class JournalController extends Controller
         return json_encode($type, JSON_PRETTY_PRINT);
 	}
 
-	public function journalaStore(Request $request)
+	public function bsraStore(Request $request)
 	{
-		JournalA::create($request->all());
+		BSRA::create($request->all());
 	}
 
-    public function store(JournalStore $request)
+    public function store(BSRStore $request)
     {
-		$code = Journal::getJournalCode($request->journal_type);
-
 		$data = $request->all();
-		$data['voucher_no'] = Journal::generateCode($code);
 
-        $journal = Journal::create($data);
-        return response()->json($journal);
+        $bsr = BSR::create($data);
+        return response()->json($bsr);
     }
 
     public function edit(Request $request)
     {
-		$data['journal']= Journal::where('uuid', $request->journal)->with([
-			'type_jurnal',
-			'currency',
+		$data['bsr']= BSR::where('uuid', $request->bsr)->with([
 		])->first();
 
-		if ($data['journal']->approve) {
+		if ($data['bsr']->approve) {
 			return redirect()->back();
 		}
 
-		$data['journal_type'] = TypeJurnal::all();
-		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
-		)->whereIn('code',['idr','usd'])
-		->get();
-
-        return view('journalview::edit', $data);
+        return json_encode($data, JSON_PRETTY_PRINT);
     }
 
-    public function update(JournalUpdate $request, Journal $journal)
+    public function update(BSRUpdate $request, BSR $bsr)
     {
-		$voucher_no = $request->journal->voucher_no;
+        $bsr->update($request->all());
 
-        $journal->update($request->all());
-
-        return response()->json($journal);
+        return response()->json($bsr);
     }
 
-    public function destroy(Journal $journal)
+    public function destroy(BSR $bsr)
     {
-        $journal->delete();
+        $bsr->delete();
 
-        return response()->json($journal);
+        return response()->json($bsr);
     }
 
     public function api()
     {
-        $journaldata = Journal::all();
+        $bsrdata = BSR::all();
 
-        return json_encode($journaldata);
+        return json_encode($bsrdata);
     }
 
-    public function apidetail(Journal $journal)
+    public function apidetail(BSR $bsr)
     {
-        return response()->json($journal);
+        return response()->json($bsr);
     }
 
     public function datatables()
     {
-		$data = $alldata = json_decode(Journal::with([
-			'type_jurnal',
-			'currency',
-		])->orderBy('id', 'DESC')->get());
+		$data = $alldata = json_decode(BSR::orderBy('id', 'DESC')->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -256,32 +215,25 @@ class JournalController extends Controller
 
 	public function print(Request $request)
 	{
-		$journal = Journal::where('uuid', $request->uuid)->first();
-		$journala = $journal->journala;
-
-		if ($this->checkBalance($journala)) {
-			return redirect()->route('journal.index')->with([
-				'errors' => 'Debit and Credit not balance'
-			]);
-		}
+		$bsr = BSR::where('uuid', $request->uuid)->first();
 
 		$debit = 0;
 		$credit = 0;
 
-		for ($i = 0; $i < count($journala); $i++) {
-			$x = $journala[$i];
+		for ($i = 0; $i < count($bsra); $i++) {
+			$x = $bsra[$i];
 			$debit += $x->debit;
 			$credit += $x->credit;
 		}
 
 		$data = [
-			'journal' => $journal,
-			'journala' => $journala,
+			'bsr' => $bsr,
+			'bsra' => $bsra,
 			'debit' => $debit,
 			'credit' => $credit,
 		];
 
-        $pdf = \PDF::loadView('formview::journal', $data);
+        $pdf = \PDF::loadView('formview::bsr', $data);
         return $pdf->stream();
 	}
 }

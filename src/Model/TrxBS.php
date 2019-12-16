@@ -5,7 +5,6 @@ namespace Directoryxx\Finac\Model;
 
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Currency;
 
 class TrxBS extends MemfisModel
 {

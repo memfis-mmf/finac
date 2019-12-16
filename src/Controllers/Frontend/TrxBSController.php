@@ -19,13 +19,6 @@ class TrxBSController extends Controller
     public function approve(Request $request)
     {
 		$bs = BS::where('uuid', $request->uuid);
-		$bsa = $bs->first()->bsa;
-
-		if ($this->checkBalance($bsa)) {
-			return [
-				'errors' => 'Debit and Credit not balance'
-			];
-		}
 
 		$bs->update([
 			'approve' => 1
