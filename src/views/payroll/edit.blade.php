@@ -138,13 +138,17 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
-                                            @component('buttons::submit')
+                                            {{-- @component('buttons::submit')
                                                 @slot('type', 'button')
                                                 @slot('text','Process')
                                                 @slot('icon','fa-sync-alt')
                                                 @slot('id','payrollprocess')
-                                            @endcomponent
+                                            @endcomponent --}}
 
+                                            <a href="{{url('payroll/process')}}" class="btn m-btn m-btn--custom btn-success btn-md"><span>
+                                                <i class="fa fa-sync-alt"></i>
+                                                <span>Process</span>
+                                            </span></a>
                                             @include('buttons::back')
                                         </div>
                                     </div>

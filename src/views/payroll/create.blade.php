@@ -102,13 +102,17 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <div class="action-buttons">
-                                                @component('buttons::submit')
+                                                {{-- @component('buttons::submit')
                                                     @slot('type', 'button')
                                                     @slot('text','Generated')
                                                     @slot('icon','fa-forward')
                                                     @slot('color','primary')
                                                     @slot('id','payrollgenerate')
-                                                @endcomponent
+                                                @endcomponent --}}
+                                                <a href="{{url('payroll/edit')}}" class="btn m-btn m-btn--custom btn-primary btn-md"><span>
+                                                    <i class="fa fa-forward"></i>
+                                                    <span>Generated</span>
+                                                </span></a>
                                         </div>
                                     </div>
                                 </div>
