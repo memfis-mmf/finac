@@ -7,6 +7,10 @@ Route::get('test', function(){
 	echo 'Hello from the Finance Accounting package!';
 });
 
+Route::get('token', function(){
+	return ['token' => csrf_token()];
+})->middleware('web');
+
 Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('coa')->group(function () {
@@ -86,35 +90,35 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::prefix('bs')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@create'
-		)->name('journal.index');
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@create'
+		)->name('bs.index');
 		Route::post(
 			'/approve',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@approve'
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@approve'
 		);
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@store'
-		)->name('journal.store');
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@store'
+		)->name('bs.store');
 		Route::put(
-			'/{journal}',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@update'
-		)->name('journal.update');
+			'/{bs}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@update'
+		)->name('bs.update');
 		Route::delete(
-			'/{journal}',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@destroy'
-		)->name('journal.delete');
+			'/{bs}',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@destroy'
+		)->name('bs.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@datatables'
-		)->name('journal.datatables');
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@datatables'
+		)->name('bs.datatables');
 		Route::get(
-			'/{journal}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@edit'
+			'/{bs}/edit',
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@edit'
 		);
 		Route::get(
 			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\BSController@print'
+			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@print'
 		);
 	});
 

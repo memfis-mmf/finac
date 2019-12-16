@@ -9,19 +9,19 @@ use App\Models\Currency;
 
 class TrxBS extends MemfisModel
 {
-    protected $table = "trxbss";
+    protected $table = "trx_BS";
 
     protected $fillable = [
-		'approve',
-		'closed',
-		'transaction_number',
-		'transaction_date',
-		'id_employee',
-		'date_return',
-		'value',
-		'coac',
-		'coad',
-		'description',
+		"approve",
+		"closed",
+		"transaction_number",
+		"transaction_date",
+		"id_employee",
+		"date_return",
+		"value",
+		"coac",
+		"coad",
+		"description",
     ];
 
 	static public function generateCode($code = "BSTR")

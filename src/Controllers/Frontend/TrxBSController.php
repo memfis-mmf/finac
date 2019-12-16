@@ -9,7 +9,7 @@ use Directoryxx\Finac\Request\BSUpdate;
 use Directoryxx\Finac\Request\BSStore;
 use App\Models\Currency;
 
-class BSController extends Controller
+class TrxBSController extends Controller
 {
     public function index()
     {
@@ -75,7 +75,7 @@ class BSController extends Controller
     public function store(BSStore $request)
     {
 		$data = $request->all();
-		$data['transaction_number'] = BS::generateCode($code);
+		$data['transaction_number'] = BS::generateCode('BSTR');
 
         $bs = BS::create($data);
         return response()->json($bs);
@@ -84,27 +84,17 @@ class BSController extends Controller
     public function edit(Request $request)
     {
 		$data['bs']= BS::where('uuid', $request->bs)->with([
-			'type_jurnal',
-			'currency',
 		])->first();
 
 		if ($data['bs']->approve) {
 			return redirect()->back();
 		}
 
-		$data['bs_type'] = TypeJurnal::all();
-		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
-		)->whereIn('code',['idr','usd'])
-		->get();
-
-        return view('bsview::edit', $data);
+        return json_encode($data, JSON_PRETTY_PRINT);
     }
 
     public function update(BSUpdate $request, BS $bs)
     {
-		$voucher_no = $request->bs->voucher_no;
-
         $bs->update($request->all());
 
         return response()->json($bs);
