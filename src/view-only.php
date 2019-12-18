@@ -57,4 +57,13 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/balance-sheet', 'balancesheetview::index')->name('balance-sheet.index');
     Route::view('/balance-sheet/show', 'balancesheetview::view')->name('balance-sheet.view');
 
+
+    /** MASTER ASSET */
+
+    Route::view('/master-asset', 'masterassetview::index')->name('master-asset.index');
+
+    Route::view('/master-asset/create', 'masterassetview::create')->name('master-asset.create');
+    Route::view('/master-asset/edit', 'masterassetview::edit')->name('master-asset.edit');
+    Route::view('/master-asset/show', 'masterassetview::show')->name('master-asset.show');
+
 });
