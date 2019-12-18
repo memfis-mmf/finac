@@ -4,6 +4,7 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxBS as BS;
+use Directoryxx\Finac\Model\TrxJournal as Journal;
 use App\Http\Controllers\Controller;
 use Directoryxx\Finac\Request\BSUpdate;
 use Directoryxx\Finac\Request\BSStore;
@@ -19,6 +20,18 @@ class TrxBSController extends Controller
     public function approve(Request $request)
     {
 		$bs = BS::where('uuid', $request->uuid);
+
+		$header = $bs->first();
+
+		$detail[] = (object) [
+			'code' => $header->coad
+		];
+
+		$detail[] = (object) [
+			'code' => $header->coac
+		];
+
+		Journal::insertFromBS($header, $detail);
 
 		$bs->update([
 			'approve' => 1

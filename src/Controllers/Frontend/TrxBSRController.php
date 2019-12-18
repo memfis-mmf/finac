@@ -20,6 +20,18 @@ class TrxBSRController extends Controller
     {
 		$bsr = BSR::where('uuid', $request->uuid);
 
+		$header = $bsr->first();
+
+		$detail[] = (object) [
+			'code' => $header->coad
+		];
+
+		$detail[] = (object) [
+			'code' => $header->coac
+		];
+
+		Journal::insertFromBSR($header, $detail);
+
 		$bsr->update([
 			'approve' => 1
 		]);

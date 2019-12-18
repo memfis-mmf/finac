@@ -95,6 +95,86 @@ class TrxJournal extends MemfisModel
 		]);
 	}
 
+	/*
+	 *jangan copy function dibawah ini untuk membuat function lain
+	 *yang seperti ini, copy function insertFromAP saja
+	 */
+	static public function insertFromBS($header, $detail)
+	{
+		$data['voucher_no'] = $header->transaction_number;
+		$data['transaction_date'] = $header->transaction_date;
+		$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
+		$data['currency_code'] = 'idr';
+		$data['exchange_rate'] = 1;
+
+		TrxJournal::create($data);
+
+		$total = $header->value;
+
+		for($a = 0; $a < count($detail); $a++) {
+
+			if($detail[$a]) {
+
+				$debit = $header->value;
+				$credit = 0;
+
+				/*
+				 *jika sudah bukan loopingan pertama
+				 */
+				if ($a > 0) {
+					$debit = 0;
+					$credit = $header->value;
+				}
+
+				TrxJournalA::create([
+					'voucher_no' => $data['voucher_no'],
+					'account_code' => $detail[$a]->code,
+					'debit' => $debit,
+					'credit' => $credit,
+				]);
+			}
+
+		}
+	}
+
+	static public function insertFromBSR($header, $detail)
+	{
+		$data['voucher_no'] = $header->transaction_number;
+		$data['transaction_date'] = $header->transaction_date;
+		$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
+		$data['currency_code'] = 'idr';
+		$data['exchange_rate'] = 1;
+
+		TrxJournal::create($data);
+
+		$total = $header->value;
+
+		for($a = 0; $a < count($detail); $a++) {
+
+			if($detail[$a]) {
+
+				$debit = $header->value;
+				$credit = 0;
+
+				/*
+				 *jika sudah bukan loopingan pertama
+				 */
+				if ($a > 0) {
+					$debit = 0;
+					$credit = $header->value;
+				}
+
+				TrxJournalA::create([
+					'voucher_no' => $data['voucher_no'],
+					'account_code' => $detail[$a]->code,
+					'debit' => $debit,
+					'credit' => $credit,
+				]);
+			}
+
+		}
+	}
+
 	static public function insertFromAP($header, $detail)
 	{
 		$data['voucher_no'] = $header->transactionnumber;
