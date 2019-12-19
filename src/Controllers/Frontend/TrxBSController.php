@@ -52,7 +52,7 @@ class TrxBSController extends Controller
 
     public function create()
     {
-        return view('bsview::index');
+        return view('bondview::index');
     }
 
 

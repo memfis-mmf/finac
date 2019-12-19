@@ -87,7 +87,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
-    Route::prefix('bs')->group(function () {
+    Route::prefix('bond')->group(function () {
 		Route::get(
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@create'
