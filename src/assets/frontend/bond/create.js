@@ -3,6 +3,75 @@ let BondCreate = {
 
 		let _url = window.location.origin;
 
+		let coa_datatables = $("#coa_datatables").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/coa/datatables/modal",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
+
+		$('body').on('click', '#coa_button_1', function() {
+			let _modal = $('#coa_modal');
+
+			_modal.find('.modal-body input[name=_type]').remove();
+			_modal.find('.modal-body').prepend(
+				`<input type hidden name="_type" value="coa">`
+			);
+			_modal.modal('show');
+
+		});
+
+		$('body').on('click', '#coa_button_2', function() {
+			let _modal = $('#coa_modal');
+
+			_modal.find('.modal-body input[name=_type]').remove();
+			_modal.find('.modal-body').prepend(
+				`<input type hidden name="_type" value="coa_bond">`
+			);
+			_modal.modal('show');
+
+		});
+
+		$('body').on('click', '.select-coa', function() {
+			let tr = $(this).parents('tr');
+			let data = coa_datatables.row(tr).data();
+			let _type = tr.parents('.modal-body').find('input[name=_type]').val();
+
+			if (_type == "coa") {
+				$('input[id=coa]').val(data.code);
+				$('input[id=account_name_1]').val(data.name);
+			}else{
+				$('input[id=coa_bond]').val(data.code);
+				$('input[id=account_name_2]').val(data.name);
+			}
+
+			$('.modal').modal('hide');
+		});
+
 		$('.accountcode_datatable').mDatatable({
 				data: {
 						type: 'remote',

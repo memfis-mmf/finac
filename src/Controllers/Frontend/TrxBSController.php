@@ -80,6 +80,11 @@ class TrxBSController extends Controller
 
     public function store(BSStore $request)
     {
+		/*
+		 *coac itu yang bank
+		 *coad itu yang bond
+		 */
+
 		$data = $request->all();
 		$data['transaction_number'] = BS::generateCode('BSTR');
 

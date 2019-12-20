@@ -60,7 +60,7 @@
                                         @component('input::select')
                                             @slot('id', 'employee')
                                             @slot('text', 'Person')
-                                            @slot('name', 'employee')
+                                            @slot('name', 'id_employee')
                                             @slot('id_error', 'employee')
                                         @endcomponent
                                     </div>
@@ -71,7 +71,7 @@
 
                                         @component('input::datepicker')
                                             @slot('id', 'date')
-                                            @slot('name', 'date')
+                                            @slot('name', 'transaction_date')
                                             @slot('text', 'Date')
                                         @endcomponent
                                     </div>
@@ -85,7 +85,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date-required')
                                             @slot('text', 'Date Returned')
-                                            @slot('name', 'Date Required')
+                                            @slot('name', 'closed')
                                             @slot('id_error', 'date-required')
                                         @endcomponent
                                     </div>
@@ -96,7 +96,7 @@
 
                                         @component('input::number')
                                             @slot('id', 'amount')
-                                            @slot('name', 'amount')
+                                            @slot('name', 'value')
                                             @slot('text', 'Amount')
                                         @endcomponent
                                     </div>
@@ -116,11 +116,11 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'coac')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('help_text','Account Code')
-                                            @slot('data_target', '#coa_modal')
+                                            @slot('buttonid','coa_button_1')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -132,6 +132,7 @@
                                             @slot('id', 'account_name_1')
                                             @slot('name', 'account_name_1')
                                             @slot('text', 'Account Name')
+                                            @slot('editable', 'disabled')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -149,11 +150,11 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa_bond')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'coad')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('help_text','Account Code')
-                                            @slot('data_target', '#coa_modal')
+                                            @slot('buttonid','coa_button_2')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -165,6 +166,7 @@
                                             @slot('id', 'account_name_2')
                                             @slot('name', 'account_name_2')
                                             @slot('text', 'Account Name')
+                                            @slot('editable', 'disabled')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -208,11 +210,6 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-
-
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/employee.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/employee.js')}}"></script>
