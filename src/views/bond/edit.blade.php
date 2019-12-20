@@ -50,6 +50,7 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <form id="MasterAssetForm">
+														<input type="hidden" value="{{ Request::segment(2) }}" name="uuid" id=""/>
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -57,12 +58,14 @@
                                             Person @include('label::required')
                                         </label>
 
-                                        @component('input::select')
-                                            @slot('id', 'employee')
-                                            @slot('text', 'Person')
-                                            @slot('name', 'employee')
-                                            @slot('id_error', 'employee')
-                                        @endcomponent
+																				<select id="employee" name="id_employee" class="form-control m-input">
+																						@foreach ($employee as $x)
+																								<option value="{{ $x->code }}"
+																										@if ($x->code == $data->id_employee) selected @endif>
+																										{{ $x->first_name." ".$x->last_name }}
+																								</option>
+																						@endforeach
+																				</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -71,7 +74,7 @@
 
                                         @component('input::datepicker')
                                             @slot('id', 'date')
-                                            @slot('name', 'date')
+                                            @slot('name', 'transaction_date')
                                             @slot('text', 'Date')
                                         @endcomponent
                                     </div>
@@ -85,7 +88,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date-required')
                                             @slot('text', 'Date Returned')
-                                            @slot('name', 'Date Required')
+                                            @slot('name', 'closed')
                                             @slot('id_error', 'date-required')
                                         @endcomponent
                                     </div>
@@ -96,7 +99,7 @@
 
                                         @component('input::number')
                                             @slot('id', 'amount')
-                                            @slot('name', 'amount')
+                                            @slot('name', 'value')
                                             @slot('text', 'Amount')
                                         @endcomponent
                                     </div>
@@ -116,11 +119,11 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'coac')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('help_text','Account Code')
-                                            @slot('data_target', '#coa_modal')
+                                            @slot('buttonid','coa_button_1')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -132,6 +135,7 @@
                                             @slot('id', 'account_name_1')
                                             @slot('name', 'account_name_1')
                                             @slot('text', 'Account Name')
+                                            @slot('editable', 'disabled')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -149,11 +153,11 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa_bond')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'coad')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('help_text','Account Code')
-                                            @slot('data_target', '#coa_modal')
+                                            @slot('buttonid','coa_button_2')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -165,6 +169,7 @@
                                             @slot('id', 'account_name_2')
                                             @slot('name', 'account_name_2')
                                             @slot('text', 'Account Name')
+                                            @slot('editable', 'disabled')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -187,7 +192,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
-                                                @slot('id','bond_save')
+                                                @slot('id','bond_update')
                                             @endcomponent
 
                                             @include('buttons::reset')
@@ -209,13 +214,7 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 
-
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
-
 <script src="{{ asset('vendor/courier/frontend/functions/select2/employee.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/employee.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date-required.js')}}"></script>

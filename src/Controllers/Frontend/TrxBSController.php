@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Directoryxx\Finac\Request\BSUpdate;
 use Directoryxx\Finac\Request\BSStore;
 use App\Models\Currency;
+use App\Models\Employee;
 
 class TrxBSController extends Controller
 {
@@ -94,14 +95,14 @@ class TrxBSController extends Controller
 
     public function edit(Request $request)
     {
-		$data['bs']= BS::where('uuid', $request->bs)->with([
-		])->first();
+		$data['data'] = BS::where('uuid', $request->bs)->first();
+		$data['employee'] = Employee::orderBy('id', 'desc')->get();
 
-		if ($data['bs']->approve) {
+		if ($data['data']->approve) {
 			return redirect()->back();
 		}
 
-        return json_encode($data, JSON_PRETTY_PRINT);
+        return view('bondview::edit', $data);
     }
 
     public function update(BSUpdate $request, BS $bs)

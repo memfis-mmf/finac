@@ -1,12 +1,15 @@
 let Bond = {
     init: function () {
+
+				let _url = window.location.origin;
+
         $('.bond_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
                     read: {
                         method: 'GET',
-                        url: '',
+                        url: `${_url}/bond/datatables`,
                         map: function (raw) {
                             let dataSet = raw;
 

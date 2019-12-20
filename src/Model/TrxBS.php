@@ -47,4 +47,9 @@ class TrxBS extends MemfisModel
 		return $code;
 	}
 
+	public function employee()
+	{
+		return $this->belongsTo('App\Models\Employee', 'id_employee', 'code');
+	}
+	
 }
