@@ -65,6 +65,7 @@ class CoaTableSeeder extends Seeder
 			"11161001",
 			"11161002",
 			"11161003",
+			"11161004",
 			"11170000",
 			"11171000",
 			"11171100",
@@ -616,6 +617,7 @@ class CoaTableSeeder extends Seeder
 			"Component",
 			"Consumable",
 			"Raw Material",
+			"Tool",
 			"Advance Payment",
 			"Advance Payment",
 			"Advance Payment - External",
@@ -1269,6 +1271,7 @@ class CoaTableSeeder extends Seeder
 			$aktiva,
 			$aktiva,
 			$aktiva,
+			$aktiva,
 			$pasiva,
 			$pasiva,
 			$pasiva,
@@ -1715,6 +1718,7 @@ class CoaTableSeeder extends Seeder
 			"Detail",
 			"Header",
 			"Header",
+			"Detail",
 			"Detail",
 			"Detail",
 			"Detail",
@@ -2240,13 +2244,42 @@ class CoaTableSeeder extends Seeder
 
         Coa::insert($data);
 
-        Category::where('code','cons')->first()->coa()->attach(Coa::where('code','601.5.1.01')->first()->id,['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]);
-        Category::where('code','cons')->first()->coa()->attach(Coa::where('code','601.5.1.02')->first()->id,['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]);
-        Category::where('code','raw')->first()->coa()->attach(Coa::where('code','601.5.1.03')->first()->id,['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]);
+		Category::where('code','comp')->first()
+		->coa()->attach(
+			Coa::where('code','11161001')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+		);
+		Category::where('code','cons')->first()
+		->coa()->attach(
+			Coa::where('code','11161002')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+		);
+		Category::where('code','raw')->first()
+		->coa()->attach(
+			Coa::where('code','11161003')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+		);
+		Category::where('code','tool')->first()
+		->coa()->attach(
+			Coa::where('code','11161004')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+		);
 
-        Category::where('code','cons')->first()->coa()->attach(Coa::where('code','105.1.1.01')->first()->id,['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]);
-        Category::where('code','cons')->first()->coa()->attach(Coa::where('code','105.1.1.02')->first()->id,['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]);
-        Category::where('code','raw')->first()->coa()->attach(Coa::where('code','105.1.1.03')->first()->id,['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]);
+		Category::where('code','comp')->first()
+		->coa()->attach(
+			Coa::where('code','51115101')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
+		);
+		Category::where('code','cons')->first()
+		->coa()->attach(
+			Coa::where('code','51115102')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
+		);
+		Category::where('code','raw')->first()
+		->coa()->attach(
+			Coa::where('code','51115103')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
+		);
 
     }
 }
