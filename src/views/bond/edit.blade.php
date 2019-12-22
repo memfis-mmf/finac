@@ -76,6 +76,7 @@
                                             @slot('id', 'date')
                                             @slot('name', 'transaction_date')
                                             @slot('text', 'Date')
+																						@slot('value', $data->transaction_date)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -88,8 +89,9 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date-required')
                                             @slot('text', 'Date Returned')
-                                            @slot('name', 'closed')
+                                            @slot('name', 'date_return')
                                             @slot('id_error', 'date-required')
+																						@slot('value', $data->date_return)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -101,6 +103,7 @@
                                             @slot('id', 'amount')
                                             @slot('name', 'value')
                                             @slot('text', 'Amount')
+																						@slot('value', (int) $data->value)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -124,6 +127,7 @@
                                             @slot('style', 'width:100%')
                                             @slot('help_text','Account Code')
                                             @slot('buttonid','coa_button_1')
+																						@slot('value', $data->coac)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -136,6 +140,7 @@
                                             @slot('name', 'account_name_1')
                                             @slot('text', 'Account Name')
                                             @slot('editable', 'disabled')
+																						@slot('value', $data->coac_name)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -158,6 +163,7 @@
                                             @slot('style', 'width:100%')
                                             @slot('help_text','Account Code')
                                             @slot('buttonid','coa_button_2')
+																						@slot('value', $data->coad)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -170,6 +176,7 @@
                                             @slot('name', 'account_name_2')
                                             @slot('text', 'Account Name')
                                             @slot('editable', 'disabled')
+																						@slot('value', $data->coad_name)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -184,6 +191,7 @@
                                             @slot('text', 'Description')
                                             @slot('name', 'description')
                                             @slot('rows','5')
+																						@slot('value', $data->description)
                                         @endcomponent
                                     </div>
                                 </div>

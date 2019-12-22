@@ -86,6 +86,9 @@ class TrxBSController extends Controller
 		 *coad itu yang bond
 		 */
 
+		$request->request->add([
+			'closed' => 0
+		]);
 		$data = $request->all();
 		$data['transaction_number'] = BS::generateCode('BSTR');
 
@@ -107,6 +110,10 @@ class TrxBSController extends Controller
 
     public function update(BSUpdate $request, BS $bs)
     {
+		$request->request->add([
+			'closed' => 0
+		]);
+
         $bs->update($request->all());
 
         return response()->json($bs);

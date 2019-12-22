@@ -85,7 +85,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date-required')
                                             @slot('text', 'Date Returned')
-                                            @slot('name', 'closed')
+                                            @slot('name', 'date_return')
                                             @slot('id_error', 'date-required')
                                         @endcomponent
                                     </div>

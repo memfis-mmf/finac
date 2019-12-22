@@ -23,6 +23,21 @@ class TrxBS extends MemfisModel
 		"description",
     ];
 
+	protected $appends = [
+		'coac_name',
+		'coad_name'
+	];
+
+	public function getCoacNameAttribute()
+	{
+		return Coa::where('code', $this->coac)->first()->name;
+	}
+
+	public function getCoadNameAttribute()
+	{
+		return Coa::where('code', $this->coad)->first()->name;
+	}
+
 	static public function generateCode($code = "BSTR")
 	{
 		$bs = TrxBS::orderBy('id', 'desc')
