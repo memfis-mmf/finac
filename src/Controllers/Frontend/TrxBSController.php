@@ -140,7 +140,11 @@ class TrxBSController extends Controller
 
     public function datatables()
     {
-		$data = $alldata = json_decode(BS::orderBy('id', 'DESC')->get());
+		$data = $alldata = json_decode(BS::orderBy('id', 'DESC')
+			->with([
+				'employee'
+			])
+			->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

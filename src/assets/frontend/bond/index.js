@@ -3,7 +3,7 @@ let Bond = {
 
 				let _url = window.location.origin;
 
-        $('.bond_datatable').mDatatable({
+        let bond_datatable = $('.bond_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
@@ -47,14 +47,14 @@ let Bond = {
             },
             columns: [
                 {
-                    field: '',
+                    field: 'transaction_date',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: '',
+                    field: 'transaction_number',
                     title: 'Transaction No.',
                     sortable: 'asc',
                     filterable: !1,
@@ -66,51 +66,54 @@ let Bond = {
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
+										template: function(t, e, i) {
+											return t.employee.first_name+' '+t.employee.last_name;
+										}
                 },
                 {
-                    field: '',
+                    field: 'value',
                     title: 'Amount',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'date_return',
                     title: 'Return Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'x',
                     title: 'Paid Amount',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150,
                 },
                 {
-                    field: '',
+                    field: 'description',
                     title: 'Description',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'x',
                     title: 'Status',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'x',
                     title: 'Created By',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'x',
                     title: 'Approve by',
                     sortable: 'asc',
                     filterable: !1,
@@ -123,6 +126,8 @@ let Bond = {
                     sortable: !1,
                     overflow: 'visible',
                     template: function (t, e, i) {
+											let _html = '';
+
 											if (!t.approve) {
 												_html +=
                           '<a href="'+_url+'/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
@@ -141,6 +146,90 @@ let Bond = {
                 }
             ]
         });
+
+        let remove = $('.bond_datatable').on('click', '.delete', function () {
+            let triggerid = $(this).data('uuid');
+
+            swal({
+                title: 'Sure want to remove?',
+                type: 'question',
+                confirmButtonText: 'Yes, REMOVE',
+                confirmButtonColor: '#d33',
+                cancelButtonText: 'Cancel',
+                showCancelButton: true,
+            }).then(result => {
+                if (result.value) {
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                'content'
+                            )
+                        },
+                        type: 'DELETE',
+                        url: '/bond/' + triggerid + '',
+                        success: function (data) {
+                            toastr.success('AR has been deleted.', 'Deleted', {
+                                    timeOut: 5000
+                                }
+                            );
+
+                            let table = $('.bond_datatable').mDatatable();
+
+                            table.originalDataSet = [];
+                            table.reload();
+                        },
+                        error: function (jqXhr, json, errorThrown) {
+                            let errorsHtml = '';
+                            let errors = jqXhr.responseJSON;
+
+                            $.each(errors.errors, function (index, value) {
+                                $('#delete-error').html(value);
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+				let approve = $('body').on('click', 'a.approve', function() {
+					let _uuid = $(this).data('uuid');
+
+					$.ajax({
+							headers: {
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							},
+							type: 'post',
+							url: `/bond/approve`,
+							data: {
+									_token: $('input[name=_token]').val(),
+									uuid: _uuid
+							},
+							success: function (data) {
+									if (data.errors) {
+											if (data.errors.code) {
+													$('#code-error').html(data.errors.code[0]);
+
+
+													document.getElementById('code').value = code;
+													document.getElementById('name').value = name;
+													document.getElementById('type').value = type;
+													document.getElementById('level').value = level;
+													document.getElementById('description').value = description;
+													coa_reset();
+											}
+
+
+									} else {
+											toastr.success('Data berhasil disimpan.', 'Sukses', {
+													timeOut: 5000
+											});
+
+											bond_datatable.reload();
+									}
+							}
+					});
+				})
     }
 };
 

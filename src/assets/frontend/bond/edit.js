@@ -217,7 +217,7 @@ let BondCreate = {
 										});
 
 										setTimeout(function(){ 
-											location.href = `${_url}/bond/${data.uuid}/edit`; 
+											location.href = `${_url}/bond`; 
 										}, 2000);
 
 										$('#code-error').html('');
