@@ -207,6 +207,38 @@ class TrxJournal extends MemfisModel
 		]);
 	}
 
+	static public function insertFromAR($header, $detail)
+	{
+		$data['voucher_no'] = $header->transactionnumber;
+		$data['transaction_date'] = $header->transactiondate;
+		$data['journal_type'] = TypeJurnal::where('code', 'BRJ')->first()->id;
+		$data['currency_code'] = $header->currency;
+		$data['exchange_rate'] = $header->exchangerate;
+
+		TrxJournal::create($data);
+
+		$total = 0;
+		for($a = 0; $a < count($detail); $a++) {
+
+			if($detail[$a]) {
+				TrxJournalA::create([
+					'voucher_no' => $data['voucher_no'],
+					'account_code' => @($v = $detail[$a]->coa->id)? $v: 0,
+					'debit' => $detail[$a]->debit,
+				]);
+
+				$total += $detail[$a]->debit;
+			}
+
+		}
+
+		TrxJournalA::create([
+			'voucher_no' => $data['voucher_no'],
+			'account_code' => $header->coa->id,
+			'credit' => $total,
+		]);
+	}
+
 	static public function insertFromGRN(
 		$component,
 		$consumable,
@@ -225,9 +257,9 @@ class TrxJournal extends MemfisModel
 		TrxJournal::create($data);
 
 		$account_code = [
-			"105.1.1.01",
-			"105.1.1.02",
-			"105.1.1.03",
+			"11161001",
+			"11161002",
+			"11161003",
 		];
 
 		$_data = [
@@ -254,7 +286,7 @@ class TrxJournal extends MemfisModel
 
 		TrxJournalA::create([
 			'voucher_no' => $data['voucher_no'],
-			'account_code' => "301.1.1.01",
+			'account_code' => "21111101",
 			'credit' => $total,
 		]);
 	}

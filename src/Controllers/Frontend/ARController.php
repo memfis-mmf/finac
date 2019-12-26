@@ -249,5 +249,20 @@ class ARController extends Controller
         return response()->json($cust_detail);
     }
 
+    public function approve(Request $request)
+    {
+		$data = ARecieve::where('uuid', $request->uuid);
+
+		$AR_header = $data->first();
+		$AR_detail = $AR_header->apa;
+
+		TrxJournal::insertFromAR($AR_header, $AR_detail);
+
+		$data->update([
+			'approve' => 1
+		]);
+
+        return response()->json($data->first());
+    }
     
 }

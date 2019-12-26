@@ -21,6 +21,13 @@ class ARecieve extends MemfisModel
         'description'
     ];
 
+	protected $appends = ['date'];
+
+	public function getDateAttribute()
+	{
+		return date('Y-m-d', strtotime($this->transactiondate));
+	}
+
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
@@ -35,4 +42,42 @@ class ARecieve extends MemfisModel
     {
         return $this->hasOne(Coa::class, 'id', 'accountcode');
     }
+
+	static public function generateCode($code)
+	{
+		$data = ARecieve::orderBy('id', 'desc')
+			->where('transactionnumber', 'like', $code.'%');
+
+		if (!$data->count()) {
+
+			if ($data->withTrashed()->count()) {
+				$order = $data->withTrashed()->count() + 1;
+			}else{
+				$order = 1;
+			}
+
+		}else{
+			$order = $data->withTrashed()->count() + 1;
+		}
+
+		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
+
+		$code = $code."-".date('Y/m')."/".$number;
+
+		return $code;
+	}
+
+	public function customer()
+	{
+		return $this->belongsTo(Vendor::class, 'id_customer');
+	}
+
+	public function ara()
+	{
+		return $this->hasMany(
+			ARecieveA::class, 
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
 }
