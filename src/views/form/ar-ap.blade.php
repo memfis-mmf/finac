@@ -126,9 +126,9 @@
                 <tr>
                     <td valign="top" width="16%"><b>Transaction No.</b></td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="44%">lorem</td>
+										<td valign="top" width="44%">{{ $data->transactionnumber }}</td>
                     <td valign="top" width="13%"><b>Payment To</b></td>
-                    <td valign="top" width="1%">:</td>
+										<td valign="top" width="1%">{{ $data->to->name }}</td>
                     <td valign="top" width="25%">Lorem ipsum dolor</td>
                 </tr>
                 <tr>

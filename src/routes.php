@@ -371,6 +371,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\APController@create'
 		)->name('apayment.index');
+		Route::get(
+			'/print',
+			'Directoryxx\Finac\Controllers\Frontend\APController@print'
+		)->name('apayment.print');
 		Route::post(
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\APController@store'

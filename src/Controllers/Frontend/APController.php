@@ -548,4 +548,11 @@ class APController extends Controller
 
         return response()->json($data->first());
     }
+
+	function print(Request $request)
+	{
+        $pdf = \PDF::loadView('formview::ar-ap');
+        return $pdf->stream();
+	}
+	
 }
