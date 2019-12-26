@@ -68,20 +68,23 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $quotation = Quotation::where('number', $request->quotation)->first();
         //dd($quotation->scheduled_payment_amount);
-        
+
         $invoice_check = Invoice::where('id_quotation',$quotation->id)->count();
         //dd($invoice_check);
         $schedule_payment = json_decode($quotation->scheduled_payment_amount);
+        if (!@$schedule_payment->amount_percentage) {
+          return ['error' => 'amount percentage cannot be null'];
+        }
         //dd($schedule_payment);
         $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
         $last_sp = $end_sp + 1;
         $percent_sp =$schedule_payment[$last_sp - 1]->amount_percentage;
 
 
-        
+
         $project = $quotation->quotationable()->first();
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
         $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
@@ -248,7 +251,7 @@ class InvoiceController extends Controller
         $facility_id = Coa::where('id',$facility->accountcode)->first();
         $others = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','others')->first();
         $others_id = Coa::where('id',$others->accountcode)->first();
-        
+
         $bankAccountget = BankAccount::where('id',$invoice->id_bank)->first();
         //dd($bankAccountget->uuid);
         $bankget = Bank::where('id',$bankAccountget->bank_id)->first();
@@ -295,7 +298,7 @@ class InvoiceController extends Controller
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $request->grand_totalrp;
         $description = $request->description;
-        
+
         $invoice1 = Invoice::where('id', $invoice->id)
             ->update([
                 'currency' => $currency_id,
@@ -310,7 +313,7 @@ class InvoiceController extends Controller
                 'accountcode' => $coa->id,
                 'description' => $description,
             ]);
-                
+
         //dd($invoice);
         $trxinvoice = Trxinvoice::where('id', $invoice->id)
             ->update([
@@ -327,8 +330,8 @@ class InvoiceController extends Controller
                 'description' => $description,
             ]);
 
-        
-            
+
+
 
         return response()->json($invoice);
     }
@@ -465,7 +468,7 @@ class InvoiceController extends Controller
                 $quotation->workorder_no .= "-";
                 $quotation->customer_no .= "-";
             } else {
-                //$quotation->customername .= 
+                //$quotation->customername .=
                 $quotation->project_no .= $project['code'];
                 $quotation->workorder_no .= $project['no_wo'];
                 $quotation->customer_no .= $cust->name;
@@ -691,7 +694,7 @@ class InvoiceController extends Controller
         //dd($schedule_payment);
         $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
         $last_sp = $end_sp + 1;
-        //$workpackages = 
+        //$workpackages =
         //dd($project->customer_id);
         $attn_quo =
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
@@ -725,7 +728,12 @@ class InvoiceController extends Controller
                 ->where('workpackage_id', $workPackage->id)
                 ->first();
 
-            //dd($project_workpackage);
+            // dd($project_workpackage->id);
+
+            // if WorkPackage is empty
+            if (!$project_workpackage) {
+              return ['error' => 'workpackages not found'];
+            }
 
 
             $countWPItem = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
@@ -877,9 +885,9 @@ class InvoiceController extends Controller
             //$htcrr_workpackage->other = $quotation->charge;
             $workpackages[sizeof($workpackages)] = $other_workpackage;
         }
-        
-        
-        
+
+
+
 
 
         $data = $alldata = json_decode($workpackages);

@@ -158,7 +158,7 @@ var DatatableAutoColumnHideDemo = function () {
                     discount += temptotal * (t.pivot.discount_value/100);
                   }else{
                     discount += 0;
-                  } 
+                  }
                 }
                 */
                 if (t.discount_type == 'amount') {
@@ -193,7 +193,7 @@ var DatatableAutoColumnHideDemo = function () {
                     discount += temptotal * (t.pivot.discount_value/100);
                   }else{
                     discount += 0;
-                  } 
+                  }
                 }
                 /*
                 if (t.discount_type == 'amount') {
@@ -402,7 +402,12 @@ jQuery(document).ready(function () {
       contentType: false,
       data: data,
       success: function (data) {
-        if (data.errors) {
+
+        if(data.error) {
+					toastr.error(data.error, 'Invalid',  {
+						timeOut: 2000
+					});
+        } else if (data.errors) {
           if (data.errors.currency_id) {
             $("#currency-error").html(data.errors.currency_id[0]);
           }

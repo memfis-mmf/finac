@@ -1,17 +1,24 @@
 let scheduled_payments = {
     init: function () {
+
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $('#table').on( 'error.dt', function ( e, settings, techNote, message ) {
+        console.log( 'An error has been reported by DataTables: ', message );
+        } ) ;
+
         let scheduled_payment_datatable = $('#scheduled_payments_datatables').DataTable( {
             data: dataSet,
             columns: [
-                { 
+                {
                   title: "Work Progress(%)",
                   data: "work_progress",
                   "render": function ( data, type, row, meta ) {
                     return data+"%";
                   }
                 },
-                { 
-                  title: "Amount", 
+                {
+                  title: "Amount",
                   data: "amount",
                   "render": function ( data, type, row, meta ) {
                     return data;
@@ -23,17 +30,17 @@ let scheduled_payments = {
                     return data+"%";
                   }
                 },
-                { 
+                {
                   title: "Description",
                   data: "description"
                 }
             ],
-            searching: false, 
-            paging: false, 
+            searching: false,
+            paging: false,
             info: false,
             footer: true,
             "footerCallback": function(row, data, start, end, display) {
-                
+
               var api = this.api();
                 api.columns('0', {
                   page: 'current'
@@ -71,16 +78,16 @@ let scheduled_payments = {
                       }, 0);
                     $( api.column( 2 ).footer() ).html("Total Amount : "+sum+"%");
                   });
-                  
+
               }
-           
+
         } );
 
         $('.add_scheduled_row').on('click', function () {
-            $("#work_progress_scheduled-error").html(''); 
-            $("#amount_scheduled-error").html(''); 
-            $("#work_progress_scheduled").removeClass('is-invalid'); 
-            $("#amount_scheduled").removeClass('is-invalid'); 
+            $("#work_progress_scheduled-error").html('');
+            $("#amount_scheduled-error").html('');
+            $("#work_progress_scheduled").removeClass('is-invalid');
+            $("#amount_scheduled").removeClass('is-invalid');
             let total = $('#grand_total').attr('value');
             let work_progress_scheduled = $("#work_progress_scheduled").val();
             let amount_scheduled = $("#amount_scheduled").val();
@@ -90,15 +97,15 @@ let scheduled_payments = {
             let max = calculate_progress();
             let remaining = total - sub_total;
             if(work_progress_scheduled < max){
-              $("#work_progress_scheduled-error").html('Work progess precentage cannot lower than '+max+'%'); 
-              $("#work_progress_scheduled").addClass('is-invalid'); 
+              $("#work_progress_scheduled-error").html('Work progess precentage cannot lower than '+max+'%');
+              $("#work_progress_scheduled").addClass('is-invalid');
             }else if(work_progress_scheduled > 100){
-              $("#work_progress_scheduled-error").html('Work progess precentage cannot exceed 100%'); 
-              $("#work_progress_scheduled").addClass('is-invalid'); 
+              $("#work_progress_scheduled-error").html('Work progess precentage cannot exceed 100%');
+              $("#work_progress_scheduled").addClass('is-invalid');
               return;
             }else if(parseInt(amount_scheduled) > parseInt(total)){
-              $("#amount_scheduled-error").html('Amount inserted cannot exceed remaining '+ remaining +' of total'); 
-              $("#amount_scheduled").addClass('is-invalid'); 
+              $("#amount_scheduled-error").html('Amount inserted cannot exceed remaining '+ remaining +' of total');
+              $("#amount_scheduled").addClass('is-invalid');
               return ;
             }else{
               let newRow = [];
@@ -109,7 +116,7 @@ let scheduled_payments = {
               scheduled_payment_datatable
                   .row.add( newRow )
                   .draw();
-                
+
               $("#work_progress_scheduled").val(0);
               $("#amount_scheduled").val(0);
               $("#description_scheduled").val("");
