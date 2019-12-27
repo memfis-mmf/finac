@@ -153,7 +153,10 @@ let Journal = {
                     overflow: 'visible',
                     template: function (t, e, i) {
 
-											let _html = '';
+											let _html =
+                          '<a href="'+_url+'/account-payable/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+                              '<i class="la la-print"></i>' +
+                          '</a>';
 
 											if (!t.approve) {
 												_html +=

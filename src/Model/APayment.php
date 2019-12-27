@@ -5,6 +5,7 @@ namespace Directoryxx\Finac\Model;
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Currency;
+use App\Models\Vendor;
 
 class APayment extends MemfisModel
 {

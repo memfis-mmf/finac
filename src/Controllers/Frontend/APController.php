@@ -76,7 +76,7 @@ class APController extends Controller
 		->get();
 
 		$data['debt_total_amount'] = TrxPayment::where(
-			'id_supplier', 
+			'id_supplier',
 			$data['data']->id_supplier
 		)->sum('grandtotal');
 
@@ -551,8 +551,20 @@ class APController extends Controller
 
 	function print(Request $request)
 	{
-        $pdf = \PDF::loadView('formview::ar-ap');
-        return $pdf->stream();
+		$ap = APayment::where('uuid', $request->uuid)->first();
+		$apa = $ap->apa()->with([
+			'coa'
+		])->get();
+		$to = $ap->vendor;
+
+		$data = [
+			'data' => $ap,
+			'apa' => array_chunk(json_decode($apa), 10),
+			'to' => $to,
+		];
+
+		$pdf = \PDF::loadView('formview::ar-ap', $data);
+		return $pdf->stream();
 	}
-	
+
 }

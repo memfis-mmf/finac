@@ -128,13 +128,13 @@
                     <td valign="top" width="1%">:</td>
 										<td valign="top" width="44%">{{ $data->transactionnumber }}</td>
                     <td valign="top" width="13%"><b>Payment To</b></td>
-										<td valign="top" width="1%">{{ $data->to->name }}</td>
+										<td valign="top" width="1%">{{ $to->name }}</td>
                     <td valign="top" width="25%">Lorem ipsum dolor</td>
                 </tr>
                 <tr>
                     <td valign="top" width="16%"><b>Date</b></td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="44%">lorem</td>
+										<td valign="top" width="44%">{{ $data->transactiondate }}</td>
                     <td valign="top" width="13%"></td>
                     <td valign="top" width="1%"></td>
                     <td valign="top" width="25%"></td>
@@ -142,7 +142,7 @@
                 <tr>
                     <td valign="top" width="16%"><b>Ref No.</b></td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="44%">lorem</td>
+                    <td valign="top" width="44%">{{ $data->refno }}</td>
                     <td valign="top" width="13%"></td>
                     <td valign="top" width="1%"></td>
                     <td valign="top" width="25%"></td>
@@ -157,10 +157,10 @@
                 <tr>
                     <td valign="top" width="16%"><b>Currency</b></td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="44%">lorem</td>
+                    <td valign="top" width="44%">{{ $data->currency }}</td>
                     <td valign="top" width="13%"><b>Exchange Rate</b></td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="25%">Lorem ipsum dolor</td>
+                    <td valign="top" width="25%">{{ number_format($data->exchangerate) }}</td>
                 </tr>
             </table>
         </div>
@@ -183,13 +183,20 @@
     <div class="content4">
         <div class="container">
             <table width="100%" cellpadding="4">
-                <tr>
-                    <td valign="top" width="12%">lorem</td>
-                    <td valign="top" width="17%">lorem</td>
-                    <td valign="top" width="31%">lorem</td>
-                    <td valign="top" width="20%">200.000.000</td>
-                    <td valign="top" width="20%">20.000.000</td>
-                </tr>
+
+								@for ($a=0; $a < count($apa[0]); $a++)
+									@php
+										$x = $apa[0];
+									@endphp
+									<tr>
+										<td valign="top" width="12%">{{ $x->coa->code }}</td>
+										<td valign="top" width="17%">{{ $x->coa->name }}</td>
+										<td valign="top" width="31%">{{ $x->coa->description }}</td>
+										<td valign="top" width="20%">{{ number_format($x->debit, 0, 0, '.') }}</td>
+										<td valign="top" width="20%">{{ number_format($x->credit, 0, 0, '.') }}</td>
+									</tr>
+								@endfor
+
             </table>
         </div>
     </div>
