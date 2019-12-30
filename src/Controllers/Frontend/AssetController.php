@@ -18,7 +18,7 @@ class AssetController extends Controller
 
     public function create()
     {
-        return view('assetview::index');        
+        return view('masterassetview::index');        
     }
 
     public function store(AssetStore $request)
