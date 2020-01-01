@@ -205,9 +205,9 @@ let JournalEdit = {
 													timeOut: 5000
 											});
 
-											// setTimeout(function(){
-											// 	location.href = `${_url}/journal`;
-											// }, 2000);
+											 setTimeout(function(){
+												 location.href = `${_url}/journal`;
+											 }, 2000);
 									}
 							}
 					});

@@ -41,17 +41,17 @@ class TrialBalanceController extends Controller
 	public function getData($startDate, $finishDate)
 	{
 		$query = "select
-		memfis.coas.code as AccountCode,
-		memfis.coas.name as AccountName,
-		memfis.types.name as TypeCoa,
-		memfis.coas.Description as Tipe,
+		coas.code as AccountCode,
+		coas.name as AccountName,
+		types.name as TypeCoa,
+		coas.Description as Tipe,
 		(
 			CASE WHEN
 				CAST(trxjournals.Transaction_Date as date) < '$startDate'
 			THEN
 			(
 				CASE WHEN
-					memfis.types.name = 'ACTIVA' or memfis.types.name = 'BIAYA'
+					types.name = 'ACTIVA' or types.name = 'BIAYA'
 				THEN
 					SUM(Debit-Credit)
 				ELSE
@@ -80,12 +80,12 @@ class TrialBalanceController extends Controller
 				0
 			END
 		) Credit
-		from memfis.coas
-		left join memfis.types on (types.`of`= 'coa') and (memfis.coas.type_id = memfis.types.id)
-		left join trxjournala on trxjournala.account_code = memfis.coas.id
+		from coas
+		left join types on (types.`of`= 'coa') and (coas.type_id = types.id)
+		left join trxjournala on trxjournala.account_code = coas.id
 		left join trxjournals on trxjournals.voucher_no = trxjournala.voucher_no
-		group by memfis.coas.code
-		order by memfis.coas.code";
+		group by coas.code
+		order by coas.code";
 
 		$data = DB::select($query);
 
