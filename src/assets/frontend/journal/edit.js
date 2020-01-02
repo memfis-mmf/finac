@@ -116,11 +116,13 @@ let JournalEdit = {
 				let data = account_code_table.row(tr).data().mDatatable.dataSet[tr_index];
 				let amount = '';
 
+				console.table(data);
+
 				amount = parseInt(data.credit);
 
 				form.find('input[value=kredit]').prop('checked', true);
 
-				if (data.debit) {
+				if (data.debit > 0) {
 					amount = parseInt(data.debit);
 					form.find('input[value=debet]').prop('checked', true);
 				}
@@ -309,8 +311,8 @@ let JournalEdit = {
 										type: 'DELETE',
 										url: '/journala/' + triggerid + '',
 										success: function (data) {
-												toastr.success('AR has been deleted.', 'Deleted', {
-																timeOut: 5000
+												toastr.success('data has been deleted.', 'Deleted', {
+																timeOut: 2000
 														}
 												);
 
