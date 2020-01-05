@@ -73,4 +73,16 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/bond/create', 'bondview::create')->name('bond.create');
     Route::view('/bond/edit', 'bondview::edit')->name('bond.edit');
     Route::view('/bond/show', 'bondview::show')->name('bond.show');
+
+
+
+    /** CASHBOOK (NEW) */
+
+
+    Route::view('/cashbook-new', 'cashbooknewview::index')->name('cashbook-new.index');
+
+    Route::view('/cashbook-new/create', 'cashbooknewview::create')->name('cashbook-new.create');
+    Route::view('/cashbook-new/edit', 'cashbooknewview::edit')->name('cashbook-new.edit');
+
+
 });
