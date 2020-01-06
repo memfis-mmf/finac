@@ -194,30 +194,6 @@ class ProfitLossController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-	public function convertDate($date)
-	{
-		$tmp_date = explode('-', $date);
-
-		$startDate = date(
-			'Y-m-d',
-			strtotime(
-				str_replace("/", "-", trim($tmp_date[0]))
-			)
-		);
-
-		$finishDate = date(
-			'Y-m-d',
-			strtotime(
-				str_replace("/", "-", trim($tmp_date[1]))
-			)
-		);
-
-		return [
-			$startDate,
-			$finishDate
-		];
-	}
-
 	public function print(Request $request)
 	{
 		$date = $this->convertDate($request->daterange);
