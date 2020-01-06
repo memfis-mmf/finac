@@ -172,6 +172,21 @@ Route::group(['middleware' => ['web','auth']], function () {
 		)->name('trialbalance.datatables');
 	});
 
+    Route::prefix('balance-sheet')->group(function () {
+		Route::get(
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\BalanceSheetController@index'
+		)->name('balancesheet.index');
+		Route::get(
+			'/print',
+			'Directoryxx\Finac\Controllers\Frontend\BalanceSheetController@print'
+		)->name('balancesheet.print');
+		Route::get(
+			'/datatables',
+			'Directoryxx\Finac\Controllers\Frontend\BalanceSheetController@datatables'
+		)->name('balancesheet.datatables');
+	});
+
     Route::prefix('profit-loss')->group(function () {
 		Route::get(
 			'/',
