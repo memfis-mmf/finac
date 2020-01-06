@@ -39,11 +39,11 @@ class ProfitLossController extends Controller
 		];
 	}
 
-	public function getData()
+	public function getData($beginDate, $endingDate)
 	{
 		$queryStatement = "
-			SET @BeginDate = '2019-12-01';
-			SET @EndingDate = '2019-12-31';
+			SET @BeginDate = ".$beginDate.";
+			SET @EndingDate = ".$endingDate.";
 		";
 
 		$query = "
@@ -82,7 +82,7 @@ class ProfitLossController extends Controller
 		";
 
 		DB::connection()->getpdo()->exec($queryStatement);
-		$data = DB::statement($query);
+		$data = DB::select($query);
 
 		return $data;
 	}
@@ -194,13 +194,38 @@ class ProfitLossController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
+	public function convertDate($date)
+	{
+		$tmp_date = explode('-', $date);
+
+		$startDate = date(
+			'Y-m-d',
+			strtotime(
+				str_replace("/", "-", trim($tmp_date[0]))
+			)
+		);
+
+		$finishDate = date(
+			'Y-m-d',
+			strtotime(
+				str_replace("/", "-", trim($tmp_date[1]))
+			)
+		);
+
+		return [
+			$startDate,
+			$finishDate
+		];
+	}
+
 	public function print(Request $request)
 	{
-		$queryFunction = QF::run();
+		$date = $this->convertDate($request->daterange);
 
-		$tmp_data = $this->getData();
+		$beginDate = $date[0];
+		$endingDate = $date[1];
 
-		dd($tmp_data);
+		$tmp_data = $this->getData($beginDate, $endingDate);
 
 		return $tmp_data;
 	}
