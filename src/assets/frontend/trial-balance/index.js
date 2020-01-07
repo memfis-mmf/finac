@@ -67,27 +67,27 @@ let TrialBalance = {
             },
             columns: [
                 {
-                    field: 'AccountCode',
+                    field: 'code',
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,
                     width: 160
                 },
                 {
-                    field: 'AccountName',
+                    field: 'name',
                     title: 'Account Name',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'BeginningBalance',
+                    field: 'LastBalance',
                     title: 'Beginning Balance',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150,
 										template: function(t, e, i) {
-											return addCommas(parseInt(t.BeginningBalance));
+											return addCommas(parseInt(t.LastBalance));
 										}
                 },
                 {
@@ -111,13 +111,13 @@ let TrialBalance = {
 										}
                 },
                 {
-                    field: 'ending',
+                    field: 'EndingBalance',
                     title: 'Ending Balance',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150,
 										template: function(t, e, i) {
-											return addCommas(parseInt(t.ending));
+											return addCommas(parseInt(t.EndingBalance));
 										}
                 },
             ]

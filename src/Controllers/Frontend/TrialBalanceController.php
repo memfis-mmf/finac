@@ -38,80 +38,56 @@ class TrialBalanceController extends Controller
 		];
 	}
 
-	public function getData($startDate, $finishDate)
+	public function getData($beginDate, $endingDate)
 	{
-		$query = "select
-		coas.code as AccountCode,
-		coas.name as AccountName,
-		types.name as TypeCoa,
-		coas.Description as Tipe,
-		(
-			CASE WHEN
-				CAST(trxjournals.Transaction_Date as date) < '$startDate'
-			THEN
+		$queryStatement ="
+			SET @BeginDate = ".$beginDate.";
+			SET @EndingDate = ".$endingDate.";
+		";
+
+		$query = "
+			SELECT
+			m_journal.*,
+			IFNULL(IFNULL((a.Debit),(b.Debit)),0) as Debit,
+			IFNULL(IFNULL((a.Credit),(b.Credit)),0) as Credit,
+			IFNULL(IFNULL((a.LastBalance),(b.LastBalance)),0) as LastBalance,
+			IFNULL(IFNULL((a.CurrentBalance),(b.CurrentBalance)),0) as CurrentBalance,
+			IFNULL(IFNULL((a.EndingBalance),(b.EndingBalance)),0) as EndingBalance
+			from
+			m_journal
+			left join
 			(
-				CASE WHEN
-					types.name = 'ACTIVA' or types.name = 'BIAYA'
-				THEN
-					SUM(Debit-Credit)
-				ELSE
-					SUM(Credit-Debit)
-				END
-			)
-			ELSE
-				0
-			END
-		) as BeginningBalance,
-		(
-			CASE WHEN
-				CAST(trxjournals.Transaction_Date as date) between '$startDate' and '$finishDate'
-			THEN
-				SUM(Debit)
-			ELSE
-				0
-			END
-		) Debit,
-		(
-			CASE WHEN
-				CAST(trxjournals.Transaction_Date as date) between '$startDate' and '$finishDate'
-			THEN
-				SUM(Credit)
-			ELSE
-				0
-			END
-		) Credit
-		from coas
-		left join types on (types.`of`= 'coa') and (coas.type_id = types.id)
-		left join trxjournala on trxjournala.account_code = coas.id
-		left join trxjournals on trxjournals.voucher_no = trxjournala.voucher_no
-		group by coas.code
-		order by coas.code";
+			select
+			Query.AccountCode,
+			IFNULL(sum(Query.Debit),0) as Debit,
+			IFNULL(sum(Query.Credit),0) as Credit,
+			IFNULL(sum(Query.LastBalance),0) as LastBalance,
+			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
+			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
+			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
+			group by Query.AccountCode
+			) a on a.AccountCode = m_journal.Code and m_journal.Description = 'Detail'
+			left join
+			(
+			select
+			m_journal.COA as AccountCode,
+			IFNULL(sum(Query.Debit),0) as Debit,
+			IFNULL(sum(Query.Credit),0) as Credit,
+			IFNULL(sum(Query.LastBalance),0) as LastBalance,
+			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
+			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
+			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
+			left join m_journal on
+			substring(Query.AccountCode,1,LENGTH(m_journal.COA)) = m_journal.COA
+			GROUP BY
+			m_journal.COA
+			) b on b.AccountCode = m_journal.COA and m_journal.Description = 'Header'
 
+			Order by m_journal.Code;
+		";
+
+		DB::connection()->getpdo()->exec($queryStatement);
 		$data = DB::select($query);
-
-		for ($i=0; $i < count($data); $i++) {
-			$x = $data[$i];
-
-			if ($x->TypeCoa == 'ACTIVA') {
-				$data[$i]->ending = $x->BeginningBalance + $x->Debit - $x->Credit;
-			}
-
-			if ($x->TypeCoa == 'PASIVA') {
-				$data[$i]->ending = $x->BeginningBalance - $x->Debit + $x->Credit;
-			}
-
-			if ($x->TypeCoa == 'EKUITAS') {
-				$data[$i]->ending = $x->BeginningBalance + $x->Credit - $x->Debit;
-			}
-
-			if ($x->TypeCoa == 'PENDAPATAN') {
-				$data[$i]->ending = $x->BeginningBalance + $x->Credit - $x->Debit;
-			}
-
-			if ($x->TypeCoa == 'BIAYA') {
-				$data[$i]->ending = $x->BeginningBalance + $x->Debit - $x->Credit;
-			}
-		}
 
 		return $data;
 	}
@@ -120,10 +96,10 @@ class TrialBalanceController extends Controller
     {
 		$date = $this->convertDate($request->daterange);
 
-		$startDate = $date[0];
-		$finishDate = $date[1];
+		$beginDate = $date[0];
+		$endingDate = $date[1];
 
-		$data = $alldata = $this->getData($startDate, $finishDate);
+		$data = $alldata = $this->getData($beginDate, $endingDate);
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -227,18 +203,18 @@ class TrialBalanceController extends Controller
 	{
 		$date = $this->convertDate($request->daterange);
 
-		$startDate = $date[0];
-		$finishDate = $date[1];
+		$beginDate = $date[0];
+		$endingDate = $date[1];
 
-		$tmp_data = $this->getData($startDate, $finishDate);
+		$tmp_data = $this->getData($beginDate, $endingDate);
 		$total_data = count($tmp_data);
 		$data_final = array_chunk($tmp_data, 19);
 
 		$data = [
 			'data' => $data_final,
 			'total_data' => $total_data,
-			'startDate' => $startDate,
-			'finishDate' => $finishDate,
+			'startDate' => $beginDate,
+			'finishDate' => $endingDate,
 		];
 
         $pdf = \PDF::loadView('formview::trial-balance', $data);
