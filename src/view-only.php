@@ -83,6 +83,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::view('/cashbook-new/create', 'cashbooknewview::create')->name('cashbook-new.create');
     Route::view('/cashbook-new/edit', 'cashbooknewview::edit')->name('cashbook-new.edit');
+    Route::view('/cashbook-new/show', 'cashbooknewview::show')->name('cashbook-new.show');
 
 
 });
