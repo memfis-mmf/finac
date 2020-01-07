@@ -28,6 +28,9 @@
     </div>
 </div>
 @include('cashbookview::coamodal')
+@include('cashbooknewview::modal-coa')
+@include('cashbooknewview::modal-adjustment1')
+@include('cashbooknewview::modal-adjustment2')
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -216,7 +219,7 @@
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="m-portlet m-portlet--mobile">
                                                     <div class="m-portlet__body">
-                                                        <div class="coa_datatable" id="scrolling_both"></div>
+                                                        <div class="adjustment1_datatable" id="scrolling_both"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -251,14 +254,27 @@
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="m-portlet m-portlet--mobile">
                                                     <div class="m-portlet__body">
-                                                        <div class="coa_datatable" id="scrolling_both"></div>
+                                                        <div class="adjustment2_datatable" id="scrolling_both"></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <label class="form-control-label">
+                                            Remark
+                                        </label>
 
+                                        @component('input::textarea')
+                                            @slot('id', 'remark')
+                                            @slot('text', 'Remark')
+                                            @slot('name', 'description')
+                                            @slot('rows','5')
+                                        @endcomponent
+                                    </div>
+                                </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
@@ -290,7 +306,7 @@
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/coa.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/cashbook/edit.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
