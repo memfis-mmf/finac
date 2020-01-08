@@ -105,6 +105,42 @@
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
+                                            <li class="nav-item m-tabs__item">
+                                                <a class="nav-link m-tabs__link active" data-toggle="tab" id="m_tab_6_1" href="#m_tabs_6_1" role="tab">
+                                                    <i class="la la-cog"></i> General Information
+                                                </a>
+                                            </li>
+                                            <li class="nav-item m-tabs__item">
+                                                <a class="nav-link m-tabs__link" data-toggle="tab" id="m_tab_6_2" href="#m_tabs_6_2" role="tab">
+                                                    <i class="la la-briefcase"></i> Purchase Information
+                                                </a>
+                                            </li>
+                                            <li class="nav-item m-tabs__item">
+                                                <a class="nav-link m-tabs__link" data-toggle="tab" id="m_tab_6_3" href="#m_tabs_6_3" role="tab">
+                                                    <i class="la la-briefcase"></i> Depreciation
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="m_tabs_6_1" role="tabpanel">
+                                                @include('masterassetview::general-information')
+                                            </div>
+                                            <div class="tab-pane" id="m_tabs_6_2" role="tabpanel">
+                                                @include('masterassetview::purchase-information')
+                                            </div>
+                                            <div class="tab-pane" id="m_tabs_6_3" role="tabpanel">
+                                                @include('masterassetview::depreciation')
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
                                             @component('buttons::submit')
