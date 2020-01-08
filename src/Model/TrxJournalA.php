@@ -28,7 +28,8 @@ class TrxJournalA extends MemfisModel
 	{
 		return $this->belongsTo(
 			Coa::class,
-			'account_code'
+			'account_code',
+			'code',
 		);
 	}
 
@@ -41,5 +42,5 @@ class TrxJournalA extends MemfisModel
 	{
 		return number_format($this->credit, 0, 0, '.');
 	}
-	
+
 }
