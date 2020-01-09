@@ -3,6 +3,7 @@
 namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use Directoryxx\Finac\Model\TypeAsset;
 use Directoryxx\Finac\Model\Asset;
 use Directoryxx\Finac\Request\AssetUpdate;
 use Directoryxx\Finac\Request\AssetStore;
@@ -13,15 +14,30 @@ class AssetController extends Controller
 {
     public function index()
     {
-        return redirect()->route('asset.create');
+        return view('masterassetview::index');
     }
+
+	public function data()
+	{
+		$data = TypeAsset::all();
+
+		$type = [];
+
+		for ($i = 0; $i < count($data); $i++) {
+			$x = $data[$i];
+
+			$type[$x->id] = $x->name;
+		}
+
+        return json_encode($type, JSON_PRETTY_PRINT);
+	}
 
     public function create()
     {
-        return view('masterassetview::index');        
+        return view('masterassetview::create');
     }
 
-    public function store(AssetStore $request)
+    public function store(Request $request)
     {
         $asset = Asset::create($request->all());
         return response()->json($asset);
@@ -29,12 +45,13 @@ class AssetController extends Controller
 
     public function edit(Request $request)
     {
-		$asset = Asset::where('uuid', $request->asset)->with([
+		$data['asset'] = Asset::where('uuid', $request->asset)->with([
 			'type',
-			'type.coa',
 		])->first();
 
-        return response()->json($asset);
+		$data['type_asset'] = TypeAsset::all();
+
+        return view('masterassetview::edit', $data);
     }
 
     public function update(AssetUpdate $request, Asset $asset)
@@ -75,8 +92,8 @@ class AssetController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -87,7 +104,7 @@ class AssetController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -98,15 +115,15 @@ class AssetController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -145,8 +162,8 @@ class AssetController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;

@@ -520,8 +520,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::prefix('asset')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@create'
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@index'
 		)->name('asset.index');
+		Route::get(
+			'/create',
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@create'
+		)->name('asset.create');
 		Route::post(
 			'/',
 			'Directoryxx\Finac\Controllers\Frontend\AssetController@store'
@@ -544,7 +548,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@api'
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@data'
 		);
 		Route::get(
 			'/data/{asset}',

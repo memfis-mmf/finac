@@ -1,7 +1,7 @@
 $(document).ready(function () {
     employee = function () {
         $.ajax({
-            url: '/get-employees/',
+            url: '/get-employees',
             type: 'GET',
             dataType: 'json',
             success: function (data) {

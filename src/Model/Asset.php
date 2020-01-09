@@ -8,7 +8,7 @@ use Directoryxx\Finac\Model\MemfisModel;
 
 class Asset extends MemfisModel
 {
-   
+
     protected $fillable = [
 		'active',
 		'code',
@@ -41,7 +41,6 @@ class Asset extends MemfisModel
 
 	public function type()
 	{
-		return $this->belongsTo(TypeAsset::class, 'group', 'code');
+		return $this->belongsTo(TypeAsset::class, 'group', 'id');
 	}
-
 }
