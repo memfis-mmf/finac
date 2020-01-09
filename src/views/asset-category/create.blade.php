@@ -39,7 +39,7 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::edit')
+                            @include('label::create-new')
 
                             <h3 class="m-portlet__head-text">
                                 Asset Category
@@ -150,7 +150,7 @@
 @endsection
 
 @push('footer-scripts')
-    <script src="{{ asset('vendor/courier/frontend/asset-category/edit.js')}}"></script>
+    <script src="{{ asset('vendor/courier/frontend/asset-category/create.js')}}"></script>
 
     <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 
