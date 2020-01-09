@@ -86,4 +86,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/cashbook-new/show', 'cashbooknewview::show')->name('cashbook-new.show');
 
 
+    /** ASSET CATEGORY */
+
+    Route::view('/asset-category', 'assetcategoryview::index')->name('asset-category.index');
+
+    Route::view('/asset-category/create', 'assetcategoryview::create')->name('asset-category.create');
+    Route::view('/asset-category/edit', 'assetcategoryview::edit')->name('asset-category.edit');
+    Route::view('/asset-category/show', 'assetcategoryview::show')->name('asset-category.show');
+
 });
