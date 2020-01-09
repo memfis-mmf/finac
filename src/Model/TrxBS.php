@@ -5,6 +5,7 @@ namespace Directoryxx\Finac\Model;
 
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class TrxBS extends MemfisModel
 {
@@ -25,8 +26,14 @@ class TrxBS extends MemfisModel
 
 	protected $appends = [
 		'coac_name',
-		'coad_name'
+		'coad_name',
+		'created_by'
 	];
+
+	public function getCreatedByAttribute()
+	{
+		return User::find($this->audits->first()->user_id);
+	}
 
 	public function getCoacNameAttribute()
 	{
@@ -66,5 +73,5 @@ class TrxBS extends MemfisModel
 	{
 		return $this->belongsTo('App\Models\Employee', 'id_employee', 'code');
 	}
-	
+
 }

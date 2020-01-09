@@ -122,7 +122,7 @@ let Bond = {
                     width: 150
                 },
                 {
-                    field: 'x',
+                    field: 'created_by.name',
                     title: 'Created By',
                     sortable: 'asc',
                     filterable: !1,
