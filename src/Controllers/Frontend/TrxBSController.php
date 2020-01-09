@@ -2,6 +2,7 @@
 
 namespace Directoryxx\Finac\Controllers\Frontend;
 
+use Auth;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxBS as BS;
 use Directoryxx\Finac\Model\TrxJournal as Journal;
@@ -10,6 +11,7 @@ use Directoryxx\Finac\Request\BSUpdate;
 use Directoryxx\Finac\Request\BSStore;
 use App\Models\Currency;
 use App\Models\Employee;
+use App\Models\Approval;
 
 class TrxBSController extends Controller
 {
@@ -31,6 +33,13 @@ class TrxBSController extends Controller
 		$detail[] = (object) [
 			'code' => $header->coac
 		];
+
+        $header->approvals()->save(new Approval([
+            'approvable_id' => $header->id,
+            'conducted_by' => Auth::id(),
+            'note' => @$request->note,
+            'is_approved' => 1
+        ]));
 
 		Journal::insertFromBS($header, $detail);
 
@@ -144,7 +153,8 @@ class TrxBSController extends Controller
 			->with([
 				'employee'
 			])
-			->get());
+			->get()
+		);
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

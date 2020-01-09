@@ -2,6 +2,7 @@
 
 namespace Directoryxx\Finac\Controllers\Frontend;
 
+use Auth;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\APayment;
 use Directoryxx\Finac\Model\APaymentA;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Currency;
 use Directoryxx\Finac\Model\TrxJournal;
+use App\Models\Approval;
 
 class APController extends Controller
 {
@@ -539,6 +541,13 @@ class APController extends Controller
 
 		$AP_header = $data->first();
 		$AP_detail = $AP_header->apa;
+
+        $AP_header->approvals()->save(new Approval([
+            'approvable_id' => $AP_header->id,
+            'conducted_by' => Auth::id(),
+            'note' => @$request->note,
+            'is_approved' => 1
+        ]));
 
 		TrxJournal::insertFromAP($AP_header, $AP_detail);
 

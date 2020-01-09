@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Currency;
 use App\Models\Vendor;
 use App\User;
+use App\Models\Approval;
 
 class APayment extends MemfisModel
 {
@@ -28,7 +29,18 @@ class APayment extends MemfisModel
 	protected $appends = [
 		'date',
 		'created_by',
+		'approved_by',
 	];
+
+    public function approvals()
+    {
+        return $this->morphMany(Approval::class, 'approvable');
+    }
+
+	public function getApprovedByAttribute()
+	{
+		return @User::find($this->approvals->first()->conducted_by);
+	}
 
 	public function getCreatedByAttribute()
 	{

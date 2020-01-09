@@ -10,6 +10,7 @@ use Directoryxx\Finac\Model\TypeJurnal;
 use App\Models\GoodsReceived as GRN;
 use App\Models\Currency;
 use App\User;
+use App\Models\Approval;
 
 class TrxJournal extends MemfisModel
 {
@@ -31,7 +32,18 @@ class TrxJournal extends MemfisModel
 		'exchange_rate_fix',
 		'created_by',
 		'updated_by',
+		'approved_by',
 	];
+
+    public function approvals()
+    {
+        return $this->morphMany(Approval::class, 'approvable');
+    }
+
+	public function getApprovedByAttribute()
+	{
+		return @User::find($this->approvals->first()->conducted_by);
+	}
 
 	public function getCreatedByAttribute()
 	{

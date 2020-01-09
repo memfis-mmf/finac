@@ -6,6 +6,7 @@ namespace Directoryxx\Finac\Model;
 use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Models\Approval;
 
 class TrxBS extends MemfisModel
 {
@@ -27,8 +28,19 @@ class TrxBS extends MemfisModel
 	protected $appends = [
 		'coac_name',
 		'coad_name',
-		'created_by'
+		'created_by',
+		'approved_by',
 	];
+
+    public function approvals()
+    {
+        return $this->morphMany(Approval::class, 'approvable');
+    }
+
+	public function getApprovedByAttribute()
+	{
+		return @User::find($this->approvals->first()->conducted_by);
+	}
 
 	public function getCreatedByAttribute()
 	{

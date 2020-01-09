@@ -122,7 +122,7 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'approved_by.name',
                     title: 'Approved By',
                     sortable: 'asc',
                     filterable: !1,

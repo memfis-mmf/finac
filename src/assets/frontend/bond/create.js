@@ -121,7 +121,7 @@ let BondCreate = {
 								sortable: 'asc',
 								filterable: !1,
 								textAlign: 'center',
-								template: function (row, index, datatable) {   
+								template: function (row, index, datatable) {
 										return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
 								}
 						},
@@ -215,8 +215,8 @@ let BondCreate = {
 												timeOut: 5000
 										});
 
-										setTimeout(function(){ 
-											location.href = `${_url}/bond/${data.uuid}/edit`; 
+										setTimeout(function(){
+											location.href = `${_url}/bond/`; 
 										}, 2000);
 
 										$('#code-error').html('');

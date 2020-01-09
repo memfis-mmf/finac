@@ -129,7 +129,7 @@ let Bond = {
                     width: 150
                 },
                 {
-                    field: 'x',
+                    field: 'approved_by.name',
                     title: 'Approve by',
                     sortable: 'asc',
                     filterable: !1,

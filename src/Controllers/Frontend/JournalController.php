@@ -2,6 +2,7 @@
 
 namespace Directoryxx\Finac\Controllers\Frontend;
 
+use Auth;
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxJournal as Journal;
 use Directoryxx\Finac\Model\TrxJournalA;
@@ -12,6 +13,7 @@ use Directoryxx\Finac\Request\JournalStore;
 use Directoryxx\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use App\Models\Approval;
 
 class JournalController extends Controller
 {
@@ -44,6 +46,13 @@ class JournalController extends Controller
 				'errors' => 'Debit and Credit not balance'
 			];
 		}
+
+        $journal->first()->approvals()->save(new Approval([
+            'approvable_id' => $journal->first()->id,
+            'conducted_by' => Auth::id(),
+            'note' => @$request->note,
+            'is_approved' => 1
+        ]));
 
 		$journal->update([
 			'approve' => 1
