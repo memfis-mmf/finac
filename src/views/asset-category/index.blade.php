@@ -5,7 +5,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                Master Asset
+                Asset Category
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -19,7 +19,7 @@
                 <li class="m-nav__item">
                     <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Master Asset
+                            Asset Category
                         </span>
                     </a>
                 </li>
@@ -42,7 +42,7 @@
                             @include('label::datalist')
 
                             <h3 class="m-portlet__head-text">
-                                Master Asset
+                                Asset Category
                             </h3>
                         </div>
                     </div>
@@ -65,9 +65,9 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                    <a href="{{url('master-asset/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                    <a href="{{url('asset-category/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                         <i class="la la-plus-circle"></i>
-                                        <span>Master Asset</span>
+                                        <span>Asset Category</span>
                                     </span></a>
 
                                     <div class="m-separator m-separator--dashed d-xl-none"></div>
@@ -77,7 +77,7 @@
                         <div class="col-lg-12">
                             @include('masterassetview::filter')
                         </div>
-                        <div class="master_asset_datatable" id="scrolling_both"></div>
+                        <div class="asset_category_datatable" id="scrolling_both"></div>
                     </div>
                 </div>
             </div>
@@ -87,6 +87,6 @@
 @endsection
 
 @push('footer-scripts')
-<script src="{{ asset('vendor/courier/frontend/master-asset/index.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/asset-category/index.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush
