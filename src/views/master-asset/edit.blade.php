@@ -61,6 +61,7 @@
                                             @slot('text', 'Master Asset Code')
                                             @slot('name', 'code')
                                             @slot('id_error', 'code')
+                                            @slot('value', $asset->code)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -68,12 +69,13 @@
                                             Asset Category @include('label::required')
                                         </label>
 
-                                        @component('input::select')
-                                            @slot('id', 'asset_category')
-                                            @slot('name', 'asset_category')
-                                            @slot('text', 'Asset Category')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
+																				<select id="asset_category_id" name="group" class="form-control m-select2" disabled>
+																						@foreach ($type_asset as $x)
+																								<option value="{{ $x->id }}" @if ($x->id == $asset->group) selected @endif>
+																										{{ $x->name }}
+																								</option>
+																						@endforeach
+																				</select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -87,6 +89,7 @@
                                             @slot('text', 'Master Asset Name')
                                             @slot('name', 'name')
                                             @slot('id_error', 'name')
+                                            @slot('value', $asset->name)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -101,6 +104,7 @@
                                             @slot('text', 'Description')
                                             @slot('name', 'description')
                                             @slot('rows','5')
+                                            @slot('value', $asset->description)
                                         @endcomponent
                                     </div>
                                 </div>

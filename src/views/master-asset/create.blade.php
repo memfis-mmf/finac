@@ -69,8 +69,8 @@
                                         </label>
 
                                         @component('input::select')
-                                            @slot('id', 'asset_category')
-                                            @slot('name', 'asset_category')
+                                            @slot('id', 'asset_category_id')
+                                            @slot('name', 'group')
                                             @slot('text', 'Asset Category')
                                             @slot('style', 'width:100%')
                                         @endcomponent
@@ -130,8 +130,6 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/asset-category.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/master-asset/create.js')}}"></script>
 @endpush
