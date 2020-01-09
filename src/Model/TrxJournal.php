@@ -9,6 +9,7 @@ use Directoryxx\Finac\Model\TrxJournalA;
 use Directoryxx\Finac\Model\TypeJurnal;
 use App\Models\GoodsReceived as GRN;
 use App\Models\Currency;
+use App\User;
 
 class TrxJournal extends MemfisModel
 {
@@ -26,7 +27,29 @@ class TrxJournal extends MemfisModel
 		'automatic_journal_type',
     ];
 
-	protected $appends = ['exchange_rate_fix'];
+	protected $appends = [
+		'exchange_rate_fix',
+		'created_by',
+		'updated_by',
+	];
+
+	public function getCreatedByAttribute()
+	{
+		return User::find($this->audits->first()->user_id);
+	}
+
+	public function getUpdatedByAttribute()
+	{
+		$tmp = $this->audits;
+
+		$result = '';
+
+		if (count($tmp) > 1) {
+			$result =  User::find($tmp[count($tmp)-1]->user_id);
+		}
+
+		return $result;
+	}
 
 	static public function getJournalCode($journal_type_id)
 	{

@@ -6,6 +6,7 @@ use Directoryxx\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Currency;
 use App\Models\Vendor;
+use App\User;
 
 class APayment extends MemfisModel
 {
@@ -24,7 +25,15 @@ class APayment extends MemfisModel
 		'description',
     ];
 
-	protected $appends = ['date'];
+	protected $appends = [
+		'date',
+		'created_by',
+	];
+
+	public function getCreatedByAttribute()
+	{
+		return User::find($this->audits->first()->user_id);
+	}
 
 	public function getDateAttribute()
 	{
@@ -63,7 +72,7 @@ class APayment extends MemfisModel
 	public function apa()
 	{
 		return $this->hasMany(
-			APaymentA::class, 
+			APaymentA::class,
 			'transactionnumber',
 			'transactionnumber'
 		);

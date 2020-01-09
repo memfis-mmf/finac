@@ -108,14 +108,14 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: '',
-                    title: 'Create By',
+                    field: 'created_by.name',
+                    title: 'Created By',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'updated_by.name',
                     title: 'Updated By',
                     sortable: 'asc',
                     filterable: !1,

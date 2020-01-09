@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Directoryxx\Finac\Model\Coa;
 use App\Models\Vendor;
 use Directoryxx\Finac\Model\TrxPaymentA;
+use App\User;
 
 class TrxPayment extends MemfisModel
 {
@@ -35,7 +36,27 @@ class TrxPayment extends MemfisModel
 	protected $appends = [
 		'exchange_rate_fix',
 		'total',
+		'created_by',
+		'updated_by',
 	];
+
+	public function getCreatedByAttribute()
+	{
+		return User::find($this->audits->first()->user_id);
+	}
+
+	public function getUpdatedByAttribute()
+	{
+		$tmp = $this->audits;
+
+		$result = '';
+
+		if (count($tmp) > 1) {
+			$result =  User::find($tmp[count($tmp)-1]->user_id);
+		}
+
+		return $result;
+	}
 
 	public function getExchangeRateFixAttribute()
 	{
