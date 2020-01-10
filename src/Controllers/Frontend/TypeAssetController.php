@@ -29,11 +29,11 @@ class TypeAssetController extends Controller
 
     public function edit(Request $request)
     {
-		$typeasset = TypeAsset::where('uuid', $request->typeasset)->with([
+		$data['typeasset'] = TypeAsset::where('uuid', $request->typeasset)->with([
 			'coa'
 		])->first();
 
-        return response()->json($typeasset);
+        return view('assetcategoryview::edit', $data);
     }
 
     public function update(TypeAssetUpdate $request, TypeAsset $typeasset)

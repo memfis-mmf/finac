@@ -9,7 +9,7 @@ let AssetCategory = {
               source: {
                   read: {
                       method: 'GET',
-                      url: '',
+                      url: `${_url}/typeasset/datatables`,
                       map: function (raw) {
                           let dataSet = raw;
 
@@ -47,35 +47,35 @@ let AssetCategory = {
           },
           columns: [
               {
-                  field: '',
+                  field: 'code',
                   title: 'Category Code',
                   sortable: 'asc',
                   filterable: !1,
                   width: 60
               },
               {
-                  field: '',
+                  field: 'name',
                   title: 'Category Name',
                   sortable: 'asc',
                   filterable: !1,
                   width: 150
               },
               {
-                  field: '',
+                  field: 'usefullife',
                   title: 'Useful Life',
                   sortable: 'asc',
                   filterable: !1,
                   width: 60,
               },
               {
-                  field: '',
+                  field: 'accountcode',
                   title: 'Coa Asset',
                   sortable: 'asc',
                   filterable: !1,
                   width: 150
               },
               {
-                  field: '',
+                  field: 'created_by.name',
                   title: 'Created By',
                   sortable: 'asc',
                   filterable: !1,
@@ -88,9 +88,12 @@ let AssetCategory = {
                   sortable: !1,
                   overflow: 'visible',
                   template: function (t, e, i) {
+
+										let _html = '';
+
 										if (!t.approve) {
 											_html +=
-                        '<a href="'+_url+'/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                        '<a href="'+_url+'/typeasset/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                         t.uuid +
                         '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
                         '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +

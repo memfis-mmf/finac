@@ -556,8 +556,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+	Route::resource(
+		'typeasset',
+		'Directoryxx\Finac\Controllers\Frontend\TypeAssetController',
+		['except' => 'show']
+	);
     Route::prefix('typeasset')->group(function () {
-		Route::resource('', 'Directoryxx\Finac\Controllers\Frontend\TypeAssetController');
 		Route::get(
 			'/datatables',
 			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@datatables'

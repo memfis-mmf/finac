@@ -60,7 +60,8 @@
                                         @component('input::text')
                                             @slot('id', 'cateory_code')
                                             @slot('text', 'Category Code')
-                                            @slot('name', 'cateory_code')
+                                            @slot('name', 'code')
+                                            @slot('value', $typeasset->code)
                                             @slot('id_error', 'cateory_code')
                                         @endcomponent
                                     </div>
@@ -72,7 +73,8 @@
                                         @component('input::text')
                                             @slot('id', 'cateory_name')
                                             @slot('text', 'Category Name')
-                                            @slot('name', 'cateory_name')
+                                            @slot('name', 'name')
+                                            @slot('value', $typeasset->name)
                                             @slot('id_error', 'cateory_name')
                                         @endcomponent
                                     </div>
@@ -86,7 +88,8 @@
                                         @component('input::text')
                                             @slot('id', 'useful_life')
                                             @slot('text', 'Useful Life')
-                                            @slot('name', 'useful_life')
+                                            @slot('name', 'usefullife')
+                                            @slot('value', $typeasset->usefullife)
                                             @slot('id_error', 'useful_life')
                                         @endcomponent
                                     </div>
@@ -105,7 +108,8 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'accountcode')
+                                            @slot('value', $typeasset->accountcode)
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
@@ -120,6 +124,7 @@
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
                                         @slot('name', 'acd')
+                                        @slot('value', $typeasset->coa->name)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -128,7 +133,8 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
-                                                @slot('id','asset_category_save')
+                                                @slot('id', 'typeassetsave')
+                                                @slot('data_uuid', Request::segment(2))
                                             @endcomponent
 
                                             @include('buttons::reset')
