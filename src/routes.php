@@ -517,38 +517,19 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+	Route::resource(
+		'asset',
+		'Directoryxx\Finac\Controllers\Frontend\AssetController',
+		['except' => 'show']
+	);
     Route::prefix('asset')->group(function () {
-		Route::get(
-			'/',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@index'
-		)->name('asset.index');
-		Route::get(
-			'/create',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@create'
-		)->name('asset.create');
-		Route::post(
-			'/',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@store'
-		)->name('asset.store');
-		Route::put(
-			'/{asset}',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@update'
-		)->name('asset.update');
-		Route::delete(
-			'/{asset}',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@destroy'
-		)->name('asset.delete');
 		Route::get(
 			'/datatables',
 			'Directoryxx\Finac\Controllers\Frontend\AssetController@datatables'
 		)->name('asset.datatables');
 		Route::get(
-			'/{asset}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@edit'
-		);
-		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@data'
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@api'
 		);
 		Route::get(
 			'/data/{asset}',

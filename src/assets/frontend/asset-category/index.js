@@ -3,7 +3,7 @@ let AssetCategory = {
 
 			let _url = window.location.origin;
 
-      $('.asset_category_datatable').mDatatable({
+      let asset_category_datatable = $('.asset_category_datatable').mDatatable({
           data: {
               type: 'remote',
               source: {
@@ -105,6 +105,48 @@ let AssetCategory = {
                   }
               }
           ]
+      });
+
+      let remove = $('.asset_category_datatable').on('click', '.delete', function () {
+          let triggerid = $(this).data('uuid');
+
+          swal({
+              title: 'Sure want to remove?',
+              type: 'question',
+              confirmButtonText: 'Yes, REMOVE',
+              confirmButtonColor: '#d33',
+              cancelButtonText: 'Cancel',
+              showCancelButton: true,
+          }).then(result => {
+              if (result.value) {
+
+                  $.ajax({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                              'content'
+                          )
+                      },
+                      type: 'DELETE',
+                      url: '/typeasset/' + triggerid + '',
+                      success: function (data) {
+                          toastr.success('AR has been deleted.', 'Deleted', {
+                                  timeOut: 5000
+                              }
+                          );
+
+                          asset_category_datatable.reload();
+                      },
+                      error: function (jqXhr, json, errorThrown) {
+                          let errorsHtml = '';
+                          let errors = jqXhr.responseJSON;
+
+                          $.each(errors.errors, function (index, value) {
+                              $('#delete-error').html(value);
+                          });
+                      }
+                  });
+              }
+          });
       });
     }
 };

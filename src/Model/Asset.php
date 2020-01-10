@@ -4,7 +4,7 @@ namespace Directoryxx\Finac\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Directoryxx\Finac\Model\MemfisModel;
-
+use App\User;
 
 class Asset extends MemfisModel
 {
@@ -38,6 +38,15 @@ class Asset extends MemfisModel
 		'usestatus',
 		'description',
     ];
+
+	protected $appends = [
+		'created_by',
+	];
+
+	public function getCreatedByAttribute()
+	{
+		return User::find($this->audits->first()->user_id);
+	}
 
 	public function type()
 	{
