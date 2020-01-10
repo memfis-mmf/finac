@@ -49,7 +49,7 @@
                 </div>
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
-                        <form id="MasterAssetForm">
+                        <form id="AssetCategoryForm">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -60,7 +60,7 @@
                                         @component('input::text')
                                             @slot('id', 'cateory_code')
                                             @slot('text', 'Category Code')
-                                            @slot('name', 'cateory_code')
+                                            @slot('name', 'code')
                                             @slot('id_error', 'cateory_code')
                                         @endcomponent
                                     </div>
@@ -72,7 +72,7 @@
                                         @component('input::text')
                                             @slot('id', 'cateory_name')
                                             @slot('text', 'Category Name')
-                                            @slot('name', 'cateory_name')
+                                            @slot('name', 'name')
                                             @slot('id_error', 'cateory_name')
                                         @endcomponent
                                     </div>
@@ -86,11 +86,11 @@
                                         @component('input::text')
                                             @slot('id', 'useful_life')
                                             @slot('text', 'Useful Life')
-                                            @slot('name', 'useful_life')
+                                            @slot('name', 'usefullife')
                                             @slot('id_error', 'useful_life')
                                         @endcomponent
                                     </div>
-                                </div>   
+                                </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <h4>COA ASSET @include('label::required')</h4>
@@ -101,11 +101,11 @@
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
-                        
+
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'accountcode')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
@@ -115,7 +115,7 @@
                                         <label class="form-control-label">
                                             Account Code Name
                                         </label>
-                        
+
                                         @component('input::inputreadonly')
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
@@ -128,7 +128,7 @@
                                         <div class="action-buttons">
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
-                                                @slot('id','asset_category_save')
+                                                @slot('id','typeassetsave')
                                             @endcomponent
 
                                             @include('buttons::reset')
@@ -151,8 +151,6 @@
 
 @push('footer-scripts')
     <script src="{{ asset('vendor/courier/frontend/asset-category/create.js')}}"></script>
-
-    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 
     <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 

@@ -557,30 +557,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 	});
 
     Route::prefix('typeasset')->group(function () {
-		Route::get(
-			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@create'
-		)->name('typeasset.index');
-		Route::post(
-			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@store'
-		)->name('typeasset.store');
-		Route::put(
-			'/{typeasset}',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@update'
-		)->name('typeasset.update');
-		Route::delete(
-			'/{typeasset}',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@destroy'
-		)->name('typeasset.delete');
+		Route::resource('', 'Directoryxx\Finac\Controllers\Frontend\TypeAssetController');
 		Route::get(
 			'/datatables',
 			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@datatables'
 		)->name('typeasset.datatables');
-		Route::get(
-			'/{typeasset}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@edit'
-		);
 		Route::get(
 			'/data',
 			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@api'

@@ -90,7 +90,7 @@
                                             @slot('id_error', 'useful_life')
                                         @endcomponent
                                     </div>
-                                </div>   
+                                </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <h4>COA ASSET @include('label::required')</h4>
@@ -101,7 +101,7 @@
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
-                        
+
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
@@ -115,7 +115,7 @@
                                         <label class="form-control-label">
                                             Account Code Name
                                         </label>
-                        
+
                                         @component('input::inputreadonly')
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
@@ -151,8 +151,6 @@
 
 @push('footer-scripts')
     <script src="{{ asset('vendor/courier/frontend/asset-category/edit.js')}}"></script>
-
-    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 
     <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 

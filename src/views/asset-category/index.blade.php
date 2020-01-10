@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                    <a href="{{url('asset-category/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                    <a href="{{url('typeasset/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                         <i class="la la-plus-circle"></i>
                                         <span>Asset Category</span>
                                     </span></a>
