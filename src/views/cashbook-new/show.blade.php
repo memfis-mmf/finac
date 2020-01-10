@@ -73,6 +73,27 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
+                                            Department 
+                                        </label>
+
+                                        @component('label::data-info')
+                                            @slot('text', 'generated')
+                                        @endcomponent
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
+                                            Location 
+                                        </label>
+
+                                        @component('label::data-info')
+                                            @slot('text', 'generated')
+                                        @endcomponent
+                                        {{-- default surabaya, jakarta, biak --}}
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
                                             Payment To  
                                         </label>
 

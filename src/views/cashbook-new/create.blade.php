@@ -80,6 +80,31 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
+                                            Department @include('label::required')
+                                        </label>
+
+                                        @component('input::select')
+                                            @slot('id', 'department')
+                                            @slot('name', 'department')
+                                            @slot('text', 'Department')
+                                        @endcomponent
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
+                                            Location @include('label::required')
+                                        </label>
+
+                                        @component('input::select')
+                                            @slot('id', 'location')
+                                            @slot('name', 'location')
+                                            @slot('text', 'Location')
+                                        @endcomponent
+                                        {{-- default surabaya, jakarta, biak --}}
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
                                             Payment To @include('label::required')
                                         </label>
 
@@ -188,6 +213,11 @@
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
