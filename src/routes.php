@@ -529,11 +529,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		)->name('asset.datatables');
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@api'
-		);
-		Route::get(
-			'/data/{asset}',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@apidetail'
+			'Directoryxx\Finac\Controllers\Frontend\AssetController@data'
 		);
 	});
 
@@ -549,11 +545,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		)->name('typeasset.datatables');
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@api'
-		);
-		Route::get(
-			'/data/{typeasset}',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@apidetail'
+			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@data'
 		);
 	});
 
