@@ -90,7 +90,7 @@
     <footer>
         <table width="100%">
             <tr>
-                <td>  <span style="margin-left:6px;">Created By :  ;  &nbsp;&nbsp;&nbsp; Approved By :  ; </span> </td>
+                <td>  <span style="margin-left:6px;">Created By : {{ @$journal->created_by->name }} ;  &nbsp;&nbsp;&nbsp; Approved By : {{ @$journal->approved_by->name }} ; </span> </td>
             </tr>
         </table>
         <img src="./vendor/courier/img/form/journal/Footer.png" width="100%" alt="" >
