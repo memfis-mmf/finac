@@ -7,7 +7,7 @@ let Journal = {
                 source: {
                     read: {
                         method: 'GET',
-                        url: '/journal/datatables',
+                        url: _url+'/journal/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -137,7 +137,7 @@ let Journal = {
                     template: function (t, e, i) {
 
 											let _html =
-                          '<a href="journal/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+                          '<a href="'+_url+'/journal/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
                               '<i class="la la-print"></i>' +
                           '</a>';
 
