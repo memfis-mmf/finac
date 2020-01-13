@@ -147,8 +147,7 @@
             <table width="100%" cellpadding="6">
                 <tr>
                     <td valign="top" align="right" width="68%"><b>Total</b></td>
-                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. {{ number_format($debit, 0, 0, '.') }},-</td>
-                    <td valign="top" align="right" width="16%" class="kredit-debet">Rp. {{ number_format($credit, 0, 0, '.') }},-</td>
+                    <td valign="top" align="right" width="" colspan="2" class="kredit-debet">Rp. {{ number_format($debit, 0, 0, '.') }},-</td>
                 </tr>
             </table>
         </div>
