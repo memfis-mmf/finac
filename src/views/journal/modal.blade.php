@@ -14,14 +14,14 @@
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Account Code 
+                                    Account Code
                                 </label>
 
 																<input type="text" id="account_code" class="form-control m-input" disabled>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Account Description @include('label::required')
+                                    Account Name @include('label::required')
                                 </label>
 
 																<input type="text" id="account_description" class="form-control m-input" disabled>

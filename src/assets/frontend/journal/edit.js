@@ -128,7 +128,7 @@ let JournalEdit = {
 				}
 
 				form.find('input#account_code').val(data.coa.code);
-				form.find('input#account_description').val(_description);
+				form.find('input#account_description').val(data.coa.name);
 				form.find('input[name=amount]').val(amount);
 				form.find('textarea[name=remark]').val(data.description);
 
