@@ -9,7 +9,7 @@
                 @component('input::text')
                     @slot('id', 'manufacture_name')
                     @slot('text', 'Manufacture Name')
-                    @slot('name', 'manufacture_name')
+                    @slot('name', 'manufacturername')
                     @slot('id_error', 'manufacture_name')
                 @endcomponent
             </div>
@@ -20,7 +20,7 @@
 
                 @component('input::datepicker')
                     @slot('id', 'date')
-                    @slot('name', 'date')
+                    @slot('name', 'productiondate')
                     @slot('text', 'Production Date')
                 @endcomponent
             </div>
@@ -34,7 +34,7 @@
                 @component('input::text')
                     @slot('id', 'brand_name')
                     @slot('text', 'Brand Name')
-                    @slot('name', 'brand_name')
+                    @slot('name', 'brandname')
                     @slot('id_error', 'brand_name')
                 @endcomponent
             </div>
@@ -59,7 +59,7 @@
                 @component('input::text')
                     @slot('id', 'model_type')
                     @slot('text', 'Model Type')
-                    @slot('name', 'model_type')
+                    @slot('name', 'modeltype')
                     @slot('id_error', 'model_type')
                 @endcomponent
             </div>
@@ -84,7 +84,7 @@
                 @component('input::text')
                     @slot('id', 'serial_number')
                     @slot('text', 'Serial Number')
-                    @slot('name', 'serial_number')
+                    @slot('name', 'serialno')
                     @slot('id_error', 'serial_number')
                 @endcomponent
             </div>

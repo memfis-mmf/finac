@@ -19,7 +19,7 @@
 
                 @component('input::number')
                     @slot('id', 'salvage_value')
-                    @slot('name', 'salvage_value')
+                    @slot('name', 'salvagevalu')
                     @slot('text', 'Salvage Value')
                     @slot('input_append', 'IDR')
                 @endcomponent
@@ -33,7 +33,7 @@
 
                 @component('input::number')
                     @slot('id', 'lifetime')
-                    @slot('name', 'lifetime')
+                    @slot('name', 'usefullife')
                     @slot('text', 'Lifetime')
                     @slot('input_append', 'Month')
                 @endcomponent
@@ -54,13 +54,13 @@
         <div class="form-group m-form__group row ">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                    Account Code 
+                    Account Code
                 </label>
 
                 @component('input::inputrightbutton')
                     @slot('id', 'coa')
                     @slot('text', 'coa')
-                    @slot('name', 'coa')
+                    @slot('name', 'coaacumulated')
                     @slot('type', 'text')
                     @slot('style', 'width:100%')
                     @slot('data_target', '#coa_modal')
@@ -88,7 +88,7 @@
                 @component('input::inputrightbutton')
                     @slot('id', 'coa')
                     @slot('text', 'coa')
-                    @slot('name', 'coa')
+                    @slot('name', 'coaexpense')
                     @slot('type', 'text')
                     @slot('style', 'width:100%')
                     @slot('data_target', '#coa_modal')
