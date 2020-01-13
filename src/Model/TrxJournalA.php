@@ -29,7 +29,7 @@ class TrxJournalA extends MemfisModel
 		return $this->belongsTo(
 			Coa::class,
 			'account_code',
-			'id',
+			'id'
 		);
 	}
 
