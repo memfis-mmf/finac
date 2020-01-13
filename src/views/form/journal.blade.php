@@ -139,8 +139,8 @@
 	                    <td valign="top" align="center" width="15%">{{ $x->coa->code }}</td>
 	                    <td valign="top" width="27%">{{ $x->coa->description }}</th>
 	                    <td valign="top"  width="20%">{{ $x->description }}</td>
-	                    <td valign="top" align="right" width="16%">Rp. {{ number_format($x->debit, 0, 0, '.') }},-</td>
-	                    <td valign="top" align="right" width="16%">Rp. {{ number_format($x->credit, 0, 0, '.') }},-</td>
+	                    <td valign="top" align="right" width="16%">{{ ($v = $x->debit < 0)? "Rp. ".number_format($v, 0, 0, '.').",-": '' }}</td>
+	                    <td valign="top" align="right" width="16%">{{ ($v = $x->credit < 0)? "Rp. ".number_format($v, 0, 0, '.').",-": '' }}</td>
 	                </tr>
 								@endfor
             </table>
