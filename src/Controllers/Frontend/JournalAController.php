@@ -4,12 +4,11 @@ namespace Directoryxx\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Directoryxx\Finac\Model\TrxJournalA as JournalA;
+use Directoryxx\Finac\Model\TrxJournal as Journal;
 use Directoryxx\Finac\Model\Coa;
 use Directoryxx\Finac\Request\JournalAUpdate;
 use Directoryxx\Finac\Request\JournalAStore;
 use App\Http\Controllers\Controller;
-
-
 
 class JournalAController extends Controller
 {
@@ -20,7 +19,7 @@ class JournalAController extends Controller
 
     public function create()
     {
-        return view('journalaview::index');        
+        return view('journalaview::index');
     }
 
     public function store(JournalAStore $request)
@@ -32,6 +31,9 @@ class JournalAController extends Controller
 		]);
 
         $journala = JournalA::create($request->all());
+
+		$this->updateJournalTotalTransaction($request->voucher_no);
+
         return response()->json($journala);
     }
 
@@ -47,6 +49,7 @@ class JournalAController extends Controller
 
     public function update(Request $request)
     {
+
 		$journala = JournalA::where('uuid', $request->uuid)->first();
 
 		$request->request->add([
@@ -68,7 +71,9 @@ class JournalAController extends Controller
 			'description' => $request->remark
 		]);
 
-		JournalA::where('uuid', $request->uuid)->update(
+		$journala = JournalA::where('uuid', $request->uuid);
+
+		$journala->update(
 			$request->only([
 				$method,
 				$otherMethod,
@@ -76,12 +81,16 @@ class JournalAController extends Controller
 			])
 		);
 
+		$this->updateJournalTotalTransaction($journala->first()->voucher_no);
+
         return response()->json($journala);
     }
 
     public function destroy(JournalA $journala)
     {
         $journala->delete();
+
+		$this->updateJournalTotalTransaction($journala->voucher_no);
 
         return response()->json($journala);
     }
@@ -111,8 +120,8 @@ class JournalAController extends Controller
 			'pagination' => [], 'sort' => [], 'query' => []
 		], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) && 
-			is_string($datatable['query']['generalSearch']) ? 
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
 			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
@@ -123,7 +132,7 @@ class JournalAController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) && 
+		$query = isset($datatable['query']) &&
 			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
@@ -134,15 +143,15 @@ class JournalAController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ? 
+		$sort  = !empty($datatable['sort']['sort']) ?
 			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ? 
+		$field = !empty($datatable['sort']['field']) ?
 			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ? 
+		$page    = !empty($datatable['pagination']['page']) ?
 			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ? 
+		$perpage = !empty($datatable['pagination']['perpage']) ?
 			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
@@ -181,8 +190,8 @@ class JournalAController extends Controller
         ];
 
 		if (
-			isset($datatable['requestIds']) && 
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) 
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
 		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
@@ -204,4 +213,24 @@ class JournalAController extends Controller
 
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
+
+	public function updateJournalTotalTransaction($voucher_no)
+	{
+		$journala = JournalA::where('voucher_no', $voucher_no)->get();
+
+		$totalDebit = 0;
+		$totalCredit = 0;
+		for ($a=0; $a < count($journala); $a++) {
+			$x = $journala[$a];
+
+			$totalDebit += $x->debit;
+			$totalCredit += $x->credit;
+		}
+
+		$total = ($v = $totalDebit)? $v: $totalCredit;
+
+		Journal::where('voucher_no', $voucher_no)->update([
+			'total_transaction' => $total
+		]);
+	}
 }
