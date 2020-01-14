@@ -49,7 +49,7 @@
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <h3>Date Period {{ $beginDate }} - 12/12/20</h3>
+                                    <h3>Date Period {{ date('d/m/y', strtotime($beginDate)) }} - {{ date('d/m/y', strtotime($endingDate)) }}</h3>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">

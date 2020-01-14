@@ -48,7 +48,7 @@ class ProfitLossController extends Controller
 
 		$query = "
 			SELECT
-			 m_journal.*,
+			m_journal.*,
 			IFNULL(IFNULL((a.LastBalance),(b.LastBalance)),0) as LastBalance,
 			IFNULL(IFNULL((a.CurrentBalance),(b.CurrentBalance)),0) as CurrentBalance,
 			IFNULL(IFNULL((a.EndingBalance),(b.EndingBalance)),0) as EndingBalance
@@ -56,26 +56,26 @@ class ProfitLossController extends Controller
 			m_journal
 			left join
 			(
-			select
-			Query.AccountCode,
-			IFNULL(sum(Query.LastBalance),0) as LastBalance,
-			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
-			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
-			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
-			group by Query.AccountCode
+				select
+				Query.AccountCode,
+				IFNULL(sum(Query.LastBalance),0) as LastBalance,
+				IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
+				IFNULL(sum(Query.EndingBalance),0) as EndingBalance
+				from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
+				group by Query.AccountCode
 			) a on a.AccountCode = m_journal.Code and m_journal.Description = 'Detail'
 			left join
 			(
-			select
-			m_journal.COA as AccountCode,
-			IFNULL(sum(Query.LastBalance),0) as LastBalance,
-			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
-			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
-			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
-			left join m_journal on
-			substring(Query.AccountCode,1,LENGTH(m_journal.COA)) = m_journal.COA
-			GROUP BY
-			m_journal.COA
+				select
+				m_journal.COA as AccountCode,
+				IFNULL(sum(Query.LastBalance),0) as LastBalance,
+				IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
+				IFNULL(sum(Query.EndingBalance),0) as EndingBalance
+				from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
+				left join m_journal on
+				substring(Query.AccountCode,1,LENGTH(m_journal.COA)) = m_journal.COA
+				GROUP BY
+				m_journal.COA
 			) b on b.AccountCode = m_journal.COA and m_journal.Description = 'Header'
 			where m_journal.type in ('Pendapatan','Biaya')
 			Order by m_journal.Code;
@@ -213,8 +213,20 @@ class ProfitLossController extends Controller
 		$beginDate = $date[0];
 		$endingDate = $date[1];
 
+		$tmp_data = $this->getData($beginDate, $endingDate);
+
+		$_data = [];
+
+		for ($a=0; $a < count($tmp_data); $a++) {
+			$x = $tmp_data[$a];
+
+			if ($tmp_data[$a]->description == "Header") {
+				array_push($_data, $x);
+			}
+		}
+
 		$data = [
-			'data' => $this->getData($beginDate, $endingDate),
+			'data' => $_data,
 			'beginDate' => $beginDate,
 			'endingDate' => $endingDate,
 		];
