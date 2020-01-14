@@ -63,7 +63,7 @@
                                             </div>
                                         </div>
                                         <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="Button group with nested dropdown">
-                                            <a href="{{url('profit-loss/view-pl')}}" class="m-btn btn btn-primary">
+                                            <a href="javascript:;" data-href="{{url('profit-loss/view-pl')}}" class="m-btn btn btn-primary view-pl">
                                                 <span>
                                                 <span>View Profit & Loss</span>
                                                 </span>
@@ -90,5 +90,6 @@
 @endsection
 
 @push('footer-scripts')
+<script src="{{ asset('vendor/courier/frontend/profit-loss/index.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/profit-loss.js')}}"></script>
 @endpush

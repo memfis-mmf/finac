@@ -4,7 +4,10 @@ var ProfitLossDaterangepicker = {
             $("#daterange_profitloss").daterangepicker({
                 buttonClasses: "m-btn btn",
                 applyClass: "btn-primary",
-                cancelClass: "btn-secondary"
+                cancelClass: "btn-secondary",
+								locale: {
+			            format: 'DD/MM/YYYY'
+				        }
             });
         }()
     }

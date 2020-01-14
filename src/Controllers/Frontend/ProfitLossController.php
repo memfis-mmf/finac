@@ -205,4 +205,20 @@ class ProfitLossController extends Controller
 
 		return $tmp_data;
 	}
+
+	public function viewPL(Request $request)
+	{
+		$date = $this->convertDate($request->daterange);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		$data = [
+			'data' => $this->getData($beginDate, $endingDate),
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+		];
+
+        return view('profitlossview::view-pl', $data);
+	}
 }
