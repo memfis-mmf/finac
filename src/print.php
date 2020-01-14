@@ -46,3 +46,14 @@ Route::get('/ar-ap', function () {
     $pdf->setPaper('A5', 'landscape');
     return $pdf->stream();
 });
+
+
+Route::get('/view-pl', function () {
+    $pdf = \PDF::loadView('formview::view-pl');
+    return $pdf->stream();
+});
+
+Route::get('/detail-pl', function () {
+    $pdf = \PDF::loadView('formview::detail-pl');
+    return $pdf->stream();
+});

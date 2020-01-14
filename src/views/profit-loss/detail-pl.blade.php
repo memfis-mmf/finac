@@ -62,73 +62,73 @@
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:3px solid black">
                                             <td width="60%"><h3>Revenue</h3></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Operating Revenue</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">MMF - Heavy Maintenance Revenue</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">MMF - Workshop Revenue</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">MMF - Rental Hangar Revenue</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">MMF - Other Revenue</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">MMF - Workshop Jakarta</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Sales Discount</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Sales Discount</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:3px solid black">
                                             <td width="60%"><h3>Non Operating Revenue (Expense)</h3></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Non Operating Revenue</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Interest Income</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Exchange Rate Gap Income</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Other Income</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="60%"><h5>Total Revenue</h5></td>
@@ -137,293 +137,293 @@
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:3px solid black">
                                             <td width="60%"><h3>Cost Of Gold</h3></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Production Expenses</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Depreciation Expense</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Insurance Expanses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Fuel Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Overhaul Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Maintenance & Repair Expenses</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Maintenance & Repair Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Maintenance & Repair Expenses Jakarta</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Joint Operation & Third Party Expense</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Direct Labor</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Salary - Technicians</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Allowance & Overtime - Technicians</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Duty Trip Expense - Technicians</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Training Expense</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Distribution Cost</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Expedition, Freight & Inclaring</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Landing Fees & Route Charges</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Ground Handling</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:3px solid black">
                                             <td width="60%"><h3>Operating Expenses</h3></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Sales Cost</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Commision</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Promotion</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Salary - Sales</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Allowances & Overtime - Sales</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Duty Trip Expense - Sales</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Training Expenses - Sales</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Organization Expense</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Allowances & Overtime - Administration</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Salary - Administration</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Duty Trip Expense - Administration</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Training & Recruitment Exp. - Administration</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>General Expense</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%"><b>Maintenance & Repair Expense</b></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Maintenance & Repair Vehicle</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Maintenance & Repair Building</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Maintenance & Repair Equipment</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Rental Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Office Cost</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Electricity, Water, Gas, Telephone</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Supplies Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Office Operation</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Outsourcing Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Research & Development Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Office Operation Jakarta</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Public Relation Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Tax Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Depreciation & Amortization Expense</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Depreciation Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Amortization Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Other Expense</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Removing Receivable Expanses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:3px solid black">
                                             <td width="60%"><h3>Non Operating Expenses</h3></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h4>Non Operating Expenses MMF</h4></td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Bank & Non Bank Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Exchange Rate Gap Income</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Pinalty & Tax Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr>
                                             <td width="60%">Others Expenses</td>
-                                            <td width="20%"></td>
-                                            <td width="20%"></td>
+                                            <td width="20%" align="center"></td>
+                                            <td width="20%" align="center"></td>
                                         </tr>
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="60%"><h5>Total Revenue</h5></td>
