@@ -60,110 +60,30 @@
                                             <td width="20%" align="center">Accumulated</td>
                                             <td width="20%" align="center">Periods</td>
                                         </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="60%"><h3>Revenue</h3></td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Operating Revenue</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Sales Discount</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="60%"><h3>Non Operating Revenue (Expense)</h3></td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Non Operating Revenue</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
+																				@for ($a=0; $a < count($data['pendapatan']); $a++)
+																					@php
+																						$x = $data['pendapatan'][$a];
+																					@endphp
+	                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+	                                            <td width="60%"><h3>{{$x->name}}</h3></td>
+	                                            <td width="20%" align="center">{{$x->CurrentBalance}}</td>
+	                                            <td width="20%" align="center">{{$x->EndingBalance}}</td>
+	                                        </tr>
+																					@for ($b=0; $b < count($x->child); $b++)
+																						@php
+																							$y = $x->child[$b];
+																						@endphp
+		                                        <tr>
+		                                            <td width="60%">{{$y->name}}</td>
+		                                            <td width="20%" align="center">{{$y->CurrentBalance}}</td>
+		                                            <td width="20%" align="center">{{$y->EndingBalance}}</td>
+		                                        </tr>
+																					@endfor
+																				@endfor
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="60%"><h5>Total Revenue</h5></td>
-                                            <td width="20%" align="center">Amount</td>
-                                            <td width="20%" align="center">Amount</td>
-                                        </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="60%"><h3>Cost Of Gold</h3></td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Production Expenses</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Maintenance & Repair Expense</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Direct Labor</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Distribution Cost</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="60%"><h3>Operating Expense</h3></td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Sales Cost</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Organization Expense</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">General Expenses</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Office Cost</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Depreciation & Amortization Expense</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Other Expense</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="60%"><h3>Non Operating Expenses</h3></td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%">Non Operating Expenses MMF</td>
-                                            <td width="20%" align="center"></td>
-                                            <td width="20%" align="center"></td>
-                                        </tr>
-                                        <tr style="background:#add8f7;font-weight: bold;">
-                                            <td width="60%"><h5>Total Revenue</h5></td>
-                                            <td width="20%" align="center">Amount</td>
-                                            <td width="20%" align="center">Amount</td>
+                                            <td width="20%" align="center">{{$pendapatan_accumualted}}</td>
+                                            <td width="20%" align="center">{{$pendapatan_period}}</td>
                                         </tr>
                                     </table>
 

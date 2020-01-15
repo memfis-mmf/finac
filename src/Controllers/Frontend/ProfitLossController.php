@@ -215,6 +215,11 @@ class ProfitLossController extends Controller
 
 		$tmp_data = $this->getData($beginDate, $endingDate);
 
+		$pendapatan_accumualted = 0;
+		$pendapatan_period = 0;
+		$biaya_accumulated = 0;
+		$biaya_period = 0;
+
 		for ($a=0; $a < count($tmp_data); $a++) {
 			$x = $tmp_data[$a];
 			$code = str_split($x->code);
@@ -225,8 +230,20 @@ class ProfitLossController extends Controller
 				&& $code[3] == 0
 			) {
 				$x->child = [];
-				$_data[] = $x;
-				$index_parent = count($_data) - 1;
+
+				if ($x->Type == 'pendapatan') {
+					$_data['pendapatan'][] = $x;
+					$index_parent['pendapatan'] = count($_data['pendapatan']) - 1;
+
+					$pendapatan_accumualted += $x->CurrentBalance;
+					$pendapatan_period = $x->EndingBalance;
+				}else{
+					$_data['biaya'][] = $x;
+					$index_parent['biaya'] = count($_data['biaya']) - 1;
+
+					$biaya_accumulated += $x->CurrentBalance;
+					$biaya_period += $x->EndingBalance;
+				}
 			}
 
 			if (
@@ -234,16 +251,30 @@ class ProfitLossController extends Controller
 				&& $code[4] == 0
 				&& $code[3] != 0
 			) {
-				$_data[$index_parent]->child[] = $x;
+				if ($x->Type == 'pendapatan') {
+					$_data['pendapatan'][$index_parent['pendapatan']]
+					->child[] = $x;
+
+					$pendapatan_accumualted += $x->CurrentBalance;
+					$pendapatan_period += $x->EndingBalance;
+				}else{
+					$_data['biaya'][$index_parent['biaya']]
+					->child[] = $x;
+
+					$biaya_accumulated += $x->CurrentBalance;
+					$biaya_period += $x->EndingBalance;
+				}
 			}
 		}
-
-		dd($_data);
 
 		$data = [
 			'data' => $_data,
 			'beginDate' => $beginDate,
 			'endingDate' => $endingDate,
+			'pendapatan_accumualted' => $pendapatan_accumualted,
+			'pendapatan_period' => $pendapatan_period,
+			'biaya_accumulated' => $biaya_accumulated,
+			'biaya_period' => $biaya_period,
 		];
 
         return view('profitlossview::view-pl', $data);
