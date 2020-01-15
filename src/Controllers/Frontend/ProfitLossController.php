@@ -215,15 +215,30 @@ class ProfitLossController extends Controller
 
 		$tmp_data = $this->getData($beginDate, $endingDate);
 
-		$_data = [];
-
 		for ($a=0; $a < count($tmp_data); $a++) {
 			$x = $tmp_data[$a];
+			$code = str_split($x->code);
 
-			if ($tmp_data[$a]->description == "Header") {
-				array_push($_data, $x);
+			if (
+				$tmp_data[$a]->description == "Header"
+				&& $code[4] == 0
+				&& $code[3] == 0
+			) {
+				$x->child = [];
+				$_data[] = $x;
+				$index_parent = count($_data) - 1;
+			}
+
+			if (
+				$tmp_data[$a]->description == "Header"
+				&& $code[4] == 0
+				&& $code[3] != 0
+			) {
+				$_data[$index_parent]->child[] = $x;
 			}
 		}
+
+		dd($_data);
 
 		$data = [
 			'data' => $_data,
