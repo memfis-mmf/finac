@@ -201,8 +201,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@detailPL'
 		)->name('profitloss.detail.pl');
 		Route::get(
-			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@print'
+			'/print-view-pl',
+			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@printViewPL'
+		)->name('profitloss.print');
+		Route::get(
+			'/print-detail-pl',
+			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@printDetailPL'
 		)->name('profitloss.print');
 		Route::get(
 			'/datatables',

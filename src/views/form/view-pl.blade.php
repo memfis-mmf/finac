@@ -69,7 +69,7 @@
         <div id="head">
             <div style="margin-right:20px;text-align:center;">
                 <h1 style="font-size:24px;">PROFIT & LOSS</h1>
-                <h4>Period : 10/01/2019 - 10/01/2019</h4>
+                <h4>Date Period {{ date('d/m/Y', strtotime($beginDate)) }} - {{ date('d/m/Y', strtotime($endingDate)) }}</h4>
             </div>
         </div>
     </header>
@@ -77,7 +77,7 @@
     <footer>
         <table width="100%">
             <tr>
-                <td>  <span style="margin-left:6px;">Created By :  ;  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  ; </span> </td>
+                <td>  <span style="margin-left:6px;">Printed By : {{Auth::user()->name}}  ;</span> </td>
             </tr>
         </table>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
@@ -91,117 +91,66 @@
                     <td width="20%"  align="center">Accumulated</td>
                     <td width="20%"  align="center">Periods</td>
                 </tr>
-                <tr>
-                    <td width="60%" style="font-weight: bold; border-bottom:1px solid black"><h3>Revenue</h3></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                    <td width="20%"  align="center"  style="border-bottom:1px solid black"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Operating Revenue</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Sales Discount</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%" style="font-weight: bold; border-bottom:1px solid black"><h3>Non Operating Revenue (Expense)</h3></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Non Operating Revenue</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
+
+								@for ($a=0; $a < count($data['pendapatan']); $a++)
+									@php
+										$x = $data['pendapatan'][$a];
+									@endphp
+                  <tr style="font-weight: bold; border-bottom:1px solid black">
+                    <td width="60%" style="font-weight: bold; border-bottom:1px solid black"><h3>{{$x->name}}</h3></td>
+                    <td width="20%"  align="center" style="border-bottom:1px solid black">{{number_format($x->CurrentBalance, 0, 0, '.')}}</td>
+                    <td width="20%"  align="center"  style="border-bottom:1px solid black">{{number_format($x->EndingBalance, 0, 0, '.')}}</td>
+                  </tr>
+									@for ($b=0; $b < count($x->child); $b++)
+										@php
+											$y = $x->child[$b];
+										@endphp
+                    <tr>
+	                    <td width="60%">{{$y->name}}</td>
+	                    <td width="20%"  align="center">{{number_format($y->CurrentBalance, 0, 0, '.')}}</td>
+	                    <td width="20%"  align="center">{{number_format($y->EndingBalance, 0, 0, '.')}}</td>
+                    </tr>
+									@endfor
+								@endfor
+
                 <tr style="background:#add8f7;font-weight: bold;">
                     <td width="60%"><h5>Total Revenue</h5></td>
-                    <td width="20%"  align="center">Amount</td>
-                    <td width="20%"  align="center">Amount</td>
+                    <td width="20%"  align="center">{{number_format($pendapatan_accumulated, 0, 0, '.')}}</td>
+                    <td width="20%"  align="center">{{number_format($pendapatan_period, 0, 0, '.')}}</td>
                 </tr>
-                <tr>
-                    <td width="60%" style="font-weight: bold; border-bottom:1px solid black"><h3>Cost Of Gold</h3></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Production Expenses</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Maintenance & Repair Expense</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Direct Labor</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Distribution Cost</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr >
-                    <td width="60%" style="font-weight: bold; border-bottom:1px solid black"><h3>Operating Expense</h3></td>
-                    <td width="20%"  align="center"  style="border-bottom:1px solid black"></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Sales Cost</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Organization Expense</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">General Expenses</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Office Cost</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Depreciation & Amortization Expense</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Other Expense</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
-                <tr>
-                    <td width="60%" style="font-weight: bold; border-bottom:1px solid black"><h3>Non Operating Expenses</h3></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                    <td width="20%"  align="center" style="border-bottom:1px solid black"></td>
-                </tr>
-                <tr>
-                    <td width="60%">Non Operating Expenses MMF</td>
-                    <td width="20%"  align="center"></td>
-                    <td width="20%"  align="center"></td>
-                </tr>
+
+								{{-- Biaya --}}
+								@for ($a=0; $a < count($data['biaya']); $a++)
+									@php
+										$x = $data['biaya'][$a];
+									@endphp
+                  <tr style="font-weight: bold; border-bottom:1px solid black">
+                    <td width="60%" style="font-weight: bold; border-bottom:1px solid black"><h3>{{$x->name}}</h3></td>
+                    <td width="20%"  align="center" style="border-bottom:1px solid black">{{number_format($x->CurrentBalance, 0, 0, '.')}}</td>
+                    <td width="20%"  align="center" style="border-bottom:1px solid black">{{number_format($x->EndingBalance, 0, 0, '.')}}</td>
+                  </tr>
+									@for ($b=0; $b < count($x->child); $b++)
+										@php
+											$y = $x->child[$b];
+										@endphp
+                    <tr>
+	                    <td width="60%">{{$y->name}}</td>
+	                    <td width="20%"  align="center">{{number_format($y->CurrentBalance, 0, 0, '.')}}</td>
+	                    <td width="20%"  align="center">{{number_format($y->EndingBalance, 0, 0, '.')}}</td>
+                    </tr>
+									@endfor
+								@endfor
                 <tr style="background:#add8f7;font-weight: bold;">
                     <td width="60%"><h5>Total Revenue</h5></td>
-                    <td width="20%"  align="center">Amount</td>
-                    <td width="20%"  align="center">Amount</td>
+                    <td width="20%"  align="center">{{number_format($biaya_accumulated, 0, 0, '.')}}</td>
+                    <td width="20%"  align="center">{{number_format($biaya_period, 0, 0, '.')}}</td>
                 </tr>
             </table>
             <table width="100%">
                 <tr>
                     <td width="60%" align="right"><h3>Calculated Return</h3></td>
-                    <td width="20%" align="center"><h4>Amount</h4></td>
-                    <td width="20%" align="center"><h4>Amount</h4></td>
+                    <td width="20%" align="center"><h4>{{number_format($total_accumulated, 0, 0, '.')}}</h4></td>
+                    <td width="20%" align="center"><h4>{{number_format($total_period, 0, 0, '.')}}</h4></td>
                 </tr>
             </table>
         </div>

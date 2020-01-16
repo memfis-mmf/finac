@@ -194,15 +194,8 @@ class ProfitLossController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-	public function viewPL(Request $request)
+	public function getViewPL($tmp_data)
 	{
-		$date = $this->convertDate($request->daterange);
-
-		$beginDate = $date[0];
-		$endingDate = $date[1];
-
-		$tmp_data = $this->getData($beginDate, $endingDate);
-
 		$pendapatan_accumulated = 0;
 		$pendapatan_period = 0;
 		$biaya_accumulated = 0;
@@ -260,16 +253,38 @@ class ProfitLossController extends Controller
 			}
 		}
 
-		$data = [
-			'data' => $_data,
-			'beginDate' => $beginDate,
-			'endingDate' => $endingDate,
+		return [
+			'_data' => $_data,
 			'pendapatan_accumulated' => $pendapatan_accumulated,
 			'pendapatan_period' => $pendapatan_period,
 			'biaya_accumulated' => $biaya_accumulated,
 			'biaya_period' => $biaya_period,
 			'total_accumulated' => $total_accumulated,
 			'total_period' => $total_period,
+		];
+	}
+
+	public function viewPL(Request $request)
+	{
+		$date = $this->convertDate($request->daterange);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		$tmp_data = $this->getData($beginDate, $endingDate);
+
+		$getPL = $this->getViewPL($tmp_data);
+
+		$data = [
+			'data' => $getPL['_data'],
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+			'pendapatan_accumulated' => $getPL['pendapatan_accumulated'],
+			'pendapatan_period' => $getPL['pendapatan_period'],
+			'biaya_accumulated' => $getPL['biaya_accumulated'],
+			'biaya_period' => $getPL['biaya_period'],
+			'total_accumulated' => $getPL['total_accumulated'],
+			'total_period' => $getPL['total_period'],
 		];
 
         return view('profitlossview::view-pl', $data);
@@ -388,7 +403,7 @@ class ProfitLossController extends Controller
         return view('profitlossview::detail-pl', $data);
 	}
 
-	public function printPL(Request $request)
+	public function printViewPL(Request $request)
 	{
 		$date = $this->convertDate($request->daterange);
 
@@ -397,6 +412,21 @@ class ProfitLossController extends Controller
 
 		$tmp_data = $this->getData($beginDate, $endingDate);
 
-		return view('formview::view-pl');
+		$getPL = $this->getViewPL($tmp_data);
+
+		$data = [
+			'data' => $getPL['_data'],
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+			'pendapatan_accumulated' => $getPL['pendapatan_accumulated'],
+			'pendapatan_period' => $getPL['pendapatan_period'],
+			'biaya_accumulated' => $getPL['biaya_accumulated'],
+			'biaya_period' => $getPL['biaya_period'],
+			'total_accumulated' => $getPL['total_accumulated'],
+			'total_period' => $getPL['total_period'],
+		];
+
+        $pdf = \PDF::loadView('formview::view-pl', $data);
+        return $pdf->stream();
 	}
 }
