@@ -194,18 +194,6 @@ class ProfitLossController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-	public function print(Request $request)
-	{
-		$date = $this->convertDate($request->daterange);
-
-		$beginDate = $date[0];
-		$endingDate = $date[1];
-
-		$tmp_data = $this->getData($beginDate, $endingDate);
-
-		return $tmp_data;
-	}
-
 	public function viewPL(Request $request)
 	{
 		$date = $this->convertDate($request->daterange);
@@ -398,5 +386,17 @@ class ProfitLossController extends Controller
 		];
 
         return view('profitlossview::detail-pl', $data);
+	}
+
+	public function printPL(Request $request)
+	{
+		$date = $this->convertDate($request->daterange);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		$tmp_data = $this->getData($beginDate, $endingDate);
+
+		return view('formview::view-pl');
 	}
 }
