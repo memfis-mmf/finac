@@ -85,6 +85,33 @@
                                             <td width="20%" align="center">{{number_format($pendapatan_accumulated, 0, 0, '.')}}</td>
                                             <td width="20%" align="center">{{number_format($pendapatan_period, 0, 0, '.')}}</td>
                                         </tr>
+
+																				{{-- Biaya --}}
+																				@for ($a=0; $a < count($data['biaya']); $a++)
+																					@php
+																						$x = $data['biaya'][$a];
+																					@endphp
+	                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+	                                            <td width="60%"><h3>{{$x->name}}</h3></td>
+	                                            <td width="20%" align="center">{{number_format($x->CurrentBalance, 0, 0, '.')}}</td>
+	                                            <td width="20%" align="center">{{number_format($x->EndingBalance, 0, 0, '.')}}</td>
+	                                        </tr>
+																					@for ($b=0; $b < count($x->child); $b++)
+																						@php
+																							$y = $x->child[$b];
+																						@endphp
+		                                        <tr>
+		                                            <td width="60%">{{$y->name}}</td>
+		                                            <td width="20%" align="center">{{number_format($y->CurrentBalance, 0, 0, '.')}}</td>
+		                                            <td width="20%" align="center">{{number_format($y->EndingBalance, 0, 0, '.')}}</td>
+		                                        </tr>
+																					@endfor
+																				@endfor
+                                        <tr style="background:#add8f7;font-weight: bold;">
+                                            <td width="60%"><h5>Total Revenue</h5></td>
+                                            <td width="20%" align="center">{{number_format($biaya_accumulated, 0, 0, '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($biaya_period, 0, 0, '.')}}</td>
+                                        </tr>
                                     </table>
 
                                     <div class="form-group m-form__group row mt-5">
