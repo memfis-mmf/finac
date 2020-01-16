@@ -208,10 +208,13 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/print-detail-pl',
 			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@printDetailPL'
 		)->name('profitloss.print');
+	});
+
+    Route::prefix('general-ledger')->group(function () {
 		Route::get(
-			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@datatables'
-		)->name('profitloss.datatables');
+			'/',
+			'Directoryxx\Finac\Controllers\Frontend\GeneralLedgerController@index'
+		)->name('profitloss.index');
 	});
 
     Route::prefix('journala')->group(function () {
