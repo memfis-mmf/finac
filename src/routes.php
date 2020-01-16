@@ -197,6 +197,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@viewPL'
 		)->name('profitloss.view.pl');
 		Route::get(
+			'/detail-pl',
+			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@detailPL'
+		)->name('profitloss.detail.pl');
+		Route::get(
 			'/print',
 			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@print'
 		)->name('profitloss.print');
