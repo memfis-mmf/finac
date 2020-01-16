@@ -397,6 +397,6 @@ class ProfitLossController extends Controller
 			'total_period' => $total_period,
 		];
 
-        return view('profitlossview::view-pl', $data);
+        return view('profitlossview::detail-pl', $data);
 	}
 }
