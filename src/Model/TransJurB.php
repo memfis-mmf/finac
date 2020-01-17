@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Directoryxx\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\MemfisModel;
 
 class TransJurB extends MemfisModel
 {

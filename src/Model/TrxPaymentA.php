@@ -1,10 +1,10 @@
 <?php
 
-namespace Directoryxx\Finac\Model;
+namespace memfisfa\Finac\Model;
 
 
-use Directoryxx\Finac\Model\MemfisModel;
-use Directoryxx\Finac\Model\TrxPayment;
+use memfisfa\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\TrxPayment;
 use App\Models\GoodsReceived;
 use Illuminate\Database\Eloquent\Model;
 

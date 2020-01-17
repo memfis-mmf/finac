@@ -1,9 +1,9 @@
 <?php
 
-namespace Directoryxx\Finac\Model;
+namespace memfisfa\Finac\Model;
 
 
-use Directoryxx\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
 class TrxJournalA extends MemfisModel

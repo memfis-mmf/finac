@@ -1,8 +1,8 @@
 <?php
 
-namespace Directoryxx\Finac\Model;
+namespace memfisfa\Finac\Model;
 
-use Directoryxx\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\MemfisModel;
 
 class CashbookA extends MemfisModel
 {
@@ -19,7 +19,7 @@ class CashbookA extends MemfisModel
 
     public function cashbooktest()
     {
-        return $this->hasOne('Directoryxx\Finac\Model\Cashbook');
+        return $this->hasOne('memfisfa\Finac\Model\Cashbook');
     }
 
 

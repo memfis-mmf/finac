@@ -1,10 +1,10 @@
 <?php
 
-namespace Directoryxx\Finac\Database\Seeds;
+namespace memfisfa\Finac\Database\Seeds;
 
 
 use Illuminate\Database\Seeder;
-use Directoryxx\Finac\Model\TypeAsset;
+use memfisfa\Finac\Model\TypeAsset;
 
 
 class TypeAssetTableSeeder extends Seeder

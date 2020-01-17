@@ -1,9 +1,9 @@
 <?php
 
-namespace Directoryxx\Finac\Database\Seeds;
+namespace memfisfa\Finac\Database\Seeds;
 
-use Directoryxx\Finac\Database\Seeds\TypeAssetTableSeeder;
-use Directoryxx\Finac\Database\Seeds\TypeJurnalTableSeeder;
+use memfisfa\Finac\Database\Seeds\TypeAssetTableSeeder;
+use memfisfa\Finac\Database\Seeds\TypeJurnalTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

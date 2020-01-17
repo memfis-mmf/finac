@@ -1,8 +1,8 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Datatables;
+namespace memfisfa\Finac\Controllers\Datatables;
 
-use Directoryxx\Finac\Model\Coa;
+use memfisfa\Finac\Model\Coa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

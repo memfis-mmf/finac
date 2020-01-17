@@ -1,5 +1,5 @@
 <?php
-namespace Directoryxx\Finac\Traits;
+namespace memfisfa\Finac\Traits;
 use Ramsey\Uuid\Uuid;
 
 trait Uuidkey

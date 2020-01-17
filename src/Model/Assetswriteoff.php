@@ -1,9 +1,9 @@
 <?php
 
-namespace Directoryxx\Finac\Model;
+namespace memfisfa\Finac\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Directoryxx\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\MemfisModel;
 
 
 

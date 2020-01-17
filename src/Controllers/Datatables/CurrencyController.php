@@ -1,6 +1,6 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Datatables;
+namespace memfisfa\Finac\Controllers\Datatables;
 
 use App\Models\Currency;
 use Illuminate\Http\Request;

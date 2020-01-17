@@ -1,11 +1,11 @@
 <?php
 
-namespace Directoryxx\Finac\Database\Seeds;
+namespace memfisfa\Finac\Database\Seeds;
 
 use App\Models\Type;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Directoryxx\Finac\Model\Coa;
+use memfisfa\Finac\Model\Coa;
 use Illuminate\Support\Str;
 
 class CoaTableSeeder extends Seeder

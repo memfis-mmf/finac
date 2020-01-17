@@ -1,6 +1,6 @@
 <?php
 
-namespace Directoryxx\Finac\Helpers;
+namespace memfisfa\Finac\Helpers;
 
 use Carbon\Carbon;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Directoryxx\Finac\Model\Exports;
+namespace memfisfa\Finac\Model\Exports;
 
-use Directoryxx\Finac\Model\Coa;
+use memfisfa\Finac\Model\Coa;
 use Maatwebsite\Excel\Concerns\FromArray;
 
 class CoaExport implements FromArray

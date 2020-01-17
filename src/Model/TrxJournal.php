@@ -1,12 +1,12 @@
 <?php
 
-namespace Directoryxx\Finac\Model;
+namespace memfisfa\Finac\Model;
 
 
-use Directoryxx\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
-use Directoryxx\Finac\Model\TrxJournalA;
-use Directoryxx\Finac\Model\TypeJurnal;
+use memfisfa\Finac\Model\TrxJournalA;
+use memfisfa\Finac\Model\TypeJurnal;
 use App\Models\GoodsReceived as GRN;
 use App\Models\Currency;
 use App\User;
@@ -341,7 +341,7 @@ class TrxJournal extends MemfisModel
 	public function type_jurnal()
 	{
 		return $this->belongsTo(
-			'Directoryxx\Finac\Model\TypeJurnal',
+			'memfisfa\Finac\Model\TypeJurnal',
 			'journal_type'
 		);
 	}
@@ -358,7 +358,7 @@ class TrxJournal extends MemfisModel
 	public function journala()
 	{
 		return $this->hasMany(
-			'Directoryxx\Finac\Model\TrxJournalA',
+			'memfisfa\Finac\Model\TrxJournalA',
 			'voucher_no',
 			'voucher_no'
 		);

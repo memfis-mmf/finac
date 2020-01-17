@@ -1,10 +1,10 @@
 <?php
 
-namespace Directoryxx\Finac\Model;
+namespace memfisfa\Finac\Model;
 
 
-use Directoryxx\Finac\Model\MemfisModel;
-use Directoryxx\Finac\Model\Coa;
+use memfisfa\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\Coa;
 use Illuminate\Database\Eloquent\Model;
 
 class TrxPaymentB extends MemfisModel

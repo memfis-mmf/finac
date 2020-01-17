@@ -1,6 +1,6 @@
 <?php
 
-namespace Directoryxx\Finac\Request;
+namespace memfisfa\Finac\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;

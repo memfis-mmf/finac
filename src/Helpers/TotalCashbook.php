@@ -1,12 +1,12 @@
 <?php
 
-namespace Directoryxx\Finac\Helpers;
+namespace memfisfa\Finac\Helpers;
 
-use Directoryxx\Finac\Model\Cashbook;
-use Directoryxx\Finac\Model\CashbookA;
+use memfisfa\Finac\Model\Cashbook;
+use memfisfa\Finac\Model\CashbookA;
 use DB;
-use Directoryxx\Finac\Model\CashbookB;
-use Directoryxx\Finac\Model\CashbookC;
+use memfisfa\Finac\Model\CashbookB;
+use memfisfa\Finac\Model\CashbookC;
 
 
 

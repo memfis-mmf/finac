@@ -1,12 +1,12 @@
 <?php
 
-namespace Directoryxx\Finac\Model;
+namespace memfisfa\Finac\Model;
 
 use App\Models\Vendor;
 use App\Models\Customer;
 use App\Models\Category;
 use App\Models\GoodReceived;
-use Directoryxx\Finac\Model\MemfisModel;
+use memfisfa\Finac\Model\MemfisModel;
 
 
 class Coa extends MemfisModel

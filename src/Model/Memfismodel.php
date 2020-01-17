@@ -1,7 +1,7 @@
 <?php
-namespace Directoryxx\Finac\Model;
-use Directoryxx\Finac\Traits\Uuidkey;
-use Directoryxx\Finac\Traits\Timestampable;
+namespace memfisfa\Finac\Model;
+use memfisfa\Finac\Traits\Uuidkey;
+use memfisfa\Finac\Traits\Timestampable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
