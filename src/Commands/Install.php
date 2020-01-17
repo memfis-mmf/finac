@@ -1,6 +1,6 @@
 <?php
 
-namespace memfis\Finac\Commands;
+namespace memfisfa\Finac\Commands;
 
 use Illuminate\Console\Command;
 
@@ -11,7 +11,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'finac:install';
+    protected $signature = 'fa:install';
 
     /**
      * The console command description.
@@ -48,7 +48,7 @@ class Install extends Command
             }
             if ($this->confirm('Install initial data?')) {
                 $this->info('[START] Install initial data..........');
-                $this->callSilent('db:seed', ['--class' => "memfis\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
+                $this->callSilent('db:seed', ['--class' => "memfisfa\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
                 $this->info('[DONE ] Install initial data.');
             }
         }

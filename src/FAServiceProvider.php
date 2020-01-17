@@ -1,10 +1,10 @@
 <?php
 
-namespace memfis\Finac;
+namespace memfisfa\Finac;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Artisan;
-use memfis\Finac\Commands\Install;
+use memfisfa\Finac\Commands\Install;
 
 class FAServiceProvider extends ServiceProvider
 {
