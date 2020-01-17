@@ -42,7 +42,7 @@
                                 @include('label::datalist')
 
                                 <h3 class="m-portlet__head-text">
-                                    COA (Chart Of Account)
+                                    COA (Chart Of Accounts)
                                 </h3>
                             </div>
                         </div>
