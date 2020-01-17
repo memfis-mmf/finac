@@ -1,13 +1,13 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\Coa;
-use Directoryxx\Finac\Model\APayment;
-use Directoryxx\Finac\Model\APaymentB;
-use Directoryxx\Finac\Request\APaymentBUpdate;
-use Directoryxx\Finac\Request\APaymentBStore;
+use memfisfa\Finac\Model\Coa;
+use memfisfa\Finac\Model\APayment;
+use memfisfa\Finac\Model\APaymentB;
+use memfisfa\Finac\Request\APaymentBUpdate;
+use memfisfa\Finac\Request\APaymentBStore;
 use App\Http\Controllers\Controller;
 
 class APBController extends Controller

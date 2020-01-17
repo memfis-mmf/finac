@@ -1,13 +1,13 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxJournalA as JournalA;
-use Directoryxx\Finac\Model\TrxJournal as Journal;
-use Directoryxx\Finac\Model\Coa;
-use Directoryxx\Finac\Request\JournalAUpdate;
-use Directoryxx\Finac\Request\JournalAStore;
+use memfisfa\Finac\Model\TrxJournalA as JournalA;
+use memfisfa\Finac\Model\TrxJournal as Journal;
+use memfisfa\Finac\Model\Coa;
+use memfisfa\Finac\Request\JournalAUpdate;
+use memfisfa\Finac\Request\JournalAStore;
 use App\Http\Controllers\Controller;
 
 class JournalAController extends Controller

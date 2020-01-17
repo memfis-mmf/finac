@@ -1,12 +1,12 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
-use Directoryxx\Finac\Model\QueryFunction as QF;
+use memfisfa\Finac\Model\QueryFunction as QF;
 
 class GeneralLedgerController extends Controller
 {

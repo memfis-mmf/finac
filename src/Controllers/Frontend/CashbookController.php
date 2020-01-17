@@ -1,10 +1,10 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Directoryxx\Finac\Model\Cashbook;
+use memfisfa\Finac\Model\Cashbook;
 use App\Models\Approval;
 use Illuminate\Support\Facades\Auth;
 

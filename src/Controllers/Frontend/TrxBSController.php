@@ -1,14 +1,14 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Auth;
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxBS as BS;
-use Directoryxx\Finac\Model\TrxJournal as Journal;
+use memfisfa\Finac\Model\TrxBS as BS;
+use memfisfa\Finac\Model\TrxJournal as Journal;
 use App\Http\Controllers\Controller;
-use Directoryxx\Finac\Request\BSUpdate;
-use Directoryxx\Finac\Request\BSStore;
+use memfisfa\Finac\Request\BSUpdate;
+use memfisfa\Finac\Request\BSStore;
 use App\Models\Currency;
 use App\Models\Employee;
 use App\Models\Approval;

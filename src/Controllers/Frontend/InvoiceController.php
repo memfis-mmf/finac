@@ -1,22 +1,22 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\Invoice;
+use memfisfa\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
 use App\Models\Approval;
 use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\Currency;
-use Directoryxx\Finac\Model\Coa;
+use memfisfa\Finac\Model\Coa;
 use App\Models\Customer;
 use Auth;
 use App\Models\EOInstruction;
 use App\Models\Project;
 use App\Models\Quotation;
 use Carbon\Carbon;
-use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
+use memfisfa\Finac\Helpers\CashbookGenerateNumber;
 use App\User;
 use App\Models\HtCrr;
 use App\Models\ListUtil;
@@ -31,8 +31,8 @@ use App\Models\QuotationWorkPackageItem;
 use App\Models\QuotationWorkPackageTaskCardItem;
 use App\Models\TaskCard;
 use App\Models\Type;
-use Directoryxx\Finac\Model\Invoicetotalprofit;
-use Directoryxx\Finac\Model\Trxinvoice;
+use memfisfa\Finac\Model\Invoicetotalprofit;
+use memfisfa\Finac\Model\Trxinvoice;
 use stdClass;
 
 class InvoiceController extends Controller

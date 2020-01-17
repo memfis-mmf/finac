@@ -1,16 +1,16 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Auth;
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxJournal as Journal;
-use Directoryxx\Finac\Model\TrxJournalA;
-use Directoryxx\Finac\Model\TypeJurnal;
-use Directoryxx\Finac\Model\JurnalA;
-use Directoryxx\Finac\Request\JournalUpdate;
-use Directoryxx\Finac\Request\JournalStore;
-use Directoryxx\Finac\Request\JournalAstore;
+use memfisfa\Finac\Model\TrxJournal as Journal;
+use memfisfa\Finac\Model\TrxJournalA;
+use memfisfa\Finac\Model\TypeJurnal;
+use memfisfa\Finac\Model\JurnalA;
+use memfisfa\Finac\Request\JournalUpdate;
+use memfisfa\Finac\Request\JournalStore;
+use memfisfa\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Approval;

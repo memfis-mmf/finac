@@ -1,11 +1,11 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\APaymentC;
-use Directoryxx\Finac\Request\APaymentCUpdate;
-use Directoryxx\Finac\Request\APaymentCStore;
+use memfisfa\Finac\Model\APaymentC;
+use memfisfa\Finac\Request\APaymentCUpdate;
+use memfisfa\Finac\Request\APaymentCStore;
 use App\Http\Controllers\Controller;
 
 

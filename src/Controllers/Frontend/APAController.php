@@ -1,14 +1,14 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxPayment;
-use Directoryxx\Finac\Model\TrxPaymentA;
-use Directoryxx\Finac\Model\APayment;
-use Directoryxx\Finac\Model\APaymentA;
-use Directoryxx\Finac\Request\APaymentAUpdate;
-use Directoryxx\Finac\Request\APaymentAStore;
+use memfisfa\Finac\Model\TrxPayment;
+use memfisfa\Finac\Model\TrxPaymentA;
+use memfisfa\Finac\Model\APayment;
+use memfisfa\Finac\Model\APaymentA;
+use memfisfa\Finac\Request\APaymentAUpdate;
+use memfisfa\Finac\Request\APaymentAStore;
 use App\Http\Controllers\Controller;
 use App\Models\GoodsReceived as GRN;
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
-use Directoryxx\Finac\Model\ARecieve;
+use memfisfa\Finac\Model\ARecieve;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
+use memfisfa\Finac\Helpers\CashbookGenerateNumber;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Customer;
-use Directoryxx\Finac\Model\Coa;
+use memfisfa\Finac\Model\Coa;
 use App\Models\Approval;
 
 class ARController extends Controller

@@ -1,17 +1,17 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Helpers\CashbookGenerateNumber;
+use memfisfa\Finac\Helpers\CashbookGenerateNumber;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Directoryxx\Finac\Model\Coa;
-use Directoryxx\Finac\Helpers\TotalCashbook;
-use Directoryxx\Finac\Model\Cashbook;
-use Directoryxx\Finac\Model\CashbookA;
-use Directoryxx\Finac\Model\CashbookB;
-use Directoryxx\Finac\Model\CashbookC;
+use memfisfa\Finac\Model\Coa;
+use memfisfa\Finac\Helpers\TotalCashbook;
+use memfisfa\Finac\Model\Cashbook;
+use memfisfa\Finac\Model\CashbookA;
+use memfisfa\Finac\Model\CashbookB;
+use memfisfa\Finac\Model\CashbookC;
 use Illuminate\Support\Facades\Auth;
 
 class CashbookCPJController extends Controller

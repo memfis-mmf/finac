@@ -1,11 +1,11 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxPaymentA as TrxPaymentA;
-use Directoryxx\Finac\Request\TrxPaymentAUpdate;
-use Directoryxx\Finac\Request\TrxPaymentAStore;
+use memfisfa\Finac\Model\TrxPaymentA as TrxPaymentA;
+use memfisfa\Finac\Request\TrxPaymentAUpdate;
+use memfisfa\Finac\Request\TrxPaymentAStore;
 use App\Http\Controllers\Controller;
 
 

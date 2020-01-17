@@ -1,16 +1,16 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\Coa;
-use Directoryxx\Finac\Request\CoaUpdate;
-use Directoryxx\Finac\Request\CoaStore;
+use memfisfa\Finac\Model\Coa;
+use memfisfa\Finac\Request\CoaUpdate;
+use memfisfa\Finac\Request\CoaStore;
 use App\Http\Controllers\Controller;
 use App\Models\Type;
 
 //use for export
-use Directoryxx\Finac\Model\Exports\CoaExport;
+use memfisfa\Finac\Model\Exports\CoaExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CoaController extends Controller

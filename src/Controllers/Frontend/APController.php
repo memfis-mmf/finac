@@ -1,19 +1,19 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Auth;
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\APayment;
-use Directoryxx\Finac\Model\APaymentA;
-use Directoryxx\Finac\Model\Coa;
-use Directoryxx\Finac\Model\TrxPayment;
-use Directoryxx\Finac\Request\APaymentUpdate;
-use Directoryxx\Finac\Request\APaymentStore;
+use memfisfa\Finac\Model\APayment;
+use memfisfa\Finac\Model\APaymentA;
+use memfisfa\Finac\Model\Coa;
+use memfisfa\Finac\Model\TrxPayment;
+use memfisfa\Finac\Request\APaymentUpdate;
+use memfisfa\Finac\Request\APaymentStore;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Currency;
-use Directoryxx\Finac\Model\TrxJournal;
+use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 
 class APController extends Controller

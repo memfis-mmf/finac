@@ -1,12 +1,12 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxBSR as BSR;
+use memfisfa\Finac\Model\TrxBSR as BSR;
 use App\Http\Controllers\Controller;
-use Directoryxx\Finac\Request\BSRUpdate;
-use Directoryxx\Finac\Request\BSRStore;
+use memfisfa\Finac\Request\BSRUpdate;
+use memfisfa\Finac\Request\BSRStore;
 use App\Models\Currency;
 
 class TrxBSRController extends Controller

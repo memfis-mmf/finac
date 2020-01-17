@@ -1,15 +1,15 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TrxJournal;
-use Directoryxx\Finac\Model\TrxPayment;
-use Directoryxx\Finac\Model\TrxPaymentA;
-use Directoryxx\Finac\Model\TrxPaymentB;
-use Directoryxx\Finac\Model\Coa;
-use Directoryxx\Finac\Request\TrxPaymentUpdate;
-use Directoryxx\Finac\Request\TrxPaymentStore;
+use memfisfa\Finac\Model\TrxJournal;
+use memfisfa\Finac\Model\TrxPayment;
+use memfisfa\Finac\Model\TrxPaymentA;
+use memfisfa\Finac\Model\TrxPaymentB;
+use memfisfa\Finac\Model\Coa;
+use memfisfa\Finac\Request\TrxPaymentUpdate;
+use memfisfa\Finac\Request\TrxPaymentStore;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Currency;

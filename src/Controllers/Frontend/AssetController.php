@@ -1,12 +1,12 @@
 <?php
 
-namespace Directoryxx\Finac\Controllers\Frontend;
+namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use Directoryxx\Finac\Model\TypeAsset;
-use Directoryxx\Finac\Model\Asset;
-use Directoryxx\Finac\Request\AssetUpdate;
-use Directoryxx\Finac\Request\AssetStore;
+use memfisfa\Finac\Model\TypeAsset;
+use memfisfa\Finac\Model\Asset;
+use memfisfa\Finac\Request\AssetUpdate;
+use memfisfa\Finac\Request\AssetStore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 
