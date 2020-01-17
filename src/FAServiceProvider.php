@@ -4,7 +4,7 @@ namespace memfis\Finac;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Artisan;
-use Directoryxx\Finac\Commands\Install;
+use memfis\Finac\Commands\Install;
 
 class FAServiceProvider extends ServiceProvider
 {
