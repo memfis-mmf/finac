@@ -1,9 +1,9 @@
 {
-    "name": "MeMFIS/FA",
+    "name": "memfis/fa",
     "description": "Finance Accounting Module for MeMFIS",
     "authors": [
         {
-            "name": "MeMFIS",
+            "name": "memfis",
             "email": "memfis.mmf@gmail.com"
         }
     ],
@@ -13,13 +13,13 @@
     },
     "autoload": {
         "psr-4": {
-            "MeMFIS\\Finac\\": "src/"
+            "memfis\\Finac\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "MeMFIS\\Finac\\FAServiceProvider"
+                "memfis\\Finac\\FAServiceProvider"
             ]
         }
     }

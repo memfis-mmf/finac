@@ -1,6 +1,6 @@
 <?php
 
-namespace MeMFIS\Finac;
+namespace memfis\Finac;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Artisan;
