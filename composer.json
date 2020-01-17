@@ -1,10 +1,10 @@
 {
-    "name": "directoryxx/finac",
-    "description": "FA Module for Memfis",
+    "name": "MeMFIS/FA",
+    "description": "Finance Accounting Module for MeMFIS",
     "authors": [
         {
-            "name": "directoryx",
-            "email": "anggawijaya4567@gmail.com"
+            "name": "MeMFIS",
+            "email": "memfis.mmf@gmail.com"
         }
     ],
     "minimum-stability": "dev",
@@ -13,13 +13,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Directoryxx\\Finac\\": "src/"
+            "MeMFIS\\Finac\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Directoryxx\\Finac\\FAServiceProvider"
+                "MeMFIS\\Finac\\FAServiceProvider"
             ]
         }
     }

@@ -4,7 +4,7 @@ require('view-only.php');
 require('print.php');
 
 Route::get('test', function(){
-	echo 'Hello from the Finance Accounting package!';
+	echo 'Hello from the Finance Accounting Package!';
 });
 
 Route::get('token', function(){
