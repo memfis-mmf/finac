@@ -42,7 +42,7 @@
                             @include('label::datalist')
 
                             <h3 class="m-portlet__head-text">
-                                Cashbook
+                                Cashbooks
                             </h3>
                         </div>
                     </div>
