@@ -1,6 +1,6 @@
 <?php
 
-namespace Directoryxx\Finac\Commands;
+namespace memfis\Finac\Commands;
 
 use Illuminate\Console\Command;
 
@@ -18,7 +18,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $description = 'Installer FA Module by directoryx';
+    protected $description = 'Installer FA Module by MeMFIS';
 
     /**
      * Create a new command instance.
@@ -48,7 +48,7 @@ class Install extends Command
             }
             if ($this->confirm('Install initial data?')) {
                 $this->info('[START] Install initial data..........');
-                $this->callSilent('db:seed', ['--class' => "Directoryxx\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
+                $this->callSilent('db:seed', ['--class' => "memfis\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
                 $this->info('[DONE ] Install initial data.');
             }
         }
@@ -63,7 +63,7 @@ class Install extends Command
     protected function copyright()
     {
         $this->line('');
-        $this->line('"Finac: Installer" artisan command');
-        $this->line('version 0.1 by @directoryx');
+        $this->line('"Finance and Accounting: Installer" artisan command');
+        $this->line('version 0.1 by MeMFIS');
     }
 }
