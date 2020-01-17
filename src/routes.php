@@ -14,641 +14,641 @@ Route::get('token', function(){
 Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('coa')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CoaController@create')->name('coa.index');
-		Route::get('/export', 'Directoryxx\Finac\Controllers\Frontend\CoaController@export')->name('coa.export');
-		Route::get('/type','Directoryxx\Finac\Controllers\Frontend\CoaController@getdata');
-		Route::post('/','Directoryxx\Finac\Controllers\Frontend\CoaController@store')->name('coa.store');
-		Route::put('/{coa}','Directoryxx\Finac\Controllers\Frontend\CoaController@update')->name('coa.update');
-		Route::delete('/{coa}','Directoryxx\Finac\Controllers\Frontend\CoaController@destroy')->name('coa.delete');
-		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CoaController@datatables')->name('coa.datatables');
-		Route::get('/{coa}/edit','Directoryxx\Finac\Controllers\Frontend\CoaController@edit');
-		Route::get('/type/{id}','Directoryxx\Finac\Controllers\Frontend\CoaController@gettype');
-		Route::get('/data','Directoryxx\Finac\Controllers\Frontend\CoaController@api');
-		Route::get('/data/{coa}','Directoryxx\Finac\Controllers\Frontend\CoaController@apidetail');
-		Route::get('/datatables/modal','Directoryxx\Finac\Controllers\Frontend\CoaController@basicModal');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\CoaController@create')->name('coa.index');
+		Route::get('/export', 'memfis\Finac\Controllers\Frontend\CoaController@export')->name('coa.export');
+		Route::get('/type','memfis\Finac\Controllers\Frontend\CoaController@getdata');
+		Route::post('/','memfis\Finac\Controllers\Frontend\CoaController@store')->name('coa.store');
+		Route::put('/{coa}','memfis\Finac\Controllers\Frontend\CoaController@update')->name('coa.update');
+		Route::delete('/{coa}','memfis\Finac\Controllers\Frontend\CoaController@destroy')->name('coa.delete');
+		Route::get('/datatables','memfis\Finac\Controllers\Frontend\CoaController@datatables')->name('coa.datatables');
+		Route::get('/{coa}/edit','memfis\Finac\Controllers\Frontend\CoaController@edit');
+		Route::get('/type/{id}','memfis\Finac\Controllers\Frontend\CoaController@gettype');
+		Route::get('/data','memfis\Finac\Controllers\Frontend\CoaController@api');
+		Route::get('/data/{coa}','memfis\Finac\Controllers\Frontend\CoaController@apidetail');
+		Route::get('/datatables/modal','memfis\Finac\Controllers\Frontend\CoaController@basicModal');
 	});
 
     Route::prefix('journal')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@create'
+			'memfis\Finac\Controllers\Frontend\JournalController@create'
 		)->name('journal.index');
 		Route::post(
 			'/approve',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@approve'
+			'memfis\Finac\Controllers\Frontend\JournalController@approve'
 		);
 		Route::get(
 			'/type',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@getType'
+			'memfis\Finac\Controllers\Frontend\JournalController@getType'
 		);
 		Route::get(
 			'/type-json',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@getTypeJson'
+			'memfis\Finac\Controllers\Frontend\JournalController@getTypeJson'
 		);
 		Route::get(
 			'/currency',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@getCurrency'
+			'memfis\Finac\Controllers\Frontend\JournalController@getCurrency'
 		);
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@store'
+			'memfis\Finac\Controllers\Frontend\JournalController@store'
 		)->name('journal.store');
 		Route::post(
 			'/journala',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@journalaStore'
+			'memfis\Finac\Controllers\Frontend\JournalController@journalaStore'
 		)->name('journal.coaStore');
 		Route::put(
 			'/{journal}',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@update'
+			'memfis\Finac\Controllers\Frontend\JournalController@update'
 		)->name('journal.update');
 		Route::delete(
 			'/{journal}',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@destroy'
+			'memfis\Finac\Controllers\Frontend\JournalController@destroy'
 		)->name('journal.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@datatables'
+			'memfis\Finac\Controllers\Frontend\JournalController@datatables'
 		)->name('journal.datatables');
 		Route::get(
 			'/{journal}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@edit'
+			'memfis\Finac\Controllers\Frontend\JournalController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@api'
+			'memfis\Finac\Controllers\Frontend\JournalController@api'
 		);
 		Route::get(
 			'/data/{journal}',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@apidetail'
+			'memfis\Finac\Controllers\Frontend\JournalController@apidetail'
 		);
 		Route::get(
 			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\JournalController@print'
+			'memfis\Finac\Controllers\Frontend\JournalController@print'
 		);
 	});
 
     Route::prefix('bond')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@create'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@create'
 		)->name('bs.index');
 		Route::post(
 			'/approve',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@approve'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@approve'
 		);
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@store'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@store'
 		)->name('bs.store');
 		Route::put(
 			'/{bs}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@update'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@update'
 		)->name('bs.update');
 		Route::delete(
 			'/{bs}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@destroy'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@destroy'
 		)->name('bs.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@datatables'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@datatables'
 		)->name('bs.datatables');
 		Route::get(
 			'/{bs}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@edit'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@edit'
 		);
 		Route::get(
 			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSController@print'
+			'memfis\Finac\Controllers\Frontend\TrxBSController@print'
 		);
 	});
 
     Route::prefix('bsr')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@create'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@create'
 		)->name('bsr.index');
 		Route::post(
 			'/approve',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@approve'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@approve'
 		);
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@store'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@store'
 		)->name('bsr.store');
 		Route::put(
 			'/{bsr}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@update'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@update'
 		)->name('bsr.update');
 		Route::delete(
 			'/{bsr}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@destroy'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@destroy'
 		)->name('bsr.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@datatables'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@datatables'
 		)->name('bsr.datatables');
 		Route::get(
 			'/{bsr}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@edit'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@edit'
 		);
 		Route::get(
 			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\TrxBSRController@print'
+			'memfis\Finac\Controllers\Frontend\TrxBSRController@print'
 		);
 	});
 
     Route::prefix('trial-balance')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@index'
+			'memfis\Finac\Controllers\Frontend\TrialBalanceController@index'
 		)->name('trialbalance.index');
 		Route::get(
 			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@print'
+			'memfis\Finac\Controllers\Frontend\TrialBalanceController@print'
 		)->name('trialbalance.print');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrialBalanceController@datatables'
+			'memfis\Finac\Controllers\Frontend\TrialBalanceController@datatables'
 		)->name('trialbalance.datatables');
 	});
 
     Route::prefix('balance-sheet')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\BalanceSheetController@index'
+			'memfis\Finac\Controllers\Frontend\BalanceSheetController@index'
 		)->name('balancesheet.index');
 		Route::get(
 			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\BalanceSheetController@print'
+			'memfis\Finac\Controllers\Frontend\BalanceSheetController@print'
 		)->name('balancesheet.print');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\BalanceSheetController@datatables'
+			'memfis\Finac\Controllers\Frontend\BalanceSheetController@datatables'
 		)->name('balancesheet.datatables');
 	});
 
     Route::prefix('profit-loss')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@index'
+			'memfis\Finac\Controllers\Frontend\ProfitLossController@index'
 		)->name('profitloss.index');
 		Route::get(
 			'/view-pl',
-			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@viewPL'
+			'memfis\Finac\Controllers\Frontend\ProfitLossController@viewPL'
 		)->name('profitloss.view.pl');
 		Route::get(
 			'/detail-pl',
-			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@detailPL'
+			'memfis\Finac\Controllers\Frontend\ProfitLossController@detailPL'
 		)->name('profitloss.detail.pl');
 		Route::get(
 			'/print-view-pl',
-			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@printViewPL'
+			'memfis\Finac\Controllers\Frontend\ProfitLossController@printViewPL'
 		)->name('profitloss.print');
 		Route::get(
 			'/print-detail-pl',
-			'Directoryxx\Finac\Controllers\Frontend\ProfitLossController@printDetailPL'
+			'memfis\Finac\Controllers\Frontend\ProfitLossController@printDetailPL'
 		)->name('profitloss.print');
 	});
 
     Route::prefix('general-ledger')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\GeneralLedgerController@index'
+			'memfis\Finac\Controllers\Frontend\GeneralLedgerController@index'
 		)->name('profitloss.index');
 	});
 
     Route::prefix('journala')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@create'
+			'memfis\Finac\Controllers\Frontend\JournalAController@create'
 		)->name('journala.index');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@store'
+			'memfis\Finac\Controllers\Frontend\JournalAController@store'
 		)->name('journala.store');
 		Route::put(
 			'/{journala}',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@update'
+			'memfis\Finac\Controllers\Frontend\JournalAController@update'
 		)->name('journala.update');
 		Route::delete(
 			'/{journala}',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@destroy'
+			'memfis\Finac\Controllers\Frontend\JournalAController@destroy'
 		)->name('journala.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@datatables'
+			'memfis\Finac\Controllers\Frontend\JournalAController@datatables'
 		)->name('journala.datatables');
 		Route::get(
 			'/{journala}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@edit'
+			'memfis\Finac\Controllers\Frontend\JournalAController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@api'
+			'memfis\Finac\Controllers\Frontend\JournalAController@api'
 		);
 		Route::get(
 			'/data/{journala}',
-			'Directoryxx\Finac\Controllers\Frontend\JournalAController@apidetail'
+			'memfis\Finac\Controllers\Frontend\JournalAController@apidetail'
 		);
 	});
 
     Route::prefix('supplier-invoice')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@index'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@index'
 		)->name('trxpayment.index');
 		Route::post(
 			'/approve',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@approve'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@approve'
 		);
 		Route::get(
 			'/create',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@create'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@create'
 		)->name('trxpayment.create');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@store'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@store'
 		)->name('trxpayment.store');
 		Route::put(
 			'/{trxpayment}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@update'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@update'
 		)->name('trxpayment.update');
 		Route::delete(
 			'/{trxpayment}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@destroy'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@destroy'
 		)->name('trxpayment.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@datatables'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@datatables'
 		)->name('trxpayment.datatables');
 		Route::get(
 			'/{trxpayment}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@edit'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@api'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@api'
 		);
 		Route::get(
 			'/data/{trxpayment}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@apidetail'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@apidetail'
 		);
 		Route::post(
 			'/coa/use',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@coaUse'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@coaUse'
 		)->name('trxpayment.grn.use');
 		Route::get(
 			'/coa/items/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@coaDatatables'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@coaDatatables'
 		)->name('trxpayment.grn.datatables');
 
 		//GRN
 		Route::post(
 			'/grn/approve',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnApprove'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnApprove'
 		);
 		Route::get(
 			'/grn/create',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnCreate'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnCreate'
 		)->name('trxpayment.grn.create');
 		Route::put(
 			'/grn/{trxpayment}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnUpdate'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnUpdate'
 		)->name('trxpayment.grn.update');
 		Route::post(
 			'/grn/create',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnStore'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnStore'
 		)->name('trxpayment.grn.store');
 		Route::post(
 			'/grn/use',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnUse'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnUse'
 		)->name('trxpayment.grn.use');
 		Route::get(
 			'/grn/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnDatatables'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnDatatables'
 		)->name('trxpayment.grn.datatables');
 		Route::get(
 			'/grn/items/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnItemsDatatables'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnItemsDatatables'
 		)->name('trxpayment.grn.datatables');
 		Route::get(
 			'/grn/{trxpayment}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@grnEdit'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@grnEdit'
 		);
 		Route::get(
 			'/get-vendors',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentController@getVendor'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentController@getVendor'
 		)->name('trxpayment.vendor.get');
 	});
 
     Route::prefix('trxpaymenta')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@create'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@create'
 		)->name('trxpaymenta.index');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@store'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@store'
 		)->name('trxpaymenta.store');
 		Route::put(
 			'/{trxpaymenta}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@update'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@update'
 		)->name('trxpaymenta.update');
 		Route::delete(
 			'/{trxpaymenta}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@destroy'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@destroy'
 		)->name('trxpaymenta.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@datatables'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@datatables'
 		)->name('trxpaymenta.datatables');
 		Route::get(
 			'/{trxpaymenta}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@edit'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@api'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@api'
 		);
 		Route::get(
 			'/data/{trxpaymenta}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentAController@apidetail'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentAController@apidetail'
 		);
 	});
 
     Route::prefix('trxpaymentb')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@create'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@create'
 		)->name('trxpaymentb.index');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@store'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@store'
 		)->name('trxpaymentb.store');
 		Route::put(
 			'/{trxpaymentb}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@update'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@update'
 		)->name('trxpaymentb.update');
 		Route::delete(
 			'/{trxpaymentb}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@destroy'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@destroy'
 		)->name('trxpaymentb.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@datatables'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@datatables'
 		)->name('trxpaymentb.datatables');
 		Route::get(
 			'/{trxpaymentb}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@edit'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@api'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@api'
 		);
 		Route::get(
 			'/data/{trxpaymentb}',
-			'Directoryxx\Finac\Controllers\Frontend\TrxPaymentBController@apidetail'
+			'memfis\Finac\Controllers\Frontend\TrxPaymentBController@apidetail'
 		);
 	});
 
     Route::prefix('account-payable')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\APController@create'
+			'memfis\Finac\Controllers\Frontend\APController@create'
 		)->name('apayment.index');
 		Route::get(
 			'/print',
-			'Directoryxx\Finac\Controllers\Frontend\APController@print'
+			'memfis\Finac\Controllers\Frontend\APController@print'
 		)->name('apayment.print');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\APController@store'
+			'memfis\Finac\Controllers\Frontend\APController@store'
 		)->name('apayment.store');
 		Route::put(
 			'/{apayment}',
-			'Directoryxx\Finac\Controllers\Frontend\APController@update'
+			'memfis\Finac\Controllers\Frontend\APController@update'
 		)->name('apayment.update');
 		Route::delete(
 			'/{apayment}',
-			'Directoryxx\Finac\Controllers\Frontend\APController@destroy'
+			'memfis\Finac\Controllers\Frontend\APController@destroy'
 		)->name('apayment.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\APController@datatables'
+			'memfis\Finac\Controllers\Frontend\APController@datatables'
 		)->name('apayment.datatables');
 		Route::get(
 			'/coa/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\APController@coaDatatables'
+			'memfis\Finac\Controllers\Frontend\APController@coaDatatables'
 		)->name('apayment.datatables');
 		Route::get(
 			'/{apayment}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\APController@edit'
+			'memfis\Finac\Controllers\Frontend\APController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\APController@api'
+			'memfis\Finac\Controllers\Frontend\APController@api'
 		);
 		Route::get(
 			'/data/{apayment}',
-			'Directoryxx\Finac\Controllers\Frontend\APController@apidetail'
+			'memfis\Finac\Controllers\Frontend\APController@apidetail'
 		);
 		Route::get(
 			'/si/modal/datatable',
-			'Directoryxx\Finac\Controllers\Frontend\APController@SIModalDatatables'
+			'memfis\Finac\Controllers\Frontend\APController@SIModalDatatables'
 		)->name('apayment.datatables');
 		Route::post(
 			'/approve',
-			'Directoryxx\Finac\Controllers\Frontend\APController@approve'
+			'memfis\Finac\Controllers\Frontend\APController@approve'
 		);
 	});
 
     Route::prefix('apaymenta')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@create'
+			'memfis\Finac\Controllers\Frontend\APAController@create'
 		)->name('apaymenta.index');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@store'
+			'memfis\Finac\Controllers\Frontend\APAController@store'
 		)->name('apaymenta.store');
 		Route::put(
 			'/{apaymenta}',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@update'
+			'memfis\Finac\Controllers\Frontend\APAController@update'
 		)->name('apaymenta.update');
 		Route::delete(
 			'/{apaymenta}',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@destroy'
+			'memfis\Finac\Controllers\Frontend\APAController@destroy'
 		)->name('apaymenta.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@datatables'
+			'memfis\Finac\Controllers\Frontend\APAController@datatables'
 		)->name('apaymenta.datatables');
 		Route::get(
 			'/{apaymenta}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@edit'
+			'memfis\Finac\Controllers\Frontend\APAController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@api'
+			'memfis\Finac\Controllers\Frontend\APAController@api'
 		);
 		Route::get(
 			'/data/{apaymenta}',
-			'Directoryxx\Finac\Controllers\Frontend\APAController@apidetail'
+			'memfis\Finac\Controllers\Frontend\APAController@apidetail'
 		);
 	});
 
     Route::prefix('apaymentb')->group(function () {
 		Route::get(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@create'
+			'memfis\Finac\Controllers\Frontend\APBController@create'
 		)->name('apaymentb.index');
 		Route::post(
 			'/',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@store'
+			'memfis\Finac\Controllers\Frontend\APBController@store'
 		)->name('apaymentb.store');
 		Route::put(
 			'/{apaymentb}',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@update'
+			'memfis\Finac\Controllers\Frontend\APBController@update'
 		)->name('apaymentb.update');
 		Route::delete(
 			'/{apaymentb}',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@destroy'
+			'memfis\Finac\Controllers\Frontend\APBController@destroy'
 		)->name('apaymentb.delete');
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@datatables'
+			'memfis\Finac\Controllers\Frontend\APBController@datatables'
 		)->name('apaymentb.datatables');
 		Route::get(
 			'/{apaymentb}/edit',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@edit'
+			'memfis\Finac\Controllers\Frontend\APBController@edit'
 		);
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@api'
+			'memfis\Finac\Controllers\Frontend\APBController@api'
 		);
 		Route::get(
 			'/data/{apaymentb}',
-			'Directoryxx\Finac\Controllers\Frontend\APBController@apidetail'
+			'memfis\Finac\Controllers\Frontend\APBController@apidetail'
 		);
 	});
 
 	Route::resource(
 		'asset',
-		'Directoryxx\Finac\Controllers\Frontend\AssetController',
+		'memfis\Finac\Controllers\Frontend\AssetController',
 		['except' => 'show']
 	);
     Route::prefix('asset')->group(function () {
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@datatables'
+			'memfis\Finac\Controllers\Frontend\AssetController@datatables'
 		)->name('asset.datatables');
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\AssetController@data'
+			'memfis\Finac\Controllers\Frontend\AssetController@data'
 		);
 	});
 
 	Route::resource(
 		'typeasset',
-		'Directoryxx\Finac\Controllers\Frontend\TypeAssetController',
+		'memfis\Finac\Controllers\Frontend\TypeAssetController',
 		['except' => 'show']
 	);
     Route::prefix('typeasset')->group(function () {
 		Route::get(
 			'/datatables',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@datatables'
+			'memfis\Finac\Controllers\Frontend\TypeAssetController@datatables'
 		)->name('typeasset.datatables');
 		Route::get(
 			'/data',
-			'Directoryxx\Finac\Controllers\Frontend\TypeAssetController@data'
+			'memfis\Finac\Controllers\Frontend\TypeAssetController@data'
 		);
 	});
 
 	Route::prefix('cashbook')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
-		Route::delete('/{cashbook}', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
-		Route::post('/{cashbook}/approve', 'Directoryxx\Finac\Controllers\Frontend\CashbookController@approve')->name('cashbook.approve');
-		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook.datatable');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
+		Route::delete('/{cashbook}', 'memfis\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
+		Route::post('/{cashbook}/approve', 'memfis\Finac\Controllers\Frontend\CashbookController@approve')->name('cashbook.approve');
+		Route::get('/datatables','memfis\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook.datatable');
 	});
 
 	Route::prefix('cashbook-bpj')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@index')->name('cashbook-bpj.index');
-		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@create')->name('cashbook-bpj.create');
-		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@store')->name('cashbook-bpj.store');
-		Route::get('/{cashbook}/edit', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@edit')->name('cashbook-bpj.edit');
-		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-bpj.datatable');
-		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@detail')->name('cashbook-bpj.datatabledetail');
-		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@update')->name('cashbook-bpj.update');
-		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBPJController@show')->name('cashbook-bpj.show');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\CashbookBPJController@index')->name('cashbook-bpj.index');
+		Route::get('/create', 'memfis\Finac\Controllers\Frontend\CashbookBPJController@create')->name('cashbook-bpj.create');
+		Route::post('/', 'memfis\Finac\Controllers\Frontend\CashbookBPJController@store')->name('cashbook-bpj.store');
+		Route::get('/{cashbook}/edit', 'memfis\Finac\Controllers\Frontend\CashbookBPJController@edit')->name('cashbook-bpj.edit');
+		Route::get('/datatables','memfis\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-bpj.datatable');
+		Route::post('/datatables','memfis\Finac\Controllers\Frontend\CashbookBPJController@detail')->name('cashbook-bpj.datatabledetail');
+		Route::post('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookBPJController@update')->name('cashbook-bpj.update');
+		Route::get('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookBPJController@show')->name('cashbook-bpj.show');
 	});
 
 
 	Route::prefix('cashbook-brj')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@index')->name('cashbook-brj.index');
-		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@create')->name('cashbook-brj.create');
-		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@store')->name('cashbook-brj.store');
-		Route::get('/{cashbook}/edit', 'Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@edit')->name('cashbook-brj.edit');
-		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-brj.datatable');
-		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@detail')->name('cashbook-brj.datatabledetail');
-		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@update')->name('cashbook-brj.update');
-		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookBRJController@show')->name('cashbook-brj.show');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\CashbookBRJController@index')->name('cashbook-brj.index');
+		Route::get('/create', 'memfis\Finac\Controllers\Frontend\CashbookBRJController@create')->name('cashbook-brj.create');
+		Route::post('/', 'memfis\Finac\Controllers\Frontend\CashbookBRJController@store')->name('cashbook-brj.store');
+		Route::get('/{cashbook}/edit', 'memfis\Finac\Controllers\Frontend\CashbookBRJController@edit')->name('cashbook-brj.edit');
+		Route::get('/datatables','memfis\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-brj.datatable');
+		Route::post('/datatables','memfis\Finac\Controllers\Frontend\CashbookBRJController@detail')->name('cashbook-brj.datatabledetail');
+		Route::post('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookBRJController@update')->name('cashbook-brj.update');
+		Route::get('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookBRJController@show')->name('cashbook-brj.show');
 	});
 
 	Route::prefix('cashbook-cpj')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@index')->name('cashbook-cpj.index');
-		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@create')->name('cashbook-cpj.create');
-		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@store')->name('cashbook-cpj.store');
-		Route::get('/{cashbook}/edit', 'Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@edit')->name('cashbook-cpj.edit');
-		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-cpj.datatable');
-		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@detail')->name('cashbook-cpj.datatabledetail');
-		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@update')->name('cashbook-cpj.update');
-		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCPJController@show')->name('cashbook-cpj.show');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\CashbookCPJController@index')->name('cashbook-cpj.index');
+		Route::get('/create', 'memfis\Finac\Controllers\Frontend\CashbookCPJController@create')->name('cashbook-cpj.create');
+		Route::post('/', 'memfis\Finac\Controllers\Frontend\CashbookCPJController@store')->name('cashbook-cpj.store');
+		Route::get('/{cashbook}/edit', 'memfis\Finac\Controllers\Frontend\CashbookCPJController@edit')->name('cashbook-cpj.edit');
+		Route::get('/datatables','memfis\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-cpj.datatable');
+		Route::post('/datatables','memfis\Finac\Controllers\Frontend\CashbookCPJController@detail')->name('cashbook-cpj.datatabledetail');
+		Route::post('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookCPJController@update')->name('cashbook-cpj.update');
+		Route::get('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookCPJController@show')->name('cashbook-cpj.show');
 	});
 
 	Route::prefix('cashbook-crj')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@index')->name('cashbook-crj.index');
-		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@create')->name('cashbook-crj.create');
-		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@store')->name('cashbook-crj.store');
-		Route::get('/{cashbook}/edit', 'Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@edit')->name('cashbook-crj.edit');
-		Route::get('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-crj.datatable');
-		Route::post('/datatables','Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@detail')->name('cashbook-crj.datatabledetail');
-		Route::post('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@update')->name('cashbook-crj.update');
-		Route::get('/{cashbook}','Directoryxx\Finac\Controllers\Frontend\CashbookCRJController@show')->name('cashbook-crj.show');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\CashbookCRJController@index')->name('cashbook-crj.index');
+		Route::get('/create', 'memfis\Finac\Controllers\Frontend\CashbookCRJController@create')->name('cashbook-crj.create');
+		Route::post('/', 'memfis\Finac\Controllers\Frontend\CashbookCRJController@store')->name('cashbook-crj.store');
+		Route::get('/{cashbook}/edit', 'memfis\Finac\Controllers\Frontend\CashbookCRJController@edit')->name('cashbook-crj.edit');
+		Route::get('/datatables','memfis\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-crj.datatable');
+		Route::post('/datatables','memfis\Finac\Controllers\Frontend\CashbookCRJController@detail')->name('cashbook-crj.datatabledetail');
+		Route::post('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookCRJController@update')->name('cashbook-crj.update');
+		Route::get('/{cashbook}','memfis\Finac\Controllers\Frontend\CashbookCRJController@show')->name('cashbook-crj.show');
 	});
 
 	Route::prefix('invoice')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
-		Route::get('/datatables', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@datatables')->name('invoice.datatables');
-		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@store')->name('invoice.store');
-		Route::post('/{invoice}/approve', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@approve')->name('invoice.approve');
-		Route::get('/{invoice}/edit', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@edit')->name('invoice.edit');
-		Route::post('/{invoice}/edit', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@update')->name('invoice.update');
-		Route::delete('/{invoice}', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@destroy')->name('invoice.delete');
-		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@create')->name('invoice.create');
-		Route::get('/quotation/datatables/modal', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@quodatatables')->name('invoice.quodatable');
-		Route::get('/quotation/datatables/modal/{quotation}/detail', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@apidetail')->name('invoice.apidetail');
-		Route::get('/quotation/table/modal/{quotation}/detail', 'Directoryxx\Finac\Controllers\Frontend\InvoiceController@table')->name('invoice.table');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
+		Route::get('/datatables', 'memfis\Finac\Controllers\Frontend\InvoiceController@datatables')->name('invoice.datatables');
+		Route::post('/', 'memfis\Finac\Controllers\Frontend\InvoiceController@store')->name('invoice.store');
+		Route::post('/{invoice}/approve', 'memfis\Finac\Controllers\Frontend\InvoiceController@approve')->name('invoice.approve');
+		Route::get('/{invoice}/edit', 'memfis\Finac\Controllers\Frontend\InvoiceController@edit')->name('invoice.edit');
+		Route::post('/{invoice}/edit', 'memfis\Finac\Controllers\Frontend\InvoiceController@update')->name('invoice.update');
+		Route::delete('/{invoice}', 'memfis\Finac\Controllers\Frontend\InvoiceController@destroy')->name('invoice.delete');
+		Route::get('/create', 'memfis\Finac\Controllers\Frontend\InvoiceController@create')->name('invoice.create');
+		Route::get('/quotation/datatables/modal', 'memfis\Finac\Controllers\Frontend\InvoiceController@quodatatables')->name('invoice.quodatable');
+		Route::get('/quotation/datatables/modal/{quotation}/detail', 'memfis\Finac\Controllers\Frontend\InvoiceController@apidetail')->name('invoice.apidetail');
+		Route::get('/quotation/table/modal/{quotation}/detail', 'memfis\Finac\Controllers\Frontend\InvoiceController@table')->name('invoice.table');
 	});
 
 	Route::prefix('ar')->group(function () {
-		Route::get('/', 'Directoryxx\Finac\Controllers\Frontend\ARController@index')->name('ar.index');
-		Route::post('/', 'Directoryxx\Finac\Controllers\Frontend\ARController@store')->name('ar.store');
-		Route::get('/{arecieve}/edit', 'Directoryxx\Finac\Controllers\Frontend\ARController@edit')->name('ar.edit');
-		Route::get('/datatables', 'Directoryxx\Finac\Controllers\Frontend\ARController@datatables')->name('ar.datatables');
-		Route::post('/{arecieve}/edit', 'Directoryxx\Finac\Controllers\Frontend\ARController@update')->name('ar.update');
-		Route::get('/create', 'Directoryxx\Finac\Controllers\Frontend\ARController@create')->name('ar.create');
-		Route::delete('/{arecieve}', 'Directoryxx\Finac\Controllers\Frontend\ARController@destroy')->name('ar.delete');
+		Route::get('/', 'memfis\Finac\Controllers\Frontend\ARController@index')->name('ar.index');
+		Route::post('/', 'memfis\Finac\Controllers\Frontend\ARController@store')->name('ar.store');
+		Route::get('/{arecieve}/edit', 'memfis\Finac\Controllers\Frontend\ARController@edit')->name('ar.edit');
+		Route::get('/datatables', 'memfis\Finac\Controllers\Frontend\ARController@datatables')->name('ar.datatables');
+		Route::post('/{arecieve}/edit', 'memfis\Finac\Controllers\Frontend\ARController@update')->name('ar.update');
+		Route::get('/create', 'memfis\Finac\Controllers\Frontend\ARController@create')->name('ar.create');
+		Route::delete('/{arecieve}', 'memfis\Finac\Controllers\Frontend\ARController@destroy')->name('ar.delete');
 	});
-	Route::get('/currencyfa', 'Directoryxx\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
-	Route::get('/bankfa', 'Directoryxx\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
-	Route::get('/bankfa/{bankaccount}', 'Directoryxx\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
-	Route::get('/customerfa/{customer}', 'Directoryxx\Finac\Controllers\Frontend\ARController@cust_detail')->name('detailcusttt');
-	//Route::resource('cashbook', 'Directoryxx\Finac\Controllers\Frontend\CashbookController');
+	Route::get('/currencyfa', 'memfis\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
+	Route::get('/bankfa', 'memfis\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
+	Route::get('/bankfa/{bankaccount}', 'memfis\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
+	Route::get('/customerfa/{customer}', 'memfis\Finac\Controllers\Frontend\ARController@cust_detail')->name('detailcusttt');
+	//Route::resource('cashbook', 'memfis\Finac\Controllers\Frontend\CashbookController');
 
-	//Route::resource('cashbook-bpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBPJController');
-	//Route::resource('cashbook-brj', 'Directoryxx\Finac\Controllers\Frontend\CashbookBRJController');
-	//Route::resource('cashbook-cpj', 'Directoryxx\Finac\Controllers\Frontend\CashbookCPJController');
-	//Route::resource('cashbook-crj', 'Directoryxx\Finac\Controllers\Frontend\CashbookCRJController');
+	//Route::resource('cashbook-bpj', 'memfis\Finac\Controllers\Frontend\CashbookBPJController');
+	//Route::resource('cashbook-brj', 'memfis\Finac\Controllers\Frontend\CashbookBRJController');
+	//Route::resource('cashbook-cpj', 'memfis\Finac\Controllers\Frontend\CashbookCPJController');
+	//Route::resource('cashbook-crj', 'memfis\Finac\Controllers\Frontend\CashbookCRJController');
 
 
 });
