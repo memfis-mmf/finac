@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "memfis\\Finac\\FAServiceProvider"
+                "memfisfa\\Finac\\FAServiceProvider"
             ]
         }
     }
