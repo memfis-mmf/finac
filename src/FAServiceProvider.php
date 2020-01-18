@@ -18,13 +18,7 @@ class FAServiceProvider extends ServiceProvider
         include __DIR__.'/routes.php';
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
-        //$this->loadViewsFrom(__DIR__.'/views/coa', 'coaViews');
-        //$this->loadViewsFrom(__DIR__.'/views/dll', 'dll');
-        /*
-        $this->publishes([
-            __DIR__.'/views' => base_path('resources/views/fa'),
-        ],'views');
-        */
+        
         $this->publishes([
             __DIR__.'/assets' => public_path('vendor/courier'),
         ],'assetsfa');
