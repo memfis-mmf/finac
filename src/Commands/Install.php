@@ -18,7 +18,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $description = 'Installer FA Module by MeMFIS Developer';
+    protected $description = '- Installer FA Module by MeMFIS Developer -';
 
     /**
      * Create a new command instance.
