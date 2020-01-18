@@ -68,7 +68,7 @@ let RefQuoDatatables = {
                         var scheduled_payment_amount1112 = JSON.parse(data.scheduled_payment_amount);
                         console.log(scheduled_payment_amount1112[n_invoice_count].amount);
                         $("#due_payment").val(scheduled_payment_amount1112[n_invoice_count].amount);
-                    
+
                         let dataSchedule = JSON.parse(data.scheduled_payment_amount);
                         let scheduled_payments111 = {
                             init: function () {
@@ -232,6 +232,7 @@ let RefQuoDatatables = {
                         console.log(attentionquo);
                         currency = data.currency;
                         var levels = customers.levels[0];
+												atten_array = [];
                         $.each(attention, function (i, attention) {
                             atten_array[i] = attention.name;
                         });
@@ -345,7 +346,7 @@ jQuery(document).on("click", ".open-AddRowDialog", function () {
 
 
 
-    // As pointed out in comments, 
+    // As pointed out in comments,
     // it is unnecessary to have to manually call the modal.
     // $('#addBookDialog').modal('show');
 });
