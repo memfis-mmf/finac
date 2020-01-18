@@ -65,7 +65,7 @@
                                         <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="Button group with nested dropdown">
                                             <a href="javascript:;" data-href="{{url('profit-loss/view-pl')}}" class="m-btn btn btn-primary view-pl">
                                                 <span>
-                                                <span>View Profit & Loss</span>
+                                                <span>View Profit & Loss </span>
                                                 </span>
                                             </a>
                                             <a href="profit-loss/detail-pl" class="btn btn-primary m-btn m-btn--pill-last">
