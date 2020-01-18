@@ -13,13 +13,13 @@
     },
     "autoload": {
         "psr-4": {
-            "memfisfa\\Finac\\": "src/"
+            "memfis\\Finac\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "memfisfa\\Finac\\FAServiceProvider"
+                "memfis\\Finac\\FAServiceProvider"
             ]
         }
     }
