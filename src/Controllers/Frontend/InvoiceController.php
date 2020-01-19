@@ -75,8 +75,11 @@ class InvoiceController extends Controller
         $invoice_check = Invoice::where('id_quotation',$quotation->id)->count();
         //dd($invoice_check);
         $schedule_payment = json_decode($quotation->scheduled_payment_amount);
-        if (!@$schedule_payment->amount_percentage) {
-          return ['error' => 'amount percentage cannot be null'];
+
+        if (!@$schedule_payment[0]->amount_percentage) {
+          return [
+			  'error' => 'amount percentage cannot be null'
+		  ];
         }
         //dd($schedule_payment);
         $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
@@ -855,8 +858,8 @@ class InvoiceController extends Controller
 
         $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->get();
         $parseHtccr = json_decode($quotation->data_htcrr);
-        //dd($parseHtccr);
-        $pricehtccr = $parseHtccr->manhour_rate_amount * $parseHtccr->total_manhours_with_performance_factor;
+		// dd($quotation->workpackages[0]->pivot->manhour_rate_amount);
+        @$pricehtccr = $parseHtccr->manhour_rate_amount * $parseHtccr->total_manhours_with_performance_factor;
         if (sizeof($htcrrs) > 0) {
             $htcrr_workpackage = new WorkPackage();
             $htcrr_workpackage->code = "Workpackage HT CRR";

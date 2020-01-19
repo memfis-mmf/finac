@@ -3,6 +3,15 @@ let total1 = 0;
 var discount = 0;
 let quotation = $('#quotation_uuid').val();
 
+let manhour_price = 0;
+let facility_price = 0;
+let material_price = 0;
+let others_price = 0;
+let grand_total1 = 0;
+let convertidr = 0;
+let schedule_payment = '';
+let dataSet = '';
+
 let exchange_rate = parseInt($('#exchange_rate').attr('value'));
 // untuk datatable dengan accordion pada row tersebut
 var DatatableAutoColumnHideDemo = function () {
