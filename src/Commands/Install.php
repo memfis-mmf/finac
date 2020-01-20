@@ -63,7 +63,7 @@ class Install extends Command
     protected function copyright()
     {
         $this->line('');
-        $this->line('"Finance and Accounting: Installer" artisan command');
-        $this->line('version 0.1 by MeMFIS');
+        $this->line('"fa: Install" artisan command');
+        $this->line('Version 0.1 by MeMFIS');
     }
 }
