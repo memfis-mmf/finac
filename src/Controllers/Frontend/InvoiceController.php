@@ -720,7 +720,6 @@ class InvoiceController extends Controller
     {
         $workpackages = $quotation->workpackages;
         $items = $quotation->item;
-        //dump($quotation->charge);
         $taxes =  $quotation->taxes->first();
         if ($taxes != null) {
             $taxes_type = Type::where('id', $taxes->type_id)->first();
@@ -734,27 +733,20 @@ class InvoiceController extends Controller
                 ->where('workpackage_id', $workPackage->id)
                 ->first();
 
-            // dd($project_workpackage->id);
-
             // if WorkPackage is empty
             if (!$project_workpackage) {
               return ['error' => 'workpackages not found'];
             }
 
-
             $countWPItem = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
                 ->where('workpackage_id', $workPackage->id)
                 ->count();
-
 
             $workPackage->materialitem = $countWPItem;
             $basic_count = 0;
             $sip_count = 0;
             $cpcp_count = 0;
             $si_count = 0;
-
-
-
 
             $basictaskcards = ProjectWorkPackageTaskCard::with(['taskcard'])->where('project_workpackage_id', $project_workpackage->id)->get();
             foreach ($basictaskcards as $basictaskcard) {
@@ -780,8 +772,6 @@ class InvoiceController extends Controller
                 $real_h1 += $calculate;
             }
 
-
-
             $h2s = QuotationWorkPackage::where('quotation_id', $quotation->id)
                 ->where('workpackage_id', $workPackage->id)->get();
             $real_h2 = 0;
@@ -792,7 +782,6 @@ class InvoiceController extends Controller
 
             $getdiscount = QuotationWorkPackage::where('quotation_id', $quotation->id)
                 ->where('workpackage_id', $workPackage->id)->first();
-
 
             if ($getdiscount != null) {
                 //dd($getdiscount);
@@ -806,7 +795,6 @@ class InvoiceController extends Controller
             } else {
                 $workPackage->discount = 0;
             }
-
 
             $adsb_count = 0;
             $cmrawl_count = 0;
@@ -831,10 +819,6 @@ class InvoiceController extends Controller
                     $ea_count += 1;
                 }
             }
-
-
-
-
 
             if ($project_workpackage) {
                 $workPackage->total_manhours_with_performance_factor = $project_workpackage->total_manhours_with_performance_factor;
@@ -892,13 +876,9 @@ class InvoiceController extends Controller
             $workpackages[sizeof($workpackages)] = $other_workpackage;
         }
 
-
-
-
+		// start datatable
 
         $data = $alldata = json_decode($workpackages);
-        //dump($data);
-
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 
