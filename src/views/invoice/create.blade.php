@@ -2,8 +2,8 @@
 
 @section('content')
 <style media="screen">
-	.valign-top {
-		vertical-align: top;
+	.m-datatable__cell:last-of-type {
+		vertical-align: top !important;
 	}
 </style>
 <div class="m-subheader hidden">

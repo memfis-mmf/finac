@@ -150,7 +150,6 @@ var DatatableAutoColumnHideDemo = function () {
           title: 'Total',
           sortable: 'asc',
           filterable: !1,
-					className: 'valign-top',
           template: function (t, e, i) {
 						// jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
