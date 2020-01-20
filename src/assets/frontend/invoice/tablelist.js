@@ -81,7 +81,7 @@ var DatatableAutoColumnHideDemo = function () {
         {
           field: 'code',
           title: 'No',
-          width: '100px',
+          width: '200px',
         }, {
           field: 'description',
           title: 'Detail',

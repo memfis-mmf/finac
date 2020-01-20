@@ -1,5 +1,19 @@
 let Invoice = {
     init: function () {
+
+				function addCommas(nStr)
+				{
+						nStr += '';
+						x = nStr.split('.');
+						x1 = x[0];
+						x2 = x.length > 1 ? '.' + x[1] : '';
+						var rgx = /(\d+)(\d{3})/;
+						while (rgx.test(x1)) {
+								x1 = x1.replace(rgx, '$1' + '.' + '$2');
+						}
+						return x1 + x2;
+				}
+
         $('.invoice_datatable').mDatatable({
             data: {
                 type: 'remote',
@@ -56,7 +70,7 @@ let Invoice = {
                     title: 'Invoice No.',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 200
                 },
                 {
                     field: 'xstatus',
@@ -66,21 +80,21 @@ let Invoice = {
                     width: 150,
                 },
                 {
-                    field: 'id_customer',
+                    field: 'customer.name',
                     title: 'Customer',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'id_quotation',
+                    field: 'quotations.number',
                     title: 'Quotation No.',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'currency',
+                    field: 'currencies.code',
                     title: 'Currency',
                     sortable: 'asc',
                     filterable: !1,
@@ -91,7 +105,12 @@ let Invoice = {
                     title: 'Total',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											let value = addCommas(parseInt(t.quotations.grandtotal));
+											let symbol = t.currencies.symbol;
+											return `${symbol} ${value}`;
+										}
                 },
                 {
                     field: 'status',

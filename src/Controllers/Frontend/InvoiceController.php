@@ -564,7 +564,10 @@ class InvoiceController extends Controller
 
     public function datatables()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::with([
+			'customer',
+			'currencies',
+		])->get();
 
         foreach ($invoices as $invoice) {
 

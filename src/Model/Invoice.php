@@ -5,9 +5,9 @@ namespace memfisfa\Finac\Model;
 use App\Models\Approval;
 use App\Models\Currency;
 use App\Models\Quotation;
+use App\Models\Customer;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
-
 
 class Invoice extends MemfisModel
 {
@@ -58,5 +58,10 @@ class Invoice extends MemfisModel
     public function totalprofit()
     {
         return $this->hasMany(Invoicetotalprofit::class, 'invoice_id', 'id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'id_customer');
     }
 }
