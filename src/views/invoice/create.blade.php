@@ -1,6 +1,11 @@
 @extends('frontend.master')
 
 @section('content')
+<style media="screen">
+	.valign-top {
+		vertical-align: top;
+	}
+</style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -202,7 +207,7 @@
                                                                             @slot('name', 'address')
                                                                             @endcomponent
                                                                         </div>
-                                                                        
+
                                                                     </div>
 
                                                                 </div>

@@ -150,8 +150,11 @@ var DatatableAutoColumnHideDemo = function () {
           title: 'Total',
           sortable: 'asc',
           filterable: !1,
+					className: 'valign-top',
           template: function (t, e, i) {
+						// jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
+
               if (currency.id == 1) {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
@@ -186,6 +189,7 @@ var DatatableAutoColumnHideDemo = function () {
                   /*IDRformatter.format(t.h1) + "<br/>"
                   + IDRformatter.format(t.h2) + "<br/>"
                   */
+                  IDRformatter.format(t.facilities_price_amount) + '<br>' +
                   IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
                   IDRformatter.format(t.mat_tool_price) + '<br>'
                 );
@@ -221,6 +225,7 @@ var DatatableAutoColumnHideDemo = function () {
                   ForeignFormatter.format(t.h1) + "<br/>"
                   + ForeignFormatter.format(t.h2) + "<br/>"
                   */
+                  ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
                   ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
                   //ForeignFormatter.format(a.facilities_price_amount) + '<br>' +
                   ForeignFormatter.format(t.mat_tool_price) + '<br>'
