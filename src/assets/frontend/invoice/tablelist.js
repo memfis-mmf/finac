@@ -1,6 +1,7 @@
 let total = 0;
 let total1 = 0;
 var discount = 0;
+var tax = 0;
 let quotation = $('#quotation_uuid').val();
 
 let manhour_price = 0;
@@ -154,7 +155,7 @@ var DatatableAutoColumnHideDemo = function () {
 						// jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
 
-              if (currency.id == 1) {
+              if (currency.code == 'idr') {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
@@ -184,6 +185,15 @@ var DatatableAutoColumnHideDemo = function () {
                 }
 
                 $("#total_discount").attr("value", discount);
+
+	              $("#grand_totalrp").val(IDRformatter.format(convertidr));
+
+                $("#grand_total_rupiah").val(IDRformatter.format(subtotal));
+                $("#sub_total").val(IDRformatter.format(subtotal));
+                $("#tax").val(IDRformatterTax.format(tax));
+                $("#grand_total").val(IDRformatter.format(grand_total1));
+                $("#total_discount").val(IDRformatter.format(discount));
+
                 return (
                   /*IDRformatter.format(t.h1) + "<br/>"
                   + IDRformatter.format(t.h2) + "<br/>"
@@ -219,6 +229,12 @@ var DatatableAutoColumnHideDemo = function () {
                   }
                 }
                 */
+								console.table(discount);
+                $("#grand_total_rupiah").val(ForeignFormatter.format(subtotal));
+                $("#sub_total").val(ForeignFormatter.format(subtotal));
+                $("#tax").val(ForeignFormatterTax.format(tax));
+                $("#grand_total").val(ForeignFormatter.format(grand_total1));
+                $("#total_discount").val(ForeignFormatter.format(discount));
                 return (
                   /*
                   ForeignFormatter.format(t.h1) + "<br/>"
@@ -247,18 +263,21 @@ var DatatableAutoColumnHideDemo = function () {
               convertidr = grand_total1 * exchange_get;
               schedule_payment = JSON.parse(t.schedulepayment);
               dataSet = schedule_payment;
-              console.log(t);
-              console.log(schedule_payment);
 
-
-              $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
-              if (currency.id == 1) {
+              // $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
+              $("#grand_totalrp").val(IDRformatter.format(convertidr));
+              if (currency.code == 'idr') {
                 subtotal += t.price;
-                $("#grand_total_rupiah").attr("value", IDRformatter.format(subtotal));
-                $("#sub_total").attr("value", IDRformatter.format(subtotal));
-                $("#tax").attr("value", IDRformatterTax.format(tax));
-                $("#grand_total").attr("value", IDRformatter.format(grand_total1));
-                $("#total_discount").attr("value", IDRformatter.format(discount));
+                // $("#grand_total_rupiah").attr("value", IDRformatter.format(subtotal));
+                // $("#sub_total").attr("value", IDRformatter.format(subtotal));
+                // $("#tax").attr("value", IDRformatterTax.format(tax));
+                // $("#grand_total").attr("value", IDRformatter.format(grand_total1));
+                // $("#total_discount").attr("value", IDRformatter.format(discount));
+                $("#grand_total_rupiah").val(IDRformatter.format(subtotal));
+                $("#sub_total").val(IDRformatter.format(subtotal));
+                $("#tax").val(IDRformatterTax.format(tax));
+                $("#grand_total").val(IDRformatter.format(grand_total1));
+                $("#total_discount").val(IDRformatter.format(discount));
                 let sp_show = "";
                 $.each(schedule_payment, function (k, v) {
                   sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + IDRformatter.format(v.amount) + "\n";
@@ -276,18 +295,22 @@ var DatatableAutoColumnHideDemo = function () {
                   }
                 }
                 */
-                console.log(discount);
                 $("#schedule_payment").html(sp_show);
                 return (
                   IDRformatter.format(t.price) + "<br/>"
                 );
               } else {
                 subtotal += t.price;
-                $("#grand_total_rupiah").attr("value", ForeignFormatter.format(subtotal));
-                $("#grand_total").attr("value", ForeignFormatter.format(grand_total1));
-                $("#sub_total").attr("value", ForeignFormatter.format(subtotal));
-                $("#tax").attr("value", ForeignFormatterTax.format(tax));
-                $("#total_discount").attr("value", ForeignFormatter.format(discount));
+                // $("#grand_total_rupiah").attr("value", ForeignFormatter.format(subtotal));
+                // $("#grand_total").attr("value", ForeignFormatter.format(grand_total1));
+                // $("#sub_total").attr("value", ForeignFormatter.format(subtotal));
+                // $("#tax").attr("value", ForeignFormatterTax.format(tax));
+                // $("#total_discount").attr("value", ForeignFormatter.format(discount));
+                $("#grand_total_rupiah").val(ForeignFormatter.format(subtotal));
+                $("#grand_total").val(ForeignFormatter.format(grand_total1));
+                $("#sub_total").val(ForeignFormatter.format(subtotal));
+                $("#tax").val(ForeignFormatterTax.format(tax));
+                $("#total_discount").val(ForeignFormatter.format(discount));
                 let sp_show = "";
                 $.each(schedule_payment, function (k, v) {
                   sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + ForeignFormatter.format(v.amount) + "\n";
@@ -318,7 +341,7 @@ var DatatableAutoColumnHideDemo = function () {
             } else if (t.priceother != null) {
               subtotal += t.priceother;
               others_price += t.priceother;
-              if (currency.id == 1) {
+              if (currency.code == 'idr') {
                 others_price += t.priceother;
                 return (
                   IDRformatter.format(t.priceother) + "<br/>"
@@ -357,10 +380,8 @@ jQuery(document).ready(function () {
     //alert("The paragraph was clicked.");
   });
   $("#pph").change(function () {
-    console.log(this.value)
     let pph = subtotal - discount * (this.value / 100);
     let fixed = pph.toFixed(2);
-    console.log(fixed);
     $("#percent").attr("value", fixed);
   });
   $('.action-buttons').on('click', '.add-invoice', function () {
