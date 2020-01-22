@@ -75,12 +75,15 @@ class JournalAController extends Controller
 
 		if ($request->methodpayment == 'debet') {
 			$method = 'debit';
+			$otherMethod = 'credit';
 		}else{
 			$method = 'credit';
+			$otherMethod = 'debit';
 		}
 
 		$request->request->add([
 			$method => $request->amount,
+			$otherMethod => 0,
 			'description' => $request->remark
 		]);
 
