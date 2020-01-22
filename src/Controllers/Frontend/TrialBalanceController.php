@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use Illuminate\Support\Carbon;
 
 class TrialBalanceController extends Controller
 {
@@ -40,10 +41,11 @@ class TrialBalanceController extends Controller
 
 	public function getData($beginDate, $endingDate)
 	{
-		$queryStatement ="
-			SET @BeginDate = ".$beginDate.";
-			SET @EndingDate = ".$endingDate.";
-		";
+
+		$queryStatement ='
+			SET @BeginDate = "'.$beginDate.'";
+			SET @EndingDate = "'.$endingDate.'";
+		';
 
 		$query = "
 			SELECT
