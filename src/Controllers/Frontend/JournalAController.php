@@ -19,7 +19,7 @@ class JournalAController extends Controller
 
     public function create()
     {
-        // return view('journalaview::index');
+        return view('journalaview::index');
     }
 
     public function store(JournalAStore $request)
