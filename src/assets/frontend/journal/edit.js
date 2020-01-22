@@ -204,7 +204,7 @@ let JournalEdit = {
 											}
 
 									} else {
-										toastr.success('Data berhasil disimpan.', 'Sukses', {
+										toastr.success('Data Saved Successfully.', 'Success', {
 												timeOut: 2000
 										});
 
@@ -247,7 +247,7 @@ let JournalEdit = {
 													coa_reset();
 											}
 									} else {
-											toastr.success('Data berhasil disimpan.', 'Sukses', {
+											toastr.success('Data Saved Successfully.', 'Success', {
 													timeOut: 5000
 											});
 
@@ -324,7 +324,7 @@ let JournalEdit = {
 
 							account_code_table.reload();
 
-							toastr.success('Data tersimpan', 'Sukses', {
+							toastr.success('Data Saved Successfully', 'Success', {
 								timeOut: 2000
 							});
 
