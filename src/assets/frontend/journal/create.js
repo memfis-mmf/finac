@@ -160,15 +160,6 @@ let JournalCreate = {
 						}
 				});
 		});
-
-		// account code modal select 2 handler
-
-		$('#accountcode').select2({
-		  ajax: {
-		    url: _url+'/journal/get-account-code-select2',
-		    dataType: 'json'
-		});
-
 	}
 };
 
