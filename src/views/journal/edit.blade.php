@@ -66,6 +66,7 @@
     </div>
 </div>
 @include('journalview::modal')
+@include('journalview::modal-create')
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -202,7 +203,7 @@
                                                             <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                                                                 @component('buttons::create-new')
                                                                     @slot('text', 'Account Code')
-                                                                    @slot('data_target', '#coa_modal')
+                                                                    @slot('data_target', '#modal_coa_create')
                                                                 @endcomponent
 
 
@@ -252,6 +253,7 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/select2/account-code.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/journal/edit.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
