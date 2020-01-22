@@ -406,7 +406,7 @@ let JournalEdit = {
 			    dataType: 'json'
 			  },
 				minimumInputLength: 3,
-				templateSelection: formatSelected
+				// templateSelection: formatSelected
 			});
 
     }

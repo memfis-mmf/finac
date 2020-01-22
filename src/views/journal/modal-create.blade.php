@@ -13,7 +13,7 @@
                     <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
-                            <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
                                     Account Code
                                 </label>
@@ -24,13 +24,13 @@
                                     @slot('id_error', 'accountcode')
                                 @endcomponent
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Account Name @include('label::required')
                                 </label>
 
 																<input type="text" id="_account_description" class="form-control m-input" disabled>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-6 col-md-6 col-lg-6">
