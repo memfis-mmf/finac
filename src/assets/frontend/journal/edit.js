@@ -188,7 +188,7 @@ let JournalEdit = {
 									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 							},
 							type: 'post',
-							url: `/journala/${uuid}`,
+							url: `/journala`,
 							data: _data,
 							success: function (data) {
 									if (data.errors) {
