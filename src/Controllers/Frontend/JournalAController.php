@@ -30,6 +30,22 @@ class JournalAController extends Controller
 			'account_code' => $coa->id
 		]);
 
+		$request->request->add([
+			'debit' => 0,
+			'credit' => 0,
+		]);
+
+		if ($request->methodpayment == 'debet') {
+			$method = 'debit';
+		}else{
+			$method = 'credit';
+		}
+
+		$request->request->add([
+			$method => $request->amount,
+			'description' => $request->remark
+		]);
+
         $journala = JournalA::create($request->all());
 
 		$this->updateJournalTotalTransaction($request->voucher_no);
@@ -53,21 +69,18 @@ class JournalAController extends Controller
 		$journala = JournalA::where('uuid', $request->uuid)->first();
 
 		$request->request->add([
-			'debit' => null,
-			'credit' => null,
+			'debit' => 0,
+			'credit' => 0,
 		]);
 
 		if ($request->methodpayment == 'debet') {
 			$method = 'debit';
-			$otherMethod = 'credit';
 		}else{
 			$method = 'credit';
-			$otherMethod = 'debit';
 		}
 
 		$request->request->add([
 			$method => $request->amount,
-			$otherMethod => null,
 			'description' => $request->remark
 		]);
 

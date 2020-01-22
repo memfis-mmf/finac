@@ -33,6 +33,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@create'
 		)->name('journal.index');
+		Route::get(
+			'/get-account-code-select2',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@getAccountCodeSelect2'
+		)->name('journal.get-account-code-select2');
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@approve'

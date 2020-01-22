@@ -4,6 +4,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 
 use Auth;
 use Illuminate\Http\Request;
+use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\TrxJournal as Journal;
 use memfisfa\Finac\Model\TrxJournalA;
 use memfisfa\Finac\Model\TypeJurnal;
@@ -292,5 +293,34 @@ class JournalController extends Controller
 
         $pdf = \PDF::loadView('formview::journal', $data);
         return $pdf->stream();
+	}
+
+	public function getAccountCodeSelect2(Request $request)
+	{
+		$q = $request->q;
+
+		// pengecekan apakah search by name atau code
+		$param = 'name';
+
+		if ((int) $q) {
+			$param = 'code';
+		}
+
+		$coa = Coa::where($param, 'like', '%'.$q.'%')
+		->where('description', 'detail')
+		->get();
+
+		$data['results'] = [];
+
+		for ($a=0; $a < count($coa); $a++) {
+			$x = $coa[$a];
+
+			$data['results'][] = [
+				'id' => $x->code,
+				'text' => $x->name.' ('.$x->code.')'
+			];
+		}
+
+		return $data;
 	}
 }

@@ -52,7 +52,7 @@ let JournalCreate = {
 								sortable: 'asc',
 								filterable: !1,
 								textAlign: 'center',
-								template: function (row, index, datatable) {   
+								template: function (row, index, datatable) {
 										return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
 								}
 						},
@@ -146,8 +146,8 @@ let JournalCreate = {
 												timeOut: 5000
 										});
 
-										setTimeout(function(){ 
-											location.href = `${_url}/journal/${data.uuid}/edit`; 
+										setTimeout(function(){
+											location.href = `${_url}/journal/${data.uuid}/edit`;
 										}, 2000);
 
 										$('#code-error').html('');
@@ -159,6 +159,14 @@ let JournalCreate = {
 								}
 						}
 				});
+		});
+
+		// account code modal select 2 handler
+
+		$('#accountcode').select2({
+		  ajax: {
+		    url: _url+'/journal/get-account-code-select2',
+		    dataType: 'json'
 		});
 
 	}

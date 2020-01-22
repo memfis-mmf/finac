@@ -176,6 +176,50 @@ let JournalEdit = {
 					});
 			});
 
+			let simpan_journala = $('body').on('click', '#create_journala', function () {
+
+					let button = $(this);
+					let form = button.parents('form');
+					let uuid = form.find('input[name=uuid]').val();
+					let _data = form.serialize();
+
+					$.ajax({
+							headers: {
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							},
+							type: 'post',
+							url: `/journala/${uuid}`,
+							data: _data,
+							success: function (data) {
+									if (data.errors) {
+											if (data.errors.code) {
+												$('#code-error').html(data.errors.code[0]);
+
+												document.getElementById('code').value = code;
+												document.getElementById('name').value = name;
+												document.getElementById('type').value = type;
+												document.getElementById('level').value = level;
+												document.getElementById('description').value = description;
+												coa_reset();
+											}
+
+									} else {
+										toastr.success('Data berhasil disimpan.', 'Sukses', {
+												timeOut: 2000
+										});
+
+										$('#modal_coa_create').modal('hide');
+										account_code_table.reload();
+
+										form.find('input:not([type=hidden])').val('');
+										form.find('input[type=radio]').prop('checked', false);
+										form.find('textarea:not([type=hidden])').val('');
+										$('#_accountcode').val('').trigger('change');
+									}
+							}
+					});
+			});
+
 			let ubah = $('body').on('click', '#journalsave', function () {
 
 					let button = $(this);
@@ -329,6 +373,40 @@ let JournalEdit = {
 								});
 						}
 				});
+			});
+
+			// account code modal select 2 handler
+
+			function splitSelect2Value(val) {
+				let data = [];
+				let arr = val.split('(')
+				data['name'] = arr[0];
+
+				let arr2 = arr[1].split(')');
+				data['code'] = arr2[0];
+
+				return data;
+			}
+
+			function formatSelected(state) {
+				let x = splitSelect2Value(state.text)['code'];
+
+				$('#_account_description').val(splitSelect2Value(state.text)['name']);
+				// $('#account_description').remove();
+				return x;
+			}
+
+			function getCode() {
+
+			}
+
+			$('#_accountcode').select2({
+			  ajax: {
+			    url: _url+'/journal/get-account-code-select2',
+			    dataType: 'json'
+			  },
+				minimumInputLength: 3,
+				templateSelection: formatSelected
 			});
 
     }

@@ -9,6 +9,7 @@
             </div>
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="CoaForm">
+										<input type="hidden" name="voucher_no" value="{{ $journal->voucher_no }}">
                     <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
@@ -17,9 +18,9 @@
                                     Account Code
                                 </label>
                                 @component('input::select2')
-                                    @slot('id', 'accountcode')
+                                    @slot('id', '_accountcode')
                                     @slot('text', 'Account Code')
-                                    @slot('name', 'accountcode')
+                                    @slot('name', 'account_code')
                                     @slot('id_error', 'accountcode')
                                 @endcomponent
                             </div>
@@ -28,7 +29,7 @@
                                     Account Name @include('label::required')
                                 </label>
 
-																<input type="text" id="account_description" class="form-control m-input" disabled>
+																<input type="text" id="_account_description" class="form-control m-input" disabled>
                             </div>
                         </div>
                         <div class="form-group m-form__group row ">
@@ -87,7 +88,7 @@
                                 <div class="flex">
                                     <div class="action-buttons">
                                         @component('buttons::submit')
-                                            @slot('id', 'update_journala')
+                                            @slot('id', 'create_journala')
                                             @slot('type', 'button')
                                         @endcomponent
 
