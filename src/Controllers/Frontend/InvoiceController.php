@@ -718,7 +718,7 @@ class InvoiceController extends Controller
 
     public function table(Quotation $quotation)
     {
-        $workpackages = $quotation->workpackages;
+        $workpackages = $quotation->workpackages()->with('quotations')->get();
         $items = $quotation->item;
         $taxes =  $quotation->taxes->first();
         if ($taxes != null) {
@@ -877,6 +877,8 @@ class InvoiceController extends Controller
         }
 
 		// start datatable
+
+		// dd($workpackages[0]->quotations[0]);
 
         $data = $alldata = json_decode($workpackages);
 

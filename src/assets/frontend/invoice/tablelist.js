@@ -184,15 +184,23 @@ var DatatableAutoColumnHideDemo = function () {
                   }
                 }
 
-                $("#total_discount").attr("value", discount);
+								let discount_amount = (
+									t.quotations[0].pivot.discount_value * t.quotations[0].subtotal
+								) / 100;
 
-	              $("#grand_totalrp").val(IDRformatter.format(convertidr));
+								let tax_amount = (
+									(t.quotations[0].subtotal * (10/100)) + t.quotations[0].subtotal
+								);
 
-                $("#grand_total_rupiah").val(IDRformatter.format(subtotal));
-                $("#sub_total").val(IDRformatter.format(subtotal));
-                $("#tax").val(IDRformatterTax.format(tax));
-                $("#grand_total").val(IDRformatter.format(grand_total1));
-                $("#total_discount").val(IDRformatter.format(discount));
+								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+
+                $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
+                $("#total_discount").val(IDRformatter.format(discount_amount));
+	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
+	              $("#grand_totalrp").val(IDRformatter.format(
+									grandtotal_amount * t.quotation.exchange_rate
+								));
+                $("#tax").val(IDRformatterTax.format(tax_amount));
 
                 return (
                   /*IDRformatter.format(t.h1) + "<br/>"
