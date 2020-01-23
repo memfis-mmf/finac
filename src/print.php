@@ -47,7 +47,6 @@ Route::get('/ar-ap', function () {
     return $pdf->stream();
 });
 
-
 Route::get('/view-pl', function () {
     $pdf = \PDF::loadView('formview::view-pl');
     return $pdf->stream();
@@ -65,5 +64,10 @@ Route::get('/invoice-docs', function () {
 
 Route::get('/invoice-lampiran', function () {
     $pdf = \PDF::loadView('formview::invoice-lampiran');
+    return $pdf->stream();
+});
+
+Route::get('/cashbook-docs', function () {
+    $pdf = \PDF::loadView('formview::cashbook');
     return $pdf->stream();
 });
