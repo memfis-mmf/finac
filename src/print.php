@@ -57,3 +57,8 @@ Route::get('/detail-pl', function () {
     $pdf = \PDF::loadView('formview::detail-pl');
     return $pdf->stream();
 });
+
+Route::get('/invoice-lampiran', function () {
+    $pdf = \PDF::loadView('formview::invoice-lampiran');
+    return $pdf->stream();
+});
