@@ -211,7 +211,7 @@ let JournalEdit = {
 										$('#modal_coa_create').modal('hide');
 										account_code_table.reload();
 
-										form.find('input:not([type=hidden])').val('');
+										form.find('input#amount').val('');
 										form.find('input[type=radio]').prop('checked', false);
 										form.find('textarea:not([type=hidden])').val('');
 										$('#_accountcode').val('').trigger('change');
