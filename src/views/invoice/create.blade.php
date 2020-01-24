@@ -557,6 +557,10 @@
                                                 </div>
                                             </div>
                                         </div>
+																				<input type="hidden" name="sub_total_val" id="sub_total_val" value="">
+																				<input type="hidden" name="total_discount_val" id="total_discount_val" value="">
+																				<input type="hidden" name="grand_total_val" id="grand_total_val" value="">
+																				<input type="hidden" name="grand_totalrp_val" id="grand_totalrp_val" value="">
                                         <div class="col-sm-6 col-md-6 col-lg-6">
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">

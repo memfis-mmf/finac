@@ -68,6 +68,10 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json([
+		// 	'error' => 'error message',
+		// 	$request->all()
+		// ]);
 
         $quotation = Quotation::where('number', $request->quotation)->first();
         //dd($quotation->scheduled_payment_amount);
@@ -110,7 +114,7 @@ class InvoiceController extends Controller
         $currency_id = $currency->id;
         $quotation_id = $quotation->id;
         $exchange_rate = $request->exchange_rate;
-        $discount_value = $request->discount;
+        $discount_value = $request->discount_value;
         $percent = $discount_value / $request->subtotal;
         $attention = [];
         $attention['name'] = $request->attention;
@@ -260,7 +264,7 @@ class InvoiceController extends Controller
         $bankget = Bank::where('id',$bankAccountget->bank_id)->first();
         $bank = BankAccount::selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
         //dump($bank);
-        //dd($coa);
+        // dd($invoice);
         return view('invoiceview::edit')
             ->with('today', $invoice->transactiondate)
             ->with('quotation', $quotation)
@@ -286,13 +290,15 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
 
+		dd($request->all());
+
         $currency = Currency::where('name', $request->currency)->first();
         $coa = Coa::where('code', $request->account)->first();
         $bankaccount = BankAccount::where('uuid', $request->bank)->first();
         //dd($bankaccount);
         //dd($coa);
         $currency_id = $currency->id;
-        $exchange_rate = $request->exchange_rate;
+        $exchange_rate = $request->exchangerate;
         $discount_value = $request->discount;
         $percent = $discount_value / $request->subtotal;
         $percent_friendly = number_format($percent * 100);

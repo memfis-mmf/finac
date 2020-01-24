@@ -48,7 +48,8 @@
                 </div>
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
-                        <form id="itemform" name="itemform">
+                        <form id="itemform" name="itemform" action="{{route('invoice.update', Request::segment(2))}}" method='post'>
+													@csrf
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -203,9 +204,9 @@
                                                                             @slot('name', 'address')
                                                                             @endcomponent
                                                                         </div>
-                                                                        
+
                                                                     </div>
- 
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -263,7 +264,7 @@
                                                         @component('input::numberreadonly')
                                                         @slot('id', 'exchange_rate1111')
                                                         @slot('text', 'exchange_rate1111')
-                                                        @slot('name', 'exchange_rate1111')
+                                                        @slot('name', 'exchangerate')
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -299,7 +300,7 @@
                                         @slot('text', 'Bank Name Information')
                                         @slot('id_error', 'bankinfo')
                                         @endcomponent
-                                    
+
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <div id="bai_header">
@@ -317,7 +318,7 @@
                                         </div>
                                     </div>
 
-                                    
+
 
                                 </div>
 
@@ -487,7 +488,7 @@
                                     </div>
                                     <br />
                                     <br />
-                                    
+
                                     <center>
                                         <h3 id="subjectquo">Subject</h3>
                                     </center>
@@ -526,7 +527,7 @@
                                                 <div class="col-sm-1 col-md-1 col-lg-1">
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div class="m--align-left" style="padding-top:15px">
@@ -559,7 +560,7 @@
                                                     @slot('id', 'sub_total')
                                                     @slot('class', 'sub_total')
                                                     @slot('text', '')
-                                                    @slot('value', '')
+                                                    @slot('value', 	number_format($invoice->grandtotalforeign / 1.1, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -574,7 +575,7 @@
                                                     @slot('id', 'total_discount')
                                                     @slot('class', 'total_discount')
                                                     @slot('text', '0')
-                                                    @slot('value', '0')
+                                                    @slot('value', 	number_format($invoice->discountvalue, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
 
@@ -590,7 +591,7 @@
                                                     @slot('id', 'tax')
                                                     @slot('class', 'tax')
                                                     @slot('text', '')
-                                                    @slot('value', '')
+                                                    @slot('value', 	number_format($invoice->grandtotalforeign / 1.1 * 0.1, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -603,10 +604,10 @@
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     @component('input::inputreadonly')
-                                                    @slot('id', 'grand_total')
-                                                    @slot('class', 'grand_total')
+                                                    @slot('id', 'grandtotal')
+                                                    @slot('class', 'grandtotal')
                                                     @slot('text', '')
-                                                    @slot('value', '')
+                                                    @slot('value', 	number_format($invoice->grandtotalforeign, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -618,10 +619,10 @@
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     @component('input::inputreadonly')
-                                                    @slot('id', 'grand_totalrp')
-                                                    @slot('class', 'grand_totalrp')
+                                                    @slot('id', 'grandtotalrp')
+                                                    @slot('class', 'grandtotalrp')
                                                     @slot('text', '')
-                                                    @slot('value', '')
+                                                    @slot('value', 	number_format($invoice->grandtotal, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -649,7 +650,7 @@
                                                     <div class="flex">
                                                         <div class="action-buttons">
                                                             @component('frontend.common.buttons.submit')
-                                                            @slot('type','button')
+                                                            @slot('type','submit')
                                                             @slot('id', 'edit-invoice')
                                                             @slot('class', 'edit-invoice')
                                                             @endcomponent
@@ -747,7 +748,7 @@
     let quotation_uuid = "{{$quotation->uuid}}";
     let other_total = 0;
     let schedule_payment = "";
-    let grand_total1 = 0;
+    let grandtotal1 = 0;
     let convertidr = 0;
     let dataSchedule = "{{$quotation->scheduled_payment_amount}}";
     let dataScheduleClear = JSON.parse(dataSchedule.replace(/&quot;/g, '"'));
@@ -800,10 +801,10 @@
         let other_total = 0;
         let dataSchedule = "{{$quotation->scheduled_payment_amount}}";
         let dataScheduleClear = JSON.parse(dataSchedule.replace(/&quot;/g, '"'));
-        let grand_total1 = 0;
+        let grandtotal1 = 0;
         let convertidr = 0;
-        
-        
+
+
 
 
 
@@ -898,6 +899,7 @@
 <script>
     let scheduled_payments11 = {
         init: function() {
+
             let scheduled_payment_datatable = $('#scheduled_payments_datatables').DataTable({
                 data: dataScheduleClear,
                 columns: [{
@@ -979,7 +981,7 @@
                 $("#amount_scheduled-error").html('');
                 $("#work_progress_scheduled").removeClass('is-invalid');
                 $("#amount_scheduled").removeClass('is-invalid');
-                let total = $('#grand_total').attr('value');
+                let total = $('#grandtotal').attr('value');
                 let work_progress_scheduled = $("#work_progress_scheduled").val();
                 let amount_scheduled = $("#amount_scheduled").val();
                 let description_scheduled = $("#description_scheduled").val();

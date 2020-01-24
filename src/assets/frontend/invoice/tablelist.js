@@ -192,6 +192,13 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
+                $("#sub_total_val").val(t.quotations[0].subtotal);
+                $("#total_discount_val").val(discount_amount);
+	              $("#grand_total_val").val(grandtotal_amount);
+	              $("#grand_totalrp_val").val(
+									grandtotal_amount * t.quotations[0].exchange_rate
+								);
+
                 $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
 	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
@@ -259,6 +266,13 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
+                $("#sub_total_val").val(t.quotations[0].subtotal);
+                $("#total_discount_val").val(discount_amount);
+	              $("#grand_total_val").val(grandtotal_amount);
+	              $("#grand_totalrp_val").val(
+									grandtotal_amount * t.quotations[0].exchange_rate
+								);
+
                 $("#sub_total").val(ForeignFormatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
 	              $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
@@ -323,6 +337,13 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
+                $("#sub_total_val").val(t.quotations[0].subtotal);
+                $("#total_discount_val").val(discount_amount);
+	              $("#grand_total_val").val(grandtotal_amount);
+	              $("#grand_totalrp_val").val(
+									grandtotal_amount * t.quotations[0].exchange_rate
+								);
+
                 $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
 	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
@@ -376,6 +397,13 @@ var DatatableAutoColumnHideDemo = function () {
 								);
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+
+                $("#sub_total_val").val(t.quotations[0].subtotal);
+                $("#total_discount_val").val(discount_amount);
+	              $("#grand_total_val").val(grandtotal_amount);
+	              $("#grand_totalrp_val").val(
+									grandtotal_amount * t.quotations[0].exchange_rate
+								);
 
                 $("#sub_total").val(ForeignFormatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
@@ -480,15 +508,15 @@ jQuery(document).ready(function () {
     data.append("pphvalue", tax);
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
     // data.append("scheduled_payment_note", JSON.stringify(scheduled_payment_note_array));
-    data.append("discount", discount);
+    data.append("discount", $("#total_discount_val").val());
     data.append('attention', $("#attention option:selected").text());
     data.append('phone', $("#phone option:selected").text());
     data.append('fax', $("#fax option:selected").text());
     data.append('email', $("#email option:selected").text());
-    data.append("subtotal", subtotal);
+    data.append("subtotal", $("#sub_total_val").val());
     data.append("account", $('#coa').val());
-    data.append("grand_total", grand_total1);
-    data.append("grand_totalrp", convertidr);
+    data.append("grand_total", $("#grand_total_val").val());
+    data.append("grand_totalrp", $("#grand_totalrp_val").val());
     data.append("material",$(".material").val());
     data.append("manhours",$(".manhours").val());
     data.append("facility",$(".facility").val());

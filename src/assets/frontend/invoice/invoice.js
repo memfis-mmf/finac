@@ -107,7 +107,7 @@ let Invoice = {
                     filterable: !1,
                     width: 150,
 										template: function(t, e, i) {
-											let value = addCommas(parseInt(t.quotations.grandtotal));
+											let value = addCommas(parseInt(t.quotations.subtotal));
 											let symbol = t.currencies.symbol;
 											return `${symbol} ${value}`;
 										}
