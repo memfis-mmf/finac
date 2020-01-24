@@ -6,6 +6,7 @@ use App\Models\Approval;
 use App\Models\Currency;
 use App\Models\Quotation;
 use App\Models\Customer;
+use App\Models\Bank;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,7 +40,6 @@ class Invoice extends MemfisModel
         return $this->morphMany(Approval::class, 'approvable');
     }
 
-
     public function currencies()
     {
         return $this->hasOne(Currency::class, 'id', 'currency');
@@ -63,5 +63,10 @@ class Invoice extends MemfisModel
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'id_customer');
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class, 'id_bank');
     }
 }

@@ -88,12 +88,19 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
+@if (Session::get('success'))
+	<script type="text/javascript">
+		toastr.success('{{Session::get("success")}}', 'Success',  {
+			timeOut: 2000
+		});
+	</script>
+@endif
 <script>
 $(document).on("click", ".open-AddUuidApproveDialog", function () {
      var uuid = $(this).data('uuid');
      //console.log(uuid);
      $(".modal-body #uuid-approve").val(uuid);
-     // As pointed out in comments, 
+     // As pointed out in comments,
      // it is unnecessary to have to manually call the modal.
      // $('#addBookDialog').modal('show');
 });

@@ -114,7 +114,7 @@ class InvoiceController extends Controller
         $currency_id = $currency->id;
         $quotation_id = $quotation->id;
         $exchange_rate = $request->exchange_rate;
-        $discount_value = $request->discount_value;
+        $discount_value = $request->discount;
         $percent = $discount_value / $request->subtotal;
         $attention = [];
         $attention['name'] = $request->attention;
@@ -289,35 +289,33 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-
-		dd($request->all());
-
         $currency = Currency::where('name', $request->currency)->first();
-        $coa = Coa::where('code', $request->account)->first();
-        $bankaccount = BankAccount::where('uuid', $request->bank)->first();
-        //dd($bankaccount);
-        //dd($coa);
+        $coa = Coa::where('code', $request->coa)->first();
+        $bankaccount = BankAccount::where('uuid', $request->_bankinfo)->first();
+
+		$subtotal = $invoice->grandtotalforeign / 1.1;
+
         $currency_id = $currency->id;
         $exchange_rate = $request->exchangerate;
-        $discount_value = $request->discount;
-        $percent = $discount_value / $request->subtotal;
+        $discount_value = $invoice->discountvalue;
+        $percent = $discount_value / $subtotal;
         $percent_friendly = number_format($percent * 100);
         $ppn_percent = 10;
         $ppn_value = $request->pphvalue;
         $grandtotalfrg = $request->grand_total;
-        $grandtotalidr = $request->grand_totalrp;
+        $grandtotalidr = $invoice->grandtotalforeign * $request->exchangerate;
         $description = $request->description;
 
         $invoice1 = Invoice::where('id', $invoice->id)
             ->update([
                 'currency' => $currency_id,
                 'exchangerate' => $exchange_rate,
-                'discountpercent' => $percent_friendly,
-                'discountvalue' => $discount_value,
-                'ppnpercent' => $ppn_percent,
-                'ppnvalue' => $ppn_value,
+                // 'discountpercent' => $percent_friendly,
+                // 'discountvalue' => $discount_value,
+                // 'ppnpercent' => $ppn_percent,
+                // 'ppnvalue' => $ppn_value,
                 'id_bank' => $bankaccount->id,
-                'grandtotalforeign' => $grandtotalfrg,
+                // 'grandtotalforeign' => $grandtotalfrg,
                 'grandtotal' => $grandtotalidr,
                 'accountcode' => $coa->id,
                 'description' => $description,
@@ -339,10 +337,9 @@ class InvoiceController extends Controller
                 'description' => $description,
             ]);
 
-
-
-
-        return response()->json($invoice);
+        return redirect()->route('invoice.index')->with([
+			'success' => 'data updated'
+		]);
     }
 
     /**

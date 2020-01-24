@@ -294,13 +294,15 @@
                                             Bank Name Information @include('frontend.common.label.required')
                                         </label>
 
-                                        @component('input::select2')
-                                        @slot('id', 'bankinfo')
-                                        @slot('name', 'bankinfo')
-                                        @slot('text', 'Bank Name Information')
-                                        @slot('id_error', 'bankinfo')
-                                        @endcomponent
+																				<select class="form-control" name="_bankinfo" id="" style="width:100%">
+																					@for ($a=0; $a < count($banks); $a++)
+																						@php
+																							$x = $banks[$a];
+																						@endphp
 
+																						<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank)? 'selected': ''}}>{{$x->full}}</option>
+																					@endfor
+																				</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <div id="bai_header">
@@ -317,14 +319,7 @@
                                             @endcomponent
                                         </div>
                                     </div>
-
-
-
                                 </div>
-
-
-
-
                                 <br />
                                 <br />
                                 <div id="hiddennext">
@@ -1052,7 +1047,7 @@
     };
 
     jQuery(document).ready(function() {
-        scheduled_payments11.init();
+      scheduled_payments11.init();
     });
 </script>
 

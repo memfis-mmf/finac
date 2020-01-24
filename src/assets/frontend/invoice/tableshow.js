@@ -129,7 +129,7 @@ var DatatableAutoColumnHideDemo = function () {
                 "&nbsp;&nbsp;&nbsp;&nbsp;Others "
 
               );
-            } 
+            }
 
           }
         },
@@ -156,7 +156,7 @@ var DatatableAutoColumnHideDemo = function () {
                     discount += temptotal * (t.pivot.discount_value/100);
                   }else{
                     discount += 0;
-                  } 
+                  }
                 }
                 */
                 if (t.discount_type == 'amount') {
@@ -191,7 +191,7 @@ var DatatableAutoColumnHideDemo = function () {
                     discount += temptotal * (t.pivot.discount_value/100);
                   }else{
                     discount += 0;
-                  } 
+                  }
                 }
                 /*
                 if (t.discount_type == 'amount') {
@@ -362,7 +362,7 @@ jQuery(document).ready(function () {
     data.append("quotation", $('#refquono').val());
     data.append("currency", $('#currency').val());
     data.append("exchange_rate", $('#exchange_rate1111').val());
-    data.append("bank", $("#bankinfo option:selected").val());
+    data.append("bank", $("#bankinfo").val());
     data.append("pph", 10);
     data.append("pphvalue", tax);
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
