@@ -46,11 +46,11 @@ class Install extends Command
                 $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assetsfa']);
                 $this->info('[DONE ] Publishing asset..........');
             }
-            if ($this->confirm('Install initial data?')) {
-                $this->info('[START] Install initial data..........');
-                $this->callSilent('db:seed', ['--class' => "memfisfa\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
-                $this->info('[DONE ] Install initial data.');
-            }
+            // if ($this->confirm('Install initial data?')) {
+            //     $this->info('[START] Install initial data..........');
+            //     $this->callSilent('db:seed', ['--class' => "memfisfa\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
+            //     $this->info('[DONE ] Install initial data.');
+            // }
         }
     }
 
