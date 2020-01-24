@@ -117,8 +117,8 @@
                     <th valign="top" align="left" width="14%">Account Code</th>
                     <th valign="top" align="left" width="16%">Account Name</th>
                     <th valign="top" align="center" width="16%">Beginning Balance</th>
-                    <th valign="top" align="center" width="18%">Debet</th>
-                    <th valign="top" align="center" width="18%">Kredit</th>
+                    <th valign="top" align="center" width="18%">Debit</th>
+                    <th valign="top" align="center" width="18%">Credit</th>
                     <th valign="top" align="center" width="18%">Ending Balance</th>
                 </tr>
                     @for ($i=0; $i < count($data[0]); $i++)
@@ -148,8 +148,8 @@
                                 <th valign="top" align="left" width="14%">Account Code</th>
                                 <th valign="top" align="left" width="16%">Account Name</th>
                                 <th valign="top" align="center" width="16%">Beginning Balance</th>
-                                <th valign="top" align="center" width="18%">Debet</th>
-                                <th valign="top" align="center" width="18%">Kredit</th>
+                                <th valign="top" align="center" width="18%">Debit</th>
+                                <th valign="top" align="center" width="18%">Credit</th>
                                 <th valign="top" align="center" width="18%">Ending Balance</th>
                             </tr>
 														@for ($j=0; $j < count($data[$i]); $j++)

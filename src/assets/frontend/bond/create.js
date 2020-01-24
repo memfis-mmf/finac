@@ -145,13 +145,13 @@ let BondCreate = {
 						},
 						{
 								field: '',
-								title: 'Debet',
+								title: 'Debit',
 								sortable: 'asc',
 								filterable: !1,
 						},
 						{
 								field: '',
-								title: 'Kredit',
+								title: 'Credit',
 								sortable: 'asc',
 								filterable: !1,
 						},
@@ -216,7 +216,7 @@ let BondCreate = {
 										});
 
 										setTimeout(function(){
-											location.href = `${_url}/bond/`; 
+											location.href = `${_url}/bond/`;
 										}, 2000);
 
 										$('#code-error').html('');

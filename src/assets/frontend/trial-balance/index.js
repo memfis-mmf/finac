@@ -92,7 +92,7 @@ let TrialBalance = {
                 },
                 {
                     field: 'Debit',
-                    title: 'Debet',
+                    title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150,

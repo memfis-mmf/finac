@@ -39,7 +39,7 @@
                                         @component('input::radio')
                                             @slot('id', 'debet')
                                             @slot('name', 'methodpayment')
-                                            @slot('text', 'Debet')
+                                            @slot('text', 'Debit')
                                             @slot('value', 'debet')
                                             @slot('required','required')
                                         @endcomponent
@@ -48,7 +48,7 @@
                                         @component('input::radio')
                                             @slot('id', 'kredit')
                                             @slot('name', 'methodpayment')
-                                            @slot('text', 'Kredit')
+                                            @slot('text', 'Credit')
                                             @slot('value', 'kredit')
                                             @slot('required','required')
                                         @endcomponent

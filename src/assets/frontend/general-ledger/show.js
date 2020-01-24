@@ -80,7 +80,7 @@ let GeneralLedger = {
                 },
                 {
                     field: '',
-                    title: 'Debet',
+                    title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150

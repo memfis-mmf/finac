@@ -127,8 +127,8 @@
                     <th valign="top" align="center" width="15%">Account Code</th>
                     <th valign="top" align="center" width="27%">Account Description</th>
                     <th valign="top" align="center" width="20%">Description</th>
-                    <th valign="top" align="center" width="16%">Debet</th>
-                    <th valign="top" align="center" width="16%">Kredit</th>
+                    <th valign="top" align="center" width="16%">Debit</th>
+                    <th valign="top" align="center" width="16%">Credit</th>
                 </tr>
 								@for ($i=0; $i < count($journala); $i++)
 									@php

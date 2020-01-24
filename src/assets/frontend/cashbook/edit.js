@@ -164,7 +164,7 @@ let Coa = {
                 },
                 {
                     field: '',
-                    title: 'Debet',
+                    title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,
@@ -262,7 +262,7 @@ let Coa = {
                 },
                 {
                     field: '',
-                    title: 'Debet',
+                    title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,

@@ -71,13 +71,13 @@ let JournalEdit = {
 							},
 							{
 									field: 'debit_currency',
-									title: 'Debet',
+									title: 'Debit',
 									sortable: 'asc',
 									filterable: !1,
 							},
 							{
 									field: 'credit_currency',
-									title: 'Kredit',
+									title: 'Credit',
 									sortable: 'asc',
 									filterable: !1,
 							},

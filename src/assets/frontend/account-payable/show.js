@@ -162,7 +162,7 @@ let AccountPayable = {
 						},
 						{
 							field: '',
-							title: 'Debet',
+							title: 'Debit',
 							sortable: 'asc',
 							filterable: !1,
 						},

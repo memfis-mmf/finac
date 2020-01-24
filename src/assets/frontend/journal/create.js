@@ -76,13 +76,13 @@ let JournalCreate = {
 						},
 						{
 								field: '',
-								title: 'Debet',
+								title: 'Debit',
 								sortable: 'asc',
 								filterable: !1,
 						},
 						{
 								field: '',
-								title: 'Kredit',
+								title: 'Credit',
 								sortable: 'asc',
 								filterable: !1,
 						},

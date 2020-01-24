@@ -208,7 +208,7 @@ let AccountPayable = {
 						},
 						{
 							field: 'debit',
-							title: 'Debet',
+							title: 'Debit',
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
