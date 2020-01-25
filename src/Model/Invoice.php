@@ -7,6 +7,8 @@ use App\Models\Currency;
 use App\Models\Quotation;
 use App\Models\Customer;
 use App\Models\Bank;
+use App\Models\BankAccount;
+use App\User;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,10 +37,19 @@ class Invoice extends MemfisModel
         'description'
     ];
 
+	protected $appends = [
+		'approved_by',
+	];
+
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
     }
+
+	public function getApprovedByAttribute()
+	{
+		return @User::find($this->approvals->first()->conducted_by);
+	}
 
     public function currencies()
     {
@@ -67,6 +78,6 @@ class Invoice extends MemfisModel
 
     public function bank()
     {
-        return $this->belongsTo(Bank::class, 'id_bank');
+        return $this->belongsTo(BankAccount::class, 'id_bank');
     }
 }

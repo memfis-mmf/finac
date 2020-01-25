@@ -1047,6 +1047,8 @@ class InvoiceController extends Controller
             $other_workpackage->priceother = $total;
         }
 
+		// dd($invoice->approved_by->role);
+
 		$data['invoice'] = $invoice;
 		$data['other_workpackage'] = $other_workpackage;
 

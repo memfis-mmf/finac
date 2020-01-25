@@ -120,7 +120,7 @@ let Invoice = {
                     width: 150
                 },
                 {
-                    field: 'approvedby',
+                    field: 'approved_by.name',
                     title: 'ApprovedBy',
                     sortable: 'asc',
                     filterable: !1,
@@ -135,6 +135,7 @@ let Invoice = {
                     template: function (t, e, i) {
                         if (t.status == 'Approved') {
                             return (
+																'<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
                                 '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
                                 '\t\t\t\t\t\t\t'
                             );
@@ -146,6 +147,7 @@ let Invoice = {
                             );
                         } else {
                             return (
+																'<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
                                 '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
                                 '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalinvoice" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                                 t.uuid +

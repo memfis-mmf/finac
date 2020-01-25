@@ -365,42 +365,50 @@
                         <tr>
                             <td valign="top" width="18%">Bank Name</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">Bank BNI Graha Pengeran</td>
-                            <td valign="top" width="18%">Bank Name</td>
+                            <td valign="top" width="31%">
+															{{$invoice->bank->bank->name}}
+														</td>
+                            {{-- <td valign="top" width="18%">Bank Name</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">Bank BNI Graha Pengeran</td>
+                            <td valign="top" width="31%">Bank BNI Graha Pengeran</td> --}}
                         </tr>
                         <tr>
                             <td valign="top" width="18%">Bank Account Name</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">PT. Merpaty Maintance Facility</td>
-                            <td valign="top" width="18%">Bank Account Name</td>
+                            <td valign="top" width="31%">{{$invoice->bank->name}}</td>
+                            {{-- <td valign="top" width="18%">Bank Account Name</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">PT. Merpaty Maintance Facility</td>
+                            <td valign="top" width="31%">PT. Merpaty Maintance Facility</td> --}}
                         </tr>
                         <tr>
                             <td valign="top" width="18%">Bank Account Number</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">888123232</td>
-                            <td valign="top" width="18%">Bank Account Number</td>
+                            <td valign="top" width="31%">{{$invoice->bank->number}}</td>
+                            {{-- <td valign="top" width="18%">Bank Account Number</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">888123232</td>
+                            <td valign="top" width="31%">888123232</td> --}}
                         </tr>
                         <tr>
                             <td valign="top" width="18%">Currency</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">IDR</td>
-                            <td valign="top" width="18%">Currency</td>
+                            <td valign="top" width="31%" style="text-transform:uppercase">{{$invoice->currencies->code}}</td>
+                            {{-- <td valign="top" width="18%">Currency</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">IDR</td>
+                            <td valign="top" width="31%">IDR</td> --}}
                         </tr>
                         <tr>
+													@if ($invoice->bank->swift_code)
+                            <td valign="top" width="18%">Swift Code</td>
+                            <td valign="top" width="1%">:</td>
+                            <td valign="top" width="31%">{{$invoice->bank->swift_code}}</td>
+													@else
                             <td valign="top" width="18%"></td>
                             <td valign="top" width="1%"></td>
                             <td valign="top" width="31%"></td>
-                            <td valign="top" width="18%">Swift Code</td>
+													@endif
+                            {{-- <td valign="top" width="18%">Swift Code</td>
                             <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">BNNIDIAXXX</td>
+                            <td valign="top" width="31%">BNNIDIAXXX</td> --}}
                         </tr>
                     </table>
             </fieldset>
@@ -408,6 +416,7 @@
     </div>
 
     <div id="content4">
+			@if (@$invoice->approved_by->name)
         <div class="container">
             <table width="100%" cellpadding="4">
                 <tr>
@@ -417,7 +426,11 @@
                     <td width="60%" height="70" valign="top">
                         <i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i>
                     </td>
-                    <td width="40%" valign="top" align="center">Sidoarjo, Sept 20, 2020</td>
+                    <td width="40%" valign="top" align="center">
+											{{
+												date('M d, Y', strtotime($invoice->approvals->first()->updated_at))
+											}}
+										</td>
                 </tr>
                 <tr>
                     <td width="60%"><b>Remark :</b></td>
@@ -425,12 +438,18 @@
                 </tr>
                 <tr>
                     <td width="60%" height="60" valign="top">
-                        <i>Generated</i>
+											{{$invoice->description}}
                     </td>
-                    <td width="40%" valign="top" align="center"><b>Generated Position User Approve<br>Generated User Name Approve</b></td>
+                    <td width="40%" valign="top" align="center">
+											<b>
+												{{$invoice->approved_by->role}}<br>
+												{{$invoice->approved_by->name}}
+											</b>
+										</td>
                 </tr>
             </table>
         </div>
+			@endif
     </div>
 </body>
 </html>
