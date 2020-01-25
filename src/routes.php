@@ -632,6 +632,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/quotation/datatables/modal', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@quodatatables')->name('invoice.quodatable');
 		Route::get('/quotation/datatables/modal/{quotation}/detail', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@apidetail')->name('invoice.apidetail');
 		Route::get('/quotation/table/modal/{quotation}/detail', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@table')->name('invoice.table');
+		Route::get('/print', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@print')->name('invoice.print');
 	});
 
 	Route::prefix('ar')->group(function () {

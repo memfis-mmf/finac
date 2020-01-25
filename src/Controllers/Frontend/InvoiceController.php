@@ -44,7 +44,6 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-
         return view('invoiceview::index');
     }
 
@@ -971,4 +970,87 @@ class InvoiceController extends Controller
 
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
+
+	public function print(Request $request)
+	{
+		$invoice = Invoice::where('uuid', $request->uuid)->first();
+		$quotation = $invoice->quotations;
+		$workpackage = $quotation->workpackages;
+
+		for ($a=0; $a < count($workpackage); $a++) {
+			$x = $workpackage[$a];
+
+			$invoice->quotations->workpackages[$a]->mat_tool_price =  QuotationWorkPackageTaskCardItem::where(
+				'quotation_id', $invoice->quotations->id
+			)
+			->where('workpackage_id',$x->id)
+			->sum('subtotal');
+
+	        $invoice->quotations->workpackages[$a]->material_item = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
+	            ->where('workpackage_id', $x->id)
+	            ->count();
+		}
+
+        $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->whereNull('parent_id')->get();
+        $mats_tools_htcrr = QuotationHtcrrItem::where('quotation_id', $quotation->id)->sum('subtotal');
+        if (sizeof($htcrrs) > 0) {
+            $htcrr_workpackage = new WorkPackage();
+            $htcrr_workpackage->code = "Workpackage HT CRR";
+            $htcrr_workpackage->title = "Workpackage HT CRR";
+            $htcrr_workpackage->data_htcrr = json_decode($quotation->data_htcrr, true);
+            $htcrr_workpackage->mat_tool_price = $mats_tools_htcrr;
+            $htcrr_workpackage->is_template = "htcrr";
+            $htcrr_workpackage->ac_type = $quotation->quotationable->aircraft->name;
+
+            if($quotation->promos->first()){
+                $promo = $quotation->promos->first();
+                switch($promo->code){
+                    case "discount-amount":
+                        $htcrr_workpackage->jobrequest_discount_amount = $promo->pivot->amount;
+                        // array_push($discount, $disc);
+                        $htcrr_workpackage->jobrequest_discount_percentage =  $promo->pivot->value * 100;
+                        break;
+                    case "discount-percent":
+
+                        $htcrr_workpackage->jobrequest_discount_amount =  $promo->pivot->amount;
+
+                        // array_push($discount, $disc);
+                        $htcrr_workpackage->jobrequest_discount_percentage =  $promo->pivot->value;
+                        break;
+                    default:
+                        // array_push($discount, 0);
+                }
+                $htcrr_workpackage->jobrequest_discount_type =  $quotation->promos->first()->code;
+                $htcrr_workpackage->jobrequest_discount_value =  $quotation->promos->first()->pivot->amount;
+            }else{
+                $htcrr_workpackage->jobrequest_discount_value = null;
+                $htcrr_workpackage->jobrequest_discount_type = null;
+                $htcrr_workpackage->jobrequest_discount_percentage =  null;
+            }
+
+            $invoice
+			->quotations
+			->workpackages[sizeof($invoice->quotations->workpackages)] = $htcrr_workpackage;
+        }
+
+        if ($quotation->charge != null){
+            $encode = json_decode($quotation->charge);
+            $last_index_key = array_key_last($encode);
+            $total = 0;
+            for ($i=0;$i<=$last_index_key;$i++){
+                $total += $encode[$i]->amount;
+            }
+            //dd($encode[0]->amount);
+            $other_workpackage = new WorkPackage();
+            $other_workpackage->code = "Other";
+            $other_workpackage->title = "Other";
+            $other_workpackage->priceother = $total;
+        }
+
+		$data['invoice'] = $invoice;
+		$data['other_workpackage'] = $other_workpackage;
+
+        $pdf = \PDF::loadView('formview::invoice', $data);
+        return $pdf->stream();
+	}
 }

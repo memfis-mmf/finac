@@ -62,7 +62,7 @@
         #content2{
             margin-top:10px;
         }
-        
+
         #content2 table tr td{
             border-left:  1px solid  #d4d7db;
             border-right:  1px solid  #d4d7db;
@@ -96,41 +96,53 @@
         </div>
         <img src="./vendor/courier/img/form/invoice/Footer.png" width="100%" alt="" >
     </footer>
-     
+
     <div id="content">
         <div class="container">
             <table width="100%" cellpadding="4" style="padding-top:10px">
                 <tr>
                     <td valign="top" width="18%">Customer Name</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">PT. Sarana Mendulang Arta</td>
+                    <td valign="top" width="31%">{{$invoice->customer->name}}</td>
                     <td valign="top" width="18%">Invoice Date</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">20/09/2019</td>
+                    <td valign="top" width="31%">{{date('d/m/Y', strtotime($invoice->transactiondate))}}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Address</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Jl Raya Juanda 16 Betro</td>
+                    <td valign="top" width="31%">
+											{{$invoice->customer->addresses()->first()->address}}
+										</td>
                     <td valign="top" width="18%">Quotation No.</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">QPRO/2019/09/00005</td>
+                    <td valign="top" width="31%">
+											{{$invoice->quotations->number}}
+										</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Phone</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">031-1232321</td>
+                    <td valign="top" width="31%">
+											{{$invoice->customer->phones()->first()->number}}
+										</td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">USD</td>
+                    <td valign="top" width="31%" style="text-transform:uppercase">
+											{{$invoice->currencies->code}}
+										</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Attn</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Yemima</td>
+                    <td valign="top" width="31%">
+											{{json_decode($invoice->customer->attention)[0]->name}}
+										</td>
                     <td valign="top" width="18%">Rate</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Rp. 12.500</td>
+                    <td valign="top" width="31%">
+											Rp. {{number_format($invoice->exchangerate, 0, 0, '.')}}
+										</td>
                 </tr>
             </table>
         </div>
@@ -146,74 +158,105 @@
                 </tr>
                 <tr>
                     <td colspan="5" height="20">
-                       <span style="font-size: 14px; font-weight: bold;padding:15px">Subject : Generated dari Quotation Subject/Title</span>
+                       <span style="font-size: 14px; font-weight: bold;padding:15px">
+												 Subject : {{$invoice->quotations->title}}
+											 </span>
                     </td>
                 </tr>
-                <tr>
-                    <td width="10%" rowspan="3" align="center" valign="top">1</td>
+								@for ($a=0; $a < count($invoice->quotations->workpackages); $a++)
+									@php
+										$x = $invoice->quotations->workpackages[$a];
+									@endphp
+	                <tr>
+	                    <td width="10%" rowspan="3" align="center" valign="top">{{$a+1}}</td>
 
-                    <td width="65%" valign="top" style="border-bottom:none" colspan="2"><b>Generated dari job Description Quotation / WP Title :</b></td>
+	                    <td width="65%" valign="top" style="border-bottom:none" colspan="2">
+												<b>{{$x->title}}</b>
+											</td>
 
-                    <td width="1%" style="border-right:none;border-bottom:none;"></td>
+	                    <td width="1%" style="border-right:none;border-bottom:none;"></td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
-                </tr>
-                <tr>
-                    <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">Total 1.200 Taskcard(s) & 1750 Manhours</td>
+	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
+	                </tr>
+	                <tr>
+	                    <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
+												Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format($x->pivot->manhour_total)}} Manhours
+											</td>
 
-                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none">USD</td>
+	                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
+												{{$x->quotations[0]->currency->code}}
+											</td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">12.000.000,00</td>
-                </tr>
-                <tr>
-                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">Material Need 50 Item(s)</td>
+	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+												{{
+													number_format(
+														$x->pivot->manhour_total * $x->pivot->manhour_rate_amount
+														, 0
+														, 0
+														, '.'
+													)
+												}}
+											</td>
+	                </tr>
+	                <tr>
+	                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
+												Material Need {{number_format($x->material_item, 0, 0, '.')}} Item(s)
+											</td>
 
-                    <td width="1%" style="border-right:none;border-top:none">USD</td>
+	                    <td width="1%" style="border-right:none;border-top:none">USD</td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">12.000.000</td>
-                </tr>
-                {{-- BreakPoint --}}
-                <tr>
-                    <td width="10%" rowspan="3" align="center" valign="top">2</td>
-
-                    <td width="65%" valign="top" style="border-bottom:none" colspan="2"><b>Generated dari job Description Quotation / WP Title :</b></td>
-
-                    <td width="1%" style="border-right:none;border-bottom:none;"></td>
-
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
-                </tr>
-                <tr>
-                    <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">Total 1.200 Taskcard(s) & 1750 Manhours</td>
-
-                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none">USD</td>
-
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">12.000.000,00</td>
-                </tr>
-                <tr>
-                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">Material Need 50 Item(s)</td>
-
-                    <td width="1%" style="border-right:none;border-top:none">USD</td>
-
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">12.000.000</td>
-                </tr>
+	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
+												{{
+													number_format(
+														$x->mat_tool_price
+														, 0
+														, 0
+														, '.'
+													)
+												}}
+											</td>
+	                </tr>
+								@endfor
                 {{-- Others&Disc --}}
                 <tr>
                     <td width="10%" align="center" valign="top"></td>
 
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Others</td>
 
-                    <td width="1%" style="border-right:none;">USD</td>
+                    <td width="1%" style="border-right:none;text-transform:uppercase">
+											{{$x->quotations[0]->currency->code}}
+										</td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">100.000</td>
+                    <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">
+											{{
+												number_format(
+													$other_workpackage->priceother
+													, 0
+													, 0
+													, '.'
+												)
+											}}
+										</td>
                 </tr>
                 <tr>
                     <td width="10%" align="center" valign="top"></td>
 
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Disc</td>
 
-                    <td width="1%" style="border-right:none;">USD</td>
+                    <td width="1%" style="border-right:none;text-transform:uppercase">
+											{{$invoice->currencies->code}}
+										</td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">{100.000}</td>
+                    <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">
+											{{
+												number_format(
+													$invoice->discountvalue
+													, 0
+													, 0
+													, '.'
+												)
+											}}
+										</td>
                 </tr>
                  {{-- TheOthers --}}
                 <tr>
@@ -233,38 +276,82 @@
 
                     <td width="1%" style="border-right:none;border-bottom:none;">USD</td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;">12.232.123</td>
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;">
+											{{
+												number_format(
+													$invoice->grandtotalforeign / 1.1
+													, 0
+													, 0
+													, '.'
+												)
+											}}
+										</td>
                 </tr>
                 <tr>
                     <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
 
-                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">PPN 10% (included)</td>
-                    
-                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none">USD</td>
+                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">VAT 10% (included)</td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">12.00</td>
+                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
+											{{$invoice->currencies->code}}
+										</td>
+
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+											{{
+												number_format(
+													$invoice->grandtotalforeign / 1.1 * 0.1
+													, 0
+													, 0
+													, '.'
+												)
+											}}
+										</td>
                 </tr>
                 <tr>
                     <td width="35%" style="border-top:none;border-bottom:none;border-right:none;"></td>
 
-                    <td width="30%" valign="top" style="border-top:none;border-bottom:none;border-left:none;"><b>Total in USD</b></td>
-                   
-                    <td width="1%" style="border-right:none;border-bottom:none;border-top:none"><b>USD</b></td>
+                    <td width="30%" valign="top" style="border-top:none;border-bottom:none;border-left:none;text-transform:uppercase"><b>
+											Total in {{$invoice->currencies->code}}
+										</b></td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;"><b>12.000.000</b></td>
+                    <td width="1%" style="border-right:none;border-bottom:none;border-top:none;text-transform:uppercase">
+											<b>{{$invoice->currencies->code}}</b>
+										</td>
+
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+											<b>
+												{{
+													number_format(
+														$invoice->grandtotalforeign
+														, 0
+														, 0
+														, '.'
+													)
+												}}
+											</b>
+										</td>
                 </tr>
                 <tr>
                     <td width="35%" style="border-top:none;border-right:none;"></td>
 
                     <td width="30%" valign="top" style="border-top:none;border-left:none;"><b>Total in IDR</b></td>
-                    
+
                     <td width="1%" style="border-right:none;border-top:none"><b>IDR</b></td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;"><b>375.321.932.321</b></td>
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;"><b>
+												{{
+													number_format(
+														$invoice->grandtotalforeign * $invoice->exchangerate
+														, 0
+														, 0
+														, '.'
+													)
+												}}
+										</b></td>
                 </tr>
                 {{-- Terbilang --}}
                 <tr>
-                    <td colspan="5" align="center" valign="top" style="color:#134678"><b><i>THIRTY THOUSAND DOLLARS</i></b></td>
+                    {{-- <td colspan="5" align="center" valign="top" style="color:#134678"><b><i>THIRTY THOUSAND DOLLARS</i></b></td> --}}
                 </tr>
             </table>
         </div>
