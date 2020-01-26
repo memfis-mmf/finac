@@ -90,7 +90,13 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <td><b>Form No : F02-1234</b></td>
+                    {{-- <td><b>Form No : F02-1234</b></td> --}}
+		                <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by->name }} ; </span> </td>
+										<td style="text-align:right">
+											<i>
+												Original
+											</i>
+										</td>
                 </tr>
             </table>
         </div>
@@ -416,7 +422,7 @@
     </div>
 
     <div id="content4">
-			@if (@$invoice->approved_by->name)
+			{{-- @if (@$invoice->approved_by->name) --}}
         <div class="container">
             <table width="100%" cellpadding="4">
                 <tr>
@@ -426,10 +432,13 @@
                     <td width="60%" height="70" valign="top">
                         <i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i>
                     </td>
-                    <td width="40%" valign="top" align="center">
+                    {{-- <td width="40%" valign="top" align="center">
 											{{
 												date('M d, Y', strtotime($invoice->approvals->first()->updated_at))
 											}}
+										</td> --}}
+                    <td width="40%" valign="top" align="center">
+											Approved By : {{@$invoice->approved_by->name}}
 										</td>
                 </tr>
                 <tr>
@@ -442,14 +451,15 @@
                     </td>
                     <td width="40%" valign="top" align="center">
 											<b>
-												{{$invoice->approved_by->role}}<br>
-												{{$invoice->approved_by->name}}
+												{{-- {{$invoice->approved_by->role}}<br> --}}
+												{{-- {{$invoice->approved_by->name}} --}}
+												Rowin H. Mangkoesoebroto
 											</b>
 										</td>
                 </tr>
             </table>
         </div>
-			@endif
+			{{-- @endif --}}
     </div>
 </body>
 </html>

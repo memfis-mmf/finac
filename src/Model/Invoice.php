@@ -39,6 +39,7 @@ class Invoice extends MemfisModel
 
 	protected $appends = [
 		'approved_by',
+		'created_by',
 	];
 
     public function approvals()
@@ -49,6 +50,11 @@ class Invoice extends MemfisModel
 	public function getApprovedByAttribute()
 	{
 		return @User::find($this->approvals->first()->conducted_by);
+	}
+	
+	public function getCreatedByAttribute()
+	{
+		return User::find($this->audits->first()->user_id);
 	}
 
     public function currencies()

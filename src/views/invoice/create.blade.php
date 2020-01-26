@@ -270,7 +270,7 @@
                                                         @slot('name', 'exchange_rate1111')
                                                         @endcomponent
                                                     </div>
-                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    {{-- <div class="col-sm-12 col-md-12 col-lg-12">
                                                         <br />
                                                         <label class="form-control-label">
                                                             President Director
@@ -281,7 +281,7 @@
                                                         @slot('name', 'pdir')
                                                         @slot('value', 'Rowin H. Mangkoesoebroto')
                                                         @endcomponent
-                                                    </div>
+                                                    </div> --}}
 
 
                                                 </div>

@@ -501,6 +501,7 @@ jQuery(document).ready(function () {
     // scheduled_payment_array.pop();
     let data = new FormData();
     data.append("quotation", $('#refquono').val());
+    data.append("pdir", $('#pdir').val());
     data.append("currency", $('#currency').val());
     data.append("exchange_rate", $('#exchange_rate1111').val());
     data.append("bank", $("#bankinfo option:selected").val());
