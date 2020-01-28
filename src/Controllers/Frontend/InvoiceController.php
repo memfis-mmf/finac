@@ -79,11 +79,6 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // return response()->json([
-		// 	'error' => 'error message',
-		// 	'data' => $request->all()
-		// ]);
-
         $quotation = Quotation::where('number', $request->quotation)->first();
         //dd($quotation->scheduled_payment_amount);
 
@@ -101,14 +96,18 @@ class InvoiceController extends Controller
         $last_sp = $end_sp + 1;
         $percent_sp =$schedule_payment[$last_sp - 1]->amount_percentage;
 
-
-
         $project = $quotation->quotationable()->first();
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
+
+        // return response()->json([
+		// 	'error' => 'error message',
+		// 	'data' => $customer->coa()->first()->code;
+		// ]);
+
         $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
         $currency = Currency::where('name', $request->currency)->first();
 
-        $coa = Coa::where('code', $request->account)->first();
+        $coa = Coa::where('code', $customer->coa()->first()->code)->first();
         $material = Coa::where('code', $request->material)->first();
         $manhours = Coa::where('code', $request->manhours)->first();
         $facility = Coa::where('code', $request->facility)->first();
@@ -129,7 +128,7 @@ class InvoiceController extends Controller
         $currency_id = $currency->id;
         $quotation_id = $quotation->id;
         $exchange_rate = $request->exchange_rate;
-        $discount_value = $request->discount;
+        $discount_value = $request->discountprice;
         $percent = $discount_value / $request->subtotal;
         $attention = [];
         $attention['name'] = $request->attention;

@@ -101,13 +101,13 @@ let Invoice = {
                     width: 150
                 },
                 {
-                    field: 'grandtotal',
+                    field: 'grandtotalforeign',
                     title: 'Total',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150,
 										template: function(t, e, i) {
-											let value = addCommas(parseInt(t.quotations.subtotal));
+											let value = addCommas(parseInt(t.grandtotalforeign));
 											let symbol = t.currencies.symbol;
 											return `${symbol} ${value}`;
 										}

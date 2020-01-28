@@ -106,7 +106,7 @@ class TrxJournal extends MemfisModel
 		$data['currency_code'] = $header->currencies->code;
 		$data['exchange_rate'] = $header->exchangerate;
 
-		TrxJournal::create($data);
+		$journal = TrxJournal::create($data);
 
 		$total = 0;
 		for($a = 0; $a < count($detail); $a++) {
@@ -118,7 +118,7 @@ class TrxJournal extends MemfisModel
 					'credit' => $detail[$a]->amount,
 				]);
 
-				$total += $detail[$a]->debit;
+				$total += $detail[$a]->amount;
 			}
 
 		}
@@ -127,6 +127,10 @@ class TrxJournal extends MemfisModel
 			'voucher_no' => $data['voucher_no'],
 			'account_code' => $header->accountcode,
 			'debit' => $total,
+		]);
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $total
 		]);
 	}
 
@@ -138,7 +142,7 @@ class TrxJournal extends MemfisModel
 		$data['currency_code'] = $header->currency;
 		$data['exchange_rate'] = $header->exchange_rate;
 
-		TrxJournal::create($data);
+		$journal = TrxJournal::create($data);
 
 		$total = 0;
 		for($a = 0; $a < count($detail); $a++) {
@@ -160,6 +164,10 @@ class TrxJournal extends MemfisModel
 			'account_code' => $coa_credit,
 			'credit' => $total,
 		]);
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $total
+		]);
 	}
 
 	/*
@@ -174,7 +182,7 @@ class TrxJournal extends MemfisModel
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
 
-		TrxJournal::create($data);
+		$journal = TrxJournal::create($data);
 
 		$total = $header->value;
 
@@ -202,6 +210,10 @@ class TrxJournal extends MemfisModel
 			}
 
 		}
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $header->value
+		]);
 	}
 
 	static public function insertFromBSR($header, $detail)
@@ -212,7 +224,7 @@ class TrxJournal extends MemfisModel
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
 
-		TrxJournal::create($data);
+		$journal = TrxJournal::create($data);
 
 		$total = $header->value;
 
@@ -240,6 +252,10 @@ class TrxJournal extends MemfisModel
 			}
 
 		}
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $header->value
+		]);
 	}
 
 	static public function insertFromAP($header, $detail)
@@ -250,7 +266,7 @@ class TrxJournal extends MemfisModel
 		$data['currency_code'] = $header->currency;
 		$data['exchange_rate'] = $header->exchangerate;
 
-		TrxJournal::create($data);
+		$journal = TrxJournal::create($data);
 
 		$total = 0;
 		for($a = 0; $a < count($detail); $a++) {
@@ -272,6 +288,10 @@ class TrxJournal extends MemfisModel
 			'account_code' => $header->coa->id,
 			'credit' => $total,
 		]);
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $total
+		]);
 	}
 
 	static public function insertFromAR($header, $detail)
@@ -282,7 +302,7 @@ class TrxJournal extends MemfisModel
 		$data['currency_code'] = $header->currency;
 		$data['exchange_rate'] = $header->exchangerate;
 
-		TrxJournal::create($data);
+		$journal = TrxJournal::create($data);
 
 		$total = 0;
 		for($a = 0; $a < count($detail); $a++) {
@@ -303,6 +323,10 @@ class TrxJournal extends MemfisModel
 			'voucher_no' => $data['voucher_no'],
 			'account_code' => $header->coa->id,
 			'credit' => $total,
+		]);
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $total
 		]);
 	}
 
@@ -321,7 +345,7 @@ class TrxJournal extends MemfisModel
 		$data['currency_code'] = Currency::find($po->currency_id)->code;
 		$data['exchange_rate'] = $po->exchange_rate;
 
-		TrxJournal::create($data);
+		$journal = TrxJournal::create($data);
 
 		$account_code = [
 			"11161001",
@@ -355,6 +379,10 @@ class TrxJournal extends MemfisModel
 			'voucher_no' => $data['voucher_no'],
 			'account_code' => "21111101",
 			'credit' => $total,
+		]);
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $total
 		]);
 	}
 

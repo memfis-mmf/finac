@@ -17,7 +17,7 @@ class CreateTrxPaymentTable extends Migration
             $table->increments('id');
             $table->uuid('uuid')->unique();
             $table->integer('approve')->default(0);
-            $table->integer('closed');
+            $table->integer('closed')->nullable();
             $table->string('transaction_number');
             $table->dateTime('transaction_date');
             $table->string('x_type');
