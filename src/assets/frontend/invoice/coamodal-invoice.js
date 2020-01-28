@@ -75,6 +75,14 @@ let CoaDatatables = {
                         console.log("facility");
                         $('.facility').val(data.code);
                         $('#facility_name').val(data.name);
+                    } else if (window.profitcenttype == "discount"){
+                        console.log("discount");
+                        $('.discount').val(data.code);
+                        $('#discount_name').val(data.name);
+                    } else if (window.profitcenttype == "ppn"){
+                        console.log("ppn");
+                        $('.ppn').val(data.code);
+                        $('#ppn_name').val(data.name);
                     } else if (window.profitcenttype == "others"){
                         console.log("others");
                         $('.others').val(data.code);
@@ -105,7 +113,7 @@ jQuery(document).on("click", ".open-AddRowDialog", function () {
 
 
 
-    // As pointed out in comments, 
+    // As pointed out in comments,
     // it is unnecessary to have to manually call the modal.
     // $('#addBookDialog').modal('show');
 });

@@ -79,7 +79,7 @@ class InvoiceController extends Controller
     {
         // return response()->json([
 		// 	'error' => 'error message',
-		// 	'data' => $request->presdir
+		// 	'data' => $request->all()
 		// ]);
 
         $quotation = Quotation::where('number', $request->quotation)->first();
@@ -105,10 +105,14 @@ class InvoiceController extends Controller
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
         $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
         $currency = Currency::where('name', $request->currency)->first();
+
         $coa = Coa::where('code', $request->account)->first();
         $material = Coa::where('code', $request->material)->first();
         $manhours = Coa::where('code', $request->manhours)->first();
         $facility = Coa::where('code', $request->facility)->first();
+        $discount = Coa::where('code', $request->discount)->first();
+        $ppn = Coa::where('code', $request->ppn)->first();
+
         $others = Coa::where('code', $request->other)->first();
         $bankaccount = BankAccount::where('uuid', $request->bank)->first();
         //dd($bankaccount);
@@ -233,6 +237,20 @@ class InvoiceController extends Controller
             'type' => 'facility'
         ]);
 
+        $facility_ins = Invoicetotalprofit::create([
+            'invoice_id' => $invoice->id,
+            'accountcode' => $discount->id,
+            'amount' => $request->discountprice * ($percent_sp/100),
+            'type' => 'discount'
+        ]);
+
+        $facility_ins = Invoicetotalprofit::create([
+            'invoice_id' => $invoice->id,
+            'accountcode' => $ppn->id,
+            'amount' => $request->ppnprice * ($percent_sp/100),
+            'type' => 'ppn'
+        ]);
+
         $others_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $others->id,
@@ -273,6 +291,11 @@ class InvoiceController extends Controller
         $manhours_id = Coa::where('id',$manhours->accountcode)->first();
         $facility = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','facility')->first();
         $facility_id = Coa::where('id',$facility->accountcode)->first();
+        $discount = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','discount')->first();
+        $discount_id = Coa::where('id',$discount->accountcode)->first();
+        $ppn = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','ppn')->first();
+        $ppn_id = Coa::where('id',$ppn->accountcode)->first();
+
         $others = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','others')->first();
         $others_id = Coa::where('id',$others->accountcode)->first();
 
@@ -290,6 +313,7 @@ class InvoiceController extends Controller
         $departments = Department::with('type','parent')->get();
 
         $company = $collection->merge($companies)->merge($departments);
+
         return view('invoiceview::edit')
             ->with('today', $invoice->transactiondate)
             ->with('quotation', $quotation)
@@ -297,6 +321,8 @@ class InvoiceController extends Controller
             ->with('manhours',$manhours_id)
             ->with('material',$material_id)
             ->with('facility',$facility_id)
+            ->with('discount',$discount_id)
+            ->with('ppn',$ppn_id)
             ->with('others',$others_id)
             ->with('invoice', $invoice)
             ->with('bankget',$bankget)
@@ -316,7 +342,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $currency = Currency::where('name', $request->currency)->first();
-        $coa = Coa::where('code', $request->coa)->first();
+        // $coa = Coa::where('code', $request->coa)->first();
         $bankaccount = BankAccount::where('uuid', $request->_bankinfo)->first();
 
 		$subtotal = $invoice->grandtotalforeign / 1.1;
@@ -343,7 +369,7 @@ class InvoiceController extends Controller
                 'id_bank' => $bankaccount->id,
                 // 'grandtotalforeign' => $grandtotalfrg,
                 'grandtotal' => $grandtotalidr,
-                'accountcode' => $coa->id,
+                // 'accountcode' => $coa->id,
                 'description' => $description,
 	            'presdir' => $request->presdir,
 	            'location' => $request->location,
@@ -362,9 +388,45 @@ class InvoiceController extends Controller
                 'id_bank' => $bankaccount->id,
                 'grandtotalforeign' => $grandtotalfrg,
                 'grandtotal' => $grandtotalidr,
-                'accountcode' => $coa->id,
+                // 'accountcode' => $coa->id,
                 'description' => $description,
             ]);
+
+        $manhours_ins = Invoicetotalprofit::where('type', 'manhours')
+		->where('invoice_id', $invoice->id)
+		->update([
+            'accountcode' => Coa::where('code', $request->manhours)->first()->id,
+        ]);
+
+        $manhours_ins = Invoicetotalprofit::where('type', 'material')
+		->where('invoice_id', $invoice->id)
+		->update([
+            'accountcode' => Coa::where('code', $request->material)->first()->id,
+        ]);
+
+        $manhours_ins = Invoicetotalprofit::where('type', 'facility')
+		->where('invoice_id', $invoice->id)
+		->update([
+            'accountcode' => Coa::where('code', $request->facility)->first()->id,
+        ]);
+
+        $manhours_ins = Invoicetotalprofit::where('type', 'discount')
+		->where('invoice_id', $invoice->id)
+		->update([
+            'accountcode' => Coa::where('code', $request->discount)->first()->id,
+        ]);
+
+        $manhours_ins = Invoicetotalprofit::where('type', 'ppn')
+		->where('invoice_id', $invoice->id)
+		->update([
+            'accountcode' => Coa::where('code', $request->ppn)->first()->id,
+        ]);
+
+        $manhours_ins = Invoicetotalprofit::where('type', 'others')
+		->where('invoice_id', $invoice->id)
+		->update([
+            'accountcode' => Coa::where('code', $request->other)->first()->id,
+        ]);
 
         return redirect()->route('invoice.index')->with([
 			'success' => 'data updated'

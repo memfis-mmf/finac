@@ -309,8 +309,6 @@
 																													@endfor
 																												</select>
                                                     </div>
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -389,6 +387,24 @@
                                                         </div>
 
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:15px" class="form-control-label">
+                                                                <br />
+																																Discount
+                                                            </label>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:15px" class="form-control-label">
+                                                                <br />
+																																PPN
+                                                            </label>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:34px" class="form-control-label">
 
                                                                 Other
@@ -406,7 +422,7 @@
                                                             @slot('text', 'coa')
                                                             @slot('class', 'manhours')
                                                             @slot('dataid','manhours')
-                                                            @slot('name', 'coa')
+                                                            @slot('name', 'manhours')
                                                             @slot('type', 'text')
                                                             @slot('value', "{$manhours->code}")
                                                             @slot('style', 'width:100%')
@@ -419,7 +435,7 @@
                                                             @slot('id', 'coa')
                                                             @slot('text', 'coa')
                                                             @slot('class', 'material')
-                                                            @slot('name', 'coa')
+                                                            @slot('name', 'material')
                                                             @slot('dataid','material')
                                                             @slot('value', "{$material->code}")
                                                             @slot('type', 'text')
@@ -432,7 +448,7 @@
                                                             @component('input::inputrightbutton')
                                                             @slot('id', 'coa')
                                                             @slot('text', 'coa')
-                                                            @slot('name', 'coa')
+                                                            @slot('name', 'facility')
                                                             @slot('type', 'text')
                                                             @slot('value', "{$facility->code}")
                                                             @slot('class', 'facility')
@@ -446,7 +462,35 @@
                                                             @component('input::inputrightbutton')
                                                             @slot('id', 'coa')
                                                             @slot('text', 'coa')
-                                                            @slot('name', 'coa')
+                                                            @slot('name', 'discount')
+                                                            @slot('class', 'discount')
+                                                            @slot('dataid','discount')
+                                                            @slot('type', 'text')
+                                                            @slot('value', $discount->code)
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('name', 'ppn')
+                                                            @slot('class', 'ppn')
+                                                            @slot('dataid','ppn')
+                                                            @slot('type', 'text')
+                                                            @slot('value', $ppn->code)
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('name', 'other')
                                                             @slot('value', "{$others->code}")
                                                             @slot('class', 'others')
                                                             @slot('dataid','others')
@@ -487,6 +531,24 @@
                                                         </div>
                                                         <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
                                                             @component('input::inputreadonly')
+                                                            @slot('id', 'discount_name')
+                                                            @slot('name', 'discount_name')
+                                                            @slot('value', $discount->name)
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'discount_name')
+                                                            @endcomponent
+                                                        </div>
+                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', 'ppn_name')
+                                                            @slot('name', 'ppn_name')
+                                                            @slot('value', $ppn->name)
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'ppn_name')
+                                                            @endcomponent
+                                                        </div>
+                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
                                                             @slot('id', 'other_name')
                                                             @slot('name', 'other_name')
                                                             @slot('value', "{$others->name}")
@@ -495,8 +557,6 @@
                                                             @endcomponent
                                                         </div>
                                                     </div>
-
-
                                                 </div>
                                                 <fieldset class="border p-2">
                                                     <legend class="w-auto">Scheduled Payment :</legend>

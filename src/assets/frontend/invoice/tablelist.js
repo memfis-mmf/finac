@@ -194,8 +194,8 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
-								let discount_price = discount_amount;
-								let ppn_price = tax_amount;
+								discount_price = discount_amount;
+								ppn_price = tax_amount;
 
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
@@ -271,8 +271,8 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
-								let discount_price = discount_amount;
-								let ppn_price = tax_amount;
+								discount_price = discount_amount;
+								ppn_price = tax_amount;
 
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
@@ -345,8 +345,8 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
-								let discount_price = discount_amount;
-								let ppn_price = tax_amount;
+								discount_price = discount_amount;
+								ppn_price = tax_amount;
 
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
@@ -409,8 +409,8 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
-								let discount_price = discount_amount;
-								let ppn_price = tax_amount;
+								discount_price = discount_amount;
+								ppn_price = tax_amount;
 
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);

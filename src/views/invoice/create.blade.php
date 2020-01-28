@@ -411,6 +411,24 @@
                                                         </div>
 
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:15px" class="form-control-label">
+                                                                <br />
+																																Discount
+                                                            </label>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <label style="margin-top:15px" class="form-control-label">
+                                                                <br />
+																																PPN
+                                                            </label>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:34px" class="form-control-label">
 
                                                                 Other
@@ -466,6 +484,32 @@
                                                             @slot('id', 'coa')
                                                             @slot('text', 'coa')
                                                             @slot('name', 'coa')
+                                                            @slot('class', 'discount')
+                                                            @slot('dataid','discount')
+                                                            @slot('type', 'text')
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('name', 'coa')
+                                                            @slot('class', 'ppn')
+                                                            @slot('dataid','ppn')
+                                                            @slot('type', 'text')
+                                                            @slot('style', 'width:100%')
+                                                            @slot('data_target', '#coa_modal')
+                                                            @endcomponent
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputrightbutton')
+                                                            @slot('id', 'coa')
+                                                            @slot('text', 'coa')
+                                                            @slot('name', 'coa')
                                                             @slot('class', 'others')
                                                             @slot('dataid','others')
                                                             @slot('type', 'text')
@@ -498,6 +542,22 @@
                                                             @slot('name', 'facility_name')
                                                             @slot('text', '')
                                                             @slot('id_error', 'facility_name')
+                                                            @endcomponent
+                                                        </div>
+                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', 'discount_name')
+                                                            @slot('name', 'discount_name')
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'discount_name')
+                                                            @endcomponent
+                                                        </div>
+                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', 'ppn_name')
+                                                            @slot('name', 'ppn_name')
+                                                            @slot('text', '')
+                                                            @slot('id_error', 'ppn_name')
                                                             @endcomponent
                                                         </div>
                                                         <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
