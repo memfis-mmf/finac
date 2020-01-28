@@ -118,7 +118,7 @@ class InvoiceController extends Controller
         //dd($bankaccount);
         //dd($coa);
         $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest . '%')->withTrashed()->count();
-        $cashbookno = CashbookGenerateNumber::generate('INV-MMF/', $cashbookCount + 1);
+        $cashbookno = CashbookGenerateNumber::generate('INVC-'.date('Y/m').'/', $cashbookCount + 1);
         $id_branch = 1;
         $closed = 0;
         $transaction_number = $cashbookno;
