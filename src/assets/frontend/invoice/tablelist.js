@@ -5,8 +5,10 @@ var tax = 0;
 let quotation = $('#quotation_uuid').val();
 
 let manhour_price = 0;
-let facility_price = 0;
 let material_price = 0;
+let facility_price = 0;
+let discount_price = 0;
+let ppn_price = 0;
 let others_price = 0;
 let grand_total1 = 0;
 let convertidr = 0;
@@ -192,6 +194,9 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
+								let discount_price = discount_amount;
+								let ppn_price = tax_amount;
+
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
@@ -266,6 +271,9 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
+								let discount_price = discount_amount;
+								let ppn_price = tax_amount;
+
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
@@ -337,6 +345,9 @@ var DatatableAutoColumnHideDemo = function () {
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
 
+								let discount_price = discount_amount;
+								let ppn_price = tax_amount;
+
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
@@ -397,6 +408,9 @@ var DatatableAutoColumnHideDemo = function () {
 								);
 
 								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+
+								let discount_price = discount_amount;
+								let ppn_price = tax_amount;
 
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
@@ -525,10 +539,14 @@ jQuery(document).ready(function () {
     data.append("material",$(".material").val());
     data.append("manhours",$(".manhours").val());
     data.append("facility",$(".facility").val());
+    data.append("discount",$(".discount").val());
+    data.append("ppn",$(".ppn").val());
     data.append("other",$(".others").val());
     data.append("materialprice",material_price);
     data.append("manhoursprice",manhour_price);
     data.append("facilityprice",facility_price);
+    data.append("discountprice",discount_price);
+    data.append("ppnprice",ppn_price);
     data.append("schedule_payment",$("#due_payment").val());
     data.append("otherprice",others_price);
     data.append("description", $('textarea#desc').val());

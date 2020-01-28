@@ -436,7 +436,8 @@
                     </td>
                     <td width="40%" valign="top" align="center">
 											{{
-												$invoice->location.', '.date('M d, Y', strtotime($invoice->approvals->first()->updated_at))
+												// $invoice->location.', '.date('M d, Y', strtotime($invoice->approvals->first()->updated_at))
+												$invoice->location.', '.date('M d, Y', strtotime($invoice->transactiondate))
 											}}
 										</td>
                     {{-- <td width="40%" valign="top" align="center">
