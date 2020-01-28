@@ -98,6 +98,38 @@ class TrxJournal extends MemfisModel
 		return $code;
 	}
 
+	static public function insertFromInvoice($header, $detail)
+	{
+		$data['voucher_no'] = $header->transactionnumber;
+		$data['transaction_date'] = $header->transactiondate;
+		$data['journal_type'] = TypeJurnal::where('code', 'SRJ')->first()->id;
+		$data['currency_code'] = $header->currencies->code;
+		$data['exchange_rate'] = $header->exchangerate;
+
+		TrxJournal::create($data);
+
+		$total = 0;
+		for($a = 0; $a < count($detail); $a++) {
+
+			if($detail[$a]) {
+				TrxJournalA::create([
+					'voucher_no' => $data['voucher_no'],
+					'account_code' => @($v = $detail[$a]->accountcode)? $v: 0,
+					'credit' => $detail[$a]->amount,
+				]);
+
+				$total += $detail[$a]->debit;
+			}
+
+		}
+
+		TrxJournalA::create([
+			'voucher_no' => $data['voucher_no'],
+			'account_code' => $header->accountcode,
+			'debit' => $total,
+		]);
+	}
+
 	static public function insertFromSI($header, $detail, $coa_credit)
 	{
 		$data['voucher_no'] = TrxJournal::generateCode('PRJR');

@@ -35,7 +35,9 @@ use App\Models\Company;
 use App\Models\Department;
 use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\Trxinvoice;
+use memfisfa\Finac\Model\TrxJournal;
 use stdClass;
+use DB;
 
 class InvoiceController extends Controller
 {
@@ -450,12 +452,34 @@ class InvoiceController extends Controller
 
     public function approve(Invoice $invoice)
     {
-        $invoice->approvals()->save(new Approval([
-            'approvable_id' => $invoice->id,
-            'is_approved' => 0,
-            'conducted_by' => Auth::id(),
-        ]));
-        return response()->json($invoice);
+		DB::beginTransaction();
+		try {
+
+	        $invoice->approvals()->save(new Approval([
+	            'approvable_id' => $invoice->id,
+	            'is_approved' => 0,
+	            'conducted_by' => Auth::id(),
+	        ]));
+
+			$header = $invoice;
+			$detail = Invoicetotalprofit::where('invoice_id', $invoice->id)
+			->get();
+
+			TrxJournal::insertFromInvoice($header, $detail);
+
+			DB::commit();
+
+	        return response()->json($invoice);
+
+		} catch (\Exception $e) {
+
+			DB::rollBack();
+
+			$data['errors'] = $e->getMessage();
+
+			return response()->json($data);
+		}
+
     }
 
 

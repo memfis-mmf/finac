@@ -199,12 +199,13 @@ let Invoice = {
                     if (data.errors) {
                         if (data.errors.code) {
                             $('#code-error').html(data.errors.code[0]);
+                        }else{
+	                        toastr.error(data.errors, 'Invalid', {
+	                            timeOut: 5000
+	                        });
 
-
-
-                        }
-
-
+	                        $('#modal_approvalinvoice').modal('hide');
+												}
                     } else {
                         $('#modal_approvalinvoice').modal('hide');
 

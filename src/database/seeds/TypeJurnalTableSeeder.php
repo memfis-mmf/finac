@@ -62,5 +62,11 @@ class TypeJurnalTableSeeder extends Seeder
             'active' => '1',
         ]);
 
+        TypeJurnal::create([
+            'code' => 'SRJ',
+            'name' => 'INVOICE JOURNAL',
+            'active' => '1',
+        ]);
+
     }
 }
