@@ -500,6 +500,10 @@ jQuery(document).ready(function () {
     // });
     // scheduled_payment_array.pop();
     let data = new FormData();
+		data.append('presdir', $('[name=presdir]').val());
+		data.append('location', $('[name=location]').val());
+		data.append('company_department', $('[name=company_department]').val());
+
     data.append("quotation", $('#refquono').val());
     data.append("pdir", $('#pdir').val());
     data.append("currency", $('#currency').val());

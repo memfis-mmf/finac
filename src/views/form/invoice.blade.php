@@ -431,15 +431,17 @@
                 <tr>
                     <td width="60%" height="70" valign="top">
                         <i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i>
+												<br>
+												{{$invoice->quotations->term_of_condition}}
                     </td>
-                    {{-- <td width="40%" valign="top" align="center">
-											{{
-												date('M d, Y', strtotime($invoice->approvals->first()->updated_at))
-											}}
-										</td> --}}
                     <td width="40%" valign="top" align="center">
-											Approved By : {{@$invoice->approved_by->name}}
+											{{
+												$invoice->location.', '.date('M d, Y', strtotime($invoice->approvals->first()->updated_at))
+											}}
 										</td>
+                    {{-- <td width="40%" valign="top" align="center">
+											Approved By : {{@$invoice->approved_by->name}}
+										</td> --}}
                 </tr>
                 <tr>
                     <td width="60%"><b>Remark :</b></td>
@@ -452,8 +454,8 @@
                     <td width="40%" valign="top" align="center">
 											<b>
 												{{-- {{$invoice->approved_by->role}}<br> --}}
-												{{-- {{$invoice->approved_by->name}} --}}
-												Rowin H. Mangkoesoebroto
+												{{$invoice->presdir}}
+												{{-- Rowin H. Mangkoesoebroto --}}
 											</b>
 										</td>
                 </tr>

@@ -34,7 +34,10 @@ class Invoice extends MemfisModel
         'grandtotalforeign',
         'grandtotal',
         'accountcode',
-        'description'
+        'description',
+        'presdir',
+        'location',
+        'company_department',
     ];
 
 	protected $appends = [
@@ -51,7 +54,7 @@ class Invoice extends MemfisModel
 	{
 		return @User::find($this->approvals->first()->conducted_by);
 	}
-	
+
 	public function getCreatedByAttribute()
 	{
 		return User::find($this->audits->first()->user_id);

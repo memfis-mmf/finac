@@ -274,10 +274,40 @@
                                                         </label>
 
                                                         @component('frontend.common.input.input')
-                                                        @slot('id', 'pdir')
-                                                        @slot('name', 'pdir')
-                                                        @slot('value', 'Rowin H. Mangkoesoebroto')
+                                                        @slot('id', 'presdir')
+                                                        @slot('name', 'presdir')
+                                                        @slot('value', $invoice->presdir)
                                                         @endcomponent
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <br />
+                                                        <label class="form-control-label">
+																													Location
+                                                        </label>
+
+																												<select class="_select2 form-control" name="location" style="width:100%">
+																													<option value=""></option>
+																													<option value="sidoarjo" {{($invoice->location == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
+																													<option value="surabaya" {{($invoice->location == 'surabaya')? 'selected': ''}}>Surabaya</option>
+																													<option value="jakarta" {{($invoice->location == 'jakarta')? 'selected': ''}}>Jakarta</option>
+																													<option value="biak" {{($invoice->location == 'biak')? 'selected': ''}}>Biak</option>
+																												</select>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <br />
+                                                        <label class="form-control-label">
+																													Company and Department
+                                                        </label>
+
+																												<select class="_select2 form-contro" name="company_department" style="width:100%">
+																													<option value=""></option>
+																													@for ($a=0; $a < count($company); $a++)
+																														@php
+																															$x = $company[$a]
+																														@endphp
+																														<option value="{{$x->name}}" {{($invoice->company_department == $x->name)? 'selected': ''}}>{{$x->name}}</option>
+																													@endfor
+																												</select>
                                                     </div>
 
 
@@ -891,6 +921,13 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tableshow.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('._select2').select2({
+	    placeholder: "Select",
+		});
+	})
+</script>
 <script>
     let scheduled_payments11 = {
         init: function() {

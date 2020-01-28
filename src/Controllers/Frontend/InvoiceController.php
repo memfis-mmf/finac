@@ -31,6 +31,8 @@ use App\Models\QuotationWorkPackageItem;
 use App\Models\QuotationWorkPackageTaskCardItem;
 use App\Models\TaskCard;
 use App\Models\Type;
+use App\Models\Company;
+use App\Models\Department;
 use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\Trxinvoice;
 use stdClass;
@@ -54,9 +56,17 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $today = Carbon::today()->toDateString();
-        //dd($today);
-        return view('invoiceview::create')->with('today', $today);
+        $data['today'] = Carbon::today()->toDateString();
+
+        $collection = collect();
+
+        $companies = Company::with('type','parent')->get();
+
+        $departments = Department::with('type','parent')->get();
+
+        $data['company'] = $collection->merge($companies)->merge($departments);
+
+        return view('invoiceview::create', $data);
     }
 
     /**
@@ -69,7 +79,7 @@ class InvoiceController extends Controller
     {
         // return response()->json([
 		// 	'error' => 'error message',
-		// 	$request->all()
+		// 	'data' => $request->presdir
 		// ]);
 
         $quotation = Quotation::where('number', $request->quotation)->first();
@@ -151,7 +161,15 @@ class InvoiceController extends Controller
             'accountcode' => $coa->id,
             'description' => $description,
             'attention' => $fix_attention,
+            'presdir' => $request->presdir,
+            'location' => $request->location,
+            'company_department' => $request->company_department,
         ]);
+
+        // return response()->json([
+		// 	'error' => 'error message',
+		// 	'data' => $invoice
+		// ]);
 
         $invoicetrx = Trxinvoice::create([
             'id_branch' => $id_branch,
@@ -264,6 +282,14 @@ class InvoiceController extends Controller
         $bank = BankAccount::selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
         //dump($bank);
         // dd($invoice);
+
+        $collection = collect();
+
+        $companies = Company::with('type','parent')->get();
+
+        $departments = Department::with('type','parent')->get();
+
+        $company = $collection->merge($companies)->merge($departments);
         return view('invoiceview::edit')
             ->with('today', $invoice->transactiondate)
             ->with('quotation', $quotation)
@@ -276,6 +302,7 @@ class InvoiceController extends Controller
             ->with('bankget',$bankget)
             ->with('banks',$bank)
             ->with('bankaccountget',$bankAccountget)
+            ->with('company',$company)
             ->with('currencycode', $currency);
     }
 
@@ -318,6 +345,9 @@ class InvoiceController extends Controller
                 'grandtotal' => $grandtotalidr,
                 'accountcode' => $coa->id,
                 'description' => $description,
+	            'presdir' => $request->presdir,
+	            'location' => $request->location,
+	            'company_department' => $request->company_department,
             ]);
 
         //dd($invoice);

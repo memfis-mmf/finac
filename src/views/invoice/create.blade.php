@@ -270,20 +270,48 @@
                                                         @slot('name', 'exchange_rate1111')
                                                         @endcomponent
                                                     </div>
-                                                    {{-- <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
                                                         <br />
                                                         <label class="form-control-label">
                                                             President Director
                                                         </label>
 
                                                         @component('frontend.common.input.input')
-                                                        @slot('id', 'pdir')
-                                                        @slot('name', 'pdir')
+                                                        @slot('id', 'presdir')
+                                                        @slot('name', 'presdir')
                                                         @slot('value', 'Rowin H. Mangkoesoebroto')
                                                         @endcomponent
-                                                    </div> --}}
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <br />
+                                                        <label class="form-control-label">
+																													Location
+                                                        </label>
 
+																												<select class="_select2 form-control" name="location" style="width:100%">
+																													<option value=""></option>
+																													<option value="sidoarjo">Sidoarjo</option>
+																													<option value="surabaya">Surabaya</option>
+																													<option value="jakarta">Jakarta</option>
+																													<option value="biak">Biak</option>
+																												</select>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <br />
+                                                        <label class="form-control-label">
+																													Company and Department
+                                                        </label>
 
+																												<select class="_select2 form-contro" name="company_department" style="width:100%">
+																													<option value=""></option>
+																													@for ($a=0; $a < count($company); $a++)
+																														@php
+																															$x = $company[$a]
+																														@endphp
+																														<option value="{{$x->name}}">{{$x->name}}</option>
+																													@endfor
+																												</select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -782,18 +810,22 @@
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
     $(document).ready(function() {
-        var others_data = "";
-        $(".checkprofit").on('click', function(event) {
-            //console.log($(this).data('id'));
-            window.profitcenttype = $(this).data('id');
-            console.log(window.profitcenttype);
-            $('#proritcenttype111').val(window.profitcenttype);
-            $('.test123456').val(window.profitcenttype);
-            console.log($('.test123456').val());
-            console.log($('#proritcenttype111').val());
-            //console.log(proritcent_type);
-            //(... rest of your JS code)
-        });
+			$('._select2').select2({
+		    placeholder: "Select",
+			});
+
+      var others_data = "";
+      $(".checkprofit").on('click', function(event) {
+          //console.log($(this).data('id'));
+          window.profitcenttype = $(this).data('id');
+          console.log(window.profitcenttype);
+          $('#proritcenttype111').val(window.profitcenttype);
+          $('.test123456').val(window.profitcenttype);
+          console.log($('.test123456').val());
+          console.log($('#proritcenttype111').val());
+          //console.log(proritcent_type);
+          //(... rest of your JS code)
+      });
     });
 </script>
 
