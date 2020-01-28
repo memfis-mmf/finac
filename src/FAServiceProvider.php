@@ -18,7 +18,7 @@ class FAServiceProvider extends ServiceProvider
         include __DIR__.'/routes.php';
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
-        
+
         $this->publishes([
             __DIR__.'/assets' => public_path('vendor/courier'),
         ],'assetsfa');
@@ -51,6 +51,7 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/supplier-invoice/grn', 'supplierinvoicegrnview');
         $this->loadViewsFrom(__DIR__.'/views/supplier-invoice/general', 'supplierinvoicegeneralview');
         $this->loadViewsFrom(__DIR__.'/views/account-payable', 'accountpayableview');
+        $this->loadViewsFrom(__DIR__.'/views/account-receivable', 'accountreceivableview');
         $this->loadViewsFrom(__DIR__.'/views/trial-balance', 'trialbalanceview');
         $this->loadViewsFrom(__DIR__.'/views/profit-loss', 'profitlossview');
         $this->loadViewsFrom(__DIR__.'/views/general-ledger', 'generalledgerview');

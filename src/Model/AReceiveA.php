@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace memfisfa\Finac\Model;
 
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
-class ARecieveA extends MemfisModel
+class AReceiveA extends MemfisModel
 {
-    protected $table = "a_recieve_a";
+    protected $table = "a_receive_a";
 
     protected $fillable = [
 		'transactionnumber',
@@ -20,16 +20,16 @@ class ARecieveA extends MemfisModel
 		'description',
     ];
 
-	public function ar()
+	public function ap()
 	{
 		return $this->belongsTo(
-			ARecieve::class,
+			AReceive::class,
 			'transactionnumber',
 			'transactionnumber'
 		);
 	}
 
-	public function invoice()
+	public function si()
 	{
 		return $this->belongsTo(
 			Invoice::class,

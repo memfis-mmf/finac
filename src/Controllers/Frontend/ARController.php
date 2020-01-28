@@ -2,175 +2,161 @@
 
 namespace memfisfa\Finac\Controllers\Frontend;
 
-use memfisfa\Finac\Model\ARecieve;
+use Auth;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use memfisfa\Finac\Helpers\CashbookGenerateNumber;
-use App\Http\Controllers\Controller;
-use App\Models\Currency;
-use App\Models\Customer;
+use memfisfa\Finac\Model\AReceive;
+use memfisfa\Finac\Model\AReceiveA;
 use memfisfa\Finac\Model\Coa;
+use memfisfa\Finac\Model\Invoice;
+use memfisfa\Finac\Request\AReceiveUpdate;
+use memfisfa\Finac\Request\AReceiveStore;
+use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\Currency;
+use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 
 class ARController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('arview::index');
+        return view('accountreceivableview::index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('arview::create');
+        return view('accountreceivableview::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(AReceiveStore $request)
     {
-        $customer = Customer::where('name',$request->customer)->first();
-        $accountcode = Coa::where('name', $request->coa)->first();
-        $arsuggest = 'AR-MMF/' . Carbon::now()->format('Y/m');
-        $currency_substring = substr($request->currency, 0, strpos($request->currency, ' ('));
-        $currency = Currency::where('name',$currency_substring)->first();
-        $arcount = ARecieve::where('transactionnumber', 'like', $arsuggest . '%')->withTrashed()->count();
-        $arno = CashbookGenerateNumber::generate('AR-MMF/', $arcount + 1);
-        $ar = ARecieve::create([
-            'id_branch' => 1,
-            'approve' => 0,
-            'transactionnumber' => $arno,
-            'transactiondate' => $request->date,
-            'id_customer' => $customer->id,
-            'accountcode' => $accountcode->id,
-            'refno' => $request->refno,
-            'currency' => $currency->id,
-            'exchangerate' => $request->exchangerate,
-            'totaltransaction' => 0,
-            'description' => $request->description
-        ]);
+		$vendor = Customer::where('id', $request->id_customer)->first();
+		if (!$vendor) {
+			return [
+				'errors' => 'Customer not found'
+			];
+		}
 
-        return response()->json($ar); 
+		$request->merge([
+			'id_customer' => $vendor->id
+		]);
+
+		$coa = Coa::where('code', $request->accountcode)->first();
+
+		$code = 'CCPJ';
+
+		if (strpos($coa->name, 'Bank') !== false) {
+			$code = 'CBPJ';
+		}
+
+		$request->request->add([
+			'approve' => 0,
+			'transactionnumber' => AReceive::generateCode($code),
+		]);
+
+        $areceive = AReceive::create($request->all());
+        return response()->json($areceive);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Request $request)
     {
-        //
+		$data['data'] = AReceive::where(
+			'uuid', $request->areceive
+		)->with([
+			'currency',
+		])->first();
+
+		//if data already approved
+		if ($data['data']->approve) {
+			return redirect()->back();
+		}
+
+		$data['vendor'] = Customer::all();
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full_name'
+		)->whereIn('code',['idr','usd'])
+		->get();
+
+		$data['debt_total_amount'] = Invoice::where(
+			'id_customer',
+			$data['data']->id_customer
+		)->sum('grandtotal');
+
+		$areceive = AReceive::where('id_customer', $data['data']->id_customer)
+			->get();
+
+		$payment_total_amount = 0;
+
+		for ($i = 0; $i < count($areceive); $i++) {
+			$x = $areceive[$i];
+
+			for ($j = 0; $j < count($x->ara); $j++) {
+				$y = $x->ara[$j];
+
+				$payment_total_amount += $y->debit;
+			}
+		}
+
+		$data['payment_total_amount'] = $payment_total_amount;
+		$data['debt_balance'] = (
+			$data['debt_total_amount'] - $data['payment_total_amount']
+		);
+
+        return view('accountreceivableview::edit', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ARecieve $arecieve)
+    public function update(AReceiveUpdate $request, AReceive $areceive)
     {
-        $data = $arecieve;
-        $coa = Coa::where('id',$arecieve->accountcode)->first();
-        $customer = Customer::where('id',$arecieve->id_customer)->first();
-        $currency = Currency::where('id',$arecieve->currency)->first();
-        //dd($arecieve);
-        return view('arview::edit')
-            ->with('coa',$coa)
-            ->with('currency',$currency)
-            ->with('customer',$customer)
-            ->with('uuid',$arecieve->uuid)
-            ->with('data',$data);
+		$request->merge([
+			'description' => $request->ap_description
+		]);
+
+        $areceive->update($request->all());
+
+        return response()->json($areceive);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ARecieve $arecieve)
+    public function destroy(AReceive $areceive)
     {
-        $transnumber = $arecieve->transactionnumber;
-        //dd($transnumber);
-        $customer = Customer::where('name',$request->customer)->first();
-        $accountcode = Coa::where('name', $request->coa)->first();
-        $arsuggest = 'AR-MMF/' . Carbon::now()->format('Y/m');
-        $currency_substring = substr($request->currency, 0, strpos($request->currency, ' ('));
-        $currency = Currency::where('name',$currency_substring)->first();
-        ARecieve::where('transactionnumber', $transnumber)
-        ->update([
-            'transactiondate' => $request->date,
-            'id_customer' => $customer->id,
-            'accountcode' => $accountcode->id,
-            'refno' => $request->refno,
-            'currency' => $currency->id,
-            'exchangerate' => $request->exchangerate,
-            'totaltransaction' => 0,
-            'description' => $request->description
-        ]);
+        $areceive->delete();
+
+        return response()->json($areceive);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ARecieve $arecieve)
+    public function api()
     {
-        $arecieve->delete();
-        return response()->json($arecieve);
+        $areceivedata = AReceive::all();
+
+        return json_encode($areceivedata);
     }
 
+    public function apidetail(AReceive $areceive)
+    {
+        return response()->json($areceive);
+    }
 
     public function datatables()
     {
-        $arecieves = ARecieve::all();
+        $data = $alldata = json_decode(AReceive::orderBy('id', 'desc')->get());
 
-        foreach($arecieves as $arecieve){
-            if(!empty($arecieve->approvals->toArray())){
-                $approval = $arecieve->approvals->toArray();
-                $arecieve->status .= 'Approved';
-                $arecieve->approvedby .= $approval[0]['conducted_by'];
-            }else{
-                $arecieve->status .= '';
+		$datatable = array_merge([
+			'pagination' => [], 'sort' => [], 'query' => []
+		], $_REQUEST);
 
-            }
-            //$quotation->customer = $quotation->project->customer;
-        }
-        $data = $alldata = json_decode($arecieves);
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
+			$datatable['query']['generalSearch'] : '';
 
-        $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
-
-        $filter = isset($datatable['query']['generalSearch']) && is_string($datatable['query']['generalSearch'])
-                    ? $datatable['query']['generalSearch'] : '';
-
-        if (! empty($filter)) {
+        if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
-                return (boolean)preg_grep("/$filter/i", (array)$a);
+                return (bool) preg_grep("/$filter/i", (array) $a);
             });
 
             unset($datatable['query']['generalSearch']);
         }
 
-        $query = isset($datatable['query']) && is_array($datatable['query']) ? $datatable['query'] : null;
+		$query = isset($datatable['query']) &&
+			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -180,18 +166,22 @@ class ARController extends Controller
             }
         }
 
-        $sort  = ! empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
-        $field = ! empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
+		$sort  = !empty($datatable['sort']['sort']) ?
+			$datatable['sort']['sort'] : 'asc';
+		$field = !empty($datatable['sort']['field']) ?
+			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-        $page    = ! empty($datatable['pagination']['page']) ? (int)$datatable['pagination']['page'] : 1;
-        $perpage = ! empty($datatable['pagination']['perpage']) ? (int)$datatable['pagination']['perpage'] : -1;
+		$page    = !empty($datatable['pagination']['page']) ?
+			(int) $datatable['pagination']['page'] : 1;
+		$perpage = !empty($datatable['pagination']['perpage']) ?
+			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
 
         usort($data, function ($a, $b) use ($sort, $field) {
-            if (! isset($a->$field) || ! isset($b->$field)) {
+            if (!isset($a->$field) || !isset($b->$field)) {
                 return false;
             }
 
@@ -222,7 +212,10 @@ class ARController extends Controller
             'total'   => $total,
         ];
 
-        if (isset($datatable['requestIds']) && filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) {
+		if (
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
+		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
@@ -235,26 +228,326 @@ class ARController extends Controller
 
         $result = [
             'meta' => $meta + [
-                    'sort'  => $sort,
-                    'field' => $field,
-                ],
+                'sort'  => $sort,
+                'field' => $field,
+            ],
             'data' => $data,
         ];
 
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function cust_detail(Customer $customer){
-        $cust_detail = $customer->coa->first();
-        return response()->json($cust_detail);
+    public function coaDatatables()
+    {
+        function filterArray( $array, $allowed = [] ) {
+            return array_filter(
+                $array,
+                function ( $val, $key ) use ( $allowed ) { // N.b. $val, $key not $key, $val
+                    return isset( $allowed[ $key ] ) && ( $allowed[ $key ] === true || $allowed[ $key ] === $val );
+                },
+                ARRAY_FILTER_USE_BOTH
+            );
+        }
+
+        function filterKeyword( $data, $search, $field = '' ) {
+            $filter = '';
+            if ( isset( $search['value'] ) ) {
+                $filter = $search['value'];
+            }
+            if ( ! empty( $filter ) ) {
+                if ( ! empty( $field ) ) {
+                    if ( strpos( strtolower( $field ), 'date' ) !== false ) {
+                        // filter by date range
+                        $data = filterByDateRange( $data, $filter, $field );
+                    } else {
+                        // filter by column
+                        $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
+                            return (boolean) preg_match( "/$filter/i", $a[ $field ] );
+                        } );
+                    }
+
+                } else {
+                    // general filter
+                    $data = array_filter( $data, function ( $a ) use ( $filter ) {
+                        return (boolean) preg_grep( "/$filter/i", (array) $a );
+                    } );
+                }
+            }
+
+            return $data;
+        }
+
+        function filterByDateRange( $data, $filter, $field ) {
+            // filter by range
+            if ( ! empty( $range = array_filter( explode( '|', $filter ) ) ) ) {
+                $filter = $range;
+            }
+
+            if ( is_array( $filter ) ) {
+                foreach ( $filter as &$date ) {
+                    // hardcoded date format
+                    $date = date_create_from_format( 'm/d/Y', stripcslashes( $date ) );
+                }
+                // filter by date range
+                $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
+                    // hardcoded date format
+                    $current = date_create_from_format( 'm/d/Y', $a[ $field ] );
+                    $from    = $filter[0];
+                    $to      = $filter[1];
+                    if ( $from <= $current && $to >= $current ) {
+                        return true;
+                    }
+
+                    return false;
+                } );
+            }
+
+            return $data;
+        }
+
+        $columnsDefault = [
+            'name'     => true,
+            'id' => true,
+            'code'     => true,
+            'type'  => true,
+            'description' => true,
+            'uuid'      => true,
+            'Actions'      => true,
+        ];
+
+        if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
+            $columnsDefault = [];
+            foreach ( $_REQUEST['columnsDef'] as $field ) {
+                $columnsDefault[ $field ] = true;
+            }
+        }
+
+        // get all raw data
+        $coa  = Coa::where('description', 'Detail')->get();
+
+
+        $alldata = json_decode( $coa, true);
+
+        $data = [];
+        // internal use; filter selected columns only from raw data
+        foreach ( $alldata as $d ) {
+            $data[] = filterArray( $d, $columnsDefault );
+        }
+
+        // count data
+        $totalRecords = $totalDisplay = count( $data );
+
+        // filter by general search keyword
+        if ( isset( $_REQUEST['search'] ) ) {
+            $data         = filterKeyword( $data, $_REQUEST['search'] );
+            $totalDisplay = count( $data );
+        }
+
+        if ( isset( $_REQUEST['columns'] ) && is_array( $_REQUEST['columns'] ) ) {
+            foreach ( $_REQUEST['columns'] as $column ) {
+                if ( isset( $column['search'] ) ) {
+                    $data         = filterKeyword( $data, $column['search'], $column['data'] );
+                    $totalDisplay = count( $data );
+                }
+            }
+        }
+
+        // sort
+        if ( isset( $_REQUEST['order'][0]['column'] ) && $_REQUEST['order'][0]['dir'] ) {
+            $column = $_REQUEST['order'][0]['column'];
+            $dir    = $_REQUEST['order'][0]['dir'];
+            usort( $data, function ( $a, $b ) use ( $column, $dir ) {
+                $a = array_slice( $a, $column, 1 );
+                $b = array_slice( $b, $column, 1 );
+                $a = array_pop( $a );
+                $b = array_pop( $b );
+
+                if ( $dir === 'asc' ) {
+                    return $a > $b ? true : false;
+                }
+
+                return $a < $b ? true : false;
+            } );
+        }
+
+        // pagination length
+        if ( isset( $_REQUEST['length'] ) ) {
+            $data = array_splice( $data, $_REQUEST['start'], $_REQUEST['length'] );
+        }
+
+        // return array values only without the keys
+        if ( isset( $_REQUEST['array_values'] ) && $_REQUEST['array_values'] ) {
+            $tmp  = $data;
+            $data = [];
+            foreach ( $tmp as $d ) {
+                $data[] = array_values( $d );
+            }
+        }
+
+        $secho = 0;
+        if ( isset( $_REQUEST['sEcho'] ) ) {
+            $secho = intval( $_REQUEST['sEcho'] );
+        }
+
+        $result = [
+            'iTotalRecords'        => $totalRecords,
+            'iTotalDisplayRecords' => $totalDisplay,
+            'sEcho'                => $secho,
+            'sColumns'             => '',
+            'aaData'               => $data,
+        ];
+
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+        echo json_encode( $result, JSON_PRETTY_PRINT );
+    }
+
+    public function SIModalDatatables(Request $request)
+    {
+		$ap = AReceive::where('uuid', $request->ap_uuid)->first();
+
+		$trxpayment_grn = Invoice::where('currency', $ap->currency)
+			->where('id_customer', $request->id_vendor)
+			->where('x_type', 'GRN')
+			->get();
+
+		$arr = [];
+		$index_arr = 0;
+
+		for ($i=0; $i < count($trxpayment_grn); $i++) {
+			$x = $trxpayment_grn[$i];
+
+			for ($j=0; $j < count($x->trxpaymenta); $j++) {
+				$z = $x->trxpaymenta[$j];
+
+				$arr[$index_arr] = json_decode($x);
+				$arr[$index_arr]->transaction_number = $z->grn->number;
+				$arr[$index_arr]->uuid = $z->grn->uuid;
+				$index_arr++;
+			}
+		}
+
+		$trxpayment_non_grn = Invoice::where('currency', $ap->currency)
+			->where('id_customer', $request->id_vendor)
+			->where('x_type', 'NON GRN')
+			->get();
+
+        $data = $alldata = array_merge($arr, json_decode($trxpayment_non_grn));
+
+		$datatable = array_merge([
+			'pagination' => [], 'sort' => [], 'query' => []
+		], $_REQUEST);
+
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
+			$datatable['query']['generalSearch'] : '';
+
+        if (!empty($filter)) {
+            $data = array_filter($data, function ($a) use ($filter) {
+                return (bool) preg_grep("/$filter/i", (array) $a);
+            });
+
+            unset($datatable['query']['generalSearch']);
+        }
+
+		$query = isset($datatable['query']) &&
+			is_array($datatable['query']) ? $datatable['query'] : null;
+
+        if (is_array($query)) {
+            $query = array_filter($query);
+
+            foreach ($query as $key => $val) {
+                $data = $this->list_filter($data, [$key => $val]);
+            }
+        }
+
+		$sort  = !empty($datatable['sort']['sort']) ?
+			$datatable['sort']['sort'] : 'asc';
+		$field = !empty($datatable['sort']['field']) ?
+			$datatable['sort']['field'] : 'RecordID';
+
+        $meta    = [];
+		$page    = !empty($datatable['pagination']['page']) ?
+			(int) $datatable['pagination']['page'] : 1;
+		$perpage = !empty($datatable['pagination']['perpage']) ?
+			(int) $datatable['pagination']['perpage'] : -1;
+
+        $pages = 1;
+        $total = count($data);
+
+        usort($data, function ($a, $b) use ($sort, $field) {
+            if (!isset($a->$field) || !isset($b->$field)) {
+                return false;
+            }
+
+            if ($sort === 'asc') {
+                return $a->$field > $b->$field ? true : false;
+            }
+
+            return $a->$field < $b->$field ? true : false;
+        });
+
+        if ($perpage > 0) {
+            $pages  = ceil($total / $perpage);
+            $page   = max($page, 1);
+            $page   = min($page, $pages);
+            $offset = ($page - 1) * $perpage;
+
+            if ($offset < 0) {
+                $offset = 0;
+            }
+
+            $data = array_slice($data, $offset, $perpage, true);
+        }
+
+        $meta = [
+            'page'    => $page,
+            'pages'   => $pages,
+            'perpage' => $perpage,
+            'total'   => $total,
+        ];
+
+		if (
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
+		{
+            $meta['rowIds'] = array_map(function ($row) {
+                return $row->RecordID;
+            }, $alldata);
+        }
+
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+        $result = [
+            'meta' => $meta + [
+                'sort'  => $sort,
+                'field' => $field,
+            ],
+            'data' => $data,
+        ];
+
+        echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
     public function approve(Request $request)
     {
-		$data = ARecieve::where('uuid', $request->uuid);
+		$data = AReceive::where('uuid', $request->uuid);
 
 		$AR_header = $data->first();
-		$AR_detail = $AR_header->apa;
+		$AR_detail = $AR_header->ara;
+
+        $AR_header->approvals()->save(new Approval([
+            'approvable_id' => $AR_header->id,
+            'conducted_by' => Auth::id(),
+            'note' => @$request->note,
+            'is_approved' => 1
+        ]));
 
 		TrxJournal::insertFromAR($AR_header, $AR_detail);
 
@@ -264,5 +557,23 @@ class ARController extends Controller
 
         return response()->json($data->first());
     }
-    
+
+	function print(Request $request)
+	{
+		$ap = AReceive::where('uuid', $request->uuid)->first();
+		$ara = $ap->ara()->with([
+			'coa'
+		])->get();
+		$to = $ap->vendor;
+
+		$data = [
+			'data' => $ap,
+			'ara' => array_chunk(json_decode($ara), 10),
+			'to' => $to,
+		];
+
+		$pdf = \PDF::loadView('formview::ar-ap', $data);
+		return $pdf->stream();
+	}
+
 }

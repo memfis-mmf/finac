@@ -5,14 +5,17 @@ namespace App;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
-class ARecieveC extends MemfisModel
+class AReceiveB extends MemfisModel
 {
+    protected $table = "a_recieve_b";
+
 	protected $fillable = [
 	    'uuid',
 	    'transactionnumber',
-	    'id_invoice',
 	    'code',
-	    'difference',
+	    'name',
+	    'debit',
+	    'credit',
 	    'description',
 	];
 }

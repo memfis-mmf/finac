@@ -466,6 +466,61 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('account-receivable')->group(function () {
+		Route::get(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\ARController@index'
+		)->name('areceive.index');
+		Route::get(
+			'/create',
+			'memfisfa\Finac\Controllers\Frontend\ARController@create'
+		)->name('areceive.create');
+		Route::get(
+			'/print',
+			'memfisfa\Finac\Controllers\Frontend\ARController@print'
+		)->name('areceive.print');
+		Route::post(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\ARController@store'
+		)->name('areceive.store');
+		Route::put(
+			'/{areceive}',
+			'memfisfa\Finac\Controllers\Frontend\ARController@update'
+		)->name('areceive.update');
+		Route::delete(
+			'/{areceive}',
+			'memfisfa\Finac\Controllers\Frontend\ARController@destroy'
+		)->name('areceive.delete');
+		Route::get(
+			'/datatables',
+			'memfisfa\Finac\Controllers\Frontend\ARController@datatables'
+		)->name('areceive.datatables');
+		Route::get(
+			'/coa/datatables',
+			'memfisfa\Finac\Controllers\Frontend\ARController@coaDatatables'
+		)->name('areceive.datatables');
+		Route::get(
+			'/{areceive}/edit',
+			'memfisfa\Finac\Controllers\Frontend\ARController@edit'
+		);
+		Route::get(
+			'/data',
+			'memfisfa\Finac\Controllers\Frontend\ARController@api'
+		);
+		Route::get(
+			'/data/{areceive}',
+			'memfisfa\Finac\Controllers\Frontend\ARController@apidetail'
+		);
+		Route::get(
+			'/si/modal/datatable',
+			'memfisfa\Finac\Controllers\Frontend\ARController@SIModalDatatables'
+		)->name('areceive.datatables');
+		Route::post(
+			'/approve',
+			'memfisfa\Finac\Controllers\Frontend\ARController@approve'
+		);
+	});
+
     Route::prefix('apaymenta')->group(function () {
 		Route::get(
 			'/',
@@ -633,6 +688,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/quotation/datatables/modal/{quotation}/detail', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@apidetail')->name('invoice.apidetail');
 		Route::get('/quotation/table/modal/{quotation}/detail', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@table')->name('invoice.table');
 		Route::get('/print', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@print')->name('invoice.print');
+		Route::get(
+			'/get-customers',
+			'memfisfa\Finac\Controllers\Frontend\InvoiceController@getCustomer'
+		)->name('invoice.customer.get');
 	});
 
 	Route::prefix('ar')->group(function () {

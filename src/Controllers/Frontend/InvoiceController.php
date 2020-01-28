@@ -1168,4 +1168,19 @@ class InvoiceController extends Controller
         $pdf = \PDF::loadView('formview::invoice', $data);
         return $pdf->stream();
 	}
+
+	public function getCustomer()
+	{
+		$customer = Customer::all();
+
+		$type = [];
+
+		for ($i = 0; $i < count($customer); $i++) {
+			$x = $customer[$i];
+
+			$type[$x->id] = $x->name;
+		}
+
+        return json_encode($type, JSON_PRETTY_PRINT);
+	}
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateARecieveCTable extends Migration
+class CreateAReceiveBTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateARecieveCTable extends Migration
      */
     public function up()
     {
-        Schema::create('a_recieve_c', function (Blueprint $table) {
+        Schema::create('a_recieve_b', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
             $table->string('transactionnumber');
-            $table->integer('id_invoice');
             $table->string('code');
-            $table->decimal('difference',18,5);
+            $table->string('name');
+            $table->decimal('debit',18,5);
+            $table->decimal('credit',18,5);
             $table->text('description');
             $table->softDeletes();
             $table->timestamps();
@@ -33,6 +34,6 @@ class CreateARecieveCTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a_recieve_cs');
+        Schema::dropIfExists('a_recieve_bs');
     }
 }
