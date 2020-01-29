@@ -311,10 +311,10 @@ class TrxJournal extends MemfisModel
 				TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
 					'account_code' => @($v = $detail[$a]->coa->id)? $v: 0,
-					'debit' => $detail[$a]->debit,
+					'credit' => $detail[$a]->credit,
 				]);
 
-				$total += $detail[$a]->debit;
+				$total += $detail[$a]->credit;
 			}
 
 		}

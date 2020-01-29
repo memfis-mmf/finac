@@ -93,7 +93,7 @@
                               @component('input::number')
                                   @slot('id', 'amount_to_pay')
                                   @slot('text', 'amount_to_pay')
-                                  @slot('name', 'debit')
+                                  @slot('name', 'credit')
                               @endcomponent
                           </div>
                           <div class="col-sm-6 col-md-6 col-lg-6">

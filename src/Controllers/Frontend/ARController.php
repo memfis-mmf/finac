@@ -15,6 +15,7 @@ use App\Models\Customer;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use DB;
 
 class ARController extends Controller
 {
@@ -139,6 +140,7 @@ class ARController extends Controller
     {
         $data = $alldata = json_decode(AReceive::orderBy('id', 'desc')->with([
 			'customer',
+			'ara',
 		])->get());
 
 		$datatable = array_merge([
@@ -518,25 +520,40 @@ class ARController extends Controller
 
     public function approve(Request $request)
     {
-		$data = AReceive::where('uuid', $request->uuid);
+		DB::beginTransaction();
+		try {
 
-		$AR_header = $data->first();
-		$AR_detail = $AR_header->ara;
+			$data = AReceive::where('uuid', $request->uuid);
 
-        $AR_header->approvals()->save(new Approval([
-            'approvable_id' => $AR_header->id,
-            'conducted_by' => Auth::id(),
-            'note' => @$request->note,
-            'is_approved' => 1
-        ]));
+			$AR_header = $data->first();
+			$AR_detail = $AR_header->ara;
 
-		TrxJournal::insertFromAR($AR_header, $AR_detail);
+	        $AR_header->approvals()->save(new Approval([
+	            'approvable_id' => $AR_header->id,
+	            'conducted_by' => Auth::id(),
+	            'note' => @$request->note,
+	            'is_approved' => 1
+	        ]));
 
-		$data->update([
-			'approve' => 1
-		]);
+			TrxJournal::insertFromAR($AR_header, $AR_detail);
 
-        return response()->json($data->first());
+			$data->update([
+				'approve' => 1
+			]);
+
+			DB::commit();
+
+	        return response()->json($data->first());
+
+		} catch (\Exception $e) {
+
+			DB::rollBack();
+
+			$data['errors'] = $e->getMessage();
+
+			return response()->json($data);
+		}
+
     }
 
 	function print(Request $request)

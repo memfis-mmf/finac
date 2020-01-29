@@ -104,11 +104,21 @@ let Journal = {
 										}
                 },
                 {
-                    field: '',
+                    field: 'ara.credit',
                     title: 'Total Transaction',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											let total = 0;
+											for (var i = 0; i < t.ara.length; i++) {
+												x = t.ara[i];
+
+												total += x.credit;
+											}
+
+											return addCommas(parseInt(total));
+										}
                 },
                 {
                     field: '',
@@ -404,7 +414,6 @@ let Journal = {
                 }
             });
         });
-
 
 				let approve = $('body').on('click', 'a.approve', function() {
 					let _uuid = $(this).data('uuid');
