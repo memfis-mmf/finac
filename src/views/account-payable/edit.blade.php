@@ -128,7 +128,7 @@
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
                                             @slot('name', 'exchangerate')
-																						@slot('value', number_format($data->exchangerate, 0, 0, '.'))
+																						@slot('value', (int) $data->exchangerate)
                                         @endcomponent
                                     </div>
                                 </div>

@@ -29,7 +29,7 @@ class AReceiveA extends MemfisModel
 		);
 	}
 
-	public function si()
+	public function invoice()
 	{
 		return $this->belongsTo(
 			Invoice::class,

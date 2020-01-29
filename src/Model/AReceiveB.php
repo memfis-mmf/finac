@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace memfisfa\Finac\Model;
 
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
 class AReceiveB extends MemfisModel
 {
-    protected $table = "a_recieve_b";
+    protected $table = "a_receive_b";
 
 	protected $fillable = [
 	    'uuid',

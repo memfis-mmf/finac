@@ -74,7 +74,7 @@ let Journal = {
                 },
                 {
                     field: 'customer.name',
-                    title: 'Supplier Name',
+                    title: 'Customer Name',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60,

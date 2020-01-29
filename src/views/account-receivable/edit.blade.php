@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="m-subheader hidden">
-	<input type="hidden" name="ap_uuid" value="{{ Request::segment(2) }}" disabled>
+	<input type="hidden" name="ar_uuid" value="{{ Request::segment(2) }}" disabled>
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
@@ -51,7 +51,7 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <form id="SupplierInvoiceGRNForm">
-													<input type="hidden" name="ap_uuid" value="{{ Request::segment(2) }}">
+													<input type="hidden" name="ar_uuid" value="{{ Request::segment(2) }}">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -71,8 +71,8 @@
                                         <label class="form-control-label">
                                             Customer @include('label::required')
                                         </label>
-																				<select id="vendor" name="id_customer" class="form-control m-select2">
-																						@foreach ($vendor as $x)
+																				<select id="customer" name="id_customer" class="form-control m-select2">
+																						@foreach ($customer as $x)
 																								<option value="{{ $x->id }}"
 																										@if ($x->id == $data->id_customer) selected @endif>
 																										{{ $x->name }}
@@ -128,7 +128,7 @@
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
                                             @slot('name', 'exchangerate')
-																						@slot('value', number_format($data->exchangerate, 0, 0, '.'))
+																						@slot('value', (int) $data->exchangerate)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                                         @component('input::textarea')
                                             @slot('id', 'remark')
                                             @slot('text', 'Remark')
-                                            @slot('name', 'ap_description')
+                                            @slot('name', 'ar_description')
                                             @slot('rows','5')
                                             @slot('value',$data->description)
                                         @endcomponent
@@ -327,7 +327,7 @@
 
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/select2/customer.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/account-receivable/edit.js')}}"></script>
 

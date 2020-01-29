@@ -512,12 +512,82 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\ARController@apidetail'
 		);
 		Route::get(
-			'/si/modal/datatable',
-			'memfisfa\Finac\Controllers\Frontend\ARController@SIModalDatatables'
+			'/invoice/modal/datatable',
+			'memfisfa\Finac\Controllers\Frontend\ARController@InvoiceModalDatatables'
 		)->name('areceive.datatables');
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\ARController@approve'
+		);
+	});
+
+    Route::prefix('areceivea')->group(function () {
+		Route::get(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@create'
+		)->name('areceivea.index');
+		Route::post(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@store'
+		)->name('areceivea.store');
+		Route::put(
+			'/{areceivea}',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@update'
+		)->name('areceivea.update');
+		Route::delete(
+			'/{areceivea}',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@destroy'
+		)->name('areceivea.delete');
+		Route::get(
+			'/datatables',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@datatables'
+		)->name('areceivea.datatables');
+		Route::get(
+			'/{areceivea}/edit',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@edit'
+		);
+		Route::get(
+			'/data',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@api'
+		);
+		Route::get(
+			'/data/{areceivea}',
+			'memfisfa\Finac\Controllers\Frontend\ARAController@apidetail'
+		);
+	});
+
+    Route::prefix('areceiveb')->group(function () {
+		Route::get(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@create'
+		)->name('areceiveb.index');
+		Route::post(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@store'
+		)->name('areceiveb.store');
+		Route::put(
+			'/{areceiveb}',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@update'
+		)->name('areceiveb.update');
+		Route::delete(
+			'/{areceiveb}',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@destroy'
+		)->name('areceiveb.delete');
+		Route::get(
+			'/datatables',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@datatables'
+		)->name('areceiveb.datatables');
+		Route::get(
+			'/{areceiveb}/edit',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@edit'
+		);
+		Route::get(
+			'/data',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@api'
+		);
+		Route::get(
+			'/data/{areceiveb}',
+			'memfisfa\Finac\Controllers\Frontend\ARBController@apidetail'
 		);
 	});
 
@@ -694,15 +764,15 @@ Route::group(['middleware' => ['web','auth']], function () {
 		)->name('invoice.customer.get');
 	});
 
-	Route::prefix('ar')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\ARController@index')->name('ar.index');
-		Route::post('/', 'memfisfa\Finac\Controllers\Frontend\ARController@store')->name('ar.store');
-		Route::get('/{arecieve}/edit', 'memfisfa\Finac\Controllers\Frontend\ARController@edit')->name('ar.edit');
-		Route::get('/datatables', 'memfisfa\Finac\Controllers\Frontend\ARController@datatables')->name('ar.datatables');
-		Route::post('/{arecieve}/edit', 'memfisfa\Finac\Controllers\Frontend\ARController@update')->name('ar.update');
-		Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\ARController@create')->name('ar.create');
-		Route::delete('/{arecieve}', 'memfisfa\Finac\Controllers\Frontend\ARController@destroy')->name('ar.delete');
-	});
+	// Route::prefix('ar')->group(function () {
+	// 	Route::get('/', 'memfisfa\Finac\Controllers\Frontend\ARController@index')->name('ar.index');
+	// 	Route::post('/', 'memfisfa\Finac\Controllers\Frontend\ARController@store')->name('ar.store');
+	// 	Route::get('/{arecieve}/edit', 'memfisfa\Finac\Controllers\Frontend\ARController@edit')->name('ar.edit');
+	// 	Route::get('/datatables', 'memfisfa\Finac\Controllers\Frontend\ARController@datatables')->name('ar.datatables');
+	// 	Route::post('/{arecieve}/edit', 'memfisfa\Finac\Controllers\Frontend\ARController@update')->name('ar.update');
+	// 	Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\ARController@create')->name('ar.create');
+	// 	Route::delete('/{arecieve}', 'memfisfa\Finac\Controllers\Frontend\ARController@destroy')->name('ar.delete');
+	// });
 	Route::get('/currencyfa', 'memfisfa\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
 	Route::get('/bankfa', 'memfisfa\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
 	Route::get('/bankfa/{bankaccount}', 'memfisfa\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');

@@ -137,7 +137,9 @@ class APController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(APayment::orderBy('id', 'desc')->get());
+        $data = $alldata = json_decode(APayment::orderBy('id', 'desc')->with([
+			'vendor'
+		])->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -568,7 +570,7 @@ class APController extends Controller
 
 		$data = [
 			'data' => $ap,
-			'apa' => array_chunk(json_decode($apa), 10),
+			'data_child' => array_chunk(json_decode($apa), 10),
 			'to' => $to,
 		];
 

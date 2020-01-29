@@ -3,7 +3,7 @@ let AccountReceivable = {
 
 		let _url = window.location.origin;
 		let ar_uuid = $('input[name=ar_uuid]').val();
-		let id_customer = $('select[name=id_supplier]').val();
+		let id_customer = $('select[name=id_customer]').val();
 
 		function addCommas(nStr)
 		{
@@ -88,12 +88,12 @@ let AccountReceivable = {
 							}
 						},
 						{
-							field: 'si.total',
+							field: 'invoice.grandtotalforeign',
 							title: 'Total Amount',
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.si.total));
+								return addCommas(parseInt(t.invoice.grandtotalforeign));
 							}
 						},
 						{
@@ -254,7 +254,7 @@ let AccountReceivable = {
 						source: {
 								read: {
 										method: 'GET',
-										url: `${_url}/account-receivable/si/modal/datatable/?ar_uuid=${ar_uuid}&id_customer=${id_customer}`,
+										url: `${_url}/account-receivable/invoice/modal/datatable/?ar_uuid=${ar_uuid}&id_customer=${id_customer}`,
 										map: function (raw) {
 												let dataSet = raw;
 
@@ -291,13 +291,13 @@ let AccountReceivable = {
 				},
 				columns: [
 						{
-							field: 'transaction_number',
+							field: 'transactionnumber',
 							title: 'Transaction No.',
 							sortable: 'asc',
 							filterable: !1,
 						},
 						{
-							field: 'transaction_date',
+							field: 'transactiondate',
 							title: 'Date',
 							sortable: 'asc',
 							filterable: !1,
@@ -309,18 +309,21 @@ let AccountReceivable = {
 							filterable: !1,
 						},
 						{
-							field: 'exchange_rate',
+							field: 'exchangerate',
 							title: 'Exchange Rate',
 							sortable: 'asc',
 							filterable: !1,
+							template: function (t, e, i) {
+								return addCommas(parseInt(t.exchangerate));
+							}
 						},
 						{
-							field: 'grandtotal',
+							field: 'grandtotalforeign',
 							title: 'Total Amount',
 							sortable: 'asc',
 							filterable: !1,
 							template: function (t, e, i) {
-								return addCommas(parseInt(t.grandtotal));
+								return addCommas(parseInt(t.grandtotalforeign));
 							}
 						},
 						{
@@ -330,7 +333,7 @@ let AccountReceivable = {
 							filterable: !1,
 						},
 						{
-							field: 'accont_code',
+							field: 'accontcode',
 							title: 'Account Code',
 							sortable: 'asc',
 							filterable: !1,

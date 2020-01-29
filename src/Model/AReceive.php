@@ -76,7 +76,7 @@ class AReceive extends MemfisModel
 		return $code;
 	}
 
-	public function vendor()
+	public function customer()
 	{
 		return $this->belongsTo(Customer::class, 'id_customer');
 	}

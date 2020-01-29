@@ -30,15 +30,15 @@ class ARController extends Controller
 
     public function store(AReceiveStore $request)
     {
-		$vendor = Customer::where('id', $request->id_customer)->first();
-		if (!$vendor) {
+		$customer = Customer::where('id', $request->id_customer)->first();
+		if (!$customer) {
 			return [
 				'errors' => 'Customer not found'
 			];
 		}
 
 		$request->merge([
-			'id_customer' => $vendor->id
+			'id_customer' => $customer->id
 		]);
 
 		$coa = Coa::where('code', $request->accountcode)->first();
@@ -71,7 +71,7 @@ class ARController extends Controller
 			return redirect()->back();
 		}
 
-		$data['vendor'] = Customer::all();
+		$data['customer'] = Customer::all();
 		$data['currency'] = Currency::selectRaw(
 			'code, CONCAT(name, " (", symbol ,")") as full_name'
 		)->whereIn('code',['idr','usd'])
@@ -108,7 +108,7 @@ class ARController extends Controller
     public function update(AReceiveUpdate $request, AReceive $areceive)
     {
 		$request->merge([
-			'description' => $request->ap_description
+			'description' => $request->ar_description
 		]);
 
         $areceive->update($request->all());
@@ -137,7 +137,9 @@ class ARController extends Controller
 
     public function datatables()
     {
-        $data = $alldata = json_decode(AReceive::orderBy('id', 'desc')->get());
+        $data = $alldata = json_decode(AReceive::orderBy('id', 'desc')->with([
+			'customer',
+		])->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -405,37 +407,16 @@ class ARController extends Controller
         echo json_encode( $result, JSON_PRETTY_PRINT );
     }
 
-    public function SIModalDatatables(Request $request)
+    public function InvoiceModalDatatables(Request $request)
     {
-		$ap = AReceive::where('uuid', $request->ap_uuid)->first();
+		$ar = AReceive::where('uuid', $request->ar_uuid)->first();
+		$currency = Currency::where('code', $ar->currency)->first();
 
-		$trxpayment_grn = Invoice::where('currency', $ap->currency)
-			->where('id_customer', $request->id_vendor)
-			->where('x_type', 'GRN')
+		$invoice = Invoice::where('currency', $currency->id)
+			->where('id_customer', $request->id_customer)
 			->get();
 
-		$arr = [];
-		$index_arr = 0;
-
-		for ($i=0; $i < count($trxpayment_grn); $i++) {
-			$x = $trxpayment_grn[$i];
-
-			for ($j=0; $j < count($x->trxpaymenta); $j++) {
-				$z = $x->trxpaymenta[$j];
-
-				$arr[$index_arr] = json_decode($x);
-				$arr[$index_arr]->transaction_number = $z->grn->number;
-				$arr[$index_arr]->uuid = $z->grn->uuid;
-				$index_arr++;
-			}
-		}
-
-		$trxpayment_non_grn = Invoice::where('currency', $ap->currency)
-			->where('id_customer', $request->id_vendor)
-			->where('x_type', 'NON GRN')
-			->get();
-
-        $data = $alldata = array_merge($arr, json_decode($trxpayment_non_grn));
+        $data = $alldata = json_decode($invoice);
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
@@ -560,15 +541,16 @@ class ARController extends Controller
 
 	function print(Request $request)
 	{
-		$ap = AReceive::where('uuid', $request->uuid)->first();
-		$ara = $ap->ara()->with([
+		$ar = AReceive::where('uuid', $request->uuid)->first();
+		$ara = $ar->ara()->with([
 			'coa'
 		])->get();
-		$to = $ap->vendor;
+
+		$to = $ar->customer;
 
 		$data = [
-			'data' => $ap,
-			'ara' => array_chunk(json_decode($ara), 10),
+			'data' => $ar,
+			'data_child' => array_chunk(json_decode($ara), 10),
 			'to' => $to,
 		];
 

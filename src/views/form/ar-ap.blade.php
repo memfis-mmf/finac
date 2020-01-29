@@ -38,7 +38,7 @@
 
     #head{
         top:55px;
-        left: 340px;   
+        left: 340px;
         position: absolute;
         color:white;
     }
@@ -51,7 +51,7 @@
     .barcode{
       margin-left:70px;
     }
-    
+
     .content{
         width: 100%;
         margin-top:90px;
@@ -179,14 +179,14 @@
             </table>
         </div>
     </div>
-    
+
     <div class="content4">
         <div class="container">
             <table width="100%" cellpadding="4">
 
-								@for ($a=0; $a < count($apa[0]); $a++)
+								@for ($a=0; $a < count($data_child[0]); $a++)
 									@php
-										$x = $apa[0];
+										$x = $data_child[0][$a];
 									@endphp
 									<tr>
 										<td valign="top" width="12%">{{ @$x->coa->code }}</td>
@@ -206,9 +206,9 @@
             <p style="font-size:12px">Terbilang dalam Rupiah maupun Dollar</p>
         </div>
     </div>
-    
-		@if(count($apa) > 1)     
-        @for ($i = 1; $i < $count($apa); $i++)
+
+		@if(count($data_child) > 1)
+        @for ($i = 1; $i < $count($data_child); $i++)
             <div class="page_break">
                 <div class="content">
                     <div class="container">
@@ -240,7 +240,7 @@
 											</table>
                     </div>
                 </div>
-            
+
                 <div class="content2">
                     <div class="container">
 											<table width="100%" cellpadding="4">
@@ -255,7 +255,7 @@
 											</table>
                     </div>
                 </div>
-            
+
                 <div class="content3">
                     <div class="container">
                         <table width="100%" cellpadding="4">
@@ -269,13 +269,13 @@
                         </table>
                     </div>
                 </div>
-                
+
                 <div class="content4">
                     <div class="container">
                         <table width="100%" cellpadding="4">
-													@for ($a=0; $a < count($apa[$i]); $a++)
+													@for ($a=0; $a < count($data_child[$i]); $a++)
 														@php
-															$x = $apa[$i];
+															$x = $data_child[$i][$a];
 														@endphp
 														<tr>
 															<td valign="top" width="12%">{{ @$x->coa->code }}</td>
@@ -288,12 +288,12 @@
                         </table>
                     </div>
                 </div>
-            
+
                 <div class="content5">
                     <div class="container">
                         <p style="font-size:12px">Terbilang dalam Rupiah maupun Dollar</p>
                     </div>
-                </div>    
+                </div>
             </div>
         @endfor
     @endif
