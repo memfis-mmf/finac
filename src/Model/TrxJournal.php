@@ -367,6 +367,43 @@ class TrxJournal extends MemfisModel
 		]);
 	}
 
+	static public function insertFromIvOut($header, $detail)
+	{
+
+		$data['voucher_no'] = $header->voucher_no;
+		$data['transaction_date'] = $header->transaction_date;
+		$data['journal_type'] = TypeJurnal::where('code', 'PRJ')->first()->id;
+		$data['currency_code'] = 'idr';
+		$data['exchange_rate'] = 1;
+		$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
+
+		$total = 0;
+
+		for ($i = 0; $i < count($param); $i++) {
+
+			$x = $param[$i];
+
+			TrxJournalA::create([
+				'voucher_no' => $data['voucher_no'],
+				'account_code' => $x->coa_iv,
+				'credit' => $x->val,
+				'description' => 'Generate from auto journal '.$data['voucher_no'],
+			]);
+
+			$total += $x->val;
+		}
+
+		TrxJournalA::create([
+			'voucher_no' => $data['voucher_no'],
+			'account_code' => $param[0]->coa_vendor,
+			'debit' => $total,
+		]);
+
+		TrxJournal::where('id', $journal->id)->update([
+			'total_transaction' => $total
+		]);
+	}
+
 	public function getTransactionDateYmdAttribute()
 	{
 		return date(
