@@ -330,54 +330,35 @@ class TrxJournal extends MemfisModel
 		]);
 	}
 
-	static public function insertFromGRN(
-		$component,
-		$consumable,
-		$raw_material,
-		$id_grn
-	)
+	static public function insertFromGRN($header, $detail)
 	{
-		$po = GRN::find($id_grn)->purchase_order;
 
-		$data['voucher_no'] = TrxJournal::generateCode();
-		$data['transaction_date'] = date('Y-m-d H:i:s');
-		$data['journal_type'] = TypeJurnal::where('code', 'PJR')->first()->id;
-		$data['currency_code'] = Currency::find($po->currency_id)->code;
-		$data['exchange_rate'] = $po->exchange_rate;
-
-		$journal = TrxJournal::create($data);
-
-		$account_code = [
-			"11161001",
-			"11161002",
-			"11161003",
-		];
-
-		$_data = [
-			$component,
-			$consumable,
-			$raw_material
-		];
+		$data['voucher_no'] = $header->voucher_no;
+		$data['transaction_date'] = $header->transaction_date;
+		$data['journal_type'] = TypeJurnal::where('code', 'PRJ')->first()->id;
+		$data['currency_code'] = 'idr';
+		$data['exchange_rate'] = 1;
+		$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
 
 		$total = 0;
 
-		for($a = 0; $a < count($_data); $a++) {
+		for ($i = 0; $i < count($param); $i++) {
 
-			if($_data[$a]) {
-				TrxJournalA::create([
-					'voucher_no' => $data['voucher_no'],
-					'account_code' => $account_code[$a],
-					'debit' => $_data[$a],
-				]);
+			$x = $param[$i];
 
-				$total += $_data[$a];
-			}
+			TrxJournalA::create([
+				'voucher_no' => $data['voucher_no'],
+				'account_code' => $x->coa_iv,
+				'debit' => $x->val,
+				'description' => 'Generate from auto journal '.$data['voucher_no'],
+			]);
 
+			$total += $x->val;
 		}
 
 		TrxJournalA::create([
 			'voucher_no' => $data['voucher_no'],
-			'account_code' => "21111101",
+			'account_code' => $param[0]->coa_vendor,
 			'credit' => $total,
 		]);
 
