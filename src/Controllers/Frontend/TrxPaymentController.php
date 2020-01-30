@@ -16,6 +16,9 @@ use App\Models\Currency;
 use App\Models\Type;
 use App\Models\GoodsReceived as GRN;
 use App\Models\PurchaseOrder as PO;
+use App\Models\Approval;
+use DB;
+use Auth;
 
 class TrxPaymentController extends Controller
 {
@@ -26,22 +29,60 @@ class TrxPaymentController extends Controller
 
     public function approve(Request $request)
     {
-		$data = TrxPayment::where('uuid', $request->uuid);
 
-		$SI_header = $data->first();
-		@$coa_credit = $SI_header->vendor->coa->first()->id;
-		$SI_detail = TrxPaymentB::where(
-			'transaction_number',
-			$SI_header->transaction_number
-		)->get();
+		DB::beginTransaction();
+		try {
 
-		TrxJournal::insertFromSI($SI_header, $SI_detail, $coa_credit);
+			$si_tmp = TrxPayment::where('uuid', $request->uuid);
+			$si = $si_tmp->first();
 
-		$data->update([
-			'approve' => 1
-		]);
+	        $si->approvals()->save(new Approval([
+	            'approvable_id' => $si->id,
+	            'is_approved' => 0,
+	            'conducted_by' => Auth::id(),
+	        ]));
 
-        return response()->json($data->first());
+			$data_detail = TrxPaymentB::where(
+				'transaction_number',
+				$si->transaction_number
+			)->get();
+
+			$date_approve = $si->approvals->first()
+			->created_at->toDateTimeString();
+
+			$header = [
+				'voucher_no' => $si->transaction_number,
+				'transaction_date' => $date_approve,
+				'coa_hutang' => $si->vendor->coa()->first()->id,
+			];
+
+			for ($a=0; $a < count($data_detail); $a++) {
+				$x = $data_detail[$a];
+
+				$detail[] = (object) [
+					'coa_detail' => $x->coa->id,
+					'value' => $x->total * $si->exchange_rate,
+				];
+			}
+
+			TrxJournal::autoJournal( (object) $header, $detail, 'IVJR', 'BPJ', 'outcome');
+
+			$si_tmp->update([
+				'approve' => 1
+			]);
+
+			DB::commit();
+
+	        return response()->json($si);
+
+		} catch (\Exception $e) {
+
+			DB::rollBack();
+
+			$data['errors'] = $e->getMessage();
+
+			return response()->json($data);
+		}
     }
 
     public function create()

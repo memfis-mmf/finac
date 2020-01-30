@@ -48,16 +48,7 @@ class JournalController extends Controller
 			];
 		}
 
-        $journal->first()->approvals()->save(new Approval([
-            'approvable_id' => $journal->first()->id,
-            'conducted_by' => Auth::id(),
-            'note' => @$request->note,
-            'is_approved' => 1
-        ]));
-
-		$journal->update([
-			'approve' => 1
-		]);
+		Journal::approve($journal);
 
         return response()->json($journal->first());
     }

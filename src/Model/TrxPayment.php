@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use memfisfa\Finac\Model\Coa;
 use App\Models\Vendor;
 use memfisfa\Finac\Model\TrxPaymentA;
+use App\Models\Approval;
 use App\User;
 
 class TrxPayment extends MemfisModel
@@ -38,7 +39,18 @@ class TrxPayment extends MemfisModel
 		'total',
 		'created_by',
 		'updated_by',
+		'approved_by',
 	];
+
+    public function approvals()
+    {
+        return $this->morphMany(Approval::class, 'approvable');
+    }
+
+	public function getApprovedByAttribute()
+	{
+		return @User::find($this->approvals->first()->conducted_by);
+	}
 
 	public function getCreatedByAttribute()
 	{

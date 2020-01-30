@@ -460,11 +460,28 @@ class InvoiceController extends Controller
 	            'conducted_by' => Auth::id(),
 	        ]));
 
-			$header = $invoice;
-			$detail = Invoicetotalprofit::where('invoice_id', $invoice->id)
+			$data_detail = Invoicetotalprofit::where('invoice_id', $invoice->id)
 			->get();
 
-			TrxJournal::insertFromInvoice($header, $detail);
+			$date_approve = $invoice->approvals->first()
+			->created_at->toDateTimeString();
+
+			$header = [
+				'voucher_no' => $invoice->transactionnumber,
+				'transaction_date' => $date_approve,
+				'coa_piutang' => $invoice->customer->coa()->first()->id,
+			];
+
+			for ($a=0; $a < count($data_detail); $a++) {
+				$x = $data_detail[$a];
+
+				$detail[] = (object) [
+					'coa_detail' => $x->accountcode,
+					'value' => $x->amount * $invoice->exchangerate,
+				];
+			}
+
+			TrxJournal::autoJournal( (object) $header, $detail, 'IVJR', 'SRJ', 'income');
 
 			DB::commit();
 

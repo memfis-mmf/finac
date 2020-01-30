@@ -523,27 +523,44 @@ class ARController extends Controller
 		DB::beginTransaction();
 		try {
 
-			$data = AReceive::where('uuid', $request->uuid);
+			$ar_tmp = AReceive::where('uuid', $request->uuid);
+			$ar = $ar_tmp->first();
 
-			$AR_header = $data->first();
-			$AR_detail = $AR_header->ara;
-
-	        $AR_header->approvals()->save(new Approval([
-	            'approvable_id' => $AR_header->id,
+	        $ar->approvals()->save(new Approval([
+	            'approvable_id' => $ar->id,
+	            'is_approved' => 0,
 	            'conducted_by' => Auth::id(),
-	            'note' => @$request->note,
-	            'is_approved' => 1
 	        ]));
 
-			TrxJournal::insertFromAR($AR_header, $AR_detail);
+			$data_detail = $ar->ara;
 
-			$data->update([
+			$date_approve = $ar->approvals->first()
+			->created_at->toDateTimeString();
+
+			$header = [
+				'voucher_no' => $ar->transactionnumber,
+				'transaction_date' => $date_approve,
+				'coa_piutang' => $ar->customer->coa()->first()->id,
+			];
+
+			for ($a=0; $a < count($data_detail); $a++) {
+				$x = $data_detail[$a];
+
+				$detail[] = (object) [
+					'coa_detail' => $x->coa->id,
+					'value' => $x->credit * $ar->exchangerate,
+				];
+			}
+
+			TrxJournal::autoJournal( (object) $header, $detail, 'CBRJ', 'BRJ', 'income');
+
+			$ar_tmp->update([
 				'approve' => 1
 			]);
 
 			DB::commit();
 
-	        return response()->json($data->first());
+	        return response()->json($ar);
 
 		} catch (\Exception $e) {
 

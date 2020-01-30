@@ -15,6 +15,7 @@ use App\Models\Vendor;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use DB;
 
 class APController extends Controller
 {
@@ -539,25 +540,56 @@ class APController extends Controller
 
     public function approve(Request $request)
     {
-		$data = APayment::where('uuid', $request->uuid);
+		DB::beginTransaction();
+		try {
 
-		$AP_header = $data->first();
-		$AP_detail = $AP_header->apa;
+			$ap_tmp = APayment::where('uuid', $request->uuid);
+			$ap = $ap_tmp->first();
 
-        $AP_header->approvals()->save(new Approval([
-            'approvable_id' => $AP_header->id,
-            'conducted_by' => Auth::id(),
-            'note' => @$request->note,
-            'is_approved' => 1
-        ]));
+	        $ap->approvals()->save(new Approval([
+	            'approvable_id' => $ap->id,
+	            'is_approved' => 0,
+	            'conducted_by' => Auth::id(),
+	        ]));
 
-		TrxJournal::insertFromAP($AP_header, $AP_detail);
+			$data_detail = $ap->apa;
 
-		$data->update([
-			'approve' => 1
-		]);
+			$date_approve = $ap->approvals->first()
+			->created_at->toDateTimeString();
 
-        return response()->json($data->first());
+			$header = [
+				'voucher_no' => $ap->transactionnumber,
+				'transaction_date' => $date_approve,
+				'coa_hutang' => $ap->vendor->coa()->first()->id,
+			];
+
+			for ($a=0; $a < count($data_detail); $a++) {
+				$x = $data_detail[$a];
+
+				$detail[] = (object) [
+					'coa_detail' => $x->coa->id,
+					'value' => $x->debit * $ap->exchangerate,
+				];
+			}
+
+			TrxJournal::autoJournal( (object) $header, $detail, 'CBPJ', 'BPJ', 'outcome');
+
+			$ap_tmp->update([
+				'approve' => 1
+			]);
+
+			DB::commit();
+
+	        return response()->json($ap);
+
+		} catch (\Exception $e) {
+
+			DB::rollBack();
+
+			$data['errors'] = $e->getMessage();
+
+			return response()->json($data);
+		}
     }
 
 	function print(Request $request)

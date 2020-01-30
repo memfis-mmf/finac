@@ -443,21 +443,12 @@ let Journal = {
 							},
 							success: function (data) {
 									if (data.errors) {
-											if (data.errors.code) {
-													$('#code-error').html(data.errors.code[0]);
-
-
-													document.getElementById('code').value = code;
-													document.getElementById('name').value = name;
-													document.getElementById('type').value = type;
-													document.getElementById('level').value = level;
-													document.getElementById('description').value = description;
-													coa_reset();
-											}
-
+											toastr.error(data.errors, 'Invalid', {
+													timeOut: 5000
+											});
 
 									} else {
-											toastr.success('Data berhasil disimpan.', 'Sukses', {
+											toastr.success('Data Saved', 'Success', {
 													timeOut: 5000
 											});
 

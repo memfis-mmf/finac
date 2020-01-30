@@ -11,6 +11,8 @@ use App\Models\GoodsReceived as GRN;
 use App\Models\Currency;
 use App\User;
 use App\Models\Approval;
+use Illuminate\Validation\ValidationException;
+use Auth;
 
 class TrxJournal extends MemfisModel
 {
@@ -98,78 +100,6 @@ class TrxJournal extends MemfisModel
 		return $code;
 	}
 
-	static public function insertFromInvoice($header, $detail)
-	{
-		$data['voucher_no'] = $header->transactionnumber;
-		$data['transaction_date'] = $header->transactiondate;
-		$data['journal_type'] = TypeJurnal::where('code', 'SRJ')->first()->id;
-		$data['currency_code'] = $header->currencies->code;
-		$data['exchange_rate'] = $header->exchangerate;
-
-		$journal = TrxJournal::create($data);
-
-		$total = 0;
-		for($a = 0; $a < count($detail); $a++) {
-
-			if($detail[$a]) {
-				TrxJournalA::create([
-					'voucher_no' => $data['voucher_no'],
-					'account_code' => @($v = $detail[$a]->accountcode)? $v: 0,
-					'credit' => $detail[$a]->amount,
-				]);
-
-				$total += $detail[$a]->amount;
-			}
-
-		}
-
-		TrxJournalA::create([
-			'voucher_no' => $data['voucher_no'],
-			'account_code' => $header->accountcode,
-			'debit' => $total,
-		]);
-
-		TrxJournal::where('id', $journal->id)->update([
-			'total_transaction' => $total
-		]);
-	}
-
-	static public function insertFromSI($header, $detail, $coa_credit)
-	{
-		$data['voucher_no'] = TrxJournal::generateCode('PRJR');
-		$data['transaction_date'] = $header->transaction_date;
-		$data['journal_type'] = TypeJurnal::where('code', 'BPJ')->first()->id;
-		$data['currency_code'] = $header->currency;
-		$data['exchange_rate'] = $header->exchange_rate;
-
-		$journal = TrxJournal::create($data);
-
-		$total = 0;
-		for($a = 0; $a < count($detail); $a++) {
-
-			if($detail[$a]) {
-				TrxJournalA::create([
-					'voucher_no' => $data['voucher_no'],
-					'account_code' => $detail[$a]->coa->id,
-					'debit' => $detail[$a]->total,
-				]);
-
-				$total += $detail[$a]->total;
-			}
-
-		}
-
-		TrxJournalA::create([
-			'voucher_no' => $data['voucher_no'],
-			'account_code' => $coa_credit,
-			'credit' => $total,
-		]);
-
-		TrxJournal::where('id', $journal->id)->update([
-			'total_transaction' => $total
-		]);
-	}
-
 	/*
 	 *jangan copy function dibawah ini untuk membuat function lain
 	 *yang seperti ini, copy function insertFromAP saja
@@ -232,15 +162,15 @@ class TrxJournal extends MemfisModel
 
 			if($detail[$a]) {
 
-				$debit = $header->value;
-				$credit = 0;
+				$credit = $header->value;
+				$debit = 0;
 
 				/*
 				 *jika sudah bukan loopingan pertama
 				 */
 				if ($a > 0) {
-					$debit = 0;
-					$credit = $header->value;
+					$credit = 0;
+					$debit = $header->value;
 				}
 
 				TrxJournalA::create([
@@ -258,77 +188,129 @@ class TrxJournal extends MemfisModel
 		]);
 	}
 
-	static public function insertFromAP($header, $detail)
+	// approve journal
+
+	static public function approve($journal, $auto = false)
 	{
-		$data['voucher_no'] = $header->transactionnumber;
-		$data['transaction_date'] = $header->transactiondate;
-		$data['journal_type'] = TypeJurnal::where('code', 'BPJ')->first()->id;
-		$data['currency_code'] = $header->currency;
-		$data['exchange_rate'] = $header->exchangerate;
+
+		try {
+
+	        $journal->first()->approvals()->save(new Approval([
+	            'approvable_id' => $journal->first()->id,
+	            'conducted_by' => Auth::id(),
+	            'note' => @$request->note,
+	            'is_approved' => 1
+	        ]));
+
+			$journal->update([
+				'approve' => 1
+			]);
+
+			return true;
+
+		} catch (\Exception $e) {
+
+			return false;
+
+		}
+
+	}
+
+	// auto journal
+
+	/**
+	* $header : [
+	* 'voucher_no', //voucher numer of data sended
+	* 'transaction_date', //date of approved data sended
+	* 'coa_piutang', //coa piutang (coa customer)
+	* ]
+	*
+	* $detail : [
+	*  [
+	*   'value',
+	*   'coa_piutang',
+	*  ],
+	*  [
+	*   'value',
+	*   'coa_piutang',
+	*  ],
+	* ]
+	*
+	* $journal_type // type of journal
+	* $journal_format // format for number journal
+	* $income_outcome // income or outcome
+	*/
+	static public function autoJournal(
+		$header,
+		$detail,
+		$journal_format,
+		$journal_type,
+		$income_outcome
+	)
+	{
+		$x_position = 'credit';
+		$position = 'debit';
+		$coa = @$header->coa_piutang;
+
+		if ($income_outcome == 'outcome') {
+			$x_position = 'debit';
+			$position = 'credit';
+			$coa = @$header->coa_hutang;
+		}
+
+		$data['voucher_no'] = TrxJournal::generateCode($journal_format);
+		$data['ref_no'] = $header->voucher_no;
+		$data['transaction_date'] = $header->transaction_date;
+		$data['journal_type'] = TypeJurnal::where('code', $journal_type)->first()->id;
+		$data['currency_code'] = 'idr';
+		$data['exchange_rate'] = 1;
+		$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
 
 		$journal = TrxJournal::create($data);
 
 		$total = 0;
-		for($a = 0; $a < count($detail); $a++) {
 
-			if($detail[$a]) {
+		for ($i = 0; $i < count($detail); $i++) {
+
+			$x = $detail[$i];
+
+			if ($x->value != 0) {
+
 				TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
-					'account_code' => @($v = $detail[$a]->coa->id)? $v: 0,
-					'debit' => $detail[$a]->debit,
+					'account_code' => $x->coa_detail,
+					$x_position => $x->value,
+					'description' => 'Generate from auto journal, '.$header->voucher_no,
 				]);
 
-				$total += $detail[$a]->debit;
 			}
 
+			$total += $x->value;
 		}
 
 		TrxJournalA::create([
 			'voucher_no' => $data['voucher_no'],
-			'account_code' => $header->coa->id,
-			'credit' => $total,
+			'account_code' => $coa,
+			$position => $total,
+			'description' => 'Generate from auto journal, '.$header->voucher_no,
 		]);
 
-		TrxJournal::where('id', $journal->id)->update([
+		$tmp_journal = TrxJournal::where('id', $journal->id);
+
+		$tmp_journal->update([
 			'total_transaction' => $total
 		]);
-	}
 
-	static public function insertFromAR($header, $detail)
-	{
-		$data['voucher_no'] = $header->transactionnumber;
-		$data['transaction_date'] = $header->transactiondate;
-		$data['journal_type'] = TypeJurnal::where('code', 'BRJ')->first()->id;
-		$data['currency_code'] = $header->currency;
-		$data['exchange_rate'] = $header->exchangerate;
+		TrxJournal::approve($tmp_journal);
 
-		$journal = TrxJournal::create($data);
-
-		$total = 0;
-		for($a = 0; $a < count($detail); $a++) {
-
-			if($detail[$a]) {
-				TrxJournalA::create([
-					'voucher_no' => $data['voucher_no'],
-					'account_code' => @($v = $detail[$a]->coa->id)? $v: 0,
-					'credit' => $detail[$a]->credit,
-				]);
-
-				$total += $detail[$a]->credit;
-			}
-
+		if ($total == 0) {
+			throw ValidationException::withMessages('Total cannot be 0');
 		}
 
-		TrxJournalA::create([
-			'voucher_no' => $data['voucher_no'],
-			'account_code' => $header->coa->id,
-			'credit' => $total,
-		]);
-
-		TrxJournal::where('id', $journal->id)->update([
-			'total_transaction' => $total
-		]);
+		return true;
 	}
+
+	// end auto journal
 
 	static public function insertFromGRN($header, $detail)
 	{
@@ -340,6 +322,8 @@ class TrxJournal extends MemfisModel
 			$data['currency_code'] = 'idr';
 			$data['exchange_rate'] = 1;
 			$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
+
+			$journal = TrxJournal::create($data);
 
 			$total = 0;
 
@@ -368,7 +352,7 @@ class TrxJournal extends MemfisModel
 			]);
 
 			return true;
-			
+
 		} catch (\Exception $e) {
 
 			return false;
@@ -387,6 +371,8 @@ class TrxJournal extends MemfisModel
 			$data['currency_code'] = 'idr';
 			$data['exchange_rate'] = 1;
 			$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
+
+			$journal = TrxJournal::create($data);
 
 			$total = 0;
 
@@ -415,7 +401,7 @@ class TrxJournal extends MemfisModel
 			]);
 
 			return true;
-			
+
 		} catch (\Exception $e) {
 
 			return false;
