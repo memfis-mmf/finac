@@ -308,7 +308,7 @@ class TrxJournal extends MemfisModel
 
 		TrxJournal::approve($tmp_journal);
 
-		if ($total == 0 || $total_debit != $total_credit) {
+		if ($total_debit == 0 || $total_debit != $total_credit) {
 			throw ValidationException::withMessages('Total cannot be 0');
 		}
 

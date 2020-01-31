@@ -88,7 +88,7 @@ class ARAController extends Controller
 			AReceiveC::create([
 			    'transactionnumber' => $ara->transactionnumber,
 			    'id_invoice' => $ara->id_invoice,
-			    'code' => $ara->code,
+			    'code' => '81112003',
 			    'difference' => $difference,
 			]);
 		}
