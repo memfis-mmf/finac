@@ -602,9 +602,9 @@ let AccountReceivable = {
 			let data = adjustment_datatable.row(tr).data().mDatatable.dataSet[tr_index];
 
 			$(target).find('input[name=_uuid]').val(uuid);
-			$(target).find('[name=debit_b]').val(data.debit);
-			$(target).find('[name=credit]').val(data.credit);
-			$(target).find('[name=description]').val(data.description);
+			$(target).find('[name=debit_b]').val(parseInt(data.debit));
+			$(target).find('[name=credit_b]').val(parseInt(data.credit));
+			$(target).find('[name=description_b]').val(data.description);
 
 			$(target).modal('show');
 		})

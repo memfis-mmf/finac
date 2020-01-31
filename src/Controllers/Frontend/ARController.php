@@ -542,7 +542,9 @@ class ARController extends Controller
 	            'conducted_by' => Auth::id(),
 	        ]));
 
-			$data_detail = $ar->ara;
+			$ara = $ar->ara;
+			$arb = $ar->arb;
+			$arc = $ar->arc;
 
 			$date_approve = $ar->approvals->first()
 			->created_at->toDateTimeString();
@@ -553,16 +555,67 @@ class ARController extends Controller
 				'coa' => $ar->coa->id,
 			];
 
-			for ($a=0; $a < count($data_detail); $a++) {
-				$x = $data_detail[$a];
+			$total_credit = 0;
+			$total_debit = 0;
+
+			// looping sebenayak invoice
+			for ($a=0; $a < count($ara); $a++) {
+				$x = $ara[$a];
 
 				$detail[] = (object) [
 					'coa_detail' => $x->coa->id,
-					'value' => $x->credit * $ar->exchangerate,
+					'credit' => $x->credit * $ar->exchangerate,
+					'debit' => 0,
 				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
+				$total_debit += $detail[count($detail)-1]->debit;
 			}
 
-			TrxJournal::autoJournal( (object) $header, $detail, 'CBRJ', 'BRJ', 'income');
+			// looping sebanyak adjustment
+			for ($a=0; $a < count($arb); $a++) {
+				$y = $arb[$a];
+
+				$detail[] = (object) [
+					'coa_detail' => $y->coa->id,
+					'credit' => $y->credit,
+					'debit' => $y->debit,
+				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
+				$total_debit += $detail[count($detail)-1]->debit;
+			}
+
+			// looping sebanyak gap
+			for ($a=0; $a < count($arc); $a++) {
+				$z = $arc[$a];
+
+				$side = 'credit';
+				$x_side = 'debit';
+				$val = $z->difference;
+
+				// jika difference bernilai minus
+				if ($z->difference < 1) {
+					$side = 'debit';
+					$x_side = 'credit';
+					$val = $z->difference * (-1);
+				}
+
+				$detail[] = (object) [
+					'coa_detail' => $z->coa->id,
+					$side => $val,
+					$x_side => 0
+				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
+				$total_debit += $detail[count($detail)-1]->debit;
+			}
+
+			dd($detail);
+
+			TrxJournal::autoJournal(
+				 (object) $header, $detail, 'CBRJ', 'BRJ', 'income'
+			 );
 
 			$ar_tmp->update([
 				'approve' => 1

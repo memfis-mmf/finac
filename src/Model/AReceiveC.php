@@ -17,4 +17,9 @@ class AReceiveC extends MemfisModel
 	    'difference',
 	    'description',
 	];
+
+	public function coa()
+	{
+		return $this->belongsTo(Coa::class, 'code', 'code');
+	}
 }

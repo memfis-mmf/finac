@@ -259,7 +259,9 @@ class TrxJournal extends MemfisModel
 		$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
 		$data['ref_no'] = $header->voucher_no;
 		$data['transaction_date'] = $header->transaction_date;
-		$data['journal_type'] = TypeJurnal::where('code', $journal_type)->first()->id;
+		$data['journal_type'] = TypeJurnal::where(
+			'code', $journal_type
+		)->first()->id;
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
 		$data['description'] = 'Generate from auto journal '.$data['voucher_no'];

@@ -51,7 +51,7 @@
                                 @component('input::number')
                                     @slot('id', 'credit')
                                     @slot('text', 'credit')
-                                    @slot('name', 'credit')
+                                    @slot('name', 'credit_b')
                                 @endcomponent
                             </div>
                         </div>

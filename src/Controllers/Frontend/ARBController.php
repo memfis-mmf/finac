@@ -47,6 +47,7 @@ class ARBController extends Controller
 		$request->merge([
 			'description' => $request->description_b,
 			'debit' => $request->debit_b,
+			'credit' => $request->credit_b,
 		]);
 
 		AReceiveB::where('uuid', $request->areceiveb)->update($request->only([

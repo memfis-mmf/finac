@@ -90,6 +90,24 @@ class AReceive extends MemfisModel
 		);
 	}
 
+	public function arb()
+	{
+		return $this->hasMany(
+			AReceiveB::class,
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
+
+	public function arc()
+	{
+		return $this->hasMany(
+			AReceiveC::class,
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
+
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'accountcode', 'code');
