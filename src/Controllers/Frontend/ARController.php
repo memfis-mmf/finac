@@ -550,7 +550,7 @@ class ARController extends Controller
 			$header = [
 				'voucher_no' => $ar->transactionnumber,
 				'transaction_date' => $date_approve,
-				'coa_piutang' => $ar->customer->coa()->first()->id,
+				'coa' => $ar->coa->id,
 			];
 
 			for ($a=0; $a < count($data_detail); $a++) {

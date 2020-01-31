@@ -250,12 +250,10 @@ class TrxJournal extends MemfisModel
 	{
 		$x_position = 'credit';
 		$position = 'debit';
-		$coa = @$header->coa_piutang;
 
 		if ($income_outcome == 'outcome') {
 			$x_position = 'debit';
 			$position = 'credit';
-			$coa = @$header->coa_hutang;
 		}
 
 		$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
@@ -290,7 +288,7 @@ class TrxJournal extends MemfisModel
 
 		TrxJournalA::create([
 			'voucher_no' => $data['voucher_no'],
-			'account_code' => $coa,
+			'account_code' => $header->coa,
 			$position => $total,
 			'description' => 'Generate from auto journal, '.$header->voucher_no,
 		]);

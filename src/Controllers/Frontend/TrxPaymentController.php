@@ -53,7 +53,7 @@ class TrxPaymentController extends Controller
 			$header = [
 				'voucher_no' => $si->transaction_number,
 				'transaction_date' => $date_approve,
-				'coa_hutang' => $si->vendor->coa()->first()->id,
+				'coa' => $si->vendor->coa()->first()->id,
 			];
 
 			for ($a=0; $a < count($data_detail); $a++) {

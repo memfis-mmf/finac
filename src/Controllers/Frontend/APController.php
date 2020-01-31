@@ -560,7 +560,7 @@ class APController extends Controller
 			$header = [
 				'voucher_no' => $ap->transactionnumber,
 				'transaction_date' => $date_approve,
-				'coa_hutang' => $ap->vendor->coa()->first()->id,
+				'coa' => $ap->coa->id,
 			];
 
 			for ($a=0; $a < count($data_detail); $a++) {

@@ -469,7 +469,7 @@ class InvoiceController extends Controller
 			$header = [
 				'voucher_no' => $invoice->transactionnumber,
 				'transaction_date' => $date_approve,
-				'coa_piutang' => $invoice->customer->coa()->first()->id,
+				'coa' => $invoice->customer->coa()->first()->id,
 			];
 
 			for ($a=0; $a < count($data_detail); $a++) {
