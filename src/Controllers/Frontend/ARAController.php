@@ -10,6 +10,7 @@ use memfisfa\Finac\Model\AReceiveA;
 use memfisfa\Finac\Request\AReceiveAUpdate;
 use memfisfa\Finac\Request\AReceiveAStore;
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
 use App\Models\GoodsReceived as GRN;
 
 class ARAController extends Controller
@@ -35,19 +36,24 @@ class ARAController extends Controller
 			$AR->transactionnumber
 		)->first();
 
-		$x['transaction_number'] = $invoice->transactionnumber;
+		$currency = Currency::find($invoice->currency)->code;
+		@$code = ($v = $invoice->customer->coa->first()->code)? $v: '';
 
-		$x['currency'] = $invoice->currency;
-		$x['exchange_rate'] = $invoice->exchangerate;
-		@$x['code'] = ($v = $invoice->customer->coa->first()->code)? $v: '';
+		if ($ARA) {
+			if ($currency != $ARA->currency) {
+				return response()->json([
+					'errors' => 'Currency not consistent'
+				]);
+			}
+		}
 
 		$request->request->add([
 			'description' => '',
 			'transactionnumber' => $AR->transactionnumber,
-			'id_invoice' => $x['transaction_number'],
-			'currency' => $x['currency'],
-			'exchangerate' => $x['exchange_rate'],
-			'code' => $x['code'],
+			'id_invoice' => $invoice->transactionnumber,
+			'currency' => $currency,
+			'exchangerate' => $invoice->exchangerate,
+			'code' => $code,
 		]);
 
         $areceivea = AReceiveA::create($request->all());

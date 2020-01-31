@@ -14,14 +14,15 @@ jQuery(document).ready(function () {
         if(this.value != 'idr'){
             console.log("bukan idr");
             $("#exchange").val("");
-            $("#exchange").removeAttr("readonly"); 
+            $("#exchange").removeAttr("readonly");
             document.getElementById("requi").style.display = "block";
         } else {
             console.log("idr");
             $("#exchange").val("1");
-            $("#exchange").attr("readonly", true); 
+            // $("#exchange").attr("readonly", true);
+            $("#exchange").removeAttr("readonly"); 
             document.getElementById("requi").style.display = "none";
-            
+
         }
     });
 });

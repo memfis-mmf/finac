@@ -414,9 +414,17 @@ class ARController extends Controller
 		$ar = AReceive::where('uuid', $request->ar_uuid)->first();
 		$currency = Currency::where('code', $ar->currency)->first();
 
-		$invoice = Invoice::where('currency', $currency->id)
-			->where('id_customer', $request->id_customer)
+		if (count($ar->ara)) {
+			$invoice = Invoice::where('id_customer', $request->id_customer)
+			->where(
+				'currency',
+				Currency::where('code', $ar->ara[0]->currency)->first()->id
+			)
 			->get();
+		} else {
+			$invoice = Invoice::where('id_customer', $request->id_customer)
+			->get();
+		}
 
         $data = $alldata = json_decode($invoice);
 

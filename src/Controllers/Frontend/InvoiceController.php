@@ -481,6 +481,10 @@ class InvoiceController extends Controller
 				];
 			}
 
+			Invoice::where('id', $invoice->id)->update([
+				'approve' => 1
+			]);
+
 			TrxJournal::autoJournal( (object) $header, $detail, 'IVJR', 'SRJ', 'income');
 
 			DB::commit();

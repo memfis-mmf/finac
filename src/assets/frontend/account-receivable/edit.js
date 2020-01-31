@@ -404,6 +404,7 @@ let AccountReceivable = {
 							$('#modal_create_invoice').modal('hide');
 
 							invoice_table.reload();
+							invoice_modal_table.reload();
 
 							toastr.success('Data tersimpan', 'Sukses', {
 								timeOut: 2000

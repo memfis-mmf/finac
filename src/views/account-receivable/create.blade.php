@@ -151,7 +151,7 @@
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
                                                 <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" disabled><span>
                                                         <i class="la la-plus-circle"></i>
-                                                        <span>Supplier Invoice</span>
+                                                        <span>Invoice</span>
                                                     </span>
                                                 </button>
                                                 <div class="m-separator m-separator--dashed d-xl-none"></div>
