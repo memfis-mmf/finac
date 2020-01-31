@@ -71,3 +71,19 @@ Route::get('/cashbook-docs', function () {
     $pdf = \PDF::loadView('formview::cashbook');
     return $pdf->stream();
 });
+
+Route::get('/customer-trial-balance-docs', function () {
+    $pdf = \PDF::loadView('formview::customer-tb');
+    return $pdf->stream();
+});
+
+
+Route::get('/outstanding-invoices-docs', function () {
+    $pdf = \PDF::loadView('formview::outstanding-invoices');
+    return $pdf->stream();
+});
+
+Route::get('/aging-receivable-detail-docs', function () {
+    $pdf = \PDF::loadView('formview::aging-receivable-detail-docs');
+    return $pdf->stream();
+});
