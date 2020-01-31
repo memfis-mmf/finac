@@ -268,42 +268,47 @@ class TrxJournal extends MemfisModel
 
 		$journal = TrxJournal::create($data);
 
-		$total = 0;
+		$total_credit = 0;
+		$total_debit = 0;
 
 		for ($i = 0; $i < count($detail); $i++) {
 
 			$x = $detail[$i];
 
-			if ($x->value != 0) {
+			if ($x->debit != 0 || $x->credit != 0) {
 
 				TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
 					'account_code' => $x->coa_detail,
-					$x_position => $x->value,
+					'credit' => $x->credit,
+					'debit' => $x->debit,
 					'description' => 'Generate from auto journal, '.$header->voucher_no,
 				]);
 
 			}
 
-			$total += $x->value;
+			$total_credit += $x->credit;
+			$total_debit += $x->debit;
 		}
 
-		TrxJournalA::create([
-			'voucher_no' => $data['voucher_no'],
-			'account_code' => $header->coa,
-			$position => $total,
-			'description' => 'Generate from auto journal, '.$header->voucher_no,
-		]);
+		// dd(
+		// 	$journal->voucher_no,
+		// 	json_decode(
+		// 		TrxJournalA::select(['debit', 'credit'])
+		// 		->where('voucher_no', $journal->voucher_no)->get()
+		// 	)
+		// );
 
 		$tmp_journal = TrxJournal::where('id', $journal->id);
 
 		$tmp_journal->update([
-			'total_transaction' => $total
+			// income outcome tidak pengaruh untu variable satu ini
+			'total_transaction' => $total_credit
 		]);
 
 		TrxJournal::approve($tmp_journal);
 
-		if ($total == 0) {
+		if ($total == 0 || $total_debit != $total_credit) {
 			throw ValidationException::withMessages('Total cannot be 0');
 		}
 

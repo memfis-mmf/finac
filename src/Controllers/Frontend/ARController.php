@@ -549,7 +549,7 @@ class ARController extends Controller
 			$date_approve = $ar->approvals->first()
 			->created_at->toDateTimeString();
 
-			$header = [
+			$header = (object) [
 				'voucher_no' => $ar->transactionnumber,
 				'transaction_date' => $date_approve,
 				'coa' => $ar->coa->id,
@@ -566,6 +566,7 @@ class ARController extends Controller
 					'coa_detail' => $x->coa->id,
 					'credit' => $x->credit * $ar->exchangerate,
 					'debit' => 0,
+					'_desc' => 'invoice',
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -580,6 +581,7 @@ class ARController extends Controller
 					'coa_detail' => $y->coa->id,
 					'credit' => $y->credit,
 					'debit' => $y->debit,
+					'_desc' => 'adjustment',
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -604,18 +606,31 @@ class ARController extends Controller
 				$detail[] = (object) [
 					'coa_detail' => $z->coa->id,
 					$side => $val,
-					$x_side => 0
+					$x_side => 0,
+					'_desc' => 'gap',
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
 				$total_debit += $detail[count($detail)-1]->debit;
 			}
 
-			dd($detail);
+			// add object in first array $detai
+			array_unshift(
+				$detail,
+				(object) [
+					'coa_detail' => $header->coa,
+					'credit' => 0,
+					'debit' => $total_credit - $total_debit,
+					'_desc' => 'coa bank',
+				]
+			);
+
+			// $total_credit += $detail[0]->credit;
+			// $total_debit += $detail[0]->debit;
 
 			TrxJournal::autoJournal(
-				 (object) $header, $detail, 'CBRJ', 'BRJ', 'income'
-			 );
+				$header, $detail, 'CBRJ', 'BRJ', 'income'
+			);
 
 			$ar_tmp->update([
 				'approve' => 1
