@@ -61,13 +61,13 @@ let AccountReceivable = {
 				},
 				columns: [
 						{
-							field: '_transaction_number',
+							field: 'transactionnumber',
 							title: 'Transaction No.',
 							sortable: 'asc',
 							filterable: !1,
 						},
 						{
-							field: 'ap.transactiondate',
+							field: 'ar.transactiondate',
 							title: 'Date',
 							sortable: 'asc',
 							filterable: !1,
@@ -112,12 +112,21 @@ let AccountReceivable = {
 							filterable: !1,
 						},
 						{
-							field: 'debit',
+							field: 'credit',
 							title: 'Amount to Pay',
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.debit));
+								return t.currencies.symbol+' '+addCommas(parseInt(t.credit));
+							}
+						},
+						{
+							field: '',
+							title: 'Amount to Pay IDR',
+							sortable: 'asc',
+							filterable: !1,
+							template: function(t, e, i) {
+								return 'Rp '+addCommas(parseInt(t.credit * t.ar.exchangerate));
 							}
 						},
 						{
@@ -126,7 +135,11 @@ let AccountReceivable = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.exchange_rate_gap));
+								return 'Rp '+addCommas(
+									parseInt(
+										(t.credit * t.ar.exchangerate) - (t.credit * t.exchangerate)
+									)
+								);
 							}
 						},
 						{
@@ -532,16 +545,19 @@ let AccountReceivable = {
 
 		let update_si = $('body').on('click', '#update_invoice', function () {
 
-				let form = $(this).parents('form');
-				let _data = form.serialize();
-				let si_uuid = form.find('input[name=si_uuid]').val();
+				let modal = $(this).parents('.modal');
+				let _data = {
+					'credit' : modal.find('input[name=credit]').val(),
+					'description' : modal.find('[name=description]').val()
+				};
+				let invoice_uuid = modal.find('input[name=invoice_uuid]').val();
 
 				$.ajax({
 						headers: {
 								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 						},
 						type: 'put',
-						url: _url+'/areceivea/'+si_uuid,
+						url: _url+'/areceivea/'+invoice_uuid,
 						data: _data,
 						success: function (data) {
 								if (data.errors) {
@@ -568,9 +584,11 @@ let AccountReceivable = {
 			let tr_index = tr.index();
 			let data = invoice_table.row(tr).data().mDatatable.dataSet[tr_index];
 
-			$(target).find('input[name=si_uuid]').val(uuid);
+			$(target).find('input[name=invoice_uuid]').val(uuid);
 			$(target).find('[name=description]').val(data.description);
-			$(target).find('input[name=debit]').val(data.debit);
+			$(target).find('input[name=credit]').val(
+				parseInt(data.credit)
+			);
 
 			$(target).modal('show');
 		})

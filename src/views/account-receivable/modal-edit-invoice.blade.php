@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="SupplierInvoiceForm">
-									<input type="hidden" name="si_uuid" value="" disabled>
+									<input type="hidden" name="invoice_uuid" value="" disabled>
                   <div class="m-portlet__body">
                       <div class="form-group m-form__group row ">
                           <div class="col-sm-6 col-md-6 col-lg-6">

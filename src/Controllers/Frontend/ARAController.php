@@ -7,6 +7,7 @@ use memfisfa\Finac\Model\Invoice;
 use memfisfa\Finac\Model\InvoiceA;
 use memfisfa\Finac\Model\AReceive;
 use memfisfa\Finac\Model\AReceiveA;
+use memfisfa\Finac\Model\AReceiveC;
 use memfisfa\Finac\Request\AReceiveAUpdate;
 use memfisfa\Finac\Request\AReceiveAStore;
 use App\Http\Controllers\Controller;
@@ -70,6 +71,28 @@ class ARAController extends Controller
 
         $areceivea->update($request->all());
 
+		$ara = $areceivea;
+		$ar = $ara->ar;
+
+		$arc = AReceiveC::where('id_invoice', $ara->id_invoice)
+		->where('transactionnumber', $ara->transactionnumber)
+		->first();
+
+		$difference = ($ara->credit * $ar->exchangerate) - ($ara->credit * $ara->exchangerate);
+
+		if ($arc) {
+			AReceiveC::where('id', $arc->id)->update([
+				'difference' => $difference
+			]);
+		} else {
+			AReceiveC::create([
+			    'transactionnumber' => $ara->transactionnumber,
+			    'id_invoice' => $ara->id_invoice,
+			    'code' => $ara->code,
+			    'difference' => $difference,
+			]);
+		}
+
         return response()->json($areceivea);
     }
 
@@ -104,14 +127,14 @@ class ARAController extends Controller
 
 	public function countPaidAmount($x)
 	{
-		$ar = AReceiveA::where('id_invoice', $x->id_invoice)->get();
+		$ara = AReceiveA::where('id_invoice', $x->id_invoice)->get();
 
 		$total = 0;
-		for ($i=0; $i < count($ar); $i++) {
-			$y = $ar[$i];
+		for ($i=0; $i < count($ara); $i++) {
+			$y = $ara[$i];
 
 			// check if this AR is approved or not
-			if ($y->ap->approve) {
+			if ($y->ar->approve) {
 				$total += $y->debit;
 			}
 		}
@@ -124,7 +147,8 @@ class ARAController extends Controller
 		$AR = AReceive::where('uuid', $request->ar_uuid)->first();
 		$ARA = AReceiveA::where('transactionnumber', $AR->transactionnumber)
 			->with([
-				'ap',
+				'ar',
+				'currencies'
 			])
 			->get();
 

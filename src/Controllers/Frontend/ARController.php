@@ -420,9 +420,11 @@ class ARController extends Controller
 				'currency',
 				Currency::where('code', $ar->ara[0]->currency)->first()->id
 			)
+			->where('approve', 1)
 			->get();
 		} else {
 			$invoice = Invoice::where('id_customer', $request->id_customer)
+			->where('approve', 1)
 			->get();
 		}
 

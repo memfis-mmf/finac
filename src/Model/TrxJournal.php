@@ -237,13 +237,13 @@ class TrxJournal extends MemfisModel
 	* ]
 	*
 	* $journal_type // type of journal
-	* $journal_format // format for number journal
+	* $journal_prefix_number // journal prefix number
 	* $income_outcome // income or outcome
 	*/
 	static public function autoJournal(
 		$header,
 		$detail,
-		$journal_format,
+		$journal_prefix_number,
 		$journal_type,
 		$income_outcome
 	)
@@ -258,7 +258,7 @@ class TrxJournal extends MemfisModel
 			$coa = @$header->coa_hutang;
 		}
 
-		$data['voucher_no'] = TrxJournal::generateCode($journal_format);
+		$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
 		$data['ref_no'] = $header->voucher_no;
 		$data['transaction_date'] = $header->transaction_date;
 		$data['journal_type'] = TypeJurnal::where('code', $journal_type)->first()->id;
@@ -312,7 +312,7 @@ class TrxJournal extends MemfisModel
 
 	// end auto journal
 
-	static public function insertFromGRN($header, $detail)
+	static public function insertFromGRN_($header, $detail)
 	{
 
 		try {
@@ -351,11 +351,17 @@ class TrxJournal extends MemfisModel
 				'total_transaction' => $total
 			]);
 
-			return true;
+			return [
+				'status' => true,
+				'message' => ''
+			];
 
 		} catch (\Exception $e) {
 
-			return false;
+			return [
+				'status' => false,
+				'message' => $e->getMessage()
+			];
 
 		}
 	}
