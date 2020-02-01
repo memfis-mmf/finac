@@ -1,4 +1,4 @@
-let AccountReceivable = {
+let AccountReceivableEdit = {
   init: function () {
 
 		let _url = window.location.origin;
@@ -17,6 +17,68 @@ let AccountReceivable = {
 			}
 			return x1 + x2;
 		}
+
+		let coa_datatables = $("#coa_datatables").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/account-receivable/coa/datatables",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
+
+		let coa_datatables_adj = $("#coa_datatables_adj").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/account-receivable/coa/datatables",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
 
 		let invoice_table = $('.invoice_datatable').mDatatable({
 				data: {
@@ -429,7 +491,17 @@ let AccountReceivable = {
 
 		});
 
-		$('body').on('click', '.select-coa', function () {
+		$('#coa_datatables').on('click', '.select-coa', function() {
+			let tr = $(this).parents('tr');
+			let data = coa_datatables.row(tr).data();
+
+			$('input[name=accountcode]').val(data.code);
+			$('input[name=account_name]').val(data.name);
+
+			$('.modal').modal('hide');
+		});
+
+		$('#coa_datatables_adj').on('click', '.select-coa', function () {
 
 			coa_uuid = $(this).data('uuid');
 
@@ -446,7 +518,7 @@ let AccountReceivable = {
 					},
 					success: function (data) {
 
-						$('#coa_modal').modal('hide');
+						$('#coa_modal_adj').modal('hide');
 
 						adjustment_datatable.reload();
 
@@ -658,7 +730,7 @@ let AccountReceivable = {
 										timeOut: 2000
 									});
 								} else {
-									toastr.success('Data berhasil disimpan.', 'Sukses', {
+									toastr.success('Data saved', 'Sukses', {
 										timeOut: 2000
 									});
 
@@ -674,5 +746,5 @@ let AccountReceivable = {
 };
 
 jQuery(document).ready(function () {
-    AccountReceivable.init();
+    AccountReceivableEdit.init();
 });

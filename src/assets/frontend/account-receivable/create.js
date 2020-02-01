@@ -54,7 +54,7 @@ let AccountReceivable = {
 				]
 		})
 
-		let suuplier_invoice = $('.invoice_datatable').mDatatable({
+		let invoice = $('.invoice_datatable').mDatatable({
 				data: {
 						type: 'remote',
 						source: {
