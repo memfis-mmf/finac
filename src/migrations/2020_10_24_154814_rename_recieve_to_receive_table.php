@@ -13,10 +13,18 @@ class RenameRecieveToReceiveTable extends Migration
      */
     public function up()
     {
-		Schema::rename('a_recieves', 'a_receives');
-		Schema::rename('a_recieve_a', 'a_receive_a');
-		Schema::rename('a_recieve_b', 'a_receive_b');
-		Schema::rename('a_recieve_c', 'a_receive_c');
+		if (!Schema::hasTable('a_receives')) {
+			Schema::rename('a_recieves', 'a_receives');
+		}
+		if (!Schema::hasTable('a_receive_a')) {
+			Schema::rename('a_recieve_a', 'a_receive_a');
+		}
+		if (!Schema::hasTable('a_receive_b')) {
+			Schema::rename('a_recieve_b', 'a_receive_b');
+		}
+		if (!Schema::hasTable('a_receive_c')) {
+			Schema::rename('a_recieve_c', 'a_receive_c');
+		}
     }
 
     /**
