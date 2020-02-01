@@ -466,26 +466,43 @@ class InvoiceController extends Controller
 			$date_approve = $invoice->approvals->first()
 			->created_at->toDateTimeString();
 
-			$header = [
+			$header = (object) [
 				'voucher_no' => $invoice->transactionnumber,
 				'transaction_date' => $date_approve,
 				'coa' => $invoice->customer->coa()->first()->id,
 			];
+
+			$total_credit = 0;
 
 			for ($a=0; $a < count($data_detail); $a++) {
 				$x = $data_detail[$a];
 
 				$detail[] = (object) [
 					'coa_detail' => $x->accountcode,
-					'value' => $x->amount * $invoice->exchangerate,
+					'credit' => $x->amount * $invoice->exchangerate,
+					'debit' => 0,
+					'_desc' => 'detail invoice',
 				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
 			}
+
+			// add object in first array $detai
+			array_unshift(
+				$detail,
+				(object) [
+					'coa_detail' => $header->coa,
+					'credit' => 0,
+					'debit' => $total_credit,
+					'_desc' => 'coa header',
+				]
+			);
 
 			Invoice::where('id', $invoice->id)->update([
 				'approve' => 1
 			]);
 
-			TrxJournal::autoJournal( (object) $header, $detail, 'IVJR', 'SRJ', 'income');
+			TrxJournal::autoJournal($header, $detail, 'IVJR', 'SRJ');
 
 			DB::commit();
 

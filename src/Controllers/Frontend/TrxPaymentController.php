@@ -50,22 +50,39 @@ class TrxPaymentController extends Controller
 			$date_approve = $si->approvals->first()
 			->created_at->toDateTimeString();
 
-			$header = [
+			$header = (object) [
 				'voucher_no' => $si->transaction_number,
 				'transaction_date' => $date_approve,
 				'coa' => $si->vendor->coa()->first()->id,
 			];
+
+			$total_debit = 0;
 
 			for ($a=0; $a < count($data_detail); $a++) {
 				$x = $data_detail[$a];
 
 				$detail[] = (object) [
 					'coa_detail' => $x->coa->id,
-					'value' => $x->total * $si->exchange_rate,
+					'debit' => $x->total * $si->exchange_rate,
+					'credit' => 0,
+					'_desc' => 'detail Supplier Invoice',
 				];
+
+				$total_debit += $detail[count($detail)-1]->debit;
 			}
 
-			TrxJournal::autoJournal( (object) $header, $detail, 'IVJR', 'BPJ', 'outcome');
+			// add object in first array $detai
+			array_unshift(
+				$detail,
+				(object) [
+					'coa_detail' => $header->coa,
+					'credit' => $total_debit,
+					'debit' => 0,
+					'_desc' => 'coa header',
+				]
+			);
+
+			TrxJournal::autoJournal($header, $detail, 'IVJR', 'BPJ', 'outcome');
 
 			$si_tmp->update([
 				'approve' => 1
