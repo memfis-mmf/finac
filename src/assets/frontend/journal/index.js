@@ -88,7 +88,7 @@ let Journal = {
                     title: 'Ref Doc',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 60,
+                    width: 300,
                 },
                 {
                     field: 'currency_code',
