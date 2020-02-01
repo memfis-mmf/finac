@@ -615,7 +615,7 @@ let AccountReceivableEdit = {
 			});
 		});
 
-		let update_si = $('body').on('click', '#update_invoice', function () {
+		let update_invoice = $('body').on('click', '#update_invoice', function () {
 
 				let modal = $(this).parents('.modal');
 				let _data = {

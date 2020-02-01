@@ -47,6 +47,7 @@ class APBController extends Controller
 		$request->merge([
 			'description' => $request->description_b,
 			'debit' => $request->debit_b,
+			'credit' => $request->credit_b,
 		]);
 
 		APaymentB::where('uuid', $request->apaymentb)->update($request->only([

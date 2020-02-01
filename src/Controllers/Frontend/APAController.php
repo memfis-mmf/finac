@@ -7,10 +7,13 @@ use memfisfa\Finac\Model\TrxPayment;
 use memfisfa\Finac\Model\TrxPaymentA;
 use memfisfa\Finac\Model\APayment;
 use memfisfa\Finac\Model\APaymentA;
+use memfisfa\Finac\Model\APaymentB;
+use memfisfa\Finac\Model\APaymentC;
 use memfisfa\Finac\Request\APaymentAUpdate;
 use memfisfa\Finac\Request\APaymentAStore;
 use App\Http\Controllers\Controller;
 use App\Models\GoodsReceived as GRN;
+use DB;
 
 class APAController extends Controller
 {
@@ -72,7 +75,7 @@ class APAController extends Controller
 		$request->request->add([
 			'description' => '',
 			'transactionnumber' => $AP->transactionnumber,
-			'id_payment' => $x['transaction_number'],
+			'id_payment' => $si->id,
 			'currency' => $x['currency'],
 			'exchangerate' => $x['exchange_rate'],
 			'code' => $x['code'],
@@ -90,9 +93,45 @@ class APAController extends Controller
     public function update(APaymentAUpdate $request, APaymentA $apaymenta)
     {
 
-        $apaymenta->update($request->all());
+		DB::beginTransaction();
+		try {
 
-        return response()->json($apaymenta);
+	        $apaymenta->update($request->all());
+
+			$apa = $apaymenta;
+			$ap = $apa->ap;
+
+			$apc = APaymentC::where('id_payment', $apa->id_payment)
+			->where('transactionnumber', $apa->transactionnumber)
+			->first();
+
+			$difference = ($apa->debit * $ap->exchangerate) - ($apa->debit * $apa->exchangerate);
+
+			if ($apc) {
+				APaymentC::where('id', $apc->id)->update([
+					'difference' => $difference
+				]);
+			} else {
+				APaymentC::create([
+				    'transactionnumber' => $apa->transactionnumber,
+				    'id_payment' => $apa->id_payment,
+				    'code' => '81112003',
+				    'difference' => $difference,
+				]);
+			}
+
+			DB::commit();
+
+	        return response()->json($apaymenta);
+
+		} catch (\Exception $e) {
+
+			DB::rollBack();
+
+	        return response()->json($e->getMessage());
+
+		}
+
     }
 
     public function destroy(APaymentA $apaymenta)
@@ -118,13 +157,13 @@ class APAController extends Controller
 	{
 		// if id payment is GRN number
 		if (strpos($x->id_payment, "GRN") !== false) {
-			$grn = GRN::where('number', $x->id_payment)->first();
+			$grn = GRN::where('id', $x->id_payment)->first();
 			$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
 			$result = $trxpaymenta->si;
 		} else {
 			$result = TrxPayment::where(
-				'transaction_number',
+				'id',
 				$x->id_payment
 			)->first();
 		}
@@ -155,6 +194,7 @@ class APAController extends Controller
 		$APA = APaymentA::where('transactionnumber', $AP->transactionnumber)
 			->with([
 				'ap',
+				'currencies'
 			])
 			->get();
 
@@ -164,9 +204,6 @@ class APAController extends Controller
 			$APA[$i]->_transaction_number = $x->id_payment;
 			$APA[$i]->si = $this->getDataSI($x);
 			$APA[$i]->paid_amount = $this->countPaidAmount($x);
-			$APA[$i]->exchange_rate_gap = (
-				$APA[$i]->si->exchange_rate - $AP->exchangerate
-			);
 		}
 
         $data = $alldata = json_decode(

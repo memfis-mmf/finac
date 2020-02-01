@@ -90,17 +90,30 @@ class APayment extends MemfisModel
 		);
 	}
 
+	public function apb()
+	{
+		return $this->hasMany(
+			APaymentB::class,
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
+	public function apc()
+	{
+		return $this->hasMany(
+			APaymentC::class,
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
+
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'accountcode', 'code');
 	}
 
-	public function currency()
+	public function currencies()
 	{
-		return $this->hasOne(
-			'App\Models\Currency',
-			'code',
-			'currency_code'
-		);
+		return $this->belongsTo(Currency::class, 'currency', 'code');
 	}
 }

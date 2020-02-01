@@ -244,17 +244,9 @@ class TrxJournal extends MemfisModel
 		$header,
 		$detail,
 		$journal_prefix_number,
-		$journal_type,
-		$income_outcome
+		$journal_type
 	)
 	{
-		$x_position = 'credit';
-		$position = 'debit';
-
-		if ($income_outcome == 'outcome') {
-			$x_position = 'debit';
-			$position = 'credit';
-		}
 
 		$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
 		$data['ref_no'] = $header->voucher_no;
@@ -291,14 +283,6 @@ class TrxJournal extends MemfisModel
 			$total_debit += $x->debit;
 		}
 
-		// dd(
-		// 	$journal->voucher_no,
-		// 	json_decode(
-		// 		TrxJournalA::select(['debit', 'credit'])
-		// 		->where('voucher_no', $journal->voucher_no)->get()
-		// 	)
-		// );
-
 		$tmp_journal = TrxJournal::where('id', $journal->id);
 
 		$tmp_journal->update([
@@ -309,7 +293,7 @@ class TrxJournal extends MemfisModel
 		TrxJournal::approve($tmp_journal);
 
 		if ($total_debit == 0 || $total_debit != $total_credit) {
-			throw ValidationException::withMessages('Total cannot be 0');
+			throw ValidationException::withMessages([]);
 		}
 
 		return true;

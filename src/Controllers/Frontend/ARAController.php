@@ -13,6 +13,7 @@ use memfisfa\Finac\Request\AReceiveAStore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\GoodsReceived as GRN;
+use DB;
 
 class ARAController extends Controller
 {
@@ -51,7 +52,7 @@ class ARAController extends Controller
 		$request->request->add([
 			'description' => '',
 			'transactionnumber' => $AR->transactionnumber,
-			'id_invoice' => $invoice->transactionnumber,
+			'id_invoice' => $invoice->id,
 			'currency' => $currency,
 			'exchangerate' => $invoice->exchangerate,
 			'code' => $code,
@@ -69,31 +70,45 @@ class ARAController extends Controller
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
     {
 
-        $areceivea->update($request->all());
+		DB::beginTransaction();
+		try {
 
-		$ara = $areceivea;
-		$ar = $ara->ar;
+	        $areceivea->update($request->all());
 
-		$arc = AReceiveC::where('id_invoice', $ara->id_invoice)
-		->where('transactionnumber', $ara->transactionnumber)
-		->first();
+			$ara = $areceivea;
+			$ar = $ara->ar;
 
-		$difference = ($ara->credit * $ar->exchangerate) - ($ara->credit * $ara->exchangerate);
+			$arc = AReceiveC::where('id_invoice', $ara->id_invoice)
+			->where('transactionnumber', $ara->transactionnumber)
+			->first();
 
-		if ($arc) {
-			AReceiveC::where('id', $arc->id)->update([
-				'difference' => $difference
-			]);
-		} else {
-			AReceiveC::create([
-			    'transactionnumber' => $ara->transactionnumber,
-			    'id_invoice' => $ara->id_invoice,
-			    'code' => '81112003',
-			    'difference' => $difference,
-			]);
+			$difference = ($ara->credit * $ar->exchangerate) - ($ara->credit * $ara->exchangerate);
+
+			if ($arc) {
+				AReceiveC::where('id', $arc->id)->update([
+					'difference' => $difference
+				]);
+			} else {
+				AReceiveC::create([
+				    'transactionnumber' => $ara->transactionnumber,
+				    'id_invoice' => $ara->id_invoice,
+				    'code' => '81112003',
+				    'difference' => $difference,
+				]);
+			}
+
+			DB::commit();
+
+	        return response()->json($areceivea);
+
+		} catch (\Exception $e) {
+
+			DB::rollBack();
+
+			return response()->json($e->getMessage());
+
 		}
 
-        return response()->json($areceivea);
     }
 
     public function destroy(AReceiveA $areceivea)
@@ -118,7 +133,7 @@ class ARAController extends Controller
 	public function getDataInvoice($x)
 	{
 		$result = Invoice::where(
-			'transactionnumber',
+			'id',
 			$x->id_invoice
 		)->first();
 
@@ -158,9 +173,6 @@ class ARAController extends Controller
 			$ARA[$i]->_transaction_number = $x->id_invoice;
 			$ARA[$i]->invoice = $this->getDataInvoice($x);
 			$ARA[$i]->paid_amount = $this->countPaidAmount($x);
-			$ARA[$i]->exchange_rate_gap = (
-				$ARA[$i]->invoice->exchangerate - $AR->exchangerate
-			);
 		}
 
         $data = $alldata = json_decode(

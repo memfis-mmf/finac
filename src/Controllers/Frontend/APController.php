@@ -64,7 +64,7 @@ class APController extends Controller
 		$data['data'] = APayment::where(
 			'uuid', $request->apayment
 		)->with([
-			'currency',
+			'currencies',
 		])->first();
 
 		//if data already approved
@@ -139,7 +139,9 @@ class APController extends Controller
     public function datatables()
     {
         $data = $alldata = json_decode(APayment::orderBy('id', 'desc')->with([
-			'vendor'
+			'vendor',
+			'apa',
+			'coa',
 		])->get());
 
 		$datatable = array_merge([
@@ -412,8 +414,7 @@ class APController extends Controller
     {
 		$ap = APayment::where('uuid', $request->ap_uuid)->first();
 
-		$trxpayment_grn = TrxPayment::where('currency', $ap->currency)
-			->where('id_supplier', $request->id_vendor)
+		$trxpayment_grn = TrxPayment::where('id_supplier', $request->id_vendor)
 			->where('x_type', 'GRN')
 			->get();
 
@@ -433,8 +434,7 @@ class APController extends Controller
 			}
 		}
 
-		$trxpayment_non_grn = TrxPayment::where('currency', $ap->currency)
-			->where('id_supplier', $request->id_vendor)
+		$trxpayment_non_grn = TrxPayment::where('id_supplier', $request->id_vendor)
 			->where('x_type', 'NON GRN')
 			->get();
 
@@ -552,27 +552,93 @@ class APController extends Controller
 	            'conducted_by' => Auth::id(),
 	        ]));
 
-			$data_detail = $ap->apa;
+			$apa = $ap->apa;
+			$apb = $ap->apb;
+			$apc = $ap->apc;
 
 			$date_approve = $ap->approvals->first()
 			->created_at->toDateTimeString();
 
-			$header = [
+			$header = (object) [
 				'voucher_no' => $ap->transactionnumber,
 				'transaction_date' => $date_approve,
 				'coa' => $ap->coa->id,
 			];
 
-			for ($a=0; $a < count($data_detail); $a++) {
-				$x = $data_detail[$a];
+			$total_credit = 0;
+			$total_debit = 0;
+
+			// looping sebenayak supplier invoice
+			for ($a=0; $a < count($apa); $a++) {
+				$x = $apa[$a];
 
 				$detail[] = (object) [
 					'coa_detail' => $x->coa->id,
-					'value' => $x->debit * $ap->exchangerate,
+					'debit' => $x->debit * $ap->exchangerate,
+					'credit' => 0,
+					'_desc' => 'supplier-invoice',
 				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
+				$total_debit += $detail[count($detail)-1]->debit;
 			}
 
-			TrxJournal::autoJournal( (object) $header, $detail, 'CBPJ', 'BPJ', 'outcome');
+			// looping sebanyak adjustment
+			for ($a=0; $a < count($apb); $a++) {
+				$y = $apb[$a];
+
+				$detail[] = (object) [
+					'coa_detail' => $y->coa->id,
+					'credit' => $y->credit,
+					'debit' => $y->debit,
+					'_desc' => 'adjustment',
+				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
+				$total_debit += $detail[count($detail)-1]->debit;
+			}
+
+			// looping sebanyak gap
+			for ($a=0; $a < count($apc); $a++) {
+				$z = $apc[$a];
+
+				$side = 'debit';
+				$x_side = 'credit';
+				$val = $z->difference;
+
+				// jika difference bernilai minus
+				if ($z->difference < 1) {
+					$side = 'credit';
+					$x_side = 'debit';
+					$val = $z->difference * (-1);
+				}
+
+				$detail[] = (object) [
+					'coa_detail' => $z->coa->id,
+					$side => $val,
+					$x_side => 0,
+					'_desc' => 'gap',
+				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
+				$total_debit += $detail[count($detail)-1]->debit;
+			}
+
+			// add object in first array $detai
+			array_unshift(
+				$detail,
+				(object) [
+					'coa_detail' => $header->coa,
+					'credit' => $total_debit - $total_credit,
+					'debit' => 0,
+					'_desc' => 'coa bank',
+				]
+			);
+
+			// $total_credit += $detail[0]->credit;
+			// $total_debit += $detail[0]->debit;
+
+			TrxJournal::autoJournal($header, $detail, 'CBPJ', 'BPJ');
 
 			$ap_tmp->update([
 				'approve' => 1

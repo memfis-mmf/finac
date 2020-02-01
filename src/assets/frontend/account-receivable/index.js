@@ -121,7 +121,7 @@ let Journal = {
 										}
                 },
                 {
-                    field: '',
+                    field: 'coa.code',
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,

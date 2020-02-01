@@ -18,4 +18,9 @@ class APaymentB extends MemfisModel
 	    'credit',
 	    'description',
 	];
+
+	public function coa()
+	{
+		return $this->belongsTo(Coa::class, 'code', 'code');
+	}
 }

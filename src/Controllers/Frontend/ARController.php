@@ -21,6 +21,7 @@ class ARController extends Controller
 {
     public function index()
     {
+		$wew = 'x';
         return view('accountreceivableview::index');
     }
 
@@ -64,7 +65,7 @@ class ARController extends Controller
 		$data['data'] = AReceive::where(
 			'uuid', $request->areceive
 		)->with([
-			'currency',
+			'currencies',
 		])->first();
 
 		//if data already approved
@@ -141,6 +142,7 @@ class ARController extends Controller
         $data = $alldata = json_decode(AReceive::orderBy('id', 'desc')->with([
 			'customer',
 			'ara',
+			'coa',
 		])->get());
 
 		$datatable = array_merge([
@@ -628,9 +630,7 @@ class ARController extends Controller
 			// $total_credit += $detail[0]->credit;
 			// $total_debit += $detail[0]->debit;
 
-			TrxJournal::autoJournal(
-				$header, $detail, 'CBRJ', 'BRJ', 'income'
-			);
+			TrxJournal::autoJournal($header, $detail, 'CBRJ', 'BRJ');
 
 			$ar_tmp->update([
 				'approve' => 1

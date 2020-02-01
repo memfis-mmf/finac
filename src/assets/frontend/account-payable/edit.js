@@ -18,6 +18,68 @@ let AccountPayable = {
 			return x1 + x2;
 		}
 
+		let coa_datatables = $("#coa_datatables").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/account-receivable/coa/datatables",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
+
+		let coa_datatables_adj = $("#coa_datatables_adj").DataTable({
+				"dom": '<"top"f>rt<"bottom">pl',
+				responsive: !0,
+				searchDelay: 500,
+				processing: !0,
+				serverSide: !0,
+				lengthMenu: [5, 10, 25, 50],
+				pageLength: 5,
+				ajax: "/account-receivable/coa/datatables",
+				columns: [
+						{
+								data: 'code'
+						},
+						{
+								data: "name"
+						},
+						{
+								data: "Actions"
+						}
+				],
+				columnDefs: [{
+						targets: -1,
+						orderable: !1,
+						render: function (a, e, t, n) {
+								return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+						}
+				},
+
+				]
+		})
+
 		let supplier_invoice_table = $('.supplier_invoice_datatable').mDatatable({
 				data: {
 						type: 'remote',
@@ -117,7 +179,16 @@ let AccountPayable = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.debit));
+								return t.currencies.symbol+' '+addCommas(parseInt(t.debit));
+							}
+						},
+						{
+							field: '',
+							title: 'Amount to Pay IDR',
+							sortable: 'asc',
+							filterable: !1,
+							template: function(t, e, i) {
+								return 'Rp '+addCommas(parseInt(t.debit * t.ap.exchangerate));
 							}
 						},
 						{
@@ -126,7 +197,11 @@ let AccountPayable = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.exchange_rate_gap));
+								return 'Rp '+addCommas(
+									parseInt(
+										(t.debit * t.ap.exchangerate) - (t.debit * t.exchangerate)
+									)
+								);
 							}
 						},
 						{
@@ -313,6 +388,9 @@ let AccountPayable = {
 							title: 'Exchange Rate',
 							sortable: 'asc',
 							filterable: !1,
+							template: function (t, e, i) {
+								return addCommas(parseInt(t.exchange_rate));
+							}
 						},
 						{
 							field: 'grandtotal',
@@ -401,6 +479,7 @@ let AccountPayable = {
 							$('#modal_create_supplier_invoice').modal('hide');
 
 							supplier_invoice_table.reload();
+							supplier_invoice_modal_table.reload();
 
 							toastr.success('Data tersimpan', 'Sukses', {
 								timeOut: 2000
@@ -412,7 +491,17 @@ let AccountPayable = {
 
 		});
 
-		$('body').on('click', '.select-coa', function () {
+		$('#coa_datatables').on('click', '.select-coa', function() {
+			let tr = $(this).parents('tr');
+			let data = coa_datatables.row(tr).data();
+
+			$('input[name=accountcode]').val(data.code);
+			$('input[name=account_name]').val(data.name);
+
+			$('.modal').modal('hide');
+		});
+
+		$('#coa_datatables_adj').on('click', '.select-coa', function () {
 
 			coa_uuid = $(this).data('uuid');
 
@@ -429,7 +518,7 @@ let AccountPayable = {
 					},
 					success: function (data) {
 
-						$('#coa_modal').modal('hide');
+						$('#coa_modal_adj').modal('hide');
 
 						adjustment_datatable.reload();
 
@@ -528,9 +617,12 @@ let AccountPayable = {
 
 		let update_si = $('body').on('click', '#update_supplier_invoice', function () {
 
-				let form = $(this).parents('form');
-				let _data = form.serialize();
-				let si_uuid = form.find('input[name=si_uuid]').val();
+				let modal = $(this).parents('.modal');
+				let _data = {
+					'debit' : modal.find('input[name=debit]').val(),
+					'description' : modal.find('[name=description]').val()
+				};
+				let si_uuid = modal.find('input[name=si_uuid]').val();
 
 				$.ajax({
 						headers: {
@@ -566,7 +658,9 @@ let AccountPayable = {
 
 			$(target).find('input[name=si_uuid]').val(uuid);
 			$(target).find('[name=description]').val(data.description);
-			$(target).find('input[name=debit]').val(data.debit);
+			$(target).find('input[name=debit]').val(
+				parseInt(data.debit)
+			);
 
 			$(target).modal('show');
 		})
@@ -580,9 +674,9 @@ let AccountPayable = {
 			let data = adjustment_datatable.row(tr).data().mDatatable.dataSet[tr_index];
 
 			$(target).find('input[name=_uuid]').val(uuid);
-			$(target).find('[name=debit_b]').val(data.debit);
-			$(target).find('[name=credit]').val(data.credit);
-			$(target).find('[name=description]').val(data.description);
+			$(target).find('[name=debit_b]').val(parseInt(data.debit));
+			$(target).find('[name=credit_b]').val(parseInt(data.credit));
+			$(target).find('[name=description_b]').val(data.description);
 
 			$(target).modal('show');
 		})
@@ -606,7 +700,7 @@ let AccountPayable = {
 										timeOut: 2000
 									});
 								} else {
-									toastr.success('Data berhasil disimpan.', 'Sukses', {
+									toastr.success('Data saved', 'Sukses', {
 										timeOut: 2000
 									});
 
@@ -636,7 +730,7 @@ let AccountPayable = {
 										timeOut: 2000
 									});
 								} else {
-									toastr.success('Data berhasil disimpan.', 'Sukses', {
+									toastr.success('Data saved', 'Sukses', {
 										timeOut: 2000
 									});
 

@@ -104,14 +104,24 @@ let Journal = {
 										}
                 },
                 {
-                    field: '',
+                    field: 'apa.debit',
                     title: 'Total Transaction',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											let total = 0;
+											for (var i = 0; i < t.apa.length; i++) {
+												x = t.apa[i];
+
+												total += x.debit;
+											}
+
+											return addCommas(parseInt(total));
+										}
                 },
                 {
-                    field: '',
+                    field: 'coa.code',
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,

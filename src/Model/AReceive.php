@@ -113,12 +113,8 @@ class AReceive extends MemfisModel
 		return $this->belongsTo(Coa::class, 'accountcode', 'code');
 	}
 
-	public function currency()
+	public function currencies()
 	{
-		return $this->hasOne(
-			'App\Models\Currency',
-			'code',
-			'currency_code'
-		);
+		return $this->belongsTo(Currency::class, 'currency', 'code');
 	}
 }

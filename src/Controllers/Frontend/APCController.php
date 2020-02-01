@@ -8,8 +8,6 @@ use memfisfa\Finac\Request\APaymentCUpdate;
 use memfisfa\Finac\Request\APaymentCStore;
 use App\Http\Controllers\Controller;
 
-
-
 class APCController extends Controller
 {
     public function index()

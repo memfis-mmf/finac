@@ -4,6 +4,7 @@ namespace memfisfa\Finac\Model;
 
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Currency;
 
 class APaymentA extends MemfisModel
 {
@@ -40,5 +41,10 @@ class APaymentA extends MemfisModel
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'code', 'code');
+	}
+
+	public function currencies()
+	{
+		return $this->belongsTo(Currency::class, 'currency', 'code');
 	}
 }
