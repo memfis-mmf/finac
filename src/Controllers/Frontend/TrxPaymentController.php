@@ -82,7 +82,7 @@ class TrxPaymentController extends Controller
 				]
 			);
 
-			TrxJournal::autoJournal($header, $detail, 'IVJR', 'BPJ', 'outcome');
+			TrxJournal::autoJournal($header, $detail, 'IVJR', 'BPJ');
 
 			$si_tmp->update([
 				'approve' => 1
