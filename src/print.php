@@ -80,10 +80,12 @@ Route::get('/customer-trial-balance-docs', function () {
 
 Route::get('/outstanding-invoices-docs', function () {
     $pdf = \PDF::loadView('formview::outstanding-invoices');
+    $pdf->setPaper('A4', 'landscape');
     return $pdf->stream();
 });
 
 Route::get('/aging-receivable-detail-docs', function () {
     $pdf = \PDF::loadView('formview::aging-receivable-detail-docs');
+    $pdf->setPaper('A4', 'landscape');
     return $pdf->stream();
 });
