@@ -27,7 +27,7 @@
             right: 0cm;
             height: 46px;
         }
-        
+
         ul li{
             display: inline-block;
         }
@@ -82,7 +82,7 @@
         <img src="./vendor/courier/img/form/invoice/header.jpg" alt=""width="100%">
         <div id="head">
             <div style="margin-right:20px;text-align:center;">
-                <h3 style="font-size:40px;">INVOICE <br> <span style="font-size:12px;">INVC/2019/09/000001</span></h3>
+                <h3 style="font-size:40px;">INVOICE <br> <span style="font-size:16px;">INVC/2019/09/000001</span></h3>
             </div>
         </div>
     </header>
@@ -91,7 +91,7 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    {{-- <td><b>Form No : F02-1234</b></td> --}}
+                    <!-- {{-- <td><b>Form No : F02-1234</b></td> --}} -->
 		                <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by->name }} ; </span> </td>
 										<td style="text-align:right">
 											<i>
