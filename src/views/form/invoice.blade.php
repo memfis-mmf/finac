@@ -25,8 +25,9 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 1.8cm;
+            height: 46px;
         }
+
         ul li{
             display: inline-block;
         }
@@ -55,7 +56,7 @@
         #content{
             width:100%;
             margin-top:135px;
-            height: 115px;
+            height: 125px;
             background: #ccdfe8;
         }
 
@@ -78,10 +79,10 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/invoice/Header.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/invoice/header.jpg" alt=""width="100%">
         <div id="head">
             <div style="margin-right:20px;text-align:center;">
-                <h3 style="font-size:40px;">INVOICE <br> <span style="font-size:12px;">INVC/2019/09/000001</span></h3>
+                <h3 style="font-size:40px;">INVOICE <br> <span style="font-size:16px;">INVC/2019/09/000001</span></h3>
             </div>
         </div>
     </header>
@@ -90,7 +91,7 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    {{-- <td><b>Form No : F02-1234</b></td> --}}
+                    <!-- {{-- <td><b>Form No : F02-1234</b></td> --}} -->
 		                <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by->name }} ; </span> </td>
 										<td style="text-align:right">
 											<i>
@@ -100,7 +101,7 @@
                 </tr>
             </table>
         </div>
-        <img src="./vendor/courier/img/form/invoice/Footer.png" width="100%" alt="" >
+        <img src="./vendor/courier/img/form/invoice/footer.jpg" width="100%" alt="" >
     </footer>
 
     <div id="content">
