@@ -6,10 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        @page {
+            margin: 0cm 0cm;
+        }
+
         html,body{
             padding: 0;
             margin: 0;
             font-size: 12px;
+        }
+
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 4.4cm;
+            margin-bottom: 2cm;
         }
 
         header {
@@ -25,7 +35,7 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 1.8cm;
+            height: 1.4cm;
         }
         ul li{
             display: inline-block;
@@ -39,7 +49,6 @@
             top:20px;
             left: 510px;
             position: absolute;
-            color: #5c5b5b;
         }
 
         .container{
@@ -54,9 +63,9 @@
 
         #content{
             width:100%;
-            margin-top:135px;
             height: 115px;
-            background: #ccdfe8;
+            margin-top: -30px;
+            background: #e6f2f7;
         }
 
         #content2{
@@ -78,13 +87,12 @@
             border-bottom:  1px solid  #d4d7db;
         }
 
-        #content4-pagebreak{
-            margin-top:155px;
-        }
-        
-
         .page_break {
             page-break-before: always;
+        }
+
+        footer .page-number:after { 
+            content: counter(page); 
         }
     </style>
 </head>
@@ -99,12 +107,14 @@
     </header>
 
     <footer>
-        <table width="100%">
-            <tr>
-                <td>  <span style="margin-left:6px;">Created By :  ;  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  ; </span> </td>
-            </tr>
-        </table>
-        <img src="./vendor/courier/img/form/invoice/Footer.png" width="100%" alt="" >
+        <div class="container">
+            <table width="100%">
+                <tr>
+                    <td align="right"> <span class="page-number">Page </span>  </td>
+                </tr>
+            </table>
+        </div>
+        <img src="./vendor/courier/img/form/invoice/Footer-Invoice.png" width="100%" alt="" >
     </footer>
      
     {{-- LAMPIRAN 1 --}}
@@ -161,7 +171,7 @@
                     </tr>
                     <tr>
                         <td width="10%" align="center" valign="top">1</td>
-                        <td width="90%" valign="top">
+                        <td width="90%" valign="top" style="line-height:20px;">
                             <b>Generate dari Job Description Quotation / WP Title :</b>
                             <br>
                             <div style="padding-left:8px;">
@@ -189,53 +199,30 @@
 
         <div id="content4">
             <div class="container">
-                <table width="100%" cellpadding="4" border="1">
-                    <tr style="background:#ffdcc2;">
-                        <td align="center" width="5%">No</td>
-                        <td align="center" width="20%">Part Number</td>
-                        <td align="center" width="50%">Item Description</td>
-                        <td align="center" width="12%">Qty</td>
-                        <td align="center" width="13%">Unit</td>
-                    </tr>
-                    @for($i = 1; $i < 20; $i++)
-                        <tr>
-                            <td align="center" valign="top" width="5%">1</td>
-                            <td align="center" valign="top" width="20%">generate</td>
-                            <td valign="top" width="50%">Lorem ipsum dolor, </td>
-                            <td align="center" valign="top" width="12%">123</td>
-                            <td align="center" valign="top" width="13%">generate</td>
+                <table width="100%" cellpadding="4" border="1" page-break-inside: auto;>
+                    <thead>
+                        <tr style="background:#ffdcc2;">
+                            <td align="center" width="5%">No</td>
+                            <td align="center" width="20%">Part Number</td>
+                            <td align="center" width="50%">Item Description</td>
+                            <td align="center" width="12%">Qty</td>
+                            <td align="center" width="13%">Unit</td>
                         </tr>
-                    @endfor
+                    </thead>
+                    <tbody>
+                        @for($i = 1; $i < 45; $i++)
+                            <tr>
+                                <td align="center" valign="top" width="5%">1</td>
+                                <td align="center" valign="top" width="20%">generate</td>
+                                <td valign="top" width="50%">Lorem ipsum dolor, </td>
+                                <td align="center" valign="top" width="12%">123</td>
+                                <td align="center" valign="top" width="13%">generate</td>
+                            </tr>
+                        @endfor
+                    </tbody>
                 </table>
             </div>
         </div>
-
-        @if(100>20)
-            <div class="page_break">
-                <div id="content4-pagebreak">
-                    <div class="container">
-                        <table width="100%" cellpadding="4" border="1">
-                            <tr style="background:#ffdcc2;">
-                                <td align="center" width="5%">No</td>
-                                <td align="center" width="20%">Part Number</td>
-                                <td align="center" width="50%">Item Description</td>
-                                <td align="center" width="12%">Qty</td>
-                                <td align="center" width="13%">Unit</td>
-                            </tr>
-                            @for($i = 1; $i < 30; $i++)
-                                <tr>
-                                    <td align="center" valign="top" width="5%">1</td>
-                                    <td align="center" valign="top" width="20%">generate</td>
-                                    <td valign="top" width="50%">Lorem ipsum dolor, </td>
-                                    <td align="center" valign="top" width="12%">123</td>
-                                    <td align="center" valign="top" width="13%">generate</td>
-                                </tr>
-                            @endfor
-                        </table>
-                    </div>
-                </div>
-            <div>
-        @endif
     </div>
 
 
@@ -289,7 +276,7 @@
                         </tr>
                         <tr>
                             <td width="10%" align="center" valign="top">2</td>
-                            <td width="90%" valign="top">
+                            <td width="90%" valign="top" style="line-height:20px;">
                                 <b>Generate dari Job Description Quotation / WP Title :</b>
                                 <br>
                                 <div style="padding-left:8px;">
@@ -311,33 +298,8 @@
             </div>
             <div id="content4">
                 <div class="container">
-                    <table width="100%" cellpadding="4" border="1">
-                        <tr style="background:#ffdcc2;">
-                            <td align="center" width="5%">No</td>
-                            <td align="center" width="20%">Part Number</td>
-                            <td align="center" width="50%">Item Description</td>
-                            <td align="center" width="12%">Qty</td>
-                            <td align="center" width="13%">Unit</td>
-                        </tr>
-                        @for($i = 1; $i < 20; $i++)
-                            <tr>
-                                <td align="center" valign="top" width="5%">1</td>
-                                <td align="center" valign="top" width="20%">generate</td>
-                                <td valign="top" width="50%">Lorem ipsum dolor, </td>
-                                <td align="center" valign="top" width="12%">123</td>
-                                <td align="center" valign="top" width="13%">generate</td>
-                            </tr>
-                        @endfor
-                    </table>
-                </div>
-            </div>
-        <div>
-
-        @if(100>20)
-            <div class="page_break">
-                <div id="content4-pagebreak">
-                    <div class="container">
-                        <table width="100%" cellpadding="4" border="1">
+                    <table width="100%" cellpadding="4" border="1"  page-break-inside: auto;>
+                        <thead>
                             <tr style="background:#ffdcc2;">
                                 <td align="center" width="5%">No</td>
                                 <td align="center" width="20%">Part Number</td>
@@ -345,7 +307,9 @@
                                 <td align="center" width="12%">Qty</td>
                                 <td align="center" width="13%">Unit</td>
                             </tr>
-                            @for($i = 1; $i < 30; $i++)
+                        </thead>
+                        <tbody>
+                            @for($i = 1; $i < 120; $i++)
                                 <tr>
                                     <td align="center" valign="top" width="5%">1</td>
                                     <td align="center" valign="top" width="20%">generate</td>
@@ -354,11 +318,11 @@
                                     <td align="center" valign="top" width="13%">generate</td>
                                 </tr>
                             @endfor
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-            <div>
-        @endif
+            </div>
+        <div>
     </div>
 </body>
 </html>
