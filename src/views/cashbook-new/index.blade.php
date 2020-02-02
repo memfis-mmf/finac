@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                    <a href="{{url('cashbook-new/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                    <a href="{{url('cashbook/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                             <i class="la la-plus-circle"></i>
                                             <span>Cashbook</span>
                                         </span>
@@ -93,7 +93,7 @@ $(document).on("click", ".open-AddUuidApproveDialog", function () {
      var uuid = $(this).data('uuid');
      //console.log(uuid);
      $(".modal-body #uuid-approve").val(uuid);
-     // As pointed out in comments, 
+     // As pointed out in comments,
      // it is unnecessary to have to manually call the modal.
      // $('#addBookDialog').modal('show');
 });

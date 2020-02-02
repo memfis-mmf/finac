@@ -57,8 +57,12 @@
                                             Cashbook Type @include('label::required')
                                         </label>
 
+																				<select class="form-control m-input select2" name="cashbook_type" id="cashbook_types">
+
+																				</select>
+
                                         @component('input::select')
-                                            @slot('id', 'cashbook_type')
+                                            @slot('id', 'cashbook_types')
                                             @slot('name', 'cashbook_type')
                                             @slot('text', 'Cashbook Type')
                                             @slot('style', 'width:100%')

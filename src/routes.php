@@ -28,6 +28,61 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables/modal','memfisfa\Finac\Controllers\Frontend\CoaController@basicModal');
 	});
 
+    Route::prefix('cashbook')->group(function () {
+		Route::get(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@index'
+		)->name('cashbook.index');
+		Route::get(
+			'/create',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@create'
+		)->name('cashbook.create');
+		Route::get(
+			'/export',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@export'
+		)->name('cashbook.export');
+		Route::get(
+			'/type',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@getdata'
+		);
+		Route::post(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@store'
+		)->name('cashbook.store');
+		Route::put(
+			'/{cashbook}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@update'
+		)->name('cashbook.update');
+		Route::delete(
+			'/{cashbook}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@destroy'
+		)->name('cashbook.delete');
+		Route::get(
+			'/datatables',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@datatables'
+		)->name('cashbook.datatables');
+		Route::get(
+			'/{cashbook}/edit',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@edit'
+		);
+		Route::get(
+			'/type/{id}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@gettype'
+		);
+		Route::get(
+			'/data',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@api'
+		);
+		Route::get(
+			'/data/{cashbook}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@apidetail'
+		);
+		Route::get(
+			'/datatables/modal',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@basicModal'
+		);
+	});
+
     Route::prefix('journal')->group(function () {
 		Route::get(
 			'/',
@@ -693,57 +748,57 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
-	Route::prefix('cashbook')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
-		Route::delete('/{cashbook}', 'memfisfa\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
-		Route::post('/{cashbook}/approve', 'memfisfa\Finac\Controllers\Frontend\CashbookController@approve')->name('cashbook.approve');
-		Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook.datatable');
-	});
-
-	Route::prefix('cashbook-bpj')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@index')->name('cashbook-bpj.index');
-		Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@create')->name('cashbook-bpj.create');
-		Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@store')->name('cashbook-bpj.store');
-		Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@edit')->name('cashbook-bpj.edit');
-		Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-bpj.datatable');
-		Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookBPJController@detail')->name('cashbook-bpj.datatabledetail');
-		Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBPJController@update')->name('cashbook-bpj.update');
-		Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBPJController@show')->name('cashbook-bpj.show');
-	});
-
-
-	Route::prefix('cashbook-brj')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@index')->name('cashbook-brj.index');
-		Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@create')->name('cashbook-brj.create');
-		Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@store')->name('cashbook-brj.store');
-		Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@edit')->name('cashbook-brj.edit');
-		Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-brj.datatable');
-		Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookBRJController@detail')->name('cashbook-brj.datatabledetail');
-		Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBRJController@update')->name('cashbook-brj.update');
-		Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBRJController@show')->name('cashbook-brj.show');
-	});
-
-	Route::prefix('cashbook-cpj')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@index')->name('cashbook-cpj.index');
-		Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@create')->name('cashbook-cpj.create');
-		Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@store')->name('cashbook-cpj.store');
-		Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@edit')->name('cashbook-cpj.edit');
-		Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-cpj.datatable');
-		Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookCPJController@detail')->name('cashbook-cpj.datatabledetail');
-		Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCPJController@update')->name('cashbook-cpj.update');
-		Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCPJController@show')->name('cashbook-cpj.show');
-	});
-
-	Route::prefix('cashbook-crj')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@index')->name('cashbook-crj.index');
-		Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@create')->name('cashbook-crj.create');
-		Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@store')->name('cashbook-crj.store');
-		Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@edit')->name('cashbook-crj.edit');
-		Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-crj.datatable');
-		Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookCRJController@detail')->name('cashbook-crj.datatabledetail');
-		Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCRJController@update')->name('cashbook-crj.update');
-		Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCRJController@show')->name('cashbook-crj.show');
-	});
+	// Route::prefix('cashbook')->group(function () {
+	// 	Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookController@index')->name('cashbook.index');
+	// 	Route::delete('/{cashbook}', 'memfisfa\Finac\Controllers\Frontend\CashbookController@destroy')->name('cashbook.destroy');
+	// 	Route::post('/{cashbook}/approve', 'memfisfa\Finac\Controllers\Frontend\CashbookController@approve')->name('cashbook.approve');
+	// 	Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook.datatable');
+	// });
+	//
+	// Route::prefix('cashbook-bpj')->group(function () {
+	// 	Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@index')->name('cashbook-bpj.index');
+	// 	Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@create')->name('cashbook-bpj.create');
+	// 	Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@store')->name('cashbook-bpj.store');
+	// 	Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookBPJController@edit')->name('cashbook-bpj.edit');
+	// 	Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-bpj.datatable');
+	// 	Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookBPJController@detail')->name('cashbook-bpj.datatabledetail');
+	// 	Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBPJController@update')->name('cashbook-bpj.update');
+	// 	Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBPJController@show')->name('cashbook-bpj.show');
+	// });
+	//
+	//
+	// Route::prefix('cashbook-brj')->group(function () {
+	// 	Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@index')->name('cashbook-brj.index');
+	// 	Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@create')->name('cashbook-brj.create');
+	// 	Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@store')->name('cashbook-brj.store');
+	// 	Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookBRJController@edit')->name('cashbook-brj.edit');
+	// 	Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-brj.datatable');
+	// 	Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookBRJController@detail')->name('cashbook-brj.datatabledetail');
+	// 	Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBRJController@update')->name('cashbook-brj.update');
+	// 	Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookBRJController@show')->name('cashbook-brj.show');
+	// });
+	//
+	// Route::prefix('cashbook-cpj')->group(function () {
+	// 	Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@index')->name('cashbook-cpj.index');
+	// 	Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@create')->name('cashbook-cpj.create');
+	// 	Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@store')->name('cashbook-cpj.store');
+	// 	Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookCPJController@edit')->name('cashbook-cpj.edit');
+	// 	Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-cpj.datatable');
+	// 	Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookCPJController@detail')->name('cashbook-cpj.datatabledetail');
+	// 	Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCPJController@update')->name('cashbook-cpj.update');
+	// 	Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCPJController@show')->name('cashbook-cpj.show');
+	// });
+	//
+	// Route::prefix('cashbook-crj')->group(function () {
+	// 	Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@index')->name('cashbook-crj.index');
+	// 	Route::get('/create', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@create')->name('cashbook-crj.create');
+	// 	Route::post('/', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@store')->name('cashbook-crj.store');
+	// 	Route::get('/{cashbook}/edit', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController@edit')->name('cashbook-crj.edit');
+	// 	Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookController@datatables')->name('cashbook-crj.datatable');
+	// 	Route::post('/datatables','memfisfa\Finac\Controllers\Frontend\CashbookCRJController@detail')->name('cashbook-crj.datatabledetail');
+	// 	Route::post('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCRJController@update')->name('cashbook-crj.update');
+	// 	Route::get('/{cashbook}','memfisfa\Finac\Controllers\Frontend\CashbookCRJController@show')->name('cashbook-crj.show');
+	// });
 
 	Route::prefix('invoice')->group(function () {
 		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
