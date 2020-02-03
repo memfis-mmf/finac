@@ -41,7 +41,7 @@ let TrialBalance = {
                         }
                     }
                 },
-                pageSize: 10,
+                pageSize: 100,
                 serverPaging: !1,
                 serverFiltering: !0,
                 serverSorting: !1
@@ -71,54 +71,90 @@ let TrialBalance = {
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 90,
+                    template: function(t, e, i) {
+                        if (t.code.slice(-2) == '00') {
+                            return '<b>' + t.code + '</b>';
+                        }
+                        else
+                            return t.code;
+                        
+                    }
                 },
                 {
                     field: 'name',
                     title: 'Account Name',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 200
+                    width: 300,
+                    template: function(t, e, i) {
+                        if (t.code.slice(-2) == '00') {
+                            return '<b>' + t.name + '</b>';
+                        }
+                        else
+                            return t.name;
+                        
+                    }
                 },
                 {
                     field: 'LastBalance',
                     title: 'Begining Balance',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 140,
-										template: function(t, e, i) {
-											return addCommas(parseInt(t.LastBalance));
-										}
+                    width: 110,
+                    template: function(t, e, i) {
+                        if (t.code.slice(-2) == '00') {
+                            return '<b>' + addCommas(parseInt(t.LastBalance)) + '</b>';
+                        }
+                        else
+                            return addCommas(parseInt(t.LastBalance));
+                        
+                    }
                 },
                 {
                     field: 'Debit',
                     title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 140,
-										template: function(t, e, i) {
-											return addCommas(parseInt(t.Debit));
-										}
+                    width: 80,
+                    template: function(t, e, i) {
+                        if (t.code.slice(-2) == '00') {
+                            return '<b>' + addCommas(parseInt(t.Debit)) + '</b>';
+                        }
+                        else
+                            return addCommas(parseInt(t.Debit));
+                        
+                    }
                 },
                 {
                     field: 'Credit',
                     title: 'Credit',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 140,
-										template: function(t, e, i) {
-											return addCommas(parseInt(t.Credit));
-										}
+                    width: 80,
+					template: function(t, e, i) {
+                        if (t.code.slice(-2) == '00') {
+                            return '<b>' + addCommas(parseInt(t.Credit)) + '</b>';
+                        }
+                        else
+                            return addCommas(parseInt(t.Credit));
+                        
+                    }
                 },
                 {
                     field: 'EndingBalance',
                     title: 'Ending Balance',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 140,
-										template: function(t, e, i) {
-											return addCommas(parseInt(t.EndingBalance));
-										}
+                    width: 100,
+					template: function(t, e, i) {
+                        if (t.code.slice(-2) == '00') {
+                            return '<b>' + addCommas(parseInt(t.EndingBalance)) + '</b>';
+                        }
+                        else
+                            return addCommas(parseInt(t.EndingBalance));
+                        
+                    }
                 },
             ]
         });
