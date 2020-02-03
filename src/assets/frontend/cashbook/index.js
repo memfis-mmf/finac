@@ -84,7 +84,7 @@ let Cashbook = {
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'description',
                     title: 'Description',
                     sortable: 'asc',
                     filterable: !1,
@@ -243,8 +243,8 @@ let Cashbook = {
                                 );
                             }
                         }
-                        
-                        
+
+
                     }
                 }
             ]
@@ -269,7 +269,7 @@ let Cashbook = {
 
         let approve = $('.modal-footer').on('click', '.add', function () {
             let triggerid = $("#uuid-approve").val();
-            
+
 
             $.ajax({
                 headers: {
@@ -286,7 +286,7 @@ let Cashbook = {
                             $('#code-error').html(data.errors.code[0]);
 
 
-                          
+
                         }
 
 
@@ -461,7 +461,7 @@ let Cashbook = {
         });
 
 
-        
+
 
     }
 };

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use memfisfa\Finac\Model\Cashbook;
 use App\Models\Approval;
+use App\Models\Department;
+use App\Models\Currency;
 use Illuminate\Support\Facades\Auth;
 
 class CashbookController extends Controller
@@ -37,6 +39,7 @@ class CashbookController extends Controller
 
 	public function transactionNumber($value)
 	{
+
 		switch ($value) {
 			case 'bp':
 				$result = 'CBPJ';
@@ -53,7 +56,7 @@ class CashbookController extends Controller
 			case 'cr':
 				$result = 'CCRJ';
 				break;
-			
+
 			default:
 				'';
 				break;
@@ -61,13 +64,13 @@ class CashbookController extends Controller
 
 		return $result;
 	}
-	
+
 
     public function store(Request $request)
     {
 		$request->request->add([
 			'transactionnumber' => Cashbook::generateCode(
-				$this->transactionnumber()
+				$this->transactionnumber($request->cashbook_type)
 			)
 		]);
 
@@ -78,13 +81,17 @@ class CashbookController extends Controller
     public function edit(Cashbook $cashbook)
     {
 		$data['cashbook'] = $cashbook;
+		$data['department'] = Department::all();
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full_name'
+		)->whereIn('code',['idr','usd'])
+		->get();
 
 		return view('cashbooknewview::edit', $data);
     }
 
     public function update(Request $request, Cashbook $cashbook)
     {
-
         $cashbook->update($request->all());
 
         return response()->json($cashbook);
@@ -146,9 +153,7 @@ class CashbookController extends Controller
 
     public function datatables()
     {
-		$data = $alldata = json_decode(Cashbook::with([
-			'type'
-		])->get());
+		$data = $alldata = json_decode(Cashbook::all());
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 

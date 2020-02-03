@@ -31,7 +31,7 @@ class Cashbook extends MemfisModel
     {
         return $this->morphMany(Approval::class, 'approvable');
     }
-	
+
 	static public function generateCode($code = "SITR")
 	{
 		$data = Cashbook::orderBy('id', 'desc')
@@ -54,5 +54,10 @@ class Cashbook extends MemfisModel
 		$code = $code."-".date('Y/m')."/".$number;
 
 		return $code;
+	}
+
+	public function coa()
+	{
+		return $this->belongsTo(Coa::class, 'accountcode', 'code');
 	}
 }

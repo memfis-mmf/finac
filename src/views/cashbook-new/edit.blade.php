@@ -56,13 +56,16 @@
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            Cashbook Type @include('label::required')
-                                        </label>
+																			<label class="form-control-label">
+																					Cashbook Type @include('label::required')
+																			</label>
 
-																				<select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types">
-																					<option value="cr">Cash Receive</option>
-																				</select>
+																			<select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types" disabled>
+																					<option value="bp" {{ (strpos($cashbook->transactionnumber, 'CBPJ') !== false)? 'selected': '' }}>Bank Payment</option>
+																					<option value="br" {{ (strpos($cashbook->transactionnumber, 'CBRJ') !== false)? 'selected': '' }}>Bank Receive</option>
+																					<option value="cp" {{ (strpos($cashbook->transactionnumber, 'CCPJ') !== false)? 'selected': '' }}>Cash Payment</option>
+																					<option value="cr" {{ (strpos($cashbook->transactionnumber, 'CCRJ') !== false)? 'selected': '' }}>Cash Receive</option>
+																			</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -74,6 +77,7 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
+																						@slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -82,24 +86,30 @@
                                         <label class="form-control-label">
                                             Department @include('label::required')
                                         </label>
-
-                                        @component('input::select')
-                                            @slot('id', 'department')
-                                            @slot('name', 'company_department')
-                                            @slot('text', 'Department')
-                                        @endcomponent
+																				<select name="company_department" id="company_department" class="form-control _select2">
+																					<option value="">-- Select --</option>
+																					@for ($index_department = 0; $index_department < count($department); $index_department++)
+																						<option
+																							value="{{$department[$index_department]->name}}"
+																							{{($cashbook->company_department == $department[$index_department]->name)? 'selected' : ''}}
+																						>
+																							{{$department[$index_department]->name}}
+																						</option>
+																					@endfor
+																				</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            Location @include('label::required')
-                                        </label>
+																			<label class="form-control-label">
+																				Location
+																			</label>
 
-                                        @component('input::select')
-                                            @slot('id', 'location')
-                                            @slot('name', 'location')
-                                            @slot('text', 'Location')
-                                        @endcomponent
-                                        {{-- default surabaya, jakarta, biak --}}
+																			<select class="form-control _select2" name="location" style="width:100%">
+																				<option value=""></option>
+																				<option value="sidoarjo" {{(strtolower($cashbook->location) == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
+																				<option value="surabaya" {{(strtolower($cashbook->location) == 'surabaya')? 'selected': ''}}>Surabaya</option>
+																				<option value="jakarta" {{(strtolower($cashbook->location) == 'jakarta')? 'selected': ''}}>Jakarta</option>
+																				<option value="biak" {{(strtolower($cashbook->location) == 'biak')? 'selected': ''}}>Biak</option>
+																			</select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -111,8 +121,9 @@
                                         @component('input::text')
                                             @slot('id', 'payment_to')
                                             @slot('text', 'Payment To')
-                                            @slot('name', 'payment_to')
+                                            @slot('name', 'personal')
                                             @slot('id_error', 'payment_to')
+																						@slot('value', $cashbook->personal)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -123,8 +134,9 @@
                                         @component('input::text')
                                             @slot('id', 'ref_no')
                                             @slot('text', 'Ref No')
-                                            @slot('name', 'ref_no')
+                                            @slot('name', 'refno')
                                             @slot('id_error', 'ref_no')
+                                            @slot('value', $cashbook->refno)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -134,12 +146,14 @@
                                             Currency @include('label::required')
                                         </label>
 
-                                        @component('input::select')
-                                            @slot('id', 'currency')
-                                            @slot('text', 'Currency')
-                                            @slot('name', 'currency')
-                                            @slot('id_error', 'currency')
-                                        @endcomponent
+																				<select id="currency" name="currency" class="form-control m-select2">
+																						@foreach ($currency as $x)
+																								<option value="{{ $x->code }}"
+																										@if ($x->code == $cashbook->currency) selected @endif>
+																										{{ $x->full_name }}
+																								</option>
+																						@endforeach
+																				</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -149,7 +163,8 @@
                                         @component('input::numberreadonly')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
-                                            @slot('name', 'exchange_rate')
+                                            @slot('name', 'exchangerate')
+                                            @slot('value', (int) $cashbook->exchangerate)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -162,10 +177,11 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'accountcode')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
+                                            @slot('value', $cashbook->coa->code)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -177,6 +193,7 @@
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
                                         @slot('name', 'acd')
+                                        @slot('value', $cashbook->coa->name)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -213,7 +230,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+
                                 {{-- Adjustment 1 --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -324,6 +341,45 @@
 @endsection
 
 @push('footer-scripts')
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		let _url = window.location.origin;
+
+		let update = $('body').on('click', '#cashbook_save', function () {
+
+			let form = $(this).parents('form');
+			let _data = form.serialize();
+
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'put',
+					url: '/cashbook/{{Request::segment(2)}}',
+					data: _data,
+					success: function (data) {
+							if (data.errors) {
+								toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+								});
+
+							} else {
+									$('.modal').modal('hide');
+
+									toastr.success('Data Saved', 'Success', {
+											timeOut: 2000
+									});
+
+									setTimeout(function(){
+										location.href = `${_url}/cashbook`;
+									}, 2000);
+							}
+					}
+			});
+		});
+	})
+</script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
@@ -331,10 +387,8 @@
 <script src="{{ asset('vendor/courier/frontend/cashbook/edit.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
 

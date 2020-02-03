@@ -85,7 +85,7 @@
                                         </label>
 
                                         @component('input::select')
-                                            @slot('id', 'department')
+                                            @slot('id', '_department')
                                             @slot('name', 'company_department')
                                             @slot('text', 'Department')
                                         @endcomponent
@@ -105,18 +105,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            Location @include('label::required')
-                                        </label>
-
-                                        @component('input::select')
-                                            @slot('id', 'location')
-                                            @slot('name', 'location')
-                                            @slot('text', 'Location')
-                                        @endcomponent
-                                        {{-- default surabaya, jakarta, biak --}}
-                                    </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Payment To @include('label::required')
@@ -231,6 +219,25 @@
 			placeholder : '-- Select --'
 		});
 
+		$.ajax({
+				url: '/get-departments',
+				type: 'GET',
+				dataType: 'json',
+				success: function (data) {
+						$('select#_department').empty();
+
+						$('select#_department').append(
+								'<option value=""> Select a Department</option>'
+						);
+
+						$.each(data, function (key, value) {
+								$('select#_department').append(
+										'<option value="' + value + '">' + value + '</option>'
+								);
+						});
+				}
+		});
+
 		let simpan = $('body').on('click', '#cashbook_save', function () {
 
 				let form = $(this).parents('form');
@@ -274,7 +281,6 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
 
