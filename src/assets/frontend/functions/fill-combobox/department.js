@@ -5,14 +5,14 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                $('select[name="department"]').empty();
+                $('select#department').empty();
 
-                $('select[name="department"]').append(
+                $('select#department').append(
                     '<option value=""> Select a Department</option>'
                 );
 
                 $.each(data, function (key, value) {
-                    $('select[name="department"]').append(
+                    $('select#department').append(
                         '<option value="' + key + '">' + value + '</option>'
                     );
                 });

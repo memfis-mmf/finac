@@ -502,9 +502,19 @@ class InvoiceController extends Controller
 				'approve' => 1
 			]);
 
-			TrxJournal::autoJournal($header, $detail, 'IVJR', 'SRJ');
+			$autoJournal = TrxJournal::autoJournal($header, $detail, 'IVJR', 'SRJ');
 
-			DB::commit();
+			if ($autoJournal['status']) {
+
+				DB::commit();
+
+			}else{
+
+				DB::rollBack();
+				return response()->json([
+					'errors' => $autoJournal['message']
+				]);
+			}
 
 	        return response()->json($invoice);
 

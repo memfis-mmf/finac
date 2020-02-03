@@ -253,7 +253,15 @@ class TrxJournal extends MemfisModel
 		$data['transaction_date'] = $header->transaction_date;
 		$data['journal_type'] = TypeJurnal::where(
 			'code', $journal_type
-		)->first()->id;
+		)->first();
+		if ($data['journal_type']) {
+			$data['journal_type'] = $data['journal_type']->id;
+		}else{
+			return [
+				'status' => false,
+				'message' => 'journal_type not found : '.$journal_type
+			];
+		}
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
 		$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
@@ -296,7 +304,7 @@ class TrxJournal extends MemfisModel
 			throw ValidationException::withMessages([]);
 		}
 
-		return true;
+		return ['status' => true];
 	}
 	// end auto journal
 

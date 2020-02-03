@@ -630,13 +630,24 @@ class ARController extends Controller
 			// $total_credit += $detail[0]->credit;
 			// $total_debit += $detail[0]->debit;
 
-			TrxJournal::autoJournal($header, $detail, 'CBRJ', 'BRJ');
-
 			$ar_tmp->update([
 				'approve' => 1
 			]);
 
-			DB::commit();
+			$autoJournal = TrxJournal::autoJournal($header, $detail, 'CBRJ', 'BRJ');
+
+			if ($autoJournal['status']) {
+
+				DB::commit();
+
+			}else{
+
+				DB::rollBack();
+				return response()->json([
+					'errors' => $autoJournal['message']
+				]);
+
+			}
 
 	        return response()->json($ar);
 
