@@ -121,130 +121,20 @@ let Cashbook = {
                         var transno = t.transactionnumber;
                         var res = transno.substring(0, 4);
                         console.log(res);
-                        if(t.status == 'Approved'){
-                            if (res == "CBPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-bpj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }else if(res == "CBRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-brj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }else if (res == "CCRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-crj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }else if(res == "CCPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-cpj/'+t.uuid+'/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }
-                        }
-                        else{
-                            if (res == "CBPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-bpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }else if(res == "CBRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-brj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }else if (res == "CCRJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-crj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }else if(res == "CCPJ"){
-                                return (
-                                    '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook-cpj/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                    t.uuid +
-                                    '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                                    t.uuid +
-                                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'+
-                                    '<a href="cashbook/' +
-                                    t.uuid +
-                                    '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                                    t.uuid +
-                                    '">' +
-                                    '<i class="la la-print"></i>' +
-                                    "</a>"
-                                );
-                            }
-                        }
-
-
+	                      return '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+	                      '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+	                      t.uuid +
+	                      '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+	                      '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+	                      t.uuid +
+	                      ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'+
+	                      '<a href="cashbook/' +
+	                      t.uuid +
+	                      '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+	                      t.uuid +
+	                      '">' +
+	                      '<i class="la la-print"></i>' +
+	                      "</a>"
                     }
                 }
             ]
