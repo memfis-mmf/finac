@@ -17,6 +17,7 @@
         }
 
         body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin-top: 6.8cm;
             margin-bottom: 2cm;
         }
@@ -48,7 +49,6 @@
             top:28px;
             left: 510px;
             position: absolute;
-            color: #5c5b5b;
             text-align: center;
         }
 
@@ -72,6 +72,10 @@
 
         .page_break {
             page-break-before: always;
+        }
+
+        footer .page-number:after { 
+            content: counter(page); 
         }
     </style>
 </head>
@@ -115,11 +119,16 @@
     </header>
 
     <footer>
-        <table width="100%">
-            <tr>
-                <td>  <span style="margin-left:6px;">Created By :  ;  &nbsp;&nbsp;&nbsp; Name :  ; </span> </td>
-            </tr>
-        </table>
+        <div class="container">
+            <table width="100%">
+                <tr>
+                    <td>Printed on 26 January 2020 18:53 <br> 
+                        <b>Merpati Maintenance Facility Information System Report</b>
+                    </td>
+                    <td align="right" valign="bottom"> <span class="page-number">Page </span></td>
+                </tr>
+            </table>
+        </div>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
     </footer>
 
