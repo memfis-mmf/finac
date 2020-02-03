@@ -52,10 +52,6 @@
             text-align: center;
         }
 
-        #body #header-content tr td{
-            border-bottom: 2px solid  black;
-        }
-
         .container{
             width: 100%;
             margin: 0 36px;
@@ -64,6 +60,17 @@
         .barcode{
             margin-left:70px;
             margin-top:12px;
+        }
+
+        #content .table-head{
+            margin-bottom: 8px;
+        }
+
+        #content .table-body thead tr td{
+            border-bottom: 2px solid black;
+        }
+        #content .table-body tbody .table-footer{
+            border-top: 2px solid black;
         }
 
         .page_break {
@@ -136,14 +143,63 @@
 
     <div id="content">
         <div class="container">
-            <table border="1">
-                @for ($i = 0; $i < 100; $i++)
-                    
-                <tr>
-                        <td>asd</td>
+            @for ($b = 0; $b < 15; $b++)
+            <div style="margin-bottom:10px;">
+                <table width="100%" cellpadding="3" class="table-head">
+                    <tr>
+                        <td width="12%" valign="top"><b>Customer Name</b></td>
+                        <td width="1%" valign="top"><b>:</b></td>
+                        <td width="77%" valign="top"><b>Sriwijaya Air, PT</b></td>
                     </tr>
-                @endfor
-            </table>
+                </table>
+                <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
+                    <thead>     
+                        <tr>
+                            <td width="19%" align="left" valign="top" style="padding-left:8px;"><b>Invoice No.</b></td>
+                            <td width="8%"align="center" valign="top"><b>Date</b></td>
+                            <td width="8%"align="center" valign="top"><b>Due Date</b></td>
+                            <td width="8%"align="center" valign="top"><b>Currency</b></td>
+                            <td width="9%"align="center" valign="top" colspan="2"><b>Rate</b></td>
+                            <td width="9%"align="center" valign="top"  colspan="2"><b>Foreign Total</b></td>
+                            <td width="13%"align="center" valign="top"  colspan="2"><b>IDR Total</b></td>
+                            <td width="13%"align="center" valign="top"  colspan="2"><b>Tax Receivables</b></td>
+                            <td width="13%"align="center" valign="top"  colspan="2"><b>Ending Balance</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for ($i = 0; $i <6; $i++)
+                            <tr>
+                                <td width="19%" align="left" valign="top" style="padding-left:8px;">INVC-YYYY/MM/00001</td>
+                                <td width="8%"align="center" valign="top">10/01/2020</td>
+                                <td width="8%"align="center" valign="top">17/01/2020</td>
+                                <td width="8%"align="center" valign="top">USD</td>
+                                <td width="1%" align="right" valign="top">Rp.</td>
+                                <td width="8%"align="right" valign="top">14.000</td>
+                                <td width="1%" align="right" valign="top">$</td>
+                                <td width="8%"align="right" valign="top" >89.000,00</td>
+                                <td width="1%" align="right" valign="top">Rp.</td>
+                                <td width="12%"align="right" valign="top">1.142.680.000,00</td>
+                                <td width="1%" align="right" valign="top">Rp.</td>
+                                <td width="12%"align="right" valign="top">114.268.000,00</td>
+                                <td width="1%" align="right" valign="top">Rp.</td>
+                                <td width="12%"align="right" valign="top">114.268.000,00</td>
+                            </tr>
+                        @endfor
+                        <tr>
+                            <td align="right" valign="top" colspan="6" style="padding-right:18px;"><b>Total</b></td>
+                            <td width="1%" align="right" valign="top" class="table-footer"><b>$</b></td>
+                            <td width="8%" align="right" valign="top" class="table-footer"><b>1.289.000,00</b></td>
+                            <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                            <td width="12%"align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                            <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                            <td width="12%" align="right" valign="top" class="table-footer"><b>114.268.000,00</b></td>
+                            <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                            <td width="12%"align="right" valign="top" class="table-footer"><b>114.268.000,00</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+            @endfor
         </div>
     </div>
 
