@@ -60,12 +60,9 @@
                                             Cashbook Type @include('label::required')
                                         </label>
 
-                                        @component('input::select')
-                                            @slot('id', 'cashbook_type')
-                                            @slot('name', 'cashbook_type')
-                                            @slot('text', 'Cashbook Type')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
+																				<select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types">
+																					<option value="cr">Cash Receive</option>
+																				</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -75,7 +72,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date')
                                             @slot('text', 'Date')
-                                            @slot('name', 'transaction_date')
+                                            @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
                                         @endcomponent
                                     </div>
@@ -88,7 +85,7 @@
 
                                         @component('input::select')
                                             @slot('id', 'department')
-                                            @slot('name', 'department')
+                                            @slot('name', 'company_department')
                                             @slot('text', 'Department')
                                         @endcomponent
                                     </div>

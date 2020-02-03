@@ -253,7 +253,15 @@ class TrxJournal extends MemfisModel
 		$data['transaction_date'] = $header->transaction_date;
 		$data['journal_type'] = TypeJurnal::where(
 			'code', $journal_type
-		)->first()->id;
+		)->first();
+		if ($data['journal_type']) {
+			$data['journal_type'] = $data['journal_type']->id;
+		}else{
+			return [
+				'status' => false,
+				'message' => 'journal_type not found : '.$journal_type
+			];
+		}
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
 		$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
@@ -296,7 +304,7 @@ class TrxJournal extends MemfisModel
 			throw ValidationException::withMessages([]);
 		}
 
-		return true;
+		return ['status' => true];
 	}
 	// end auto journal
 
@@ -361,7 +369,7 @@ class TrxJournal extends MemfisModel
 				]
 			);
 
-			TrxJournal::autoJournal($header, $detail, 'IVJR', 'BPJ', 'outcome');
+			TrxJournal::autoJournal($header, $detail, 'PRJR', 'PRJ');
 
 			DB::commit();
 
@@ -385,48 +393,81 @@ class TrxJournal extends MemfisModel
 	static public function insertFromIvOut($header, $detail)
 	{
 
+		DB::beginTransaction();
 		try {
-
-			$data['voucher_no'] = $header->voucher_no;
+			$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
+			$data['ref_no'] = $header->voucher_no;
 			$data['transaction_date'] = $header->transaction_date;
-			$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
+			$data['journal_type'] = TypeJurnal::where('code', 'PRJ')->first()->id;
 			$data['currency_code'] = 'idr';
 			$data['exchange_rate'] = 1;
 			$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
 
-			$journal = TrxJournal::create($data);
+			$total_debit = 0;
 
-			$total = 0;
+			$detail_tmp = $detail;
 
-			for ($i = 0; $i < count($detail); $i++) {
+			// sum same coa
+			for ($a=0; $a < count($detail); $a++) {
+				$x = $detail[$a];
 
-				$x = $detail[$i];
+				for ($b=$a+1; $b < count($detail_tmp); $b++) {
+					$y = $detail_tmp[$b];
 
-				TrxJournalA::create([
-					'voucher_no' => $data['voucher_no'],
-					'account_code' => $x->coa_iv,
-					'credit' => $x->val,
-					'description' => 'Generate from auto journal '.$data['voucher_no'],
-				]);
-
-				$total += $x->val;
+					if (@$x->coa_iv == $y->coa_iv) {
+						$detail[$a]->val += $y->val;
+						unset($detail[$b]);
+					}
+				}
 			}
 
-			TrxJournalA::create([
-				'voucher_no' => $data['voucher_no'],
-				'account_code' => $param[0]->coa_vendor,
-				'debit' => $total,
-			]);
+			$_tmp = array_values($detail);
 
-			TrxJournal::where('id', $journal->id)->update([
-				'total_transaction' => $total
-			]);
+			$detail = [];
 
-			return true;
+			$total_credit = 0;
+
+			for ($i=0; $i < count($_tmp); $i++) {
+				$z = $_tmp[$i];
+
+				$detail[] = (object) [
+					'coa_detail' => $z->coa_iv,
+					'credit' => $x->val,
+					'debit' => 0,
+					'_desc' => 'detail IV out',
+				];
+
+				$total_credit += $detail[count($detail)-1]->credit;
+			}
+
+			// add object in first array $detai
+			array_unshift(
+				$detail,
+				(object) [
+					'coa_detail' => $detail[0]->coa_vendor,
+					'credit' => $total_credit,
+					'debit' => 0,
+					'_desc' => 'coa header',
+				]
+			);
+
+			TrxJournal::autoJournal($header, $detail, 'PRJR', 'GJV');
+
+			DB::commit();
+
+			return [
+				'status' => true,
+				'message' => ''
+			];
 
 		} catch (\Exception $e) {
 
-			return false;
+			DB::rollBack();
+
+			return [
+				'status' => false,
+				'message' => $e->getMessage()
+			];
 
 		}
 	}

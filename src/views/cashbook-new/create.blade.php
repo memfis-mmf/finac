@@ -57,16 +57,13 @@
                                             Cashbook Type @include('label::required')
                                         </label>
 
-																				<select class="form-control m-input select2" name="cashbook_type" id="cashbook_types">
-
+																				<select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types">
+																					<option value=""></option>
+																					<option value="bp">Bank Payment</option>
+																					<option value="br">Bank Receive</option>
+																					<option value="cp">Cash Payment</option>
+																					<option value="cr">Cash Receive</option>
 																				</select>
-
-                                        @component('input::select')
-                                            @slot('id', 'cashbook_types')
-                                            @slot('name', 'cashbook_type')
-                                            @slot('text', 'Cashbook Type')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -76,7 +73,7 @@
                                         @component('input::datepicker')
                                             @slot('id', 'date')
                                             @slot('text', 'Date')
-                                            @slot('name', 'transaction_date')
+                                            @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
                                         @endcomponent
                                     </div>
@@ -89,10 +86,25 @@
 
                                         @component('input::select')
                                             @slot('id', 'department')
-                                            @slot('name', 'department')
+                                            @slot('name', 'company_department')
                                             @slot('text', 'Department')
                                         @endcomponent
                                     </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+																			<label class="form-control-label">
+																				Location
+																			</label>
+
+																			<select class="_select2 form-control" name="location" style="width:100%">
+																				<option value=""></option>
+																				<option value="sidoarjo">Sidoarjo</option>
+																				<option value="surabaya">Surabaya</option>
+																				<option value="jakarta">Jakarta</option>
+																				<option value="biak">Biak</option>
+																			</select>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Location @include('label::required')
@@ -105,8 +117,6 @@
                                         @endcomponent
                                         {{-- default surabaya, jakarta, biak --}}
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Payment To @include('label::required')
@@ -115,7 +125,7 @@
                                         @component('input::text')
                                             @slot('id', 'payment_to')
                                             @slot('text', 'Payment To')
-                                            @slot('name', 'payment_to')
+                                            @slot('name', 'personal')
                                             @slot('id_error', 'payment_to')
                                         @endcomponent
                                     </div>
@@ -127,7 +137,7 @@
                                         @component('input::text')
                                             @slot('id', 'ref_no')
                                             @slot('text', 'Ref No')
-                                            @slot('name', 'ref_no')
+                                            @slot('name', 'refno')
                                             @slot('id_error', 'ref_no')
                                         @endcomponent
                                     </div>
@@ -153,7 +163,7 @@
                                         @component('input::numberreadonly')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
-                                            @slot('name', 'exchange_rate')
+                                            @slot('name', 'exchangerate')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -166,7 +176,7 @@
                                         @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
-                                            @slot('name', 'coa')
+                                            @slot('name', 'accountcode')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
@@ -211,6 +221,51 @@
 @endsection
 
 @push('footer-scripts')
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+		let _url = window.location.origin;
+
+		$('._select2').select2({
+			placeholder : '-- Select --'
+		});
+
+		let simpan = $('body').on('click', '#cashbook_save', function () {
+
+				let form = $(this).parents('form');
+				let _data = form.serialize();
+
+				$.ajax({
+						headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						},
+						type: 'post',
+						url: '/cashbook',
+						data: _data,
+						success: function (data) {
+								if (data.errors) {
+									toastr.error(data.errors, 'Invalid', {
+											timeOut: 2000
+									});
+
+								} else {
+										$('.modal').modal('hide');
+
+										toastr.success('Data Saved', 'Success', {
+												timeOut: 2000
+										});
+
+										setTimeout(function(){
+											location.href = `${_url}/cashbook/${data.uuid}/edit`;
+										}, 2000);
+								}
+						}
+				});
+		});
+
+	});
+</script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>

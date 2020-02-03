@@ -15,19 +15,14 @@ class CashbookController extends Controller
         return view('cashbooknewview::index');
     }
 
-	public function export()
-    {
-		return Excel::download(new CoaExport, 'coa.xlsx');
-    }
-
     public function getData()
     {
-		$coaType = Type::where('of', 'coa')->get();
+		$cashbookType = Type::where('of', 'cashbook')->get();
 
 		$type = [];
 
-		for ($i = 0; $i < count($coaType); $i++) {
-			$x = $coaType[$i];
+		for ($i = 0; $i < count($cashbookType); $i++) {
+			$x = $cashbookType[$i];
 
 			$type[$x->id] = $x->name;
 		}
@@ -40,30 +35,41 @@ class CashbookController extends Controller
         return view('cashbooknewview::create');
     }
 
-    public function store(CoaStore $request)
+	public function transactionNumber($value)
+	{
+		return null;
+	}
+	
+
+    public function store(Request $request)
     {
-        $coa = Coa::create($request->all());
-        return response()->json($coa);
+		$request->request->add([
+			'transactionnumber' => Cashbook::generateCode()
+		]);
+        $cashbook = Cashbook::create($request->all());
+        return response()->json($cashbook);
     }
 
-    public function edit(Coa $coa)
+    public function edit(Cashbook $cashbook)
     {
-        return response()->json($coa);
+		$data['cashbook'] = $cashbook;
+
+		return view('cashbooknewview::edit', $data);
     }
 
-    public function update(CoaUpdate $request, Coa $coa)
+    public function update(Request $request, Cashbook $cashbook)
     {
 
-        $coa->update($request->all());
+        $cashbook->update($request->all());
 
-        return response()->json($coa);
+        return response()->json($cashbook);
     }
 
-    public function destroy(Coa $coa)
+    public function destroy(Cashbook $cashbook)
     {
-        $coa->delete();
+        $cashbook->delete();
 
-        return response()->json($coa);
+        return response()->json($cashbook);
     }
 
     public function getType($id)
@@ -103,19 +109,19 @@ class CashbookController extends Controller
 
     public function api()
     {
-        $coadata = Coa::all();
+        $cashbookdata = Cashbook::all();
 
-        return json_encode($coadata);
+        return json_encode($cashbookdata);
     }
 
-    public function apidetail(Coa $coa)
+    public function apidetail(Cashbook $cashbook)
     {
-        return response()->json($coa);
+        return response()->json($cashbook);
     }
 
     public function datatables()
     {
-		$data = $alldata = json_decode(Coa::with([
+		$data = $alldata = json_decode(Cashbook::with([
 			'type'
 		])->get());
 
@@ -292,10 +298,10 @@ class CashbookController extends Controller
         }
 
         // get all raw data
-        $coa  = Coa::where('description', '!=', 'Header')->get();
+        $cashbook  = Cashbook::where('description', '!=', 'Header')->get();
 
 
-        $alldata = json_decode( $coa, true);
+        $alldata = json_decode( $cashbook, true);
 
         $data = [];
         // internal use; filter selected columns only from raw data
