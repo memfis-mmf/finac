@@ -71,21 +71,21 @@ let TrialBalance = {
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 160
+                    width: 150
                 },
                 {
                     field: 'name',
                     title: 'Account Name',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 200
                 },
                 {
                     field: 'LastBalance',
-                    title: 'Beginning Balance',
+                    title: 'Begining Balance',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150,
+                    width: 140,
 										template: function(t, e, i) {
 											return addCommas(parseInt(t.LastBalance));
 										}
@@ -95,7 +95,7 @@ let TrialBalance = {
                     title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150,
+                    width: 140,
 										template: function(t, e, i) {
 											return addCommas(parseInt(t.Debit));
 										}
@@ -105,7 +105,7 @@ let TrialBalance = {
                     title: 'Credit',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150,
+                    width: 140,
 										template: function(t, e, i) {
 											return addCommas(parseInt(t.Credit));
 										}
@@ -115,7 +115,7 @@ let TrialBalance = {
                     title: 'Ending Balance',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150,
+                    width: 140,
 										template: function(t, e, i) {
 											return addCommas(parseInt(t.EndingBalance));
 										}
