@@ -49,7 +49,7 @@ class TrxJournal extends MemfisModel
 
 	public function getCreatedByAttribute()
 	{
-		return User::find($this->audits->first()->user_id);
+		return @User::find($this->audits->first()->user_id);
 	}
 
 	public function getUpdatedByAttribute()
@@ -301,7 +301,10 @@ class TrxJournal extends MemfisModel
 		TrxJournal::approve($tmp_journal);
 
 		if ($total_debit == 0 || $total_debit != $total_credit) {
-			throw ValidationException::withMessages([]);
+			return [
+				'status' => false,
+				'message' => 'Invalid debit or credit value'
+			];
 		}
 
 		return ['status' => true];

@@ -627,14 +627,22 @@ class ARController extends Controller
 				]
 			);
 
-			// $total_credit += $detail[0]->credit;
-			// $total_debit += $detail[0]->debit;
+			/*
+			 *$total_credit += $detail[0]->credit;
+			 *$total_debit += $detail[0]->debit;
+			 */
+
+			/*
+			 *dd($total_debit, $total_credit, $detail);
+			 */
 
 			$ar_tmp->update([
 				'approve' => 1
 			]);
 
-			$autoJournal = TrxJournal::autoJournal($header, $detail, 'CBRJ', 'BRJ');
+			$autoJournal = TrxJournal::autoJournal(
+				$header, $detail, 'CBRJ', 'BRJ'
+			);
 
 			if ($autoJournal['status']) {
 

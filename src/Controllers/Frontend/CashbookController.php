@@ -37,15 +37,40 @@ class CashbookController extends Controller
 
 	public function transactionNumber($value)
 	{
-		return null;
+		switch ($value) {
+			case 'bp':
+				$result = 'CBPJ';
+				break;
+
+			case 'br':
+				$result = 'CBRJ';
+				break;
+
+			case 'cp':
+				$result = 'CCPJ';
+				break;
+
+			case 'cr':
+				$result = 'CCRJ';
+				break;
+			
+			default:
+				'';
+				break;
+		}
+
+		return $result;
 	}
 	
 
     public function store(Request $request)
     {
 		$request->request->add([
-			'transactionnumber' => Cashbook::generateCode()
+			'transactionnumber' => Cashbook::generateCode(
+				$this->transactionnumber()
+			)
 		]);
+
         $cashbook = Cashbook::create($request->all());
         return response()->json($cashbook);
     }
