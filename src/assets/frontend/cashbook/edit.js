@@ -1,15 +1,12 @@
 let Coa = {
     init: function () {
-
-				let _url = window.location.origin;
-
         $('.coa_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
                     read: {
                         method: 'GET',
-                        url: '',
+                        url: '/coa/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -100,7 +97,7 @@ let Coa = {
                 source: {
                     read: {
                         method: 'GET',
-                        url: '',
+                        url: '/coa/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -212,7 +209,7 @@ let Coa = {
                 source: {
                     read: {
                         method: 'GET',
-                        url: '',
+                        url: '/coa/datatables',
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -303,36 +300,6 @@ let Coa = {
                 }
             ]
         });
-
-				$('#coa_modal').on('click', '.select-coa', function() {
-					let tr = $(this).parents('tr');
-
-					let data = coa_table.row(tr).data();
-
-					$.ajax({
-							url: '/',
-							headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							},
-							type: 'post',
-							dataType: 'json',
-							data : {
-								'account_code' : data.code,
-								'voucher_no' : _voucher_no
-							},
-							success: function (data) {
-
-								$('#coa_modal').modal('hide');
-
-								account_code_table.reload();
-
-								toastr.success('Data Saved Successfully', 'Success', {
-									timeOut: 2000
-								});
-
-							}
-					});
-				})
     }
 };
 

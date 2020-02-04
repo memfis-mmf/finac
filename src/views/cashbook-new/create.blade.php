@@ -54,6 +54,20 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
+                                            Cashbook Reference @include('label::required')
+                                        </label>
+
+																				<select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref">
+																					<option value=""></option>
+																					@foreach ($cashbook_ref as $key => $value)
+																						<option value="{{$key->transactionnumber}}">
+																							{{$key->transactionnumber}}
+																						</option>
+																					@endforeach
+																				</select>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
                                             Cashbook Type @include('label::required')
                                         </label>
 

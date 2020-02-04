@@ -230,9 +230,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group m-form__group row ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <label class="form-control-label">
+                                            Remark
+                                        </label>
+
+                                        @component('input::textarea')
+                                            @slot('id', 'remark')
+                                            @slot('text', 'Remark')
+                                            @slot('name', 'description')
+                                            @slot('rows','5')
+                                        @endcomponent
+                                    </div>
+                                </div>
 
                                 {{-- Adjustment 1 --}}
-                                <div class="form-group m-form__group row">
+                                {{-- <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <h2>Adjustment 1</h2>
                                         <div class="form-group m-form__group row">
@@ -264,10 +278,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- Adjustment 2 --}}
-                                <div class="form-group m-form__group row">
+                                {{-- <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <h2>Adjustment 2</h2>
                                         <div class="form-group m-form__group row">
@@ -299,21 +313,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <label class="form-control-label">
-                                            Remark
-                                        </label>
-
-                                        @component('input::textarea')
-                                            @slot('id', 'remark')
-                                            @slot('text', 'Remark')
-                                            @slot('name', 'description')
-                                            @slot('rows','5')
-                                        @endcomponent
-                                    </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">

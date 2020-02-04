@@ -34,7 +34,8 @@ class CashbookController extends Controller
 
     public function create()
     {
-        return view('cashbooknewview::create');
+		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
+        return view('cashbooknewview::create', $data);
     }
 
 	public function transactionNumber($value)

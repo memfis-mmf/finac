@@ -13,6 +13,7 @@ use App\User;
 use App\Models\Approval;
 use Illuminate\Validation\ValidationException;
 use Auth;
+use DB;
 
 class TrxJournal extends MemfisModel
 {
