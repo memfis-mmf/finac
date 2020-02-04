@@ -14,7 +14,8 @@ class RenameRefno2ToCashbookRefCashbookTable extends Migration
     public function up()
     {
 		Schema::table('cashbooks', function (Blueprint $table) {
-		    $table->renameColumn('refno2', 'cashbook_refno');
+	        $table->dropColumn('refno2');
+	        $table->text('cashbook_ref');
 		});
     }
 
