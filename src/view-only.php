@@ -94,4 +94,15 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/asset-category/edit', 'assetcategoryview::edit')->name('asset-category.edit');
     Route::view('/asset-category/show', 'assetcategoryview::show')->name('asset-category.show');
 
+
+    /** AR REPORT*/
+
+    Route::view('/ar-report', 'arreportview::index')->name('ar-report.index');
+
+    Route::view('/ar-report/outstanding-invoice', 'arreport-outstandingview::index')->name('ar-report.outstanding-invoice.index');
+    Route::view('/ar-report/aging-receivables-detail', 'arreport-agingview::index')->name('ar-report.aging-receivables-detail.index');
+    Route::view('/ar-report/customer-trial-balance', 'arreport-customertbview::index')->name('ar-report.customer-trial-balance.index');
+    Route::view('/ar-report/account-receivables-history', 'arreport-accountrhview::index')->name('ar-report.account-receivables-history.index');
+    Route::view('/ar-report/invoice-paid', 'arreport-invoicepview::index')->name('ar-report.invoice-paid.index');
+
 });
