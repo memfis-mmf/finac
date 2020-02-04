@@ -105,4 +105,14 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/ar-report/account-receivables-history', 'arreport-accountrhview::index')->name('ar-report.account-receivables-history.index');
     Route::view('/ar-report/invoice-paid', 'arreport-invoicepview::index')->name('ar-report.invoice-paid.index');
 
+
+    /** FIX ASSET DISPOSITION*/
+
+    Route::view('/fixed-asset-disposition', 'fixassetdispositionview::index')->name('fixed-asset-disposition.index');
+
+    Route::view('/fixed-asset-disposition/create', 'fixassetdispositionview::create')->name('fixed-asset-disposition.create');
+    Route::view('/fixed-asset-disposition/edit', 'fixassetdispositionview::edit')->name('fixed-asset-disposition.edit');
+    Route::view('/fixed-asset-disposition/show', 'fixassetdispositionview::show')->name('fixed-asset-disposition.show');
+
+
 });
