@@ -67,6 +67,7 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/ar-report/invoice-paid', 'invoicepview');
         $this->loadViewsFrom(__DIR__.'/views/ar-report/outstanding', 'arreport-outstandingview');
         $this->loadViewsFrom(__DIR__.'/views/fixed-asset-disposition', 'fixassetdispositionview');
+        $this->loadViewsFrom(__DIR__.'/views/master-coa', 'mastercoaview');
         //$this->loadViewsFrom(__DIR__.'/views/dll', 'dll');
     }
 }

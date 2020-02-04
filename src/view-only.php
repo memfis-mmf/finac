@@ -115,4 +115,10 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/fixed-asset-disposition/show', 'fixassetdispositionview::show')->name('fixed-asset-disposition.show');
 
 
+    /** MASTER COA*/
+
+    Route::view('/master-coa', 'mastercoaview::index')->name('master-coa.index');
+
+    Route::view('/master-coa/create', 'mastercoaview::create')->name('master-coa.create');
+
 });
