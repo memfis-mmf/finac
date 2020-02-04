@@ -60,6 +60,12 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/bond', 'bondview');
         $this->loadViewsFrom(__DIR__.'/views/cashbook-new', 'cashbooknewview');
         $this->loadViewsFrom(__DIR__.'/views/asset-category', 'assetcategoryview');
+        $this->loadViewsFrom(__DIR__.'/views/ar-report', 'arreportview');
+        $this->loadViewsFrom(__DIR__.'/views/ar-report/account-receivables', 'arreport-accountrhview');
+        $this->loadViewsFrom(__DIR__.'/views/ar-report/aging-receivables-detail', 'arreport-agingview');
+        $this->loadViewsFrom(__DIR__.'/views/ar-report/customer-tb', 'arreport-customertbview');
+        $this->loadViewsFrom(__DIR__.'/views/ar-report/invoice-paid', 'invoicepview');
+        $this->loadViewsFrom(__DIR__.'/views/ar-report/outstanding', 'arreport-outstandingview');
         //$this->loadViewsFrom(__DIR__.'/views/dll', 'dll');
     }
 }
