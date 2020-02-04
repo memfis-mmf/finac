@@ -6,11 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        @page {
+            margin: 0cm 0cm;
+        }
+        
         html,body{
             padding: 0;
             margin: 0;
             font-size: 12px;
         }
+
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 4.1cm;
+            margin-bottom: 2cm;
+        }
+
 
         header {
             position: fixed;
@@ -39,7 +50,6 @@
             top:20px;
             left: 510px;
             position: absolute;
-            color: #5c5b5b;
         }
 
         .container{
@@ -54,15 +64,14 @@
 
         #content{
             width:100%;
-            margin-top:150px;
             margin-bottom:20px;
         }
 
         #content2 .body{
             width: 100%;
-            border-left:  2px solid  #d4d7db;
-            border-right:  2px solid  #d4d7db;
-            border-bottom:  2px solid  #d4d7db;
+            border-left:  2px solid  #e6eef2;
+            border-right:  2px solid  #e6eef2;
+            border-bottom:  2px solid  #e6eef2;
         }
 
         .page_break {
@@ -81,11 +90,13 @@
     </header>
 
     <footer>
-        <table width="100%">
-            <tr>
-                <td>  <span style="margin-left:6px;">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </span> </td>
-            </tr>
-        </table>
+        <div class="container">
+            <table width="100%">
+                <tr>
+                    <td>  <span style="margin-left:6px;">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </span> </td>
+                </tr>
+            </table>
+        </div>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
     </footer>
 
@@ -122,28 +133,28 @@
 
     <div id="content2">
         <div class="container">
-            <div class="head">
-                <table width="100%" cellpadding="4" >
-                    <tr style="background:#e6eef2;">
-                        <td width="15%" align="center">Account Code</td>
-                        <td width="20%" align="center">Account Name</td>
-                        <td width="31%" align="center">Description</td>
-                        <td width="17%" align="center">Debit</td>
-                        <td width="17%" align="center">Credit</td>
-                    </tr>
-                </table>
-            </div>
             <div class="body">
-                <table width="100%" cellpadding="4">
-                    @for($a = 0 ; $a<20; $a++)
-                        <tr>
-                            <td width="15%" align="center">generate</td>
-                            <td width="20%" align="center">generate</td>
-                            <td width="31%" align="center">generate</td>
-                            <td width="17%" align="center">12.000</td>
-                            <td width="17%" align="center">12.000</td>
+                <table width="100%" cellpadding="4" page-break-inside: auto;>
+                    <thead>
+                        <tr style="background:#e6eef2;">
+                            <td width="15%" align="center">Account Code</td>
+                            <td width="20%" align="center">Account Name</td>
+                            <td width="31%" align="center">Description</td>
+                            <td width="17%" align="center">Debit</td>
+                            <td width="17%" align="center">Credit</td>
                         </tr>
-                    @endfor
+                    </thead>
+                    <tbody>
+                        @for($a = 0 ; $a<20; $a++)
+                            <tr>
+                                <td width="15%" align="center">generate</td>
+                                <td width="20%" align="center">generate</td>
+                                <td width="31%" align="center">generate</td>
+                                <td width="17%" align="center">12.000</td>
+                                <td width="17%" align="center">12.000</td>
+                            </tr>
+                        @endfor
+                    </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
                         <td colspan="2" style="background:#e6eef2"><b>Total : $/Rp. </b></td>
@@ -153,7 +164,7 @@
         </div>
     </div>
 
-    <div id="content3" style="position:absolute;top:72%">
+    <div id="content3">
         <div class="container">
             <table width="100%" border="1">
                 <tr>

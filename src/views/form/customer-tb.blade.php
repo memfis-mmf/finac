@@ -35,7 +35,7 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 1.8cm;
+            height: 1.4cm;
         }
         ul li{
             display: inline-block;
@@ -122,14 +122,13 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <td>Printed on 26 January 2020 18:53 <br> 
-                        <b>Merpati Maintenance Facility Information System Report</b>
+                    <td>Printed on 26 January 2020 18:53
                     </td>
                     <td align="right" valign="bottom"> <span class="page-number">Page </span></td>
                 </tr>
             </table>
         </div>
-        <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
+        <img src="./vendor/courier/img/form/printoutfa/FooterFA-A4-Potrait.png" width="100%" alt="" >
     </footer>
 
     <div id="content">
