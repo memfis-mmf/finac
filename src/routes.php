@@ -33,14 +33,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@index'
 		)->name('cashbook.index');
+		Route::post(
+			'/approve',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@approve'
+		);
 		Route::get(
 			'/create',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@create'
 		)->name('cashbook.create');
-		Route::get(
-			'/export',
-			'memfisfa\Finac\Controllers\Frontend\CashbookController@export'
-		)->name('cashbook.export');
 		Route::get(
 			'/type',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@getdata'
@@ -64,14 +64,6 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/{cashbook}/edit',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@edit'
-		);
-		Route::get(
-			'/type/{id}',
-			'memfisfa\Finac\Controllers\Frontend\CashbookController@gettype'
-		);
-		Route::get(
-			'/data',
-			'memfisfa\Finac\Controllers\Frontend\CashbookController@api'
 		);
 		Route::get(
 			'/data/{cashbook}',

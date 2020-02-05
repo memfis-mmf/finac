@@ -5,10 +5,12 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use memfisfa\Finac\Model\Cashbook;
+use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 use App\Models\Department;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class CashbookController extends Controller
 {
@@ -410,4 +412,114 @@ class CashbookController extends Controller
 
         echo json_encode( $result, JSON_PRETTY_PRINT );
     }
+
+	public function approve(Request $request)
+	{
+		DB::beginTransaction();
+		try {
+			$cashbook_tmp = Cashbook::where('uuid', $request->uuid);
+			$cashbook = $cashbook_tmp->first();
+
+	        $cashbook->approvals()->save(new Approval([
+	            'approvable_id' => $cashbook->id,
+	            'is_approved' => 0,
+	            'conducted_by' => Auth::id(),
+	        ]));
+
+			$cashbook_a = $cashbook->cashbook_a;
+
+			$date_approve = $cashbook->approvals->first()
+			->created_at->toDateTimeString();
+
+			$header = (object) [
+				'voucher_no' => $cashbook->transactionnumber,
+				'transaction_date' => $date_approve,
+				'coa' => $cashbook->coa->id,
+			];
+
+			$total_debit = 0;
+			$total_credit = 0;
+
+			for (
+				$index_cashbook_a=0;
+				$index_cashbook_a < count($cashbook_a);
+				$index_cashbook_a++
+			) {
+				$arr = $cashbook_a[$index_cashbook_a];
+
+				$detail[] = (object) [
+					'coa_detail' => $arr->coa->id,
+					'credit' => $arr->credit * $cashbook->exchangerate,
+					'debit' => $arr->debit * $cashbook->exchangerate,
+					'_desc' => 'invoice',
+				];
+
+				$total_debit += $detail[count($detail)-1]->debit;
+				$total_credit += $detail[count($detail)-1]->credit;
+			}
+
+			if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
+				$type = 'pj';
+				$total = $total_debit - $total_credit;
+				$positiion = 'credit';
+				$x_positiion = 'debit';
+			}
+
+			if (strpos($cashbook->transactionnumber, 'RJ') !== false) {
+				$type = 'rj';
+				$total = $total_credit - $total_debit;
+				$positiion = 'debit';
+				$x_positiion = 'credit';
+			}
+
+			// add object in first array $detai
+			array_unshift(
+				$detail,
+				(object) [
+					'coa_detail' => $header->coa,
+					$x_positiion => 0,
+					$positiion => $total,
+					'_desc' => 'coa header',
+				]
+			);
+
+			// $total_debit += $detail[0]->debit;
+			// $total_credit += $detail[0]->credit;
+
+			$cashbook_tmp->update([
+				'approve' => 1
+			]);
+
+			$journal_number_prefix = explode(
+				'-',
+				$cashbook->transactionnumber
+			)[0];
+
+			$autoJournal = TrxJournal::autoJournal(
+				$header,
+				$detail,
+				$journal_number_prefix,
+				substr($journal_number_prefix, 1, 3)
+			);
+
+			if ($autoJournal['status']) {
+				DB::commit();
+			}else{
+				DB::rollBack();
+				return response()->json([
+					'errors' => $autoJournal['message']
+				]);
+			}
+
+	        return response()->json($cashbook);
+		} catch (\Exception $e) {
+
+			DB::rollBack();
+
+			$data['errors'] = $e->getMessage();
+
+			return response()->json($data);
+		}
+
+	}
 }

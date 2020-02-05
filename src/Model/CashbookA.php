@@ -24,5 +24,11 @@ class CashbookA extends MemfisModel
 		);
     }
 
+    public function coa()
+    {
+        return $this->belongsTo(
+			Coa::class, 'code', 'code'
+		);
+    }
 
 }

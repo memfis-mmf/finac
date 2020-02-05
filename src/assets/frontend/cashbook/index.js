@@ -1,6 +1,22 @@
 let Cashbook = {
     init: function () {
-        $('.cashbook_datatable').mDatatable({
+
+				let _url = window.location.origin;
+
+				function addCommas(nStr)
+				{
+						nStr += '';
+						x = nStr.split('.');
+						x1 = x[0];
+						x2 = x.length > 1 ? '.' + x[1] : '';
+						var rgx = /(\d+)(\d{3})/;
+						while (rgx.test(x1)) {
+								x1 = x1.replace(rgx, '$1' + '.' + '$2');
+						}
+						return x1 + x2;
+				}
+
+        let cashbook_datatable = $('.cashbook_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
@@ -74,7 +90,10 @@ let Cashbook = {
                     title: 'Total Transaction',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 150
+                    width: 150,
+										template: function(t, e, i) {
+											return addCommas(parseInt(t.totaltransaction));
+										}
                 },
                 {
                     field: 'personal',
@@ -121,20 +140,25 @@ let Cashbook = {
                         var transno = t.transactionnumber;
                         var res = transno.substring(0, 4);
                         console.log(res);
-	                      return '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-	                      '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalcashbook" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-	                      t.uuid +
-	                      '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-	                      '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-	                      t.uuid +
-	                      ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'+
-	                      '<a href="cashbook/' +
-	                      t.uuid +
-	                      '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-	                      t.uuid +
-	                      '">' +
-	                      '<i class="la la-print"></i>' +
-	                      "</a>"
+												let _html =
+		                      '<a href="cashbook/' +
+			                      t.uuid +
+			                      '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+			                      t.uuid + '">' +
+			                      '<i class="la la-print"></i>' +
+		                      "</a>";
+
+												if (!t.approve) {
+		                      _html += '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+														'<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
+		                        '<i class="la la-check"></i>' +
+		                        '</a>' +
+			                      '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+			                      t.uuid +
+			                      ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+												}
+
+	                      return (_html);
                     }
                 }
             ]
@@ -157,46 +181,33 @@ let Cashbook = {
             $('.btn-success').html("<span><i class='fa fa-save'></i><span> Save New</span></span>");
         }
 
-        let approve = $('.modal-footer').on('click', '.add', function () {
-            let triggerid = $("#uuid-approve").val();
+				let approve = $('body').on('click', 'a.approve', function() {
+					let _uuid = $(this).data('uuid');
+					$.ajax({
+							headers: {
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							},
+							type: 'post',
+							url: '/cashbook/approve',
+							data: {
+									_token: $('input[name=_token]').val(),
+									uuid: _uuid
+							},
+							success: function (data) {
+									if (data.errors) {
+											toastr.error(data.errors, 'Invalid', {
+													timeOut: 3000
+											});
+									} else {
+											toastr.success('Data berhasil disimpan.', 'Sukses', {
+													timeOut: 3000
+											});
 
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'post',
-                url: '/cashbook/' + triggerid + '/approve',
-                data: {
-                    _token: $('input[name=_token]').val(),
-                },
-                success: function (data) {
-                    if (data.errors) {
-                        if (data.errors.code) {
-                            $('#code-error').html(data.errors.code[0]);
-
-
-
-                        }
-
-
-                    } else {
-                        $('#modal_approvalcashbook').modal('hide');
-
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
-                            timeOut: 5000
-                        });
-
-                        $('#code-error').html('');
-
-                        let table = $('.cashbook_datatable').mDatatable();
-
-                        table.originalDataSet = [];
-                        table.reload();
-                    }
-                }
-            });
-        });
+											cashbook_datatable.reload();
+									}
+							}
+					});
+				})
 
         let edit = $('.coa_datatable').on('click', '.edit', function () {
             // $('#button').show();
