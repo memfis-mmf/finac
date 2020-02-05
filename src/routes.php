@@ -83,6 +83,61 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
+    Route::prefix('cashbooka')->group(function () {
+		Route::get(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@index'
+		)->name('cashbooka.index');
+		Route::get(
+			'/create',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@create'
+		)->name('cashbooka.create');
+		Route::get(
+			'/export',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@export'
+		)->name('cashbooka.export');
+		Route::get(
+			'/type',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@getdata'
+		);
+		Route::post(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@store'
+		)->name('cashbooka.store');
+		Route::put(
+			'/{cashbooka}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@update'
+		)->name('cashbooka.update');
+		Route::delete(
+			'/{cashbooka}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@destroy'
+		)->name('cashbooka.delete');
+		Route::get(
+			'/datatables',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@datatables'
+		)->name('cashbooka.datatables');
+		Route::get(
+			'/{cashbooka}/edit',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@edit'
+		);
+		Route::get(
+			'/type/{id}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@gettype'
+		);
+		Route::get(
+			'/data',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@api'
+		);
+		Route::get(
+			'/data/{cashbooka}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@apidetail'
+		);
+		Route::get(
+			'/datatables/modal',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@basicModal'
+		);
+	});
+
     Route::prefix('journal')->group(function () {
 		Route::get(
 			'/',

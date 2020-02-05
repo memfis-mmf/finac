@@ -29,8 +29,6 @@
 </div>
 @include('cashbookview::coamodal')
 @include('cashbooknewview::modal-coa')
-@include('cashbooknewview::modal-adjustment1')
-@include('cashbooknewview::modal-adjustment2')
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -210,11 +208,42 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                        @component('buttons::create-new')
-                                                            @slot('text', 'Account Code')
-                                                            @slot('data_target', '#coa_modal')
-                                                        @endcomponent
-                                                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+																											<button
+																												type="button"
+																												id="button_cushbook_adjustment"
+																												name="create"
+																												value=""
+																												class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"
+																												style=""
+																												target=""
+																												data-toggle="modal"
+																												data-target="#modal_cashbook_adjustment"
+																											>
+
+																											    <span>
+																											        <i class="la la-plus-circle"></i>
+																											        <span>Adjustment</span>
+																											    </span>
+																											</button>
+
+																											<button
+																												type="button"
+																												id="button_cushbook_transaction"
+																												name="create"
+																												value=""
+																												class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"
+																												style=""
+																												target=""
+																												data-toggle="modal"
+																												data-target="#modal_cashbook_transaction"
+																											>
+
+																											    <span>
+																											        <i class="la la-plus-circle"></i>
+																											        <span>Transaction</span>
+																											    </span>
+																											</button>
+                                                      <div class="m-separator m-separator--dashed d-xl-none"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -336,50 +365,90 @@
         </div>
     </div>
 </div>
+{{-- modal transaction cashbook --}}
+<div class="modal fade" id="modal_cashbook_transaction" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TitleModalJournal">Cashbook Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="CoaForm">
+										<input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
+                    <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Account
+                                </label>
+                                @component('input::select2')
+                                    @slot('id', '_accountcode')
+                                    @slot('text', 'Account Code')
+                                    @slot('name', 'code')
+                                    @slot('id_error', 'accountcode')
+                                @endcomponent
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Amount @include('label::required')
+                                </label>
+
+                                @component('input::number')
+                                    @slot('id', 'amount')
+                                    @slot('text', 'amount')
+                                    @slot('name', 'amount')
+                                @endcomponent
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Remark
+                                </label>
+
+                                @component('input::textarea')
+                                    @slot('id', 'remark')
+                                    @slot('text', 'remark')
+                                    @slot('name', 'description')
+                                    @slot('rows','5')
+                                @endcomponent
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="flex">
+                            <div class="action-buttons">
+                                <div class="flex">
+                                    <div class="action-buttons">
+                                        @component('buttons::submit')
+                                            @slot('id', 'create_cashbooka')
+                                            @slot('type', 'button')
+                                        @endcomponent
+
+                                        @include('buttons::reset')
+
+                                        @include('buttons::close')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <input hidden id="coaid">
 
 @endsection
 
 @push('footer-scripts')
-<script type="text/javascript">
-	$(document).ready(function() {
-
-		let _url = window.location.origin;
-
-		let update = $('body').on('click', '#cashbook_save', function () {
-
-			let form = $(this).parents('form');
-			let _data = form.serialize();
-
-			$.ajax({
-					headers: {
-							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-					type: 'put',
-					url: '/cashbook/{{Request::segment(2)}}',
-					data: _data,
-					success: function (data) {
-							if (data.errors) {
-								toastr.error(data.errors, 'Invalid', {
-										timeOut: 2000
-								});
-
-							} else {
-									$('.modal').modal('hide');
-
-									toastr.success('Data Saved', 'Success', {
-											timeOut: 2000
-									});
-
-									setTimeout(function(){
-										location.href = `${_url}/cashbook`;
-									}, 2000);
-							}
-					}
-			});
-		});
-	})
-</script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
