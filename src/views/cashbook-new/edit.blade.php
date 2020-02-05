@@ -271,6 +271,7 @@
                                             @slot('text', 'Remark')
                                             @slot('name', 'description')
                                             @slot('rows','5')
+                                            @slot('value', $cashbook->description)
                                         @endcomponent
                                     </div>
                                 </div>

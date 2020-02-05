@@ -108,7 +108,7 @@ class CashbookAController extends Controller
 			$request->transactionnumber
 		)->get();
 
-		$this->sumTotal($cashbook_a, $type);
+		$this->sumTotal($request->transactionnumber, $type);
 
 		DB::commit();
         return response()->json($cashbook);
@@ -126,10 +126,15 @@ class CashbookAController extends Controller
 		return view('cashbooknewview::edit', $data);
     }
 
-	public function sumTotal($cashbook_a, $type)
+	public function sumTotal($transactionnumber, $type)
 	{
-		$total = 0;
+		$cashbook_a = CashbookA::where(
+			'transactionnumber',
+			$transactionnumber
+		)->get();
 
+		$total_debit = 0;
+		$total_credit = 0;
 		for (
 			$index_cashbook=0;
 			$index_cashbook < count($cashbook_a);
@@ -137,12 +142,15 @@ class CashbookAController extends Controller
 		) {
 			$arr = $cashbook_a[$index_cashbook];
 
-			if ($type == 'pj') {
-				$total += $arr->debit;
-			}else{
-				$total += $arr->credit;
-			}
+			$total_debit += $arr->debit;
+			$total_credit += $arr->credit;
 
+		}
+
+		if ($type == 'pj') {
+			$total = $total_debit - $total_credit;
+		}else{
+			$total = $total_credit - $total_debit;
 		}
 
 		Cashbook::where('transactionnumber', $cashbook_a[0]->transactionnumber)
@@ -183,17 +191,17 @@ class CashbookAController extends Controller
 			'description' => $request->description_a
 		]);
 
-		$cashbook_a = $cashbook_a_tmp->update($request->only([
+		$cashbook_a_update = $cashbook_a_tmp->update($request->only([
 			'debit',
 			'credit',
 			'description',
 		]));
 
-		$this->sumTotal($cashbook_a_tmp->get(), $type);
+		$this->sumTotal($cashbook_a_tmp->first()->transactionnumber, $type);
 
 		DB::commit();
 
-        return response()->json($cashbook_a);
+        return response()->json($cashbook_a_update);
     }
 
     public function destroy(Request $request)
@@ -222,12 +230,7 @@ class CashbookAController extends Controller
         $cashbook_a_delete = CashbookA::where('uuid', $request->cashbooka)
 		->delete();
 
-		$cashbook_a = CashbookA::where(
-			'transactionnumber',
-			$transactionnumber
-		)->get();
-
-		$this->sumTotal($cashbook_a, $type);
+		$this->sumTotal($transactionnumber, $type);
 
 		DB::commit();
 
