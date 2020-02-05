@@ -284,9 +284,14 @@ class CashbookAController extends Controller
         return response()->json($cashbook);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
-		$data = $alldata = json_decode(CashbookA::all());
+		$cashbook = Cashbook::where('uuid', $request->cashbook_uuid)->first();
+
+		$data = $alldata = json_decode(
+			CashbookA::where('transactionnumber', $cashbook->transactionnumber)
+			->get()
+		);
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 

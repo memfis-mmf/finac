@@ -23,7 +23,7 @@ let Coa = {
             source: {
                 read: {
                     method: 'GET',
-                    url: _url+'/cashbooka/datatables',
+                    url: _url+'/cashbooka/datatables/?cashbook_uuid='+cashbook_uuid,
                     map: function (raw) {
                         let dataSet = raw;
 
@@ -109,7 +109,7 @@ let Coa = {
                 overflow: 'visible',
                 template: function (t, e, i) {
                     return (
-                        '<button id="show_coa_edit" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-description='+t.description+' data-uuid=' +
+                        '<button id="show_coa_edit" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-description="'+t.description+'" data-uuid=' +
                         t.uuid +
                         '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                         '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -135,7 +135,7 @@ let Coa = {
 			_modal.find('[name=account_code_a]').val(data.code);
 			_modal.find('[name=account_name_a]').val(data.name);
 			_modal.find('[name=amount_a]').val(
-				(data.debit)? parseInt(data.debit): parseInt(data.credit)
+				(data.debit > 0)? parseInt(data.debit): parseInt(data.credit)
 			);
 			_modal.find('[name=description_a]').val(_description);
 

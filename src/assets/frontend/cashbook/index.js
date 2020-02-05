@@ -117,14 +117,14 @@ let Cashbook = {
                     width: 150
                 },
                 {
-                    field: 'createdby',
+                    field: 'created_by.name',
                     title: 'Created By',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: 'approvedby',
+                    field: 'approved_by.name',
                     title: 'Approved By',
                     sortable: 'asc',
                     filterable: !1,

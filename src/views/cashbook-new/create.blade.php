@@ -54,16 +54,19 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Cashbook Reference @include('label::required')
+                                            Cashbook Reference
                                         </label>
 
 																				<select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref">
 																					<option value=""></option>
-																					@foreach ($cashbook_ref as $key => $value)
-																						<option value="{{$key->transactionnumber}}">
-																							{{$key->transactionnumber}}
+																					@for ($index_cashbook_ref=0; $index_cashbook_ref < count($cashbook_ref); $index_cashbook_ref++)
+																						@php
+																							$arr = $cashbook_ref[$index_cashbook_ref]
+																						@endphp
+																						<option value="{{$arr->transactionnumber}}">
+																							{{$arr->transactionnumber}}
 																						</option>
-																					@endforeach
+																					@endfor
 																				</select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
