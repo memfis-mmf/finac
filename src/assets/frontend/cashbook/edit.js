@@ -108,14 +108,16 @@ let Coa = {
                 sortable: !1,
                 overflow: 'visible',
                 template: function (t, e, i) {
-                    return (
-                        '<button id="show_coa_edit" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-description="'+t.description+'" data-uuid=' +
-                        t.uuid +
-                        '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                        '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                        t.uuid +
-                        ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-                    );
+
+									let _html =
+                    '<button id="show_coa_edit" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-description="'+t.description+'" data-uuid=' +
+                    t.uuid +
+                    '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                    t.uuid +
+                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+
+                  return _html;
                 }
             }
         ]
@@ -188,6 +190,38 @@ let Coa = {
 					},
 					type: 'post',
 					url: _url+'/cashbooka',
+					data: _data,
+					success: function (data) {
+							if (data.errors) {
+								toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+								});
+
+							} else {
+									$('.modal').modal('hide');
+
+									toastr.success('Data Saved', 'Success', {
+											timeOut: 2000
+									});
+
+									coa_datatable.reload()
+							}
+					}
+			});
+		});
+
+		let save_cashbook_adjustment = $('body').on('click', '#create_cashbook_adjustment', function () {
+
+			let modal = $(this).parents('.modal');
+			let form = modal.find('form');
+			let _data = form.serialize();
+
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'post',
+					url: _url+'/cashbooka/adjustment',
 					data: _data,
 					success: function (data) {
 							if (data.errors) {
@@ -284,6 +318,15 @@ let Coa = {
 		});
 
 		$('#_accountcode').select2({
+		  ajax: {
+		    url: _url+'/journal/get-account-code-select2',
+		    dataType: 'json'
+		  },
+			minimumInputLength: 3,
+			// templateSelection: formatSelected
+		});
+
+		$('#_accountcode_adj').select2({
 		  ajax: {
 		    url: _url+'/journal/get-account-code-select2',
 		    dataType: 'json'

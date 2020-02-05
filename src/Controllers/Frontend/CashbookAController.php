@@ -114,6 +114,41 @@ class CashbookAController extends Controller
         return response()->json($cashbook);
     }
 
+    public function storeAdj(Request $request)
+    {
+		if (strpos($request->transactionnumber, 'PJ') !== false) {
+			$type = 'pj';
+		}
+
+		if (strpos($request->transactionnumber, 'RJ') !== false) {
+			$type = 'rj';
+		}
+
+		$coa = Coa::where('code', $request->code_b)->first();
+
+		$request->request->add([
+			'code' => $coa->code,
+			'name' => $coa->name,
+			'description' => $request->description_b,
+			'debit' => $request->debit_b,
+			'credit' => $request->credit_b,
+		]);
+
+		DB::beginTransaction();
+
+        $cashbook = CashbookA::create($request->all());
+
+		$cashbook_a = CashbookA::where(
+			'transactionnumber',
+			$request->transactionnumber
+		)->get();
+
+		$this->sumTotal($request->transactionnumber, $type);
+
+		DB::commit();
+        return response()->json($cashbook);
+    }
+
     public function edit(CashbookA $cashbook)
     {
 		$data['cashbook'] = $cashbook;

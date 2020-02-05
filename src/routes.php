@@ -128,6 +128,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/datatables/modal',
 			'memfisfa\Finac\Controllers\Frontend\CashbookAController@basicModal'
 		);
+		// adj
+		Route::post(
+			'/adjustment',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@storeAdj'
+		)->name('cashbooka.adjustment.store');
 	});
 
     Route::prefix('journal')->group(function () {
