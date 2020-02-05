@@ -2,6 +2,7 @@ let Coa = {
   init: function () {
 
 		let _url = window.location.origin;
+		let cashbook_uuid = $('input[name=cashbook_uuid]').val();
 
 		function addCommas(nStr)
 		{
@@ -108,7 +109,7 @@ let Coa = {
                 overflow: 'visible',
                 template: function (t, e, i) {
                     return (
-                        '<button id="#show_coa_edit" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-description='+t.description+' data-uuid=' +
+                        '<button id="show_coa_edit" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-description='+t.description+' data-uuid=' +
                         t.uuid +
                         '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                         '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -121,9 +122,59 @@ let Coa = {
     });
 
 		let display_coa_edit = $('body').on('click', '#show_coa_edit', function() {
+
+			let tr = $(this).parents('tr');
+			let tr_index = tr.index();
 			let data = coa_datatable.row(tr).data().mDatatable.dataSet[tr_index];
 			let _description = $(this).data('description');
+			let _modal = $('#modal_coa_edit');
+
+			console.table(data);
+
+			_modal.find('[name=uuid]').val(data.uuid);
+			_modal.find('[name=account_code_a]').val(data.code);
+			_modal.find('[name=account_name_a]').val(data.name);
+			_modal.find('[name=amount_a]').val(
+				(data.debit)? parseInt(data.debit): parseInt(data.credit)
+			);
+			_modal.find('[name=description_a]').val(_description);
+
+			$('#modal_coa_edit').modal('show');
 		})
+
+		let update_cashbook_a = $('body').on('click', '#update_cashbook_a', function () {
+
+			console.log('wew');
+
+			let _form = $(this).parents('form');
+			let _uuid = _form.find('[name=uuid]').val();
+			let _data = _form.serialize();
+
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'put',
+					url: _url+'/cashbooka/'+_uuid,
+					data: _data,
+					success: function (data) {
+							if (data.errors) {
+								toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+								});
+
+							} else {
+									$('.modal').modal('hide');
+
+									toastr.success('Data Saved', 'Success', {
+											timeOut: 2000
+									});
+
+									coa_datatable.reload()
+							}
+					}
+			});
+		});
 
 		let save_cashbook_a = $('body').on('click', '#create_cashbooka', function () {
 
@@ -136,7 +187,7 @@ let Coa = {
 							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					},
 					type: 'post',
-					url: '/cashbooka',
+					url: _url+'/cashbooka',
 					data: _data,
 					success: function (data) {
 							if (data.errors) {
@@ -167,7 +218,7 @@ let Coa = {
 							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					},
 					type: 'put',
-					url: '/cashbook/{{Request::segment(2)}}',
+					url: _url+'/cashbook/'+cashbook_uuid,
 					data: _data,
 					success: function (data) {
 							if (data.errors) {

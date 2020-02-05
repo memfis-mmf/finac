@@ -30,6 +30,7 @@
 @include('cashbookview::coamodal')
 @include('cashbooknewview::modal-coa')
 <div class="m-content">
+    <input type="hidden" class="form-control form-control-danger m-input" name="cashbook_uuid" value="{{Request::segment(2)}}">
     <div class="row">
         <div class="col-lg-12">
             <div class="m-portlet">
@@ -388,7 +389,7 @@
                                 @component('input::select2')
                                     @slot('id', '_accountcode')
                                     @slot('text', 'Account Code')
-                                    @slot('name', 'code')
+                                    @slot('name', 'code_a')
                                     @slot('id_error', 'accountcode')
                                 @endcomponent
                             </div>
@@ -402,7 +403,7 @@
                                 @component('input::number')
                                     @slot('id', 'amount')
                                     @slot('text', 'amount')
-                                    @slot('name', 'amount')
+                                    @slot('name', 'amount_a')
                                 @endcomponent
                             </div>
                         </div>
@@ -415,7 +416,7 @@
                                 @component('input::textarea')
                                     @slot('id', 'remark')
                                     @slot('text', 'remark')
-                                    @slot('name', 'description')
+                                    @slot('name', 'description_a')
                                     @slot('rows','5')
                                 @endcomponent
                             </div>

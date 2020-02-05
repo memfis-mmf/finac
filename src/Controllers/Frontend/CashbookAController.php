@@ -5,11 +5,13 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use memfisfa\Finac\Model\CashbookA;
+use memfisfa\Finac\Model\Cashbook;
 use memfisfa\Finac\Model\Coa;
 use App\Models\Approval;
 use App\Models\Department;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class CashbookAController extends Controller
 {
@@ -72,26 +74,43 @@ class CashbookAController extends Controller
     {
 		if (strpos($request->transactionnumber, 'PJ') !== false) {
 			$request->request->add([
-				'debit' => $request->amount,
+				'debit' => $request->amount_a,
 				'credit' => 0,
 			]);
+			$type = 'pj';
 		}
 
 		if (strpos($request->transactionnumber, 'RJ') !== false) {
 			$request->request->add([
 				'debit' => 0,
-				'credit' => $request->amount,
+				'credit' => $request->amount_a,
 			]);
+			$type = 'rj';
 		}
 
-		$coa = Coa::where('code', $request->code)->first();
+		$coa = Coa::where('code', $request->code_a)->first();
 
 		$request->request->add([
 			'code' => $coa->code,
 			'name' => $coa->name,
 		]);
 
+		$request->request->add([
+			'description' => $request->description_a
+		]);
+
+		DB::beginTransaction();
+
         $cashbook = CashbookA::create($request->all());
+
+		$cashbook_a = CashbookA::where(
+			'transactionnumber',
+			$request->transactionnumber
+		)->get();
+
+		$this->sumTotal($cashbook_a, $type);
+
+		DB::commit();
         return response()->json($cashbook);
     }
 
@@ -107,18 +126,112 @@ class CashbookAController extends Controller
 		return view('cashbooknewview::edit', $data);
     }
 
-    public function update(Request $request, CashbookA $cashbook)
-    {
-        $cashbook->update($request->all());
+	public function sumTotal($cashbook_a, $type)
+	{
+		$total = 0;
 
-        return response()->json($cashbook);
+		for (
+			$index_cashbook=0;
+			$index_cashbook < count($cashbook_a);
+			$index_cashbook++
+		) {
+			$arr = $cashbook_a[$index_cashbook];
+
+			if ($type == 'pj') {
+				$total += $arr->debit;
+			}else{
+				$total += $arr->credit;
+			}
+
+		}
+
+		Cashbook::where('transactionnumber', $cashbook_a[0]->transactionnumber)
+		->update([
+			'totaltransaction' => $total
+		]);
+
+		return [
+			'status' => true,
+		];
+	}
+
+    public function update(Request $request)
+    {
+		if (strpos($request->transactionnumber, 'PJ') !== false) {
+			$request->request->add([
+				'debit' => $request->amount_a,
+				'credit' => 0,
+			]);
+			$type = 'pj';
+		}
+
+		if (strpos($request->transactionnumber, 'RJ') !== false) {
+			$request->request->add([
+				'debit' => 0,
+				'credit' => $request->amount_a,
+			]);
+			$type = 'rj';
+		}
+
+		DB::beginTransaction();
+
+		$coa = Coa::where('code', $request->account_code_a)->first();
+
+		$cashbook_a_tmp = CashbookA::where('uuid', $request->uuid);
+
+		$request->request->add([
+			'description' => $request->description_a
+		]);
+
+		$cashbook_a = $cashbook_a_tmp->update($request->only([
+			'debit',
+			'credit',
+			'description',
+		]));
+
+		$this->sumTotal($cashbook_a_tmp->get(), $type);
+
+		DB::commit();
+
+        return response()->json($cashbook_a);
     }
 
     public function destroy(Request $request)
     {
-        $cashbook = CashbookA::where('uuid', $request->cashbooka)->delete();
+		DB::beginTransaction();
 
-        return response()->json($cashbook);
+		$transactionnumber = CashbookA::where('uuid', $request->cashbooka)
+		->first()->transactionnumber;
+
+		if (strpos($transactionnumber, 'PJ') !== false) {
+			$request->request->add([
+				'debit' => $request->amount_a,
+				'credit' => 0,
+			]);
+			$type = 'pj';
+		}
+
+		if (strpos($transactionnumber, 'RJ') !== false) {
+			$request->request->add([
+				'debit' => 0,
+				'credit' => $request->amount_a,
+			]);
+			$type = 'rj';
+		}
+
+        $cashbook_a_delete = CashbookA::where('uuid', $request->cashbooka)
+		->delete();
+
+		$cashbook_a = CashbookA::where(
+			'transactionnumber',
+			$transactionnumber
+		)->get();
+
+		$this->sumTotal($cashbook_a, $type);
+
+		DB::commit();
+
+        return response()->json($cashbook_a_delete);
     }
 
     public function getType($id)

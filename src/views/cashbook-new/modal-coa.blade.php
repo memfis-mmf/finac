@@ -10,38 +10,47 @@
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="CoaForm">
                     <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
+										<input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 {{csrf_field()}}
                                 <label class="form-control-label">
-                                    Account Code 
+                                    Account Code
                                 </label>
 
-                                @component('label::data-info')
-                                    @slot('text', 'generated')
-                                @endcomponent
+																<input
+																	type="text"
+																	class="form-control"
+																	name="account_code_a"
+																	value=""
+																	readonly
+																>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Account Name 
+                                    Account Name
                                 </label>
 
-                                @component('label::data-info')
-                                    @slot('text', 'generated')
-                                @endcomponent
+																<input
+																	type="text"
+																	class="form-control"
+																	name="account_name_a"
+																	value=""
+																	readonly
+																>
                             </div>
                         </div>
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
-                                    Amount 
+                                    Amount
                                 </label>
 
                                 @component('input::number')
                                     @slot('id', 'amount')
                                     @slot('text', 'Amount')
-                                    @slot('name', 'amount')
+                                    @slot('name', 'amount_a')
                                 @endcomponent
                             </div>
                         </div>
@@ -54,7 +63,7 @@
                                 @component('input::textarea')
                                     @slot('id', 'description')
                                     @slot('text', 'Description')
-                                    @slot('name', 'description')
+                                    @slot('name', 'description_a')
                                     @slot('rows','5')
                                 @endcomponent
                             </div>
@@ -67,6 +76,7 @@
                                     <div class="action-buttons">
                                         @component('buttons::submit')
                                             @slot('type', 'button')
+                                            @slot('id', 'update_cashbook_a')
                                         @endcomponent
 
                                         @include('buttons::reset')

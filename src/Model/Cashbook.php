@@ -2,7 +2,6 @@
 
 namespace memfisfa\Finac\Model;
 
-
 use memfisfa\Finac\Model\MemfisModel;
 use App\Models\Approval;
 
