@@ -150,6 +150,7 @@
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
                                                 @slot('id','master_asset_save')
+                                                @slot('data_uuid', Request::segment(2))
                                             @endcomponent
 
                                             @include('buttons::reset')

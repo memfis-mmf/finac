@@ -54,10 +54,13 @@ class AssetController extends Controller
         return view('masterassetview::edit', $data);
     }
 
-    public function update(AssetUpdate $request, Asset $asset)
+    public function update(Request $request)
     {
 
-        $asset->update($request->all());
+		$asset_tmp = Asset::where('uuid', $request->asset);
+		$asset = $asset_tmp->first();
+
+        $asset_tmp->update($request->all());
 
         return response()->json($asset);
     }
