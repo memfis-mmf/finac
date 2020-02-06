@@ -84,6 +84,7 @@ class CashbookController extends Controller
     public function edit(Cashbook $cashbook)
     {
 		$data['cashbook'] = $cashbook;
+		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
 		$data['department'] = Department::all();
 		$data['currency'] = Currency::selectRaw(
 			'code, CONCAT(name, " (", symbol ,")") as full_name'
@@ -156,7 +157,7 @@ class CashbookController extends Controller
 
     public function datatables()
     {
-		$data = $alldata = json_decode(Cashbook::all());
+		$data = $alldata = json_decode(Cashbook::orderBy('id', 'desc')->get());
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 
@@ -521,5 +522,23 @@ class CashbookController extends Controller
 			return response()->json($data);
 		}
 
+	}
+
+	public function getRef(Request $request)
+	{
+		$cashbook = Cashbook::where(
+			'transactionnumber',
+			$request->transactionnumber
+		)->first();
+
+		if (!$cashbook) {
+			return [
+				'errors' => 'Data not found'
+			];
+		}
+
+		unset($cashbook->cashbook_ref);
+
+		return $cashbook;
 	}
 }

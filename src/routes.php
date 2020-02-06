@@ -33,6 +33,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@index'
 		)->name('cashbook.index');
+		Route::get(
+			'/get-ref',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@getRef'
+		)->name('cashbook.get_ref');
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@approve'

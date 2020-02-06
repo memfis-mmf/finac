@@ -195,7 +195,7 @@
                                         @component('input::inputreadonly')
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
-                                        @slot('name', 'acd')
+                                        @slot('name', 'account_name')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -226,6 +226,23 @@
 @endsection
 
 @push('footer-scripts')
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/cashbook-type.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+
 <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -258,6 +275,7 @@
 		let simpan = $('body').on('click', '#cashbook_save', function () {
 
 				let form = $(this).parents('form');
+				form.find('[disabled=disabled]').removeAttr('disabled');
 				let _data = form.serialize();
 
 				$.ajax({
@@ -288,22 +306,43 @@
 				});
 		});
 
+		$('body').on('change', '[name=cashbook_ref]', function() {
+
+			let val = $(this).val();
+
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'get',
+					url: '/cashbook/get-ref/?transactionnumber='+val,
+					success: function (data) {
+							if (data.errors) {
+								toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+								});
+
+							} else {
+								toastr.success('Data Loaded', 'Success', {
+										timeOut: 2000
+								});
+
+								console.table(data);
+
+								$.each( data, function( key, value ) {
+									$(`[name=${key}]`).val(value).trigger('change');
+									$(`[name=${key}]`).attr('disabled', '');
+								});
+
+								$(`[name=location]`).val(data.location.toLowerCase()).trigger('change');
+								$(`[name=exchangerate]`).val(parseInt(data.exchangerate)).trigger('change');
+								$(`button.checkprofit`).attr('disabled', '');
+
+							}
+					}
+			});
+		})
+
 	});
 </script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/cashbook-type.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush

@@ -54,6 +54,26 @@
                         <form id="SupplierInvoiceGRNForm">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
+																		@if ($cashbook->cashbook_ref)
+	                                    <div class="col-sm-6 col-md-6 col-lg-6">
+	                                        <label class="form-control-label">
+	                                            Cashbook Reference
+	                                        </label>
+
+																					<select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref" disabled>
+																						<option value=""></option>
+																						@for ($index_cashbook_ref=0; $index_cashbook_ref < count($cashbook_ref); $index_cashbook_ref++)
+																							@php
+																								$arr = $cashbook_ref[$index_cashbook_ref]
+																							@endphp
+																							<option value="{{$arr->transactionnumber}}" {{ ($arr->transactionnumber == $cashbook->cashbook_ref)? 'selected': '' }}>
+																								{{$arr->transactionnumber}}
+																							</option>
+																						@endfor
+																					</select>
+	                                    </div>
+																		@endif
+
                                     <div class="col-sm-6 col-md-6 col-lg-6">
 																			<label class="form-control-label">
 																					Cashbook Type @include('label::required')
@@ -191,7 +211,7 @@
                                         @component('input::inputreadonly')
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
-                                        @slot('name', 'acd')
+                                        @slot('name', 'account_name')
                                         @slot('value', $cashbook->coa->name)
                                         @endcomponent
                                     </div>
