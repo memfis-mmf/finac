@@ -330,6 +330,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@index'
 		)->name('profitloss.index');
+		Route::get(
+			'/show',
+			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@show'
+		)->name('profitloss.show');
 	});
 
     Route::prefix('journala')->group(function () {

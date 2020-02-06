@@ -76,8 +76,18 @@
                             </div>
                         </div>
 
-                        <div class="coa_datatable" id="scrolling_both"></div>
-
+                        {{-- <div class="coa_datatable" id="scrolling_both"></div> --}}
+												<table class="coa_datatable table table-hover">
+													<thead>
+														<tr style="background:#eee">
+															<th>Account Code</th>
+															<th>Account Name</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>
 
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12  d-flex justify-content-end">
@@ -87,7 +97,7 @@
                                             <span>Print</span>
                                         </span>
                                     </a>
-                                    <a href="{{url('general-ledger/show')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                    <a href="javascript:;" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md view"><span>
                                             <i class="la la-file"></i>
                                             <span>View</span>
                                         </span>
@@ -107,6 +117,5 @@
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/general-ledger.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/general-ledger/index.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush
