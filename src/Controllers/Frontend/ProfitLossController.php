@@ -41,10 +41,10 @@ class ProfitLossController extends Controller
 
 	public function getData($beginDate, $endingDate)
 	{
-		$queryStatement = "
-			SET @BeginDate = ".$beginDate.";
-			SET @EndingDate = ".$endingDate.";
-		";
+		$queryStatement = '
+			SET @BeginDate = "'.$beginDate.'";
+			SET @EndingDate = "'.$endingDate.'";
+		';
 
 		$query = "
 			SELECT
@@ -178,6 +178,7 @@ class ProfitLossController extends Controller
 			'biaya_period' => $getPL['biaya_period'],
 			'total_accumulated' => $getPL['total_accumulated'],
 			'total_period' => $getPL['total_period'],
+			'daterange' => $request->daterange
 		];
 
         return view('profitlossview::view-pl', $data);
