@@ -49,7 +49,11 @@
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <h3>Date Period 12/12/12 - 12/12/20</h3>
+                                    <h3>
+																			Date Period
+																			{{date('d/m/y', strtotime($beginDate))}} -
+																			{{date('d/m/y', strtotime($endingDate))}}
+																		</h3>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
@@ -71,92 +75,29 @@
                                         <tr style="color:blue;font-weight: bold;">
                                             <td width="18%" colspan="3"><h3>ACTIVA</h3></td>
                                         </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="18%" colspan="3"><h3>Current Asset</h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11110000</td>
-                                            <td width="52%">Cash & Bank</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11120000</td>
-                                            <td width="52%">Deposit</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11130000</td>
-                                            <td width="52%">Temporary Investment</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11140000</td>
-                                            <td width="52%">Account Receivables</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11150000</td>
-                                            <td width="52%">Account Receivables Other</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11160000</td>
-                                            <td width="52%">Inventories</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11170000</td>
-                                            <td width="52%">Advance Payment</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11180000</td>
-                                            <td width="52%">Prepaid Tax</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11190000</td>
-                                            <td width="52%">Prepaid Expense</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11200000</td>
-                                            <td width="52%">Accurued Revenue</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">11210000</td>
-                                            <td width="52%">Other Current Assets</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr style="background:#cfcfcf;font-weight: bold;">
-                                            <td width="18%"><h5>Total Current Asset</h5></td>
+																				@for ($index_activa=0; $index_activa < count($data['activa']); $index_activa++)
+																					@php
+																						$arr = $data['activa'][$index_activa];
+																					@endphp
+	                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+	                                            <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+	                                        </tr>
+																					@for ($index_child=0; $index_child < count($arr->child); $index_child++)
+																						@php
+																							$arr2 = $arr->child[$index_child];
+																						@endphp
+		                                        <tr>
+	                                            <td width="18%">{{$arr2->code}}</td>
+	                                            <td width="52%">{{$arr2->name}}</td>
+	                                            <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+		                                        </tr>
+																					@endfor
+	                                        <tr style="background:#cfcfcf;font-weight: bold;">
+                                            <td width="18%"><h5>Total {{$arr->name}}</h5></td>
                                             <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">Amount</td>
-                                        </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="18%" colspan="3"><h3>Current Asset</h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">12110000</td>
-                                            <td width="52%">Fixed Asset</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">12120000</td>
-                                            <td width="52%">Long Term Invesment</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">12130000</td>
-                                            <td width="52%">Other Asset</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr style="background:#cfcfcf;font-weight: bold;">
-                                            <td width="18%"><h5>Total Non Current Asset</h5></td>
-                                            <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">Amount</td>
-                                        </tr>
+                                            <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+	                                        </tr>
+																				@endfor
                                         {{-- spasi --}}
                                         <tr>
                                             <td width="18%" colspan="3"></td>
@@ -168,7 +109,7 @@
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="18%"><h5>Total Activa</h5></td>
                                             <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">Amount</td>
+                                            <td width="30%" align="center">{{$totalActiva}}</td>
                                         </tr>
 
                                         {{-- spasi --}}
@@ -183,57 +124,29 @@
                                         <tr style="color:blue;font-weight: bold;">
                                             <td width="18%" colspan="3"><h3>PASIVA</h3></td>
                                         </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="18%" colspan="3"><h3>Liabilities</h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">21110000</td>
-                                            <td width="52%">Current Liabilies</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">21120000</td>
-                                            <td width="52%">Other Current Liabilities</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">21130000</td>
-                                            <td width="52%">Long Term Liabilies</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr style="background:#cfcfcf;font-weight: bold;">
-                                            <td width="18%"><h5>Total Liabilities</h5></td>
+																				@for ($index_activa=0; $index_activa < count($data['pasiva']); $index_activa++)
+																					@php
+																						$arr = $data['pasiva'][$index_activa];
+																					@endphp
+	                                        <tr style="font-weight: bold; border-bottom:1px solid black">
+	                                            <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+	                                        </tr>
+																					@for ($index_child=0; $index_child < count($arr->child); $index_child++)
+																						@php
+																							$arr2 = $arr->child[$index_child];
+																						@endphp
+		                                        <tr>
+	                                            <td width="18%">{{$arr2->code}}</td>
+	                                            <td width="52%">{{$arr2->name}}</td>
+	                                            <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+		                                        </tr>
+																					@endfor
+	                                        <tr style="background:#cfcfcf;font-weight: bold;">
+                                            <td width="18%"><h5>Total {{$arr->name}}</h5></td>
                                             <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">Amount</td>
-                                        </tr>
-                                        <tr style="font-weight: bold; border-bottom:1px solid black">
-                                            <td width="18%" colspan="3"><h3>Equities</h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">31110000</td>
-                                            <td width="52%">Capital</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">31120000</td>
-                                            <td width="52%">Retained Earning</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">31130000</td>
-                                            <td width="52%">Profit and Loss</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="18%">31140000</td>
-                                            <td width="52%">Devident</td>
-                                            <td width="30%"></td>
-                                        </tr>
-                                        <tr style="background:#cfcfcf;font-weight: bold;">
-                                            <td width="18%"><h5>Total Equities</h5></td>
-                                            <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">Amount</td>
-                                        </tr>
+                                            <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+	                                        </tr>
+																				@endfor
                                         {{-- spasi --}}
                                         <tr>
                                             <td width="18%" colspan="3"></td>
@@ -245,7 +158,7 @@
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="18%"><h5>Total Pasiva</h5></td>
                                             <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">Amount</td>
+                                            <td width="30%" align="center">{{$totalPasiva}}</td>
                                         </tr>
                                     </table>
                                 </div>

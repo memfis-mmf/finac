@@ -293,6 +293,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\BalanceSheetController@index'
 		)->name('balancesheet.index');
 		Route::get(
+			'/show',
+			'memfisfa\Finac\Controllers\Frontend\BalanceSheetController@show'
+		)->name('balancesheet.show');
+		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\BalanceSheetController@print'
 		)->name('balancesheet.print');

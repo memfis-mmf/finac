@@ -136,14 +136,14 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <div class="action-buttons">
-                                        @component('buttons::submit')
-                                            @slot('type', 'button')
-                                            @slot('id','printview')
-                                            @slot('text','Print')
-                                            @slot('icon','fa-print')
-                                        @endcomponent
+																			<a href="{{url('')}}/profit-loss/print-view-pl?daterange={{$daterange}}" class="btn btn-success btn-md add">
+																				<span>
+																	        <i class="fa fa-print"></i>
+																	        <span>Print</span>
+																		    </span>
+																			</a>
 
-                                        @include('buttons::back')
+                                      @include('buttons::back')
                                     </div>
                                 </div>
                             </div>
