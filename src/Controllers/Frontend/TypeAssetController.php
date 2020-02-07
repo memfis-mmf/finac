@@ -65,9 +65,7 @@ class TypeAssetController extends Controller
 
     public function datatables()
     {
-		$data = $alldata = json_decode(TypeAsset::with([
-			'coa'
-		])->get());
+		$data = $alldata = json_decode(TypeAsset::with(['coa'])->get());
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
