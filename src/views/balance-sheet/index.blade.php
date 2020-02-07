@@ -62,7 +62,7 @@
                                                 @endcomponent
                                             </div>
                                         </div>
-                                        <a href="{{url('balance-sheet/show')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md">
+                                        <a href="javascript:;" class="view btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md">
                                             <span>
                                                 <span>View Balance Sheet</span>
                                             </span>
@@ -84,4 +84,15 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/balance-sheet.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		let _url = window.location.origin;
+
+		$('body').on('click', '.view', function() {
+			let date = $('[name=daterange_balance_sheet]').val();
+
+			location.href=_url+"/balance-sheet/show/?daterange="+date;
+		})
+	});
+</script>
 @endpush
