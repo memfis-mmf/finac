@@ -68,12 +68,16 @@
                                             Asset Category @include('label::required')
                                         </label>
 
-                                        @component('input::select')
-                                            @slot('id', 'asset_category_id')
-                                            @slot('name', 'group')
-                                            @slot('text', 'Asset Category')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
+	                                      <select id="asset_category_id" name="asset_category_id" class="form-control _select2" style="width:100%">
+	                                          <option value=""></option>
+
+	                                          @foreach ($asset_categories as $category)
+                                              <option value="{{ $category->id }}">
+	                                              {{ $category->name }}
+                                              </option>
+	                                          @endforeach
+	                                      </select>
+
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -132,4 +136,11 @@
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/master-asset/create.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('._select2').select2({
+			'placeholder' : '-- Select --'
+		});
+	});
+</script>
 @endpush

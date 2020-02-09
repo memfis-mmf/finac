@@ -34,7 +34,8 @@ class AssetController extends Controller
 
     public function create()
     {
-        return view('masterassetview::create');
+		$data['asset_categories'] = TypeAsset::all();
+        return view('masterassetview::create', $data);
     }
 
     public function store(Request $request)
