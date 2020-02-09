@@ -96,7 +96,7 @@
 
                 @component('input::select')
                     @slot('id', 'department')
-                    @slot('name', 'department')
+                    @slot('name', 'company_department')
                     @slot('text', 'Department')
                 @endcomponent
             </div>

@@ -58,7 +58,7 @@
 
                 @component('input::number')
                     @slot('id', 'salvage_value')
-                    @slot('name', 'salvagevalu')
+                    @slot('name', 'salvagevalue')
                     @slot('text', 'Salvage Value')
                     @slot('input_append', 'IDR')
                 @endcomponent
@@ -82,6 +82,7 @@
                     Depreciation Date
                 </label>
 
+								{{-- depreciationstart and depreciationend --}}
                 @component('input::datepicker')
                     @slot('id', 'daterange_depreciation_date')
                     @slot('name', 'daterange_depreciation_date')
