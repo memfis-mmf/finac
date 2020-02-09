@@ -3,23 +3,6 @@ let AssetCreate = {
 
 		let _url = window.location.origin;
 
-    $.ajax({
-        url: _url+'/asset/data/',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-
-            $('select#asset_category_id').empty();
-
-            $.each(data, function (key, value) {
-							console.log(key);
-              $('select#asset_category_id').append(
-                  '<option value="' + key + '">' + value + '</option>'
-              );
-            });
-        }
-    });
-
 		let simpan = $('body').on('click', '#master_asset_save', function () {
 
 				let form = $(this).parents('form');

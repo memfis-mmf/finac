@@ -43,6 +43,7 @@
                     Warranty
                 </label>
 
+								{{-- Warrantystart warranty end --}}
                 @component('input::datepicker')
                     @slot('id', 'daterange_master_asset')
                     @slot('name', 'daterange_master_asset')
@@ -95,7 +96,7 @@
 
                 @component('input::select')
                     @slot('id', 'department')
-                    @slot('name', 'department')
+                    @slot('name', 'company_department')
                     @slot('text', 'Department')
                 @endcomponent
             </div>

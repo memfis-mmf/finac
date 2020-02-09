@@ -93,8 +93,8 @@
 		                                        </tr>
 																					@endfor
 	                                        <tr style="background:#cfcfcf;font-weight: bold;">
-                                            <td width="18%"><h5>Total {{$arr->name}}</h5></td>
-                                            <td width="52%" align="center"></td>
+                                            <td width="38%"><h5>Total {{$arr->name}}</h5></td>
+                                            <td width="32%" align="center"></td>
                                             <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
 	                                        </tr>
 																				@endfor
