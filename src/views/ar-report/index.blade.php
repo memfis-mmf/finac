@@ -52,25 +52,80 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
+                            {{-- Outstanding --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="action-buttons p-5">
-                                    @component('buttons::submit')
-                                        @slot('type', 'button')
-                                        @slot('id','bond_save')
-                                        @slot('class','w-100 h-100')
-                                        @slot('style','width:100px;')
-                                    @endcomponent
+                                <div class="p-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_outstanding" data-toggle="modal">
+                                        <span>
+                                            <i class="la la-plus-circle"></i>
+                                            <span>Outstanding Invoice</span>
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
+
+                            @include('arreport-outstandingview::modal')
+
+                            {{-- Customer TB --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="action-buttons p-5">
-                                    @component('buttons::submit')
-                                        @slot('type', 'button')
-                                        @slot('id','bond_save')
-                                        @slot('class','w-100 h-100')
-                                    @endcomponent
+                                <div class="p-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_customer_tb" data-toggle="modal">
+                                        <span>
+                                            <i class="la la-plus-circle"></i>
+                                            <span>Customer Trial Balance</span>
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
+
+                            @include('arreport-customertbview::modal')
+
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            {{-- Aging Receivable Detail --}}
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="p-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_aging_rd" data-toggle="modal">
+                                        <span>
+                                            <i class="la la-plus-circle"></i>
+                                            <span>Aging Receivable Detail</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            @include('arreport-agingview::modal')
+
+                            {{-- Account Recivables History --}}
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="p-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_account_rh" data-toggle="modal">
+                                        <span>
+                                            <i class="la la-plus-circle"></i>
+                                            <span>Account Reecivables History</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            @include('arreport-accountrhview::modal')
+
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            {{-- Invoice Paid --}}
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="p-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_invoice_paid" data-toggle="modal">
+                                        <span>
+                                            <i class="la la-plus-circle"></i>
+                                            <span>Invoice Paid</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            @include('invoicepview::modal')
+
                         </div>
                     </div>
                 </div>
