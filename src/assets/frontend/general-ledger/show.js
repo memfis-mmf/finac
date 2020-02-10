@@ -1,12 +1,17 @@
 let GeneralLedger = {
     init: function () {
+				let _url = window.location.origin;
+				let _beginDate = $('[name=_beginDate]').val();
+				let _endingDate = $('[name=_endingDate]').val();
+				let _coa = $('[name=_coa]').val();
+
         $('.general_ledger_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
                     read: {
                         method: 'GET',
-                        url: '',
+                        url: `${_url}/general-ledger/show/datatables?beginDate=${_beginDate}&endingDate=${_endingDate}&coa=${_coa}`,
                         map: function (raw) {
                             let dataSet = raw;
 
@@ -44,56 +49,56 @@ let GeneralLedger = {
             },
             columns: [
                 {
-                    field: '',
+                    field: 'TransactionDate',
                     title: 'Date',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: '',
+                    field: 'AccountCode',
                     title: 'Account Code',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: '',
+                    field: 'Name',
                     title: 'Account Name',
                     sortable: 'asc',
                     filterable: !1,
                     width: 60
                 },
                 {
-                    field: '',
+                    field: 'VoucherNo',
                     title: 'Ref. No.',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'Description',
                     title: 'Description',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'Debit',
                     title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'Credit',
                     title: 'Credit',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'SaldoAkhir',
                     title: 'Balance',
                     sortable: 'asc',
                     filterable: !1,

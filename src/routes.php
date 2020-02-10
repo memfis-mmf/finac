@@ -338,6 +338,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/show',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@show'
 		)->name('profitloss.show');
+		Route::get(
+			'/show/datatables',
+			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@showDatatables'
+		)->name('profitloss.show');
 	});
 
     Route::prefix('journala')->group(function () {
