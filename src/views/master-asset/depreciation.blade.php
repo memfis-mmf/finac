@@ -77,18 +77,17 @@
                     @slot('input_append', 'Month')
                 @endcomponent
             </div>
-            <div class="col-sm-6 col-md-6 col-lg-6">
+            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
                     Depreciation Date
                 </label>
 
-								{{-- depreciationstart and depreciationend --}}
                 @component('input::datepicker')
                     @slot('id', 'daterange_depreciation_date')
                     @slot('name', 'daterange_depreciation_date')
                     @slot('id_error', 'daterange_depreciation_date')
                 @endcomponent
-            </div>
+            </div> --}}
         </div>
         <h4><b>Accumulate Depreciation Account</b> @include('label::required')</h4>
         <div class="form-group m-form__group row ">
