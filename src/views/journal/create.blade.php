@@ -68,7 +68,7 @@
                                         <label class="form-control-label">
                                             Journal Type @include('label::required')
                                         </label>
-        
+
                                         @component('input::select')
                                             @slot('id', 'type')
                                             @slot('text', 'Type')
@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Exchange Rate 
+                                            Exchange Rate
                                         <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                         </label>
                                         @component('input::numberreadonly')
@@ -144,7 +144,7 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
+{{-- <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script> --}}
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
@@ -152,5 +152,30 @@
 <script src="{{ asset('vendor/courier/frontend/journal/create.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
 
+    $('#currency, #currency_validate').select2({
+      placeholder: 'Select a Currency'
+    });
+
+    $('#currency').on('change', function () {
+        console.log(this.value);
+        if(this.value != 'idr'){
+            console.log("bukan idr");
+            $("#exchange").val("");
+            $("#exchange").removeAttr("readonly");
+            document.getElementById("requi").style.display = "block";
+        } else {
+            console.log("idr");
+            $("#exchange").val("1");
+            $("#exchange").attr("readonly", true);
+            // $("#exchange").removeAttr("readonly");
+            document.getElementById("requi").style.display = "none";
+
+        }
+    });
+
+	})
+</script>
 @endpush
