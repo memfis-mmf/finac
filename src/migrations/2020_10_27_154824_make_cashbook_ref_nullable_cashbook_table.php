@@ -13,10 +13,17 @@ class MakeCashbookRefNullableCashbookTable extends Migration
      */
     public function up()
     {
-		Schema::table('cashbooks', function (Blueprint $table) {
-	        $table->dropColumn('cashbook_ref');
-	        $table->text('cashbook_ref')->nullable();
-		});
+		if (Schema::hascolumn('cashbooks', 'cashbook_ref')) {
+			Schema::table('cashbooks', function (Blueprint $table) {
+		        $table->dropColumn('cashbook_ref');
+			});
+		}
+
+		if (!Schema::hascolumn('cashbooks', 'cashbook_ref')) {
+			Schema::table('cashbooks', function (Blueprint $table) {
+		        $table->text('cashbook_ref')->nullable();
+			});
+		}
     }
 
     /**
