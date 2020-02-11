@@ -181,21 +181,23 @@ var DatatableAutoColumnHideDemo = function () {
                 */
 								let discount_amount = 0;
 
+								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+
                 if (t.discount_type == 'amount') {
-									discount_amount = t.quotations[0].pivot.discount_value
+									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
                 } else {
                   if (t.discount_type == 'percentage') {
 										discount_amount = (
-											t.quotations[0].pivot.discount_value * t.quotations[0].subtotal
+											t.quotations[0].pivot.discount_value * _subtotal
 										) / 100;
                   }
                 }
 
 								let tax_amount = (
-									(t.quotations[0].subtotal * (10/100))
+									(_subtotal * (10/100))
 								);
 
-								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
 
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
@@ -203,9 +205,7 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
-	              $("#grand_totalrp_val").val(
-									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
-								);
+	              $("#grand_totalrp_val").val(grandtotal_amount);
 
 								console.table([
 									1,
@@ -217,18 +217,16 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
 	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
-	              $("#grand_totalrp").val(IDRformatter.format(
-									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
-								));
+	              $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount);
+
 								console.table([
 									2,
 									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
 									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
 									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
 								]);
-                $("#tax").val(IDRformatter.format(
-									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)
-								));
+
+                $("#tax").val(IDRformatter.format(tax_amount);
 
                 return (
                   /*IDRformatter.format(t.h1) + "<br/>"
@@ -273,21 +271,23 @@ var DatatableAutoColumnHideDemo = function () {
                 // $("#total_discount").val(ForeignFormatter.format(discount));
 								let discount_amount = 0;
 
+								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+
                 if (t.discount_type == 'amount') {
-									discount_amount = t.quotations[0].pivot.discount_value
+									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
                 } else {
                   if (t.discount_type == 'percentage') {
 										discount_amount = (
-											t.quotations[0].pivot.discount_value * t.quotations[0].subtotal
+											t.quotations[0].pivot.discount_value * _subtotal
 										) / 100;
                   }
                 }
 
 								let tax_amount = (
-									(t.quotations[0].subtotal * (10/100))
+									(_subtotal * (10/100))
 								);
 
-								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
 
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
@@ -296,7 +296,7 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
 	              $("#grand_totalrp_val").val(
-									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
+									grandtotal_amount * t.quotations[0].exchange_rate
 								);
 								console.table([
 									3,
@@ -309,7 +309,7 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
 	              $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
 	              $("#grand_totalrp").val(IDRformatter.format(
-									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
+									grandtotal_amount * t.quotations[0].exchange_rate
 								));
 								console.table([
 									4,
