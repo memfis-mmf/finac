@@ -163,9 +163,6 @@ var DatatableAutoColumnHideDemo = function () {
               if (_currency == 'idr') {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
-                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
-                facility_price += t.facilities_price_amount;
-                material_price += t.mat_tool_price;
                 subtotal += temptotal;
                 //discount += t.discount;
                 /*
@@ -202,7 +199,7 @@ var DatatableAutoColumnHideDemo = function () {
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
 
-                $("#sub_total_val").val(t.quotations[0].subtotal);
+                $("#sub_total_val").val(_subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
 	              $("#grand_totalrp_val").val(grandtotal_amount);
@@ -214,10 +211,10 @@ var DatatableAutoColumnHideDemo = function () {
 									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
 								]);
 
-                $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
+                $("#sub_total").val(IDRformatter.format(_subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
 	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
-	              $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount);
+	              $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount));
 
 								console.table([
 									2,
@@ -226,7 +223,11 @@ var DatatableAutoColumnHideDemo = function () {
 									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
 								]);
 
-                $("#tax").val(IDRformatter.format(tax_amount);
+                $("#tax").val(IDRformatter.format(tax_amount));
+
+                facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
+                material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate;
 
                 return (
                   /*IDRformatter.format(t.h1) + "<br/>"
@@ -240,9 +241,6 @@ var DatatableAutoColumnHideDemo = function () {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
                 subtotal += temptotal;
-                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
-                facility_price += t.facilities_price_amount;
-                material_price += t.mat_tool_price;
                 if(t.pivot.discount_type == 'amount'){
                   discount += t.pivot.discount_value;
                   }else {
@@ -271,10 +269,10 @@ var DatatableAutoColumnHideDemo = function () {
                 // $("#total_discount").val(ForeignFormatter.format(discount));
 								let discount_amount = 0;
 
-								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+								let _subtotal = t.quotations[0].subtotal;
 
                 if (t.discount_type == 'amount') {
-									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
+									discount_amount = t.quotations[0].pivot.discount_value;
                 } else {
                   if (t.discount_type == 'percentage') {
 										discount_amount = (
@@ -292,7 +290,7 @@ var DatatableAutoColumnHideDemo = function () {
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
 
-                $("#sub_total_val").val(t.quotations[0].subtotal);
+                $("#sub_total_val").val(_subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
 	              $("#grand_totalrp_val").val(
@@ -305,7 +303,7 @@ var DatatableAutoColumnHideDemo = function () {
 									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
 								]);
 
-                $("#sub_total").val(ForeignFormatter.format(t.quotations[0].subtotal));
+                $("#sub_total").val(ForeignFormatter.format(_subtotal));
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
 	              $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
 	              $("#grand_totalrp").val(IDRformatter.format(
@@ -318,6 +316,10 @@ var DatatableAutoColumnHideDemo = function () {
 									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
 								]);
                 $("#tax").val(ForeignFormatter.format(tax_amount));
+
+                facility_price += t.facilities_price_amount;
+                material_price += t.mat_tool_price;
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
 
                 return (
                   /*
@@ -359,21 +361,23 @@ var DatatableAutoColumnHideDemo = function () {
                 // $("#total_discount").attr("value", IDRformatter.format(discount));
 								let discount_amount = 0;
 
+								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+
                 if (t.discount_type == 'amount') {
-									discount_amount = t.quotations[0].pivot.discount_value
+									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
                 } else {
                   if (t.discount_type == 'percentage') {
 										discount_amount = (
-											t.quotations[0].pivot.discount_value * t.quotations[0].subtotal
+											t.quotations[0].pivot.discount_value * _subtotal
 										) / 100;
                   }
                 }
 
 								let tax_amount = (
-									(t.quotations[0].subtotal * (10/100))
+									(_subtotal * (10/100))
 								);
 
-								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
 
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
@@ -381,9 +385,7 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
-	              $("#grand_totalrp_val").val(
-									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
-								);
+	              $("#grand_totalrp_val").val(grandtotal_amount);
 
 								console.table([
 									5,
@@ -438,21 +440,23 @@ var DatatableAutoColumnHideDemo = function () {
                 // $("#total_discount").attr("value", ForeignFormatter.format(discount));
 								let discount_amount = 0;
 
+								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+
                 if (t.discount_type == 'amount') {
-									discount_amount = t.quotations[0].pivot.discount_value
+									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
                 } else {
                   if (t.discount_type == 'percentage') {
 										discount_amount = (
-											t.quotations[0].pivot.discount_value * t.quotations[0].subtotal
+											t.quotations[0].pivot.discount_value * _subtotal
 										) / 100;
                   }
                 }
 
 								let tax_amount = (
-									(t.quotations[0].subtotal * (10/100))
+									(_subtotal * (10/100))
 								);
 
-								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
 
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
@@ -460,9 +464,7 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
-	              $("#grand_totalrp_val").val(
-									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
-								);
+	              $("#grand_totalrp_val").val(grandtotal_amount);
 
 								console.table([
 									7,
@@ -514,14 +516,14 @@ var DatatableAutoColumnHideDemo = function () {
 
             } else if (t.priceother != null) {
               subtotal += t.priceother;
-              others_price += t.priceother;
               // if (currency.code == 'idr') {
               if (_currency == 'idr') {
-                others_price += t.priceother;
+                others_price = t.priceother;
                 return (
                   IDRformatter.format(t.priceother) + "<br/>"
                 );
               } else {
+	              others_price = t.priceother;
                 return (
                   ForeignFormatter.format(t.priceother) + "<br/>"
                 );
@@ -606,9 +608,9 @@ jQuery(document).ready(function () {
     data.append("discount",$(".discount").val());
     data.append("ppn",$(".ppn").val());
     data.append("other",$(".others").val());
+    data.append("facilityprice",facility_price);
     data.append("materialprice",material_price);
     data.append("manhoursprice",manhour_price);
-    data.append("facilityprice",facility_price);
     data.append("discountprice",discount_price);
     data.append("ppnprice",ppn_price);
     data.append("schedule_payment",$("#due_payment").val());
