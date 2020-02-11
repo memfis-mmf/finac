@@ -153,19 +153,12 @@ let MasterAssetEdit = {
 							data: _data,
 							success: function (data) {
 									if (data.errors) {
-											if (data.errors.code) {
-													$('#code-error').html(data.errors.code[0]);
-
-													document.getElementById('code').value = code;
-													document.getElementById('name').value = name;
-													document.getElementById('type').value = type;
-													document.getElementById('level').value = level;
-													document.getElementById('description').value = description;
-													coa_reset();
-											}
+											toastr.error(data.errors, 'Invalid', {
+													timeOut: 3000
+											});
 									} else {
 											toastr.success('Data Saved Successfully.', 'Success', {
-													timeOut: 5000
+													timeOut: 2000
 											});
 
 											 setTimeout(function(){

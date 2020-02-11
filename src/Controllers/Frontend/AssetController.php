@@ -57,9 +57,19 @@ class AssetController extends Controller
 
     public function update(Request $request)
     {
-
 		$asset_tmp = Asset::where('uuid', $request->asset);
 		$asset = $asset_tmp->first();
+
+		$request->request->add([
+			'warrantystart' => explode(
+				'-',
+				$request->daterange_master_asset
+			)[0],
+			'warrantyend' => explode(
+				'-',
+				$request->daterange_master_asset
+			)[1],
+		]);
 
         $asset_tmp->update($request->all());
 
