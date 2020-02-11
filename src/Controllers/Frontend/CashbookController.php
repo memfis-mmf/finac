@@ -159,7 +159,8 @@ class CashbookController extends Controller
     {
 		$data = $alldata = json_decode(
 			Cashbook::with([
-				'cashbook_a'
+				'cashbook_a',
+				'currencies',
 			])->orderBy('id', 'desc')->get()
 		);
 
@@ -546,9 +547,69 @@ class CashbookController extends Controller
 		return $cashbook;
 	}
 
-	public function print()
+	public function print(Request $request)
 	{
-        $pdf = \PDF::loadView('formview::cashbook');
+		$cashbook = Cashbook::where('uuid', $request->uuid)->first();
+		$cashbook_a = $cashbook->cashbook_a;
+
+		$total_debit = 0;
+		$total_credit = 0;
+
+		for (
+			$index_cashbook_a=0;
+			$index_cashbook_a < count($cashbook_a);
+			$index_cashbook_a++
+		) {
+			$arr = $cashbook_a[$index_cashbook_a];
+
+			$detail[] = (object) [
+				'coa_detail' => $arr->coa->code,
+				'coa_name' => $arr->coa->name,
+				'credit' => $arr->credit * $cashbook->exchangerate,
+				'debit' => $arr->debit * $cashbook->exchangerate,
+				'symbol' => $cashbook->currencies->symbol,
+				'_desc' => $arr->description,
+			];
+
+			$total_debit += $detail[count($detail)-1]->debit;
+			$total_credit += $detail[count($detail)-1]->credit;
+		}
+
+		if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
+			$type = 'pj';
+			$total = $total_debit - $total_credit;
+			$positiion = 'credit';
+			$x_positiion = 'debit';
+		}
+
+		if (strpos($cashbook->transactionnumber, 'RJ') !== false) {
+			$type = 'rj';
+			$total = $total_credit - $total_debit;
+			$positiion = 'debit';
+			$x_positiion = 'credit';
+		}
+
+		// add object in first array $detai
+		array_unshift(
+			$detail,
+			(object) [
+				'coa_detail' => $cashbook->coa->code,
+				'coa_name' => $cashbook->coa->name,
+				$x_positiion => 0,
+				$positiion => $total,
+				'_desc' => $cashbook->description,
+				'symbol' => $cashbook->currencies->symbol,
+			]
+		);
+
+		$data = [
+			'cashbook' => $cashbook,
+			'detail' => $detail,
+			'total' => $total,
+			'type' => $type,
+		];
+
+        $pdf = \PDF::loadView('formview::cashbook', $data);
         return $pdf->stream();
 	}
 }

@@ -9,7 +9,7 @@
         @page {
             margin: 0cm 0cm;
         }
-        
+
         html,body{
             padding: 0;
             margin: 0;
@@ -106,26 +106,32 @@
                 <tr>
                     <td valign="top" width="18%">Transaction No.</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Generated</td>
-                    <td valign="top" width="18%">Payment To</td>
+                    <td valign="top" width="31%">{{$cashbook->transactionnumber}}</td>
+                    <td valign="top" width="18%">
+											@if ($type == 'rj')
+												Receive From
+											@else
+												Payment To
+											@endif
+										</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Generated</td>
+                    <td valign="top" width="31%">{{$cashbook->personal}}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Date</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Generated</td>
+                    <td valign="top" width="31%">{{$cashbook->transactiondate}}</td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Generated</td>
+                    <td valign="top" width="31%">{{$cashbook->currency}}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Ref No.</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Generated</td>
+                    <td valign="top" width="31%">{{$cashbook->refno}}</td>
                     <td valign="top" width="18%">Exchange Rate</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">Generated</td>
+                    <td valign="top" width="31%">{{number_format($cashbook->exchangerate, 0, 0, '.')}}</td>
                 </tr>
             </table>
         </div>
@@ -145,19 +151,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for($a = 0 ; $a<20; $a++)
+                        @for($a = 0 ; $a<count($detail); $a++)
+													@php
+														$arr = $detail[$a];
+													@endphp
                             <tr>
-                                <td width="15%" align="center">generate</td>
-                                <td width="20%" align="center">generate</td>
-                                <td width="31%" align="center">generate</td>
-                                <td width="17%" align="center">12.000</td>
-                                <td width="17%" align="center">12.000</td>
+                                <td width="15%" align="center">{{$arr->coa_detail}}</td>
+                                <td width="20%" align="center">{{$arr->coa_name}}</td>
+                                <td width="31%" align="center">{{$arr->_desc}}</td>
+                                <td width="17%" align="center">
+																	@if ($arr->debit > 0)
+																		{{$arr->symbol.' '.number_format($arr->debit, 0, 0, '')}}
+																	@endif
+																</td>
+                                <td width="17%" align="center">
+																	@if ($arr->credit > 0)
+																		{{$arr->symbol.' '.number_format($arr->credit, 0, 0, '')}}
+																	@endif
+																</td>
                             </tr>
                         @endfor
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
-                        <td colspan="2" style="background:#e6eef2"><b>Total : $/Rp. </b></td>
+                        <td colspan="2" style="background:#e6eef2"><b>Total : {{$detail[0]->symbol}}. {{number_format($total, 0, 0, '')}}</b></td>
                     </tr>
                 </table>
             </div>

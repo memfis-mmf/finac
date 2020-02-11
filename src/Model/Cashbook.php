@@ -4,6 +4,7 @@ namespace memfisfa\Finac\Model;
 
 use memfisfa\Finac\Model\MemfisModel;
 use App\Models\Approval;
+use App\Models\Currency;
 use App\User;
 use Auth;
 use DB;
@@ -120,5 +121,10 @@ class Cashbook extends MemfisModel
 			'transactionnumber',
 			'transactionnumber'
 		);
+	}
+
+	public function currencies()
+	{
+		return $this->belongsTo(Currency::class, 'currency', 'code');
 	}
 }
