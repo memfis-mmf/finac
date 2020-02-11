@@ -22,6 +22,15 @@ class BankController extends Controller
         return json_encode($bank);
     }
 
+    public function internal(){
+        $bank = BankAccount::where('internal_account', 1)->selectRaw(
+			'uuid, CONCAT(name, " (", number ,")") as full'
+		)->pluck('uuid','full');
+        //dd($bank);
+
+        return json_encode($bank);
+    }
+
     public function detail($bankAccount){
         $bankAccountget = BankAccount::where('uuid',$bankAccount)->first();
         $bankget = Bank::where('id',$bankAccountget->bank_id)->first();

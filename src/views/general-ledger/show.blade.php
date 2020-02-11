@@ -1,6 +1,10 @@
 @extends('frontend.master')
 
 @section('content')
+<input type="hidden" name="_beginDate" value="{{$beginDate}}">
+<input type="hidden" name="_endingDate" value="{{$endingDate}}">
+<input type="hidden" name="_coa" value="{{$coa}}">
+
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">

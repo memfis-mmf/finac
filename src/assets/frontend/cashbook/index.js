@@ -92,7 +92,21 @@ let Cashbook = {
                     filterable: !1,
                     width: 150,
 										template: function(t, e, i) {
-											return addCommas(parseInt(t.totaltransaction));
+											// return addCommas(parseInt(t.totaltransaction));
+
+											let total_debit = 0;
+											let total_credit = 0;
+											for (var i = 0; i < t.cashbook_a.length; i++) {
+												total_debit += parseInt(t.cashbook_a[i].debit);
+												total_credit += parseInt(t.cashbook_a[i].credit);
+											}
+
+											total = total_debit;
+											if (total_debit == 0) {
+												total = total_credit;
+											}
+
+											return addCommas(parseInt(total));
 										}
                 },
                 {

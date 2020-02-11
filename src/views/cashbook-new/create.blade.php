@@ -124,7 +124,7 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Payment To @include('label::required')
+                                            <span class="payment_receive">Payment To</span> @include('label::required')
                                         </label>
 
                                         @component('input::text')
@@ -342,6 +342,20 @@
 					}
 			});
 		})
+
+		$('body').on('change', '[name=cashbook_type]', function() {
+			let val = $(this).find(":selected").html();
+			let _text = val.split(' ')[1];
+
+			console.log(_text == 'Payment');
+
+			text = _text+' From'
+			if (_text == 'Payment') {
+				text = _text+' To'
+			}
+
+			$('.payment_receive').html(text);
+		});
 
 	});
 </script>

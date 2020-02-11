@@ -247,7 +247,7 @@
                                                             Currency @include('frontend.common.label.required')
                                                         </label>
 
-                                                        @component('input::inputreadonly')
+                                                        @component('input::select')
                                                         @slot('id', 'currency')
                                                         @slot('text', 'Currency')
                                                         @slot('name', 'currency')
@@ -382,7 +382,7 @@
                                             <fieldset class="border p-2">
                                                 <legend class="w-auto">Profit Center :</legend>
                                                 <div class="row">
-                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:13px" class="form-control-label">
 
@@ -439,7 +439,7 @@
 
 
                                                     </div>
-                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             @component('input::inputrightbutton')
                                                             @slot('id', 'coa')
@@ -519,7 +519,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
                                                         <div style="margin-top:1px" class="col-sm-12 col-md-12 col-lg-12">
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'manhours_name')
@@ -727,7 +727,7 @@
                                                     @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="form-group m-form__group row">
+                                            <div class="form-group m-form__group row" style="display:none">
                                                 <div style="color:red;" class="col-sm-3 col-md-3 col-lg-3">
                                                     <div>
                                                         Due Payment Amount
@@ -866,7 +866,8 @@
 {{-- <script src="{{ asset('js/frontend/functions/fill-combobox/customer.js') }}"></script> --}}
 
 <!--<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js') }}"></script>-->
-<!--<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>-->
+{{-- <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script> --}}
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
     $(document).ready(function() {
@@ -894,7 +895,7 @@
 <script src="{{ asset('js/frontend/functions/select2/email.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/fax.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/bank.js') }}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/bank.js') }}"></script>
+{{-- <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/bank.js') }}"></script> --}}
 <!--<script src="{{ asset('js/frontend/functions/select2/address.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/functions/select2/city.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/country.js') }}"></script>
@@ -909,6 +910,38 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('body').on('change', '#currency', function() {
+			let val = $(this).val();
 
+			if (val == 'idr') {
+				$('#exchange_rate1111').val(1);
+			}
+		});
+
+    $.ajax({
+        url: '/bankfa-internal',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+
+            $('select[name="bankinfo"]').empty();
+
+            $('select[name="bankinfo"]').append(
+                '<option value=""> Select a Bank</option>'
+            );
+
+            $.each(data, function (key, value) {
+                $('select[name="bankinfo"]').append(
+                    '<option value="' + value + '">' + key + '</option>'
+                );
+            });
+            console.log(bank_uuid);
+            $("#bankinfo").select2().val(bank_uuid).trigger("change");
+        }
+    });
+	});
+</script>
 
 @endpush

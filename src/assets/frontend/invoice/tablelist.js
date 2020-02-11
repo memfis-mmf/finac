@@ -22,6 +22,8 @@ var DatatableAutoColumnHideDemo = function () {
 
   // basic demo
   var demo = function () {
+		let _currency = $('#currency').val();
+		$('#currency').attr('disabled', 'disabled');
     // var dataJSONArrayLong = JSON.parse('[{ "OrderID" : "OrderID","ShipCountry" : "ShipCountry","ShipCity" : "ShipCity","Currency" : "Currency","ShipDate" : "ShipDate", "Latitude" : "Latitude","Longitude" : "Longitude","Notes" : "Notes","Department" : "Department","Website" : "Website", "TotalPayment" : "TotalPayment","Status" : 1,"Type" : 1},{ "OrderID" : "OrderID","ShipCountry" : "ShipCountry","ShipCity" : "ShipCity","Currency" : "Currency","ShipDate" : "ShipDate", "Latitude" : "Latitude","Longitude" : "Longitude","Notes" : "Notes","Department" : "Department","Website" : "Website", "TotalPayment" : "TotalPayment","Status" : 1,"Type" : 1}]');
     let locale = 'id';
     let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -157,7 +159,8 @@ var DatatableAutoColumnHideDemo = function () {
 						// jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
 
-              if (currency.code == 'idr') {
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
@@ -178,21 +181,23 @@ var DatatableAutoColumnHideDemo = function () {
                 */
 								let discount_amount = 0;
 
+								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+
                 if (t.discount_type == 'amount') {
-									discount_amount = t.quotations[0].pivot.discount_value
+									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
                 } else {
                   if (t.discount_type == 'percentage') {
 										discount_amount = (
-											t.quotations[0].pivot.discount_value * t.quotations[0].subtotal
+											t.quotations[0].pivot.discount_value * _subtotal
 										) / 100;
                   }
                 }
 
 								let tax_amount = (
-									(t.quotations[0].subtotal * (10/100))
+									(_subtotal * (10/100))
 								);
 
-								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
 
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
@@ -200,25 +205,36 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#sub_total_val").val(t.quotations[0].subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
-	              $("#grand_totalrp_val").val(
-									grandtotal_amount * t.quotations[0].exchange_rate
-								);
+	              $("#grand_totalrp_val").val(grandtotal_amount);
+
+								console.table([
+									1,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
 
                 $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
 	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
-	              $("#grand_totalrp").val(IDRformatter.format(
-									grandtotal_amount * t.quotations[0].exchange_rate
-								));
-                $("#tax").val(IDRformatter.format(tax_amount));
+	              $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount);
+
+								console.table([
+									2,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
+
+                $("#tax").val(IDRformatter.format(tax_amount);
 
                 return (
                   /*IDRformatter.format(t.h1) + "<br/>"
                   + IDRformatter.format(t.h2) + "<br/>"
                   */
-                  IDRformatter.format(t.facilities_price_amount) + '<br>' +
-                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
-                  IDRformatter.format(t.mat_tool_price) + '<br>'
+                  IDRformatter.format(t.facilities_price_amount * t.quotations[0].exchange_rate) + '<br>' +
+                  IDRformatter.format(t.mat_tool_price * t.quotations[0].exchange_rate) + '<br>' +
+                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>'
                 );
               } else {
                 //temptotal = t.h1 + t.h2;
@@ -255,21 +271,23 @@ var DatatableAutoColumnHideDemo = function () {
                 // $("#total_discount").val(ForeignFormatter.format(discount));
 								let discount_amount = 0;
 
+								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+
                 if (t.discount_type == 'amount') {
-									discount_amount = t.quotations[0].pivot.discount_value
+									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
                 } else {
                   if (t.discount_type == 'percentage') {
 										discount_amount = (
-											t.quotations[0].pivot.discount_value * t.quotations[0].subtotal
+											t.quotations[0].pivot.discount_value * _subtotal
 										) / 100;
                   }
                 }
 
 								let tax_amount = (
-									(t.quotations[0].subtotal * (10/100))
+									(_subtotal * (10/100))
 								);
 
-								let grandtotal_amount = t.quotations[0].subtotal - discount_amount + tax_amount
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
 
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
@@ -280,6 +298,12 @@ var DatatableAutoColumnHideDemo = function () {
 	              $("#grand_totalrp_val").val(
 									grandtotal_amount * t.quotations[0].exchange_rate
 								);
+								console.table([
+									3,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
 
                 $("#sub_total").val(ForeignFormatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
@@ -287,6 +311,12 @@ var DatatableAutoColumnHideDemo = function () {
 	              $("#grand_totalrp").val(IDRformatter.format(
 									grandtotal_amount * t.quotations[0].exchange_rate
 								));
+								console.table([
+									4,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
                 $("#tax").val(ForeignFormatter.format(tax_amount));
 
                 return (
@@ -295,9 +325,8 @@ var DatatableAutoColumnHideDemo = function () {
                   + ForeignFormatter.format(t.h2) + "<br/>"
                   */
                   ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
-                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
-                  //ForeignFormatter.format(a.facilities_price_amount) + '<br>' +
-                  ForeignFormatter.format(t.mat_tool_price) + '<br>'
+                  ForeignFormatter.format(t.mat_tool_price) + '<br>' +
+                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'
                 );
               }
             } else if (t.htcrrcount != null) {
@@ -320,7 +349,8 @@ var DatatableAutoColumnHideDemo = function () {
 
               // $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
               $("#grand_totalrp").val(IDRformatter.format(convertidr));
-              if (currency.code == 'idr') {
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
                 subtotal += t.price;
                 // $("#grand_total_rupiah").attr("value", IDRformatter.format(subtotal));
                 // $("#sub_total").attr("value", IDRformatter.format(subtotal));
@@ -352,15 +382,30 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
 	              $("#grand_totalrp_val").val(
-									grandtotal_amount * t.quotations[0].exchange_rate
+									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
 								);
+
+								console.table([
+									5,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
 
                 $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
 	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
 	              $("#grand_totalrp").val(IDRformatter.format(
-									grandtotal_amount * t.quotations[0].exchange_rate
+									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
 								));
+
+								console.table([
+									6,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
+
                 $("#tax").val(IDRformatter.format(tax_amount));
 
                 let sp_show = "";
@@ -416,15 +461,28 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
 	              $("#grand_totalrp_val").val(
-									grandtotal_amount * t.quotations[0].exchange_rate
+									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
 								);
+
+								console.table([
+									7,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
 
                 $("#sub_total").val(ForeignFormatter.format(t.quotations[0].subtotal));
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
 	              $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
 	              $("#grand_totalrp").val(IDRformatter.format(
-									grandtotal_amount * t.quotations[0].exchange_rate
+									(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
 								));
+								console.table([
+									8,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
                 $("#tax").val(ForeignFormatter.format(tax_amount));
 
                 let sp_show = "";
@@ -457,7 +515,8 @@ var DatatableAutoColumnHideDemo = function () {
             } else if (t.priceother != null) {
               subtotal += t.priceother;
               others_price += t.priceother;
-              if (currency.code == 'idr') {
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
                 others_price += t.priceother;
                 return (
                   IDRformatter.format(t.priceother) + "<br/>"
@@ -495,6 +554,7 @@ jQuery(document).ready(function () {
 
     //alert("The paragraph was clicked.");
   });
+
   $("#pph").change(function () {
     let pph = subtotal - discount * (this.value / 100);
     let fixed = pph.toFixed(2);
@@ -513,6 +573,10 @@ jQuery(document).ready(function () {
     //     scheduled_payment_note_array[i] = $(this).val();
     // });
     // scheduled_payment_array.pop();
+
+		let _form = $(this).parents('form');
+		_form.find('[disabled=disabled]').removeAttr('disabled');
+
     let data = new FormData();
 		data.append('presdir', $('[name=presdir]').val());
 		data.append('location', $('[name=location]').val());

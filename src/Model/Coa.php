@@ -4,6 +4,7 @@ namespace memfisfa\Finac\Model;
 
 use App\Models\Vendor;
 use App\Models\Customer;
+use App\Models\BankAccount;
 use App\Models\Category;
 use App\Models\GoodReceived;
 use memfisfa\Finac\Model\MemfisModel;
@@ -70,6 +71,11 @@ class Coa extends MemfisModel
     public function vendor()
     {
         return $this->morphedByMany(Vendor::class, 'coable');
+    }
+
+    public function bank_account()
+    {
+        return $this->morphedByMany(BankAccount::class, 'coable');
     }
 
 	public function type()

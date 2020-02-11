@@ -157,7 +157,11 @@ class CashbookController extends Controller
 
     public function datatables()
     {
-		$data = $alldata = json_decode(Cashbook::orderBy('id', 'desc')->get());
+		$data = $alldata = json_decode(
+			Cashbook::with([
+				'cashbook_a'
+			])->orderBy('id', 'desc')->get()
+		);
 
         $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
 
@@ -540,5 +544,11 @@ class CashbookController extends Controller
 		unset($cashbook->cashbook_ref);
 
 		return $cashbook;
+	}
+
+	public function print()
+	{
+        $pdf = \PDF::loadView('formview::cashbook');
+        return $pdf->stream();
 	}
 }

@@ -358,7 +358,7 @@
                                             <fieldset class="border p-2">
                                                 <legend class="w-auto">Profit Center :</legend>
                                                 <div class="row">
-                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:13px" class="form-control-label">
 
@@ -415,7 +415,7 @@
 
 
                                                     </div>
-                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             @component('input::inputrightbutton')
                                                             @slot('id', 'coa')
@@ -501,7 +501,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
                                                         <div style="margin-top:1px" class="col-sm-12 col-md-12 col-lg-12">
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'manhours_name')
@@ -718,7 +718,7 @@
                                                         Due Payment Amount
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-6 col-md-6 col-lg-6" style="display:none">
                                                     @component('input::inputreadonly')
                                                     @slot('id', 'due_payment')
                                                     @slot('class', 'due_payment')
