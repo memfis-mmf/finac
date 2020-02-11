@@ -247,7 +247,7 @@
                                                             Currency @include('frontend.common.label.required')
                                                         </label>
 
-                                                        @component('input::inputreadonly')
+                                                        @component('input::select')
                                                         @slot('id', 'currency')
                                                         @slot('text', 'Currency')
                                                         @slot('name', 'currency')
@@ -866,7 +866,8 @@
 {{-- <script src="{{ asset('js/frontend/functions/fill-combobox/customer.js') }}"></script> --}}
 
 <!--<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js') }}"></script>-->
-<!--<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script>-->
+{{-- <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js') }}"></script> --}}
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
     $(document).ready(function() {

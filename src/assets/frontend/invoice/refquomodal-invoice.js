@@ -242,7 +242,7 @@ let RefQuoDatatables = {
                         $("#address").val(customers.addresses[0].address);
                         $("#level").val(levels.name);
                         $("#refquono").val(data.number);
-                        $("#currency").val(currency.name);
+                        $("#currency").val(currency.code);
 
                         $("h3#subjectquo").html("Subject : " + data.title);
                         currencyCode = currency.code;
