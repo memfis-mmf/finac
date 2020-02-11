@@ -503,6 +503,7 @@
                                     @slot('id', 'debit_b')
                                     @slot('text', 'debit_b')
                                     @slot('name', 'debit_b')
+                                    @slot('value', 0)
                                 @endcomponent
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -514,6 +515,7 @@
                                     @slot('id', 'credit_b')
                                     @slot('text', 'credit_b')
                                     @slot('name', 'credit_b')
+                                    @slot('value', 0)
                                 @endcomponent
                             </div>
                         </div>
