@@ -235,8 +235,8 @@ var DatatableAutoColumnHideDemo = function () {
                   + IDRformatter.format(t.h2) + "<br/>"
                   */
                   IDRformatter.format(t.facilities_price_amount * t.quotations[0].exchange_rate) + '<br>' +
-                  IDRformatter.format(t.mat_tool_price * t.quotations[0].exchange_rate) + '<br>'
-                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>' +
+                  IDRformatter.format(t.mat_tool_price * t.quotations[0].exchange_rate) + '<br>' +
+                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>'
                 );
               } else {
                 //temptotal = t.h1 + t.h2;
@@ -325,8 +325,8 @@ var DatatableAutoColumnHideDemo = function () {
                   + ForeignFormatter.format(t.h2) + "<br/>"
                   */
                   ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
-                  ForeignFormatter.format(t.mat_tool_price) + '<br>'
-                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>' +
+                  ForeignFormatter.format(t.mat_tool_price) + '<br>' +
+                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'
                 );
               }
             } else if (t.htcrrcount != null) {
