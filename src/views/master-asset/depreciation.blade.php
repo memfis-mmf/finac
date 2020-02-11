@@ -59,7 +59,7 @@
                 @component('input::number')
                     @slot('id', 'salvage_value')
                     @slot('name', 'salvagevalue')
-                    @slot('value', $asset->salvagevalue)
+                    @slot('value', @$asset->salvagevalue)
                     @slot('text', 'Salvage Value')
                     @slot('input_append', 'IDR')
                 @endcomponent
@@ -74,7 +74,7 @@
                 @component('input::number')
                     @slot('id', 'lifetime')
                     @slot('name', 'usefullife')
-                    @slot('value', $asset->usefullife)
+                    @slot('value', @$asset->usefullife)
                     @slot('text', 'Lifetime')
                     @slot('input_append', 'Month')
                 @endcomponent
@@ -102,7 +102,7 @@
                     @slot('id', 'coa')
                     @slot('text', 'coa')
                     @slot('name', 'coaacumulated')
-                    @slot('value', $asset->coaacumulated)
+                    @slot('value', @$asset->coaacumulated)
                     @slot('type', 'text')
                     @slot('style', 'width:100%')
                     @slot('data_target', '#coa_modal')
@@ -117,7 +117,7 @@
                 @slot('id', 'acd')
                 @slot('text', 'acd')
                 @slot('name', 'acd')
-                @slot('value', $asset->coa_accumulate->name)
+                @slot('value', @$asset->coa_accumulate->name)
                 @endcomponent
             </div>
         </div>
@@ -132,7 +132,7 @@
                     @slot('id', 'coa_a')
                     @slot('text', 'coa')
                     @slot('name', 'coaexpense')
-                    @slot('value', $asset->coaexpense)
+                    @slot('value', @$asset->coaexpense)
                     @slot('type', 'text')
                     @slot('style', 'width:100%')
                     @slot('data_target', '#coa_modal_depreciation')
@@ -147,7 +147,7 @@
                 @slot('id', 'acd_a')
                 @slot('text', 'acd_a')
                 @slot('name', 'acd_a')
-                @slot('value', $asset->coa_expense->name)
+                @slot('value', @$asset->coa_expense->name)
                 @endcomponent
             </div>
         </div>

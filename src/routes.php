@@ -802,6 +802,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/data',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@data'
 		);
+		Route::post(
+			'/approve',
+			'memfisfa\Finac\Controllers\Frontend\AssetController@approve'
+		);
 	});
 
 	Route::resource(
