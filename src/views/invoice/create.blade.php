@@ -302,7 +302,7 @@
 																													Company and Department
                                                         </label>
 
-																												<select class="_select2 form-contro" name="company_department" style="width:100%">
+																												<select class="_select2 form-control" name="company_department" style="width:100%">
 																													<option value=""></option>
 																													@for ($a=0; $a < count($company); $a++)
 																														@php

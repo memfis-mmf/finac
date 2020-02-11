@@ -9,6 +9,11 @@ use memfisfa\Finac\Request\AssetUpdate;
 use memfisfa\Finac\Request\AssetStore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use App\Models\Company;
+use App\Models\Department;
+use Carbon;
+use DB;
+use Auth;
 
 class AssetController extends Controller
 {
@@ -52,6 +57,11 @@ class AssetController extends Controller
 
 		$data['type_asset'] = TypeAsset::all();
 
+        $collection = collect();
+        $companies = Company::with('type','parent')->get();
+        $departments = Department::with('type','parent')->get();
+        $data['company'] = $collection->merge($companies)->merge($departments);
+
         return view('masterassetview::edit', $data);
     }
 
@@ -61,17 +71,38 @@ class AssetController extends Controller
 		$asset = $asset_tmp->first();
 
 		$request->request->add([
-			'warrantystart' => explode(
+			'warrantystart' => trim(explode(
 				'-',
 				$request->daterange_master_asset
-			)[0],
-			'warrantyend' => explode(
+			)[0]),
+			'warrantyend' => trim(explode(
 				'-',
 				$request->daterange_master_asset
-			)[1],
+			)[1]),
 		]);
 
-        $asset_tmp->update($request->all());
+		$list = [
+			'code',
+			'name',
+			'description',
+			'manufacturername',
+			'productiondate',
+			'brandname',
+			'modeltype',
+			'location',
+			'serialno',
+			'company_department',
+			'grnno',
+			'pono',
+			'supplier',
+			'povalue',
+			'salvagevalue',
+			'usefullife',
+			'coaacumulated',
+			'coaexpense',
+		];
+
+        $asset_tmp->update($request->only($list));
 
         return response()->json($asset);
     }
@@ -100,6 +131,8 @@ class AssetController extends Controller
 		$data = $alldata = json_decode(Asset::with([
 			'type',
 			'type.coa',
+			'coa_accumulate',
+			'coa_expense',
 		])->get());
 
 		$datatable = array_merge([

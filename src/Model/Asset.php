@@ -11,6 +11,7 @@ class Asset extends MemfisModel
 
     protected $fillable = [
 		'active',
+		'approve',
 		'code',
 		'name',
 		'group',
@@ -37,6 +38,7 @@ class Asset extends MemfisModel
 		'coaexpense',
 		'usestatus',
 		'description',
+		'company_department',
     ];
 
 	protected $appends = [
@@ -51,5 +53,15 @@ class Asset extends MemfisModel
 	public function type()
 	{
 		return $this->belongsTo(TypeAsset::class, 'group', 'id');
+	}
+
+	public function coa_accumulate()
+	{
+		return $this->belongsTo(Coa::class, 'coaacumulated', 'code');
+	}
+
+	public function coa_expense()
+	{
+		return $this->belongsTo(Coa::class, 'coaexpense', 'code');
 	}
 }
