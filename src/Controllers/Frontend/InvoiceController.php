@@ -105,7 +105,8 @@ class InvoiceController extends Controller
 		// ]);
 
         $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
-        $currency = Currency::where('name', $request->currency)->first();
+        // $currency = Currency::where('name', $request->currency)->first();
+        $currency = Currency::where('code', $request->currency)->first();
 
         $coa = Coa::where('code', $customer->coa()->first()->code)->first();
         $material = Coa::where('code', $request->material)->first();

@@ -77,6 +77,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/datatables/modal',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@basicModal'
 		);
+		Route::get(
+			'/print',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@print'
+		);
 	});
 
     Route::prefix('cashbooka')->group(function () {
@@ -898,6 +902,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 	// });
 	Route::get('/currencyfa', 'memfisfa\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
 	Route::get('/bankfa', 'memfisfa\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
+	Route::get('/bankfa-internal', 'memfisfa\Finac\Controllers\Datatables\BankController@internal')->name('bank.internal');
 	Route::get('/bankfa/{bankaccount}', 'memfisfa\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
 	Route::get('/customerfa/{customer}', 'memfisfa\Finac\Controllers\Frontend\ARController@cust_detail')->name('detailcusttt');
 	//Route::resource('cashbook', 'memfisfa\Finac\Controllers\Frontend\CashbookController');

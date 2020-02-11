@@ -22,6 +22,8 @@ var DatatableAutoColumnHideDemo = function () {
 
   // basic demo
   var demo = function () {
+		let _currency = $('#currency').val();
+		$('#currency').attr('disabled', 'disabled');
     // var dataJSONArrayLong = JSON.parse('[{ "OrderID" : "OrderID","ShipCountry" : "ShipCountry","ShipCity" : "ShipCity","Currency" : "Currency","ShipDate" : "ShipDate", "Latitude" : "Latitude","Longitude" : "Longitude","Notes" : "Notes","Department" : "Department","Website" : "Website", "TotalPayment" : "TotalPayment","Status" : 1,"Type" : 1},{ "OrderID" : "OrderID","ShipCountry" : "ShipCountry","ShipCity" : "ShipCity","Currency" : "Currency","ShipDate" : "ShipDate", "Latitude" : "Latitude","Longitude" : "Longitude","Notes" : "Notes","Department" : "Department","Website" : "Website", "TotalPayment" : "TotalPayment","Status" : 1,"Type" : 1}]');
     let locale = 'id';
     let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -157,7 +159,8 @@ var DatatableAutoColumnHideDemo = function () {
 						// jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
 
-              if (currency.code == 'idr') {
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
                 //temptotal = t.h1 + t.h2;
                 temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
@@ -347,7 +350,8 @@ var DatatableAutoColumnHideDemo = function () {
 
               // $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
               $("#grand_totalrp").val(IDRformatter.format(convertidr));
-              if (currency.code == 'idr') {
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
                 subtotal += t.price;
                 // $("#grand_total_rupiah").attr("value", IDRformatter.format(subtotal));
                 // $("#sub_total").attr("value", IDRformatter.format(subtotal));
@@ -512,7 +516,8 @@ var DatatableAutoColumnHideDemo = function () {
             } else if (t.priceother != null) {
               subtotal += t.priceother;
               others_price += t.priceother;
-              if (currency.code == 'idr') {
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
                 others_price += t.priceother;
                 return (
                   IDRformatter.format(t.priceother) + "<br/>"
@@ -550,6 +555,7 @@ jQuery(document).ready(function () {
 
     //alert("The paragraph was clicked.");
   });
+
   $("#pph").change(function () {
     let pph = subtotal - discount * (this.value / 100);
     let fixed = pph.toFixed(2);
@@ -568,6 +574,10 @@ jQuery(document).ready(function () {
     //     scheduled_payment_note_array[i] = $(this).val();
     // });
     // scheduled_payment_array.pop();
+
+		let _form = $(this).parents('form');
+		_form.find('[disabled=disabled]').removeAttr('disabled');
+		
     let data = new FormData();
 		data.append('presdir', $('[name=presdir]').val());
 		data.append('location', $('[name=location]').val());

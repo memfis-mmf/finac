@@ -727,7 +727,7 @@
                                                     @endcomponent
                                                 </div>
                                             </div>
-                                            <div class="form-group m-form__group row">
+                                            <div class="form-group m-form__group row" style="display:none">
                                                 <div style="color:red;" class="col-sm-3 col-md-3 col-lg-3">
                                                     <div>
                                                         Due Payment Amount
@@ -895,7 +895,7 @@
 <script src="{{ asset('js/frontend/functions/select2/email.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/fax.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/bank.js') }}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/bank.js') }}"></script>
+{{-- <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/bank.js') }}"></script> --}}
 <!--<script src="{{ asset('js/frontend/functions/select2/address.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/functions/select2/city.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/country.js') }}"></script>
@@ -910,6 +910,38 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('body').on('change', '#currency', function() {
+			let val = $(this).val();
 
+			if (val == 'idr') {
+				$('#exchange_rate1111').val(1);
+			}
+		});
+
+    $.ajax({
+        url: '/bankfa-internal',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+
+            $('select[name="bankinfo"]').empty();
+
+            $('select[name="bankinfo"]').append(
+                '<option value=""> Select a Bank</option>'
+            );
+
+            $.each(data, function (key, value) {
+                $('select[name="bankinfo"]').append(
+                    '<option value="' + value + '">' + key + '</option>'
+                );
+            });
+            console.log(bank_uuid);
+            $("#bankinfo").select2().val(bank_uuid).trigger("change");
+        }
+    });
+	});
+</script>
 
 @endpush

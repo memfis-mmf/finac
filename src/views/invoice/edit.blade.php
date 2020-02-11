@@ -718,7 +718,7 @@
                                                         Due Payment Amount
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-6 col-md-6 col-lg-6" style="display:none">
                                                     @component('input::inputreadonly')
                                                     @slot('id', 'due_payment')
                                                     @slot('class', 'due_payment')
