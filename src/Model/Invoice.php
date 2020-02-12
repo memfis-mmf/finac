@@ -89,4 +89,28 @@ class Invoice extends MemfisModel
     {
         return $this->belongsTo(BankAccount::class, 'id_bank');
     }
+
+	static public function generateCode($code = "INVC")
+	{
+		$invoice = Invoice::orderBy('id', 'desc')
+			->where('transactionnumber', 'like', $code.'%');
+
+		if (!$invoice->count()) {
+
+			if ($invoice->withTrashed()->count()) {
+				$order = $invoice->withTrashed()->count() + 1;
+			}else{
+				$order = 1;
+			}
+
+		}else{
+			$order = $invoice->withTrashed()->count() + 1;
+		}
+
+		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
+
+		$code = $code."-".date('Y/m')."/".$number;
+
+		return $code;
+	}
 }

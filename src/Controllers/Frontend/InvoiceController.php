@@ -79,6 +79,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+		DB::beginTransaction();
         $quotation = Quotation::where('number', $request->quotation)->first();
         //dd($quotation->scheduled_payment_amount);
 
@@ -120,10 +121,9 @@ class InvoiceController extends Controller
         //dd($bankaccount);
         //dd($coa);
         $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest . '%')->withTrashed()->count();
-        $cashbookno = CashbookGenerateNumber::generate('INVC-', $cashbookCount + 1);
         $id_branch = 1;
         $closed = 0;
-        $transaction_number = $cashbookno;
+        $transaction_number = Invoice::generateCode();
         $transaction_date = Carbon::today()->toDateString();
         $customer_id = $customer->id;
         $currency_id = $currency->id;
@@ -259,6 +259,8 @@ class InvoiceController extends Controller
             'amount' => $request->otherprice * ($percent_sp/100),
             'type' => 'others'
         ]);
+
+		DB::commit();
 
         return response()->json($invoice);
     }
@@ -443,10 +445,11 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        Invoice::where('id', $invoice->id)
-            ->update([
-                'closed' => 2,
-            ]);
+        // Invoice::where('id', $invoice->id)
+        //     ->update([
+        //         'closed' => 2,
+        //     ]);
+		$invoice->delete();
         return response()->json($invoice);
     }
 

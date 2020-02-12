@@ -71,7 +71,7 @@
 
 																				<select id="asset_category_id" name="group" class="form-control m-select2" disabled>
 																						@foreach ($type_asset as $x)
-																								<option value="{{ $x->id }}" @if ($x->id == $asset->group) selected @endif>
+																								<option value="{{ $x->id }}" @if ($x->id == $asset->asset_category_id) selected @endif>
 																										{{ $x->name }}
 																								</option>
 																						@endforeach

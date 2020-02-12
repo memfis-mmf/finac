@@ -10,6 +10,7 @@
                     @slot('id', 'manufacture_name')
                     @slot('text', 'Manufacture Name')
                     @slot('name', 'manufacturername')
+                    @slot('value', $asset->manufacturername)
                     @slot('id_error', 'manufacture_name')
                 @endcomponent
             </div>
@@ -21,6 +22,7 @@
                 @component('input::datepicker')
                     @slot('id', 'date')
                     @slot('name', 'productiondate')
+                    @slot('value', $asset->productiondate)
                     @slot('text', 'Production Date')
                 @endcomponent
             </div>
@@ -35,6 +37,7 @@
                     @slot('id', 'brand_name')
                     @slot('text', 'Brand Name')
                     @slot('name', 'brandname')
+                    @slot('value', $asset->brandname)
                     @slot('id_error', 'brand_name')
                 @endcomponent
             </div>
@@ -47,6 +50,7 @@
                 @component('input::datepicker')
                     @slot('id', 'daterange_master_asset')
                     @slot('name', 'daterange_master_asset')
+                    @slot('value', $asset->warrantystart.'-'.$asset->warrantyend)
                     @slot('id_error', 'daterange_master_asset')
                 @endcomponent
             </div>
@@ -61,6 +65,7 @@
                     @slot('id', 'model_type')
                     @slot('text', 'Model Type')
                     @slot('name', 'modeltype')
+                    @slot('value', $asset->modeltype)
                     @slot('id_error', 'model_type')
                 @endcomponent
             </div>
@@ -69,11 +74,13 @@
                     Location
                 </label>
 
-                @component('input::text')
-                    @slot('id', 'location')
-                    @slot('name', 'location')
-                    @slot('text', 'Location')
-                @endcomponent
+								<select class="form-control _select2" name="location" style="width:100%">
+									<option value=""></option>
+									<option value="sidoarjo" {{(strtolower($asset->location) == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
+									<option value="surabaya" {{(strtolower($asset->location) == 'surabaya')? 'selected': ''}}>Surabaya</option>
+									<option value="jakarta" {{(strtolower($asset->location) == 'jakarta')? 'selected': ''}}>Jakarta</option>
+									<option value="biak" {{(strtolower($asset->location) == 'biak')? 'selected': ''}}>Biak</option>
+								</select>
             </div>
         </div>
         <div class="form-group m-form__group row ">
@@ -86,6 +93,7 @@
                     @slot('id', 'serial_number')
                     @slot('text', 'Serial Number')
                     @slot('name', 'serialno')
+                    @slot('value', $asset->serialno)
                     @slot('id_error', 'serial_number')
                 @endcomponent
             </div>
@@ -94,11 +102,15 @@
                     Department
                 </label>
 
-                @component('input::select')
-                    @slot('id', 'department')
-                    @slot('name', 'company_department')
-                    @slot('text', 'Department')
-                @endcomponent
+								<select id="department" class="form-control" name="company_department" style="width:100%">
+									<option value=""></option>
+									@for ($a=0; $a < count($company); $a++)
+										@php
+											$x = $company[$a]
+										@endphp
+										<option value="{{$x->name}}" {{(@$asset->company_department == $x->name)? 'selected': ''}}>{{$x->name}}</option>
+									@endfor
+								</select>
             </div>
         </div>
     </div>
@@ -106,8 +118,15 @@
 
 @push('footer-scripts')
     <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
+    {{-- <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script> --}}
 
     <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
     <script src="{{ asset('vendor/courier/frontend/functions/daterange/master-asset-gi.js')}}"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('._select2').select2({
+					placeholder : '-- Select --'
+				});
+			});
+		</script>
 @endpush

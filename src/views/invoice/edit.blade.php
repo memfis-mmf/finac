@@ -299,7 +299,7 @@
 																													Company and Department
                                                         </label>
 
-																												<select class="_select2 form-contro" name="company_department" style="width:100%">
+																												<select class="_select2 form-control" name="company_department" style="width:100%">
 																													<option value=""></option>
 																													@for ($a=0; $a < count($company); $a++)
 																														@php
@@ -645,7 +645,7 @@
                                                     @slot('id', 'sub_total')
                                                     @slot('class', 'sub_total')
                                                     @slot('text', '')
-                                                    @slot('value', 	number_format($invoice->grandtotalforeign / 1.1, 0, 0, '.'))
+                                                    @slot('value', $invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign / 1.1, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -660,7 +660,7 @@
                                                     @slot('id', 'total_discount')
                                                     @slot('class', 'total_discount')
                                                     @slot('text', '0')
-                                                    @slot('value', 	number_format($invoice->discountvalue, 0, 0, '.'))
+                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->discountvalue, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
 
@@ -676,7 +676,7 @@
                                                     @slot('id', 'tax')
                                                     @slot('class', 'tax')
                                                     @slot('text', '')
-                                                    @slot('value', 	number_format($invoice->grandtotalforeign / 1.1 * 0.1, 0, 0, '.'))
+                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign / 1.1 * 0.1, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -692,7 +692,7 @@
                                                     @slot('id', 'grandtotal')
                                                     @slot('class', 'grandtotal')
                                                     @slot('text', '')
-                                                    @slot('value', 	number_format($invoice->grandtotalforeign, 0, 0, '.'))
+                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -707,7 +707,7 @@
                                                     @slot('id', 'grandtotalrp')
                                                     @slot('class', 'grandtotalrp')
                                                     @slot('text', '')
-                                                    @slot('value', 	number_format($invoice->grandtotal, 0, 0, '.'))
+                                                    @slot('value', 	'Rp '.number_format($invoice->grandtotal, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>

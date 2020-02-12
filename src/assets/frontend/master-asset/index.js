@@ -3,7 +3,20 @@ let MasterAsset = {
 
 		let _url = window.location.origin;
 
-    $('.master_asset_datatable').mDatatable({
+		function addCommas(nStr)
+		{
+				nStr += '';
+				x = nStr.split('.');
+				x1 = x[0];
+				x2 = x.length > 1 ? '.' + x[1] : '';
+				var rgx = /(\d+)(\d{3})/;
+				while (rgx.test(x1)) {
+						x1 = x1.replace(rgx, '$1' + '.' + '$2');
+				}
+				return x1 + x2;
+		}
+
+    let master_asset_datatable = $('.master_asset_datatable').mDatatable({
         data: {
             type: 'remote',
             source: {
@@ -68,42 +81,48 @@ let MasterAsset = {
                 width: 60,
             },
             {
-                field: '',
+                field: 'povalue',
                 title: 'Asset Value',
                 sortable: 'asc',
                 filterable: !1,
-                width: 150
+                width: 150,
+								template: function(t, e, i) {
+									return 'Rp. ' + addCommas(parseInt(t.povalue));
+								}
             },
             {
                 field: 'usefullife',
                 title: 'Useful Life',
                 sortable: 'asc',
                 filterable: !1,
-                width: 150
+                width: 150,
+								template: function(t, e, i) {
+									return addCommas(parseInt(t.usefullife)) + ' month';
+								}
             },
             {
-                field: '',
+                field: 'coa_accumulate.name',
                 title: 'COA Accumulate',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150,
             },
             {
-                field: '',
+                field: 'coa_expense.name',
                 title: 'COA Expense',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150
             },
             {
-                field: '',
+                field: 'depreciationstart',
                 title: 'Depreciation Start',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150
             },
             {
-                field: '',
+                field: 'depreciationend',
                 title: 'Depreciation End',
                 sortable: 'asc',
                 filterable: !1,
@@ -134,7 +153,7 @@ let MasterAsset = {
                       '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                       t.uuid +
                       ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-                      '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
+                      '<a href="javascript:;" data-uuid="'+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
                       '<i class="la la-check"></i>' +
                       '</a>';
 									}
@@ -144,6 +163,34 @@ let MasterAsset = {
             }
         ]
     });
+
+		let approve = $('body').on('click', 'a.approve', function() {
+			let _uuid = $(this).data('uuid');
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'post',
+					url: '/asset/approve',
+					data: {
+							_token: $('input[name=_token]').val(),
+							uuid: _uuid
+					},
+					success: function (data) {
+							if (data.errors) {
+									toastr.error(data.errors, 'Invalid', {
+											timeOut: 3000
+									});
+							} else {
+									toastr.success('Data berhasil disimpan.', 'Sukses', {
+											timeOut: 3000
+									});
+
+									master_asset_datatable.reload();
+							}
+					}
+			});
+		})
   }
 };
 

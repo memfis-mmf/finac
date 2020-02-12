@@ -10,6 +10,7 @@
                     @slot('id', 'grn_number')
                     @slot('text', 'GRN Number')
                     @slot('name', 'grnno')
+                    @slot('value', $asset->grnno)
                     @slot('id_error', 'grn_number')
                 @endcomponent
             </div>
@@ -36,6 +37,7 @@
                     @slot('id', 'purchase_order_number')
                     @slot('text', 'Purchase Order Number')
                     @slot('name', 'pono')
+                    @slot('value', $asset->pono)
                     @slot('id_error', 'purchase_order_number')
                 @endcomponent
             </div>
@@ -50,6 +52,7 @@
                     @slot('id', 'supplier_name')
                     @slot('text', 'supplier_name')
                     @slot('name', 'supplier')
+                    @slot('value', $asset->supplier)
                     @slot('id_error', 'supplier_name')
                 @endcomponent
             </div>
@@ -64,6 +67,7 @@
                     @slot('id', 'asset_value')
                     @slot('text', 'Asset Value')
                     @slot('name', 'povalue')
+                    @slot('value', $asset->povalue)
                     @slot('id_error', 'asset_value')
                 @endcomponent
             </div>

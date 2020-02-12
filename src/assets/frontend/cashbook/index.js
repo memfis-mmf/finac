@@ -106,7 +106,7 @@ let Cashbook = {
 												total = total_credit;
 											}
 
-											return addCommas(parseInt(total));
+											return t.currencies.symbol+' '+addCommas(parseInt(total));
 										}
                 },
                 {
@@ -155,9 +155,7 @@ let Cashbook = {
                         var res = transno.substring(0, 4);
                         console.log(res);
 												let _html =
-		                      '<a href="cashbook/' +
-			                      t.uuid +
-			                      '/print" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+		                      '<a href="cashbook/print/?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
 			                      t.uuid + '">' +
 			                      '<i class="la la-print"></i>' +
 		                      "</a>";
