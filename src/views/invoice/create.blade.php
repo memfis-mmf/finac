@@ -450,6 +450,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
+																														@slot('value', $coa_default->manhours->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -463,6 +464,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
+																														@slot('value', $coa_default->material->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -476,6 +478,7 @@
                                                             @slot('dataid','facility')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
+																														@slot('value', $coa_default->facility->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -489,6 +492,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
+																														@slot('value', $coa_default->discount->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -502,6 +506,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
+																														@slot('value', $coa_default->ppn->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -515,6 +520,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
+																														@slot('value', $coa_default->other->code)
                                                             @endcomponent
                                                         </div>
                                                     </div>
@@ -524,7 +530,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'manhours_name')
                                                             @slot('name', 'manhours_name')
-                                                            @slot('text', '')
+																														@slot('value', $coa_default->manhours->name)
                                                             @slot('id_error', 'manhours_name')
                                                             @endcomponent
                                                         </div>
@@ -532,7 +538,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'material_name')
                                                             @slot('name', 'material_name')
-                                                            @slot('text', '')
+																														@slot('value', $coa_default->material->name)
                                                             @slot('id_error', 'material_name')
                                                             @endcomponent
                                                         </div>
@@ -540,7 +546,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'facility_name')
                                                             @slot('name', 'facility_name')
-                                                            @slot('text', '')
+																														@slot('value', $coa_default->facility->name)
                                                             @slot('id_error', 'facility_name')
                                                             @endcomponent
                                                         </div>
@@ -548,7 +554,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'discount_name')
                                                             @slot('name', 'discount_name')
-                                                            @slot('text', '')
+																														@slot('value', $coa_default->discount->name)
                                                             @slot('id_error', 'discount_name')
                                                             @endcomponent
                                                         </div>
@@ -556,7 +562,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'ppn_name')
                                                             @slot('name', 'ppn_name')
-                                                            @slot('text', '')
+																														@slot('value', $coa_default->ppn->name)
                                                             @slot('id_error', 'ppn_name')
                                                             @endcomponent
                                                         </div>
@@ -564,7 +570,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'other_name')
                                                             @slot('name', 'other_name')
-                                                            @slot('text', '')
+																														@slot('value', $coa_default->other->name)
                                                             @slot('id_error', 'other_name')
                                                             @endcomponent
                                                         </div>
