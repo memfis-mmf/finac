@@ -17,18 +17,14 @@
                                   Date
                               </label>
 
-                              @component('label::data-info')
-                                  @slot('text', 'generated')
-                              @endcomponent
+															<input type="text" class="form-control iv_date" disabled>
                           </div>
                           <div class="col-sm-6 col-md-6 col-lg-6">
                               <label class="form-control-label">
                                   Transaction No.
                               </label>
 
-                              @component('label::data-info')
-                                  @slot('text', 'generated')
-                              @endcomponent
+															<input type="text" class="form-control iv_transactionnumber" disabled>
                           </div>
                       </div>
                       <div class="form-group m-form__group row ">
@@ -37,9 +33,7 @@
                                   Account Code
                               </label>
 
-                              @component('label::data-info')
-                                  @slot('text', 'generated')
-                              @endcomponent
+															<input type="text" class="form-control iv_code" disabled>
                           </div>
                           <div class="col-sm-6 col-md-6 col-lg-6">
                               <div class="form-group m-form__group row ">
@@ -48,18 +42,14 @@
                                           Currency
                                       </label>
 
-                                      @component('label::data-info')
-                                          @slot('text', 'generated')
-                                      @endcomponent
+																		<input type="text" class="form-control iv_currency" disabled>
                                   </div>
                                   <div class="col-sm-6 col-md-6 col-lg-6">
                                       <label class="form-control-label">
                                           Exchange Rate
                                       </label>
 
-                                      @component('label::data-info')
-                                          @slot('text', 'generated')
-                                      @endcomponent
+																			<input type="text" class="form-control iv_exchangerate" disabled>
                                   </div>
                               </div>
                           </div>
@@ -70,18 +60,14 @@
                                   Total Amount
                               </label>
 
-                              @component('label::data-info')
-                                  @slot('text', 'generated')
-                              @endcomponent
+															<input type="text" class="form-control iv_total_amount" disabled>
                           </div>
                           <div class="col-sm-6 col-md-6 col-lg-6">
                               <label class="form-control-label">
                                   Paid Amount
                               </label>
 
-                              @component('label::data-info')
-                                  @slot('text', 'generated')
-                              @endcomponent
+															<input type="text" class="form-control iv_paid_amount" disabled>
                           </div>
                       </div>
                       <div class="form-group m-form__group row ">
@@ -101,9 +87,7 @@
                                   Exchange Rate Gap
                               </label>
 
-                              @component('label::data-info')
-                                  @slot('text', 'generated')
-                              @endcomponent
+															<input type="text" class="form-control iv_exchangerate_gap" disabled>
                           </div>
                       </div>
                       <div class="form-group m-form__group row ">

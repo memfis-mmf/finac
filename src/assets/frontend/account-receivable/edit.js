@@ -656,11 +656,22 @@ let AccountReceivableEdit = {
 			let tr_index = tr.index();
 			let data = invoice_table.row(tr).data().mDatatable.dataSet[tr_index];
 
+			console.log(data);
+
 			$(target).find('input[name=invoice_uuid]').val(uuid);
 			$(target).find('[name=description]').val(data.description);
 			$(target).find('input[name=credit]').val(
 				parseInt(data.credit)
 			);
+
+			$(target).find('.iv_date').val(data.ar.transactiondate);
+			$(target).find('.iv_transactionnumber').val(data.transactionnumber);
+			$(target).find('.iv_code').val(data.code);
+			$(target).find('.iv_currency').val(data.currency);
+			$(target).find('.iv_exchangerate').val(addCommas(parseInt(data.exchangerate)));
+			$(target).find('.iv_total_amount').val(addCommas(parseInt(data.invoice.grandtotalforeign)));
+			$(target).find('.iv_paid_amount').val(addCommas(parseInt(data.paid_amount)));
+			$(target).find('.iv_exchangerate_gap').val(addCommas(parseInt((data.credit * data.ar.exchangerate) - (data.credit * data.exchangerate))));
 
 			$(target).modal('show');
 		})
