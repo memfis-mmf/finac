@@ -133,6 +133,14 @@
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">{{number_format($cashbook->exchangerate, 0, 0, '.')}}</td>
                 </tr>
+                <tr>
+                    <td valign="top" width="18%">Cashbook Ref.</td>
+                    <td valign="top" width="1%">:</td>
+                    <td valign="top" width="31%">generated</td>
+                    <td valign="top" width="18%"></td>
+                    <td valign="top" width="1%"></td>
+                    <td valign="top" width="31%"></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -185,15 +193,25 @@
         <div class="container">
             <table width="100%" border="1">
                 <tr>
-                    <td align="center" valign="top" height="60" weight="25%">Accountancy</td>
-                    <td align="center" valign="top" height="60" weight="25%">Acknowledge By</td>
-                    <td align="center" valign="top" height="60" weight="25%">Approved By</td>
-                    <td align="center" valign="top" height="60" weight="25%">Cashier</td>
+                    <td align="center" rowspan="2">Prepared By</td>
+                    <td align="center"  rowspan="2">Approve By <br><span style="font-size: 10px;"><b><i>President Director</i></b></span></td>
+                    <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
+                    <td align="center"  rowspan="2"  width="15%">Paid By</td>
+                </tr>
+                <tr>
+                    <td align="center">Received By <br><span style="font-size: 10px;"><b><i>Accounting</i></b> </span></td>
+                    <td align="center">Acknowledge By <br><span style="font-size: 10px;"><b><i>Finance Manager</i></b> </span></td>
+                    <td align="center">Processed By<br><span style="font-size: 10px;"><b><i>Cashier</i></b></span> </td>
+                </tr>
+                <tr>
+                    <td height="50"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </table>
-            <div style="text-align: right; margin-top:12px; font-size:18px;">
-                Received By
-            </div>
         </div>
     </div>
 </body>
