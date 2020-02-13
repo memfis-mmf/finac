@@ -447,16 +447,12 @@ class AssetController extends Controller
 
 		$startDate = date(
 			'Y-m-d',
-			strtotime(
-				str_replace("/", "-", trim($tmp_date[0]))
-			)
+			str_replace("/", "-", strtotime(trim($tmp_date[0])))
 		);
 
 		$finishDate = date(
 			'Y-m-d',
-			strtotime(
-				str_replace("/", "-", trim($tmp_date[1]))
-			)
+			str_replace("/", "-", strtotime(trim($tmp_date[1])))
 		);
 
 		return [
