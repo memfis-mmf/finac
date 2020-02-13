@@ -66,8 +66,8 @@ class GeneralLedgerController extends Controller
 		$query = "
 			select
 			DATE_ADD(@startDate, INTERVAL -1 DAY) as TransactionDate,
-			'SaldoAwal' as VoucherNo,
-			'RefNo' as VoucherNo,
+			'Saldo Awal' as VoucherNo,
+			' ' as VoucherNo,
 			m_journal.code as AccountCode,
 			m_journal.Name as Name,
 			IFNULL(
