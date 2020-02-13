@@ -161,12 +161,12 @@
                                 <td width="31%" align="center">{{$arr->_desc}}</td>
                                 <td width="17%" align="center">
 																	@if ($arr->debit > 0)
-																		{{$arr->symbol.' '.number_format($arr->debit, 0, 0, '')}}
+																		{{$arr->symbol.' '.number_format($arr->debit, 0, 0, '.')}}
 																	@endif
 																</td>
                                 <td width="17%" align="center">
 																	@if ($arr->credit > 0)
-																		{{$arr->symbol.' '.number_format($arr->credit, 0, 0, '')}}
+																		{{$arr->symbol.' '.number_format($arr->credit, 0, 0, '.')}}
 																	@endif
 																</td>
                             </tr>
@@ -174,7 +174,7 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
-                        <td colspan="2" style="background:#e6eef2"><b>Total : {{$detail[0]->symbol}}. {{number_format($total, 0, 0, '')}}</b></td>
+                        <td colspan="2" style="background:#e6eef2"><b>Total : {{$detail[0]->symbol}}. {{number_format($total, 0, 0, '.')}}</b></td>
                     </tr>
                 </table>
             </div>
