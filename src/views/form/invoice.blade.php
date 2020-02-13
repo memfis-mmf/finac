@@ -79,10 +79,10 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/invoice/header.jpg" alt=""width="100%">
+        <img src="{{url('')}}/vendor/courier/img/form/invoice/Header.png" alt=""width="100%">
         <div id="head">
             <div style="margin-right:20px;text-align:center;">
-                <h3 style="font-size:40px;">INVOICE <br> <span style="font-size:16px;">INVC/2019/09/000001</span></h3>
+                <h3 style="font-size:40px;">INVOICE <br> <span style="font-size:16px;">{{$invoice->transactionnumber}}</span></h3>
             </div>
         </div>
     </header>
@@ -101,7 +101,7 @@
                 </tr>
             </table>
         </div>
-        <img src="./vendor/courier/img/form/invoice/footer.jpg" width="100%" alt="" >
+        <img src="{{url('')}}/vendor/courier/img/form/invoice/Footer-Invoice.png" width="100%" alt="" >
     </footer>
 
     <div id="content">
