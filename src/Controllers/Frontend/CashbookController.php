@@ -578,6 +578,7 @@ class CashbookController extends Controller
 		if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
 			$type = 'pj';
 			$total = $total_debit - $total_credit;
+			$total_all = $total_debit;
 			$positiion = 'credit';
 			$x_positiion = 'debit';
 		}
@@ -585,6 +586,7 @@ class CashbookController extends Controller
 		if (strpos($cashbook->transactionnumber, 'RJ') !== false) {
 			$type = 'rj';
 			$total = $total_credit - $total_debit;
+			$total_all = $total_credit;
 			$positiion = 'debit';
 			$x_positiion = 'credit';
 		}
@@ -605,7 +607,7 @@ class CashbookController extends Controller
 		$data = [
 			'cashbook' => $cashbook,
 			'detail' => $detail,
-			'total' => $total,
+			'total' => $total_all,
 			'type' => $type,
 		];
 
