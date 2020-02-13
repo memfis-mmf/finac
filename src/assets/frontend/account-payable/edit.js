@@ -656,11 +656,22 @@ let AccountPayable = {
 			let tr_index = tr.index();
 			let data = supplier_invoice_table.row(tr).data().mDatatable.dataSet[tr_index];
 
+			console.log(data);
+
 			$(target).find('input[name=si_uuid]').val(uuid);
 			$(target).find('[name=description]').val(data.description);
 			$(target).find('input[name=debit]').val(
 				parseInt(data.debit)
 			);
+
+			$(target).find('.iv_date').val(data.ap.transactiondate);
+			$(target).find('.iv_transactionnumber').val(data._transaction_number);
+			$(target).find('.iv_code').val(data.code);
+			$(target).find('.iv_currency').val(data.currency);
+			$(target).find('.iv_exchangerate').val(addCommas(parseInt(data.exchangerate)));
+			$(target).find('.iv_total_amount').val(addCommas(parseInt(data.si.total)));
+			$(target).find('.iv_paid_amount').val(addCommas(parseInt(data.paid_amount)));
+			$(target).find('.iv_exchangerate_gap').val(addCommas(parseInt((data.debit * data.ap.exchangerate) - (data.debit * data.exchangerate))));
 
 			$(target).modal('show');
 		})
