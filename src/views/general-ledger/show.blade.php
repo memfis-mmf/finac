@@ -9,7 +9,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                Account Payable
+                General Ledger
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -23,7 +23,7 @@
                 <li class="m-nav__item">
                     <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Account Payable
+                            General Ledger
                         </span>
                     </a>
                 </li>
@@ -31,11 +31,11 @@
         </div>
     </div>
 </div>
-<div class="text-center p-5 text-white" style="background:#5f6b5e;">
+{{-- <div class="text-center p-5 text-white" style="background:#5f6b5e;">
     <h1>PT. MERPATI MAINTENANCE FACILITY</h1>
     <h5>GENERAL LEDGER</h5>
     <h4><b>11/11/11 - 11/11/20</b></h4>
-</div>
+</div>  --}}
 @include('cashbookview::coamodal')
 <div class="m-content">
     <div class="row">
