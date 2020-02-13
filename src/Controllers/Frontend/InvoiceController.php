@@ -89,6 +89,13 @@ class InvoiceController extends Controller
     {
 		DB::beginTransaction();
         $quotation = Quotation::where('number', $request->quotation)->first();
+
+		if (Invoice::where('id_quotation', $quotation->id)->first()) {
+			return [
+				'error' => 'quotation alredy in use'
+			];
+		}
+
         //dd($quotation->scheduled_payment_amount);
 
         $invoice_check = Invoice::where('id_quotation',$quotation->id)->count();
@@ -890,6 +897,15 @@ class InvoiceController extends Controller
 
         $quotation->attention_cust .= $customer->attention;
         $quotation->attention_quo .= $quotation->attention;
+
+		$quo_invoice = Invoice::where('id_quotation', $quotation->id)->first();
+
+		$quotation->duplicate = false;
+
+		if ($quo_invoice) {
+			$quotation->duplicate = true;
+		}
+
         return response()->json($quotation);
     }
 

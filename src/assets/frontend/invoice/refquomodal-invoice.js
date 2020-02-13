@@ -63,7 +63,8 @@ let RefQuoDatatables = {
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
-                    if (data.spcount != data.invoicecount) {
+                    // if (data.spcount != data.invoicecount) {
+                    if (!data.duplicate) {
                         n_invoice_count = data.invoicecount;
                         var scheduled_payment_amount1112 = JSON.parse(data.scheduled_payment_amount);
                         console.log(scheduled_payment_amount1112[n_invoice_count].amount);
