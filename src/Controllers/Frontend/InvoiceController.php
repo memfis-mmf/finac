@@ -531,8 +531,6 @@ class InvoiceController extends Controller
 				]
 			);
 
-			dd($total_credit, $detail);
-
 			Invoice::where('id', $invoice->id)->update([
 				'approve' => 1
 			]);
