@@ -78,6 +78,18 @@ Route::get('/customer-trial-balance-docs', function () {
 });
 
 
+Route::get('/ap-docs', function () {
+    $pdf = \PDF::loadView('formview::ap');
+    return $pdf->stream();
+});
+
+
+Route::get('/ar-docs', function () {
+    $pdf = \PDF::loadView('formview::ar');
+    return $pdf->stream();
+});
+
+
 Route::get('/outstanding-invoices-docs', function () {
     $pdf = \PDF::loadView('formview::outstanding-invoices');
     $pdf->setPaper('A4', 'landscape');
