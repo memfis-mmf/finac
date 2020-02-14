@@ -175,7 +175,7 @@
 										$x = $invoice->quotations->workpackages[$a];
 									@endphp
 	                <tr>
-	                    <td width="10%" rowspan="3" align="center" valign="top">{{$a+1}}</td>
+	                    <td width="10%" rowspan="{{ ($x->is_template != 'htcrr') ? 4: 3}}" align="center" valign="top">{{$a+1}}</td>
 
 	                    <td width="65%" valign="top" style="border-bottom:none" colspan="2">
 												<b>{{$x->title}}</b>
@@ -185,26 +185,26 @@
 
 	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
 	                </tr>
-	                <tr>
-	                    <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
-												Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format(@$x->pivot->manhour_total)}} Manhours
-											</td>
+									@if ($x->is_template != 'htcrr')
+		                <tr>
+		                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
+													Facilty
+												</td>
 
-	                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
-												{{@$x->quotations[0]->currency->code}}
-											</td>
+		                    <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
 
-	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
-												{{
-													number_format(
-														@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount
-														, 0
-														, 0
-														, '.'
-													)
-												}}
-											</td>
-	                </tr>
+		                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
+													{{
+														number_format(
+															$x->facility
+															, 0
+															, 0
+															, '.'
+														)
+													}}
+												</td>
+		                </tr>
+									@endif
 	                <tr>
 	                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
 												Material Need {{number_format($x->material_item, 0, 0, '.')}} Item(s)
@@ -223,6 +223,35 @@
 												}}
 											</td>
 	                </tr>
+	                <tr>
+	                    <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
+												Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format(@$x->pivot->manhour_total)}} Manhours
+											</td>
+
+	                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
+												{{strtoupper($invoice->currencies->code)}}
+											</td>
+
+	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+												@php
+													if ($x->is_template == 'htcrr') {
+														echo number_format(
+															(float) $x->data_htcrr['total_manhours_with_performance_factor'] * (float) $x->data_htcrr['manhour_rate_amount']
+															, 0
+															, 0
+															, '.'
+														);
+													}else{
+														echo number_format(
+															@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount
+															, 0
+															, 0
+															, '.'
+														);
+													}
+												@endphp
+											</td>
+	                </tr>
 								@endfor
                 {{-- Others&Disc --}}
                 <tr>
@@ -231,7 +260,7 @@
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Others</td>
 
                     <td width="1%" style="border-right:none;text-transform:uppercase">
-											{{@$x->quotations[0]->currency->code}}
+											{{strtoupper($invoice->currencies->code)}}
 										</td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">

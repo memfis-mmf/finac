@@ -368,6 +368,12 @@ var DatatableAutoColumnHideDemo = function () {
 								'exchange_get' : exchange_get
 							});
 
+              $("#sub_total_val").val(subtotal);
+              $("#total_discount_val").val(discount_amount);
+              $("#grand_total_val").val(grand_total1);
+              $("#grand_totalrp_val").val(convertidr);
+              $("#other_price_val").val(other_total);
+              $("#htcrr_price_val").val(t.price);
               // if (currency.code == 'idr') {
               if (_currency == 'idr') {
 
@@ -377,12 +383,6 @@ var DatatableAutoColumnHideDemo = function () {
                 $("#grand_total").val(IDRformatter.format(grand_total1));
                 $("#grand_total_rupiah").val(IDRformatter.format(convertidr));
                 $("#other_price").val(IDRformatter.format(other_total));
-
-                $("#sub_total_val").val(subtotal);
-                $("#total_discount_val").val(discount_amount);
-	              $("#grand_total_val").val(grand_total1);
-	              $("#grand_totalrp_val").val(convertidr);
-	              $("#other_price_val").val(other_total);
 								// let discount_amount = 0;
 								//
 								// let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
@@ -456,17 +456,11 @@ var DatatableAutoColumnHideDemo = function () {
                   IDRformatter.format(t.price) + "<br/>"
                 );
               } else {
-                $("#sub_total").val(IDRformatter.format(subtotal));
-                $("#total_discount").val(IDRformatter.format(discount_amount));
-                $("#tax").val(IDRformatter.format(tax));
-                $("#grand_total").val(IDRformatter.format(grand_total1));
-                $("#grand_total_rupiah").val(IDRformatter.format(convertidr));
-
-                $("#sub_total_val").val(subtotal);
-                $("#total_discount_val").val(discount_amount);
-	              $("#grand_total_val").val(grand_total1);
-	              $("#grand_totalrp_val").val(convertidr);
-	              $("#other_price_val").val(other_total);
+                $("#sub_total").val(ForeignFormatter.format(subtotal));
+                $("#total_discount").val(ForeignFormatter.format(discount_amount));
+                $("#tax").val(ForeignFormatter.format(tax));
+                $("#grand_total").val(ForeignFormatter.format(grand_total1));
+                $("#grand_total_rupiah").val(ForeignFormatter.format(convertidr));
 
 								// let discount_amount = 0;
 								//
@@ -634,6 +628,7 @@ jQuery(document).ready(function () {
     data.append("grand_total", $("#grand_total_val").val());
     data.append("grand_totalrp", $("#grand_totalrp_val").val());
     data.append("other_price", $("#other_price_val").val());
+    data.append("htcrr_price", $("#htcrr_price_val").val());
     data.append("material",$(".material").val());
     data.append("manhours",$(".manhours").val());
     data.append("facility",$(".facility").val());

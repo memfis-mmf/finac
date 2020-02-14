@@ -219,19 +219,19 @@ class InvoiceController extends Controller
             'manhours' => $request->manhoursprice ,
             'manhours_percent' => $percent_sp,
             'manhours_calc' => ($percent_sp/100),
-            'manhours_result' =>  $request->manhoursprice * ($percent_sp/100),
+            'manhours_result' =>  $request->manhoursprice,
             'material' => $request->materialprice ,
             'material_percent' => $percent_sp,
             'material_calc' => ($percent_sp/100),
-            'material_result' =>  $request->materialprice * ($percent_sp/100),
+            'material_result' =>  $request->materialprice,
             'facility' => $request->facilityprice ,
             'facility_percent' => $percent_sp,
             'facility_calc' => ($percent_sp/100),
-            'facility_result' =>  $request->facilityprice * ($percent_sp/100),
+            'facility_result' =>  $request->facilityprice,
             'others' => $request->otherprice ,
             'others_percent' => $percent_sp,
             'others_calc' => ($percent_sp/100),
-            'others_result' =>  $request->otherprice * ($percent_sp/100),
+            'others_result' =>  $request->otherprice,
 
         ];
 
@@ -256,14 +256,14 @@ class InvoiceController extends Controller
             'type' => 'facility'
         ]);
 
-        $facility_ins = Invoicetotalprofit::create([
+        $discount_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $discount->id,
             'amount' => $request->discountprice,
             'type' => 'discount'
         ]);
 
-        $facility_ins = Invoicetotalprofit::create([
+        $ppn_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $ppn->id,
             'amount' => $request->ppnprice,
@@ -276,6 +276,18 @@ class InvoiceController extends Controller
             'amount' => $request->otherprice,
             'type' => 'others'
         ]);
+
+        $others_ins = Invoicetotalprofit::create([
+            'invoice_id' => $invoice->id,
+            'accountcode' => $manhours->id,
+            'amount' => $request->htcrr_price,
+            'type' => 'others'
+        ]);
+
+		// return [
+		// 	'error' => Invoicetotalprofit::select('amount')->get(),
+		// 	'all_request' => $request->all()
+		// ];
 
 		DB::commit();
 
@@ -518,6 +530,8 @@ class InvoiceController extends Controller
 					'_desc' => 'coa header',
 				]
 			);
+
+			dd($total_credit, $detail);
 
 			Invoice::where('id', $invoice->id)->update([
 				'approve' => 1
@@ -1184,6 +1198,15 @@ class InvoiceController extends Controller
 	        $invoice->quotations->workpackages[$a]->material_item = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
 	            ->where('workpackage_id', $x->id)
 	            ->count();
+
+			$project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
+            ->where(
+				'workpackage_id', $x->id
+			)->first();
+
+			$invoice->quotations->workpackages[$a]->facility = ProjectWorkPackageFacility::where('project_workpackage_id', $project_workpackage->id)
+                    ->with('facility')
+                    ->sum('price_amount');
 		}
 
         $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->whereNull('parent_id')->get();
