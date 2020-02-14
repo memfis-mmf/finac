@@ -187,17 +187,17 @@
 	                </tr>
 	                <tr>
 	                    <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
-												Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format($x->pivot->manhour_total)}} Manhours
+												Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format(@$x->pivot->manhour_total)}} Manhours
 											</td>
 
 	                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
-												{{$x->quotations[0]->currency->code}}
+												{{@$x->quotations[0]->currency->code}}
 											</td>
 
 	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
 												{{
 													number_format(
-														$x->pivot->manhour_total * $x->pivot->manhour_rate_amount
+														@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount
 														, 0
 														, 0
 														, '.'
@@ -210,7 +210,7 @@
 												Material Need {{number_format($x->material_item, 0, 0, '.')}} Item(s)
 											</td>
 
-	                    <td width="1%" style="border-right:none;border-top:none">USD</td>
+	                    <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
 
 	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
 												{{
@@ -231,7 +231,7 @@
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Others</td>
 
                     <td width="1%" style="border-right:none;text-transform:uppercase">
-											{{$x->quotations[0]->currency->code}}
+											{{@$x->quotations[0]->currency->code}}
 										</td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">
@@ -281,12 +281,12 @@
                         @endif
                     </td>
 
-                    <td width="1%" style="border-right:none;border-bottom:none;">USD</td>
+                    <td width="1%" style="border-right:none;border-bottom:none;">{{strtoupper($invoice->currencies->code)}}</td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;">
 											{{
 												number_format(
-													$invoice->grandtotalforeign / 1.1
+													($invoice->grandtotalforeign - $invoice->other_price) / 1.1
 													, 0
 													, 0
 													, '.'
@@ -306,7 +306,7 @@
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
 											{{
 												number_format(
-													$invoice->grandtotalforeign / 1.1 * 0.1
+													($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1
 													, 0
 													, 0
 													, '.'
@@ -433,7 +433,7 @@
                     <td width="60%" height="70" valign="top">
                         <i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i>
 												<br>
-												{{$invoice->quotations->term_of_condition}}
+												{!!$invoice->quotations->term_of_condition!!}
                     </td>
                     <td width="40%" valign="top" align="center">
 											{{
