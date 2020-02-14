@@ -89,6 +89,13 @@ class InvoiceController extends Controller
     {
 		DB::beginTransaction();
         $quotation = Quotation::where('number', $request->quotation)->first();
+
+		if (Invoice::where('id_quotation', $quotation->id)->first()) {
+			return [
+				'error' => 'quotation alredy in use'
+			];
+		}
+
         //dd($quotation->scheduled_payment_amount);
 
         $invoice_check = Invoice::where('id_quotation',$quotation->id)->count();
@@ -226,45 +233,46 @@ class InvoiceController extends Controller
             'others_result' =>  $request->otherprice * ($percent_sp/100),
 
         ];
+
         $manhours_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $manhours->id,
-            'amount' => $request->manhoursprice * ($percent_sp/100),
+            'amount' => $request->manhoursprice,
             'type' => 'manhours'
         ]);
 
         $material_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $material->id,
-            'amount' => $request->materialprice * ($percent_sp/100),
+            'amount' => $request->materialprice,
             'type' => 'material'
         ]);
 
         $facility_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $facility->id,
-            'amount' => $request->facilityprice * ($percent_sp/100),
+            'amount' => $request->facilityprice,
             'type' => 'facility'
         ]);
 
         $facility_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $discount->id,
-            'amount' => $request->discountprice * ($percent_sp/100),
+            'amount' => $request->discountprice,
             'type' => 'discount'
         ]);
 
         $facility_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $ppn->id,
-            'amount' => $request->ppnprice * ($percent_sp/100),
+            'amount' => $request->ppnprice,
             'type' => 'ppn'
         ]);
 
         $others_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $others->id,
-            'amount' => $request->otherprice * ($percent_sp/100),
+            'amount' => $request->otherprice,
             'type' => 'others'
         ]);
 
@@ -514,7 +522,9 @@ class InvoiceController extends Controller
 				'approve' => 1
 			]);
 
-			$autoJournal = TrxJournal::autoJournal($header, $detail, 'IVJR', 'SRJ');
+			$autoJournal = TrxJournal::autoJournal(
+				$header, $detail, 'IVJR', 'SRJ'
+			);
 
 			if ($autoJournal['status']) {
 
@@ -890,6 +900,15 @@ class InvoiceController extends Controller
 
         $quotation->attention_cust .= $customer->attention;
         $quotation->attention_quo .= $quotation->attention;
+
+		$quo_invoice = Invoice::where('id_quotation', $quotation->id)->first();
+
+		$quotation->duplicate = false;
+
+		if ($quo_invoice) {
+			$quotation->duplicate = true;
+		}
+
         return response()->json($quotation);
     }
 

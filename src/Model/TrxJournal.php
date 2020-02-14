@@ -317,7 +317,7 @@ class TrxJournal extends MemfisModel
 
 		DB::beginTransaction();
 		try {
-			$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
+			$data['voucher_no'] = TrxJournal::generateCode('PRJR');
 			$data['ref_no'] = $header->voucher_no;
 			$data['transaction_date'] = $header->transaction_date;
 			$data['journal_type'] = TypeJurnal::where('code', 'PRJ')->first()->id;
@@ -366,7 +366,7 @@ class TrxJournal extends MemfisModel
 			array_unshift(
 				$detail,
 				(object) [
-					'coa_detail' => $detail[0]->coa_vendor,
+					'coa_detail' => $_tmp[0]->coa_vendor,
 					'credit' => $total_debit,
 					'debit' => 0,
 					'_desc' => 'coa header',
@@ -399,7 +399,7 @@ class TrxJournal extends MemfisModel
 
 		DB::beginTransaction();
 		try {
-			$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
+			$data['voucher_no'] = TrxJournal::generateCode('PRJR');
 			$data['ref_no'] = $header->voucher_no;
 			$data['transaction_date'] = $header->transaction_date;
 			$data['journal_type'] = TypeJurnal::where('code', 'PRJ')->first()->id;
@@ -448,7 +448,7 @@ class TrxJournal extends MemfisModel
 			array_unshift(
 				$detail,
 				(object) [
-					'coa_detail' => $detail[0]->coa_vendor,
+					'coa_detail' => $_tmp[0]->coa_vendor,
 					'credit' => $total_credit,
 					'debit' => 0,
 					'_desc' => 'coa header',

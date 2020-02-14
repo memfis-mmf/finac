@@ -599,7 +599,7 @@ class ARController extends Controller
 				$val = $z->difference;
 
 				// jika difference bernilai minus
-				if ($z->difference < 1) {
+				if ($z->difference < 0) {
 					$side = 'debit';
 					$x_side = 'credit';
 					$val = $z->difference * (-1);
@@ -627,14 +627,8 @@ class ARController extends Controller
 				]
 			);
 
-			/*
-			 *$total_credit += $detail[0]->credit;
-			 *$total_debit += $detail[0]->debit;
-			 */
-
-			/*
-			 *dd($total_debit, $total_credit, $detail);
-			 */
+			$total_credit += $detail[0]->credit;
+			$total_debit += $detail[0]->debit;
 
 			$ar_tmp->update([
 				'approve' => 1
@@ -672,16 +666,119 @@ class ARController extends Controller
 
 	function print(Request $request)
 	{
-		$ar = AReceive::where('uuid', $request->uuid)->first();
-		$ara = $ar->ara()->with([
-			'coa'
-		])->get();
+		$ar_tmp = AReceive::where('uuid', $request->uuid);
+		$ar = $ar_tmp->first();
+
+        $ar->approvals()->save(new Approval([
+            'approvable_id' => $ar->id,
+            'is_approved' => 0,
+            'conducted_by' => Auth::id(),
+        ]));
+
+		$ara = $ar->ara;
+		$arb = $ar->arb;
+		$arc = $ar->arc;
+
+		$date_approve = $ar->approvals->first()
+		->created_at->toDateTimeString();
+
+		$header = (object) [
+			'voucher_no' => $ar->transactionnumber,
+			'transaction_date' => $date_approve,
+			'coa' => $ar->coa->id,
+		];
+
+		$total_credit = 0;
+		$total_debit = 0;
+
+		// looping sebenayak invoice
+		for ($a=0; $a < count($ara); $a++) {
+			$x = $ara[$a];
+
+			$detail[] = (object) [
+				'coa_detail' => $x->coa->id,
+				'credit' => $x->credit * $ar->exchangerate,
+				'debit' => 0,
+				'_desc' => 'invoice',
+			];
+
+			$total_credit += $detail[count($detail)-1]->credit;
+			$total_debit += $detail[count($detail)-1]->debit;
+		}
+
+		// looping sebanyak adjustment
+		for ($a=0; $a < count($arb); $a++) {
+			$y = $arb[$a];
+
+			$detail[] = (object) [
+				'coa_detail' => $y->coa->id,
+				'credit' => $y->credit,
+				'debit' => $y->debit,
+				'_desc' => 'adjustment',
+			];
+
+			$total_credit += $detail[count($detail)-1]->credit;
+			$total_debit += $detail[count($detail)-1]->debit;
+		}
+
+		// looping sebanyak gap
+		for ($a=0; $a < count($arc); $a++) {
+			$z = $arc[$a];
+
+			$side = 'credit';
+			$x_side = 'debit';
+			$val = $z->difference;
+
+			// jika difference bernilai minus
+			if ($z->difference < 0) {
+				$side = 'debit';
+				$x_side = 'credit';
+				$val = $z->difference * (-1);
+			}
+
+			$detail[] = (object) [
+				'coa_detail' => $z->coa->id,
+				$side => $val,
+				$x_side => 0,
+				'_desc' => 'gap',
+			];
+
+			$total_credit += $detail[count($detail)-1]->credit;
+			$total_debit += $detail[count($detail)-1]->debit;
+		}
+
+		// add object in first array $detai
+		array_unshift(
+			$detail,
+			(object) [
+				'coa_detail' => $header->coa,
+				'credit' => 0,
+				'debit' => $total_credit - $total_debit,
+				'_desc' => 'coa bank',
+			]
+		);
+
+		$data_detail = [];
+
+		for ($i = 0; $i < count($detail); $i++) {
+
+			$x = $detail[$i];
+
+			if ($x->debit != 0 || $x->credit != 0) {
+
+				$data_detail[] = $x;
+
+			}
+
+			$total_credit += $x->credit;
+			$total_debit += $x->debit;
+		}
 
 		$to = $ar->customer;
 
 		$data = [
 			'data' => $ar,
-			'data_child' => array_chunk(json_decode($ara), 10),
+			'data_child' => array_chunk($data_detail, 10),
 			'to' => $to,
 		];
 

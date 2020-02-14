@@ -197,6 +197,13 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
+
+								console.table([
+									t.credit,
+									t.ar.exchangerate,
+									t.exchangerate
+								]);
+
 								return 'Rp '+addCommas(
 									parseInt(
 										(t.credit * t.ar.exchangerate) - (t.credit * t.exchangerate)

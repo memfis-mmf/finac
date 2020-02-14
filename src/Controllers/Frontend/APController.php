@@ -671,15 +671,119 @@ class APController extends Controller
 
 	function print(Request $request)
 	{
-		$ap = APayment::where('uuid', $request->uuid)->first();
-		$apa = $ap->apa()->with([
-			'coa'
-		])->get();
+		$ap_tmp = APayment::where('uuid', $request->uuid);
+		$ap = $ap_tmp->first();
+
+        $ap->approvals()->save(new Approval([
+            'approvable_id' => $ap->id,
+            'is_approved' => 0,
+            'conducted_by' => Auth::id(),
+        ]));
+
+		$apa = $ap->apa;
+		$apb = $ap->apb;
+		$apc = $ap->apc;
+
+		$date_approve = $ap->approvals->first()
+		->created_at->toDateTimeString();
+
+		$header = (object) [
+			'voucher_no' => $ap->transactionnumber,
+			'transaction_date' => $date_approve,
+			'coa' => $ap->coa->id,
+		];
+
+		$total_credit = 0;
+		$total_debit = 0;
+
+		// looping sebenayak supplier invoice
+		for ($a=0; $a < count($apa); $a++) {
+			$x = $apa[$a];
+
+			$detail[] = (object) [
+				'coa_detail' => $x->coa->id,
+				'debit' => $x->debit * $ap->exchangerate,
+				'credit' => 0,
+				'_desc' => 'supplier-invoice',
+			];
+
+			$total_credit += $detail[count($detail)-1]->credit;
+			$total_debit += $detail[count($detail)-1]->debit;
+		}
+
+		// looping sebanyak adjustment
+		for ($a=0; $a < count($apb); $a++) {
+			$y = $apb[$a];
+
+			$detail[] = (object) [
+				'coa_detail' => $y->coa->id,
+				'credit' => $y->credit,
+				'debit' => $y->debit,
+				'_desc' => 'adjustment',
+			];
+
+			$total_credit += $detail[count($detail)-1]->credit;
+			$total_debit += $detail[count($detail)-1]->debit;
+		}
+
+		// looping sebanyak gap
+		for ($a=0; $a < count($apc); $a++) {
+			$z = $apc[$a];
+
+			$side = 'debit';
+			$x_side = 'credit';
+			$val = $z->difference;
+
+			// jika difference bernilai minus
+			if ($z->difference < 1) {
+				$side = 'credit';
+				$x_side = 'debit';
+				$val = $z->difference * (-1);
+			}
+
+			$detail[] = (object) [
+				'coa_detail' => $z->coa->id,
+				$side => $val,
+				$x_side => 0,
+				'_desc' => 'gap',
+			];
+
+			$total_credit += $detail[count($detail)-1]->credit;
+			$total_debit += $detail[count($detail)-1]->debit;
+		}
+
+		// add object in first array $detai
+		array_unshift(
+			$detail,
+			(object) [
+				'coa_detail' => $header->coa,
+				'credit' => $total_debit - $total_credit,
+				'debit' => 0,
+				'_desc' => 'coa bank',
+			]
+		);
+
+		$data_detail = [];
+
+		for ($i = 0; $i < count($detail); $i++) {
+
+			$x = $detail[$i];
+
+			if ($x->debit != 0 || $x->credit != 0) {
+
+				$data_detail[] = $x;
+
+			}
+
+			$total_credit += $x->credit;
+			$total_debit += $x->debit;
+		}
+
 		$to = $ap->vendor;
 
 		$data = [
 			'data' => $ap,
-			'data_child' => array_chunk(json_decode($apa), 10),
+			'data_child' => array_chunk($data_detail, 10),
 			'to' => $to,
 		];
 
