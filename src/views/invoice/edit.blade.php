@@ -287,10 +287,10 @@
 
 																												<select class="_select2 form-control" name="location" style="width:100%">
 																													<option value=""></option>
-																													<option value="sidoarjo" {{($invoice->location == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
-																													<option value="surabaya" {{($invoice->location == 'surabaya')? 'selected': ''}}>Surabaya</option>
-																													<option value="jakarta" {{($invoice->location == 'jakarta')? 'selected': ''}}>Jakarta</option>
-																													<option value="biak" {{($invoice->location == 'biak')? 'selected': ''}}>Biak</option>
+																													<option value="sidoarjo" {{(strtolower($invoice->location) == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
+																													<option value="surabaya" {{(strtolower($invoice->location) == 'surabaya')? 'selected': ''}}>Surabaya</option>
+																													<option value="jakarta" {{(strtolower($invoice->location) == 'jakarta')? 'selected': ''}}>Jakarta</option>
+																													<option value="biak" {{(strtolower($invoice->location) == 'biak')? 'selected': ''}}>Biak</option>
 																												</select>
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -645,7 +645,7 @@
                                                     @slot('id', 'sub_total')
                                                     @slot('class', 'sub_total')
                                                     @slot('text', '')
-                                                    @slot('value', $invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign / 1.1, 0, 0, '.'))
+                                                    @slot('value', $invoice->currencies->symbol.' '.number_format(($invoice->grandtotalforeign - $invoice->other_price) / 1.1, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -676,7 +676,23 @@
                                                     @slot('id', 'tax')
                                                     @slot('class', 'tax')
                                                     @slot('text', '')
-                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign / 1.1 * 0.1, 0, 0, '.'))
+                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format(($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1, 0, 0, '.'))
+                                                    @endcomponent
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+																											Other
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'other_price')
+                                                    @slot('class', 'other_price')
+                                                    @slot('text', '')
+                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->other_price, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>
@@ -707,7 +723,7 @@
                                                     @slot('id', 'grandtotalrp')
                                                     @slot('class', 'grandtotalrp')
                                                     @slot('text', '')
-                                                    @slot('value', 	'Rp '.number_format($invoice->grandtotal, 0, 0, '.'))
+                                                    @slot('value', 	'Rp.  '.number_format($invoice->grandtotal, 0, 0, '.'))
                                                     @endcomponent
                                                 </div>
                                             </div>

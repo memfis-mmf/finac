@@ -179,6 +179,7 @@ class InvoiceController extends Controller
             'id_bank' => $bankaccount->id,
             'grandtotalforeign' => $grandtotalfrg,
             'grandtotal' => $grandtotalidr,
+            'other_price' => $request->other_price,
             'accountcode' => $coa->id,
             'description' => $description,
             'attention' => $fix_attention,

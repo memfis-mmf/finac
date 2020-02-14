@@ -655,6 +655,7 @@
 																				<input type="hidden" name="total_discount_val" id="total_discount_val" value="">
 																				<input type="hidden" name="grand_total_val" id="grand_total_val" value="">
 																				<input type="hidden" name="grand_totalrp_val" id="grand_totalrp_val" value="">
+																				<input type="hidden" name="other_price_val" id="other_price_val" value="">
                                         <div class="col-sm-6 col-md-6 col-lg-6">
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
@@ -699,6 +700,22 @@
                                                     @slot('class', 'tax')
                                                     @slot('text', '')
                                                     @slot('value', '')
+                                                    @endcomponent
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+																											Other
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'other_price')
+                                                    @slot('class', 'other_price')
+                                                    @slot('text', '')
+                                                    @slot('value', 'Rp 0,00')
                                                     @endcomponent
                                                 </div>
                                             </div>

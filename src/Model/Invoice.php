@@ -38,6 +38,7 @@ class Invoice extends MemfisModel
         'presdir',
         'location',
         'company_department',
+        'other_price',
     ];
 
 	protected $appends = [
