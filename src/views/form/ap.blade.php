@@ -95,9 +95,19 @@
                         <br>
                         Website : www.ptmmf.co.id
                     </td>
-                    <td width="55%" valign="top" align="center" style="padding-top:-16px">
-                        <h1 style="font-size:24px;">Bank Payment Journal<br> 
-                        <span style="font-size:18px;">(Account Payable)</span></h1>
+                    <td width="50%" valign="top" align="center" style="padding-top:-16px">
+                        {{-- jika if didalam h1 akan broken --}}
+                        @if('payment' == 'payment')
+                            <h1 style="font-size:24px;">
+                                Bank Payment Journal
+                            <br> 
+                            <span style="font-size:18px;">(Account Payable)</span></h1>
+                        @else
+                            <h1 style="font-size:24px;">
+                                Bank Received Journal
+                            <br> 
+                            <span style="font-size:18px;">(Account Payable)</span></h1>
+                        @endif
                     </td>
                 </tr>
             </table>
