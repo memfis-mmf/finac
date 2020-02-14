@@ -448,7 +448,7 @@ class TrxJournal extends MemfisModel
 			array_unshift(
 				$detail,
 				(object) [
-					'coa_detail' => $_tmp[0]->coa_vendor,
+					'coa_detail' => $_tmp[0]->coa_cogs,
 					'credit' => $total_credit,
 					'debit' => 0,
 					'_desc' => 'coa header',
