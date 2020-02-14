@@ -18,7 +18,7 @@
 
         body{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-top: 4.1cm;
+            margin-top: 3.1cm;
             margin-bottom: 2cm;
         }
 
@@ -47,9 +47,10 @@
         }
 
         #head{
-            top:20px;
-            left: 510px;
+            top: 10px;
+            left: 210px;
             position: absolute;
+            text-align: center;
         }
 
         .container{
@@ -81,11 +82,25 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/trial-balance/Header.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt=""width="100%">
         <div id="head">
-            <div style="margin-right:20px;text-align:center;">
-                <h1 style="font-size:24px;">Bank Payment Journal<br><span style="font-size:18px;">(Cashbook)</span></h1>
-            </div>
+            <table width="95%">
+                <tr>
+                    <td width="50%" valign="middle" style="font-size:12px;line-height:15px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="55%" valign="top" align="center" style="padding-top:-16px">
+                        <h1 style="font-size:24px;">Bank Payment Journal<br> 
+                        <span style="font-size:18px;">(Cashbook)</span></h1>
+                    </td>
+                </tr>
+            </table>
         </div>
     </header>
 
