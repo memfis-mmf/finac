@@ -690,7 +690,9 @@ class APController extends Controller
 		$header = (object) [
 			'voucher_no' => $ap->transactionnumber,
 			'transaction_date' => $date_approve,
-			'coa' => $ap->coa->id,
+			'coa_code' => $ap->coa->code,
+			'coa_name' => $ap->coa->name,
+			'description' => $ap->description,
 		];
 
 		$total_credit = 0;
@@ -701,7 +703,8 @@ class APController extends Controller
 			$x = $apa[$a];
 
 			$detail[] = (object) [
-				'coa_detail' => $x->coa->id,
+				'coa_code' => $x->coa->code,
+				'coa_name' => $x->coa->name,
 				'debit' => $x->debit * $ap->exchangerate,
 				'credit' => 0,
 				'_desc' => 'supplier-invoice',
@@ -716,7 +719,8 @@ class APController extends Controller
 			$y = $apb[$a];
 
 			$detail[] = (object) [
-				'coa_detail' => $y->coa->id,
+				'coa_code' => $y->coa->code,
+				'coa_name' => $y->coa->name,
 				'credit' => $y->credit,
 				'debit' => $y->debit,
 				'_desc' => 'adjustment',
@@ -742,7 +746,8 @@ class APController extends Controller
 			}
 
 			$detail[] = (object) [
-				'coa_detail' => $z->coa->id,
+				'coa_code' => $z->coa->code,
+				'coa_name' => $z->coa->name,
 				$side => $val,
 				$x_side => 0,
 				'_desc' => 'gap',
@@ -756,12 +761,16 @@ class APController extends Controller
 		array_unshift(
 			$detail,
 			(object) [
-				'coa_detail' => $header->coa,
+				'coa_code' => $header->coa_code,
+				'coa_name' => $header->coa_name,
 				'credit' => $total_debit - $total_credit,
 				'debit' => 0,
 				'_desc' => 'coa bank',
 			]
 		);
+
+		$total_credit += $detail[count($detail)-1]->credit;
+		$total_debit += $detail[count($detail)-1]->debit;
 
 		$data_detail = [];
 
@@ -779,15 +788,23 @@ class APController extends Controller
 			$total_debit += $x->debit;
 		}
 
+	    $header_title = 'Cash';
+
+		if (strpos(strtolower($ap->coa->name), 'bank') !== false) {
+		    $header_title = 'Bank';
+		}
+
 		$to = $ap->vendor;
 
 		$data = [
 			'data' => $ap,
-			'data_child' => array_chunk($data_detail, 10),
+			'data_child' => $data_detail,
 			'to' => $to,
+			'total' => $total_credit,
+			'header_title' => $header_title,
 		];
 
-		$pdf = \PDF::loadView('formview::ar-ap', $data);
+		$pdf = \PDF::loadView('formview::ap', $data);
 		return $pdf->stream();
 	}
 

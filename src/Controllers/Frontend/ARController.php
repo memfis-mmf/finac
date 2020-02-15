@@ -685,7 +685,9 @@ class ARController extends Controller
 		$header = (object) [
 			'voucher_no' => $ar->transactionnumber,
 			'transaction_date' => $date_approve,
-			'coa' => $ar->coa->id,
+			'coa_code' => $ar->coa->code,
+			'coa_name' => $ar->coa->name,
+			'description' => $ar->description,
 		];
 
 		$total_credit = 0;
@@ -696,10 +698,11 @@ class ARController extends Controller
 			$x = $ara[$a];
 
 			$detail[] = (object) [
-				'coa_detail' => $x->coa->id,
+				'coa_code' => $x->coa->code,
+				'coa_name' => $x->coa->name,
 				'credit' => $x->credit * $ar->exchangerate,
 				'debit' => 0,
-				'_desc' => 'invoice',
+				'_desc' => $x->description,
 			];
 
 			$total_credit += $detail[count($detail)-1]->credit;
@@ -711,10 +714,11 @@ class ARController extends Controller
 			$y = $arb[$a];
 
 			$detail[] = (object) [
-				'coa_detail' => $y->coa->id,
+				'coa_code' => $y->coa->code,
+				'coa_name' => $y->coa->name,
 				'credit' => $y->credit,
 				'debit' => $y->debit,
-				'_desc' => 'adjustment',
+				'_desc' => $y->description,
 			];
 
 			$total_credit += $detail[count($detail)-1]->credit;
@@ -737,10 +741,11 @@ class ARController extends Controller
 			}
 
 			$detail[] = (object) [
-				'coa_detail' => $z->coa->id,
+				'coa_code' => $z->coa->code,
+				'coa_name' => $z->coa->name,
 				$side => $val,
 				$x_side => 0,
-				'_desc' => 'gap',
+				'_desc' => $z->description,
 			];
 
 			$total_credit += $detail[count($detail)-1]->credit;
@@ -751,12 +756,16 @@ class ARController extends Controller
 		array_unshift(
 			$detail,
 			(object) [
-				'coa_detail' => $header->coa,
+				'coa_code' => $header->coa_code,
+				'coa_name' => $header->coa_name,
 				'credit' => 0,
 				'debit' => $total_credit - $total_debit,
-				'_desc' => 'coa bank',
+				'_desc' => $header->description,
 			]
 		);
+
+		$total_credit += $detail[count($detail)-1]->credit;
+		$total_debit += $detail[count($detail)-1]->debit;
 
 		$data_detail = [];
 
@@ -774,15 +783,23 @@ class ARController extends Controller
 			$total_debit += $x->debit;
 		}
 
+	    $header_title = 'Cash';
+
+		if (strpos(strtolower($ar->coa->name), 'bank') !== false) {
+		    $header_title = 'Bank';
+		}
+
 		$to = $ar->customer;
 
 		$data = [
 			'data' => $ar,
-			'data_child' => array_chunk($data_detail, 10),
+			'data_child' => $data_detail,
 			'to' => $to,
+			'total' => $total_debit,
+			'header_title' => $header_title,
 		];
 
-		$pdf = \PDF::loadView('formview::ar-ap', $data);
+		$pdf = \PDF::loadView('formview::ar', $data);
 		return $pdf->stream();
 	}
 

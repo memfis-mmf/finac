@@ -97,17 +97,10 @@
                     </td>
                     <td width="50%" valign="top" align="center" style="padding-top:-16px">
                         {{-- jika if didalam h1 akan broken --}}
-                        @if('payment' == 'payment')
-                            <h1 style="font-size:24px;">
-                                Bank Payment Journal
-                            <br> 
-                            <span style="font-size:18px;">(Account Payable)</span></h1>
-                        @else
-                            <h1 style="font-size:24px;">
-                                Bank Received Journal
-                            <br> 
-                            <span style="font-size:18px;">(Account Payable)</span></h1>
-                        @endif
+                        <h1 style="font-size:24px;">
+                            {{$header_title}} Payment Journal
+                        <br>
+                        <span style="font-size:18px;">(Account Payable)</span></h1>
                     </td>
                 </tr>
             </table>
@@ -131,40 +124,28 @@
                 <tr>
                     <td valign="top" width="18%">Transaction No.</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%"></td>
+                    <td valign="top" width="31%">{{$data->transactionnumber}}</td>
                     <td valign="top" width="18%">
-                        @if ('payment' == 'payment')
-                            Payment To
-                        @else
-                            Receive From
-                        @endif
+                      Payment To
                     </td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%"></td>
+                    <td valign="top" width="31%">{{$to->name}}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Date</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%"></td>
+                    <td valign="top" width="31%">{{$data->transactionnumber}}</td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%"></td>
+                    <td valign="top" width="31%">{{strtoupper($data->currencies->code)}}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Ref No.</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%"></td>
+                    <td valign="top" width="31%">{{$data->refno}}</td>
                     <td valign="top" width="18%">Exchange Rate</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%"></td>
-                </tr>
-                <tr>
-                    <td valign="top" width="18%">Cashbook Ref.</td>
-                    <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">generated</td>
-                    <td valign="top" width="18%"></td>
-                    <td valign="top" width="1%"></td>
-                    <td valign="top" width="31%"></td>
+                    <td valign="top" width="31%">{{number_format($data->exchangerate, 0, 0, '.')}}</td>
                 </tr>
             </table>
         </div>
@@ -184,21 +165,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for($a = 0 ; $a<150; $a++)
-                            <tr>
-                                <td width="15%" align="center"></td>
-                                <td width="20%" align="center"></td>
-                                <td width="31%" align="center"></td>
-                                <td width="17%" align="center">
-                                </td>
-                                <td width="17%" align="center">
-                                </td>
-                            </tr>
+                        @for($a = 0 ; $a<count($data_child); $a++)
+													@php
+														$arr = $data_child[$a]
+													@endphp
+                          <tr>
+                              <td width="15%" align="center">{{$arr->coa_code}}</td>
+                              <td width="20%" align="center">{{$arr->coa_name}}</td>
+                              <td width="31%" align="center">{{$arr->_desc}}</td>
+                              <td width="17%" align="center">
+																@php
+																	if ($arr->debit) {
+																		echo $data->currencies->symbol.' '.
+																		number_format($arr->debit, 0, 0, '.');
+																	}
+																@endphp
+                              </td>
+                              <td width="17%" align="center">
+																@php
+																	if ($arr->credit) {
+																		echo $data->currencies->symbol.' '.
+																		number_format($arr->credit, 0, 0, '.');
+																	}
+																@endphp
+                              </td>
+                          </tr>
                         @endfor
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
-                        <td colspan="2" style="background:#e6eef2"><b>Total : Rp. 80000</b></td>
+                        <td colspan="2" style="background:#e6eef2">
+													<b>Total : <span>{{$data->currencies->symbol}} {{number_format($total, 0, 0, '.')}}<span></b>
+												</td>
                     </tr>
                 </table>
             </div>
