@@ -260,4 +260,55 @@
 <script src="{{ asset('vendor/courier/frontend/supplier-invoice/general/create.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('body').on('input', '#term_of_payment', function() {
+			let date = new Date($('[name=transaction_date]').val());
+
+			console.log([
+				date,
+				$(this).val()
+			]);
+
+			if (parseInt($(this).val())) {
+				date.setDate(date.getDate() + parseInt($(this).val()));
+
+	      $('#valid_until').val(date.toInputFormat());
+			}else{
+	      $('#valid_until').val('');
+			}
+
+		});
+
+		Date.prototype.toInputFormat = function() {
+       var yyyy = this.getFullYear().toString();
+       var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+       var dd  = this.getDate().toString();
+       return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
+    };
+
+		$('body').on('change', '[name=id_supplier]', function() {
+			let val = $(this).val();
+
+      $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          type: 'get',
+          url: '/supplier-invoice/check-vendor',
+          data: {
+              _token: $('input[name=_token]').val(),
+              id_vendor: val,
+          },
+          success: function (data) {
+						$('[name=account_code]').val(data.code);
+						$('[name=account_name]').val(data.name);
+          }
+      });
+
+		});
+
+	});
+</script>
 @endpush

@@ -27,6 +27,14 @@ class TrxPaymentController extends Controller
         return view('supplierinvoiceview::index');
     }
 
+	public function checkVendor(Request $request)
+	{
+		$vendor = Vendor::find($request->id_vendor);
+		$coa = $vendor->coa()->first();
+
+		return $coa;
+	}
+
     public function approve(Request $request)
     {
 
