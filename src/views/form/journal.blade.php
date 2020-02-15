@@ -139,15 +139,15 @@
 	                    <td valign="top" align="center" width="15%">{{ $x->coa->code }}</td>
 	                    <td valign="top" width="27%">{{ $x->coa->name }}</th>
 	                    <td valign="top"  width="20%">{{ $x->description }}</td>
-	                    <td valign="top" align="right" width="16%">{{ ($x->debit < 1)? '': $journal->currency->symbol.' '.number_format($x->debit, 0, 0, '.').",-" }}</td>
-	                    <td valign="top" align="right" width="16%">{{ ($x->credit < 1)? '': $journal->currency->symbol.' '.number_format($x->credit, 0, 0, '.').",-" }}</td>
+	                    <td valign="top" align="right" width="16%">{{ ($x->debit < 1)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
+	                    <td valign="top" align="right" width="16%">{{ ($x->credit < 1)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
 	                </tr>
 								@endfor
             </table>
             <table width="100%" cellpadding="6">
                 <tr>
                     <td valign="top" align="right" width="68%"><b>Total</b></td>
-                    <td valign="top" align="right" width="" colspan="2" class="kredit-debet">{{ $journal->currency->symbol.' '.number_format($debit, 0, 0, '.') }},-</td>
+                    <td valign="top" align="right" width="" colspan="2" class="kredit-debet">Rp. {{ number_format($debit * $journal->exchange_rate, 0, 0, '.') }},-</td>
                 </tr>
             </table>
         </div>
