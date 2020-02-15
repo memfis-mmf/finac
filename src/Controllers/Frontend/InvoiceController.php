@@ -653,7 +653,7 @@ class InvoiceController extends Controller
             }
         }
 
-        $quotations = Quotation::all();
+        $quotations = Quotation::whereHas('approvals')->get();
 
         //dd($quotations);
 
