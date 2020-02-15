@@ -124,7 +124,7 @@ let Journal = {
 											let val = '';
 
 											if (t.total_transaction) {
-												val = addCommas(parseInt(t.total_transaction));
+												val = 'Rp. '+addCommas(parseInt(t.total_transaction));
 											}
 
 											return val;
