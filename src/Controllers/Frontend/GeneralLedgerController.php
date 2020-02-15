@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use memfisfa\Finac\Model\QueryFunction as QF;
 use memfisfa\Finac\Model\Coa;
+use Carbon\Carbon;
 
 class GeneralLedgerController extends Controller
 {
@@ -121,19 +122,15 @@ class GeneralLedgerController extends Controller
 	{
 		$tmp_date = explode('-', $date);
 
-		$startDate = date(
-			'Y-m-d',
-			str_replace("/", "-", strtotime(trim($tmp_date[0])))
-		);
+		$start = new Carbon(str_replace('/', "-", trim($tmp_date[0])));
+		$startDate = $start->format('Y-m-d');
 
-		$finishDate = date(
-			'Y-m-d',
-			str_replace("/", "-", strtotime(trim($tmp_date[1])))
-		);
+		$end = new Carbon(str_replace('/', "-", trim($tmp_date[1])));
+		$endDate = $end->format('Y-m-d');
 
 		return [
 			$startDate,
-			$finishDate
+			$endDate
 		];
 	}
 

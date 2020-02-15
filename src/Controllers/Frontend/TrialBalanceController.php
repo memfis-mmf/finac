@@ -19,19 +19,15 @@ class TrialBalanceController extends Controller
 	{
 		$tmp_date = explode('-', $date);
 
-		$startDate = date(
-			'Y-m-d',
-			str_replace("/", "-", strtotime(trim($tmp_date[0])))
-		);
+		$start = new Carbon(str_replace('/', "-", trim($tmp_date[0])));
+		$startDate = $start->format('Y-m-d');
 
-		$finishDate = date(
-			'Y-m-d',
-			str_replace("/", "-", strtotime(trim($tmp_date[1])))
-		);
+		$end = new Carbon(str_replace('/', "-", trim($tmp_date[1])));
+		$endDate = $end->format('Y-m-d');
 
 		return [
 			$startDate,
-			$finishDate
+			$endDate
 		];
 	}
 
@@ -45,7 +41,7 @@ class TrialBalanceController extends Controller
 
 		$query = "
 			SELECT
-			m_journal.*,
+			 m_journal.*,
 			IFNULL(IFNULL((a.Debit),(b.Debit)),0) as Debit,
 			IFNULL(IFNULL((a.Credit),(b.Credit)),0) as Credit,
 			IFNULL(IFNULL((a.LastBalance),(b.LastBalance)),0) as LastBalance,
