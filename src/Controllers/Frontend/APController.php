@@ -612,7 +612,8 @@ class APController extends Controller
 					'coa_detail' => $x->coa->id,
 					'debit' => $x->debit * $ap->exchangerate,
 					'credit' => 0,
-					'_desc' => 'supplier-invoice',
+					'_desc' => 'Debt Payment : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -627,7 +628,8 @@ class APController extends Controller
 					'coa_detail' => $y->coa->id,
 					'credit' => $y->credit,
 					'debit' => $y->debit,
-					'_desc' => 'adjustment',
+					'_desc' => 'Debt Payment : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -653,7 +655,8 @@ class APController extends Controller
 					'coa_detail' => $z->coa->id,
 					$side => $val,
 					$x_side => 0,
-					'_desc' => 'gap',
+					'_desc' => 'Debt Payment : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -667,7 +670,8 @@ class APController extends Controller
 					'coa_detail' => $header->coa,
 					'credit' => $total_debit - $total_credit,
 					'debit' => 0,
-					'_desc' => 'coa bank',
+					'_desc' => 'Payment To : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				]
 			);
 

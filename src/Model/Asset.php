@@ -41,6 +41,7 @@ class Asset extends MemfisModel
 		'description',
 		'company_department',
 		'asset_category_id',
+		'count_journal_report',
     ];
 
 	protected $appends = [

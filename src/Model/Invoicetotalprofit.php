@@ -19,7 +19,13 @@ class Invoicetotalprofit extends MemfisModel
         'type',
     ];
 
-    public function coas(){
+	public function invoice()
+	{
+		return $this->belongsTo(Invoice::class, 'invoice_id');
+	}
+
+    public function coas()
+	{
         return $this->hasOne(Coa::class,'id','accountcode');
     }
 

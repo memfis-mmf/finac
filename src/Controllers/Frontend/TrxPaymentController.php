@@ -73,7 +73,10 @@ class TrxPaymentController extends Controller
 					'coa_detail' => $x->coa->id,
 					'debit' => $x->total * $si->exchange_rate,
 					'credit' => 0,
-					'_desc' => 'detail Supplier Invoice',
+					'_desc' => 'Supplier Invoice : '
+					.$si->transaction_number.' '
+					.$si->vendor->name.'-'
+					.$x->description,
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;
@@ -86,7 +89,9 @@ class TrxPaymentController extends Controller
 					'coa_detail' => $header->coa,
 					'credit' => $total_debit,
 					'debit' => 0,
-					'_desc' => 'coa header',
+					'_desc' => 'Account Payable : '
+					.$si->transaction_number.' '
+					.$si->vendor->name,
 				]
 			);
 

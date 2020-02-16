@@ -514,7 +514,9 @@ class InvoiceController extends Controller
 					'coa_detail' => $x->accountcode,
 					'credit' => $x->amount * $invoice->exchangerate,
 					'debit' => 0,
-					'_desc' => 'detail invoice',
+					'_desc' => 'Income : '
+					.$x->invoice->transactionnumber.' '
+					.$x->invoice->customer->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -527,7 +529,9 @@ class InvoiceController extends Controller
 					'coa_detail' => $header->coa,
 					'credit' => 0,
 					'debit' => $total_credit,
-					'_desc' => 'coa header',
+					'_desc' => 'Account Receivable : '
+					.$x->invoice->transactionnumber.' '
+					.$x->invoice->customer->name,
 				]
 			);
 

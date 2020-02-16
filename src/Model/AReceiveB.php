@@ -19,6 +19,15 @@ class AReceiveB extends MemfisModel
 	    'description',
 	];
 
+	public function ar()
+	{
+		return $this->belongsTo(
+			AReceive::class,
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
+
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'code', 'code');

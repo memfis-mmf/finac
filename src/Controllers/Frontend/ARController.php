@@ -568,7 +568,8 @@ class ARController extends Controller
 					'coa_detail' => $x->coa->id,
 					'credit' => $x->credit * $ar->exchangerate,
 					'debit' => 0,
-					'_desc' => 'invoice',
+					'_desc' => 'Payment From : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -583,7 +584,8 @@ class ARController extends Controller
 					'coa_detail' => $y->coa->id,
 					'credit' => $y->credit,
 					'debit' => $y->debit,
-					'_desc' => 'adjustment',
+					'_desc' => 'Payment From : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -609,7 +611,8 @@ class ARController extends Controller
 					'coa_detail' => $z->coa->id,
 					$side => $val,
 					$x_side => 0,
-					'_desc' => 'gap',
+					'_desc' => 'Payment From : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -623,7 +626,8 @@ class ARController extends Controller
 					'coa_detail' => $header->coa,
 					'credit' => 0,
 					'debit' => $total_credit - $total_debit,
-					'_desc' => 'coa bank',
+					'_desc' => 'Receive From : '.$x->transactionnumber.' '
+					.$x->ap->vendor->name,
 				]
 			);
 

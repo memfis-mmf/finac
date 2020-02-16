@@ -283,7 +283,8 @@ class TrxJournal extends MemfisModel
 					'account_code' => $x->coa_detail,
 					'credit' => $x->credit,
 					'debit' => $x->debit,
-					'description' => 'Generate from auto journal, '.$header->voucher_no,
+					// 'description' => 'Generate from auto journal, '.$header->voucher_no,
+					'description' => $x->_desc
 				]);
 
 			}
@@ -356,7 +357,9 @@ class TrxJournal extends MemfisModel
 					'coa_detail' => $z->coa_iv,
 					'debit' => $x->val,
 					'credit' => 0,
-					'_desc' => 'detail GRN',
+					'_desc' => 'Increased Inventory : '
+					.$header->voucher_no.' '
+					.$header->supplier.' ',
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;
@@ -367,9 +370,11 @@ class TrxJournal extends MemfisModel
 				$detail,
 				(object) [
 					'coa_detail' => $_tmp[0]->coa_vendor,
-					'credit' => $total_debit,
 					'debit' => 0,
-					'_desc' => 'coa header',
+					'credit' => $total_debit,
+					'_desc' => 'Account Payable : '
+					.$header->voucher_no.' '
+					.$header->supplier.' ',
 				]
 			);
 
@@ -430,30 +435,36 @@ class TrxJournal extends MemfisModel
 			$detail = [];
 
 			$total_credit = 0;
+			$total_debit = 0;
 
 			for ($i=0; $i < count($_tmp); $i++) {
 				$z = $_tmp[$i];
 
 				$detail[] = (object) [
 					'coa_detail' => $z->coa_iv,
-					'credit' => $x->val,
 					'debit' => 0,
-					'_desc' => 'detail IV out',
+					'credit' => $x->val,
+					'_desc' => 'Material Usage : '
+					.$header->voucher_no,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
 			}
 
-			// add object in first array $detai
-			array_unshift(
-				$detail,
-				(object) [
-					'coa_detail' => $_tmp[0]->coa_cogs,
-					'credit' => $total_credit,
-					'debit' => 0,
-					'_desc' => 'coa header',
-				]
-			);
+			for ($i=0; $i < count($_tmp); $i++) {
+				$z = $_tmp[$i];
+
+				$detail[] = (object) [
+					'coa_detail' => $z->coa_cogs,
+					'debit' => $x->val,
+					'credit' => 0,
+					'_desc' => 'Material Usage : '
+					.$header->voucher_no.' '
+					.$x->part_number,
+				];
+
+				$total_debit += $detail[count($detail)-1]->debit;
+			}
 
 			TrxJournal::autoJournal($header, $detail, 'PRJR', 'GJV');
 

@@ -17,6 +17,15 @@ class APaymentC extends MemfisModel
 	    'difference',
 	    'description',
 	];
+	
+	public function ap()
+	{
+		return $this->belongsTo(
+			APayment::class,
+			'transactionnumber',
+			'transactionnumber'
+		);
+	}
 
 	public function coa()
 	{

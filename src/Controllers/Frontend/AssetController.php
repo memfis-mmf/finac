@@ -264,7 +264,9 @@ class AssetController extends Controller
 				'coa_detail' => 214, // coa : 31121001
 				'credit' => $asset->povalue,
 				'debit' => 0,
-				'_desc' => 'detail asset',
+				'_desc' => 'Fixed Asset : '
+				.$asset->code.' '
+				.$asset->name,
 			];
 
 			$total_credit += $detail[count($detail)-1]->credit;
@@ -276,12 +278,15 @@ class AssetController extends Controller
 					'coa_detail' => $header->coa,
 					'credit' => 0,
 					'debit' => $total_credit,
-					'_desc' => 'coa header',
+					'_desc' => 'Fixed Asset : '
+					.$asset->code.' '
+					.$asset->name,
 				]
 			);
 
 			Asset::where('id', $asset->id)->update([
-				'approve' => 1
+				'approve' => 1,
+				'count_journal_report' => 1
 			]);
 
 			$depreciationStart = new Carbon($date_approve);
@@ -389,7 +394,10 @@ class AssetController extends Controller
 				'coa_detail' => $asset->coaacumulated->coa->id,
 				'credit' => $value,
 				'debit' => 0,
-				'_desc' => 'detail asset',
+				'_desc' => 'Accm Depr Asset : '
+				.$asset->name
+				.($asset->count_journal_report+1).
+				'Month Depreciation',
 			];
 
 			$total_credit += $detail[count($detail)-1]->credit;
@@ -401,12 +409,16 @@ class AssetController extends Controller
 					'coa_detail' => $header->coaexpense->coa->id,
 					'credit' => 0,
 					'debit' => $total_credit,
-					'_desc' => 'coa header',
+					'_desc' => 'Asset Depreciation : '
+					.$asset->name
+					.($asset->count_journal_report+1).
+					'Month Depreciation',
 				]
 			);
 
 			Asset::where('id', $asset->id)->update([
-				'approve' => 1
+				'approve' => 1,
+				'count_journal_report' => $asset->count_journal_report+1
 			]);
 
 			$autoJournal = TrxJournal::autoJournal(
