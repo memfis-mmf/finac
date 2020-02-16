@@ -87,7 +87,7 @@ let Journal = {
                     width: 150
                 },
                 {
-                    field: '',
+                    field: 'status',
                     title: 'Status',
                     sortable: 'asc',
                     filterable: !1,

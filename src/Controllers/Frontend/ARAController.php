@@ -142,7 +142,9 @@ class ARAController extends Controller
 
 	public function countPaidAmount($x)
 	{
-		$ara = AReceiveA::where('id_invoice', $x->id_invoice)->get();
+		$ara = AReceiveA::where(
+			'transactionnumber', $x->transactionnumber
+		)->get();
 
 		$total = 0;
 		for ($i=0; $i < count($ara); $i++) {

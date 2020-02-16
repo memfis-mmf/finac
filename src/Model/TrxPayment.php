@@ -10,6 +10,7 @@ use App\Models\Vendor;
 use memfisfa\Finac\Model\TrxPaymentA;
 use App\Models\Approval;
 use App\User;
+use App\Models\Currency;
 
 class TrxPayment extends MemfisModel
 {
@@ -40,6 +41,7 @@ class TrxPayment extends MemfisModel
 		'created_by',
 		'updated_by',
 		'approved_by',
+		'status',
 	];
 
     public function approvals()
@@ -86,6 +88,35 @@ class TrxPayment extends MemfisModel
 		return $total;
 	}
 
+	public function getStatusAttribute()
+	{
+		$apa_tmp = $this->apa;
+		$ap_tmp = $apa_tmp[0]->ap()->where('approve', 1)->first();
+		$ap = APayment::where('id_supplier', $ap_tmp->id_supplier)->get();
+
+		$total = 0;
+
+		foreach ($ap as $key_ap) {
+			$apa = $key_ap->apa;
+
+			foreach ($apa as $key_apa) {
+				$total += ($key_apa->debit * $key_ap->exchangerate);
+			}
+		}
+
+		if ($total >= ($this->grandtotal_foreign * $this->exchange_rate)) {
+			$status = 'Closed';
+		}else{
+			if ($this->approve) {
+				$status = 'Approved';
+			}else{
+				$status = 'Unapproved';
+			}
+		}
+
+		return $status;
+	}
+
 	static public function generateCode($code = "SITR")
 	{
 		$data = TrxPayment::orderBy('id', 'desc')
@@ -128,4 +159,15 @@ class TrxPayment extends MemfisModel
 		return $this->belongsTo(Coa::class, 'account_code', 'code');
 	}
 
+	public function apa()
+	{
+		return $this->hasMany(APaymentA::class,
+			'id_payment'
+		);
+	}
+
+	public function currencies()
+	{
+		return $this->belongsTo(Currency::class, 'currency', 'code');
+	}
 }

@@ -6,6 +6,8 @@ use Auth;
 use Illuminate\Http\Request;
 use memfisfa\Finac\Model\APayment;
 use memfisfa\Finac\Model\APaymentA;
+use memfisfa\Finac\Model\APaymentB;
+use memfisfa\Finac\Model\APaymentC;
 use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\TrxPayment;
 use memfisfa\Finac\Request\APaymentUpdate;
@@ -84,7 +86,8 @@ class APController extends Controller
 		)->sum('grandtotal');
 
 		$apayment = APayment::where('id_supplier', $data['data']->id_supplier)
-			->get();
+		->where('approve', 1)
+		->get();
 
 		$payment_total_amount = 0;
 
@@ -94,7 +97,7 @@ class APController extends Controller
 			for ($j = 0; $j < count($x->apa); $j++) {
 				$y = $x->apa[$j];
 
-				$payment_total_amount += $y->debit;
+				$payment_total_amount += ($y->debit * $x->exchangerate);
 			}
 		}
 
@@ -119,7 +122,38 @@ class APController extends Controller
 
     public function destroy(APayment $apayment)
     {
+		DB::beginTransaction();
+
+		$apa = APaymentA::where(
+			'transactionnumber', $apayment->transactionnumber
+		)
+		->first();
+
+		if ($apa) {
+			$apa->delete();
+		}
+
+		$apb = APaymentB::where(
+			'transactionnumber', $apayment->transactionnumber
+		)
+		->first();
+
+		if ($apb) {
+			$apb->delete();
+		}
+
+		$apc = APaymentC::where(
+			'transactionnumber', $apayment->transactionnumber
+		)
+		->first();
+
+		if ($apc) {
+			$apc->delete();
+		}
+
         $apayment->delete();
+
+		DB::commit();
 
         return response()->json($apayment);
     }
@@ -416,6 +450,7 @@ class APController extends Controller
 
 		$trxpayment_grn = TrxPayment::where('id_supplier', $request->id_vendor)
 			->where('x_type', 'GRN')
+			->where('approve', 1)
 			->get();
 
 		$arr = [];
@@ -436,6 +471,7 @@ class APController extends Controller
 
 		$trxpayment_non_grn = TrxPayment::where('id_supplier', $request->id_vendor)
 			->where('x_type', 'NON GRN')
+			->where('approve', 1)
 			->get();
 
         $data = $alldata = array_merge($arr, json_decode($trxpayment_non_grn));

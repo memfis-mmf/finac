@@ -179,6 +179,7 @@ class TrxPaymentController extends Controller
 
 		if ($currency == 'idr') {
 			$request->merge([
+				'grandtotal_foreign' => $total,
 				'grandtotal' => $total
 			]);
 		}else{

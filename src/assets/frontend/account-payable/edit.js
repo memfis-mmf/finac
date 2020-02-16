@@ -164,6 +164,9 @@ let AccountPayable = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
+								console.log('we');
+								console.log(t.paid_amount);
+								
 								return addCommas(parseInt(t.paid_amount));
 							}
 						},
@@ -179,7 +182,7 @@ let AccountPayable = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return t.currencies.symbol+' '+addCommas(parseInt(t.debit));
+								return t.ap.currencies.symbol+' '+addCommas(parseInt(t.debit));
 							}
 						},
 						{

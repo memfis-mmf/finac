@@ -158,14 +158,18 @@ class APAController extends Controller
 		// if id payment is GRN number
 		if (strpos($x->id_payment, "GRN") !== false) {
 			$grn = GRN::where('id', $x->id_payment)->first();
-			$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
+			$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)
+			->with(['currencies'])
+			->first();
 
 			$result = $trxpaymenta->si;
 		} else {
 			$result = TrxPayment::where(
 				'id',
 				$x->id_payment
-			)->first();
+			)
+			->with(['currencies'])
+			->first();
 		}
 
 		return $result;
@@ -173,19 +177,31 @@ class APAController extends Controller
 
 	public function countPaidAmount($x)
 	{
-		$ap = APaymentA::where('id_payment', $x->id_payment)->get();
+		$apa = APaymentA::where(
+			'transactionnumber', $x->transactionnumber
+		)->get();
 
-		$total = 0;
-		for ($i=0; $i < count($ap); $i++) {
-			$y = $ap[$i];
+		$ap = $apa[0]->ap;
 
-			// check if this AP is approved or not
-			if ($y->ap->approve) {
-				$total += $y->debit;
-			}
+		$data['debt_total_amount'] = TrxPayment::where(
+			'id_supplier',
+			$ap->vendor()->first()->id
+		)->sum('grandtotal');
+
+		$payment_total_amount = 0;
+
+		for ($j = 0; $j < count($apa); $j++) {
+			$y = $apa[$j];
+
+			$payment_total_amount += ($y->debit * $ap->exchangerate);
 		}
 
-		return $total;
+		$data['payment_total_amount'] = $payment_total_amount;
+		$data['debt_balance'] = (
+			$data['debt_total_amount'] - $data['payment_total_amount']
+		);
+
+		return $data['debt_balance'];
 	}
 
     public function datatables(Request $request)
@@ -194,6 +210,7 @@ class APAController extends Controller
 		$APA = APaymentA::where('transactionnumber', $AP->transactionnumber)
 			->with([
 				'ap',
+				'ap.currencies',
 				'currencies'
 			])
 			->get();
