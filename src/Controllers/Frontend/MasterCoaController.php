@@ -17,7 +17,7 @@ class MasterCoaController extends Controller
 {
     public function index()
     {
-        return redirect()->route('coa.create');
+        return view('mastercoaview::index');
     }
 
 	public function export()

@@ -31,8 +31,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::prefix('master-coa')->group(function () {
 		Route::get(
 			'/',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@create'
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@index'
 		)->name('coa.index');
+		Route::get(
+			'/create',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@create'
+		)->name('coa.create');
 		Route::get(
 			'/export',
 			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@export'
