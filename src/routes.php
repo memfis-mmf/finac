@@ -13,19 +13,69 @@ Route::get('token', function(){
 
 Route::group(['middleware' => ['web','auth']], function () {
 
-    Route::prefix('coa')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CoaController@create')->name('coa.index');
-		Route::get('/export', 'memfisfa\Finac\Controllers\Frontend\CoaController@export')->name('coa.export');
-		Route::get('/type','memfisfa\Finac\Controllers\Frontend\CoaController@getdata');
-		Route::post('/','memfisfa\Finac\Controllers\Frontend\CoaController@store')->name('coa.store');
-		Route::put('/{coa}','memfisfa\Finac\Controllers\Frontend\CoaController@update')->name('coa.update');
-		Route::delete('/{coa}','memfisfa\Finac\Controllers\Frontend\CoaController@destroy')->name('coa.delete');
-		Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CoaController@datatables')->name('coa.datatables');
-		Route::get('/{coa}/edit','memfisfa\Finac\Controllers\Frontend\CoaController@edit');
-		Route::get('/type/{id}','memfisfa\Finac\Controllers\Frontend\CoaController@gettype');
-		Route::get('/data','memfisfa\Finac\Controllers\Frontend\CoaController@api');
-		Route::get('/data/{coa}','memfisfa\Finac\Controllers\Frontend\CoaController@apidetail');
-		Route::get('/datatables/modal','memfisfa\Finac\Controllers\Frontend\CoaController@basicModal');
+    // Route::prefix('coa')->group(function () {
+	// 	Route::get('/', 'memfisfa\Finac\Controllers\Frontend\CoaController@create')->name('coa.index');
+	// 	Route::get('/export', 'memfisfa\Finac\Controllers\Frontend\CoaController@export')->name('coa.export');
+	// 	Route::get('/type','memfisfa\Finac\Controllers\Frontend\CoaController@getdata');
+	// 	Route::post('/','memfisfa\Finac\Controllers\Frontend\CoaController@store')->name('coa.store');
+	// 	Route::put('/{coa}','memfisfa\Finac\Controllers\Frontend\CoaController@update')->name('coa.update');
+	// 	Route::delete('/{coa}','memfisfa\Finac\Controllers\Frontend\CoaController@destroy')->name('coa.delete');
+	// 	Route::get('/datatables','memfisfa\Finac\Controllers\Frontend\CoaController@datatables')->name('coa.datatables');
+	// 	Route::get('/{coa}/edit','memfisfa\Finac\Controllers\Frontend\CoaController@edit');
+	// 	Route::get('/type/{id}','memfisfa\Finac\Controllers\Frontend\CoaController@gettype');
+	// 	Route::get('/data','memfisfa\Finac\Controllers\Frontend\CoaController@api');
+	// 	Route::get('/data/{coa}','memfisfa\Finac\Controllers\Frontend\CoaController@apidetail');
+	// 	Route::get('/datatables/modal','memfisfa\Finac\Controllers\Frontend\CoaController@basicModal');
+	// });
+
+    Route::prefix('master-coa')->group(function () {
+		Route::get(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@create'
+		)->name('coa.index');
+		Route::get(
+			'/export',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@export'
+		)->name('coa.export');
+		Route::get(
+			'/type',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@getdata'
+		);
+		Route::post(
+			'/','memfisfa\Finac\Controllers\Frontend\MasterCoaController@store'
+		)->name('coa.store');
+		Route::put(
+			'/{coa}',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@update'
+		)->name('coa.update');
+		Route::delete(
+			'/{coa}',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@destroy'
+		)->name('coa.delete');
+		Route::get(
+			'/datatables',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@datatables'
+		)->name('coa.datatables');
+		Route::get(
+			'/{coa}/edit',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@edit'
+		);
+		Route::get(
+			'/type/{id}',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@gettype'
+		);
+		Route::get(
+			'/data',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@api'
+		);
+		Route::get(
+			'/data/{coa}',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@apidetail'
+		);
+		Route::get(
+			'/datatables/modal',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@basicModal'
+		);
 	});
 
     Route::prefix('cashbook')->group(function () {
