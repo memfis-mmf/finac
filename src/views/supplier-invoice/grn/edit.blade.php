@@ -105,6 +105,7 @@
                                                     @slot('text', 'Due Date')
                                                     @slot('name', 'valid_until')
                                                     @slot('id_error', 'valid_until')
+                                                    @slot('value', $data->due_date)
                                                 @endcomponent
                                             </div>
                                         </div>

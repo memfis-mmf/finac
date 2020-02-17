@@ -234,4 +234,32 @@
 <script src="{{ asset('vendor/courier/frontend/supplier-invoice/grn/create.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('body').on('input', '#term_of_payment', function() {
+			let date = new Date($('[name=transaction_date]').val());
+
+			console.log([
+				date,
+				$(this).val()
+			]);
+
+			if (parseInt($(this).val())) {
+				date.setDate(date.getDate() + parseInt($(this).val()));
+
+	      $('#valid_until').val(date.toInputFormat());
+			}else{
+	      $('#valid_until').val('');
+			}
+
+		});
+
+		Date.prototype.toInputFormat = function() {
+       var yyyy = this.getFullYear().toString();
+       var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+       var dd  = this.getDate().toString();
+       return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
+    };
+	})
+</script>
 @endpush

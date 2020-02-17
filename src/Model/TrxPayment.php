@@ -11,6 +11,7 @@ use memfisfa\Finac\Model\TrxPaymentA;
 use App\Models\Approval;
 use App\User;
 use App\Models\Currency;
+use Illuminate\Support\Carbon;
 
 class TrxPayment extends MemfisModel
 {
@@ -42,6 +43,7 @@ class TrxPayment extends MemfisModel
 		'updated_by',
 		'approved_by',
 		'status',
+		'due_date',
 	];
 
     public function approvals()
@@ -91,6 +93,11 @@ class TrxPayment extends MemfisModel
 	public function getStatusAttribute()
 	{
 		$apa_tmp = $this->apa;
+
+		if (count($apa_tmp) < 1) {
+			return 'Unapproved';
+		}
+
 		$ap_tmp = $apa_tmp[0]->ap()->where('approve', 1)->first();
 		$ap = APayment::where('id_supplier', $ap_tmp->id_supplier)->get();
 
@@ -115,6 +122,14 @@ class TrxPayment extends MemfisModel
 		}
 
 		return $status;
+	}
+
+	public function getDueDateAttribute()
+	{
+		$date_tmp = new Carbon($this->transaction_date);
+		$date = $date_tmp->addDays($this->closed)->format('Y-m-d');
+
+		return $date;
 	}
 
 	static public function generateCode($code = "SITR")

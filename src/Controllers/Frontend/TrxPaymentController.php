@@ -30,7 +30,7 @@ class TrxPaymentController extends Controller
 	public function checkVendor(Request $request)
 	{
 		$vendor = Vendor::find($request->id_vendor);
-		$coa = $vendor->coa()->first();
+		$coa = $vendor->coa()->get();
 
 		return $coa;
 	}
@@ -133,6 +133,7 @@ class TrxPaymentController extends Controller
 
     public function store(TrxPaymentStore $request)
     {
+		DB::beginTransaction();
 		$request->merge([
 			'id_supplier' => $request->id_supplier
 		]);
@@ -148,6 +149,8 @@ class TrxPaymentController extends Controller
 		]);
 
         $trxpayment = TrxPayment::create($request->all());
+
+		DB::commit();
         return response()->json($trxpayment);
     }
 
@@ -459,6 +462,7 @@ class TrxPaymentController extends Controller
 
     public function grnStore(TrxPaymentStore $request)
     {
+		DB::beginTransaction();
 		$request->merge([
 			'id_supplier' => $request->id_supplier
 		]);
@@ -466,10 +470,12 @@ class TrxPaymentController extends Controller
 		$request->request->add([
 			'transaction_number' => TrxPayment::generateCode('GRNT'),
 			'x_type' => 'GRN',
-			'account_code' => '303.1.1.04'
+			'account_code' => Vendor::find($request->id_supplier)
+			->coa()->first()->code
 		]);
 
         $trxpayment = TrxPayment::create($request->all());
+		DB::commit();
         return response()->json($trxpayment);
     }
 

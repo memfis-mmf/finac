@@ -106,6 +106,7 @@
                                                     @slot('text', 'Due Date')
                                                     @slot('name', 'valid_until')
                                                     @slot('id_error', 'valid_until')
+																										@slot('value', $data->due_date)
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -127,7 +128,7 @@
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <label class="form-control-label">
-                                                    Exchange Rate 
+                                                    Exchange Rate
                                                 <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                                 </label>
                                                 @component('input::numberreadonly')
