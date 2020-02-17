@@ -51,7 +51,7 @@
                         <form id="MasterAssetForm">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Master Asset Code @include('label::required')
                                         </label>
@@ -63,7 +63,7 @@
                                             @slot('id_error', 'code')
                                             @slot('value', $asset->code)
                                         @endcomponent
-                                    </div>
+                                    </div> --}}
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Asset Category @include('label::required')
@@ -77,8 +77,6 @@
 																						@endforeach
 																				</select>
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Master Asset Name @include('label::required')

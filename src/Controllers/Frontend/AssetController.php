@@ -47,6 +47,10 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+		$request->request->add([
+			'transaction_number' => Asset::generateCode()
+		]);
+
         $asset = Asset::create($request->all());
         return response()->json($asset);
     }
@@ -82,7 +86,6 @@ class AssetController extends Controller
 		]);
 
 		$list = [
-			'code',
 			'name',
 			'description',
 			'manufacturername',
@@ -253,7 +256,7 @@ class AssetController extends Controller
 			->created_at->toDateTimeString();
 
 			$header = (object) [
-				'voucher_no' => $asset->code,
+				'voucher_no' => $asset->transaction_number,
 				'transaction_date' => $date_approve,
 				'coa' => $asset->category->coa->id,
 			];
@@ -265,7 +268,7 @@ class AssetController extends Controller
 				'credit' => $asset->povalue,
 				'debit' => 0,
 				'_desc' => 'Fixed Asset : '
-				.$asset->code.' '
+				.$asset->transaction_number.' '
 				.$asset->name,
 			];
 
@@ -279,7 +282,7 @@ class AssetController extends Controller
 					'credit' => 0,
 					'debit' => $total_credit,
 					'_desc' => 'Fixed Asset : '
-					.$asset->code.' '
+					.$asset->transaction_number.' '
 					.$asset->name,
 				]
 			);
@@ -323,7 +326,7 @@ class AssetController extends Controller
 
 			DB::rollBack();
 
-			$data['errors'] = $e->getMessage();
+			$data['errors'] = $e;
 
 			return response()->json($data);
 		}
@@ -383,7 +386,7 @@ class AssetController extends Controller
 			->created_at->toDateTimeString();
 
 			$header = (object) [
-				'voucher_no' => $asset->code,
+				'voucher_no' => $asset->transaction_number,
 				'transaction_date' => $date_approve,
 				'coa' => $asset->category->coa->id,
 			];

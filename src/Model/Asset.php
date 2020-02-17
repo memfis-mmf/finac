@@ -13,7 +13,7 @@ class Asset extends MemfisModel
     protected $fillable = [
 		'active',
 		'approve',
-		'code',
+		'transaction_number',
 		'name',
 		'group',
 		'manufacturername',
@@ -71,12 +71,14 @@ class Asset extends MemfisModel
 
 	public function coa_accumulate()
 	{
-		return $this->belongsTo(Coa::class, 'coaacumulated', 'code');
+		return $this->belongsTo(
+			Coa::class, 'coaacumulated', 'transaction_number'
+		);
 	}
 
 	public function coa_expense()
 	{
-		return $this->belongsTo(Coa::class, 'coaexpense', 'code');
+		return $this->belongsTo(Coa::class, 'coaexpense', 'transaction_number');
 	}
 
 	public function category()
@@ -84,21 +86,21 @@ class Asset extends MemfisModel
 		return $this->belongsTo(TypeAsset::class, 'asset_category_id');
 	}
 
-	static public function generateCode($code = "")
+	static public function generateCode($code = "FAMS")
 	{
-		$journal = TrxJournal::orderBy('id', 'desc')
-			->where('voucher_no', 'like', $code.'%');
+		$asset = Asset::orderBy('id', 'desc')
+			->where('transaction_number', 'like', $code.'%');
 
-		if (!$journal->count()) {
+		if (!$asset->count()) {
 
-			if ($journal->withTrashed()->count()) {
-				$order = $journal->withTrashed()->count() + 1;
+			if ($asset->withTrashed()->count()) {
+				$order = $asset->withTrashed()->count() + 1;
 			}else{
 				$order = 1;
 			}
 
 		}else{
-			$order = $journal->withTrashed()->count() + 1;
+			$order = $asset->withTrashed()->count() + 1;
 		}
 
 		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
