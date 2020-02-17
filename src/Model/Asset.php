@@ -72,13 +72,13 @@ class Asset extends MemfisModel
 	public function coa_accumulate()
 	{
 		return $this->belongsTo(
-			Coa::class, 'coaacumulated', 'transaction_number'
+			Coa::class, 'coaacumulated', 'code'
 		);
 	}
 
 	public function coa_expense()
 	{
-		return $this->belongsTo(Coa::class, 'coaexpense', 'transaction_number');
+		return $this->belongsTo(Coa::class, 'coaexpense', 'code');
 	}
 
 	public function category()
