@@ -80,7 +80,7 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Sub Account 
+                                            Sub Account
                                         </label>
 
                                         @component('input::select2')
@@ -115,10 +115,10 @@
                                         @endcomponent
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row ">
+                                {{-- <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Opening Balance 
+                                            Opening Balance
                                         </label>
 
                                         @component('input::number')
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            As of Date(Opening Balance) 
+                                            As of Date(Opening Balance)
                                         </label>
 
                                         @component('input::datepicker')
@@ -140,7 +140,7 @@
                                             @slot('id_error', 'date')
                                         @endcomponent
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
