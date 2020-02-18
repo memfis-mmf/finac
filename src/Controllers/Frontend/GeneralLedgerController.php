@@ -99,7 +99,8 @@ class GeneralLedgerController extends Controller
 			0 AS SaldoAwal ,
 			trxjournala.Debit AS Debit,
 			trxjournala.Credit AS Credit,
-			trxjournala.description AS Description
+			trxjournala.description AS Description,
+			trxjournals.created_ad AS CreatedAt
 			from
 			trxjournals
 			left join trxjournala
@@ -109,7 +110,7 @@ class GeneralLedgerController extends Controller
 			where cast(trxjournals.transaction_date as date) between @startdate and @enddate
 			and m_journal.code in (".$coa.")
 
-			order by AccountCode,transactiondate,trxjournals.created_at asc
+			order by AccountCode,transactiondate,CreatedAt asc
 		";
 
 		DB::connection()->getpdo()->exec($queryStatement);
