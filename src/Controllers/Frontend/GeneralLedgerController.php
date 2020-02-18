@@ -83,8 +83,9 @@ class GeneralLedgerController extends Controller
 			AS SaldoAwal,
 			0 AS Debit,
 			0 AS Credit,
-			'Saldo Awal' AS Description
-			from m_journal
+            'Saldo Awal' AS Description,
+            trxjournals.created_at as CreatedAt
+			from m_journal, trxjournals
 			where
 			m_journal.description = 'Detail'
 			and
@@ -99,8 +100,8 @@ class GeneralLedgerController extends Controller
 			0 AS SaldoAwal ,
 			trxjournala.Debit AS Debit,
 			trxjournala.Credit AS Credit,
-			trxjournala.description AS Description,
-			trxjournals.created_at AS CreatedAt
+            trxjournala.description AS Description,
+            trxjournals.created_at as CreatedAt
 			from
 			trxjournals
 			left join trxjournala
