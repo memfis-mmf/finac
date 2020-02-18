@@ -118,7 +118,7 @@ let GeneralLedger = {
                 },
                 {
                     field: 'SaldoAkhir',
-                    title: 'Balance',
+                    title: 'Ending Balance',
                     sortable: 'asc',
                     filterable: !1,
                     width: 150,
