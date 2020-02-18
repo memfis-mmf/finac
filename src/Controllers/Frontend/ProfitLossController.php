@@ -103,18 +103,18 @@ class ProfitLossController extends Controller
 			) {
 				$x->child = [];
 
-				if ($x->Type == 'pendapatan') {
+				if (strtolower($x->Type) == 'pendapatan') {
 					$_data['pendapatan'][] = $x;
 					$index_parent['pendapatan'] = count($_data['pendapatan']) - 1;
 
-					$pendapatan_accumulated += $x->CurrentBalance;
-					$pendapatan_period = $x->EndingBalance;
+					// $pendapatan_accumulated += $x->CurrentBalance;
+					// $pendapatan_period = $x->EndingBalance;
 				}else{
 					$_data['biaya'][] = $x;
 					$index_parent['biaya'] = count($_data['biaya']) - 1;
 
-					$biaya_accumulated += $x->CurrentBalance;
-					$biaya_period += $x->EndingBalance;
+					// $biaya_accumulated += $x->CurrentBalance;
+					// $biaya_period += $x->EndingBalance;
 				}
 			}
 
@@ -123,7 +123,7 @@ class ProfitLossController extends Controller
 				&& $code[4] == 0
 				&& $code[3] != 0
 			) {
-				if ($x->Type == 'pendapatan') {
+				if (strtolower($x->Type) == 'pendapatan') {
 					$_data['pendapatan'][$index_parent['pendapatan']]
 					->child[] = $x;
 

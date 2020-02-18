@@ -108,7 +108,7 @@
 																					@endfor
 																				@endfor
                                         <tr style="background:#add8f7;font-weight: bold;">
-                                            <td width="60%"><h5>Total Revenue</h5></td>
+                                            <td width="60%"><h5>Total Expense</h5></td>
                                             <td width="20%" align="center">{{number_format($biaya_accumulated, 0, 0, '.')}}</td>
                                             <td width="20%" align="center">{{number_format($biaya_period, 0, 0, '.')}}</td>
                                         </tr>
@@ -116,16 +116,16 @@
 
                                     <div class="form-group m-form__group row mt-5">
                                         <div class="col-sm-7 col-md-7 col-lg-7">
-                                            <h4 class="text-right">Calculated Return</h4>
+                                            <h4 class="text-right">PROFIT & LOSS</h4>
                                         </div>
                                         <div class="col-sm-5 col-md-5 col-lg-5">
                                             <table width="100%">
                                                 <tr>
                                                     <td align="center" width="50%">
-                                                        <h4>{{number_format($total_accumulated, 0, 0, '.')}}</h4>
+                                                        <h4>{{number_format($pendapatan_accumulated - $biaya_accumulated, 0, 0, '.')}}</h4>
                                                     </td>
                                                     <td align="center" width="50%">
-                                                        <h4>{{number_format($total_period, 0, 0, '.')}}</h4>
+                                                        <h4>{{number_format($pendapatan_period - $biaya_period, 0, 0, '.')}}</h4>
                                                     </td>
                                                 </tr>
                                             </table>
