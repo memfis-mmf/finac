@@ -107,7 +107,7 @@
                                         </tr>
                                         {{-- total Activa --}}
                                         <tr style="background:#add8f7;font-weight: bold;">
-                                            <td width="18%"><h5>Total Activa</h5></td>
+                                            <td width="18%"><h5>Total Assets</h5></td>
                                             <td width="52%" align="center"></td>
                                             <td width="30%" align="center">{{$totalActiva}}</td>
                                         </tr>
@@ -122,7 +122,7 @@
 
                                         {{-- Pasiva --}}
                                         <tr style="color:blue;font-weight: bold;">
-                                            <td width="18%" colspan="3"><h3>PASIVA</h3></td>
+                                            <td width="18%" colspan="3"><h3>PASIVA & EQUITY</h3></td>
                                         </tr>
 																				@for ($index_activa=0; $index_activa < count($data['pasiva']); $index_activa++)
 																					@php
@@ -156,7 +156,7 @@
                                         </tr>
                                         {{-- total Activa --}}
                                         <tr style="background:#add8f7;font-weight: bold;">
-                                            <td width="18%"><h5>Total Pasiva</h5></td>
+                                            <td width="18%"><h5>Total Liabilitie & Equities</h5></td>
                                             <td width="52%" align="center"></td>
                                             <td width="30%" align="center">{{$totalPasiva}}</td>
                                         </tr>

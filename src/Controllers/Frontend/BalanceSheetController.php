@@ -71,7 +71,7 @@ class BalanceSheetController extends Controller
 				}
 			}
 
-			if (strlen($arr->COA) > 1 && strlen($arr->COA) < 5) {
+			if (strlen($arr->COA) > 2 && strlen($arr->COA) < 5) {
 				if ($arr->Type == 'activa') {
 					$totalActiva += $arr->CurrentBalance;
 				}else{
