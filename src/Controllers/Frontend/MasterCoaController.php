@@ -3,15 +3,12 @@
 namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
-use memfisfa\Finac\Model\Coa;
-use memfisfa\Finac\Request\CoaUpdate;
-use memfisfa\Finac\Request\CoaStore;
 use App\Http\Controllers\Controller;
+use memfisfa\Finac\Model\Coa;
 use App\Models\Type;
-
-//use for export
-use memfisfa\Finac\Model\Exports\CoaExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+use DB;
+use Auth;
 
 class MasterCoaController extends Controller
 {
@@ -20,46 +17,59 @@ class MasterCoaController extends Controller
         return view('mastercoaview::index');
     }
 
-	public function export()
-    {
-		return Excel::download(new CoaExport, 'coa.xlsx');
-    }
-
-    public function getData()
-    {
-		$coaType = Type::where('of', 'coa')->get();
-
-		$type = [];
-
-		for ($i = 0; $i < count($coaType); $i++) {
-			$x = $coaType[$i];
-
-			$type[$x->id] = $x->name;
-		}
-
-        return json_encode($type, JSON_PRETTY_PRINT);
-    }
-
     public function create()
     {
-        return view('mastercoaview::index');
+        return view('mastercoaview::create');
     }
 
-    public function store(CoaStore $request)
+    public function store(Request $request)
     {
         $coa = Coa::create($request->all());
         return response()->json($coa);
     }
 
-    public function edit(Coa $coa)
+    public function edit(Request $request)
     {
-        return response()->json($coa);
+        return view('mastercoaview::edit');
     }
 
-    public function update(CoaUpdate $request, Coa $coa)
+    public function update(Request $request)
     {
+		$coa_tmp = Coa::where('uuid', $request->coa);
+		$coa = $coa_tmp->first();
 
-        $coa->update($request->all());
+		$request->request->add([
+			'warrantystart' => $this->convertDate(
+				$request->daterange_master_coa
+			)[0],
+			'warrantyend' => $this->convertDate(
+				$request->daterange_master_coa
+			)[1],
+		]);
+
+		$list = [
+			'name',
+			'description',
+			'manufacturername',
+			'productiondate',
+			'brandname',
+			'modeltype',
+			'location',
+			'serialno',
+			'company_department',
+			'grnno',
+			'pono',
+			'supplier',
+			'povalue',
+			'salvagevalue',
+			'usefullife',
+			'coaacumulated',
+			'coaexpense',
+			'warrantystart',
+			'warrantyend',
+		];
+
+        $coa_tmp->update($request->only($list));
 
         return response()->json($coa);
     }
@@ -69,41 +79,6 @@ class MasterCoaController extends Controller
         $coa->delete();
 
         return response()->json($coa);
-    }
-
-    public function getType($id)
-    {
-        if ($id == 1) {
-            $type = [
-                'id' => 1,
-                'name' => 'AKTIVA',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 2) {
-            $type = [
-                'id' => 2,
-                'name' => 'PASIVA',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 3) {
-            $type = [
-                'id' => 3,
-                'name' => 'EKUITAS',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 4) {
-            $type = [
-                'id' => 4,
-                'name' => 'PENDAPATAN',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        } elseif ($id == 5) {
-            $type = [
-                'id' => 5,
-                'name' => 'BIAYA',
-            ];
-            return json_encode($type, JSON_PRETTY_PRINT);
-        }
     }
 
     public function api()
@@ -121,13 +96,19 @@ class MasterCoaController extends Controller
     public function datatables()
     {
 		$data = $alldata = json_decode(Coa::with([
-			'type'
+			'type',
+			'type.coa',
+			'coa_accumulate',
+			'coa_expense',
 		])->get());
 
-        $datatable = array_merge(['pagination' => [], 'sort' => [], 'query' => []], $_REQUEST);
+		$datatable = array_merge([
+			'pagination' => [], 'sort' => [], 'query' => []
+		], $_REQUEST);
 
-        $filter = isset($datatable['query']['generalSearch']) && is_string($datatable['query']['generalSearch'])
-            ? $datatable['query']['generalSearch'] : '';
+		$filter = isset($datatable['query']['generalSearch']) &&
+			is_string($datatable['query']['generalSearch']) ?
+			$datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -137,7 +118,8 @@ class MasterCoaController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-        $query = isset($datatable['query']) && is_array($datatable['query']) ? $datatable['query'] : null;
+		$query = isset($datatable['query']) &&
+			is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -147,12 +129,16 @@ class MasterCoaController extends Controller
             }
         }
 
-        $sort  = !empty($datatable['sort']['sort']) ? $datatable['sort']['sort'] : 'asc';
-        $field = !empty($datatable['sort']['field']) ? $datatable['sort']['field'] : 'RecordID';
+		$sort  = !empty($datatable['sort']['sort']) ?
+			$datatable['sort']['sort'] : 'asc';
+		$field = !empty($datatable['sort']['field']) ?
+			$datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-        $page    = !empty($datatable['pagination']['page']) ? (int) $datatable['pagination']['page'] : 1;
-        $perpage = !empty($datatable['pagination']['perpage']) ? (int) $datatable['pagination']['perpage'] : -1;
+		$page    = !empty($datatable['pagination']['page']) ?
+			(int) $datatable['pagination']['page'] : 1;
+		$perpage = !empty($datatable['pagination']['perpage']) ?
+			(int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -189,7 +175,10 @@ class MasterCoaController extends Controller
             'total'   => $total,
         ];
 
-        if (isset($datatable['requestIds']) && filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)) {
+		if (
+			isset($datatable['requestIds']) &&
+			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
+		{
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
@@ -211,171 +200,77 @@ class MasterCoaController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function basicModal()
-    {
-        function filterArray( $array, $allowed = [] ) {
-            return array_filter(
-                $array,
-                function ( $val, $key ) use ( $allowed ) { // N.b. $val, $key not $key, $val
-                    return isset( $allowed[ $key ] ) && ( $allowed[ $key ] === true || $allowed[ $key ] === $val );
-                },
-                ARRAY_FILTER_USE_BOTH
-            );
-        }
+	public function autoJournalDepreciation(Request $request)
+	{
+		$coa = Coa::where('approve', 1)->get();
 
-        function filterKeyword( $data, $search, $field = '' ) {
-            $filter = '';
-            if ( isset( $search['value'] ) ) {
-                $filter = $search['value'];
-            }
-            if ( ! empty( $filter ) ) {
-                if ( ! empty( $field ) ) {
-                    if ( strpos( strtolower( $field ), 'date' ) !== false ) {
-                        // filter by date range
-                        $data = filterByDateRange( $data, $filter, $field );
-                    } else {
-                        // filter by column
-                        $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
-                            return (boolean) preg_match( "/$filter/i", $a[ $field ] );
-                        } );
-                    }
+		DB::beginTransaction();
 
-                } else {
-                    // general filter
-                    $data = array_filter( $data, function ( $a ) use ( $filter ) {
-                        return (boolean) preg_grep( "/$filter/i", (array) $a );
-                    } );
-                }
-            }
+		for ($index_coa=0; $index_coa < $coa; $index_coa++) {
+			$arr = $coa[$index_coa];
 
-            return $data;
-        }
+			$date_approve = $arr->approvals->first()
+			->created_at->toDateTimeString();
 
-        function filterByDateRange( $data, $filter, $field ) {
-            // filter by range
-            if ( ! empty( $range = array_filter( explode( '|', $filter ) ) ) ) {
-                $filter = $range;
-            }
+			$depreciationStart = new Carbon($date_approve);
+			$depreciationEnd = $depreciationStart->addMonths($arr->usefullife);
 
-            if ( is_array( $filter ) ) {
-                foreach ( $filter as &$date ) {
-                    // hardcoded date format
-                    $date = date_create_from_format( 'm/d/Y', stripcslashes( $date ) );
-                }
-                // filter by date range
-                $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
-                    // hardcoded date format
-                    $current = date_create_from_format( 'm/d/Y', $a[ $field ] );
-                    $from    = $filter[0];
-                    $to      = $filter[1];
-                    if ( $from <= $current && $to >= $current ) {
-                        return true;
-                    }
+			$day = $depreciationEnd->diff($depreciationStart)->days;
 
-                    return false;
-                } );
-            }
+			$value_per_day = ($arr->povalue - $arr->salvagevalue) / $day;
 
-            return $data;
-        }
+			$last_day_this_month = new Carbon('last day of this month');
+			$first_day_this_month = new Carbon('first day of this month');
 
-        $columnsDefault = [
-            'name'     => true,
-            'id' => true,
-            'code'     => true,
-            'type'  => true,
-            'description' => true,
-            'uuid'      => true,
-            'Actions'      => true,
-        ];
+			if (Carbon::now() != $depreciationEnd) {
+				if (Carbon::now() == $last_day_this_month) {
+					$this->scheduledJournal($arr, $value_per_day);
+				}
+			}else{
+				$value_last_count = $depreciationEnd
+				->diff($first_day_this_month)
+				->days * $value_per_day;
 
-        if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
-            $columnsDefault = [];
-            foreach ( $_REQUEST['columnsDef'] as $field ) {
-                $columnsDefault[ $field ] = true;
-            }
-        }
+				$this->scheduledJournal($arr, $value_last_count);
+			}
+		}
 
-        // get all raw data
-        $coa  = Coa::where('description', '!=', 'Header')->get();
+		DB::commit();
+	}
 
+	public function convertDate($date)
+	{
+		$tmp_date = explode('-', $date);
 
-        $alldata = json_decode( $coa, true);
+		$start = new Carbon(str_replace('/', "-", trim($tmp_date[0])));
+		$startDate = $start->format('Y-m-d');
 
-        $data = [];
-        // internal use; filter selected columns only from raw data
-        foreach ( $alldata as $d ) {
-            $data[] = filterArray( $d, $columnsDefault );
-        }
+		$end = new Carbon(str_replace('/', "-", trim($tmp_date[1])));
+		$endDate = $end->format('Y-m-d');
 
-        // count data
-        $totalRecords = $totalDisplay = count( $data );
+		return [
+			$startDate,
+			$endDate
+		];
+	}
 
-        // filter by general search keyword
-        if ( isset( $_REQUEST['search'] ) ) {
-            $data         = filterKeyword( $data, $_REQUEST['search'] );
-            $totalDisplay = count( $data );
-        }
+	public function getSubaccount(Request $request)
+	{
+		$coas = Type::where(
+			'name',
+			strtoupper($request->coa_type)
+		)->first()
+		->coas()
+		->where('description', $request->group)
+		->get();
 
-        if ( isset( $_REQUEST['columns'] ) && is_array( $_REQUEST['columns'] ) ) {
-            foreach ( $_REQUEST['columns'] as $column ) {
-                if ( isset( $column['search'] ) ) {
-                    $data         = filterKeyword( $data, $column['search'], $column['data'] );
-                    $totalDisplay = count( $data );
-                }
-            }
-        }
+		foreach ($coas as $key) {
+			if (strlen($key->coa_number) > 2) {
+				$data[] = json_decode($key);
+			}
+		}
 
-        // sort
-        if ( isset( $_REQUEST['order'][0]['column'] ) && $_REQUEST['order'][0]['dir'] ) {
-            $column = $_REQUEST['order'][0]['column'];
-            $dir    = $_REQUEST['order'][0]['dir'];
-            usort( $data, function ( $a, $b ) use ( $column, $dir ) {
-                $a = array_slice( $a, $column, 1 );
-                $b = array_slice( $b, $column, 1 );
-                $a = array_pop( $a );
-                $b = array_pop( $b );
+		dd($data);
 
-                if ( $dir === 'asc' ) {
-                    return $a > $b ? true : false;
-                }
-
-                return $a < $b ? true : false;
-            } );
-        }
-
-        // pagination length
-        if ( isset( $_REQUEST['length'] ) ) {
-            $data = array_splice( $data, $_REQUEST['start'], $_REQUEST['length'] );
-        }
-
-        // return array values only without the keys
-        if ( isset( $_REQUEST['array_values'] ) && $_REQUEST['array_values'] ) {
-            $tmp  = $data;
-            $data = [];
-            foreach ( $tmp as $d ) {
-                $data[] = array_values( $d );
-            }
-        }
-
-        $secho = 0;
-        if ( isset( $_REQUEST['sEcho'] ) ) {
-            $secho = intval( $_REQUEST['sEcho'] );
-        }
-
-        $result = [
-            'iTotalRecords'        => $totalRecords,
-            'iTotalDisplayRecords' => $totalDisplay,
-            'sEcho'                => $secho,
-            'sColumns'             => '',
-            'aaData'               => $data,
-        ];
-
-        header('Content-Type: application/json');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
-
-        echo json_encode( $result, JSON_PRETTY_PRINT );
-    }
+	}
 }

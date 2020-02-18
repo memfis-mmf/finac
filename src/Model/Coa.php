@@ -19,6 +19,41 @@ class Coa extends MemfisModel
         'description'
     ];
 
+	protected $appends = [
+		'coa_number',
+		// t st'coa_render',
+	];
+
+	public function getCoaNumberAttribute()
+	{
+		return str_replace('0', '', $this->code);
+	}
+
+	// public function getCoaRenderNumberAttribute()
+	// {
+	// 	switch (strlen($this->coa_number)) {
+	// 		case 2 :
+	// 			// code...
+	// 			break;
+
+	// 		case 4 :
+	// 			// code...
+	// 			break;
+
+	// 		case 5 :
+	// 			// code...
+	// 			break;
+
+	// 		case 6 :
+	// 			// code...
+	// 			break;
+
+	// 		default:
+	// 			// code...
+	// 			break;
+	// 	}
+	// }
+
     /*************************************** RELATIONSHIP ****************************************/
 
     /**

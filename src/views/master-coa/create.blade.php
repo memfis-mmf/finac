@@ -58,11 +58,11 @@
 
                                         <select class="_select2 form-control" name="account_type" style="width:100%">
                                             <option value=""></option>
-                                            <option value="Activa">Activa</option>
-                                            <option value="Pasiva">Pasiva</option>
-                                            <option value="Ekuitas">Ekuitas</option>
-                                            <option value="Pendapatan">Pendapatan</option>
-                                            <option value="Biaya">Biaya</option>
+                                            <option value="activa">Activa</option>
+                                            <option value="pasiva">Pasiva</option>
+                                            <option value="ekuitas">Ekuitas</option>
+                                            <option value="pendapatan">Pendapatan</option>
+                                            <option value="biaya">Biaya</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -169,4 +169,45 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/select2/sub-account.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		// set data to sub account
+		$('body').on('change', '[name=account_group]', function() {
+
+			let group = $(this).val();
+			let coa_type = $('[name=account_type]').val();
+			let _data = {
+				'coa_type' : coa_type, //activa, pasiva, ekuitas, pendapatan, biaya
+				'group' : group //header or detail
+			};
+
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'get',
+					url: `/master-coa/get-subaccount`,
+					data: _data,
+					success: function (data) {
+							if (data.errors) {
+									toastr.error(data.errors, 'Invalid', {
+											timeOut: 3000
+									});
+							} else {
+									toastr.success('Data Saved Successfully.', 'Success', {
+											timeOut: 2000
+									});
+
+									 setTimeout(function(){
+										 location.href = `${_url}/asset`;
+									 }, 2000);
+							}
+					}
+			});
+
+		});
+
+	});
+</script>
 @endpush

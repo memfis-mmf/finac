@@ -28,57 +28,19 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get('/datatables/modal','memfisfa\Finac\Controllers\Frontend\CoaController@basicModal');
 	});
 
+	Route::resource(
+		'master-coa',
+		'memfisfa\Finac\Controllers\Frontend\MasterCoaController',
+		['except' => 'show']
+	);
     Route::prefix('master-coa')->group(function () {
-		Route::get(
-			'/',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@index'
-		)->name('coa.index');
-		Route::get(
-			'/create',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@create'
-		)->name('coa.create');
-		Route::get(
-			'/export',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@export'
-		)->name('coa.export');
-		Route::get(
-			'/type',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@getdata'
-		);
-		Route::post(
-			'/','memfisfa\Finac\Controllers\Frontend\MasterCoaController@store'
-		)->name('coa.store');
-		Route::put(
-			'/{coa}',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@update'
-		)->name('coa.update');
-		Route::delete(
-			'/{coa}',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@destroy'
-		)->name('coa.delete');
 		Route::get(
 			'/datatables',
 			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@datatables'
-		)->name('coa.datatables');
+		)->name('master-coa.datatables');
 		Route::get(
-			'/{coa}/edit',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@edit'
-		);
-		Route::get(
-			'/type/{id}',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@gettype'
-		);
-		Route::get(
-			'/data',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@api'
-		);
-		Route::get(
-			'/data/{coa}',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@apidetail'
-		);
-		Route::get(
-			'/datatables/modal',
-			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@basicModal'
+			'/get-subaccount',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@getSubaccount'
 		);
 	});
 
