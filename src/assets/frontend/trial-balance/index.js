@@ -78,7 +78,7 @@ let TrialBalance = {
                         }
                         else
                             return t.code;
-                        
+
                     }
                 },
                 {
@@ -93,7 +93,7 @@ let TrialBalance = {
                         }
                         else
                             return t.name;
-                        
+
                     }
                 },
                 {
@@ -101,14 +101,14 @@ let TrialBalance = {
                     title: 'Begining Balance',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 110,
+                    width: 180,
                     template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
                             return '<b>' + addCommas(parseInt(t.LastBalance)) + '</b>';
                         }
                         else
                             return addCommas(parseInt(t.LastBalance));
-                        
+
                     }
                 },
                 {
@@ -116,14 +116,14 @@ let TrialBalance = {
                     title: 'Debit',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 80,
+                    width: 180,
                     template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
                             return '<b>' + addCommas(parseInt(t.Debit)) + '</b>';
                         }
                         else
                             return addCommas(parseInt(t.Debit));
-                        
+
                     }
                 },
                 {
@@ -131,14 +131,14 @@ let TrialBalance = {
                     title: 'Credit',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 80,
+                    width: 180,
 					template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
                             return '<b>' + addCommas(parseInt(t.Credit)) + '</b>';
                         }
                         else
                             return addCommas(parseInt(t.Credit));
-                        
+
                     }
                 },
                 {
@@ -146,14 +146,14 @@ let TrialBalance = {
                     title: 'Ending Balance',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 100,
+                    width: 180,
 					template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
                             return '<b>' + addCommas(parseInt(t.EndingBalance)) + '</b>';
                         }
                         else
                             return addCommas(parseInt(t.EndingBalance));
-                        
+
                     }
                 },
             ]
