@@ -100,7 +100,7 @@ class GeneralLedgerController extends Controller
 			trxjournala.Debit AS Debit,
 			trxjournala.Credit AS Credit,
 			trxjournala.description AS Description,
-			trxjournals.created_ad AS CreatedAt
+			trxjournals.created_at AS CreatedAt
 			from
 			trxjournals
 			left join trxjournala
