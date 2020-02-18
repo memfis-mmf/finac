@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use Illuminate\Support\Carbon;
+use Auth;
 
 class TrialBalanceController extends Controller
 {

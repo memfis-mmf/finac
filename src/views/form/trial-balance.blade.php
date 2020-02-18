@@ -93,7 +93,7 @@
                     <tr>
                         <td valign="top" width="15%">Period</td>
                         <td valign="top" width="1%">:</td>
-                        {{-- <td valign="top" width="84%">{{ $startDate }} - {{ $finishDate }}</td> --}}
+                        <td valign="top" width="84%">{{ $startDate }} - {{ $finishDate }}</td>
                         <td valign="top" width="84%"></td>
                     </tr>
                 </table>
@@ -104,7 +104,7 @@
     <footer>
         <table width="100%">
             <tr>
-                <td>  <span style="margin-left:6px;">Created By :  ;  &nbsp;&nbsp;&nbsp; Name :  ; </span> </td>
+                <td>  <span style="margin-left:6px;">Printed By : {{Auth::user()->name}} ;</span> </td>
             </tr>
         </table>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
@@ -128,10 +128,10 @@
                         <tr>
                             <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->code }}</td>
                             <td valign="top" width="16%">{{ $x->name }}</th>
-                            <td valign="top" align="center"width="16%">{{ number_format($x->LastBalance, 0, 0, '.') }}</td>
-                            <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
-                            <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
-                            <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->EndingBalance, 0, 0, '.') }}</td>
+                            <td valign="top" align="right" width="16%">{{ number_format($x->LastBalance, 0, 0, '.') }}</td>
+                            <td valign="top" align="right" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
+                            <td valign="top" align="right" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
+                            <td valign="top" align="right" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->EndingBalance, 0, 0, '.') }}</td>
                         </tr>
                     @endfor
             </table>
