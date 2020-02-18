@@ -300,7 +300,7 @@ class TrxJournal extends MemfisModel
 			'total_transaction' => $total_credit
 		]);
 
-		TrxJournal::approve($tmp_journal);
+		// TrxJournal::approve($tmp_journal);
 
 		if ($total_debit == 0 || $total_debit != $total_credit) {
 			return [
