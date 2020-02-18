@@ -67,6 +67,7 @@ class GeneralLedgerController extends Controller
 		$query = "
 			select
 			DATE_ADD(@startDate, INTERVAL -1 DAY) as TransactionDate,
+			' ' as CreatedAt,
 			'Saldo Awal' as VoucherNo,
 			' ' as VoucherNo,
 			m_journal.code as AccountCode,
@@ -83,9 +84,8 @@ class GeneralLedgerController extends Controller
 			AS SaldoAwal,
 			0 AS Debit,
 			0 AS Credit,
-            'Saldo Awal' AS Description,
-            trxjournals.created_at as CreatedAt
-			from m_journal, trxjournals
+            'Saldo Awal' AS Description
+			from m_journal
 			where
 			m_journal.description = 'Detail'
 			and
@@ -93,6 +93,7 @@ class GeneralLedgerController extends Controller
 			UNION ALL
 			select
 			trxjournals.transaction_date as TransactionDate,
+			trxjournals.created_at as CreatedAt,
 			trxjournals.voucher_no as VoucherNo,
 			trxjournals.ref_no as RefNo,
 			m_journal.code as AccountCode,
@@ -100,8 +101,7 @@ class GeneralLedgerController extends Controller
 			0 AS SaldoAwal ,
 			trxjournala.Debit AS Debit,
 			trxjournala.Credit AS Credit,
-            trxjournala.description AS Description,
-            trxjournals.created_at as CreatedAt
+            trxjournala.description AS Description
 			from
 			trxjournals
 			left join trxjournala
@@ -111,7 +111,7 @@ class GeneralLedgerController extends Controller
 			where cast(trxjournals.transaction_date as date) between @startdate and @enddate
 			and m_journal.code in (".$coa.")
 
-			order by AccountCode,transactiondate,CreatedAt asc
+			order by AccountCode, TransactionDate, CreatedAt asc
 		";
 
 		DB::connection()->getpdo()->exec($queryStatement);
