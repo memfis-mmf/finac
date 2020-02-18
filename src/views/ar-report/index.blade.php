@@ -54,11 +54,13 @@
                         <div class="form-group m-form__group row ">
                             {{-- Outstanding --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="p-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_outstanding" data-toggle="modal">
+                                <div class="pl-5 pr-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_outstanding" data-toggle="modal">
                                         <span>
-                                            <i class="la la-plus-circle"></i>
-                                            <span>Outstanding Invoice</span>
+                                        <i class="la la-file-o btn-icon"></i>
+                                            <span><h3>Outstanding Invoice</h3></span>
+                                            <span>Shows Outstanding Invoice</span>
+
                                         </span>
                                     </button>
                                 </div>
@@ -68,11 +70,12 @@
 
                             {{-- Customer TB --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="p-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_customer_tb" data-toggle="modal">
+                                <div class="pl-5 pr-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_customer_tb" data-toggle="modal">
                                         <span>
-                                            <i class="la la-plus-circle"></i>
-                                            <span>Customer Trial Balance</span>
+                                        <i class="la la-file-o btn-icon"></i>
+                                            <span><h3>Customer Trial Balance</h3></span>
+                                            <span>Shows the report due to customer receivables</span>
                                         </span>
                                     </button>
                                 </div>
@@ -84,11 +87,13 @@
                         <div class="form-group m-form__group row ">
                             {{-- Aging Receivable Detail --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="p-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_aging_rd" data-toggle="modal">
+                                <div class="pl-5 pr-5 pt-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_aging_rd" data-toggle="modal">
                                         <span>
-                                            <i class="la la-plus-circle"></i>
-                                            <span>Aging Receivable Detail</span>
+                                        <i class="la la-file-o btn-icon"></i>
+                                            <span><h3>Aging Receivable Detail</h3></span>
+                                            <span>Shows list of payment of invoices</span>
+                                            
                                         </span>
                                     </button>
                                 </div>
@@ -98,11 +103,12 @@
 
                             {{-- Account Recivables History --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="p-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_account_rh" data-toggle="modal">
+                                <div class="pl-5 pr-5 pt-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_account_rh" data-toggle="modal">
                                         <span>
-                                            <i class="la la-plus-circle"></i>
-                                            <span>Account Reecivables History</span>
+                                        <i class="la la-file-o btn-icon"></i>
+                                            <span><h3>Account Recivables History</h3></span>
+                                            <span>Shows report of receivables customer</span>
                                         </span>
                                     </button>
                                 </div>
@@ -114,11 +120,12 @@
                         <div class="form-group m-form__group row ">
                             {{-- Invoice Paid --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="p-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100" data-target="#modal_invoice_paid" data-toggle="modal">
+                                <div class="pl-5 pr-5 pt-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_invoice_paid" data-toggle="modal">
                                         <span>
-                                            <i class="la la-plus-circle"></i>
-                                            <span>Invoice Paid</span>
+                                        <i class="la la-file-o btn-icon"></i>
+                                            <span><h3>Invoice Paid</h3></span>
+                                            <span>Shows detailed transaction of account recivables</span>
                                         </span>
                                     </button>
                                 </div>
@@ -134,3 +141,19 @@
     </div>
 </div>
 @endsection
+
+@push('header-scripts')
+<style>
+.btn-large{
+    height:100px;
+    width:100px;
+}
+
+.btn-icon{
+    float:left;
+    font-size:50px;
+
+}
+
+</style>
+@endpush
