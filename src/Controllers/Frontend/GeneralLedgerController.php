@@ -151,23 +151,23 @@ class GeneralLedgerController extends Controller
 			)->first()->type->code;
 
 			if ($_data[$i]->type == 'activa') {
-				$_data[$i]->SaldoAkhir = $arr->SaldoAwal + $arr->Debit - $arr->Credit;
+				$_data[$i]->SaldoAkhir = @$_data[$i-1]->SaldoAkhir + $arr->Debit - $arr->Credit;
 			}
 
 			if ($_data[$i]->type == 'pasiva') {
-				$_data[$i]->SaldoAkhir = $arr->SaldoAwal - $arr->Debit + $arr->Credit;
+				$_data[$i]->SaldoAkhir = @$_data[$i-1]->SaldoAkhir - $arr->Debit + $arr->Credit;
 			}
 
 			if ($_data[$i]->type == 'ekuitas') {
-				$_data[$i]->SaldoAkhir = $arr->SaldoAwal + $arr->Credit - $arr->Debit;
+				$_data[$i]->SaldoAkhir = @$_data[$i-1]->SaldoAkhir + $arr->Credit - $arr->Debit;
 			}
 
 			if ($_data[$i]->type == 'pendapatan') {
-				$_data[$i]->SaldoAkhir = $arr->SaldoAwal + $arr->Credit - $arr->Debit;
+				$_data[$i]->SaldoAkhir = @$_data[$i-1]->SaldoAkhir + $arr->Credit - $arr->Debit;
 			}
 
 			if ($_data[$i]->type == 'biaya') {
-				$_data[$i]->SaldoAkhir = $arr->SaldoAwal + $arr->Debit - $arr->Credit;
+				$_data[$i]->SaldoAkhir = @$_data[$i-1]->SaldoAkhir + $arr->Debit - $arr->Credit;
 			}
 		}
 
