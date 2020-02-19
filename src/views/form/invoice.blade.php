@@ -179,7 +179,7 @@
 	                    <td width="10%" rowspan="{{ ($x->is_template != 'htcrr') ? 4: 3}}" align="center" valign="top">{{$a+1}}</td>
 
 	                    <td width="65%" valign="top" style="border-bottom:none" colspan="2">
-												<b>{{$x->title}}</b> {{ $x->is_template }}
+												<b>{{$x->title}}</b>
 											</td>
 
 	                    <td width="1%" style="border-right:none;border-bottom:none;"></td>
