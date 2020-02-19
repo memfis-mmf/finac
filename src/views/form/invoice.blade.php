@@ -183,7 +183,7 @@
 
 	                    <td width="1%" style="border-right:none;border-bottom:none;"></td>
 
-	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
+	                    <td width="24%" align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
 	                </tr>
 									@if ($x->is_template != 'htcrr')
 		                <tr>
