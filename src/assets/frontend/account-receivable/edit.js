@@ -440,7 +440,8 @@ let AccountReceivableEdit = {
 							filterable: !1,
 						},
 						{
-							field: 'Actions',
+							field: 'actions',
+							title: 'Actions',
 							width: 110,
 							sortable: !1,
 							overflow: 'visible',
