@@ -59,18 +59,37 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
+                            <h5 class="col-sm-12 col-md-12 col-lg-12">
+                                <table width="100%" >
+                                    <tr>
+                                        <td width="10%"> Account Code</td>
+                                        <td width="1%">:</td>
+                                        <td width="89%"> 61115005 - <span> Duty Trip Expense (Hotel) International</span> </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">Periode </td>
+                                        <td width="1%">:</td>
+                                        <td width="89%"> 2020-02-01 </td>
+                                    </tr>
+                                </table><br>
+                            </h5>
+                            
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="general_ledger_datatable" id="scrolling_both"></div>
+
                             </div>
+
                         </div>
                         <div class="form-group m-form__group row ">
+
                             <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
+
                                 <div class="action-buttons">
                                     @component('buttons::submit')
-                                        @slot('type', 'button')
-                                        @slot('text','Print')
-                                        @slot('id','print')
-                                        @slot('icon','fa-print')
+                                    @slot('type', 'button')
+                                    @slot('text','Print')
+                                    @slot('id','print')
+                                    @slot('icon','fa-print')
                                     @endcomponent
                                     @include('buttons::back')
                                 </div>
