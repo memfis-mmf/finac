@@ -56,6 +56,7 @@
         #content{
             width:100%;
             margin-top:135px;
+            padding-bottom: 20px;
             height: 125px;
             background: #ccdfe8;
         }
