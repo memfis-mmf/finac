@@ -69,19 +69,13 @@ let GeneralLedger = {
                     width: 60
                 },
                 {
-                    field: 'AccountCode',
-                    title: 'Account Code',
+                    field: 'TransactionNo',
+                    title: 'Transaction No.',
                     sortable: 'asc',
                     filterable: !1,
-                    width: 60
+                    width: 125
                 },
-                {
-                    field: 'Name',
-                    title: 'Account Name',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60
-                },
+              
                 {
                     field: 'VoucherNo',
                     title: 'Ref. No.',

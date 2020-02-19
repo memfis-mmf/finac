@@ -110,7 +110,7 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <td>  <span style="margin-left:6px;">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </span> </td>
+                    <td>  <span style="margin-left:6px;"><font size="8px">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </font></span> </td>
                 </tr>
             </table>
         </div>
@@ -133,7 +133,7 @@
                 <tr>
                     <td valign="top" width="18%">Date</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">{{$data->transactionnumber}}</td>
+                    <td valign="top" width="31%">{{$data->transactiondate}}</td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">{{strtoupper($data->currencies->code)}}</td>
@@ -170,9 +170,9 @@
 													@endphp
                           <tr>
                               <td width="15%" align="center">{{$arr->coa_code}}</td>
-                              <td width="20%" align="center">{{$arr->coa_name}}</td>
-                              <td width="31%" align="center">{{$arr->_desc}}</td>
-                              <td width="17%" align="center">
+                              <td width="20%" align="left">{{$arr->coa_name}}</td>
+                              <td width="31%" align="left">{{$arr->_desc}}</td>
+                              <td width="17%" align="right">
 																@php
 																	if ($arr->debit) {
 																		echo $data->currencies->symbol.' '.
@@ -180,7 +180,7 @@
 																	}
 																@endphp
                               </td>
-                              <td width="17%" align="center">
+                              <td width="17%" align="right">
 																@php
 																	if ($arr->credit) {
 																		echo $data->currencies->symbol.' '.
@@ -193,7 +193,7 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
-                        <td colspan="2" style="background:#e6eef2">
+                        <td colspan="2" style="background:#e6eef2" align="right">
 													<b>Total : <span>{{$data->currencies->symbol}} {{number_format($total, 0, 0, '.')}}<span></b>
 												</td>
                     </tr>
@@ -213,7 +213,7 @@
                             Prepared By
                         @endif
                     </td>
-                    <td align="center"  rowspan="2">Approve By <br><span style="font-size: 10px;"><b><i>President Director</i></b></span></td>
+                    <td align="center"  rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>President Director</i></b></span></td>
                     <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
                     <td align="center"  rowspan="2">
                         @if ('payment' == 'payment')
@@ -224,9 +224,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="center">Received By <br><span style="font-size: 10px;"><b><i>Accounting</i></b> </span></td>
-                    <td align="center">Acknowledge By <br><span style="font-size: 10px;"><b><i>Finance Manager</i></b> </span></td>
-                    <td align="center">Processed By<br><span style="font-size: 10px;"><b><i>Cashier</i></b></span> </td>
+                    <td align="center">Received By <br><span style="font-size: 8px;"><b><i>Accounting</i></b> </span></td>
+                    <td align="center">Acknowledge By <br><span style="font-size: 8px;"><b><i>Finance Manager</i></b> </span></td>
+                    <td align="center">Processed By<br><span style="font-size: 8px;"><b><i>Cashier</i></b></span> </td>
                 </tr>
                 <tr>
                     <td height="50"></td>
