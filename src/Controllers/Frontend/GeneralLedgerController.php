@@ -51,8 +51,6 @@ class GeneralLedgerController extends Controller
 			$coa = $coa_code;
 		}
 
-		dd($data_coa);
-
 		$data = [
 			'data' => $data_coa,
 			'beginDate' => $beginDate,
