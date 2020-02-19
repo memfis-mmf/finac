@@ -441,7 +441,7 @@ class TrxJournal extends MemfisModel
 				$z = $_tmp[$i];
 
 				$detail[] = (object) [
-					'coa_detail' => $z->coa_iv,
+					'coa_detail' => $z->coa_cogs,
 					'debit' => 0,
 					'credit' => $x->val,
 					'_desc' => 'Material Usage : '
@@ -455,12 +455,12 @@ class TrxJournal extends MemfisModel
 				$z = $_tmp[$i];
 
 				$detail[] = (object) [
-					'coa_detail' => $z->coa_cogs,
+					'coa_detail' => $z->coa_iv,
 					'debit' => $x->val,
 					'credit' => 0,
 					'_desc' => 'Material Usage : '
 					.$header->voucher_no.' '
-					.$x->part_number,
+					.', Part Number :'.$x->part_number,
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;
