@@ -133,7 +133,7 @@
                 <tr>
                     <td valign="top" width="18%">Date</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">{{$data->transactionnumber}}</td>
+                    <td valign="top" width="31%">{{$data->transactiondate}}</td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">{{strtoupper($data->currencies->code)}}</td>
