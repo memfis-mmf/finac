@@ -24,20 +24,26 @@ class GeneralLedgerController extends Controller
 
 		$coa_code = '';
 
-		for ($i=0; $i < count($coa); $i++) {
-
-			if ($i == count($coa)-1) {
-				$coa_code .= $coa[$i]->code;
-			}else{
-				$coa_code .= $coa[$i]->code.',';
-			}
-
-		}
-
 		$date = $this->convertDate($request->date);
 
 		$beginDate = $date[0];
 		$endingDate = $date[1];
+
+		for ($i=0; $i < count($coa); $i++) {
+
+			/*
+			 *if ($i == count($coa)-1) {
+			 *    $coa_code .= $coa[$i]->code;
+			 *}else{
+			 *    $coa_code .= $coa[$i]->code.',';
+			 *}
+			 */
+
+			$data_coa[] = $this->getData(
+				$beginDate, $endingDate, $coa[$i]->code
+			);
+
+		}
 
 		$coa = '%%';
 
@@ -45,8 +51,10 @@ class GeneralLedgerController extends Controller
 			$coa = $coa_code;
 		}
 
+		dd($data_coa);
+
 		$data = [
-			'data' => $this->getData($beginDate, $endingDate, $coa),
+			'data' => $data_coa,
 			'beginDate' => $beginDate,
 			'endingDate' => $endingDate,
 			'coa' => $coa,
