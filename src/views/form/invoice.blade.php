@@ -185,7 +185,7 @@
 
 	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
 	                </tr>
-									@if ($x->is_template != 'htcrr')
+									{{-- @if ($x->is_template != 'htcrr') --}}
 		                <tr>
 		                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
 													Facilty
@@ -204,7 +204,7 @@
 													}}
 												</td>
 		                </tr>
-									@endif
+									{{-- @endif --}}
 	                <tr>
 	                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
 												Material Need {{number_format($x->material_item, 0, 0, '.')}} Item(s)
