@@ -1209,6 +1209,8 @@ class InvoiceController extends Controller
 			$invoice->quotations->workpackages[$a]->facility = ProjectWorkPackageFacility::where('project_workpackage_id', $project_workpackage->id)
                     ->with('facility')
                     ->sum('price_amount');
+
+            $invoice->quotations->workpackages[$a]->is_template = 'not htcrr';
 		}
 
         $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->whereNull('parent_id')->get();
