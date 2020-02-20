@@ -99,9 +99,9 @@
         <div class="container">
             <table width="100%" cellpadding="5" >
                 <tr style="background:#5f6b5e; color:white;font-weight: bold;">
-                    <td width="60%">Account Name</td>
-                    <td width="20%" align="right">Accumulated</td>
-                    <td width="20%" align="right">Period</td>
+                    <td width="80%">Account Name</td>
+                    <td width="10%" align="right">Accumulated</td>
+                    <td width="10%" align="right">Period</td>
                 </tr>
                 <tr>
                     <td width="60%" style="font-weight: bold; border-bottom:2px solid black; font-size:15px">REVENUE
@@ -310,8 +310,8 @@
                 </tr>
                 <tr>
                     <td width="60%">Salary - Sales</td>
-                    <td width="20%" align="right">30.000.000</td>
-                    <td width="20%" align="right">30.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Allowances & Overtime - Sales</td>
@@ -352,8 +352,8 @@
                 </tr>
                 <tr>
                     <td width="60%">Training & Recruitment Exp. - Administration</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%" style="font-weight: bold; border-bottom:1px solid black; font-size:12px">
@@ -364,13 +364,13 @@
                 </tr>
                 <tr>
                     <td width="60%"><b>Maintenance & Repair Expense</b></td>
-                    <td width="20%" align="right">30.000.000</td>
-                    <td width="20%" align="right">30.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Maintenance & Repair Vehicle</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Maintenance & Repair Building</td>
@@ -397,42 +397,42 @@
                 <tr>
                     <td width="60%">Electricity, Water, Gas, Telephone</td>
                     <td width="20%" align="right">20.000.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Supplies Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Office Operation</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Outsourcing Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Research & Development Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Office Operation Jakarta</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Public Relation Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Tax Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%" style="font-weight: bold; border-bottom:1px solid black; font-size:12px">
@@ -443,13 +443,13 @@
                 </tr>
                 <tr>
                     <td width="60%">Depreciation Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Amortization Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%" style="font-weight: bold; border-bottom:1px solid black; font-size:12px">
@@ -460,8 +460,8 @@
                 </tr>
                 <tr>
                     <td width="60%">Removing Receivable Expanses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%" style="font-weight: bold; border-bottom:2px solid black; font-size:15px"><br>
@@ -479,23 +479,23 @@
                 </tr>
                 <tr>
                     <td width="60%">Bank & Non Bank Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Exchange Rate Gap Income</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Pinalty & Tax Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr>
                     <td width="60%">Others Expenses</td>
-                    <td width="20%" align="right">30.000.000.000</td>
-                    <td width="20%" align="right">30.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
+                    <td width="20%" align="right">20.000.000.000.000</td>
                 </tr>
                 <tr style="background:#add8f7;font-weight: bold; font-size:12px;">
                     <td width="60%">
@@ -507,14 +507,14 @@
 
             </table>
 
-            <table width="100%" cellpadding="5" style="margin-top:28pt">
+            <table width="100%" cellpadding="5" style="margin-top:28pt" >
                 <tr >
-                    <td width="30%"></td>
+                    <td width="10%"></td>
                     <td width="30%" style="font-weight: bold; font-size:13px;">
                         CALCULATED RETURN
                     </td>
-                    <td width="20%" align="right"style="font-weight: bold; font-size:13px;">30.028.540.000.000</td>
-                    <td width="20%" align="right"style="font-weight: bold; font-size:13px;">30.028.540.000.000</td>
+                    <td width="10%" align="right"style="font-weight: bold; font-size:13px;">30.028.540.000.000</td>
+                    <td width="10%" align="right"style="font-weight: bold; font-size:13px;">30.028.540.000.000</td>
                 </tr>
             </table>
 
