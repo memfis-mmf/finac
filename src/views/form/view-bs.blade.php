@@ -114,12 +114,11 @@
     <div id="content">
         <div class="container">
             <table width="100%" cellpadding="8">
-                
-                {{-- spasi --}}
-                {{-- Activa --}}
+                {{-- ACTIVA --}}
                 <tr style="color:#244c8a;font-weight: bold;">
                     <td width="18%" colspan="3"style="font-weight: bold; font-size: 18px;">ACTIVA</td>
                 </tr>
+                    {{-- Current Asset --}}
                 <tr style="font-weight: bold; border-bottom:1px solid black">
                     <td width="18%" colspan="3" style="font-size: 14px;">Current Asset
                     </td>
@@ -188,9 +187,11 @@
                     <td colspan="2">Current Asset Total</td>
                     <td width="30%" align="right" style="padding-right:20px ">9.002,000,000</td>
                 </tr>
+                {{-- spasi --}}
                 <tr>
                     <td width="18%" colspan="3"></td>
                 </tr>
+                {{-- Non Current Asset --}}
                 <tr style="font-weight: bold; border-bottom:1px solid black">
                     <td width="18%" colspan="3"  style="font-size: 14px;">Non Current Asset</td>
                 </tr>
@@ -233,10 +234,11 @@
                     <td width="18%" colspan="3"></td>
                 </tr>
 
-                {{-- Pasiva --}}
+                {{-- PASIVA --}}
                 <tr style="color:#244c8a;font-weight: bold;">
                     <td width="18%" colspan="3"style="font-weight: bold; font-size: 18px;">PASIVA</td>
                 </tr>
+                {{-- Liabilities --}}
                 <tr style="font-weight: bold; border-bottom:1px solid black">
                     <td width="18%" colspan="3"  style="font-size: 14px;">Liabilities</td>
                 </tr>
@@ -264,9 +266,11 @@
                     <td colspan="2">Liabilities Total</td>
                     <td width="30%" align="right"style="padding-right:20px">3.000,000</td>
                 </tr>
+                {{-- spasi --}}
                 <tr>
                     <td width="18%" colspan="3"></td>
                 </tr>
+                {{-- Equities --}}
                 <tr style="font-weight: bold; border-bottom:1px solid black">
                     <td width="18%" colspan="3"  style="font-size: 14px;">Equities</td>
                 </tr>
@@ -303,7 +307,7 @@
                 <tr>
                     <td width="18%" colspan="3"></td>
                 </tr>
-                {{-- total Activa --}}
+                {{-- total Pasiva --}}
                 <tr style="background:#add8f7;font-weight: bold;">
                     <td colspan="2">LIABILITIES & EQUITIES TOTAL</td>
                     <td width="30%" align="right" style="padding-right:20px">1.000,000,000,000</td>
