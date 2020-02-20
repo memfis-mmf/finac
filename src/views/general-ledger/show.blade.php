@@ -67,7 +67,7 @@
                                         <td width="89%"> 61115005 - <span> Duty Trip Expense (Hotel) International</span> </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%">Periode </td>
+                                        <td width="10%">Period </td>
                                         <td width="1%">:</td>
                                         <td width="89%"> 2020-02-01 </td>
                                     </tr>

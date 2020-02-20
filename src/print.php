@@ -52,6 +52,13 @@ Route::get('/view-pl', function () {
     return $pdf->stream();
 });
 
+
+Route::get('/view-balance-sheet-docs', function () {
+    $pdf = \PDF::loadView('formview::view-bs');
+    return $pdf->stream();
+});
+
+
 Route::get('/detail-pl', function () {
     $pdf = \PDF::loadView('formview::detail-pl');
     return $pdf->stream();
