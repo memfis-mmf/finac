@@ -309,14 +309,12 @@
                     <td width="22%" colspan="3"></td>
                 </tr>
                 {{-- total Activa --}}
-                <table width="100%" cellpadding="8">
-                <tr style="background:#add8f7;font-weight: bold;">
-                    <td width="35%">LIABILITIES & EQUITIES TOTAL</td>
-                    <td width="35%" align="center"></td>
-                    <td width="30%" align="right"style="padding-right:20px">1.006,000,000</td>
-                </tr>
-                </table>
+                
                
+                <tr style="background:#add8f7;font-weight: bold;">
+                    <td width="70%" colspan="2">LIABILITIES & EQUITIES TOTAL</td>
+                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000,000</td>
+                </tr>
             </table>
         </div>
     </div>
