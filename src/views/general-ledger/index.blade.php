@@ -58,9 +58,9 @@
                                                     Select Period
                                                 </label>
                                                 @component('input::datepicker')
-                                                    @slot('id', 'daterange_general_ledger')
-                                                    @slot('name', 'daterange_general_ledger')
-                                                    @slot('id_error', 'daterange_general_ledger')
+                                                @slot('id', 'daterange_general_ledger')
+                                                @slot('name', 'daterange_general_ledger')
+                                                @slot('id_error', 'daterange_general_ledger')
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -68,26 +68,24 @@
                                 </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                                     @component('buttons::create-new')
-                                        @slot('text', 'Add COA')
-                                        @slot('data_target', '#coa_modal')
+                                    @slot('text', 'Add COA')
+                                    @slot('data_target', '#coa_modal')
                                     @endcomponent
-                                    <div class="m-separator m-separator--dashed d-xl-none"></div>
                                 </div>
                             </div>
                         </div>
-
                         {{-- <div class="coa_datatable" id="scrolling_both"></div> --}}
-												<table class="coa_datatable table table-hover">
-													<thead>
-														<tr style="background:#eee">
-															<th>Account Code</th>
-															<th>Account Name</th>
-															<th>Action</th>
-														</tr>
-													</thead>
-													<tbody>
-													</tbody>
-												</table>
+                        <table class="coa_datatable table table-hover">
+                            <thead>
+                                <tr style="background:#eee">
+                                    <th>Account Code</th>
+                                    <th>Account Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
 
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12  d-flex justify-content-end">
@@ -97,7 +95,8 @@
                                             <span>Print</span>
                                         </span>
                                     </a>
-                                    <a href="javascript:;" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md view"><span>
+                                    <a href="javascript:;"
+                                        class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md view"><span>
                                             <i class="la la-file"></i>
                                             <span>View</span>
                                         </span>
