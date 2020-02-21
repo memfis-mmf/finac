@@ -172,14 +172,7 @@
                                                             <td width="10%" align="right">
                                                                 {{number_format($biaya_period, 0, 0, '.')}}</td>
 
-                                                    <!-- <td width="82%" align="center" colspan="2">
-                                                       PROFIT & LOSS
-                                                    </td>
                                                   
-                                                    <td width="10%" align="right">
-                                                    {{number_format($pendapatan_accumulated - $biaya_accumulated, 0, 0, '.')}}</td>
-                                                    <td width="10%" align="right">
-                                                    {{number_format($pendapatan_period - $biaya_period, 0, 0, '.')}}</td> -->
                                                 </tr>
                                                
                                             </table>
