@@ -21,6 +21,7 @@
     body {
         margin-top: 4cm;
         margin-bottom: 1cm;
+        font-family: 'Segeo UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     header {
@@ -48,10 +49,10 @@
     }
 
     #head {
-        top: 20px;
-        left: 510px;
+        top: 4px;
+        left: 220px;
         position: absolute;
-        color: #5c5b5b;
+        text-align: center;
     }
 
     .container {
@@ -66,7 +67,7 @@
 
     #content {
         width: 100%;
-        margin-bottom: 75px;
+        margin-bottom: 100px;
     }
 
     .page_break {
@@ -77,15 +78,29 @@
 
 <body>
     <header>
-        <img src="./vendor/courier/img/form/trial-balance/Header.png" alt="" width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt="" width="100%">
         <div id="head">
-            <div style="margin-right:20px;text-align:center;">
-                <h1 style="font-size:24px;">PROFIT & LOSS</h1>
-                <h4>Date Period d-m-y - d-m-y</h4>
-            </div>
+            <table width="95%">
+                <tr>
+                    <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="45%" valign="top" align="center">
+                        <h1 style="font-size:26px;">PROFIT & LOSS<br>
+                            <span style="font-size:12px;font-weight: none;">Period : 01 January 2020 - 28 January
+                                2020</span></h1>
+                    </td>
+                </tr>
+            </table>
         </div>
-    </header>
 
+    </header>
     <footer>
         <table width="100%">
             <tr>
@@ -97,7 +112,7 @@
 
     <div id="content">
         <div class="container">
-            <table width="100%" cellpadding="5" >
+            <table width="100%" cellpadding="5">
                 <tr style="background:#5f6b5e; color:white;font-weight: bold;">
                     <td width="80%">Account Name</td>
                     <td width="10%" align="right">Accumulated</td>
@@ -504,18 +519,19 @@
                     <td width="20%" align="right">40.000.000.000.000</td>
                     <td width="20%" align="right">40.000.000.000.000</td>
                 </tr>
-
-            </table>
-
-            <table width="100%" cellpadding="5" style="margin-top:28pt" >
-                <tr >
-                    <td width="10%"></td>
-                    <td width="30%" style="font-weight: bold; font-size:13px;">
+                <tr>
+                    <td>
+                    <td>
+                    <td>
+                </tr>
+                <tr style="font-weight: bold; font-size:12px;">
+                    <td width="60%" align="center">
                         CALCULATED RETURN
                     </td>
-                    <td width="10%" align="right"style="font-weight: bold; font-size:13px;">30.028.540.000.000</td>
-                    <td width="10%" align="right"style="font-weight: bold; font-size:13px;">30.028.540.000.000</td>
+                    <td width="20%" align="right">40.000.000.000.000</td>
+                    <td width="20%" align="right">40.000.000.000.000</td>
                 </tr>
+
             </table>
 
         </div>
