@@ -6,11 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        @page {
+            margin: 0cm 0cm;
+        }
         html,body{
             padding: 0;
             margin: 0;
             font-size: 12px;
         }
+
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 3.1cm;
+            margin-bottom: 2cm;
+        }
+
 
         header {
             position: fixed;
@@ -36,10 +46,9 @@
         }
 
         #head{
-            top:20px;
-            left: 510px;
+            top:10px;
+            left: 210px;
             position: absolute;
-            color: #5c5b5b;
         }
 
         .container{
@@ -54,7 +63,6 @@
 
         #content{
             width:100%;
-            margin-top:155px;
             margin-bottom:34px;
         }
 
@@ -68,82 +76,81 @@
         .page_break {
             page-break-before: always;
         }
+
+        footer .page-number:after { 
+            content: counter(page); 
+        }
     </style>
 </head>
 <body>
+
     <header>
-        <img src="./vendor/courier/img/form/trial-balance/Header.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt=""width="100%">
         <div id="head">
-            <div style="margin-right:20px;text-align:center;">
-                <h1 style="font-size:24px;">COA <br> (Chart Of Account)</h1>
-            </div>
+            <table width="95%">
+                <tr>
+                    <td width="50%" valign="middle" style="font-size:12px;line-height:15px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="55%" valign="top" align="center" style="padding-top:-16px">
+                        <h1 style="font-size:24px;">COA<br> 
+                        <span style="font-size:18px;">(Chart Of Account)</span></h1>
+                    </td>
+                </tr>
+            </table>
         </div>
     </header>
 
     <footer>
-        <table width="100%">
-            <tr>
-                <td>  <span style="margin-left:6px;">Created By :  ;  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  ; </span> </td>
-            </tr>
-        </table>
+        <div class="container">
+            <table width="100%">
+                <tr>
+                    <td>  <span style="margin-left:6px;">Created By :  ;  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  ; </span> </td>
+
+                    <td align="right" valign="bottom"> <span class="page-number">Page </span></td>
+                </tr>
+            </table>
+        </div>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
     </footer>
 
     <div id="content">
         <div class="container">
-            <table width="100%" cellpadding="6">
-                <tr style="background:#72829c;color:white;">
-                    <th valign="top" align="left" width="14%">Account Code</th>
-                    <th valign="top" align="left" width="16%">Account Name</th>
-                    <th valign="top" align="center" width="52%">Description</th>
-                    <th valign="top" align="center" width="18%">Date Created</th>
-                </tr>
-                <tr>
-                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
-                    <td valign="top" width="16%">Lorem </th>
-                    <td valign="top" align="center"width="52%"><b>Header</b></td>
-                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
-                </tr>
-                <tr>
-                    <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
-                    <td valign="top" width="16%">Lorem </th>
-                    <td valign="top" align="center"width="52%">Detail</td>
-                    <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
-                </tr>
+            <table width="100%" cellpadding="6"  page-break-inside: auto;>
+                <thead>
+                    <tr style="background:#72829c;color:white;">
+                        <th valign="top" align="left" width="14%">Account Code</th>
+                        <th valign="top" align="left" width="16%">Account Name</th>
+                        <th valign="top" align="center" width="52%">Description</th>
+                        <th valign="top" align="center" width="18%">Date Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                        <td valign="top" width="16%">Lorem </th>
+                        <td valign="top" align="center"width="52%"><b>Header</b></td>
+                        <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
+                    </tr>
+                    @for ($i = 0; $i < 40; $i++)
+                        
+                    <tr>
+                        <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
+                        <td valign="top" width="16%">Lorem </th>
+                        <td valign="top" align="center"width="52%">Detail</td>
+                        <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
+                    </tr>
+
+                    @endfor
+                </tbody>
             </table>
         </div>
     </div>
-
-    {{-- jika data lebih dari 100 --}}
-    @if(100>20)     
-        @for ($i = 1; $i <= ceil(100/20)-1; $i++)
-            <div class="page_break">     
-                <div id="content">
-                    <div class="container">
-                        <table width="100%" cellpadding="6">
-                            <tr style="background:#72829c;color:white;">
-                                <th valign="top" align="left" width="14%">Account Code</th>
-                                <th valign="top" align="left" width="16%">Account Name</th>
-                                <th valign="top" align="center" width="52%">Description</th>
-                                <th valign="top" align="center" width="18%">Date Created</th>
-                            </tr>
-                            <tr>
-                                <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
-                                <td valign="top" width="16%">Lorem </th>
-                                <td valign="top" align="center"width="52%"><b>Header</b></td>
-                                <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
-                            </tr>
-                            <tr>
-                                <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">Pr-12312</td>
-                                <td valign="top" width="16%">Lorem </th>
-                                <td valign="top" align="center"width="52%">Detail</td>
-                                <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">10/29/2019</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        @endfor
-    @endif
 </body>
 </html>

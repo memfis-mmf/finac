@@ -6,10 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        @page {
+            margin: 0cm 0cm;
+        }
         html,body{
             padding: 0;
             margin: 0;
             font-size: 12px;
+        }
+
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 4cm;
+            margin-bottom: 2cm;
         }
 
         header {
@@ -36,10 +45,9 @@
         }
 
         #head{
-            top:20px;
-            left: 510px;
+            top:4px;
+            left: 210px;
             position: absolute;
-            color: #5c5b5b;
         }
 
         .container{
@@ -54,7 +62,6 @@
 
         #content{
             width:100%;
-            margin-top:155px;
             margin-bottom:34px;
         }
 
@@ -65,12 +72,25 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/trial-balance/Header.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt=""width="100%">
         <div id="head">
-            <div style="margin-right:20px;text-align:center;">
-                <h1 style="font-size:24px;">PROFIT & LOSS</h1>
-                <h4>Date Period {{ date('d/m/Y', strtotime($beginDate)) }} - {{ date('d/m/Y', strtotime($endingDate)) }}</h4>
-            </div>
+            <table width="95%">
+                <tr>
+                    <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="45%" valign="top" align="center">
+                        <h1 style="font-size:26px;">PROFIT & LOSS<br> 
+                        <span style="font-size:12px;font-weight: none;">Date Period {{ date('d/m/Y', strtotime($beginDate)) }} - {{ date('d/m/Y', strtotime($endingDate)) }}</span></h1>
+                    </td>
+                </tr>
+            </table>
         </div>
     </header>
 

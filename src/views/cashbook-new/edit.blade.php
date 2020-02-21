@@ -86,6 +86,8 @@
 																					<option value="cr" {{ (strpos($cashbook->transactionnumber, 'CCRJ') !== false)? 'selected': '' }}>Cash Receive</option>
 																			</select>
                                     </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Date Transaction @include('label::required')
@@ -96,7 +98,7 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
-																						@slot('value', $cashbook->transactiondate)
+                                                                                        @slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
                                 </div>
