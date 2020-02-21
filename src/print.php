@@ -108,3 +108,9 @@ Route::get('/aging-receivable-detail-docs', function () {
     $pdf->setPaper('A4', 'landscape');
     return $pdf->stream();
 });
+
+Route::get('/general-ledger-docs', function () {
+    $pdf = \PDF::loadView('formview::general-ledger-docs');
+    $pdf->setPaper('A4', 'landscape');
+    return $pdf->stream();
+});
