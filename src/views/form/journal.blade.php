@@ -5,11 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{$journal->voucher_no}} - Journal</title>
-    <style>
+    <style>        
+        @page {
+            margin: 0cm, 0cm;
+        }
+
         html,body{
             padding: 0;
             margin: 0;
             font-size: 12px;
+        }
+
+        body {
+            margin-top: 3.5cm;
+            margin-bottom: 3cm;
+            font-family: 'Segeo UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         header {
@@ -36,10 +46,9 @@
         }
 
         #head{
-            top:20px;
-            left: 550px;
+            top:8px;
+            left: 220px;
             position: absolute;
-            color: #5c5b5b;
         }
 
         .container{
@@ -53,8 +62,7 @@
         }
         #content{
             width:100%;
-            margin-top:155px;
-            margin-bottom:34px;
+            margin-bottom:30px;
         }
 
         #content2 #journal_table tr td{
@@ -79,11 +87,24 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/journal/Header.png" alt=""width="100%">
+    <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt="" width="100%">
         <div id="head">
-            <div style="margin-right:20px;text-align:left;">
-                <h1 style="font-size:34px;">JOURNAL</h1>
-            </div>
+            <table width="95%">
+                <tr>
+                    <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="45%" valign="top" align="center">
+                        <h1 style="font-size:26px;">JOURNAL</h1>
+                    </td>
+                </tr>
+            </table>
         </div>
     </header>
 
@@ -121,15 +142,18 @@
 
     <div id="content2">
         <div class="container">
-            <table width="100%" cellpadding="6" id="journal_table">
-                <tr style="background:#72829c;color:white;">
-                    <th valign="top" align="center" width="6%">No</th>
-                    <th valign="top" align="center" width="15%">Account Code</th>
-                    <th valign="top" align="center" width="27%">Account Description</th>
-                    <th valign="top" align="center" width="20%">Description</th>
-                    <th valign="top" align="center" width="16%">Debit</th>
-                    <th valign="top" align="center" width="16%">Credit</th>
-                </tr>
+            <table width="100%" cellpadding="6" id="journal_table" page-break-inside: auto;>
+                <thead>
+                    <tr style="background:#72829c;color:white;">
+                        <th valign="top" align="center" width="6%">No</th>
+                        <th valign="top" align="center" width="15%">Account Code</th>
+                        <th valign="top" align="center" width="27%">Account Description</th>
+                        <th valign="top" align="center" width="20%">Description</th>
+                        <th valign="top" align="center" width="16%">Debit</th>
+                        <th valign="top" align="center" width="16%">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
 								@for ($i=0; $i < count($journala); $i++)
 									@php
 										$x = $journala[$i];
@@ -142,7 +166,8 @@
 	                    <td valign="top" align="right" width="16%">{{ ($x->debit < 1)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
 	                    <td valign="top" align="right" width="16%">{{ ($x->credit < 1)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
 	                </tr>
-								@endfor
+                                @endfor
+                </tbody>
             </table>
             <table width="100%" cellpadding="6">
                 <tr>
