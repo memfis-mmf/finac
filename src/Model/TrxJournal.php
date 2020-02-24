@@ -339,7 +339,7 @@ class TrxJournal extends MemfisModel
 
 					if (@$x->coa_iv == $y->coa_iv) {
 						$detail[$a]->val += $y->val;
-						unset($detail[$b]);
+						$detail[$b]->val = 0;
 					}
 				}
 			}
@@ -351,19 +351,21 @@ class TrxJournal extends MemfisModel
 			$total_debit = 0;
 
 			for ($i=0; $i < count($_tmp); $i++) {
-				$z = $_tmp[$i];
+                $z = $_tmp[$i];
+                
+                if ($z->val != 0) {
+                    $detail[] = (object) [
+                        'coa_detail' => $z->coa_iv,
+                        'debit' => $z->val,
+                        'credit' => 0,
+                        '_desc' => 'Increased Inventory : '
+                        .$header->voucher_no.' '
+                        .$header->supplier.' ',
+                    ];
 
-				$detail[] = (object) [
-					'coa_detail' => $z->coa_iv,
-					'debit' => $x->val,
-					'credit' => 0,
-					'_desc' => 'Increased Inventory : '
-					.$header->voucher_no.' '
-					.$header->supplier.' ',
-				];
-
-				$total_debit += $detail[count($detail)-1]->debit;
-			}
+                    $total_debit += $detail[count($detail)-1]->debit;
+                }
+            }
 
 			// add object in first array $detai
 			array_unshift(
