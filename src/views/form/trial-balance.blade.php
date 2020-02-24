@@ -6,10 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+          @page {
+            margin: 0cm, 0cm;
+        }
         html,body{
             padding: 0;
             margin: 0;
             font-size: 12px;
+        }
+        
+        body {
+            margin-top: 3.5cm;
+            margin-bottom: 3cm;
+            font-family: 'Segeo UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         header {
@@ -36,10 +45,9 @@
         }
 
         #head{
-            top:20px;
-            left: 510px;
+            top:8px;
+            left: 220px;
             position: absolute;
-            color: #5c5b5b;
         }
 
         .container{
@@ -54,7 +62,6 @@
 
         #content{
             width:100%;
-            margin-top:155px;
             margin-bottom:34px;
         }
 
@@ -67,7 +74,6 @@
 
         #content2{
             width:100%;
-            margin-top:155px;
             margin-bottom:34px;
         }
 
@@ -85,9 +91,28 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/trial-balance/Header.png" alt=""width="100%">
+    <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt="" width="100%">
         <div id="head">
-            <div style="margin-right:20px;text-align:left;">
+        <table width="95%">
+                <tr>
+                    <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="45%" valign="top" align="center">
+                        <h1 style="font-size:26px;">TRIAL BALANCE <br>
+                            <span style="font-size:12px;font-weight: none;">Period : {{ $startDate }} - {{ $finishDate }}</span></h1>
+                    </td>
+                   
+                </tr>
+            </table>
+           
+            <!-- <div style="margin-right:20px;text-align:left;">
                 <h1 style="font-size:24px;">TRIAL BALANCE</h1>
                 <table width="90%" cellpadding="3" style="margin-left:-10px;font-size:16px;">
                     <tr>
@@ -97,7 +122,7 @@
                         <td valign="top" width="84%"></td>
                     </tr>
                 </table>
-            </div>
+            </div> -->
         </div>
     </header>
 
@@ -128,10 +153,10 @@
                         <tr>
                             <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->code }}</td>
                             <td valign="top" width="16%">{{ $x->name }}</th>
-                            <td valign="top" align="right" width="16%">{{ number_format($x->LastBalance, 0, 0, '.') }}</td>
-                            <td valign="top" align="right" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
-                            <td valign="top" align="right" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
-                            <td valign="top" align="right" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->EndingBalance, 0, 0, '.') }}</td>
+                            <td valign="top" align="center" width="16%">{{ number_format($x->LastBalance, 0, 0, '.') }}</td>
+                            <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
+                            <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
+                            <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($x->EndingBalance, 0, 0, '.') }}</td>
                         </tr>
                     @endfor
             </table>

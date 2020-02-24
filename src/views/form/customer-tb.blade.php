@@ -18,7 +18,7 @@
 
         body{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-top: 6.8cm;
+            margin-top: 5.7cm;
             margin-bottom: 2cm;
         }
 
@@ -44,10 +44,9 @@
         table{
             border-collapse: collapse;
         }
-
         #head{
-            top:28px;
-            left: 510px;
+            top: 9px;
+            left: 220px;
             position: absolute;
             text-align: center;
         }
@@ -81,12 +80,25 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/trial-balance/Header.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt=""width="100%">
         <div id="head">
-            <div style="margin-right:20px;">
-                <h1 style="font-size:18px;">CUSTOMER TRIAL BALANCE <br> 
-                <span style="font-size:14px;font-weight: none;">Period : 01/01/2020 - 28/01/2020</span></h1>
-            </div>
+            <table width="95%">
+                <tr>
+                    <td width="50%" valign="middle" style="font-size:12px;line-height:20px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="50%" valign="top" align="center">
+                        <h1 style="font-size:18px;">CUSTOMER TRIAL BALANCE<br> 
+                        <span style="font-size:12px;font-weight: none;">Period : 01 January 2020 - 28 January 2020</span></h1>
+                    </td>
+                </tr>
+            </table>
         </div>
         <div id="body">
             <div class="container" style="margin-top:12px;">

@@ -52,6 +52,13 @@ Route::get('/view-pl', function () {
     return $pdf->stream();
 });
 
+
+Route::get('/view-balance-sheet-docs', function () {
+    $pdf = \PDF::loadView('formview::view-bs');
+    return $pdf->stream();
+});
+
+
 Route::get('/detail-pl', function () {
     $pdf = \PDF::loadView('formview::detail-pl');
     return $pdf->stream();
@@ -98,6 +105,12 @@ Route::get('/outstanding-invoices-docs', function () {
 
 Route::get('/aging-receivable-detail-docs', function () {
     $pdf = \PDF::loadView('formview::aging-receivable-detail-docs');
+    $pdf->setPaper('A4', 'landscape');
+    return $pdf->stream();
+});
+
+Route::get('/general-ledger-docs', function () {
+    $pdf = \PDF::loadView('formview::general-ledger-docs');
     $pdf->setPaper('A4', 'landscape');
     return $pdf->stream();
 });

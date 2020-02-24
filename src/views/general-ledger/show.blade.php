@@ -67,7 +67,7 @@
                                         <td width="89%"> 61115005 - <span> Duty Trip Expense (Hotel) International</span> </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%">Periode </td>
+                                        <td width="10%">Period </td>
                                         <td width="1%">:</td>
                                         <td width="89%"> 2020-02-01 </td>
                                     </tr>
@@ -77,6 +77,28 @@
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="general_ledger_datatable" id="scrolling_both"></div>
 
+                                <div class="d-flex justify-content-center">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
 
                         </div>
