@@ -11,6 +11,13 @@
             margin: 0;
             font-size: 12px;
         }
+        
+        body {
+            margin-top: 2.6cm;
+            margin-bottom: 3cm;
+            font-family: 'Segeo UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
 
         header {
             position: fixed;
@@ -25,7 +32,8 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 46px;
+            height: 1cm;
+            font-size: 9px;
         }
 
         ul li{
@@ -37,10 +45,8 @@
         }
 
         #head{
-            top:20px;
-            left: 510px;
+            left: 220px;
             position: absolute;
-            color: #5c5b5b;
         }
 
         .container{
@@ -55,13 +61,12 @@
 
         #content{
             width:100%;
-            margin-top:135px;
             padding-bottom: 20px;
-            height: 125px;
+            min-height: 125px;
             background: #ccdfe8;
         }
 
-        #content2{
+        #content2, #content4{
             margin-top:10px;
         }
 
@@ -80,11 +85,25 @@
 </head>
 <body>
     <header>
-        <img src="{{url('')}}/vendor/courier/img/form/invoice/Header.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt="" width="100%">
         <div id="head">
-            <div style="margin-right:20px;text-align:center;">
-                <h3 style="font-size:40px;">INVOICE <br> <span style="font-size:16px;">{{$invoice->transactionnumber}}</span></h3>
-            </div>
+        <table width="95%">
+                <tr>
+                    <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
+                        Juanda International Airport, Surabaya Indonesia
+                        <br>
+                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        <br>
+                        Email : marketing@ptmmf.co.id
+                        <br>
+                        Website : www.ptmmf.co.id
+                    </td>
+                    <td width="45%" valign="top" align="center">
+                        <h1 style="font-size:40px;">INVOICE<br>
+                            <span style="font-size:12px;font-weight: none;">{{$invoice->transactionnumber}}</h1>
+                    </td>
+                </tr>
+            </table>
         </div>
     </header>
 
@@ -93,16 +112,16 @@
             <table width="100%">
                 <tr>
                     <!-- {{-- <td><b>Form No : F02-1234</b></td> --}} -->
-		                <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by->name }} ; </span> </td>
-										<td style="text-align:right">
-											<i>
-												Original
-											</i>
-										</td>
+                    <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by->name }} ; </span> </td>
+                    <td style="text-align:right">
+                        <i>
+                            Original
+                        </i>
+                    </td>
                 </tr>
             </table>
         </div>
-        <img src="{{url('')}}/vendor/courier/img/form/invoice/Footer-Invoice.png" width="100%" alt="" >
+        <img src="./vendor/courier/img/form/invoice/Footer-Invoice.png" width="100%" alt="" >
     </footer>
 
     <div id="content">
@@ -403,35 +422,23 @@
                             <td valign="top" width="18%">Bank Name</td>
                             <td valign="top" width="1%">:</td>
                             <td valign="top" width="31%">
-															{{$invoice->bank->bank->name}}
-														</td>
-                            {{-- <td valign="top" width="18%">Bank Name</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">Bank BNI Graha Pengeran</td> --}}
+                                {{$invoice->bank->bank->name}}
+                            </td>
                         </tr>
                         <tr>
                             <td valign="top" width="18%">Bank Account Name</td>
                             <td valign="top" width="1%">:</td>
                             <td valign="top" width="31%">{{$invoice->bank->name}}</td>
-                            {{-- <td valign="top" width="18%">Bank Account Name</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">PT. Merpaty Maintance Facility</td> --}}
                         </tr>
                         <tr>
                             <td valign="top" width="18%">Bank Account Number</td>
                             <td valign="top" width="1%">:</td>
                             <td valign="top" width="31%">{{$invoice->bank->number}}</td>
-                            {{-- <td valign="top" width="18%">Bank Account Number</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">888123232</td> --}}
                         </tr>
                         <tr>
                             <td valign="top" width="18%">Currency</td>
                             <td valign="top" width="1%">:</td>
                             <td valign="top" width="31%" style="text-transform:uppercase">{{$invoice->currencies->code}}</td>
-                            {{-- <td valign="top" width="18%">Currency</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">IDR</td> --}}
                         </tr>
                         <tr>
 													@if ($invoice->bank->swift_code)
@@ -443,9 +450,9 @@
                             <td valign="top" width="1%"></td>
                             <td valign="top" width="31%"></td>
 													@endif
-                            {{-- <td valign="top" width="18%">Swift Code</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">BNNIDIAXXX</td> --}}
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center"><i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i></td>
                         </tr>
                     </table>
             </fieldset>
@@ -453,47 +460,45 @@
     </div>
 
     <div id="content4">
-			{{-- @if (@$invoice->approved_by->name) --}}
         <div class="container">
-            <table width="100%" cellpadding="4">
+            <table width="100%">
                 <tr>
-                    <td colspan="2"><b>Term & Condition :</b></td>
-                </tr>
-                <tr>
-                    <td width="60%" height="70" valign="top">
-                        <i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i>
-												<br>
-												{!!$invoice->quotations->term_of_condition!!}
+                    <td width="50%" valign="top">
+                        <table width="100%">
+                            <tr>
+                                <td><b>Term & Condition :</b></td>
+                            </tr>
+                            <tr>
+                                <td height="40" valign="top">
+                                    {!!$invoice->quotations->term_of_condition!!}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Remark :</b></td>
+                            </tr>
+                            <tr>
+                                <td height="40" valign="top">
+                                    {{$invoice->description}}
+                                </td>
+                            </tr>
+                        </table>
                     </td>
-                    <td width="40%" valign="top" align="center">
-											{{
-												// $invoice->location.', '.date('M d, Y', strtotime($invoice->approvals->first()->updated_at))
-												$invoice->location.', '.date('M d, Y', strtotime($invoice->transactiondate))
-											}}
-										</td>
-                    {{-- <td width="40%" valign="top" align="center">
-											Approved By : {{@$invoice->approved_by->name}}
-										</td> --}}
-                </tr>
-                <tr>
-                    <td width="60%"><b>Remark :</b></td>
-                    <td width="40%"></td>
-                </tr>
-                <tr>
-                    <td width="60%" height="60" valign="top">
-											{{$invoice->description}}
+                    <td width="50%" valign="top">
+                        <table width="100%">
+                            <tr>
+                                <td width="100%" valign="top" align="center">{{$invoice->location.', '.date('M d, Y', strtotime($invoice->transactiondate))}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100%" height="60"></td>
+                            </tr>
+                            <tr>
+                                <td width="100%" valign="top" align="center"><b>{{$invoice->presdir}}</b></td>
+                            </tr>
+                        </table>
                     </td>
-                    <td width="40%" valign="top" align="center">
-											<b>
-												{{-- {{$invoice->approved_by->role}}<br> --}}
-												{{$invoice->presdir}}
-												{{-- Rowin H. Mangkoesoebroto --}}
-											</b>
-										</td>
                 </tr>
             </table>
         </div>
-			{{-- @endif --}}
     </div>
 </body>
 </html>
