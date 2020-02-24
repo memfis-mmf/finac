@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        @page {
+            margin: 0cm, 0cm;
+        }
         html,body{
             padding: 0;
             margin: 0;
@@ -66,7 +69,7 @@
             background: #ccdfe8;
         }
 
-        #content2, #content4{
+        #content2, #content4, #content3{
             margin-top:10px;
         }
 
@@ -177,12 +180,15 @@
 
     <div id="content2">
         <div class="container">
-            <table width="100%" cellpadding="4" border="1">
-                <tr style="background:#49535c; color:white">
-                    <td width="10%"></td>
-                    <td width="65%" align="center" colspan="2"><b>Detail</b></td>
-                    <td width="23%" align="center" colspan="2"><b>Amount</b></td>
-                </tr>
+            <table width="100%" cellpadding="4" border="1" page-break-inside: auto;>
+                <thead>
+                    <tr style="background:#49535c; color:white">
+                        <td width="10%"></td>
+                        <td width="65%" align="center" colspan="2"><b>Detail</b></td>
+                        <td width="23%" align="center" colspan="2"><b>Amount</b></td>
+                    </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <td colspan="5" height="20">
                        <span style="font-size: 14px; font-weight: bold;padding:15px">
@@ -406,56 +412,63 @@
 										</b></td>
                 </tr>
                 {{-- Terbilang --}}
-                <tr>
-                    {{-- <td colspan="5" align="center" valign="top" style="color:#134678"><b><i>THIRTY THOUSAND DOLLARS</i></b></td> --}}
-                </tr>
+                {{-- <tr>
+                    <td colspan="5" align="center" valign="top" style="color:#134678"><b><i>THIRTY THOUSAND DOLLARS</i></b></td>
+                </tr> --}}
+            </tbody>
             </table>
         </div>
     </div>
 
     <div id="content3">
         <div class="container">
-            <fieldset>
-                <legend style="color:#3b98f5;font-weight: bold; font-size:14px;">Bank Account Information</legend>
-                <table width="100%" cellpadding="4" style="padding-top:10px">
-                        <tr>
-                            <td valign="top" width="18%">Bank Name</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">
-                                {{$invoice->bank->bank->name}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top" width="18%">Bank Account Name</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">{{$invoice->bank->name}}</td>
-                        </tr>
-                        <tr>
-                            <td valign="top" width="18%">Bank Account Number</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">{{$invoice->bank->number}}</td>
-                        </tr>
-                        <tr>
-                            <td valign="top" width="18%">Currency</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%" style="text-transform:uppercase">{{$invoice->currencies->code}}</td>
-                        </tr>
-                        <tr>
-													@if ($invoice->bank->swift_code)
-                            <td valign="top" width="18%">Swift Code</td>
-                            <td valign="top" width="1%">:</td>
-                            <td valign="top" width="31%">{{$invoice->bank->swift_code}}</td>
-													@else
-                            <td valign="top" width="18%"></td>
-                            <td valign="top" width="1%"></td>
-                            <td valign="top" width="31%"></td>
-													@endif
-                        </tr>
-                        <tr>
-                            <td colspan="3" align="center"><i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i></td>
-                        </tr>
-                    </table>
-            </fieldset>
+            <table width="100%">
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend style="color:#3b98f5;font-weight: bold; font-size:14px;">Bank Account Information</legend>
+                            <table width="100%" cellpadding="4" style="padding-top:10px">
+                                    <tr>
+                                        <td valign="top" width="18%">Bank Name</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="31%">
+                                            {{$invoice->bank->bank->name}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" width="18%">Bank Account Name</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="31%">{{$invoice->bank->name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" width="18%">Bank Account Number</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="31%">{{$invoice->bank->number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" width="18%">Currency</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="31%" style="text-transform:uppercase">{{$invoice->currencies->code}}</td>
+                                    </tr>
+                                    <tr>
+                                                                @if ($invoice->bank->swift_code)
+                                        <td valign="top" width="18%">Swift Code</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="31%">{{$invoice->bank->swift_code}}</td>
+                                                                @else
+                                        <td valign="top" width="18%"></td>
+                                        <td valign="top" width="1%"></td>
+                                        <td valign="top" width="31%"></td>
+                                                                @endif
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="center"><i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i></td>
+                                    </tr>
+                                </table>
+                        </fieldset>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 
