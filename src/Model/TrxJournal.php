@@ -461,8 +461,8 @@ class TrxJournal extends MemfisModel
 					'debit' => $x->val,
 					'credit' => 0,
 					'_desc' => 'Material Usage : '
-					.$header->voucher_no.' '
-					.', Part Number :'.$x->part_number,
+					.$header->voucher_no/*.' '*/
+					// .', Part Number :'.$x->part_number,
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;
