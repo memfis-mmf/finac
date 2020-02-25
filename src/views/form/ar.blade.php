@@ -205,37 +205,39 @@
     <div id="content3" style="margin-top:15px">
         <div class="container">
             <table width="100%" border="1">
-                <tr>
-                    <td align="center" rowspan="2">
-                        @if ('payment' == 'payment')
-                            Submitted By
-                        @else
-                            Prepared By
-                        @endif
-                    </td>
-                    <td align="center"  rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>President Director</i></b></span></td>
-                    <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
-                    <td align="center"  rowspan="2">
-                        @if ('payment' == 'payment')
-                            Received By
-                        @else
-                            Paid By
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center">Received By <br><span style="font-size: 8px;"><b><i>Accounting</i></b> </span></td>
-                    <td align="center">Acknowledge By <br><span style="font-size: 8px;"><b><i>Finance Manager</i></b> </span></td>
-                    <td align="center">Processed By<br><span style="font-size: 8px;"><b><i>Cashier</i></b></span> </td>
-                </tr>
-                <tr>
-                    <td height="50"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                <thead>
+                    <tr>
+                        
+                            @if ('payment' == 'payment')
+                                <td align="center" width="10%" rowspan="2">Submitted By</td>
+                            @else
+                                <td align="center" width="10%" rowspan="2">Prepared By</td>
+                            @endif
+                        <td align="center" width="10%" rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>President Director</i></b></span></td>
+                        <td align="center" width="10%" colspan="3">FINANCE & ACCOUNTING</td>
+                        
+                            @if ('payment' == 'payment')
+                            <td align="center" width="10%" rowspan="2"> Received By </td>
+                            @else
+                            <td align="center" width="10%" rowspan="2"> Paid By </td>
+                            @endif
+                    </tr>
+                    <tr>
+                        <td align="center" width="10%">Received By <br><span style="font-size: 8px;"><b><i>Accounting</i></b> </span></td>
+                        <td align="center" width="10%">Acknowledge By <br><span style="font-size: 8px;"><b><i>Finance Manager</i></b> </span></td>
+                        <td align="center" width="10%">Processed By<br><span style="font-size: 8px;"><b><i>Cashier</i></b></span> </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td height="50"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
