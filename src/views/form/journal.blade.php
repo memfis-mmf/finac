@@ -36,6 +36,7 @@
             left: 0cm;
             right: 0cm;
             height: 1.8cm;
+            font-size: 9px;
         }
         ul li{
             display: inline-block;
@@ -119,7 +120,7 @@
 
     <div id="content">
         <div class="container">
-            <table width="100%" cellpadding="4" style="font-size:15px;">
+            <table width="100%" cellpadding="4" style="font-size:12px;">
                 <tr>
                     <td valign="top" width="20%">Date</td>
                     <td valign="top"width="1%">:</td>
@@ -145,12 +146,12 @@
             <table width="100%" cellpadding="6" id="journal_table" page-break-inside: auto;>
                 <thead>
                     <tr style="background:#72829c;color:white;">
-                        <th valign="top" align="center" width="6%">No</th>
-                        <th valign="top" align="center" width="15%">Account Code</th>
-                        <th valign="top" align="center" width="27%">Account Description</th>
-                        <th valign="top" align="center" width="20%">Description</th>
-                        <th valign="top" align="center" width="16%">Debit</th>
-                        <th valign="top" align="center" width="16%">Credit</th>
+                        <th valign="top" align="center" width="4%">No</th>
+                        <th valign="top" align="center" width="13%">Account Code</th>
+                        <th valign="top" align="center" width="19%">Account Description</th>
+                        <th valign="top" align="center" width="18%">Description</th>
+                        <th valign="top" align="center" width="23%">Debit</th>
+                        <th valign="top" align="center" width="23%">Credit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -159,19 +160,19 @@
 										$x = $journala[$i];
 									@endphp
 	                <tr>
-	                    <td valign="top" align="center" width="6%">{{ $i+1 }}</td>
-	                    <td valign="top" align="center" width="15%">{{ $x->coa->code }}</td>
-	                    <td valign="top" width="27%">{{ $x->coa->name }}</th>
-	                    <td valign="top"  width="20%">{{ $x->description }}</td>
-	                    <td valign="top" align="right" width="16%">{{ ($x->debit < 1)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
-	                    <td valign="top" align="right" width="16%">{{ ($x->credit < 1)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
+	                    <td valign="top" align="center" width="4%">{{ $i+1 }}</td>
+	                    <td valign="top" align="center" width="13%">{{ $x->coa->code }}</td>
+	                    <td valign="top" width="19%">{{ $x->coa->name }}</th>
+	                    <td valign="top"  width="18%">{{ $x->description }}</td>
+	                    <td valign="top" align="right" width="23%">{{ ($x->debit < 1)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
+	                    <td valign="top" align="right" width="23%">{{ ($x->credit < 1)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
 	                </tr>
                                 @endfor
                 </tbody>
             </table>
             <table width="100%" cellpadding="6">
                 <tr>
-                    <td valign="top" align="right" width="68%"><b>Total</b></td>
+                    <td valign="top" align="right" width="54%"><b>Total</b></td>
                     <td valign="top" align="right" width="" colspan="2" class="kredit-debet">Rp. {{ number_format($debit * $journal->exchange_rate, 0, 0, '.') }},-</td>
                 </tr>
             </table>
