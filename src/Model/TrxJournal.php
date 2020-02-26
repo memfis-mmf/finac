@@ -334,9 +334,9 @@ class TrxJournal extends MemfisModel
             foreach ($detail as $detailVal) {
                 $coaExist = false;
 
-                foreach ($sumDetail as $sumDetailValue) {
-                    if ($detailVal->coa_iv == @$sumDetailValue->coa_iv) {
-                        $sumDetail->debit += $detailVal->val;
+                foreach ($sumDetail as $key => $sumDetailValue) {
+                    if ($detailVal->coa_iv == $sumDetailValue->coa_detail) {
+                        $sumDetail[$key]->debit += $detailVal->val;
                     }
                 }
 
