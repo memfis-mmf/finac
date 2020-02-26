@@ -1,6 +1,7 @@
 let Journal = {
     init: function () {
-				let _url = window.location.origin;
+        let _url = window.location.origin;
+        $.fn.dataTable.ext.errMode = 'none';
 
 				function addCommas(nStr)
 				{
@@ -13,9 +14,64 @@ let Journal = {
 								x1 = x1.replace(rgx, '$1' + '.' + '$2');
 						}
 						return x1 + x2;
-				}
+        }
+        
+        let journal_datatable = $('.journal_datatable').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: _url+'/journal/datatables',
+          columns: [
+            {data: 'transaction_date'},
+            {data: 'voucher_no'},
+            {data: 'ref_no'},
+            {data: 'currency_code', render: function(data, type, row) {
+              return row.currency_code.toUpperCase();
+            }},
+            {data: 'exchange_rate', render: function(data, type, row) {
+              val = row.currency.symbol+' '+addCommas(
+                parseInt(row.exchange_rate)
+              );
+            }},
+            {data: 'type_jurnal.name', searchable: false},
+            {data: 'total_transaction', render: function(data, type, row) {
+              let val = '';
 
-        let journal_datatable = $('.journal_datatable').mDatatable({
+              if (row.total_transaction) {
+                val = row.currency.symbol+' '+addCommas(
+                  parseInt(row.total_transaction)
+                );
+              }
+
+              return val;
+            }},
+            {data: 'created_by.name', searchable: false},
+            {data: 'updated_by.name', searchable: false},
+            {data: 'approved_by.name', searchable: false},
+            {data: '', searchable: false, render: function (data, type, row) {
+              let _html =
+                  '<a href="'+_url+'/journal/print?uuid='+row.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + row.uuid +'">' +
+                      '<i class="la la-print"></i>' +
+                  '</a>';
+
+              if (!row.approve) {
+                _html +=
+                  '<a href="'+_url+'/journal/'+row.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                  row.uuid +
+                  '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
+                  '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                  row.uuid +
+                  ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
+                  '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + row.uuid + '">' +
+                  '<i class="la la-check"></i>' +
+                  '</a>';
+              }
+
+              return (_html);
+            }}
+          ]
+        });
+
+        let old_journal_datatable = $('.old_journal_datatable').mDatatable({
             data: {
                 type: 'remote',
                 source: {
@@ -445,3 +501,4 @@ let Journal = {
 jQuery(document).ready(function () {
     Journal.init();
 });
+

@@ -32,7 +32,6 @@ class TrxJournal extends MemfisModel
     ];
 
 	protected $appends = [
-		'exchange_rate_fix',
 		'created_by',
 		'updated_by',
 		'approved_by',
@@ -494,11 +493,6 @@ class TrxJournal extends MemfisModel
 		return date(
 			'Y-m-d', strtotime($this->transaction_date)
 		);
-	}
-
-	public function getExchangeRateFixAttribute()
-	{
-		return number_format($this->exchange_rate, 0, 0, '.');
 	}
 
 	public function type_jurnal()

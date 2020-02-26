@@ -15,6 +15,7 @@ use memfisfa\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Approval;
+use DataTables;
 
 class JournalController extends Controller
 {
@@ -151,6 +152,17 @@ class JournalController extends Controller
     }
 
     public function datatables()
+    {
+
+		$data = Journal::with([
+			'type_jurnal',
+			'currency',
+		])->orderBy('id', 'DESC');
+
+        return DataTables::of($data)->make(true);
+    }
+
+    public function old_datatables()
     {
 		$data = $alldata = json_decode(Journal::with([
 			'type_jurnal',
