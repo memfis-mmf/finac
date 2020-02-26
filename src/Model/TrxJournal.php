@@ -314,8 +314,6 @@ class TrxJournal extends MemfisModel
 
 	static public function insertFromGRN($header, $detail)
 	{
-
-		DB::beginTransaction();
 		try {
 			$data['voucher_no'] = TrxJournal::generateCode('PRJR');
 			$data['ref_no'] = $header->voucher_no;
@@ -372,16 +370,12 @@ class TrxJournal extends MemfisModel
 
 			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'PRJ');
 
-			DB::commit();
-
 			return [
 				'status' => true,
 				'message' => ''
 			];
 
 		} catch (\Exception $e) {
-
-			DB::rollBack();
 
 			return [
 				'status' => false,
@@ -393,8 +387,6 @@ class TrxJournal extends MemfisModel
 
 	static public function insertFromIvOut($header, $detail)
 	{
-
-		DB::beginTransaction();
 		try {
 			$data['voucher_no'] = TrxJournal::generateCode('PRJR');
 			$data['ref_no'] = $header->voucher_no;
@@ -406,61 +398,104 @@ class TrxJournal extends MemfisModel
 
 			$total_debit = 0;
 
-			$detail_tmp = $detail;
+            $detail_tmp = $detail;
+
+            $sumDetail = [];
+
+            foreach ($detail as $detailVal) {
+                $coaExistIv = false;
+                $coaExistCogs = false;
+
+                foreach ($sumDetail as $key => $sumDetailValue) {
+                    if ($detailVal->coa_iv == $sumDetailValue->coa_detail) {
+                        $sumDetail[$key]->debit += $detailVal->val;
+                    }
+                }
+
+                if (!$coaExistIv) {
+                    $newSumDetail = (object)[
+                        'coa_detail' => $detailVal->coa_iv,
+                        'debit' => $detailVal->val,
+                        'credit' => 0,
+                        '_desc' => 'Increased Inventory : '
+                        .$header->voucher_no.' '
+                        // .$header->supplier.' ',
+                    ];
+
+                    $sumDetail[] = $newSumDetail;
+                }
+
+                foreach ($sumDetail as $key => $sumDetailValue) {
+                    if ($detailVal->coa_cogs == $sumDetailValue->coa_detail) {
+                        $sumDetail[$key]->debit += $detailVal->val;
+                    }
+                }
+
+                if (!$coaExistCogs) {
+                    $newSumDetail = (object)[
+                        'coa_detail' => $detailVal->coa_cogs,
+                        'debit' => 0,
+                        'credit' => $detailVal->val,
+                        '_desc' => 'Increased Inventory : '
+                        .$header->voucher_no.' '
+                        // .$header->supplier.' ',
+                    ];
+
+                    $sumDetail[] = $newSumDetail;
+                }
+            }
 
 			// sum same coa
-			for ($a=0; $a < count($detail); $a++) {
-				$x = $detail[$a];
+			// for ($a=0; $a < count($detail); $a++) {
+			// 	$x = $detail[$a];
 
-				for ($b=$a+1; $b < count($detail_tmp); $b++) {
-					$y = $detail_tmp[$b];
+			// 	for ($b=$a+1; $b < count($detail_tmp); $b++) {
+			// 		$y = $detail_tmp[$b];
 
-					if (@$x->coa_iv == $y->coa_iv) {
-						$detail[$a]->val += $y->val;
-						unset($detail[$b]);
-					}
-				}
-			}
+			// 		if (@$x->coa_iv == $y->coa_iv) {
+			// 			$detail[$a]->val += $y->val;
+			// 			unset($detail[$b]);
+			// 		}
+			// 	}
+			// }
 
-			$_tmp = array_values($detail);
+			// $_tmp = array_values($detail);
 
-			$detail = [];
+			// $detail = [];
 
-			$total_credit = 0;
-			$total_debit = 0;
+			// $total_credit = 0;
+			// $total_debit = 0;
 
-			for ($i=0; $i < count($_tmp); $i++) {
-				$z = $_tmp[$i];
+			// for ($i=0; $i < count($_tmp); $i++) {
+			// 	$z = $_tmp[$i];
 
-				$detail[] = (object) [
-					'coa_detail' => $z->coa_cogs,
-					'debit' => 0,
-					'credit' => $x->val,
-					'_desc' => 'Material Usage : '
-					.$header->voucher_no,
-				];
+			// 	$detail[] = (object) [
+			// 		'coa_detail' => $z->coa_cogs,
+			// 		'debit' => 0,
+			// 		'credit' => $x->val,
+			// 		'_desc' => 'Material Usage : '
+			// 		.$header->voucher_no,
+			// 	];
 
-				$total_credit += $detail[count($detail)-1]->credit;
-			}
+			// 	$total_credit += $detail[count($detail)-1]->credit;
+			// }
 
-			for ($i=0; $i < count($_tmp); $i++) {
-				$z = $_tmp[$i];
+			// for ($i=0; $i < count($_tmp); $i++) {
+			// 	$z = $_tmp[$i];
 
-				$detail[] = (object) [
-					'coa_detail' => $z->coa_iv,
-					'debit' => $x->val,
-					'credit' => 0,
-					'_desc' => 'Material Usage : '
-					.$header->voucher_no/*.' '*/
-					// .', Part Number :'.$x->part_number,
-				];
+			// 	$detail[] = (object) [
+			// 		'coa_detail' => $z->coa_iv,
+			// 		'debit' => $x->val,
+			// 		'credit' => 0,
+			// 		'_desc' => 'Material Usage : '
+			// 		.$header->voucher_no/*.' '*/
+			// 		// .', Part Number :'.$x->part_number,
+			// 	];
 
-				$total_debit += $detail[count($detail)-1]->debit;
-			}
+			// 	$total_debit += $detail[count($detail)-1]->debit;
+			// }
 
-			TrxJournal::autoJournal($header, $detail, 'PRJR', 'GJV');
-
-			DB::commit();
+			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'GJV');
 
 			return [
 				'status' => true,
@@ -468,8 +503,6 @@ class TrxJournal extends MemfisModel
 			];
 
 		} catch (\Exception $e) {
-
-			DB::rollBack();
 
 			return [
 				'status' => false,
