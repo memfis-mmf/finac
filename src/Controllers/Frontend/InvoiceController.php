@@ -72,7 +72,7 @@ class InvoiceController extends Controller
 			'material' => Coa::where('code', '41114001')->first(),
 			'facility' => Coa::where('code', '41113001')->first(),
 			'discount' => Coa::where('code', '41121001')->first(),
-			'ppn' => Coa::where('code', '11181001')->first(),
+			'ppn' => Coa::where('code', '21115005')->first(),
 			'other' => Coa::where('code', '41114003')->first(),
 		];
 
