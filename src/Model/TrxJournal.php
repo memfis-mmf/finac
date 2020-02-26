@@ -327,59 +327,50 @@ class TrxJournal extends MemfisModel
 
 			$total_debit = 0;
 
-			$detail_tmp = $detail;
+            $detail_tmp = $detail;
 
-			// sum same coa
-			for ($a=0; $a < count($detail); $a++) {
-				$x = $detail[$a];
+            $sumDetail = [];
 
-				for ($b=$a+1; $b < count($detail_tmp); $b++) {
-					$y = $detail_tmp[$b];
+            foreach ($detail as $detailVal) {
+                $coaExist = false;
 
-					if (@$x->coa_iv == $y->coa_iv) {
-						$detail[$a]->val += $y->val;
-						$detail[$b]->val = 0;
-					}
-				}
-			}
+                foreach ($sumDetail as $sumDetailValue) {
+                    if ($detailVal->coa_iv == @$sumDetailValue->coa_iv) {
+                        $sumDetail->debit += $detailVal->val;
+                    }
+                }
 
-			$_tmp = array_values($detail);
-
-			$detail = [];
-
-			$total_debit = 0;
-
-			for ($i=0; $i < count($_tmp); $i++) {
-                $z = $_tmp[$i];
-                
-                if ($z->val != 0) {
-                    $detail[] = (object) [
-                        'coa_detail' => $z->coa_iv,
-                        'debit' => $z->val,
+                if (!$coaExist) {
+                    $newSumDetail = (object)[
+                        'coa_detail' => $detailVal->coa_iv,
+                        'debit' => $detailVal->val,
                         'credit' => 0,
                         '_desc' => 'Increased Inventory : '
                         .$header->voucher_no.' '
                         .$header->supplier.' ',
                     ];
 
-                    $total_debit += $detail[count($detail)-1]->debit;
+                    $sumDetail[] = $newSumDetail;
                 }
             }
 
-			// add object in first array $detai
-			array_unshift(
-				$detail,
-				(object) [
-					'coa_detail' => $_tmp[0]->coa_vendor,
-					'debit' => 0,
-					'credit' => $total_debit,
-					'_desc' => 'Account Payable : '
-					.$header->voucher_no.' '
-					.$header->supplier.' ',
-				]
-			);
+            $newSumDetail = (object) [
+                'coa_detail' => $detail[0]->coa_vendor,
+                'debit' => 0,
+                'credit' => 0,
+                '_desc' => 'Increased Inventory : '
+                .$header->voucher_no.' '
+                .$header->supplier.' ',
+            ];
 
-			TrxJournal::autoJournal($header, $detail, 'PRJR', 'PRJ');
+            foreach ($detail as $detailVal) {
+
+                $newSumDetail->credit += $detailVal->val;
+            }
+
+            $sumDetail[] = $newSumDetail;
+
+			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'PRJ');
 
 			DB::commit();
 
@@ -394,7 +385,7 @@ class TrxJournal extends MemfisModel
 
 			return [
 				'status' => false,
-				'message' => $e->getMessage()
+				'message' => $e
 			];
 
 		}
