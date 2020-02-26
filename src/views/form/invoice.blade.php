@@ -222,7 +222,7 @@
 		                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
 													{{
 														number_format(
-															$x->facility
+															$x->facility * $invoice->exchangerate
 															, 0
 															, 0
 															, '.'
@@ -241,7 +241,7 @@
 	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
 												{{
 													number_format(
-														$x->mat_tool_price
+														$x->mat_tool_price * $invoice->exchangerate
 														, 0
 														, 0
 														, '.'
@@ -269,7 +269,7 @@
 														);
 													}else{
 														echo number_format(
-															@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount
+															@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount * $invoice->exchangerate
 															, 0
 															, 0
 															, '.'
