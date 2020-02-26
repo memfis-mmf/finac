@@ -96,7 +96,7 @@
                         {{-- <div class="journal_datatable" id="scrolling_both"></div> --}}
                         <div class="row">
                           <div class="col-lg-12 col-md-12 col-sm-12">
-                              <table class="table table-striped table-bordered table-hover table-checkable eo_materials_datatables journal_datatable">
+                              <table class="table table-striped table-bordered table-hover table-checkable journal_datatable">
                                 <thead>
                                   <th>Date</th> 
                                   <th>Transaction No</th> 
@@ -122,8 +122,8 @@
 @endsection
 
 @push('footer-scripts')
-<script src="{{ asset('vendor/courier/frontend/journal/index.js')}}"></script>
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
+<script src="{{ asset('vendor/courier/frontend/journal/index.js')}}"></script>
 @if (Session::get('errors'))
 <script type="text/javascript">
 	$(document).ready(function () {

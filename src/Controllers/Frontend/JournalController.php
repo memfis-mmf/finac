@@ -157,7 +157,7 @@ class JournalController extends Controller
 		$data = Journal::with([
 			'type_jurnal',
 			'currency',
-		])->orderBy('id', 'DESC');
+		])->orderBy('transaction_date', 'asc');
 
         return DataTables::of($data)->make(true);
     }
