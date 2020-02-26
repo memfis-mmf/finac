@@ -2231,38 +2231,43 @@ class CoaTableSeeder extends Seeder
 		Category::where('code','comp')->first()
 		->coa()->attach(
 			Coa::where('code','11161001')->first()->id,
-			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
 		);
 		Category::where('code','cons')->first()
 		->coa()->attach(
 			Coa::where('code','11161002')->first()->id,
-			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
 		);
 		Category::where('code','raw')->first()
 		->coa()->attach(
 			Coa::where('code','11161003')->first()->id,
-			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
 		);
 		Category::where('code','tool')->first()
 		->coa()->attach(
 			Coa::where('code','11161004')->first()->id,
-			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
 		);
 
 		Category::where('code','comp')->first()
 		->coa()->attach(
 			Coa::where('code','51115101')->first()->id,
-			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
 		);
 		Category::where('code','cons')->first()
 		->coa()->attach(
 			Coa::where('code','51115102')->first()->id,
-			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
 		);
 		Category::where('code','raw')->first()
 		->coa()->attach(
 			Coa::where('code','51115103')->first()->id,
-			['type_id'=> Type::ofCoaTransaction()->where('code','inventory')->first()->id]
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
+		);
+		Category::where('code','service')->first()
+		->coa()->attach(
+			Coa::where('code','51115107')->first()->id,
+			['type_id'=> Type::ofCoaTransaction()->where('code','cogs')->first()->id]
 		);
 
     }
