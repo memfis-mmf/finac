@@ -445,56 +445,6 @@ class TrxJournal extends MemfisModel
                 }
             }
 
-			// sum same coa
-			// for ($a=0; $a < count($detail); $a++) {
-			// 	$x = $detail[$a];
-
-			// 	for ($b=$a+1; $b < count($detail_tmp); $b++) {
-			// 		$y = $detail_tmp[$b];
-
-			// 		if (@$x->coa_iv == $y->coa_iv) {
-			// 			$detail[$a]->val += $y->val;
-			// 			unset($detail[$b]);
-			// 		}
-			// 	}
-			// }
-
-			// $_tmp = array_values($detail);
-
-			// $detail = [];
-
-			// $total_credit = 0;
-			// $total_debit = 0;
-
-			// for ($i=0; $i < count($_tmp); $i++) {
-			// 	$z = $_tmp[$i];
-
-			// 	$detail[] = (object) [
-			// 		'coa_detail' => $z->coa_cogs,
-			// 		'debit' => 0,
-			// 		'credit' => $x->val,
-			// 		'_desc' => 'Material Usage : '
-			// 		.$header->voucher_no,
-			// 	];
-
-			// 	$total_credit += $detail[count($detail)-1]->credit;
-			// }
-
-			// for ($i=0; $i < count($_tmp); $i++) {
-			// 	$z = $_tmp[$i];
-
-			// 	$detail[] = (object) [
-			// 		'coa_detail' => $z->coa_iv,
-			// 		'debit' => $x->val,
-			// 		'credit' => 0,
-			// 		'_desc' => 'Material Usage : '
-			// 		.$header->voucher_no/*.' '*/
-			// 		// .', Part Number :'.$x->part_number,
-			// 	];
-
-			// 	$total_debit += $detail[count($detail)-1]->debit;
-			// }
-
 			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'GJV');
 
 			return [
