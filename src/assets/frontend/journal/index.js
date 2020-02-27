@@ -33,6 +33,8 @@ let Journal = {
               val = row.currency.symbol+' '+addCommas(
                 parseInt(row.exchange_rate)
               );
+
+              return val;
             }},
             {data: 'type_jurnal.name', searchable: false},
             {data: 'total_transaction', render: function(data, type, row) {
