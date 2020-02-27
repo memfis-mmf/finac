@@ -149,9 +149,9 @@
                         <th valign="top" align="center" width="4%">No</th>
                         <th valign="top" align="center" width="13%">Account Code</th>
                         <th valign="top" align="center" width="19%">Account Description</th>
-                        <th valign="top" align="center" width="18%">Description</th>
-                        <th valign="top" align="center" width="23%">Debit</th>
-                        <th valign="top" align="center" width="23%">Credit</th>
+                        <th valign="top" align="center" width="24%">Description</th>
+                        <th valign="top" align="center" width="20%">Debit</th>
+                        <th valign="top" align="center" width="20%">Credit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -163,16 +163,16 @@
 	                    <td valign="top" align="center" width="4%">{{ $i+1 }}</td>
 	                    <td valign="top" align="center" width="13%">{{ $x->coa->code }}</td>
 	                    <td valign="top" width="19%">{{ $x->coa->name }}</th>
-	                    <td valign="top"  width="18%">{{ $x->description }}</td>
-	                    <td valign="top" align="right" width="23%">{{ ($x->debit < 1)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
-	                    <td valign="top" align="right" width="23%">{{ ($x->credit < 1)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
+	                    <td valign="top"  width="24%">{{ $x->description }}</td>
+	                    <td valign="top" align="right" width="20%">{{ ($x->debit < 1)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
+	                    <td valign="top" align="right" width="20%">{{ ($x->credit < 1)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 0, 0, '.').",-" }}</td>
 	                </tr>
                                 @endfor
                 </tbody>
             </table>
             <table width="100%" cellpadding="6">
                 <tr>
-                    <td valign="top" align="right" width="54%"><b>Total</b></td>
+                    <td valign="top" align="right" width="60%"><b>Total</b></td>
                     <td valign="top" align="right" width="" colspan="2" class="kredit-debet">Rp. {{ number_format($debit * $journal->exchange_rate, 0, 0, '.') }},-</td>
                 </tr>
             </table>
