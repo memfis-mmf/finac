@@ -91,14 +91,19 @@
                 @endcomponent
             </div> --}}
         </div>
-        <h4><b>Accumulate Depreciation Account</b> @include('label::required')</h4>
+        {{-- <h4><b>Accumulate Depreciation Account</b> @include('label::required')</h4> --}}
         <div class="form-group m-form__group row ">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                    Account Code
+                  Accumulate Depreciation Account
                 </label>
-
-                @component('input::inputrightbutton')
+                  @component('input::select2')
+                      @slot('class', '_accountcode')
+                      @slot('text', 'Account Code')
+                      @slot('name', 'coaacumulated')
+                      @slot('id_error', 'accountcode')
+                  @endcomponent
+                {{-- @component('input::inputrightbutton')
                     @slot('id', 'coa')
                     @slot('text', 'coa')
                     @slot('name', 'coaacumulated')
@@ -106,29 +111,19 @@
                     @slot('type', 'text')
                     @slot('style', 'width:100%')
                     @slot('data_target', '#coa_modal')
-                @endcomponent
+                @endcomponent --}}
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                    Account Code Name
+                  Depreciation Account
                 </label>
-
-                @component('input::inputreadonly')
-                @slot('id', 'acd')
-                @slot('text', 'acd')
-                @slot('name', 'acd')
-                @slot('value', @$asset->coa_accumulate->name)
-                @endcomponent
-            </div>
-        </div>
-        <h4><b>Depreciation Account</b> @include('label::required')</h4>
-        <div class="form-group m-form__group row ">
-            <div class="col-sm-6 col-md-6 col-lg-6">
-                <label class="form-control-label">
-                    Account Code
-                </label>
-
-                @component('input::inputrightbutton')
+                  @component('input::select2')
+                      @slot('class', '_accountcode')
+                      @slot('text', 'Account Code')
+                      @slot('name', 'coaexpense')
+                      @slot('id_error', 'accountcode')
+                  @endcomponent
+                {{-- @component('input::inputrightbutton')
                     @slot('id', 'coa_a')
                     @slot('text', 'coa')
                     @slot('name', 'coaexpense')
@@ -136,21 +131,10 @@
                     @slot('type', 'text')
                     @slot('style', 'width:100%')
                     @slot('data_target', '#coa_modal_depreciation')
-                @endcomponent
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-6">
-                <label class="form-control-label">
-                    Account Code Name
-                </label>
-
-                @component('input::inputreadonly')
-                @slot('id', 'acd_a')
-                @slot('text', 'acd_a')
-                @slot('name', 'acd_a')
-                @slot('value', @$asset->coa_expense->name)
-                @endcomponent
+                @endcomponent --}}
             </div>
         </div>
+        {{-- <h4><b></b> @include('label::required')</h4> --}}
     </div>
 </div>
 
@@ -166,7 +150,17 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+      // select 2 aja for coa
+			$('._accountcode').select2({
+			  ajax: {
+			    url: _url+'/journal/get-account-code-select2',
+			    dataType: 'json'
+			  },
+				minimumInputLength: 3,
+				// templateSelection: formatSelected
+			});
 
+      // coa datatable
       $("#coa_datatables").DataTable({
           "dom": '<"top"f>rt<"bottom">pl',
           responsive: !0,

@@ -51,19 +51,6 @@
                         <form id="MasterAssetForm">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
-                                    {{-- <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            Master Asset Code @include('label::required')
-                                        </label>
-
-                                        @component('input::input')
-                                            @slot('id', 'code')
-                                            @slot('text', 'Master Asset Code')
-                                            @slot('name', 'code')
-                                            @slot('id_error', 'code')
-                                            @slot('value', $asset->code)
-                                        @endcomponent
-                                    </div> --}}
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Asset Category @include('label::required')
