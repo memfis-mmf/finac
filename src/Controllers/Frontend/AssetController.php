@@ -470,5 +470,5 @@ class AssetController extends Controller
 			$startDate,
 			$endDate
 		];
-	}
+    }
 }

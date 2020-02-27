@@ -97,12 +97,22 @@
                 <label class="form-control-label">
                   Accumulate Depreciation Account
                 </label>
-                  @component('input::select2')
+                  {{-- @component('input::select2')
                       @slot('class', '_accountcode')
                       @slot('text', 'Account Code')
                       @slot('name', 'coaacumulated')
+                      @slot('value', @$asset->coa_accumulate->name.'('.@$asset->coaacumulated.')')
                       @slot('id_error', 'accountcode')
-                  @endcomponent
+                  @endcomponent --}}
+                  <select name="coaacumulated" class="form-control _accountcode">
+                    @if (@$asset->coaacumulated)
+
+                      <option selected="selected" value="{{@$asset->coaacumulated}}">
+                        {{@$asset->coa_accumulate->name.' ('.@$asset->coaacumulated.')'}}
+                      </option>
+
+                    @endif
+                  </select>
                 {{-- @component('input::inputrightbutton')
                     @slot('id', 'coa')
                     @slot('text', 'coa')
@@ -117,12 +127,22 @@
                 <label class="form-control-label">
                   Depreciation Account
                 </label>
-                  @component('input::select2')
+                  {{-- @component('input::select2')
                       @slot('class', '_accountcode')
                       @slot('text', 'Account Code')
                       @slot('name', 'coaexpense')
+                      @slot('value', @$asset->coa_expense->name.'('.@$asset->coaexpense.')')
                       @slot('id_error', 'accountcode')
-                  @endcomponent
+                  @endcomponent --}}
+                  <select name="coaexpense" class="form-control _accountcode">
+                    @if (@$asset->coaexpense)
+
+                      <option selected="selected" value="{{@$asset->coaexpense}}">
+                        {{@$asset->coa_expense->name.' ('.@$asset->coaexpense.')'}}
+                      </option>
+
+                    @endif
+                  </select>
                 {{-- @component('input::inputrightbutton')
                     @slot('id', 'coa_a')
                     @slot('text', 'coa')
@@ -142,7 +162,7 @@
 @push('footer-scripts')
   <script src="{{ asset('vendor/courier/frontend/functions/daterange/master-asset-dep.js')}}"></script>
 
-  <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
+  {{-- <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script> --}}
 
   {{-- <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script> --}}
 
@@ -150,12 +170,15 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+      let _url = window.location.origin;
+
       // select 2 aja for coa
 			$('._accountcode').select2({
 			  ajax: {
 			    url: _url+'/journal/get-account-code-select2',
-			    dataType: 'json'
+          dataType: 'json',
 			  },
+        width: '100%',
 				minimumInputLength: 3,
 				// templateSelection: formatSelected
 			});
