@@ -1186,7 +1186,13 @@ class InvoiceController extends Controller
 	{
 		$invoice = Invoice::where('uuid', $request->uuid)->first();
 		$quotation = $invoice->quotations;
-		$workpackage = $quotation->workpackages;
+        $workpackage = $quotation->workpackages;
+        
+        if ($invoice->currencies->code == 'idr') {
+            $invoice->_exchange_rate = $invoice->exchangerate;
+        }else{
+            $invoice->_exchange_rate = 1;
+        }
 
 		for ($a=0; $a < count($workpackage); $a++) {
 			$x = $workpackage[$a];
@@ -1195,7 +1201,7 @@ class InvoiceController extends Controller
 				'quotation_id', $invoice->quotations->id
 			)
 			->where('workpackage_id',$x->id)
-			->sum('subtotal');
+            ->sum('subtotal') * $invoice->_exchange_rate;
 
 	        $invoice->quotations->workpackages[$a]->material_item = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
 	            ->where('workpackage_id', $x->id)
@@ -1208,7 +1214,7 @@ class InvoiceController extends Controller
 
 			$invoice->quotations->workpackages[$a]->facility = ProjectWorkPackageFacility::where('project_workpackage_id', $project_workpackage->id)
                     ->with('facility')
-                    ->sum('price_amount');
+                    ->sum('price_amount') * $invoice->_exchange_rate;
 
             $invoice->quotations->workpackages[$a]->is_template = 'not htcrr';
 		}

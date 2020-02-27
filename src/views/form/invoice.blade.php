@@ -262,14 +262,16 @@
 												@php
 													if ($x->is_template == 'htcrr') {
 														echo number_format(
-															(float) $x->data_htcrr['total_manhours_with_performance_factor'] * (float) $x->data_htcrr['manhour_rate_amount']
+                              (float) $x->data_htcrr['total_manhours_with_performance_factor'] 
+                              * (float) $x->data_htcrr['manhour_rate_amount'] 
+                              * $invoice->_exchange_rate
 															, 0
 															, 0
 															, '.'
 														);
 													}else{
 														echo number_format(
-															@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount
+															@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount * $invoice->_exchange_rate
 															, 0
 															, 0
 															, '.'
