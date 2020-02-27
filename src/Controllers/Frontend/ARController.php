@@ -558,23 +558,23 @@ class ARController extends Controller
 			];
 
 			$total_credit = 0;
-			$total_debit = 0;
+            $total_debit = 0;
 
 			// looping sebenayak invoice
 			for ($a=0; $a < count($ara); $a++) {
-				$x = $ara[$a];
+                $x = $ara[$a];
 
 				$detail[] = (object) [
 					'coa_detail' => $x->coa->id,
 					'credit' => $x->credit * $ar->exchangerate,
 					'debit' => 0,
 					'_desc' => 'Payment From : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
+					.$x->ar->customer->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
 				$total_debit += $detail[count($detail)-1]->debit;
-			}
+            }
 
 			// looping sebanyak adjustment
 			for ($a=0; $a < count($arb); $a++) {
@@ -585,7 +585,7 @@ class ARController extends Controller
 					'credit' => $y->credit,
 					'debit' => $y->debit,
 					'_desc' => 'Payment From : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
+					.$x->ar->customer->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -612,7 +612,7 @@ class ARController extends Controller
 					$side => $val,
 					$x_side => 0,
 					'_desc' => 'Payment From : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
+					.$x->ar->customer->name,
 				];
 
 				$total_credit += $detail[count($detail)-1]->credit;
@@ -627,7 +627,7 @@ class ARController extends Controller
 					'credit' => 0,
 					'debit' => $total_credit - $total_debit,
 					'_desc' => 'Receive From : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
+					.$x->ar->customer->name,
 				]
 			);
 
@@ -661,7 +661,7 @@ class ARController extends Controller
 
 			DB::rollBack();
 
-			$data['errors'] = $e->getMessage();
+			$data['errors'] = $e;
 
 			return response()->json($data);
 		}
