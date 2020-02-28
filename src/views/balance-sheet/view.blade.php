@@ -109,7 +109,7 @@
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="18%"><h5>Total Assets</h5></td>
                                             <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">{{$totalActiva}}</td>
+                                            <td width="30%" align="center">{{number_format($totalActiva, 0, 0, '.')}}</td>
                                         </tr>
 
                                         {{-- spasi --}}
@@ -158,7 +158,7 @@
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="18%"><h5>Total Liabilitie & Equities</h5></td>
                                             <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">{{$totalPasiva}}</td>
+                                            <td width="30%" align="center">{{number_format($totalPasiva, 0, 0, '.')}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -166,12 +166,12 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <div class="action-buttons">
-                                        @component('buttons::submit')
+                                        {{-- @component('buttons::submit')
                                             @slot('type', 'button')
                                             @slot('id','printview')
                                             @slot('text','Print')
                                             @slot('icon','fa-print')
-                                        @endcomponent
+                                        @endcomponent --}}
 
                                         @include('buttons::back')
                                     </div>
