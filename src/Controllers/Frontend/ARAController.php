@@ -140,7 +140,7 @@ class ARAController extends Controller
 		return $result;
 	}
 
-	public function countPaidAmount($x)
+	public function old_countPaidAmount($x)
 	{
 		$ara = AReceiveA::where(
 			'transactionnumber', $x->transactionnumber
@@ -157,6 +157,31 @@ class ARAController extends Controller
 		}
 
 		return $total;
+    }
+
+	public function countPaidAmount($x)
+	{
+		$ara_tmp = AReceiveA::where(
+			'transactionnumber', $x->transactionnumber
+        )->first();
+
+		$ar = $ara_tmp->ar;
+		$ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)->get();
+
+		$data['debt_total_amount'] = Invoice::where(
+			'id_customer',
+			$ar->customer->id
+		)->sum('grandtotal');
+
+		$payment_total_amount = 0;
+
+		for ($j = 0; $j < count($ara); $j++) {
+			$y = $ara[$j];
+
+			$payment_total_amount += ($y->credit * $ar->exchangerate);
+        }
+
+		return $payment_total_amount;
 	}
 
     public function datatables(Request $request)
