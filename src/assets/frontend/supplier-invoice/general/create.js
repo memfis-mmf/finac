@@ -164,7 +164,7 @@ let SupplierInvoice = {
 										}
 
 								} else {
-										toastr.success('Data Saved', 'Sukses', {
+										toastr.success('Data Saved', 'Success', {
 												timeOut: 2000
 										});
 

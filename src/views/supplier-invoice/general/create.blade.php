@@ -97,12 +97,21 @@
                                                     Due Date
                                                 </label>
 
-                                                @component('input::datepicker')
+                                                <div class="input-group date">
+                                                  <input type="text" disabled="disabled" id="valid_until" name="valid_until" class="form-control">
+                                                  <div class="input-group-append">
+                                                      <span class="input-group-text">
+                                                      <i class="la la-calendar glyphicon-th"></i>
+                                                      </span>
+                                                  </div>
+                                                </div>
+
+                                                {{-- @component('input::datepicker')
                                                     @slot('id', 'valid_until')
                                                     @slot('text', 'Due Date')
                                                     @slot('name', 'valid_until')
                                                     @slot('id_error', 'valid_until')
-                                                @endcomponent
+                                                @endcomponent --}}
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +180,7 @@
                                         @endcomponent
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row">
+                                {{-- <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 footer">
                                         <div class="row align-items-center">
                                             <div class="col-xl-8 order-2 order-xl-1">
@@ -191,7 +200,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- datatables --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <div class="m-portlet m-portlet--mobile">
@@ -220,7 +228,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">

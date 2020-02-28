@@ -172,7 +172,7 @@ let SupplierInvoice = {
 
 						general_table.reload();
 
-						toastr.success('Data tersimpan', 'Sukses', {
+						toastr.success('Data tersimpan', 'Success', {
 							timeOut: 2000
 						});
 
@@ -251,7 +251,7 @@ let SupplierInvoice = {
 										}
 
 								} else {
-									toastr.success('Data berhasil disimpan.', 'Sukses', {
+									toastr.success('Data berhasil disimpan.', 'Success', {
 											timeOut: 5000
 									});
 
@@ -288,7 +288,7 @@ let SupplierInvoice = {
 										coa_reset();
 								}
 							} else {
-								toastr.success('Data Saved', 'Sukses', {
+								toastr.success('Data Saved', 'Success', {
 										timeOut: 2000
 								});
 
