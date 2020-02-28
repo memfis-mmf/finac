@@ -139,7 +139,7 @@
                                         @endcomponent
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row">
+                                {{-- <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 footer">
                                         <div class="row align-items-center">
                                             <div class="col-xl-8 order-2 order-xl-1">
@@ -159,7 +159,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- datatables --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <div class="m-portlet m-portlet--mobile">
@@ -241,7 +240,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- datatables --}}
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <div class="m-portlet m-portlet--mobile">
@@ -270,7 +268,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
