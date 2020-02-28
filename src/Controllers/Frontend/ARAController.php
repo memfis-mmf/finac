@@ -204,7 +204,7 @@ class ARAController extends Controller
 
         $data = $alldata = json_decode(
 			$ARA
-		);
+        );
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []

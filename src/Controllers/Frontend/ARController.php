@@ -411,13 +411,35 @@ class ARController extends Controller
         echo json_encode( $result, JSON_PRETTY_PRINT );
     }
 
+    public function countPaidAmount($id_invoice)
+    {
+		$ara = AReceiveA::where('id_invoice', $id_invoice)->get();
+		$ar = $ara[0]->ar;
+
+		$data['debt_total_amount'] = Invoice::where(
+			'id_customer',
+			$ar->customer->id
+		)->sum('grandtotal');
+
+		$payment_total_amount = 0;
+
+		for ($j = 0; $j < count($ara); $j++) {
+			$y = $ara[$j];
+
+			$payment_total_amount += ($y->credit * $ar->exchangerate);
+        }
+
+		return $payment_total_amount;
+    }
+
     public function InvoiceModalDatatables(Request $request)
     {
 		$ar = AReceive::where('uuid', $request->ar_uuid)->first();
-		$currency = Currency::where('code', $ar->currency)->first();
+        $currency = Currency::where('code', $ar->currency)->first();
 
 		if (count($ar->ara)) {
-			$invoice = Invoice::where('id_customer', $request->id_customer)
+            $invoice = Invoice::where('id_customer', $request->id_customer)
+            ->with('coas')
 			->where(
 				'currency',
 				Currency::where('code', $ar->ara[0]->currency)->first()->id
@@ -426,9 +448,17 @@ class ARController extends Controller
 			->get();
 		} else {
 			$invoice = Invoice::where('id_customer', $request->id_customer)
+            ->with('coas')
 			->where('approve', 1)
 			->get();
-		}
+        }
+        
+        for (
+            $invoice_index = 0; $invoice_index < count($invoice); $invoice_index++
+        ) { 
+            $invoice[$invoice_index]->paid_amount = $this
+            ->countPaidAmount($invoice[$invoice_index]->id);
+        }
 
         $data = $alldata = json_decode($invoice);
 

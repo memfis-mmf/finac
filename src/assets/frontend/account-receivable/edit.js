@@ -411,13 +411,16 @@ let AccountReceivableEdit = {
 							}
 						},
 						{
-							field: '',
+							field: 'paid_amount',
 							title: 'Paid Amount',
 							sortable: 'asc',
 							filterable: !1,
+							template: function(t, e, i) {
+								return addCommas(parseInt(t.paid_amount));
+							}
 						},
 						{
-							field: 'accountcode',
+							field: 'coas.code',
 							title: 'Account Code',
 							sortable: 'asc',
 							filterable: !1,
