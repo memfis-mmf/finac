@@ -95,7 +95,7 @@ class ARController extends Controller
 			for ($j = 0; $j < count($x->ara); $j++) {
 				$y = $x->ara[$j];
 
-				$payment_total_amount += $y->debit;
+				$payment_total_amount += $y->credit;
 			}
 		}
 
