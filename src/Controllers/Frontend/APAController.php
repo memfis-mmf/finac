@@ -177,15 +177,16 @@ class APAController extends Controller
 
 	public function countPaidAmount($x)
 	{
-		$apa = APaymentA::where(
+		$apa_tmp = APaymentA::where(
 			'transactionnumber', $x->transactionnumber
-		)->get();
+        )->first();
 
-		$ap = $apa[0]->ap;
+		$ap = $apa_tmp->ap;
+		$apa = APaymentA::where('id_payment', $apa_tmp->id_payment)->get();
 
 		$data['debt_total_amount'] = TrxPayment::where(
 			'id_supplier',
-			$ap->vendor()->first()->id
+			$ap->vendor->id
 		)->sum('grandtotal');
 
 		$payment_total_amount = 0;
@@ -194,14 +195,9 @@ class APAController extends Controller
 			$y = $apa[$j];
 
 			$payment_total_amount += ($y->debit * $ap->exchangerate);
-		}
+        }
 
-		$data['payment_total_amount'] = $payment_total_amount;
-		$data['debt_balance'] = (
-			$data['debt_total_amount'] - $data['payment_total_amount']
-		);
-
-		return $data['debt_balance'];
+        return $payment_total_amount;
 	}
 
     public function datatables(Request $request)

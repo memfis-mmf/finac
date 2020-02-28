@@ -94,15 +94,38 @@ class TrxPayment extends MemfisModel
 	{
 		$apa_tmp = $this->apa;
 
-		if (count($apa_tmp) < 1) {
-			return 'Unapproved';
-		}
+        // if account payable detail is empty
 
-		$ap_tmp = $apa_tmp[0]->ap()->where('approve', 1)->first();
+        if ($this->approve) {
+            $status = 'Approved';
+        }else{
+            $status = 'Unapproved';
+        }
+
+        // check if supplier invoice is used in account payable
+        if (count($apa_tmp) < 1) {
+            if ($this->approve) {
+                return 'Approved';
+            }else{
+                return 'Unapproved';
+            }
+        }
+
+        // get account payable where account payable is approved
+        $ap_tmp = $apa_tmp[0]->ap()->where('approve', 1)->first();
+        if (!$ap_tmp) {
+            if ($this->approve) {
+                return 'Approved';
+            }else{
+                return 'Unapproved';
+            }
+        }
+        // get all account payable same supplier
 		$ap = APayment::where('id_supplier', $ap_tmp->id_supplier)->get();
 
 		$total = 0;
 
+        // loop account payable
 		foreach ($ap as $key_ap) {
 			$apa = $key_ap->apa;
 
@@ -113,13 +136,7 @@ class TrxPayment extends MemfisModel
 
 		if ($total >= ($this->grandtotal_foreign * $this->exchange_rate)) {
 			$status = 'Closed';
-		}else{
-			if ($this->approve) {
-				$status = 'Approved';
-			}else{
-				$status = 'Unapproved';
-			}
-		}
+        }
 
 		return $status;
 	}

@@ -227,11 +227,11 @@ class TrxPaymentController extends Controller
 
     public function datatables()
     {
+        $x = '';
+
 		$data = $alldata = json_decode(
-			TrxPayment::with([
-				'vendor'
-			])->orderBy('id', 'DESC')->get()
-		);
+			TrxPayment::all()
+        );
 
 		$datatable = array_merge([
 			'pagination' => [], 'sort' => [], 'query' => []
