@@ -182,7 +182,8 @@ class APAController extends Controller
         )->first();
 
 		$ap = $apa_tmp->ap;
-		$apa = APaymentA::where('id_payment', $apa_tmp->id_payment)->get();
+        $apa = APaymentA::where('id_payment', $apa_tmp->id_payment)
+        ->get();
 
 		$data['debt_total_amount'] = TrxPayment::where(
 			'id_supplier',

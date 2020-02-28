@@ -166,7 +166,8 @@ class ARAController extends Controller
         )->first();
 
 		$ar = $ara_tmp->ar;
-		$ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)->get();
+        $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
+        ->get();
 
 		$data['debt_total_amount'] = Invoice::where(
 			'id_customer',
