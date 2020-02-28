@@ -771,7 +771,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::with([
 			'customer',
 			'currencies',
-		])->get();
+		])->orderBy('transactiondate', 'desc')->orderBy('id', 'asc')->get();
 
         foreach ($invoices as $invoice) {
 
