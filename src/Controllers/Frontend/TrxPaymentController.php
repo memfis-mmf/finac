@@ -227,10 +227,10 @@ class TrxPaymentController extends Controller
 
     public function datatables()
     {
-        $x = '';
-
 		$data = $alldata = json_decode(
-			TrxPayment::all()
+			TrxPayment::with([
+                'vendor'
+            ])->get()
         );
 
 		$datatable = array_merge([
