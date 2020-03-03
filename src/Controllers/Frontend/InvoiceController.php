@@ -1187,7 +1187,7 @@ class InvoiceController extends Controller
 		$invoice = Invoice::where('uuid', $request->uuid)->first();
 		$quotation = $invoice->quotations;
         $workpackage = $quotation->workpackages;
-        
+
         if ($invoice->currencies->code == 'idr') {
             $invoice->_exchange_rate = $invoice->exchangerate;
         }else{

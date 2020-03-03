@@ -234,6 +234,16 @@ let RefQuoDatatables = {
                         currency = data.currency;
                         var levels = customers.levels[0];
 												atten_array = [];
+
+												console.table({
+													'currency': currency
+												});
+
+												if (currency.code == 'idr') {
+													$('#currency').attr('disabled', 'disabled');
+													$('#exchange_rate1111').attr('disabled', 'disabled')
+												}
+
                         $.each(attention, function (i, attention) {
                             atten_array[i] = attention.name;
                         });

@@ -273,7 +273,8 @@
                                                             </span>
                                                         </label>
 
-                                                        @component('input::numberreadonly')
+                                                        {{-- @component('input::numberreadonly') --}}
+                                                        @component('frontend.common.input.input')
                                                         @slot('id', 'exchange_rate1111')
                                                         @slot('text', 'exchange_rate1111')
                                                         @slot('name', 'exchange_rate1111')
@@ -950,6 +951,7 @@
 
 			if (val == 'idr') {
 				$('#exchange_rate1111').val(1);
+				$('#exchange_rate1111').attr('disabled', 'disabled');
 			}
 		});
 
