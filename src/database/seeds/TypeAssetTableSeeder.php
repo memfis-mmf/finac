@@ -19,42 +19,42 @@ class TypeAssetTableSeeder extends Seeder
         TypeAsset::create([
             'code' => 'BGN',
             'name' => 'BANGUNAN',
-            'AccountCode' => '205.1.2.01',
+            'AccountCode' => '12111004',
             'usefullife' => '240'
         ]);
 
         TypeAsset::create([
             'code' => 'INVKAN',
             'name' => 'INVENTARIS KANTOR',
-            'AccountCode' => '205.1.7.01',
+            'AccountCode' => '12111005',
             'usefullife' => '48'
         ]);
 
         TypeAsset::create([
             'code' => 'KND',
             'name' => 'KENDARAAN',
-            'AccountCode' => '205.1.3.01',
+            'AccountCode' => '12111006',
             'usefullife' => '120'
         ]);
 
         TypeAsset::create([
             'code' => 'LISTRIK',
             'name' => 'LISTRIK',
-            'AccountCode' => '205.1.6.01',
+            'AccountCode' => '12111001',
             'usefullife' => '60'
         ]);
 
         TypeAsset::create([
             'code' => 'MSN',
             'name' => 'MESIN',
-            'AccountCode' => '205.1.4.01',
+            'AccountCode' => '12111009',
             'usefullife' => '120'
         ]);
 
         TypeAsset::create([
             'code' => 'PAB',
             'name' => 'PERALATAN PABRIK',
-            'AccountCode' => '205.1.5.01',
+            'AccountCode' => '12111002',
             'usefullife' => '48'
         ]);
     }
