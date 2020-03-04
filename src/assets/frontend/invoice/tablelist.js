@@ -19,6 +19,19 @@ let discount_amount = 0;
 let tax_amount = 0;
 
 let exchange_rate = parseInt($('#exchange_rate').attr('value'));
+
+function addCommas(nStr)
+{
+		nStr += '';
+		x = nStr.split('.');
+		x1 = x[0];
+		x2 = x.length > 1 ? '.' + x[1] : '';
+		var rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + '.' + '$2');
+		}
+		return x1 + x2;
+}
 // untuk datatable dengan accordion pada row tersebut
 var DatatableAutoColumnHideDemo = function () {
   //== Private functions
@@ -227,7 +240,9 @@ var DatatableAutoColumnHideDemo = function () {
 									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
 								]);
 
-                $("#tax").val(IDRformatter.format(tax_amount));
+                // $("#tax").val(IDRformatter.format(tax_amount));
+								$('.tax-symbol').html('Rp')
+                $("#tax").val(addCommas(tax_amount));
 
                 facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
                 material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
@@ -335,7 +350,10 @@ var DatatableAutoColumnHideDemo = function () {
 									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
 									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
 								]);
-                $("#tax").val(ForeignFormatter.format(tax_amount));
+
+                // $("#tax").val(ForeignFormatter.format(tax_amount));
+								$('.tax-symbol').html('US$')
+                $("#tax").val(addCommas(tax_amount));
 
                 facility_price += t.facilities_price_amount;
                 material_price += t.mat_tool_price;
@@ -394,7 +412,9 @@ var DatatableAutoColumnHideDemo = function () {
 
                 $("#sub_total").val(IDRformatter.format(subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
-                $("#tax").val(IDRformatter.format(tax));
+                // $("#tax").val(IDRformatter.format(tax));
+								$('.tax-symbol').html('Rp')
+                $("#tax").val(addCommas(tax));
                 $("#grand_total").val(IDRformatter.format(grand_total1));
                 $("#grand_total_rupiah").val(IDRformatter.format(convertidr));
                 $("#other_price").val(IDRformatter.format(other_total));
@@ -473,7 +493,9 @@ var DatatableAutoColumnHideDemo = function () {
               } else {
                 $("#sub_total").val(ForeignFormatter.format(subtotal));
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
-                $("#tax").val(ForeignFormatter.format(tax));
+                // $("#tax").val(ForeignFormatter.format(tax));
+								$('.tax-symbol').html('US$')
+                $("#tax").val(addCommas(tax));
                 $("#grand_total").val(ForeignFormatter.format(grand_total1));
                 $("#grand_total_rupiah").val(ForeignFormatter.format(convertidr));
 
@@ -654,7 +676,11 @@ jQuery(document).ready(function () {
     data.append("materialprice",material_price);
     data.append("manhoursprice",manhour_price);
     data.append("discountprice",discount_price);
-    data.append("ppnprice",ppn_price);
+    // data.append("ppnprice",ppn_price);
+    // data.append(
+		// 	"ppnprice",
+		// 	$('#tax').val().split('.').join('')
+		// );
     data.append("schedule_payment",$("#due_payment").val());
     data.append("otherprice",others_price);
     data.append("description", $('textarea#desc').val());

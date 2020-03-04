@@ -158,7 +158,7 @@ class InvoiceController extends Controller
         //$request->merge(['attention' => json_encode($attention)]);
         $percent_friendly = number_format($percent * 100);
         $ppn_percent = 10;
-        $ppn_value = $request->pphvalue;
+        $ppn_value = $request->pphvalue; //this ppnvalue get data from pph and i don't understand why...
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $request->grand_totalrp;
         $description = "";
@@ -386,7 +386,7 @@ class InvoiceController extends Controller
         $percent = $discount_value / $subtotal;
         $percent_friendly = number_format($percent * 100);
         $ppn_percent = 10;
-        $ppn_value = $request->pphvalue;
+        $ppn_value = $request->pphvalue; //this ppnvalue get data from pph and i don't understand why...
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $invoice->grandtotalforeign * $request->exchangerate;
         $description = $request->description;

@@ -706,12 +706,18 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
+                                                    {{-- @component('input::inputreadonly')
                                                     @slot('id', 'tax')
                                                     @slot('class', 'tax')
                                                     @slot('text', '')
                                                     @slot('value', '')
-                                                    @endcomponent
+                                                    @endcomponent --}}
+																									<div class="input-group mb-3">
+																									  <div class="input-group-prepend">
+																									    <span class="input-group-text tax-symbol"></span>
+																									  </div>
+																										<input type="text" id="tax" name="" class="form-control m-input tax" style="" value="" placeholder="">
+																									</div>
                                                 </div>
                                             </div>
 
@@ -904,9 +910,93 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
+		// remove dot separator in currency format
+		function removeDot(val) {
+			return val.split('.').join('');
+		}
+
+		function getSeparator() {
+			let currency = $('#currency').val()
+
+			if (currency == 'idr') {
+				separator = 'Rp ';
+			}
+
+			if (currency == 'usd') {
+				separator = 'US$';
+			}
+
+			return separator;
+		}
+
+		// make input becom integer by remove symbol and remove dot separator
+		function makeInt(param) {
+			let separator = getSeparator();
+			let val = removeDot(param.split(separator)[1]);
+			return parseInt(val);
+		}
+
+		function addCommas(nStr)
+		{
+				nStr += '';
+				x = nStr.split('.');
+				x1 = x[0];
+				x2 = x.length > 1 ? '.' + x[1] : '';
+				var rgx = /(\d+)(\d{3})/;
+				while (rgx.test(x1)) {
+						x1 = x1.replace(rgx, '$1' + '.' + '$2');
+				}
+				return x1 + x2;
+		}
+
     $(document).ready(function() {
 			$('._select2').select2({
 		    placeholder: "Select",
+			});
+
+			$('body').on('input', '#tax', function() {
+
+				let tax = parseInt(removeDot($(this).val()));
+
+        let subtotal = parseInt($("#sub_total_val").val());
+        let discount_amount = parseInt($("#total_discount_val").val());
+        let other_total = parseInt($("#other_price_val").val());
+
+				console.table({
+	        'subtotal' : subtotal,
+	        'discount_amount' : discount_amount,
+	        'other_total' : other_total,
+				});
+
+				let grandtotal = subtotal - discount_amount + tax + other_total;
+				let grandtotalrp = (subtotal - discount_amount + tax + other_total) * $('#exchange_rate1111').val();
+
+				$("#grand_total_val").val(
+					grandtotal
+				);
+
+				$("#grand_total").val(
+					`${getSeparator()}${addCommas(grandtotal)},00`
+				);
+
+				$("#grand_totalrp_val").val(
+					grandtotalrp
+				);
+
+				$("#grand_totalrp").val(
+					`Rp ${addCommas(grandtotalrp)},00`
+				);
+
+			  // skip for arrow keys
+			  if(event.which >= 37 && event.which <= 40) return;
+
+			  // format number
+			  $(this).val(function(index, value) {
+			    return value
+			    .replace(/\D/g, "")
+			    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+			  });
+
 			});
 
       var others_data = "";
