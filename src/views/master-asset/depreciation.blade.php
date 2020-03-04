@@ -53,13 +53,13 @@
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                    Salvage Value @include('label::required')
+                    Salvage Value
                 </label>
 
                 @component('input::number')
                     @slot('id', 'salvage_value')
                     @slot('name', 'salvagevalue')
-                    @slot('value', @$asset->salvagevalue)
+                    @slot('value', (@$asset->salvagevalue)? @$asset->salvagevalue: 0)
                     @slot('text', 'Salvage Value')
                     @slot('input_append', 'IDR')
                 @endcomponent
