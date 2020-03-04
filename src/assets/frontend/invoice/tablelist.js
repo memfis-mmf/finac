@@ -295,11 +295,26 @@ var DatatableAutoColumnHideDemo = function () {
 								discount_price = discount_amount;
 								ppn_price = tax_amount;
 
+								let quotation_currency_value = t.quotations[0].exchange_rate;
+								let multiple = 0;
+
+								// if invoice currency equal to quotation currency
+								//  and invoice currency is not idr
+								if (
+									t.quotations[0].currency.code == $('#currency').val()
+									&& $('#currency').val() != 'idr'
+								) {
+									multiple = $('exchange_rate1111').val();
+								}else{
+									multiple = t.quotations[0].exchange_rate;
+								}
+
                 $("#sub_total_val").val(_subtotal);
                 $("#total_discount_val").val(discount_amount);
 	              $("#grand_total_val").val(grandtotal_amount);
 	              $("#grand_totalrp_val").val(
-									grandtotal_amount * t.quotations[0].exchange_rate
+									// grandtotal_amount * t.quotations[0].exchange_rate
+									grandtotal_amount * multiple
 								);
 								console.table([
 									3,

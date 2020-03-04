@@ -931,7 +931,10 @@ class InvoiceController extends Controller
 
     public function table(Quotation $quotation)
     {
-        $workpackages = $quotation->workpackages()->with('quotations')->get();
+        $workpackages = $quotation->workpackages()->with([
+			'quotations',
+			'quotations.currency',
+		])->get();
         $items = $quotation->item;
         $taxes =  $quotation->taxes->first();
         if ($taxes != null) {
