@@ -54,6 +54,26 @@ class JournalController extends Controller
         return response()->json($journal->first());
     }
 
+    public function unapprove(Request $request)
+    {
+		$journal = Journal::where('uuid', $request->uuid);
+		$journala = $journal->first()->journala;
+
+		if ($this->checkBalance($journala)) {
+			return [
+				'errors' => 'Debit and Credit not balance'
+			];
+		}
+
+		$journal->first()->approvals()->delete();
+
+		$journal->update([
+			'approve' => false
+		]);
+
+        return response()->json($journal->first());
+    }
+
 	public function getType(Request $request)
 	{
 		return response()->json(TypeJurnal::all());
@@ -151,15 +171,31 @@ class JournalController extends Controller
         return response()->json($journal);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
-
 		$data = Journal::with([
 			'type_jurnal',
 			'currency',
 		])->orderBy('transaction_date', 'desc')->orderBy('id', 'asc');
 
-        return DataTables::of($data)->make(true);
+        return DataTables::of($data)
+		->addColumn('unapproved', function(Journal $journal) use ($request) {
+			$html = '';
+
+			if ($request->user()->hasRole('admin') && $journal->approve) {
+				$html = '
+					<a href="javascript:;"
+					class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill unapprove"
+					title="Unapprove" data-uuid="'.$journal->uuid.'">
+						<i class="fa fa-times"></i>
+					</a>
+				';
+			}
+
+			return $html;
+		})
+		->escapeColumns([])
+		->make(true);
     }
 
     public function old_datatables()

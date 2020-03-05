@@ -172,6 +172,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@approve'
 		);
+		Route::post(
+			'/unapprove',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@unapprove'
+		);
 		Route::get(
 			'/type',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@getType'

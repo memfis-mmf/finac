@@ -15,7 +15,7 @@ let Journal = {
 						}
 						return x1 + x2;
         }
-        
+
         let journal_datatable = $('.journal_datatable').DataTable({
           dom: '<"top"f>rt<"bottom">pil',
           scrollX: true,
@@ -55,7 +55,7 @@ let Journal = {
               let _html =
                   '<a href="'+_url+'/journal/print?uuid='+row.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + row.uuid +'">' +
                       '<i class="la la-print"></i>' +
-                  '</a>';
+                  '</a>'+row.unapproved;
 
               if (!row.approve) {
                 _html +=
@@ -286,11 +286,39 @@ let Journal = {
 													timeOut: 3000
 											});
 									} else {
-											toastr.success('Data berhasil disimpan.', 'Sukses', {
+											toastr.success('Approved', 'Success', {
 													timeOut: 3000
 											});
 
-											journal_datatable.reload();
+											journal_datatable.ajax.reload();
+									}
+							}
+					});
+				})
+
+				let unapprove = $('body').on('click', 'a.unapprove', function() {
+					let _uuid = $(this).data('uuid');
+					$.ajax({
+							headers: {
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							},
+							type: 'post',
+							url: '/journal/unapprove',
+							data: {
+									_token: $('input[name=_token]').val(),
+									uuid: _uuid
+							},
+							success: function (data) {
+									if (data.errors) {
+											toastr.error(data.errors, 'Invalid', {
+													timeOut: 3000
+											});
+									} else {
+											toastr.success('Unapproved', 'Success', {
+													timeOut: 3000
+											});
+
+											journal_datatable.ajax.reload();
 									}
 							}
 					});
@@ -513,4 +541,3 @@ let Journal = {
 jQuery(document).ready(function () {
     Journal.init();
 });
-
