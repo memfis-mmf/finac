@@ -716,7 +716,7 @@
 																									  <div class="input-group-prepend">
 																									    <span class="input-group-text tax-symbol"></span>
 																									  </div>
-																										<input type="text" id="tax" name="" class="form-control m-input tax" style="" value="" placeholder="">
+                                                    <input type="text" id="tax" name="" class="form-control m-input tax" style="" value="" placeholder="" readonly="">
 																									</div>
                                                 </div>
                                             </div>
