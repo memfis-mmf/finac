@@ -29,6 +29,7 @@
     </div>
 </div>
 @include('cashbookview::coamodal')
+@include('supplierinvoicegeneralview::modal-create')
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -199,7 +200,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                <button data-target="#coa_modal" data-toggle="modal" type="button" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                                <button data-target="#modal_coa_create" data-toggle="modal" type="button" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>Add Account</span>
                                                     </span>
