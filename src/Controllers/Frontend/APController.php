@@ -736,7 +736,13 @@ class APController extends Controller
 		];
 
 		$total_credit = 0;
-		$total_debit = 0;
+        $total_debit = 0;
+        
+        if (count($apa) < 1) {
+			return redirect()->route('apayment.index')->with([
+				'errors' => 'Please select supplier invoice'
+			]);
+        }
 
 		// looping sebenayak supplier invoice
 		for ($a=0; $a < count($apa); $a++) {
