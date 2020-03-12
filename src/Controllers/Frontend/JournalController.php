@@ -176,7 +176,7 @@ class JournalController extends Controller
 		$data = Journal::with([
 			'type_jurnal',
 			'currency',
-		])->orderBy('transaction_date', 'desc')->orderBy('id', 'asc');
+		])->orderBy('transaction_date', 'desc')->orderBy('id', 'asc')->get();
 
         return DataTables::of($data)
 		->addColumn('unapproved', function(Journal $journal) use ($request) {

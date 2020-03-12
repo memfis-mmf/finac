@@ -185,8 +185,8 @@
                                                 </div>
                                             </div>
                                             <div class="m-portlet m-portlet--mobile">
-                                                <div class="m-portlet__body">
-                                                    <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+                                                <div class="m-portlet__body" style="padding-bottom:90px">
+                                                    {{-- <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                                                         <div class="row align-items-center">
                                                             <div class="col-xl-8 order-2 order-xl-1">
                                                                 <div class="form-group m-form__group row align-items-center">
@@ -210,12 +210,49 @@
                                                                 <div class="m-separator m-separator--dashed d-xl-none"></div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="accountcode_datatable" id="scrolling_both"></div>
+                                                    </div> --}}
+                                                    {{-- <div class="accountcode_datatable" id="scrolling_both"></div> --}}
+                                                    <table class="table table-striped table-bordered table-hover table-checkable accountcode_datatable">
+                                                      <thead>
+                                                        <th>Account Code</th> 
+                                                        <th>Account Name</th> 
+                                                        <th>Debit</th> 
+                                                        <th>Credit</th> 
+                                                        <th>Remark</th> 
+                                                        <th>Action</th> 
+                                                      </thead>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+
+                                  <div class="col-md-6">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div>
+                                                Total Debit
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                          <input type="text" class="form-control" disabled id="total_debit">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div>
+                                                Total Credit
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                          <input type="text" class="form-control" disabled id="total_credit">
+                                        </div>
+                                    </div>
+                                  </div>
+
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">

@@ -2,109 +2,154 @@ let JournalEdit = {
     init: function () {
 
 			let _url = window.location.origin;
-			let _voucher_no = $('input[name=voucher_no]').val();
+      let _voucher_no = $('input[name=voucher_no]').val();
+      
+      function addCommas(nStr)
+      {
+          nStr += '';
+          x = nStr.split('.');
+          x1 = x[0];
+          x2 = x.length > 1 ? '.' + x[1] : '';
+          var rgx = /(\d+)(\d{3})/;
+          while (rgx.test(x1)) {
+              x1 = x1.replace(rgx, '$1' + '.' + '$2');
+          }
+          return x1 + x2;
+      }
 
-			let account_code_table = $('.accountcode_datatable').mDatatable({
-					data: {
-							type: 'remote',
-							source: {
-									read: {
-											method: 'GET',
-											url: '/journala/datatables?voucher_no=' + _voucher_no,
-											map: function (raw) {
-													let dataSet = raw;
+			// let account_code_table_old = $('.accountcode_datatable_old').mDatatable({
+			// 		data: {
+			// 				type: 'remote',
+			// 				source: {
+			// 						read: {
+			// 								method: 'GET',
+			// 								url: '/journala/datatables?voucher_no=' + _voucher_no,
+			// 								map: function (raw) {
+			// 										let dataSet = raw;
 
-													if (typeof raw.data !== 'undefined') {
-															dataSet = raw.data;
-													}
+			// 										if (typeof raw.data !== 'undefined') {
+			// 												dataSet = raw.data;
+			// 										}
 
-													return dataSet;
-											}
-									}
-							},
-							pageSize: 10,
-							serverPaging: !0,
-							serverSorting: !0
-					},
-					layout: {
-							theme: 'default',
-							class: '',
-							scroll: false,
-							footer: !1
-					},
-					sortable: !0,
-					filterable: !1,
-					pagination: !0,
-					search: {
-							input: $('#generalSearch')
-					},
-					toolbar: {
-							items: {
-									pagination: {
-											pageSizeSelect: [5, 10, 20, 30, 50, 100]
-									}
-							}
-					},
-					columns: [
-							{
-									field: '#',
-									title: 'No',
-									width:'40',
-									sortable: 'asc',
-									filterable: !1,
-									textAlign: 'center',
-									template: function (row, index, datatable) {
-											return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
-									}
-							},
-							{
-									field: 'coa.code',
-									title: 'Account Code',
-									sortable: 'asc',
-									filterable: !1,
-							},
-							{
-									field: 'coa.name',
-									title: 'Account Name',
-									sortable: 'asc',
-									filterable: !1,
-							},
-							{
-									field: 'debit_currency',
-									title: 'Debit',
-									sortable: 'asc',
-									filterable: !1,
-							},
-							{
-									field: 'credit_currency',
-									title: 'Credit',
-									sortable: 'asc',
-									filterable: !1,
-							},
-							{
-									field: 'description',
-									title: 'Remark',
-									sortable: 'asc',
-									filterable: !1,
-							},
-							{
-									field: 'Actions',
-									width: 110,
-									title: 'Actions',
-									sortable: !1,
-									overflow: 'visible',
-									template: function (t, e, i) {
-											return (
-													'<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + ' data-description='+t.coa.description+'>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-													'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-													t.uuid +
-													' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-													);
-									}
-							}
+			// 										return dataSet;
+			// 								}
+			// 						}
+			// 				},
+			// 				pageSize: 5,
+			// 				serverPaging: !0,
+			// 				serverSorting: !0
+			// 		},
+			// 		layout: {
+			// 				theme: 'default',
+			// 				class: '',
+			// 				scroll: false,
+			// 				footer: !1
+			// 		},
+			// 		sortable: !0,
+			// 		filterable: !1,
+			// 		pagination: !0,
+			// 		search: {
+			// 				input: $('#generalSearch')
+			// 		},
+			// 		toolbar: {
+			// 				items: {
+			// 						pagination: {
+			// 								pageSizeSelect: [5, 10, 20, 30, 50, 100]
+			// 						}
+			// 				}
+			// 		},
+			// 		columns: [
+			// 				{
+			// 						field: '#',
+			// 						title: 'No',
+			// 						width:'40',
+			// 						sortable: 'asc',
+			// 						filterable: !1,
+			// 						textAlign: 'center',
+			// 						template: function (row, index, datatable) {
+			// 								return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
+			// 						}
+			// 				},
+			// 				{
+			// 						field: 'coa.code',
+			// 						title: 'Account Code',
+			// 						sortable: 'asc',
+			// 						filterable: !1,
+			// 				},
+			// 				{
+			// 						field: 'coa.name',
+			// 						title: 'Account Name',
+			// 						sortable: 'asc',
+			// 						filterable: !1,
+			// 				},
+			// 				{
+			// 						field: 'debit_currency',
+			// 						title: 'Debit',
+			// 						sortable: 'asc',
+			// 						filterable: !1,
+			// 				},
+			// 				{
+			// 						field: 'credit_currency',
+			// 						title: 'Credit',
+			// 						sortable: 'asc',
+			// 						filterable: !1,
+			// 				},
+			// 				{
+			// 						field: 'description',
+			// 						title: 'Remark',
+			// 						sortable: 'asc',
+			// 						filterable: !1,
+			// 				},
+			// 				{
+			// 						field: 'Actions',
+			// 						width: 110,
+			// 						title: 'Actions',
+			// 						sortable: !1,
+			// 						overflow: 'visible',
+			// 						template: function (t, e, i) {
+			// 								return (
+			// 										'<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + ' data-description='+t.coa.description+'>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+			// 										'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+			// 										t.uuid +
+			// 										' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+			// 										);
+			// 						}
+			// 				}
 
-					]
-			});
+			// 		]
+      // });
+
+      let account_code_table = $('.accountcode_datatable').DataTable({
+        dom: '<"top"f>rt<"bottom">pil',
+        scrollX: true,
+        processing: true,
+        serverSide: true,
+        ajax: '/journala/datatables?voucher_no=' + _voucher_no,
+        columns: [
+          {data: 'coa.code'},
+          {data: 'coa.name'},
+          {data: 'debit_currency'},
+          {data: 'credit_currency'},
+          {data: 'description'},
+          {data: '', searchable: false, render: function (data, type, row) {
+            $("#total_debit").val(
+              addCommas(parseInt(row.total_debit))
+            );
+            $("#total_credit").val(
+              addCommas(parseInt(row.total_credit))
+            );
+
+            let _html =
+              '<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + row.uuid + ' data-description='+row.coa.description+'>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+              '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+              row.uuid +
+              ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
+              
+
+            return (_html);
+          }}
+        ]
+      });
 
 			let dispay_modal = $('body').on('click', '#show_modal_journala', function() {
 				let _uuid = $(this).data('uuid');
@@ -112,8 +157,7 @@ let JournalEdit = {
 				let _modal = $('#modal_coa_edit');
 				let form = _modal.find('form');
 				let tr = $(this).parents('tr');
-				let tr_index = tr.index();
-				let data = account_code_table.row(tr).data().mDatatable.dataSet[tr_index];
+				let data = account_code_table.row(tr).data();
 				let amount = '';
 
 				console.table(data);
@@ -142,7 +186,10 @@ let JournalEdit = {
 					let button = $(this);
 					let form = button.parents('form');
 					let uuid = form.find('input[name=uuid]').val();
-					let _data = form.serialize();
+          let _data = form.serialize();
+          _data += `
+            &voucher_no=${_voucher_no}
+          `;
 
 					$.ajax({
 							headers: {
@@ -170,7 +217,7 @@ let JournalEdit = {
 										});
 
 										$('#modal_coa_edit').modal('hide');
-										account_code_table.reload();
+										account_code_table.ajax.reload();
 									}
 							}
 					});
@@ -209,7 +256,7 @@ let JournalEdit = {
 										});
 
 										$('#modal_coa_create').modal('hide');
-										account_code_table.reload();
+										account_code_table.ajax.reload();
 
 										form.find('input#amount').val('');
 										form.find('input[type=radio]').prop('checked', false);
@@ -322,7 +369,7 @@ let JournalEdit = {
 
 							$('#coa_modal').modal('hide');
 
-							account_code_table.reload();
+							account_code_table.ajax.reload();
 
 							toastr.success('Data Saved Successfully', 'Success', {
 								timeOut: 2000
@@ -360,7 +407,7 @@ let JournalEdit = {
 														}
 												);
 
-												account_code_table.reload();
+												account_code_table.ajax.reload();
 										},
 										error: function (jqXhr, json, errorThrown) {
 												let errorsHtml = '';
