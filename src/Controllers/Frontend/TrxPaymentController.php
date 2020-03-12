@@ -333,11 +333,13 @@ class TrxPaymentController extends Controller
 
 	public function coaUse(Request $request)
 	{
-		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
+        $trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 
 		TrxPaymentB::create([
 			'transaction_number' => $trxpayment->transaction_number,
 			'code' => $request->account_code,
+			'total' => $request->amount,
+			'description' => $request->remark,
 		]);
 	}
 

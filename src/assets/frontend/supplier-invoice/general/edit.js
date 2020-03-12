@@ -298,8 +298,70 @@ let SupplierInvoice = {
 							}
 					}
 			});
-		});
+    });
 
+    let simpan_detail_supplier_invoice = $('body').on('click', '#create_detail_supplier', function () {
+
+        let button = $(this);
+        let form = button.parents('form');
+        let uuid = form.find('input[name=uuid]').val();
+        let _data = form.serialize();
+
+        console.table(_data);
+        console.table(
+          _data.amount
+        );
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            url: _url+'/supplier-invoice/coa/use',
+            data : {
+              'account_code' : form.find('[name=account_code]').val(),
+              'amount' : form.find('[name=amount]').val(),
+              'si_uuid' : _si_uuid,
+              'remark' : form.find('[name=remark]').val(),
+            },
+            success: function (data) {
+                if (data.errors) {
+                    if (data.errors.code) {
+                      $('#code-error').html(data.errors.code[0]);
+
+                      document.getElementById('code').value = code;
+                      document.getElementById('name').value = name;
+                      document.getElementById('type').value = type;
+                      document.getElementById('level').value = level;
+                      document.getElementById('description').value = description;
+                      coa_reset();
+                    }
+
+                } else {
+                  toastr.success('Data Saved Successfully.', 'Success', {
+                      timeOut: 2000
+                  });
+
+                  $('#modal_coa_create').modal('hide');
+                  general_table.reload();
+
+                  form.find('input#amount').val('');
+                  form.find('input[type=radio]').prop('checked', false);
+                  form.find('textarea:not([type=hidden])').val('');
+                  $('#_accountcode').val('').trigger('change');
+                }
+            }
+        });
+    });
+
+    $('#_accountcode').select2({
+      ajax: {
+        url: _url+'/journal/get-account-code-select2',
+        dataType: 'json'
+      },
+      minimumInputLength: 3,
+      // templateSelection: formatSelected
+    });
 	}
 };
 
