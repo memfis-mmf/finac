@@ -456,6 +456,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/coa/items/datatables',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@coaDatatables'
 		)->name('trxpayment.grn.datatables');
+		Route::get(
+			'/print',
+			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@print'
+		);
 
 		//GRN
 		Route::post(
@@ -489,6 +493,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/grn/{trxpayment}/edit',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@grnEdit'
+		);
+		Route::get(
+			'grn/print',
+			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@grnPrint'
 		);
 		Route::get(
 			'/get-vendors',

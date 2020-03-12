@@ -142,11 +142,20 @@
                                 <td width="25%" valign="top"><b>Received From</b></td>
                                 <td width="1%" valign="top">:</td>
                                 <td width="74%" valign="top">
-                                    PT. Dunia Saftindo <br>
-                                    Jl. Indonesia Raya 1/20 <br>
-                                    Phone : 081223232 <br>
-                                    Fax : 12312123 <br>
-                                    Email : -
+                                    {{$header->vendor->name}}<br>
+                                    {{
+                                      (@$header->vendor->addresses->first())? @$header->vendor->addresses->first()->address: '-'
+                                    }}<br>
+                                    Phone : {{
+                                      (@$header->vendor->phones->first())? @$header->vendor->phones->first()->number: '-'
+                                    }}<br>
+                                    Fax : {{
+                                      (@$header->vendor->faxes->first())? @$header->vendor->faxes->first()->number: '-'
+                                    }}<br>
+                                    Email : {{
+                                      (@$header->vendor->emails->first()->address)? @$header->vendor->emails->first()->address: '-'
+                                    }}
+
                                 </td>
                             </tr>
                         </table>

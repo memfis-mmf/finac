@@ -453,6 +453,29 @@ class TrxPaymentController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
+    public function print(Request $request)
+    {
+
+		$trxpayment = TrxPayment::where('uuid', $request->uuid)->first();
+
+		$trxpaymentb = json_decode(
+			TrxPaymentB::where(
+				'transaction_number', $trxpayment->transaction_number
+			)->with([
+                'coa',
+                'vendor.addressess'
+			])->get()
+        );
+
+        $data = [
+            'header' => $trxpayment,
+            'detail' => $trxpaymentb
+        ];
+
+        $pdf = \PDF::loadView('formview::supplier-invoice-general', $data);
+        return $pdf->stream();
+    }
+
 	/*
 	 *GRN Section
 	 */
