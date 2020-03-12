@@ -114,3 +114,15 @@ Route::get('/general-ledger-docs', function () {
     $pdf->setPaper('A4', 'landscape');
     return $pdf->stream();
 });
+
+Route::get('/supplier-invoice-grn', function () {
+    $pdf = \PDF::loadView('formview::supplier-invoice-grn');
+    $pdf->setPaper('A5', 'landscape');
+    return $pdf->stream();
+});
+
+Route::get('/supplier-invoice-general', function () {
+    $pdf = \PDF::loadView('formview::supplier-invoice-general');
+    $pdf->setPaper('A5', 'landscape');
+    return $pdf->stream();
+});
