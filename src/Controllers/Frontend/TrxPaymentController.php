@@ -456,20 +456,18 @@ class TrxPaymentController extends Controller
     public function print(Request $request)
     {
 
-		$trxpayment = TrxPayment::where('uuid', $request->uuid)->first();
+        $trxpayment = TrxPayment::where('uuid', $request->uuid)->first();
 
-		$trxpaymentb = json_decode(
-			TrxPaymentB::where(
-				'transaction_number', $trxpayment->transaction_number
-			)->with([
-                'coa',
-                'vendor.addressess'
-			])->get()
-        );
+		$trxpaymentb = TrxPaymentB::where(
+            'transaction_number', $trxpayment->transaction_number
+        )->with([
+            'coa'
+        ])->get();
 
         $data = [
             'header' => $trxpayment,
-            'detail' => $trxpaymentb
+            'detail' => $trxpaymentb,
+            'total' => 0,
         ];
 
         $pdf = \PDF::loadView('formview::supplier-invoice-general', $data);
@@ -868,6 +866,29 @@ class TrxPaymentController extends Controller
 		]);
 
         return response()->json($data->first());
+    }
+
+    public function grnPrint(Request $request)
+    {
+
+        $trxpayment = TrxPayment::where('uuid', $request->uuid)->first();
+
+		$trxpaymenta = TrxPaymentA::where(
+            'transaction_number', $trxpayment->transaction_number
+        )->with([
+            'grn',
+            'grn.purchase_order',
+            'si',
+        ])->get();
+
+        $data = [
+            'header' => $trxpayment,
+            'detail' => $trxpaymenta,
+            'total' => 0,
+        ];
+
+        $pdf = \PDF::loadView('formview::supplier-invoice-grn', $data);
+        return $pdf->stream();
     }
 
 }

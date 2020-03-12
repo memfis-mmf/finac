@@ -123,7 +123,7 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <td>Printed on 26 January 2020 18:53
+                    <td>Printed on {{$header->print_date}}
                     </td>
                     <td align="right" valign="bottom"> <span class="page-number">Page </span></td>
                 </tr>
@@ -142,55 +142,54 @@
                                 <td width="25%" valign="top"><b>Received From</b></td>
                                 <td width="1%" valign="top">:</td>
                                 <td width="74%" valign="top">
-                                    {{$header->vendor->name}}<br>
-                                    {{
-                                      (@$header->vendor->addresses->first())? @$header->vendor->addresses->first()->address: '-'
-                                    }}<br>
-                                    Phone : {{
-                                      (@$header->vendor->phones->first())? @$header->vendor->phones->first()->number: '-'
-                                    }}<br>
-                                    Fax : {{
-                                      (@$header->vendor->faxes->first())? @$header->vendor->faxes->first()->number: '-'
-                                    }}<br>
-                                    Email : {{
-                                      (@$header->vendor->emails->first()->address)? @$header->vendor->emails->first()->address: '-'
-                                    }}
-
+                                  {{$header->vendor->name}}<br>
+                                  {{
+                                    (@$header->vendor->addresses->first())? @$header->vendor->addresses->first()->address: '-'
+                                  }}<br>
+                                  Phone : {{
+                                    (@$header->vendor->phones->first())? @$header->vendor->phones->first()->number: '-'
+                                  }}<br>
+                                  Fax : {{
+                                    (@$header->vendor->faxes->first())? @$header->vendor->faxes->first()->number: '-'
+                                  }}<br>
+                                  Email : {{
+                                    (@$header->vendor->emails->first()->address)? @$header->vendor->emails->first()->address: '-'
+                                  }}
                                 </td>
                             </tr>
                         </table>
                     </td>
                     <td width="40%" valign="top">
-                        <table width="100%%">
+                        <table width="100%">
                             <tr>
                                 <td width="40%" valign="top"><b>Receipt No.</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">SITR-YYYY/MM/00001</td>
+                                <td width="59%" valign="top">{{$header->transaction_number}}</td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>Date</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">16/02/1220</td>
+                                <td width="59%" valign="top">{{date('Y-m-d', strtotime($header->transaction_date))}}</td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>Term of Payment</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">30 Days</td>
+                                <td width="59%" valign="top">{{$header->closed}} Day</td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>Due Date</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">Noted TW</td>
+                                <td width="59%" valign="top">{{$header->due_date}}</td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>Currency</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">IDR</td>
+                                <td width="59%" valign="top">{{$header->currencies->code}}</td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>Rate</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">1</td>
+                                <td width="59%" valign="top">{{number_format($header->exchange_rate, 0, 0, '.')}}</td>
                             </tr>
                         </table>
                     </td>
@@ -211,14 +210,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 4; $i++)
+                  @foreach ($detail as $item)
                     <tr>
-                        <td valign="top" align="center" width="20%">Ambil dari Account Code</td>
-                        <td valign="top" align="center" width="20%">Ambil dari Account Name</td>
-                        <td valign="top" align="center" width="30%">Ambil dari Description</td>
-                        <td valign="top" align="right" width="30%">720.000.000.000.000,00</td>
+                      <td valign="top" align="center" width="20%">{{$item->coa->code}}</td>
+                      <td valign="top" align="center" width="20%">{{$item->coa->name}}</td>
+                      <td valign="top" align="center" width="30%">{{$item->coa->description}}</td>
+                      <td valign="top" align="right" width="30%">{{number_format($item->total, 0, 0, '.')}} </td>
                     </tr>
-                    @endfor
+                    @php
+                        $total += $item->total
+                    @endphp
+                  @endforeach
                 </tbody>
             </table>
         </div>
@@ -234,7 +236,7 @@
                                 <tr>
                                     <td width="10%" valign="top"><b>Remark</b></td>
                                     <td width="1%" valign="top">:</td>
-                                    <td width="89%" valign="top">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum, consequuntur molestias nisi corporis eum minus expedita tenetur fugiat quod similique qui mollitia. Laboriosam ullam ipsum ex, architecto neque blanditiis consequuntur?</td>
+                                    <td width="89%" valign="top">{{$header->description}} </td>
                                 </tr>
                             </table>
                         </div>
@@ -243,7 +245,7 @@
                         <table width="100%">
                             <tr>
                                 <td width="40%" valign="top"><b>GRAND TOTAL</b></td>
-                                <td width="60%" valign="top" align="right"><b>720.720.000.000.000,00</b></td>
+                                <td width="60%" valign="top" align="right"><b>{{number_format($total, 0, 0, '.')}}</b></td>
                             </tr>
                         </table>
                     </td>
@@ -266,9 +268,9 @@
                             </tr>
                             <tr>
                                 <td align="center">
-                                    User Name Approved SI
-                                    <hr>
-                                    Department User
+                                  {{@$header->approvals->first()->conductedBy->full_name}}
+                                  <hr>
+                                  {{@$header->department}}
                                 </td>
                             </tr>
                         </table>

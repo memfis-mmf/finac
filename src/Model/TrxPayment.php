@@ -41,9 +41,11 @@ class TrxPayment extends MemfisModel
 		'total',
 		'created_by',
 		'updated_by',
-		'approved_by',
+        'approved_by',
+        'department',
 		'status',
 		'due_date',
+		'print_date',
 	];
 
     public function approvals()
@@ -54,6 +56,17 @@ class TrxPayment extends MemfisModel
 	public function getApprovedByAttribute()
 	{
 		return @User::find($this->approvals->first()->conducted_by);
+    }
+
+	public function getDepartmentAttribute()
+	{
+        if (@$this->approvals->first()) {
+            $result = @$this->approvals->first()->conductedBy->department->last()->name;
+        }else{
+            $result = '';
+        }
+
+		return $result;
 	}
 
 	public function getCreatedByAttribute()
@@ -145,6 +158,13 @@ class TrxPayment extends MemfisModel
 	{
 		$date_tmp = new Carbon($this->transaction_date);
 		$date = $date_tmp->addDays($this->closed)->format('Y-m-d');
+
+		return $date;
+    }
+
+	public function getPrintDateAttribute()
+	{
+		$date = Carbon::now()->format('d F Y H:i');
 
 		return $date;
 	}
