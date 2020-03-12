@@ -211,14 +211,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                  @foreach ($collection as $item)
+                  @foreach ($detail as $item)
                     <tr>
-                      <td valign="top" align="center" width="20%">{{$detail->grn->purchase_order->number}}</td>
-                      <td valign="top" align="center" width="20%">{{$detail->grn->serial_number}}</td>
-                      <td valign="top" align="center" width="20%">Ambil dari GRN</td>
-                      <td valign="top" align="center" width="20%">Ambil dari inputan no si</td>
-                      <td valign="top" align="right" width="20%">720.000.000.000.000,00</td>
+                      <td valign="top" align="center" width="20%">{{$item->grn->purchase_order->number}}</td>
+                      <td valign="top" align="center" width="20%">{{$item->grn->serial_number}}</td>
+                      <td valign="top" align="center" width="20%">{{json_decode($item->grn->additionals)->SupplierRefNo}} </td>
+                      <td valign="top" align="center" width="20%">{{$item->description}}</td>
+                      <td valign="top" align="right" width="20%">{{number_format($item->total, 0, 0, '.')}} </td>
                     </tr>
+                    @php
+                        $total += $item->total
+                    @endphp
                   @endforeach
                 </tbody>
             </table>
@@ -248,11 +251,11 @@
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>VAT 10%</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format($total * 0.1, 0, 0, '.')}}</b></td>
+                                <td width="60%" valign="top" align="right"><b>{{number_format($header->vat_po_percent / 100 * $total, 0, 0, '.')}}</b></td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>GRAND TOTAL</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format($total * 1.1, 0, 0, '.')}}</b></td>
+                                <td width="60%" valign="top" align="right"><b>{{number_format(($header->vat_po_percent / 100 * $total) + $total, 0, 0, '.')}}</b></td>
                             </tr>
                         </table>
                     </td>
@@ -277,7 +280,7 @@
                                 <td align="center">
                                   {{@$header->approvals->first()->conductedBy->full_name}}
                                   <hr>
-                                  {{@$header->approvals->first()->conductedBy->department->last()->name}}
+                                  {{@$header->department}}
                                 </td>
                             </tr>
                         </table>

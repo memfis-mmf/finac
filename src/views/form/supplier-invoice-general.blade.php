@@ -214,7 +214,7 @@
                     <tr>
                       <td valign="top" align="center" width="20%">{{$item->coa->code}}</td>
                       <td valign="top" align="center" width="20%">{{$item->coa->name}}</td>
-                      <td valign="top" align="center" width="30%">{{$item->coa->description}}</td>
+                      <td valign="top" align="center" width="30%">{{$item->description}}</td>
                       <td valign="top" align="right" width="30%">{{number_format($item->total, 0, 0, '.')}} </td>
                     </tr>
                     @php

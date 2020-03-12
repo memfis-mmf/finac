@@ -881,6 +881,9 @@ class TrxPaymentController extends Controller
             'si',
         ])->get();
 
+        $po = $trxpaymenta[0]->grn->purchase_order;
+        $trxpayment->vat_po_percent = ($po->total_after_tax - $po->total_before_tax) / $po->total_before_tax * 100;
+
         $data = [
             'header' => $trxpayment,
             'detail' => $trxpaymenta,
