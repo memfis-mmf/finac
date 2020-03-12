@@ -300,20 +300,30 @@ let SupplierInvoice = {
 			});
     });
 
-    let simpan_journala = $('body').on('click', '#create_detail_supplier', function () {
+    let simpan_detail_supplier_invoice = $('body').on('click', '#create_detail_supplier', function () {
 
         let button = $(this);
         let form = button.parents('form');
         let uuid = form.find('input[name=uuid]').val();
         let _data = form.serialize();
 
+        console.table(_data);
+        console.table(
+          _data.amount
+        );
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'post',
-            url: `/journala`,
-            data: _data,
+            url: _url+'/supplier-invoice/coa/use',
+            data : {
+              'account_code' : form.find('[name=account_code]').val(),
+              'amount' : form.find('[name=amount]').val(),
+              'si_uuid' : _si_uuid,
+              'remark' : form.find('[name=remark]').val(),
+            },
             success: function (data) {
                 if (data.errors) {
                     if (data.errors.code) {
@@ -333,7 +343,7 @@ let SupplierInvoice = {
                   });
 
                   $('#modal_coa_create').modal('hide');
-                  account_code_table.reload();
+                  general_table.reload();
 
                   form.find('input#amount').val('');
                   form.find('input[type=radio]').prop('checked', false);
