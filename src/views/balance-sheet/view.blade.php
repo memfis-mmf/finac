@@ -166,14 +166,8 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <div class="action-buttons">
-                                        {{-- @component('buttons::submit')
-                                            @slot('type', 'button')
-                                            @slot('id','printview')
-                                            @slot('text','Print')
-                                            @slot('icon','fa-print')
-                                        @endcomponent --}}
-
-                                        @include('buttons::back')
+                                      <a href="" class="btn btn-primary">Print</a>
+                                      @include('buttons::back')
                                     </div>
                                 </div>
                             </div>

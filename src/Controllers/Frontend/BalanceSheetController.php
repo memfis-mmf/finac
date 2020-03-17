@@ -9,6 +9,10 @@ use App\Models\Currency;
 use Carbon\Carbon;
 use memfisfa\Finac\Model\QueryFunction as QF;
 
+//use for export
+use memfisfa\Finac\Model\Exports\BSExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class BalanceSheetController extends Controller
 {
     public function index()
