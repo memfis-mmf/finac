@@ -224,12 +224,21 @@
                                                             Date @include('frontend.common.label.required')
                                                         </label>
 
-                                                        @component('input::inputreadonly')
+                                                        {{-- @component('input::inputreadonly')
                                                         @slot('id', 'date')
                                                         @slot('text', 'Date')
                                                         @slot('name', 'date')
                                                         @slot('value', $today)
                                                         @slot('id_error','requested_at')
+                                                        @endcomponent --}}
+
+                                                        @component('input::datepicker')
+                                                          @slot('id', 'date')
+                                                          @slot('text', 'Date')
+                                                          @slot('name', 'date')
+                                                          @slot('id_error', 'date')
+                                                          @slot('value', $invoice->transactiondate)
+                                                          @slot('id_error','requested_at')
                                                         @endcomponent
                                                     </div>
 
@@ -989,7 +998,7 @@
 <script src="{{ asset('js/frontend/functions/select2/attn.js') }}"></script>
 
 <script src="{{ asset('js/frontend/quotation/form-reset.js') }}"></script>
-<!--<script src="{{ asset('js/frontend/functions/datepicker/date.js')}}"></script>-->
+<script src="{{ asset('js/frontend/functions/datepicker/date.js')}}"></script>
 <!--<script src="{{ asset('js/frontend/quotation/workpackage.js') }}"></script>-->
 <script src="{{ asset('js/frontend/quotation/create.js') }}"></script>
 <!--<script src="{{ asset('js/frontend/quotation/repeater.js') }}"></script>-->

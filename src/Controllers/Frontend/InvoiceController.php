@@ -139,7 +139,7 @@ class InvoiceController extends Controller
         $id_branch = 1;
         $closed = 0;
         $transaction_number = Invoice::generateCode();
-        $transaction_date = Carbon::today()->toDateString();
+        $transaction_date = $request->date;
         $customer_id = $customer->id;
         $currency_id = $currency->id;
         $quotation_id = $quotation->id;
@@ -390,40 +390,46 @@ class InvoiceController extends Controller
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $invoice->grandtotalforeign * $request->exchangerate;
         $description = $request->description;
+        $transaction_date = $request->date;
 
         $invoice1 = Invoice::where('id', $invoice->id)
-            ->update([
-                'currency' => $currency_id,
-                'exchangerate' => $exchange_rate,
-                // 'discountpercent' => $percent_friendly,
-                // 'discountvalue' => $discount_value,
-                // 'ppnpercent' => $ppn_percent,
-                // 'ppnvalue' => $ppn_value,
-                'id_bank' => $bankaccount->id,
-                // 'grandtotalforeign' => $grandtotalfrg,
-                'grandtotal' => $grandtotalidr,
-                // 'accountcode' => $coa->id,
-                'description' => $description,
-	            'presdir' => $request->presdir,
-	            'location' => $request->location,
-	            'company_department' => $request->company_department,
-            ]);
+        ->update([
+            'currency' => $currency_id,
+            'exchangerate' => $exchange_rate,
+            // 'discountpercent' => $percent_friendly,
+            // 'discountvalue' => $discount_value,
+            // 'ppnpercent' => $ppn_percent,
+            // 'ppnvalue' => $ppn_value,
+            'id_bank' => $bankaccount->id,
+            // 'grandtotalforeign' => $grandtotalfrg,
+            'grandtotal' => $grandtotalidr,
+            // 'accountcode' => $coa->id,
+            'description' => $description,
+            'presdir' => $request->presdir,
+            'location' => $request->location,
+            'company_department' => $request->company_department,
+            'transactiondate' => $transaction_date,
+        ]);
 
         //dd($invoice);
-        $trxinvoice = Trxinvoice::where('id', $invoice->id)
-            ->update([
-                'currency' => $currency_id,
-                'exchangerate' => $exchange_rate,
-                'discountpercent' => $percent_friendly,
-                'discountvalue' => $discount_value,
-                'ppnpercent' => $ppn_percent,
-                'ppnvalue' => $ppn_value,
-                'id_bank' => $bankaccount->id,
-                'grandtotalforeign' => $grandtotalfrg,
-                'grandtotal' => $grandtotalidr,
-                // 'accountcode' => $coa->id,
-                'description' => $description,
-            ]);
+        $trxinvoice = Trxinvoice::where(
+            'transactionnumber', 
+            $invoice->transactionnumber
+        )
+        ->update([
+            'currency' => $currency_id,
+            'exchangerate' => $exchange_rate,
+            'discountpercent' => $percent_friendly,
+            'discountvalue' => $discount_value,
+            'ppnpercent' => $ppn_percent,
+            'ppnvalue' => $ppn_value,
+            'id_bank' => $bankaccount->id,
+            'grandtotalforeign' => $grandtotalfrg,
+            'grandtotal' => $grandtotalidr,
+            // 'accountcode' => $coa->id,
+            'description' => $description,
+            'transactiondate' => $transaction_date,
+        ]);
 
         $manhours_ins = Invoicetotalprofit::where('type', 'manhours')
 		->where('invoice_id', $invoice->id)
