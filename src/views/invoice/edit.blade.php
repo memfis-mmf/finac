@@ -586,6 +586,13 @@
                                     <center>
                                         <h3 id="subjectquo">Subject</h3>
                                     </center>
+                                    <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
+                                      <thead>
+                                        <th>No</th> 
+                                        <th>Detail</th> 
+                                        <th>Total</th>
+                                      </thead>
+                                    </table>
                                     <br />
                                     <div class="summary_datatable" id="scrolling_both"></div>
                                     <br>
