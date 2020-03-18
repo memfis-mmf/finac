@@ -39,6 +39,27 @@ class BalanceSheetController extends Controller
 		];
 
         return view('balancesheetview::view', $data);
+    }
+
+	public function export(Request $request)
+	{
+		$date = $this->convertDate($request->daterange);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		$tmp_data = $this->getData($beginDate, $endingDate);
+		$viewGL = $this->getViewGL($tmp_data);
+
+		$data = [
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+			'data' => $viewGL['data'],
+			'totalActiva' => $viewGL['totalActiva'],
+			'totalPasiva' => $viewGL['totalPasiva']
+		];
+
+		return Excel::download(new BSExport($data), 'bs.xlsx');
 	}
 
 	public function getViewGL($tmp_data)

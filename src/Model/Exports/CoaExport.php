@@ -23,11 +23,15 @@ class CoaExport implements FromArray
 				'Description',
 				'Date Created',
 			]
-		];
+        ];
 
 		$data = array_merge($header, json_decode($coa));
 
 		return $data;
     }
-}
 
+    public function startCell(): string
+    {
+        return 'B2';
+    }
+}
