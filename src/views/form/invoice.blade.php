@@ -116,6 +116,7 @@
                 <tr>
                     <!-- {{-- <td><b>Form No : F02-1234</b></td> --}} -->
                     <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by->name }} ; </span> </td>
+                    <td>  <span style="margin-left:6px;">Timestamp : {{ @$invoice->created_at }} ; </span> </td>
                     <td style="text-align:right">
                         <i>
                             Original
