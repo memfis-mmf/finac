@@ -166,7 +166,8 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <div class="action-buttons">
-                                      <a href="{{route('balancesheet.export').'?daterange='.Request::get('daterange')}}" class="btn btn-primary">Print</a>
+                                      <a href="{{route('balancesheet.export').'?daterange='.Request::get('daterange')}}" class="btn btn-primary">Export to excel</a>
+                                      <a href="{{route('balancesheet.print').'?daterange='.Request::get('daterange')}}" class="btn btn-primary">Print</a>
                                       @include('buttons::back')
                                     </div>
                                 </div>

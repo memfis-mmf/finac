@@ -184,7 +184,17 @@ class BalanceSheetController extends Controller
 		$endingDate = $date[1];
 
 		$tmp_data = $this->getData($beginDate, $endingDate);
+		$viewGL = $this->getViewGL($tmp_data);
 
-		return $tmp_data;
+		$data = [
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+			'data' => $viewGL['data'],
+			'totalActiva' => $viewGL['totalActiva'],
+			'totalPasiva' => $viewGL['totalPasiva']
+		];
+
+        $pdf = \PDF::loadView('formview::view-bs', $data);
+        return $pdf->stream();
 	}
 }
