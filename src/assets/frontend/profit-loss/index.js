@@ -21,6 +21,13 @@ let ProfitLoss = {
 				let date = $('#daterange_profitloss').val();
 
 				location.href=`${href}?daterange=${date}`;
+      })
+
+			$('body').on('click', '.detail-pl', function() {
+				let href = $(this).data('href');
+				let date = $('#daterange_profitloss').val();
+
+				location.href=`${href}?daterange=${date}`;
 			})
 
     }

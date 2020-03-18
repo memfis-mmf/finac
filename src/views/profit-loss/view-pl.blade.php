@@ -190,6 +190,13 @@
                                                 <span>Print</span>
                                             </span>
                                         </a>
+                                        <a href="{{url('')}}/profit-loss/export-view-pl?daterange={{$daterange}}"
+                                            class="btn btn-success btn-md add">
+                                            <span>
+                                                <i class="fa fa-file-download"></i>
+                                                <span>Export to excel</span>
+                                            </span>
+                                        </a>
 
                                         @include('buttons::back')
                                     </div>

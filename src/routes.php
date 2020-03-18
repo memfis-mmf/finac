@@ -344,17 +344,21 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\ProfitLossController@viewPL'
 		)->name('profitloss.view.pl');
 		Route::get(
-			'/detail-pl',
-			'memfisfa\Finac\Controllers\Frontend\ProfitLossController@detailPL'
-		)->name('profitloss.detail.pl');
-		Route::get(
 			'/print-view-pl',
 			'memfisfa\Finac\Controllers\Frontend\ProfitLossController@printViewPL'
 		)->name('profitloss.print');
 		Route::get(
+			'/export-view-pl',
+			'memfisfa\Finac\Controllers\Frontend\ProfitLossController@export'
+		)->name('profitloss.export');
+		Route::get(
+			'/detail-pl',
+			'memfisfa\Finac\Controllers\Frontend\ProfitLossController@detailPL'
+		)->name('profitloss.detail.pl');
+		Route::get(
 			'/print-detail-pl',
 			'memfisfa\Finac\Controllers\Frontend\ProfitLossController@printDetailPL'
-		)->name('profitloss.print');
+		)->name('profitloss.detail.print');
 	});
 
     Route::prefix('general-ledger')->group(function () {

@@ -9,6 +9,10 @@ use App\Models\Currency;
 use Carbon\Carbon;
 use memfisfa\Finac\Model\QueryFunction as QF;
 
+//use for export
+use memfisfa\Finac\Model\Exports\PLExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class ProfitLossController extends Controller
 {
     public function index()
@@ -175,6 +179,33 @@ class ProfitLossController extends Controller
 		];
 
         return view('profitlossview::view-pl', $data);
+    }
+
+	public function export(Request $request)
+	{
+		$date = $this->convertDate($request->daterange);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		$tmp_data = $this->getData($beginDate, $endingDate);
+
+		$getPL = $this->getViewPL($tmp_data);
+
+		$data = [
+			'data' => $getPL['_data'],
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+			'pendapatan_accumulated' => $getPL['pendapatan_accumulated'],
+			'pendapatan_period' => $getPL['pendapatan_period'],
+			'biaya_accumulated' => $getPL['biaya_accumulated'],
+			'biaya_period' => $getPL['biaya_period'],
+			'total_accumulated' => $getPL['total_accumulated'],
+			'total_period' => $getPL['total_period'],
+			'daterange' => $request->daterange
+		];
+
+		return Excel::download(new PLExport($data), 'pl.xlsx');
 	}
 
 	public function detailPL(Request $request)

@@ -68,7 +68,7 @@
                                                 <span>View Profit & Loss </span>
                                                 </span>
                                             </a>
-                                            <a href="profit-loss/detail-pl" class="btn btn-primary m-btn m-btn--pill-last">
+                                            <a href="javascript:;" data-href="{{url('profit-loss/detail-pl')}}" class="btn btn-primary m-btn m-btn--pill-last detail-pl">
                                                 <span>
                                                 <span>Detail Profit & Loss</span>
                                                 </span>
