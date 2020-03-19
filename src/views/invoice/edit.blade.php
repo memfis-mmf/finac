@@ -1034,7 +1034,14 @@
 	    placeholder: "Select",
     });
 
-		let _currency = '{{$currencycode->code}}';
+    let _currency = '{{$currencycode->code}}';
+
+    let locale = 'id';
+    let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let ForeignFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency: _currency, minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let IDRformatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    let ForeignFormatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: _currency, minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    let numberFormat = new Intl.NumberFormat('id', { maximumSignificantDigits: 3, maximumFractionDigits: 2, minimumFractionDigits: 2 });
     
     // summary datatable
     let total = 0;
