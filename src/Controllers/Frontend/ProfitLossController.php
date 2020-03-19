@@ -316,6 +316,7 @@ class ProfitLossController extends Controller
 			'biaya_period' => $biaya_period,
 			'total_accumulated' => $total_accumulated,
 			'total_period' => $total_period,
+			'daterange' => $request->daterange
 		];
 
         return view('profitlossview::detail-pl', $data);
@@ -345,6 +346,121 @@ class ProfitLossController extends Controller
 		];
 
         $pdf = \PDF::loadView('formview::view-pl', $data);
+        return $pdf->stream();
+    }
+
+	public function printDetailPL(Request $request)
+	{
+		$date = $this->convertDate($request->daterange);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		$tmp_data = $this->getData($beginDate, $endingDate);
+
+		$pendapatan_accumulated = 0;
+		$pendapatan_period = 0;
+		$biaya_accumulated = 0;
+		$biaya_period = 0;
+		$total_accumulated = 0;
+		$total_period = 0;
+
+		for ($a=0; $a < count($tmp_data); $a++) {
+			$x = $tmp_data[$a];
+			$code = str_split($x->code);
+
+			$total_accumulated += $x->CurrentBalance;
+			$total_period = $x->EndingBalance;
+
+			// parent
+			if (
+				$tmp_data[$a]->description == "Header"
+				&& $code[4] == 0
+				&& $code[3] == 0
+			) {
+				$x->child = [];
+
+				if ($x->Type == 'pendapatan') {
+					$_data['pendapatan'][] = $x;
+					$index_parent['pendapatan'] = count($_data['pendapatan']) - 1;
+
+					$pendapatan_accumulated += $x->CurrentBalance;
+					$pendapatan_period = $x->EndingBalance;
+				}else{
+					$_data['biaya'][] = $x;
+					$index_parent['biaya'] = count($_data['biaya']) - 1;
+
+					$biaya_accumulated += $x->CurrentBalance;
+					$biaya_period += $x->EndingBalance;
+				}
+			}
+
+			// child
+			if (
+				$tmp_data[$a]->description == "Header"
+				&& $code[4] == 0
+				&& $code[3] != 0
+			) {
+				$x->grandchild = [];
+
+				if ($x->Type == 'pendapatan') {
+					$_data['pendapatan'][$index_parent['pendapatan']]
+					->child[] = $x;
+
+					$index_child['pendapatan'] = count(
+						$_data['pendapatan'][$index_parent['pendapatan']]->child
+					) - 1;
+
+					$pendapatan_accumulated += $x->CurrentBalance;
+					$pendapatan_period += $x->EndingBalance;
+				}else{
+					$_data['biaya'][$index_parent['biaya']]
+					->child[] = $x;
+					$index_child['biaya'] = count(
+						$_data['biaya'][$index_parent['pendapatan']]->child
+					) - 1;
+
+					$biaya_accumulated += $x->CurrentBalance;
+					$biaya_period += $x->EndingBalance;
+				}
+			}
+
+			// grand child
+			if (
+				$tmp_data[$a]->description == "Header"
+				&& $code[4] != 0
+				&& $code[3] != 0
+			) {
+				if ($x->Type == 'pendapatan') {
+					$_data['pendapatan'][$index_parent['pendapatan']]
+					->child[$index_child['pendapatan']]->grandchild[] = $x;
+
+					$pendapatan_accumulated += $x->CurrentBalance;
+					$pendapatan_period += $x->EndingBalance;
+				}else{
+					$_data['biaya'][$index_parent['biaya']]
+					->child[$index_child['biaya']]->grandchild[] = $x;
+
+					$biaya_accumulated += $x->CurrentBalance;
+					$biaya_period += $x->EndingBalance;
+				}
+			}
+		}
+
+		$data = [
+			'data' => $_data,
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+			'pendapatan_accumulated' => $pendapatan_accumulated,
+			'pendapatan_period' => $pendapatan_period,
+			'biaya_accumulated' => $biaya_accumulated,
+			'biaya_period' => $biaya_period,
+			'total_accumulated' => $total_accumulated,
+			'total_period' => $total_period,
+			'daterange' => $request->daterange
+		];
+
+        $pdf = \PDF::loadView('formview::detail-pl', $data);
         return $pdf->stream();
 	}
 }
