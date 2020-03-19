@@ -586,13 +586,13 @@
                                     <center>
                                         <h3 id="subjectquo">Subject</h3>
                                     </center>
-                                    <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
+                                    {{-- <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
                                       <thead>
                                         <th>No</th> 
                                         <th>Detail</th> 
                                         <th>Total</th>
                                       </thead>
-                                    </table>
+                                    </table> --}}
                                     <br />
                                     <div class="summary_datatable" id="scrolling_both"></div>
                                     <br>
@@ -1015,9 +1015,599 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+
+    function addCommas(nStr)
+    {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x1 + x2;
+    }
+
+    // select2 handler
 		$('._select2').select2({
 	    placeholder: "Select",
-		});
+    });
+
+		let _currency = '{{$currencycode->code}}';
+    
+    // summary datatable
+    let total = 0;
+    let total1 = 0;
+    var discount = 0;
+    var tax = 0;
+    let quotation = '{{$quotation->uuid}}';
+
+    let manhour_price = 0;
+    let material_price = 0;
+    let facility_price = 0;
+    let discount_price = 0;
+    let ppn_price = 0;
+    let others_price = 0;
+    let grand_total1 = 0;
+    let convertidr = 0;
+    let other_total = 0;
+    let schedule_payment = '';
+    let dataSet = '';
+    let discount_amount = 0;
+    let tax_amount = 0;
+
+    let exchange_rate = '{{(int)$invoice->exchangerate}}';
+    $('.summary_datatable').mDatatable({
+      data: {
+        type: 'remote',
+        source: {
+          read: {
+            method: 'GET',
+            url: '/invoice/quotation/table/modal/{{$quotation->uuid}}/detail',
+            map: function (raw) {
+              let dataSet = raw;
+              let total = subtotal = 0;
+              var discount = 0;
+
+              if (typeof raw.data !== 'undefined') {
+                dataSet = raw.data;
+              }
+
+              return dataSet;
+            }
+          }
+        },
+        pageSize: 10,
+        serverPaging: !1,
+        serverSorting: !1
+
+      },
+      responsive: true,
+
+      sortable: true,
+
+      pagination: true,
+
+      toolbar: {
+
+        items: {
+
+          pagination: {
+
+            pageSizeSelect: [10, 20, 30, 50, 100],
+          },
+        },
+      },
+
+      search: {
+        input: $('#generalSearch'),
+      },
+
+      rows: {
+
+
+      },
+      columns: [
+        {
+          field: 'code',
+          title: 'No',
+          width: '200px',
+        }, {
+          field: 'description',
+          title: 'Detail',
+          width: '700px',
+
+          template: function (t) {
+            if (t.htcrrcount == null && t.priceother == null) {
+              var template = "";
+              var basic = "&nbsp;&nbsp;&nbsp;&nbsp;Basic TaskCard " + t.basic + " item(s)<br/>";
+              var sip = "&nbsp;&nbsp;&nbsp;&nbsp;SIP TaskCard " + t.sip + " item(s)<br/>";
+              var cpcp = "&nbsp;&nbsp;&nbsp;&nbsp;CPCP TaskCard " + t.cpcp + " item(s)<br/>";
+              var adsb = "&nbsp;&nbsp;&nbsp;&nbsp;AD/SB TaskCard " + t.adsb + " item(s)<br/>";
+              var cmrwl = "&nbsp;&nbsp;&nbsp;&nbsp;CMR/AWL TaskCard " + t.cmrawl + " item(s)<br/>";
+              var eo = "&nbsp;&nbsp;&nbsp;&nbsp;EO TaskCard " + t.eo + " item(s)<br/>";
+              var ea = "&nbsp;&nbsp;&nbsp;&nbsp;EA TaskCard " + t.ea + " item(s)<br/>";
+              var si = "&nbsp;&nbsp;&nbsp;&nbsp;SI TaskCard " + t.si + " item(s)";
+              if (t.basic != 0) {
+                template += basic;
+              }
+              if (t.sip != 0) {
+                template += sip;
+              }
+              if (t.cpcp != 0) {
+                template += cpcp;
+              }
+              if (t.adsb != 0) {
+                template += adsb;
+              }
+              if (t.cmrawl != 0) {
+                template += cmrwl;
+              }
+              if (t.eo != 0) {
+                template += eo;
+              }
+              if (t.ea != 0) {
+                template += ea;
+              }
+              if (t.si != 0) {
+                template += si;
+              }
+              return (
+                "<b>" + t.description + "</b><br/>"
+                + "Facility <br/>"
+                + "Material Need " + t.materialitem + " item(s)<br/>"
+                + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
+                + template
+
+              );
+            } else if (t.htcrrcount != null) {
+              return (
+                "&nbsp;&nbsp;&nbsp;&nbsp;HardTime TaskCard " + t.htcrrcount + " item(s)"
+
+              );
+
+            } else if (t.priceother != null) {
+              return (
+                "&nbsp;&nbsp;&nbsp;&nbsp;Others "
+
+              );
+            }
+
+          }
+        },
+        {
+          field: 'total',
+          title: 'Total',
+          sortable: 'asc',
+          filterable: !1,
+          template: function (t, e, i) {
+						// jika htcrr kosong dan priceother kosong
+            if (t.htcrrcount == null && t.priceother == null) {
+
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
+                //temptotal = t.h1 + t.h2;
+                temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
+                subtotal += temptotal;
+                //discount += t.discount;
+                /*
+                if(t.pivot.discount_type == 'amount'){
+                  discount += t.pivot.discount_value;
+                  }else {
+                    if(t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value/100);
+                  }else{
+                    discount += 0;
+                  }
+                }
+                */
+								discount_amount = 0;
+
+								let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+								subtotal = _subtotal;
+
+                if (t.discount_type == 'amount') {
+									discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
+                } else {
+                  if (t.discount_type == 'percentage') {
+										discount_amount = (
+											t.quotations[0].pivot.discount_value * _subtotal
+										) / 100;
+                  }
+                }
+
+								tax_amount = (
+									(_subtotal * (10/100))
+								);
+
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
+
+								discount_price = discount_amount;
+								ppn_price = tax_amount;
+
+                $("#sub_total_val").val(_subtotal);
+                $("#total_discount_val").val(discount_amount);
+	              $("#grand_total_val").val(grandtotal_amount);
+	              $("#grand_totalrp_val").val(grandtotal_amount);
+
+								console.table([
+									1,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
+
+                $("#sub_total").val(IDRformatter.format(_subtotal));
+                $("#total_discount").val(IDRformatter.format(discount_amount));
+	              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
+	              $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount));
+
+								console.table([
+									2,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
+
+                // $("#tax").val(IDRformatter.format(tax_amount));
+								$('.tax-symbol').html('Rp')
+                $("#tax").val(addCommas(tax_amount));
+
+                facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
+                material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate;
+
+                return (
+                  /*IDRformatter.format(t.h1) + "<br/>"
+                  + IDRformatter.format(t.h2) + "<br/>"
+                  */
+                  IDRformatter.format(t.facilities_price_amount * t.quotations[0].exchange_rate) + '<br>' +
+                  IDRformatter.format(t.mat_tool_price * t.quotations[0].exchange_rate) + '<br>' +
+                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>'
+                );
+              } else {
+                //temptotal = t.h1 + t.h2;
+                temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
+                subtotal += temptotal;
+                if(t.pivot.discount_type == 'amount'){
+                  discount += t.pivot.discount_value;
+                  }else {
+                    if(t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value/100);
+                  }else{
+                    discount += 0;
+                  }
+                }
+                /*
+                if (t.discount_type == 'amount') {
+                  discount += t.pivot.discount_value;
+                } else {
+                  if (t.pivot.discount_type == 'percentage') {
+                    discount += temptotal * (t.pivot.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
+                */
+								// console.table(discount);
+                // $("#grand_total_rupiah").val(ForeignFormatter.format(subtotal));
+                // $("#sub_total").val(ForeignFormatter.format(subtotal));
+                // $("#tax").val(ForeignFormatterTax.format(tax));
+                // $("#grand_total").val(ForeignFormatter.format(grand_total1));
+                // $("#total_discount").val(ForeignFormatter.format(discount));
+								discount_amount = 0;
+
+								let _subtotal = t.quotations[0].subtotal;
+								subtotal = _subtotal;
+
+                if (t.discount_type == 'amount') {
+									discount_amount = t.quotations[0].pivot.discount_value;
+                } else {
+                  if (t.discount_type == 'percentage') {
+										discount_amount = (
+											t.quotations[0].pivot.discount_value * _subtotal
+										) / 100;
+                  }
+                }
+
+								tax_amount = (
+									(_subtotal * (10/100))
+								);
+
+								let grandtotal_amount = _subtotal - discount_amount + tax_amount
+
+								discount_price = discount_amount;
+								ppn_price = tax_amount;
+
+								let quotation_currency_value = t.quotations[0].exchange_rate;
+								let multiple = 0;
+
+								// if invoice currency equal to quotation currency
+								//  and invoice currency is not idr
+								if (
+									t.quotations[0].currency.code == $('#currency').val()
+									&& $('#currency').val() != 'idr'
+								) {
+									multiple = $('exchange_rate1111').val();
+								}else{
+									multiple = t.quotations[0].exchange_rate;
+								}
+
+                $("#sub_total_val").val(_subtotal);
+                $("#total_discount_val").val(discount_amount);
+	              $("#grand_total_val").val(grandtotal_amount);
+	              $("#grand_totalrp_val").val(
+									// grandtotal_amount * t.quotations[0].exchange_rate
+									grandtotal_amount * multiple
+								);
+								console.table([
+									3,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
+
+                $("#sub_total").val(ForeignFormatter.format(_subtotal));
+                $("#total_discount").val(ForeignFormatter.format(discount_amount));
+	              $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
+	              $("#grand_totalrp").val(IDRformatter.format(
+									grandtotal_amount * t.quotations[0].exchange_rate
+								));
+								console.table([
+									4,
+									t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+									(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+									(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								]);
+
+                // $("#tax").val(ForeignFormatter.format(tax_amount));
+								$('.tax-symbol').html('US$')
+                $("#tax").val(addCommas(tax_amount));
+
+                facility_price += t.facilities_price_amount;
+                material_price += t.mat_tool_price;
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
+
+                return (
+                  /*
+                  ForeignFormatter.format(t.h1) + "<br/>"
+                  + ForeignFormatter.format(t.h2) + "<br/>"
+                  */
+                  ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
+                  ForeignFormatter.format(t.mat_tool_price) + '<br>' +
+                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'
+                );
+              }
+            } else if (t.htcrrcount != null) {
+              tipetax = t.tax_type;
+              if (tipetax == "include") {
+                tax = (subtotal - discount) / 1.1 * 0.1;
+              } else {
+                tax = (subtotal - discount) * 0.1;
+              }
+
+              others_data = JSON.parse(t.other);
+              $.each(others_data, function (k, v) {
+                other_total += v.amount;
+                $(".append-other").append("<div class=\"form-group m-form__group row\"><div class=\"col-sm-3 col-md-3 col-lg-3\"><div>" + v.type + "</div></div><div class=\"col-sm-6 col-md-6 col-lg-6\"><input type=\"text\" id=\"others\" value=\"" + v.amount + "\" name=\"\" class=\"form-control m-input others\" readonly><div class=\"form-control-feedback text-danger\" id=\"-error\"></div><span class=\"m-form__help\"></span></div></div>");
+              });
+              grand_total1 = subtotal - discount_amount + tax + other_total;
+
+              let exchange_get = $("#exchange_rate1111").val();
+              convertidr = grand_total1 * exchange_get;
+              schedule_payment = JSON.parse(t.schedulepayment);
+              dataSet = schedule_payment;
+
+              // $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
+              $("#grand_totalrp").val(IDRformatter.format(convertidr));
+
+							console.table({
+								'subtotal' : subtotal,
+								'discount_amount' : discount_amount,
+								'tax' : tax,
+								'grandtotal' : grand_total1,
+								'other_total' : other_total,
+								'exchange_get' : exchange_get
+							});
+
+              $("#sub_total_val").val(subtotal);
+              $("#total_discount_val").val(discount_amount);
+              $("#grand_total_val").val(grand_total1);
+              $("#grand_totalrp_val").val(convertidr);
+              $("#other_price_val").val(other_total);
+              $("#htcrr_price_val").val(t.price);
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
+
+                $("#sub_total").val(IDRformatter.format(subtotal));
+                $("#total_discount").val(IDRformatter.format(discount_amount));
+                // $("#tax").val(IDRformatter.format(tax));
+								$('.tax-symbol').html('Rp')
+                $("#tax").val(addCommas(tax));
+                $("#grand_total").val(IDRformatter.format(grand_total1));
+                $("#grand_total_rupiah").val(IDRformatter.format(convertidr));
+                $("#other_price").val(IDRformatter.format(other_total));
+								// let discount_amount = 0;
+								//
+								// let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+								//
+                // if (t.discount_type == 'amount') {
+								// 	discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
+                // } else {
+                //   if (t.discount_type == 'percentage') {
+								// 		discount_amount = (
+								// 			t.quotations[0].pivot.discount_value * _subtotal
+								// 		) / 100;
+                //   }
+                // }
+								//
+								// let tax_amount = (
+								// 	(_subtotal * (10/100))
+								// );
+								//
+								// let grandtotal_amount = _subtotal - discount_amount + tax_amount
+								//
+								// discount_price = discount_amount;
+								// ppn_price = tax_amount;
+								//
+                // $("#sub_total_val").val(t.quotations[0].subtotal);
+                // $("#total_discount_val").val(discount_amount);
+	              // $("#grand_total_val").val(grandtotal_amount);
+	              // $("#grand_totalrp_val").val(grandtotal_amount);
+								//
+								// console.table([
+								// 	5,
+								// 	t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+								// 	(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+								// 	(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								// ]);
+								//
+                // $("#sub_total").val(IDRformatter.format(t.quotations[0].subtotal));
+                // $("#total_discount").val(IDRformatter.format(discount_amount));
+	              // $("#grand_total").val(IDRformatter.format(grandtotal_amount));
+	              // $("#grand_totalrp").val(IDRformatter.format(
+								// 	(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
+								// ));
+								//
+								// console.table([
+								// 	6,
+								// 	t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+								// 	(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+								// 	(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								// ]);
+								//
+                // $("#tax").val(IDRformatter.format(tax_amount));
+
+                let sp_show = "";
+                $.each(schedule_payment, function (k, v) {
+                  sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + IDRformatter.format(v.amount) + "\n";
+                  //$("textarea#ExampleMessage").html(result.exampleMessage)
+
+                });
+                /*
+                if (t.data_htcrr.discount_type == 'amount') {
+                  discount += t.data_htcrr.discount_value;
+                } else {
+                  if (t.data_htcrr.discount_type == 'percentage') {
+                    discount += temptotal * (t.data_htcrr.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
+                */
+                $("#schedule_payment").html(sp_show);
+                return (
+                  IDRformatter.format(t.price) + "<br/>"
+                );
+              } else {
+                $("#sub_total").val(ForeignFormatter.format(subtotal));
+                $("#total_discount").val(ForeignFormatter.format(discount_amount));
+                // $("#tax").val(ForeignFormatter.format(tax));
+								$('.tax-symbol').html('US$')
+                $("#tax").val(addCommas(tax));
+                $("#grand_total").val(ForeignFormatter.format(grand_total1));
+                $("#grand_total_rupiah").val(ForeignFormatter.format(convertidr));
+
+								// let discount_amount = 0;
+								//
+								// let _subtotal = t.quotations[0].subtotal * t.quotations[0].exchange_rate;
+								// subtotal = _subtotal;
+								//
+                // if (t.discount_type == 'amount') {
+								// 	discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
+                // } else {
+                //   if (t.discount_type == 'percentage') {
+								// 		discount_amount = (
+								// 			t.quotations[0].pivot.discount_value * _subtotal
+								// 		) / 100;
+                //   }
+                // }
+								//
+								// let tax_amount = (
+								// 	(_subtotal * (10/100))
+								// );
+								//
+								// let grandtotal_amount = _subtotal - discount_amount + tax_amount
+								//
+								// discount_price = discount_amount;
+								// ppn_price = tax_amount;
+								//
+                // $("#sub_total_val").val(t.quotations[0].subtotal);
+                // $("#total_discount_val").val(discount_amount);
+	              // $("#grand_total_val").val(grandtotal_amount);
+	              // $("#grand_totalrp_val").val(grandtotal_amount);
+								//
+								// console.table([
+								// 	7,
+								// 	t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+								// 	(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+								// 	(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								// ]);
+								//
+                // $("#sub_total").val(ForeignFormatter.format(t.quotations[0].subtotal));
+                // $("#total_discount").val(ForeignFormatter.format(discount_amount));
+	              // $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
+	              // $("#grand_totalrp").val(IDRformatter.format(
+								// 	(t.quotations[0].subtotal * t.quotations[0].exchange_rate) - ((t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate) + (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)))
+								// ));
+								// console.table([
+								// 	8,
+								// 	t.quotations[0].subtotal * t.quotations[0].exchange_rate,
+								// 	(t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
+								// 	(((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
+								// ]);
+                // $("#tax").val(ForeignFormatter.format(tax_amount));
+
+                let sp_show = "";
+                $.each(schedule_payment, function (k, v) {
+                  sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + ForeignFormatter.format(v.amount) + "\n";
+                  //$("textarea#ExampleMessage").html(result.exampleMessage)
+
+                });
+                /*
+                if (t.data_htcrr.discount_type == 'amount') {
+                  discount += t.data_htcrr.discount_value;
+                } else {
+                  if (t.data_htcrr.discount_type == 'percentage') {
+                    discount += temptotal * (t.data_htcrr.discount_value / 100);
+                  } else {
+                    discount += 0;
+                  }
+                }
+                console.log(t);
+                console.log(t.data_htcrr);
+                console.log(discount);
+                $("#total_discount").attr("value", discount);
+                */
+                $("#schedule_payment").html(sp_show);
+                return (
+                  ForeignFormatter.format(t.price) + "<br/>"
+                );
+              }
+
+            } else if (t.priceother != null) {
+              subtotal += t.priceother;
+              // if (currency.code == 'idr') {
+              if (_currency == 'idr') {
+                others_price = t.priceother;
+                return (
+                  IDRformatter.format(t.priceother) + "<br/>"
+                );
+              } else {
+	              others_price = t.priceother;
+                return (
+                  ForeignFormatter.format(t.priceother) + "<br/>"
+                );
+              }
+
+
+            }
+
+          }
+        },
+      ],
+    });
 	})
 </script>
 <script>
