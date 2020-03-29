@@ -75,9 +75,16 @@ class MasterCoaController extends Controller
         return response()->json($coa);
     }
 
-    public function destroy(Coa $coa)
+    public function destroy(Request $request)
     {
-        $coa->delete();
+		$coa = Coa::where('uuid', $request->master_coa);
+
+		// jika coa active
+		if ($coa->first()) {
+			$coa->delete();
+		}else{
+			$coa->withTrashed()->first()->restore();
+		}
 
         return response()->json($coa);
     }
@@ -115,7 +122,7 @@ class MasterCoaController extends Controller
 							m-switch--icon
 							m-switch--md">
 						<label>
-							<input type="checkbox" '.$checked.' id="switch_coa">
+							<input type="checkbox" '.$checked.' id="coa_switch" data-uuid="'.$coa->uuid.'">
 							<span></span>
 						</label>
 					</span>
