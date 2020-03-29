@@ -1,6 +1,23 @@
 @extends('frontend.master')
 
 @section('content')
+<style>
+  .dataTables_paginate a{
+      padding: 0 10px;
+  }
+  .dataTables_info{
+      margin-top:-10px;
+      margin-left:10px;
+  }
+  .dataTables_length{
+      margin-top:-30px;
+      visibility: hidden;
+  }
+  .dataTables_length select{
+      visibility: visible;
+  }
+</style>
+
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -75,7 +92,16 @@
                             </div>
                         </div>
 
-                        <div class="master_coa_datatable" id="scrolling_both"></div>
+                        <table class="table table-striped table-bordered table-hover table-checkable coa_datatable">
+                            <thead>
+                                <th>Account No.</th>
+                                <th>Account Name</th>
+                                <th>Account Group</th>
+                                <th>Sub Account</th>
+                                <th>Created By</th>
+                                <th>Active/Inactive</th>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -85,5 +111,6 @@
 @endsection
 
 @push('footer-scripts')
+    <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('vendor/courier/frontend/master-coa/index.js')}}"></script>
 @endpush
