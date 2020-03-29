@@ -93,6 +93,8 @@ class MasterCoaController extends Controller
         return response()->json($coa);
     }
 
+	// I don't know if this function is used or not, 
+	// but I'm afraid to delete it, just leave it
     public function datatables()
     {
 		$data = $alldata = json_decode(Coa::with([
