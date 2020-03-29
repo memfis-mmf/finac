@@ -15,7 +15,7 @@ let MasterCoa = {
             {data: 'description'},
             // {data: 'sub_account'},
             // {data: 'created_by'},
-            {data: 'active'},
+            {data: 'status'},
           ]
         });
 

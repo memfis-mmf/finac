@@ -98,7 +98,34 @@ class MasterCoaController extends Controller
 	{
 		$data = Coa::withTrashed();
 
-		return DataTables::of($data)->escapeColumns([])->make(true);
+		return DataTables::of($data)
+		->addColumn('status', function(Coa $coa) use ($request) {
+
+			$checked = 'checked';
+
+			if (!$coa->active) {
+				$checked = '';
+			}
+			
+			// make switch
+			$html = '
+				<div>
+					<span class="m-switch 
+							m-switch--outline 
+							m-switch--icon
+							m-switch--md">
+						<label>
+							<input type="checkbox" '.$checked.' id="switch_coa">
+							<span></span>
+						</label>
+					</span>
+
+				</div>
+			';
+
+			return $html;
+		})
+		->escapeColumns([])->make(true);
 	}
 
 	// I don't know if this function is used or not, 
