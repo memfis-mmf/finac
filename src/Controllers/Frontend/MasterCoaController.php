@@ -9,6 +9,7 @@ use App\Models\Type;
 use Carbon\Carbon;
 use DB;
 use Auth;
+use DataTables;
 
 class MasterCoaController extends Controller
 {
@@ -91,7 +92,14 @@ class MasterCoaController extends Controller
     public function apidetail(Coa $coa)
     {
         return response()->json($coa);
-    }
+	}
+	
+	public function coaDatatables(Request $request)
+	{
+		$data = Coa::withTrashed();
+
+		return DataTables::of($data)->escapeColumns([])->make(true);
+	}
 
 	// I don't know if this function is used or not, 
 	// but I'm afraid to delete it, just leave it

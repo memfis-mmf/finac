@@ -8,13 +8,13 @@ let MasterCoa = {
           scrollX: true,
           processing: true,
           serverSide: true,
-          ajax: _url+'/journal/datatables',
+          ajax: _url+'/master-coa/coa-datatables',
           columns: [
             {data: 'code'},
             {data: 'name'},
             {data: 'description'},
-            {data: 'sub_account'},
-            {data: 'created_by'},
+            // {data: 'sub_account'},
+            // {data: 'created_by'},
             {data: 'active'},
           ]
         });

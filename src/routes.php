@@ -39,6 +39,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@datatables'
 		)->name('master-coa.datatables');
 		Route::get(
+			'/coa-datatables',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@coaDatatables'
+		)->name('master-coa.coa-datatables');
+		Route::get(
 			'/get-subaccount',
 			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@getSubaccount'
 		);

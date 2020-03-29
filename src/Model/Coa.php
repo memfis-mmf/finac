@@ -21,12 +21,23 @@ class Coa extends MemfisModel
 
 	protected $appends = [
 		'coa_number',
-		// t st'coa_render',
+		'active',
 	];
 
 	public function getCoaNumberAttribute()
 	{
 		return str_replace('0', '', $this->code);
+    }
+
+	public function getActiveAttribute()
+	{
+        $active = true;
+
+        if ($this->deleted_at) {
+            $active = false;
+        }
+
+        return $active;
 	}
 
 	// public function getCoaRenderNumberAttribute()

@@ -97,8 +97,8 @@
                                 <th>Account No.</th>
                                 <th>Account Name</th>
                                 <th>Account Group</th>
-                                <th>Sub Account</th>
-                                <th>Created By</th>
+                                {{-- <th>Sub Account</th>
+                                <th>Created By</th> --}}
                                 <th>Active/Inactive</th>
                             </thead>
                         </table>
