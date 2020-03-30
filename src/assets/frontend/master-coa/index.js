@@ -22,22 +22,30 @@ let MasterCoa = {
     $('body').on('click', '#coa_switch', function() {
       let uuid = $(this).data('uuid');
 
+      mApp.blockPage()
+
       $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                 'content'
             )
         },
-        type: "DELETE",
-        url: _url+"/master-coa/"+uuid,
+        type: "POST",
+        url: _url+"/master-coa-switch-coa/"+uuid,
         dataType: "json",
         success: function (response) {
           toastr.success('Status Changed', 'Success', {
-                  timeOut: 3000
-              }
-          );
+            timeOut: 3000
+          });
         }
+      })
+      .fail(function () {
+        mApp.unblockPage()
+      })
+      .done(function () {
+        mApp.unblockPage()
       });
+
     });
 
   }

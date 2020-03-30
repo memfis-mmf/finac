@@ -33,6 +33,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 		'memfisfa\Finac\Controllers\Frontend\MasterCoaController',
 		['except' => 'show']
 	);
+
+	Route::post(
+		'/master-coa-switch-coa/{master_coa}',
+		'memfisfa\Finac\Controllers\Frontend\MasterCoaController@switchCoa'
+	);
+
     Route::prefix('master-coa')->group(function () {
 		Route::get(
 			'/datatables',

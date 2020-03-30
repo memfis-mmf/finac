@@ -75,8 +75,15 @@ class MasterCoaController extends Controller
         return response()->json($coa);
     }
 
-    public function destroy(Request $request)
+    public function destroy(Coa $coa)
     {
+		$coa->delete();
+
+        return response()->json($coa);
+	}
+	
+	public function switchCoa(Request $request)
+	{
 		$coa = Coa::where('uuid', $request->master_coa);
 
 		// jika coa active
@@ -87,7 +94,7 @@ class MasterCoaController extends Controller
 		}
 
         return response()->json($coa);
-    }
+	}
 
     public function api()
     {
