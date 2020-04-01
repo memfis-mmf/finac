@@ -315,13 +315,17 @@ class MasterCoaController extends Controller
 		->where('description', $request->group)
 		->get();
 
-		foreach ($coas as $key) {
-			if (strlen($key->coa_number) > 2) {
-				$data[] = json_decode($key);
-			}
+		$data = [];
+
+		foreach ($coas as $item) {
+			$data[] = [
+				'id' => $item->uuid,
+				'html' => $item->coa_tree,
+				'title' => $item->code.' - '.$item->name,
+				'text' => $item->code.' - '.$item->name,
+			];
 		}
 
-		dd($data);
-
+		return $data;
 	}
 }

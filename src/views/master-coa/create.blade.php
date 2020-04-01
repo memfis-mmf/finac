@@ -180,31 +180,44 @@
 			let _data = {
 				'coa_type' : coa_type, //activa, pasiva, ekuitas, pendapatan, biaya
 				'group' : group //header or detail
-			};
+            };
+
+            mApp.blockPage()
 
 			$.ajax({
-					headers: {
-							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-					type: 'get',
-					url: `/master-coa/get-subaccount`,
-					data: _data,
-					success: function (data) {
-							if (data.errors) {
-									toastr.error(data.errors, 'Invalid', {
-											timeOut: 3000
-									});
-							} else {
-									toastr.success('Data Saved Successfully.', 'Success', {
-											timeOut: 2000
-									});
-
-									 setTimeout(function(){
-										 location.href = `${_url}/asset`;
-									 }, 2000);
-							}
-					}
-			});
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'get',
+                url: `/master-coa/get-subaccount`,
+                data: _data,
+                success: function (data) {
+                    if (data.errors) {
+                        toastr.error(data.errors, 'Invalid', {
+                            timeOut: 3000
+                        });
+                    } else {
+                        $('#sub_account').select2({
+                            data: data,
+                            escapeMarkup: function(markup) {
+                                return markup;
+                            },
+                            templateResult: function(data) {
+                                return data.html;
+                            },
+                            templateSelection: function(data) {
+                                return data.text;
+                            }
+                        });
+                    }
+                }
+            })
+            .fail(function () {
+                mApp.unblockPage()
+            })
+            .done(function () {
+                mApp.unblockPage()
+            });
 
 		});
 

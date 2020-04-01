@@ -22,6 +22,7 @@ class Coa extends MemfisModel
 	protected $appends = [
 		'coa_number',
 		'active',
+		'coa_tree',
 	];
 
 	public function getCoaNumberAttribute()
@@ -38,32 +39,19 @@ class Coa extends MemfisModel
         }
 
         return $active;
-	}
+    }
+    
+    public function getCoaTreeAttribute()
+    {
+        $total_space = strlen($this->coa_number) - 4;
 
-	// public function getCoaRenderNumberAttribute()
-	// {
-	// 	switch (strlen($this->coa_number)) {
-	// 		case 2 :
-	// 			// code...
-	// 			break;
+        $space = '';
+        for ($i=0; $i < $total_space; $i++) { 
+            $space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
 
-	// 		case 4 :
-	// 			// code...
-	// 			break;
-
-	// 		case 5 :
-	// 			// code...
-	// 			break;
-
-	// 		case 6 :
-	// 			// code...
-	// 			break;
-
-	// 		default:
-	// 			// code...
-	// 			break;
-	// 	}
-	// }
+        return $space.$this->code.' - '.$this->name;
+    }
 
     /*************************************** RELATIONSHIP ****************************************/
 
