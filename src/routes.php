@@ -52,6 +52,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/get-subaccount',
 			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@getSubaccount'
 		);
+		Route::get(
+			'/generate-new-coa',
+			'memfisfa\Finac\Controllers\Frontend\MasterCoaController@generateNewCoa'
+		);
 	});
 
     Route::prefix('cashbook')->group(function () {

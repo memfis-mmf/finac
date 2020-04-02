@@ -223,6 +223,68 @@
 
 		});
 
+        $('body').on('change', '[name=sub_account]', function() {
+            let form = $(this).parents('form');
+            let _data = form.serializeArray();
+
+            mApp.blockPage()
+
+			$.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'get',
+                url: `/master-coa/generate-new-coa`,
+                data: _data,
+                success: function (data) {
+                    if (data.errors) {
+                        toastr.error(data.errors, 'Invalid', {
+                            timeOut: 3000
+                        });
+                    } else {
+                        $('#account_no').val(data);
+                    }
+                }
+            })
+            .fail(function () {
+                mApp.unblockPage()
+            })
+            .done(function () {
+                mApp.unblockPage()
+            });
+        });
+
+        $('body').on('click', '#master_coa_save', function() {
+            let form = $(this).parents('form');
+            let _data = form.serializeArray();
+
+			$.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: `/master-coa`,
+                data: _data,
+                success: function (data) {
+                    if (data.errors) {
+                        toastr.error(data.errors, 'Invalid', {
+                            timeOut: 2000
+                        });
+                    } else {
+                        toastr.success('Data Saved', 'Success', {
+                            timeOut: 2000
+                        });
+                    }
+                }
+            })
+            .fail(function () {
+                mApp.unblockPage()
+            })
+            .done(function () {
+                mApp.unblockPage()
+            });
+        });
+
 	});
 </script>
 @endpush

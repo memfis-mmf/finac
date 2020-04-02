@@ -25,7 +25,23 @@ class MasterCoaController extends Controller
 
     public function store(Request $request)
     {
-        $coa = Coa::create($request->all());
+		$request->validate([
+			'account_type' => 'required',
+			'account_group' => 'required',
+			'sub_account' => 'required',
+			'account_no' => 'required',
+			'account_name' => 'required',
+		]);
+
+		$data = [
+			'code' => $request->account_no,
+			'name' => $request->account_name,
+			'type_id' => Type::where(
+				'code', strtolower($request->account_type))->first()->id,
+			'description' => $request->account_group
+		];
+			
+		$coa = Coa::create($data);
         return response()->json($coa);
     }
 
@@ -322,6 +338,11 @@ class MasterCoaController extends Controller
 		foreach ($coas as $key => $item) {
 			$level = strlen($item->coa_number);
 
+			// remove coa who have 2 digit
+			if ($level == 2) {
+				continue;
+			}
+
 			$data[$key] = [
 				'id' => $item->uuid,
 				'html' => $item->coa_tree,
@@ -332,8 +353,99 @@ class MasterCoaController extends Controller
 			if ($level == 6 && strtolower($request->group) == 'header') {
 				$data[$key]['disabled'] = true;
 			}
+
+			if ($level == 2 && strtolower($request->group) == 'detail') {
+				$data[$key]['disabled'] = true;
+			}
 		}
 
-		return $data;
+		return array_values($data);
+	}
+
+	public function generateNewCoa(Request $request)
+	{
+		$request->validate([
+			'account_type' => 'required',
+			'account_group' => 'required',
+			'sub_account' => 'required',
+		]);
+
+		$coa = Coa::where('uuid', $request->sub_account)->first();
+
+		// 8 is total digit coa
+		$total_zero = 8 - strlen($coa->coa_number);
+		$zero = '';
+
+		for ($i=0; $i < $total_zero; $i++) { 
+			$zero .= 0;
+		}
+
+		// if user add new coa header
+		if (strtolower($request->account_group) == 'header') {
+
+			$coa_header = Coa::where(
+				// substr_replace() remove last character
+				'code', 
+				'like', 
+				substr_replace($coa->coa_number, "", -1).'%'.$zero
+			)
+			->where('description', 'Header')
+			->orderBy('code', 'desc')
+			->first();
+
+			// substr() get last character
+			$last_character_code = substr($coa_header->coa_number, -1);
+
+			// if coa header 9 is exist
+			if ($last_character_code == 9) {
+				return [
+					'errors' => 'You cannot add more header'
+				];
+			}
+
+			$new_coa = ($coa_header->coa_number+1).$zero;
+		}
+
+		// if user add new coa detail
+		if (strtolower($request->account_group) == 'detail') {
+			// get last coa detail from coa header who sended from request
+			$coa_detail = Coa::where('code', 'like', $coa->coa_number.'%')
+			->where('description', 'Detail')
+			->orderBy('code', 'desc')
+			->first();
+
+			// get level of coa header who requested from web
+			$coa_level = strlen($coa->coa_number);
+
+			if ($coa_level == 4) {
+				$max_code = 9;
+			}
+
+			if ($coa_level == 5) {
+				$max_code = 999;
+			}
+
+			if ($coa_level == 6) {
+				$max_code = 99;
+			}
+
+			if ($coa_detail) {
+				$last_character_code = substr($coa_detail->code, -2);
+
+				if ((int)$last_character_code == $max_code) {
+					return [
+						'errors' => 'You cannot add more detail in coa '.$coa->code
+					];
+				}
+
+				$code = (int)$coa_detail->code + 1;
+			}else{ // if coa detail doesn't exist
+				$code = $coa->coa_number.substr_replace($zero, "", -1).'1';
+			}
+
+			$new_coa = $code;
+		}
+
+		return $new_coa;
 	}
 }
