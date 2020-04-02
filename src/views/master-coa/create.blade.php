@@ -87,6 +87,7 @@
                                             @slot('id', 'sub_account')
                                             @slot('name', 'sub_account')
                                             @slot('text', 'Sub Account')
+                                            @slot('disabled', 'disabled')
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -172,17 +173,23 @@
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
         let _url = window.location.origin;
 
-		// set data to sub account
-		$('body').on('change', '[name=account_group]', function() {
+        $('._select2').select2({
+            placeholder: '-- Select --'
+        });
 
-			let group = $(this).val();
-			let coa_type = $('[name=account_type]').val();
+		$('body').on('change', '[name=account_group]', function() {
+            $('[name=account_no]').val('');
+            $('[name=sub_account]').removeAttr('disabled');
+        })
+
+		// set data to sub account
+		$('body').on('change', '[name=account_type]', function() {
+
+			let coa_type = $(this).val();
 			let _data = {
 				'coa_type' : coa_type, //activa, pasiva, ekuitas, pendapatan, biaya
-				'group' : group //header or detail
             };
 
             mApp.blockPage()
