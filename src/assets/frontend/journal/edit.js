@@ -212,7 +212,7 @@ let JournalEdit = {
 											}
 
 									} else {
-										toastr.success('Data berhasil disimpan.', 'Sukses', {
+										toastr.success('Data Saved', 'Success', {
 												timeOut: 5000
 										});
 
