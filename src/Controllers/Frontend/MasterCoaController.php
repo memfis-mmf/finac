@@ -129,7 +129,9 @@ class MasterCoaController extends Controller
 							m-switch--icon
 							m-switch--md">
 						<label>
-							<input type="checkbox" '.$checked.' id="coa_switch" data-uuid="'.$coa->uuid.'">
+							<input type="checkbox" 
+							'.$checked.' 
+							id="coa_switch" data-uuid="'.$coa->uuid.'">
 							<span></span>
 						</label>
 					</span>
@@ -312,18 +314,24 @@ class MasterCoaController extends Controller
 			strtoupper($request->coa_type)
 		)->first()
 		->coas()
-		->where('description', $request->group)
+		->where('description', 'header')
 		->get();
 
 		$data = [];
 
-		foreach ($coas as $item) {
-			$data[] = [
+		foreach ($coas as $key => $item) {
+			$level = strlen($item->coa_number);
+
+			$data[$key] = [
 				'id' => $item->uuid,
 				'html' => $item->coa_tree,
 				'title' => $item->code.' - '.$item->name,
 				'text' => $item->code.' - '.$item->name,
 			];
+
+			if ($level == 6 && strtolower($request->group) == 'header') {
+				$data[$key]['disabled'] = true;
+			}
 		}
 
 		return $data;

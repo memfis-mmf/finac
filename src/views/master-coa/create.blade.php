@@ -98,6 +98,7 @@
                                             @slot('id', 'account_no')
                                             @slot('name', 'account_no')
                                             @slot('text', 'Account No.')
+                                            @slot('editable', 'readonly')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -197,6 +198,7 @@
                             timeOut: 3000
                         });
                     } else {
+                        $('#sub_account').empty();
                         $('#sub_account').select2({
                             data: data,
                             escapeMarkup: function(markup) {

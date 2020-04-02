@@ -43,14 +43,33 @@ class Coa extends MemfisModel
     
     public function getCoaTreeAttribute()
     {
-        $total_space = strlen($this->coa_number) - 4;
+        $level = strlen($this->coa_number) - 2;
 
-        $space = '';
-        for ($i=0; $i < $total_space; $i++) { 
-            $space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+        switch ($level) {
+            case 1:
+                $badge = 'primary';
+                break;
+            case 2:
+                $badge = 'info';
+                break;
+            case 3:
+                $badge = 'warning';
+                break;
+            case 3:
+                $badge = 'danger';
+                break;
+            
+            default:
+                $badge = 'primary';
+                break;
         }
 
-        return $space.$this->code.' - '.$this->name;
+        $indent = '';
+        for ($i=0; $i < $level; $i++) { 
+            $indent .= '&nbsp;&nbsp;&nbsp;';
+        }
+
+        return '<span class="badge badge-pill badge-'.$badge.'">'.$indent.'</span>&nbsp;'.$this->code.' - '.$this->name;
     }
 
     /*************************************** RELATIONSHIP ****************************************/
