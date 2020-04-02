@@ -355,9 +355,9 @@ class MasterCoaController extends Controller
 			// 	$data[$key]['disabled'] = true;
 			// }
 
-			if ($level == 2 && strtolower($request->group) == 'detail') {
-				$data[$key]['disabled'] = true;
-			}
+			// if ($level == 2 && strtolower($request->group) == 'detail') {
+			// 	$data[$key]['disabled'] = true;
+			// }
 		}
 
 		array_unshift($data, [
@@ -416,8 +416,7 @@ class MasterCoaController extends Controller
 		// if user add new coa detail
 		if (strtolower($request->account_group) == 'detail') {
 			// get last coa detail from coa header who sended from request
-			$coa_detail = Coa::where('code', 'like', $coa->coa_number.'%')
-			->where('description', 'Detail')
+			$query = Coa::where('description', 'Detail')
 			->orderBy('code', 'desc')
 			->first();
 
@@ -426,15 +425,20 @@ class MasterCoaController extends Controller
 
 			if ($coa_level == 4) {
 				$max_code = 9;
+				$query = $query->where('code', 'like', $coa->coa_number.'000%');
 			}
 
 			if ($coa_level == 5) {
 				$max_code = 999;
+				$query = $query->where('code', 'like', $coa->coa_number.'%');
 			}
 
 			if ($coa_level == 6) {
 				$max_code = 99;
+				$query = $query->where('code', 'like', $coa->coa_number.'%');
 			}
+
+			$coa_detail = $query->first();
 
 			if ($coa_detail) {
 				$last_character_code = substr($coa_detail->code, -2);
