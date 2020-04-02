@@ -173,6 +173,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 
+        let _url = window.location.origin;
+
 		// set data to sub account
 		$('body').on('change', '[name=account_group]', function() {
 
@@ -201,6 +203,7 @@
                         $('#sub_account').empty();
                         $('#sub_account').select2({
                             data: data,
+                            placeholder: '-- Select --',
                             escapeMarkup: function(markup) {
                                 return markup;
                             },
@@ -258,6 +261,8 @@
             let form = $(this).parents('form');
             let _data = form.serializeArray();
 
+            mApp.blockPage()
+
 			$.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -274,11 +279,21 @@
                         toastr.success('Data Saved', 'Success', {
                             timeOut: 2000
                         });
+
+                        setTimeout(function(){
+                            location.href = `${_url}/master-coa`;
+                        }, 2000);
                     }
                 }
             })
-            .fail(function () {
+            .fail(function (xhr, status, error) {
                 mApp.unblockPage()
+
+                let err = $.parseJSON(xhr.responseText).message;
+
+                toastr.error(err, 'Invalid', {
+                    timeOut: 3000
+                });
             })
             .done(function () {
                 mApp.unblockPage()

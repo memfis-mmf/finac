@@ -331,6 +331,7 @@ class MasterCoaController extends Controller
 		)->first()
 		->coas()
 		->where('description', 'header')
+		->orderBy('code', 'asc')
 		->get();
 
 		$data = [];
@@ -350,14 +351,20 @@ class MasterCoaController extends Controller
 				'text' => $item->code.' - '.$item->name,
 			];
 
-			if ($level == 6 && strtolower($request->group) == 'header') {
-				$data[$key]['disabled'] = true;
-			}
+			// if ($level == 6 && strtolower($request->group) == 'header') {
+			// 	$data[$key]['disabled'] = true;
+			// }
 
 			if ($level == 2 && strtolower($request->group) == 'detail') {
 				$data[$key]['disabled'] = true;
 			}
 		}
+
+		array_unshift($data, [
+			'id' => '',
+			'html' => '-- Select --',
+			'text' => '',
+		]);
 
 		return array_values($data);
 	}
