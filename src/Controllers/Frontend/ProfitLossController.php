@@ -205,7 +205,7 @@ class ProfitLossController extends Controller
 			'daterange' => $request->daterange
 		];
 
-		return Excel::download(new PLExport($data), 'pl.xlsx');
+		return Excel::download(new PLExport($data), 'PL.xlsx');
 	}
 
 	public function detailPL(Request $request)
