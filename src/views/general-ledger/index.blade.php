@@ -101,6 +101,12 @@
                                             <span>View</span>
                                         </span>
                                     </a>
+                                    <a href="javascript:;"
+                                        class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md export"><span>
+                                            <i class="la la-file"></i>
+                                            <span>Export to Excel</span>
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -117,4 +123,13 @@
 <script src="{{ asset('vendor/courier/frontend/general-ledger/index.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+@if (Session::get('errors'))
+<script type="text/javascript">
+	$(document).ready(function () {
+		toastr.error(`{{Session::get('errors')}}`, 'Invalid', {
+				timeOut: 3000
+		});
+	});
+</script>
+@endif
 @endpush

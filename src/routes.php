@@ -389,6 +389,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@show'
 		)->name('general_ledger.show');
 		Route::get(
+			'/export',
+			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@export'
+		)->name('general_ledger.show');
+		Route::get(
 			'/show/datatables',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@showDatatables'
 		)->name('general_ledger.show');
