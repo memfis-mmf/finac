@@ -320,6 +320,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\TrialBalanceController@print'
 		)->name('trialbalance.print');
 		Route::get(
+			'/export',
+			'memfisfa\Finac\Controllers\Frontend\TrialBalanceController@export'
+		)->name('trialbalance.export');
+		Route::get(
 			'/datatables',
 			'memfisfa\Finac\Controllers\Frontend\TrialBalanceController@datatables'
 		)->name('trialbalance.datatables');

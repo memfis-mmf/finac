@@ -66,6 +66,9 @@
                                         <button class="btn m-btn--pill m-btn--air btn-success btn-sm mb-4">
                                             Print
                                         </button>
+                                        <a href="javascript:;" type="button" class="text-light btn m-btn--pill m-btn--air btn-success btn-sm mb-4 ml-2 export">
+                                            Export
+                                        </a>
                                     </div>
 																	</form>
                                 </div>
@@ -86,4 +89,13 @@
 @push('footer-scripts')
     <script src="{{ asset('vendor/courier/frontend/trial-balance/index.js')}}"></script>
     <script src="{{ asset('vendor/courier/frontend/functions/daterange/trial-balance.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.export', function () {
+                let daterange = $('[name=daterange]').val();
+
+                location.href=`{{route('trialbalance.export')}}?daterange=${daterange}`;
+            });
+        });
+    </script>
 @endpush

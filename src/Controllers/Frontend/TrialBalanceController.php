@@ -9,6 +9,10 @@ use App\Models\Currency;
 use Illuminate\Support\Carbon;
 use Auth;
 
+//use for export
+use memfisfa\Finac\Model\Exports\TBExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class TrialBalanceController extends Controller
 {
     public function index()
@@ -214,5 +218,26 @@ class TrialBalanceController extends Controller
 
         $pdf = \PDF::loadView('formview::trial-balance', $data);
         return $pdf->stream();
+	}
+
+	public function export(Request $request)
+	{
+		$date = $this->convertDate($request->daterange);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		$tmp_data = $this->getData($beginDate, $endingDate);
+		$total_data = count($tmp_data);
+		$data_final = array_chunk($tmp_data, 19);
+
+		$data = [
+			'data' => $data_final,
+			'total_data' => $total_data,
+			'startDate' => $beginDate,
+			'finishDate' => $endingDate,
+		];
+
+		return Excel::download(new TBExport($data), 'TB.xlsx');
 	}
 }
