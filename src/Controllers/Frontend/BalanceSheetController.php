@@ -59,7 +59,7 @@ class BalanceSheetController extends Controller
 			'totalPasiva' => $viewGL['totalPasiva']
 		];
 
-		return Excel::download(new BSExport($data), 'bs.xlsx');
+		return Excel::download(new BSExport($data), 'BS.xlsx');
 	}
 
 	public function getViewGL($tmp_data)
