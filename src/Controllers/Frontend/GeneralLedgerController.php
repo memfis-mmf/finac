@@ -22,8 +22,6 @@ class GeneralLedgerController extends Controller
 		$code = explode(',', $request->data);
 		$coa = Coa::whereIn('code', $code)->get();
 
-		$coa_code = '';
-
 		$date = $this->convertDate($request->date);
 
 		$beginDate = $date[0];
@@ -45,12 +43,6 @@ class GeneralLedgerController extends Controller
 
 		}
 
-		$coa = '%%';
-
-		if ($coa_code) {
-			$coa = $coa_code;
-		}
-
 		$data = [
 			'data' => $data_coa,
 			'beginDate' => $beginDate,
@@ -66,58 +58,60 @@ class GeneralLedgerController extends Controller
 
 		$queryStatement ='
 			SET @startDate = "'.$beginDate.'";
-			SET @EndDate = "'.$endingDate.'";
+			SET @endDate = "'.$endingDate.'";
 			SET @Coa = "'.$coa.'";
 		';
 
 		$query = "
-			select
+			SELECT
 			DATE_ADD(@startDate, INTERVAL -1 DAY) as TransactionDate,
-			' ' as CreatedAt,
+				' ' as CreatedAt,
 			'Saldo Awal' as VoucherNo,
 			' ' as VoucherNo,
 			m_journal.code as AccountCode,
 			m_journal.Name as Name,
 			IFNULL(
-			(select sum(debit-Credit) from trxjournala
-			left join trxjournals on trxjournals.Voucher_No=trxjournala.Voucher_No
-			where
-			cast(trxjournals.Transaction_Date as date) < @startDate
-			and
-			trxjournala.account_code = m_journal.id
-			)
-			,0)
+				(select sum(debit-Credit) from trxjournala
+				left join trxjournals on trxjournals.Voucher_No=trxjournala.Voucher_No
+				where
+				cast(trxjournals.Transaction_Date as date) < @startDate
+				and
+				trxjournala.account_code = m_journal.id
+				)
+				,0)
 			AS SaldoAwal,
 			0 AS Debit,
 			0 AS Credit,
-            'Saldo Awal' AS Description
-			from m_journal
-			where
+			'Saldo Awal' AS Description
+			FROM m_journal
+			WHERE
 			m_journal.description = 'Detail'
 			and
 			m_journal.code in (".$coa.")
-			UNION ALL
-			select
-			trxjournals.transaction_date as TransactionDate,
-			trxjournals.created_at as CreatedAt,
-			trxjournals.voucher_no as VoucherNo,
-			trxjournals.ref_no as RefNo,
-			m_journal.code as AccountCode,
-			m_journal.Name as Name,
-			0 AS SaldoAwal ,
-			trxjournala.Debit AS Debit,
-			trxjournala.Credit AS Credit,
-            trxjournala.description AS Description
-			from
-			trxjournals
-			left join trxjournala
-			on trxjournals.voucher_no = trxjournala.voucher_no
-			left join m_journal
-			on trxjournala.account_code = m_journal.id
-			where cast(trxjournals.transaction_date as date) between @startdate and @enddate
-			and m_journal.code in (".$coa.")
 
-			order by AccountCode, TransactionDate, CreatedAt asc
+			UNION ALL
+						
+			(SELECT
+				trxjournals.transaction_date as TransactionDate,
+				trxjournals.created_at as CreatedAt,
+				trxjournals.voucher_no as VoucherNo,
+				trxjournals.ref_no as RefNo,
+				m_journal.code as AccountCode,
+				m_journal.Name as Name,
+				0 AS SaldoAwal ,
+				trxjournala.Debit AS Debit,
+				trxjournala.Credit AS Credit,
+				trxjournala.description AS Description
+				from
+				trxjournals
+				left join trxjournala
+				on trxjournals.voucher_no = trxjournala.voucher_no
+				left join m_journal
+				on trxjournala.account_code = m_journal.id
+				where cast(trxjournals.transaction_date as date) between @startDate and @endDate
+				and m_journal.code in (".$coa."))
+					
+				order by AccountCode,TransactionDate, CreatedAt asc
 		";
 
 		DB::connection()->getpdo()->exec($queryStatement);
@@ -277,5 +271,12 @@ class GeneralLedgerController extends Controller
         ];
 
         echo json_encode($result, JSON_PRETTY_PRINT);
-    }
+	}
+	
+	public function print(Request $request)
+	{
+		$data = [];
+        $pdf = \PDF::loadView('formview::general-ledger-docs', $data);
+        return $pdf->stream();
+	}
 }

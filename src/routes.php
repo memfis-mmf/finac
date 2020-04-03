@@ -379,15 +379,19 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@index'
-		)->name('profitloss.index');
+		)->name('general_ledger.index');
+		Route::get(
+			'/print',
+			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@print'
+		)->name('general_ledger.print');
 		Route::get(
 			'/show',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@show'
-		)->name('profitloss.show');
+		)->name('general_ledger.show');
 		Route::get(
 			'/show/datatables',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@showDatatables'
-		)->name('profitloss.show');
+		)->name('general_ledger.show');
 	});
 
     Route::prefix('journala')->group(function () {

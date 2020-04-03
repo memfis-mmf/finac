@@ -36,7 +36,6 @@
     <h5>GENERAL LEDGER</h5>
     <h4><b>11/11/11 - 11/11/20</b></h4>
 </div>  --}}
-@include('cashbookview::coamodal')
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -59,48 +58,75 @@
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
-                            <h5 class="col-sm-12 col-md-12 col-lg-12">
-                                <table width="100%" >
-                                    <tr>
-                                        <td width="10%"> Account Code</td>
-                                        <td width="1%">:</td>
-                                        <td width="89%"> 61115005 - <span> Duty Trip Expense (Hotel) International</span> </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%">Period </td>
-                                        <td width="1%">:</td>
-                                        <td width="89%"> 2020-02-01 </td>
-                                    </tr>
-                                </table><br>
-                            </h5>
-                            
-                            <div class="col-sm-12 col-md-12 col-lg-12">
-                                <div class="general_ledger_datatable" id="scrolling_both"></div>
+                            @foreach ($data as $items)
+                                <h5 class="col-sm-12 col-md-12 col-lg-12">
+                                    <table width="100%" >
+                                        <tr>
+                                            <td width="10%"> Account Code</td>
+                                            <td width="1%">:</td>
+                                            <td width="89%"> {{$items[0]->AccountCode}} - <span> {{$items[0]->Name}}</span> </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="10%">Period </td>
+                                            <td width="1%">:</td>
+                                            <td width="89%">{{$beginDate.' - '.$endingDate}}</td>
+                                        </tr>
+                                    </table><br>
+                                </h5>
+                                
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    {{-- <div class="general_ledger_datatable" id="scrolling_both"></div> --}}
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Transaction No.</th>
+                                                <th>Ref. No.</th>
+                                                <th>Description</th>
+                                                <th>Debit</th>
+                                                <th>Credit</th>
+                                                <th>Ending Balance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($items as $item)
+                                                <tr>
+                                                    <td>{{$item->TransactionDate}}</td>
+                                                    <td>{{$item->VoucherNo}}</td>
+                                                    <td>-</td>
+                                                    <td>{{$item->Description}}</td>
+                                                    <td>Rp {{number_format($item->Debit, 0, 0, '.')}}</td>
+                                                    <td>Rp {{number_format($item->Credit, 0, 0, '.')}}</td>
+                                                    <td>Rp {{number_format($item->SaldoAwal, 0, 0, '.')}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    <table>
 
-                                <div class="d-flex justify-content-center">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                    {{-- <div class="d-flex justify-content-center">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                </li>
+                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div> --}}
                                 </div>
-                            </div>
-
+                            @endforeach
                         </div>
                         <div class="form-group m-form__group row ">
 
