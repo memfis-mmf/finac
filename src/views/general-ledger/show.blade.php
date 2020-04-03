@@ -101,7 +101,7 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                    <table>
+                                    </table>
 
                                     {{-- <div class="d-flex justify-content-center">
                                         <nav aria-label="Page navigation example">
