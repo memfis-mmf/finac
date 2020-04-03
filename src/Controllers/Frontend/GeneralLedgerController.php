@@ -286,7 +286,35 @@ class GeneralLedgerController extends Controller
 	
 	public function print(Request $request)
 	{
-		$data = [];
+		$code = explode(',', $request->data);
+		$coa = Coa::whereIn('code', $code)->get();
+
+		if (count($coa) < 1) {
+			return redirect()->back()->with([
+				'errors' => 'Coa not found'
+			]);
+		}
+
+		$date = $this->convertDate($request->date);
+
+		$beginDate = $date[0];
+		$endingDate = $date[1];
+
+		for ($i=0; $i < count($coa); $i++) {
+
+			$data_coa[] = $this->getData(
+				$beginDate, $endingDate, $coa[$i]->code
+			);
+
+		}
+
+		$data = [
+			'data' => $data_coa,
+			'beginDate' => $beginDate,
+			'endingDate' => $endingDate,
+			'coa' => $coa,
+		];
+
         $pdf = \PDF::loadView('formview::general-ledger-docs', $data);
         return $pdf->stream();
 	}

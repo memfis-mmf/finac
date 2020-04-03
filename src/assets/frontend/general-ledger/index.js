@@ -33,56 +33,68 @@ let Coa = {
             ]
         })
 
-				let coa_datatable = $('.coa_datatable').DataTable({
-					'paging':false,
-					"ordering":false,
+        let coa_datatable = $('.coa_datatable').DataTable({
+            'paging':false,
+            "ordering":false,
 	        "info":false,
 	        "searching":false,
-				});
+        });
 
         $('#coa_datatables').on('click', '.select-coa', function () {
-					let tr = $(this).parents('tr');
-					let data = coa_modal_datatable.row( tr ).data();
+            let tr = $(this).parents('tr');
+            let data = coa_modal_datatable.row( tr ).data();
 
-					coa_datatable.row.add([
+            coa_datatable.row.add([
 		        data.code,
 		        data.name,
-						'<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill delete" href="javascript:;" title="Delete"><i class="la la-trash"></i> </a>'
-			    ]).draw();
+                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill delete" href="javascript:;" title="Delete"><i class="la la-trash"></i> </a>'
+            ]).draw();
 
-					$('.modal').modal('hide');
+            $('.modal').modal('hide');
         });
 
         $('.coa_datatable').on('click', '.delete', function () {
-					let tr = $(this).parents('tr');
+            let tr = $(this).parents('tr');
 
-					console.log('wew')
+            console.log('wew')
 
-					coa_datatable.row(tr).remove().draw();
-				});
+            coa_datatable.row(tr).remove().draw();
+        });
 
-				$('body').on('click', '.view', function() {
-					let data = coa_datatable.rows().data();
-					let param = [];
-					let date = $('[name=daterange_general_ledger]').val();
+        $('body').on('click', '.view', function() {
+            let data = coa_datatable.rows().data();
+            let param = [];
+            let date = $('[name=daterange_general_ledger]').val();
 
-					for (var data_index = 0; data_index < data.length; data_index++) {
-						param[data_index] = data[data_index][0];
-					}
+            for (var data_index = 0; data_index < data.length; data_index++) {
+                param[data_index] = data[data_index][0];
+            }
 
-					location.href = _url+'/general-ledger/show/?data='+param+'&date='+date;
-				});
+            location.href = _url+'/general-ledger/show/?data='+param+'&date='+date;
+        });
 
-				$('body').on('click', '.export', function() {
-					let data = coa_datatable.rows().data();
-					let param = [];
-					let date = $('[name=daterange_general_ledger]').val();
+        $('body').on('click', '.export', function() {
+            let data = coa_datatable.rows().data();
+            let param = [];
+            let date = $('[name=daterange_general_ledger]').val();
 
-					for (var data_index = 0; data_index < data.length; data_index++) {
-						param[data_index] = data[data_index][0];
-					}
+            for (var data_index = 0; data_index < data.length; data_index++) {
+                param[data_index] = data[data_index][0];
+            }
 
-					location.href = _url+'/general-ledger/export/?data='+param+'&date='+date;
+            location.href = _url+'/general-ledger/export/?data='+param+'&date='+date;
+        });
+
+        $('body').on('click', '.print', function() {
+            let data = coa_datatable.rows().data();
+            let param = [];
+            let date = $('[name=daterange_general_ledger]').val();
+
+            for (var data_index = 0; data_index < data.length; data_index++) {
+                param[data_index] = data[data_index][0];
+            }
+
+            location.href = _url+'/general-ledger/print/?data='+param+'&date='+date;
         });
     }
 };

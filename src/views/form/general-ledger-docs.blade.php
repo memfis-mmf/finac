@@ -128,15 +128,15 @@
 
     <div id="content">
         <div class="container">
-        @for ($a = 0; $a < 6; $a++)
-        <table class="accountcode" width="100%" style="font-size:14px;" >
-            <tr >
-                <td width="9%" >Account Code</td>
-                <td width="1%">:</td>
-                <td width="90%">61115005 - Duty</td>
-            </tr>
-        </table>
-        <table class="transaction" width="100%" cellpadding="6" page-break-inside: auto;>
+        @foreach ($data as $items)
+            <table class="accountcode" width="100%" style="font-size:14px;" >
+                <tr >
+                    <td width="9%" >Account Code</td>
+                    <td width="1%">:</td>
+                    <td width="90%">{{$items[0]->AccountCode}} - <span> {{$items[0]->Name}}</span> </td>
+                </tr>
+            </table>
+            <table class="transaction" width="100%" cellpadding="6" page-break-inside: auto;>
                 <thead>
                     <tr style="background:#72829c;color:white;">
                         <th valign="top" align="center" width="10%">Date</th>
@@ -149,22 +149,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 6; $i++)
+                    @foreach ($items as $item)
                         
-                    <tr>
-                        <td valign="top" width="10%">10/29/2019</td>
-                        <td valign="top" width="13%">Pr-12312 </td>
-                        <td valign="top" width="12%">Pr-12312</td>
-                        <td valign="top" width="20%">Lorem </td>
-                        <td valign="top" width="15%" align="right" style="padding-right:10px">Lorem </td>
-                        <td valign="top" width="15%" align="right" style="padding-right:10px">Lorem </td>
-                        <td valign="top" width="15%" align="right" style="padding-right:10px;">Lorem </td>
-                    </tr>
-
-                    @endfor
+                        <tr>
+                            <td valign="top" width="10%">{{$item->TransactionDate}}</td>
+                            <td valign="top" width="13%">{{$item->VoucherNo}}</td>
+                            <td valign="top" width="12%">-</td>
+                            <td valign="top" width="20%">{{$item->Description}}</td>
+                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Debit, 0, 0, '.')}}</td>
+                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Credit, 0, 0, '.')}}</td>
+                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->SaldoAwal, 0, 0, '.')}}</td>
+                        </tr>
+                        
+                    @endforeach
                 </tbody>
             </table>
-            @endfor
+        @endforeach
         </div>
     </div>
 </body>

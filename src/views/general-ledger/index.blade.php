@@ -90,8 +90,9 @@
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12  d-flex justify-content-end">
                                 <div class="action-buttons">
-                                    <a href="" class="btn m-btn--pill m-btn--air btn-outline-info btn-md "><span>
-                                            <i class="la la-print"></i>
+                                    <a href="javascript:;"
+                                        class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md print"><span>
+                                            <i class="la la-file"></i>
                                             <span>Print</span>
                                         </span>
                                     </a>
