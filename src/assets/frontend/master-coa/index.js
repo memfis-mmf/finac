@@ -19,6 +19,14 @@ let MasterCoa = {
       ]
     });
 
+    $(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_filter").addClass("pull-left");
+    $(".paging_simple_numbers").addClass("pull-left");
+    $(".dataTables_length").addClass("pull-right");
+    $(".dataTables_info").addClass("pull-right");
+    $(".dataTables_info").addClass("margin-info");
+    $(".paging_simple_numbers").addClass("padding-datatable");
+
     $('body').on('click', '#coa_switch', function() {
       let uuid = $(this).data('uuid');
 
