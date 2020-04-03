@@ -1,174 +1,233 @@
 let Invoice = {
     init: function () {
 
-				function addCommas(nStr)
-				{
-						nStr += '';
-						x = nStr.split('.');
-						x1 = x[0];
-						x2 = x.length > 1 ? '.' + x[1] : '';
-						var rgx = /(\d+)(\d{3})/;
-						while (rgx.test(x1)) {
-								x1 = x1.replace(rgx, '$1' + '.' + '$2');
-						}
-						return x1 + x2;
-				}
-
-        $('.invoice_datatable').mDatatable({
-            data: {
-                type: 'remote',
-                source: {
-                    read: {
-                        method: 'GET',
-                        url: '/invoice/datatables',
-                        map: function (raw) {
-                            let dataSet = raw;
-
-                            if (typeof raw.data !== 'undefined') {
-                                dataSet = raw.data;
-                            }
-
-
-                            return dataSet;
-                        }
-                    }
-                },
-                pageSize: 10,
-                serverPaging: !1,
-                serverFiltering: !0,
-                serverSorting: !1
-            },
-            layout: {
-                theme: 'default',
-                class: '',
-                scroll: false,
-                footer: !1
-            },
-            sortable: !0,
-            filterable: !1,
-            pagination: !0,
-            search: {
-                input: $('#generalSearch')
-            },
-            toolbar: {
-                items: {
-                    pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
-                    }
+        let _url = window.location.origin;
+        function addCommas(nStr)
+        {
+                nStr += '';
+                x = nStr.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                        x1 = x1.replace(rgx, '$1' + '.' + '$2');
                 }
-            },
-            columns: [
-                {
-                    field: 'transactiondate',
-                    title: 'Date',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60
-                },
-                {
-                    field: 'transactionnumber',
-                    title: 'Invoice No.',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 200
-                },
-                {
-                    field: 'xstatus',
-                    title: 'Type',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150,
-                },
-                {
-                    field: 'customer.name',
-                    title: 'Customer',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'quotations.number',
-                    title: 'Quotation No.',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'currencies.code',
-                    title: 'Currency',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'grandtotalforeign',
-                    title: 'Total',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150,
-										template: function(t, e, i) {
-											let value = addCommas(parseInt(t.grandtotalforeign));
-											let symbol = t.currencies.symbol;
-											return `${symbol} ${value}`;
-										}
-                },
-                {
-                    field: 'status',
-                    title: 'Status',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'approved_by.name',
-                    title: 'ApprovedBy',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'Actions',
-                    width: 110,
-                    title: 'Actions',
-                    sortable: !1,
-                    overflow: 'visible',
-                    template: function (t, e, i) {
-                        if (t.status == 'Approved') {
-                            return (
-																'<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
-                                // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t'
-                            );
+                return x1 + x2;
+        }
 
-                        } else if (t.status == 'Void') {
-                            return (
-                                // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t'
-                            );
-                        } else {
-                            return (
-																'<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
-                                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalinvoice" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                                t.uuid +
-                                '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-                                '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete-invoice" href="#" data-uuid=' +
-                                t.uuid +
-                                ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-                            );
+        // $('.invoice_datatable').mDatatable({
+        //     data: {
+        //         type: 'remote',
+        //         source: {
+        //             read: {
+        //                 method: 'GET',
+        //                 url: '/invoice/datatables',
+        //                 map: function (raw) {
+        //                     let dataSet = raw;
 
-                        }
+        //                     if (typeof raw.data !== 'undefined') {
+        //                         dataSet = raw.data;
+        //                     }
 
 
-                    }
+        //                     return dataSet;
+        //                 }
+        //             }
+        //         },
+        //         pageSize: 10,
+        //         serverPaging: !1,
+        //         serverFiltering: !0,
+        //         serverSorting: !1
+        //     },
+        //     layout: {
+        //         theme: 'default',
+        //         class: '',
+        //         scroll: false,
+        //         footer: !1
+        //     },
+        //     sortable: !0,
+        //     filterable: !1,
+        //     pagination: !0,
+        //     search: {
+        //         input: $('#generalSearch')
+        //     },
+        //     toolbar: {
+        //         items: {
+        //             pagination: {
+        //                 pageSizeSelect: [5, 10, 20, 30, 50, 100]
+        //             }
+        //         }
+        //     },
+        //     columns: [
+        //         {
+        //             field: 'transactiondate',
+        //             title: 'Date',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 60
+        //         },
+        //         {
+        //             field: 'transactionnumber',
+        //             title: 'Invoice No.',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 200
+        //         },
+        //         {
+        //             field: 'xstatus',
+        //             title: 'Type',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150,
+        //         },
+        //         {
+        //             field: 'customer.name',
+        //             title: 'Customer',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'quotations.number',
+        //             title: 'Quotation No.',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'currencies.code',
+        //             title: 'Currency',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'grandtotalforeign',
+        //             title: 'Total',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150,
+		// 								template: function(t, e, i) {
+		// 									let value = addCommas(parseInt(t.grandtotalforeign));
+		// 									let symbol = t.currencies.symbol;
+		// 									return `${symbol} ${value}`;
+		// 								}
+        //         },
+        //         {
+        //             field: 'status',
+        //             title: 'Status',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'approved_by.name',
+        //             title: 'ApprovedBy',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'Actions',
+        //             width: 110,
+        //             title: 'Actions',
+        //             sortable: !1,
+        //             overflow: 'visible',
+        //             template: function (t, e, i) {
+        //                 if (t.status == 'Approved') {
+        //                     return (
+		// 														'<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
+        //                         // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+        //                         '\t\t\t\t\t\t\t'
+        //                     );
+
+        //                 } else if (t.status == 'Void') {
+        //                     return (
+        //                         // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+        //                         '\t\t\t\t\t\t\t'
+        //                     );
+        //                 } else {
+        //                     return (
+		// 														'<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
+        //                         '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+        //                         '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalinvoice" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+        //                         t.uuid +
+        //                         '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+        //                         '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete-invoice" href="#" data-uuid=' +
+        //                         t.uuid +
+        //                         ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+        //                     );
+
+        //                 }
+
+
+        //             }
+        //         }
+        //     ]
+        // });
+
+        let invoice_datatable = $('.invoice_datatable').DataTable({
+          dom: '<"top"f>rt<"bottom">pil',
+          scrollX: true,
+          processing: true,
+          serverSide: true,
+          ajax: _url+'/invoice/datatables',
+          columns: [
+            {data: 'transactiondate'},
+            {data: 'transactionnumber'},
+            {data: 'xstatus'},
+            {data: 'customer.name'},
+            {data: 'quotations.number'},
+            {data: 'currencies.code'},
+            {data: 'total_transaction', render: function(data, type, row) {
+                let value = addCommas(parseInt(row.grandtotalforeign));
+                let symbol = row.currencies.symbol;
+                return `${symbol} ${value}`;
+            }},
+            {data: 'status'},
+            {data: 'approved_by.name'},
+            {data: '', searchable: false, render: function (data, type, row) {
+                let t = row;
+                if (t.status == 'Approved') {
+                    return (
+                        '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
+                        // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+                        '\t\t\t\t\t\t\t'
+                    );
+
+                } else if (t.status == 'Void') {
+                    return (
+                        // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+                        '\t\t\t\t\t\t\t'
+                    );
+                } else {
+                    return (
+                        '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="fa fa-print"></i></a>\t\t\t\t\t\t'+
+                        '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+                        '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalinvoice" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                        t.uuid +
+                        '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+                        '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete-invoice" href="#" data-uuid=' +
+                        t.uuid +
+                        ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+                    );
+
                 }
-            ]
+            }}
+          ]
         });
+
+        $(".dataTables_length select").addClass("form-control m-input");
+        $(".dataTables_filter").addClass("pull-left");
+        $(".paging_simple_numbers").addClass("pull-left");
+        $(".dataTables_length").addClass("pull-right");
+        $(".dataTables_info").addClass("pull-right");
+        $(".dataTables_info").addClass("margin-info");
+        $(".paging_simple_numbers").addClass("padding-datatable");
 
         $('.modal-footer').on('click', '.reset', function () {
             coa_reset();
         });
-
 
         let save_changes_button = function () {
             $('.btn-success').removeClass('add');
