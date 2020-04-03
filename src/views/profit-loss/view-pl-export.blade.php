@@ -9,22 +9,22 @@
   </tr>
 </table>
 
-<table width="100%" cellpadding="8">
+<table cellpadding="8">
   <tr style="background:#5f6b5e; color:white;font-weight: bold;font-size:16px">
-    <td width="25%">Account Code</td>
-    <td width="55%">Account Name</td>
-    <td width="10%" align="right">Accumulated</td>
-    <td width="10%" align="right">Period</td>
+    <td>Account Code</td>
+    <td>Account Name</td>
+    <td align="right">Accumulated</td>
+    <td align="right">Period</td>
   </tr>
   @for ($a=0; $a < count($data['pendapatan']); $a++) @php
     $x=$data['pendapatan'][$a]; @endphp 
     <tr style="font-weight: bold; border-bottom:1px solid black; font-size:16px">
-      <td width="25%">{{$x->name}}</td>
-      <td width="55%"></td>
-      <td width="10%" align="right">
+      <td>{{$x->name}}</td>
+      <td></td>
+      <td align="right">
         {{$x->CurrentBalance}}
       </td>
-      <td width="10%" align="right">
+      <td align="right">
         {{$x->EndingBalance}}
       </td>
     </tr>
@@ -33,12 +33,12 @@
         $y = $x->child[$b];
       @endphp
       <tr>
-        <td width="25%">{{$x->code}}</td>
-        <td width="55%">{{$y->name}}</td>
-        <td width="10%" align="right">
+        <td>{{$x->code}}</td>
+        <td>{{$y->name}}</td>
+        <td align="right">
           {{$y->CurrentBalance}}
         </td>
-        <td width="10%" align="right">
+        <td align="right">
           {{$y->EndingBalance}}
         </td>
       </tr>
@@ -53,14 +53,14 @@
   </tr>
 
   <tr style="background:#add8f7;font-weight: bold;font-size:16px">
-      <td width="25%">
+      <td>
           Total Revenue
       </td>
-      <td width="55%"></td>
-      <td width="10%" align="right">
+      <td></td>
+      <td align="right">
         {{$pendapatan_accumulated}}
       </td>
-      <td width="10%" align="right">
+      <td align="right">
         {{$pendapatan_period}}
       </td>
   </tr>
@@ -78,11 +78,11 @@
       $x=$data['biaya'][$a]; 
     @endphp 
     <tr style="font-weight: bold; border-bottom:1px solid black; font-size:16px">
-      <td width="25%">{{$x->name}}</td>
-      <td width="55%"></td>
-      <td width="10%" align="right">
+      <td>{{$x->name}}</td>
+      <td></td>
+      <td align="right">
         {{$x->CurrentBalance}}</td>
-      <td width="10%" align="right">
+      <td align="right">
         {{$x->EndingBalance}}
       </td>
     </tr>
@@ -91,12 +91,12 @@
       $y = $x->child[$b];
       @endphp
       <tr>
-      <td width="25%">{{$x->code}}</td>
-        <td width="55%">{{$y->name}}</td>
-        <td width="10%" align="right">
+      <td>{{$x->code}}</td>
+        <td>{{$y->name}}</td>
+        <td align="right">
           {{$y->CurrentBalance}}
         </td>
-        <td width="10%" align="right">
+        <td align="right">
           {{$y->EndingBalance}}
         </td>
       </tr>
@@ -110,13 +110,13 @@
   </tr>
   <tr
       style="background:#add8f7;font-weight: bold; font-size:16px">
-      <td width="25%">
+      <td>
           Total Expense
       </td>
-      <td width="55%"></td>
-      <td width="10%" align="right">
+      <td></td>
+      <td align="right">
           {{$biaya_accumulated}}</td>
-      <td width="10%" align="right">
+      <td align="right">
           {{$biaya_period}}</td>
   </tr>
 </table>
