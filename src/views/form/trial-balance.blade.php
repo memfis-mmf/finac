@@ -152,7 +152,7 @@
                         @endphp
                         <tr>
                             <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $x->code }}</td>
-                            <td valign="top" width="16%">{{ $x->name }}</th>
+                            <td valign="top" width="16%">{{ $x->name }}</td>
                             <td valign="top" align="center" width="16%">{{ number_format($x->LastBalance, 0, 0, '.') }}</td>
                             <td valign="top" align="center" width="18%">{{ number_format($x->Debit, 0, 0, '.') }}</td>
                             <td valign="top" align="center" width="18%">{{ number_format($x->Credit, 0, 0, '.') }}</td>
