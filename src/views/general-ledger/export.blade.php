@@ -31,9 +31,9 @@
                   <td>{{$item->VoucherNo}}</td>
                   <td>-</td>
                   <td>{{$item->Description}}</td>
-                  <td>Rp {{number_format($item->Debit, 0, 0, '.')}}</td>
-                  <td>Rp {{number_format($item->Credit, 0, 0, '.')}}</td>
-                  <td>Rp {{number_format($item->SaldoAwal, 0, 0, '.')}}</td>
+                  <td>{{$item->Debit}}</td>
+                  <td>{{$item->Credit}}</td>
+                  <td>{{$item->SaldoAwal}}</td>
               </tr>
           @endforeach
       </tbody>
