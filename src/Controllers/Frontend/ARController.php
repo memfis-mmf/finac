@@ -413,7 +413,10 @@ class ARController extends Controller
 
     public function countPaidAmount($id_invoice)
     {
-		$ara = AReceiveA::where('id_invoice', $id_invoice)->get();
+        $ara = AReceiveA::where('id_invoice', $id_invoice)->get();
+        if (!count($ara)) {
+            return 0;
+        }
 		$ar = $ara[0]->ar;
 
 		$data['debt_total_amount'] = Invoice::where(
