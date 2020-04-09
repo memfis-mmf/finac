@@ -797,7 +797,7 @@ class ARController extends Controller
 				'coa_name' => $header->coa_name,
 				'credit' => 0,
 				'debit' => $total_credit - $total_debit,
-				'_desc' => $header->description,
+				'_desc' => @$header->description,
 			]
 		);
 
