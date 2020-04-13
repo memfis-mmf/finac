@@ -274,10 +274,7 @@ let Invoice = {
 
                         $('#code-error').html('');
 
-                        let table = $('.invoice_datatable').mDatatable();
-
-                        table.originalDataSet = [];
-                        table.reload();
+                        invoice_datatable.ajax.reload();
                     }
                 }
             });
@@ -414,13 +411,9 @@ let Invoice = {
                         success: function (data) {
                             toastr.success('Invoice has been closed.', 'Deleted', {
                                 timeOut: 5000
-                            }
-                            );
+                            });
 
-                            let table = $('.invoice_datatable').mDatatable();
-
-                            table.originalDataSet = [];
-                            table.reload();
+                            invoice_datatable.ajax.reload();
                         },
                         error: function (jqXhr, json, errorThrown) {
                             let errorsHtml = '';

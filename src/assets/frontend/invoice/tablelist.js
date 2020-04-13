@@ -590,7 +590,8 @@ var DatatableAutoColumnHideDemo = function () {
               }
 
             } else if (t.priceother != null) {
-              subtotal += t.priceother;
+              let _price_other = parseFloat(t.priceother);
+              subtotal = parseFloat(subtotal) + _price_other;
               // if (currency.code == 'idr') {
               if (_currency == 'idr') {
                 others_price = t.priceother;
