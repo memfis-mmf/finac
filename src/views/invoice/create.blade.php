@@ -2,9 +2,9 @@
 
 @section('content')
 <style media="screen">
-	.m-datatable__cell:last-of-type {
-		vertical-align: top !important;
-	}
+    .m-datatable__cell:last-of-type {
+        vertical-align: top !important;
+    }
 </style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
@@ -295,32 +295,32 @@
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                                         <br />
                                                         <label class="form-control-label">
-																													Location
+                                                            Location
                                                         </label>
 
-																												<select class="_select2 form-control" name="location" style="width:100%">
-																													<option value=""></option>
-																													<option value="sidoarjo">Sidoarjo</option>
-																													<option value="surabaya">Surabaya</option>
-																													<option value="jakarta">Jakarta</option>
-																													<option value="biak">Biak</option>
-																												</select>
+                                                        <select class="_select2 form-control" name="location" style="width:100%">
+                                                            <option value=""></option>
+                                                            <option value="sidoarjo">Sidoarjo</option>
+                                                            <option value="surabaya">Surabaya</option>
+                                                            <option value="jakarta">Jakarta</option>
+                                                            <option value="biak">Biak</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                                         <br />
                                                         <label class="form-control-label">
-																													Company and Department
+                                                            Company and Department
                                                         </label>
 
-																												<select class="_select2 form-control" name="company_department" style="width:100%">
-																													<option value=""></option>
-																													@for ($a=0; $a < count($company); $a++)
-																														@php
-																															$x = $company[$a]
-																														@endphp
-																														<option value="{{$x->name}}">{{$x->name}}</option>
-																													@endfor
-																												</select>
+                                                        <select class="_select2 form-control" name="company_department" style="width:100%">
+                                                            <option value=""></option>
+                                                            @for ($a=0; $a < count($company); $a++)
+                                                                @php
+                                                                    $x = $company[$a]
+                                                                @endphp
+                                                                <option value="{{$x->name}}">{{$x->name}}</option>
+                                                            @endfor
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -356,14 +356,7 @@
                                             @endcomponent
                                         </div>
                                     </div>
-
-
-
-
-
                                 </div>
-
-
 
                                 <div class="form-group m-form__group row">
                                     <div id="actheader" class="col-sm-12 col-md-12 col-lg-12 footer">
@@ -395,20 +388,14 @@
                                                     <div class="col-sm-3 col-md-3 col-lg-3">
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:13px" class="form-control-label">
-
                                                                 Manhours
                                                             </label>
-
-
                                                         </div>
 
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:35px" class="form-control-label">
-
                                                                 Material
                                                             </label>
-
-
                                                         </div>
 
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -416,37 +403,27 @@
                                                                 <br />
                                                                 Facility
                                                             </label>
-
-
                                                         </div>
 
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:15px" class="form-control-label">
                                                                 <br />
-																																Discount
+                                                                Discount
                                                             </label>
-
-
                                                         </div>
 
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:15px" class="form-control-label">
                                                                 <br />
-																																PPN
+                                                                PPN
                                                             </label>
-
-
                                                         </div>
 
                                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                                             <label style="margin-top:34px" class="form-control-label">
-
                                                                 Other
                                                             </label>
-
-
                                                         </div>
-
 
                                                     </div>
                                                     <div class="col-sm-3 col-md-3 col-lg-3">
@@ -460,7 +437,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
-																														@slot('value', $coa_default->manhours->code)
+                                                            @slot('value', $coa_default->manhours->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -474,7 +451,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
-																														@slot('value', $coa_default->material->code)
+                                                            @slot('value', $coa_default->material->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -488,7 +465,7 @@
                                                             @slot('dataid','facility')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
-																														@slot('value', $coa_default->facility->code)
+                                                            @slot('value', $coa_default->facility->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -502,7 +479,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
-																														@slot('value', $coa_default->discount->code)
+                                                            @slot('value', $coa_default->discount->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -516,7 +493,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
-																														@slot('value', $coa_default->ppn->code)
+                                                            @slot('value', $coa_default->ppn->code)
                                                             @endcomponent
                                                         </div>
                                                         <br />
@@ -530,7 +507,7 @@
                                                             @slot('type', 'text')
                                                             @slot('style', 'width:100%')
                                                             @slot('data_target', '#coa_modal')
-																														@slot('value', $coa_default->other->code)
+                                                            @slot('value', $coa_default->other->code)
                                                             @endcomponent
                                                         </div>
                                                     </div>
@@ -540,7 +517,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'manhours_name')
                                                             @slot('name', 'manhours_name')
-																														@slot('value', $coa_default->manhours->name)
+                                                            @slot('value', $coa_default->manhours->name)
                                                             @slot('id_error', 'manhours_name')
                                                             @endcomponent
                                                         </div>
@@ -548,7 +525,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'material_name')
                                                             @slot('name', 'material_name')
-																														@slot('value', $coa_default->material->name)
+                                                            @slot('value', $coa_default->material->name)
                                                             @slot('id_error', 'material_name')
                                                             @endcomponent
                                                         </div>
@@ -556,7 +533,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'facility_name')
                                                             @slot('name', 'facility_name')
-																														@slot('value', $coa_default->facility->name)
+                                                            @slot('value', $coa_default->facility->name)
                                                             @slot('id_error', 'facility_name')
                                                             @endcomponent
                                                         </div>
@@ -564,7 +541,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'discount_name')
                                                             @slot('name', 'discount_name')
-																														@slot('value', $coa_default->discount->name)
+                                                            @slot('value', $coa_default->discount->name)
                                                             @slot('id_error', 'discount_name')
                                                             @endcomponent
                                                         </div>
@@ -572,7 +549,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'ppn_name')
                                                             @slot('name', 'ppn_name')
-																														@slot('value', $coa_default->ppn->name)
+                                                            @slot('value', $coa_default->ppn->name)
                                                             @slot('id_error', 'ppn_name')
                                                             @endcomponent
                                                         </div>
@@ -580,7 +557,7 @@
                                                             @component('input::inputreadonly')
                                                             @slot('id', 'other_name')
                                                             @slot('name', 'other_name')
-																														@slot('value', $coa_default->other->name)
+                                                            @slot('value', $coa_default->other->name)
                                                             @slot('id_error', 'other_name')
                                                             @endcomponent
                                                         </div>
@@ -599,6 +576,7 @@
                                                         </tfoot>
                                                     </table>
                                                 </fieldset>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <br />
@@ -661,12 +639,12 @@
                                                 </div>
                                             </div> --}}
                                         </div>
-																				<input type="hidden" name="sub_total_val" id="sub_total_val" value="">
-																				<input type="hidden" name="total_discount_val" id="total_discount_val" value="">
-																				<input type="hidden" name="grand_total_val" id="grand_total_val" value="">
-																				<input type="hidden" name="grand_totalrp_val" id="grand_totalrp_val" value="">
-																				<input type="hidden" name="other_price_val" id="other_price_val" value="">
-																				<input type="hidden" name="htcrr_price_val" id="htcrr_price_val" value="">
+                                        <input type="hidden" name="sub_total_val" id="sub_total_val" value="">
+                                        <input type="hidden" name="total_discount_val" id="total_discount_val" value="">
+                                        <input type="hidden" name="grand_total_val" id="grand_total_val" value="">
+                                        <input type="hidden" name="grand_totalrp_val" id="grand_totalrp_val" value="">
+                                        <input type="hidden" name="other_price_val" id="other_price_val" value="">
+                                        <input type="hidden" name="htcrr_price_val" id="htcrr_price_val" value="">
                                         <div class="col-sm-6 col-md-6 col-lg-6">
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
@@ -712,19 +690,19 @@
                                                     @slot('text', '')
                                                     @slot('value', '')
                                                     @endcomponent --}}
-																									<div class="input-group mb-3">
-																									  <div class="input-group-prepend">
-																									    <span class="input-group-text tax-symbol"></span>
-																									  </div>
-                                                    <input type="text" id="tax" name="" class="form-control m-input tax" style="" value="" placeholder="" readonly="">
-																									</div>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text tax-symbol"></span>
+                                                        </div>
+                                                        <input type="text" id="tax" name="" class="form-control m-input tax" style="" value="" placeholder="" readonly="">
+                                                    </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div>
-																											Other
+                                                        Other
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
@@ -910,94 +888,94 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currencyfa.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
-		// remove dot separator in currency format
-		function removeDot(val) {
-			return val.split('.').join('');
-		}
+        // remove dot separator in currency format
+        function removeDot(val) {
+            return val.split('.').join('');
+        }
 
-		function getSeparator() {
-			let currency = $('#currency').val()
+        function getSeparator() {
+            let currency = $('#currency').val()
 
-			if (currency == 'idr') {
-				separator = 'Rp ';
-			}
+            if (currency == 'idr') {
+                separator = 'Rp ';
+            }
 
-			if (currency == 'usd') {
-				separator = 'US$';
-			}
+            if (currency == 'usd') {
+                separator = 'US$';
+            }
 
-			return separator;
-		}
+            return separator;
+        }
 
-		// make input becom integer by remove symbol and remove dot separator
-		function makeInt(param) {
-			let separator = getSeparator();
-			let val = removeDot(param.split(separator)[1]);
-			return parseInt(val);
-		}
+        // make input becom integer by remove symbol and remove dot separator
+        function makeInt(param) {
+            let separator = getSeparator();
+            let val = removeDot(param.split(separator)[1]);
+            return parseInt(val);
+        }
 
-		function addCommas(nStr)
-		{
-				nStr += '';
-				x = nStr.split('.');
-				x1 = x[0];
-				x2 = x.length > 1 ? '.' + x[1] : '';
-				var rgx = /(\d+)(\d{3})/;
-				while (rgx.test(x1)) {
-						x1 = x1.replace(rgx, '$1' + '.' + '$2');
-				}
-				return x1 + x2;
-		}
+        function addCommas(nStr)
+        {
+                nStr += '';
+                x = nStr.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                        x1 = x1.replace(rgx, '$1' + '.' + '$2');
+                }
+                return x1 + x2;
+        }
 
     $(document).ready(function() {
-			$('._select2').select2({
-		    placeholder: "Select",
-			});
+            $('._select2').select2({
+            placeholder: "Select",
+            });
 
-			$('body').on('input', '#tax', function() {
+            $('body').on('input', '#tax', function() {
 
-				let tax = parseInt(removeDot($(this).val()));
+                let tax = parseInt(removeDot($(this).val()));
 
         let subtotal = parseInt($("#sub_total_val").val());
         let discount_amount = parseInt($("#total_discount_val").val());
         let other_total = parseInt($("#other_price_val").val());
 
-				console.table({
-	        'subtotal' : subtotal,
-	        'discount_amount' : discount_amount,
-	        'other_total' : other_total,
-				});
+                console.table({
+            'subtotal' : subtotal,
+            'discount_amount' : discount_amount,
+            'other_total' : other_total,
+                });
 
-				let grandtotal = subtotal - discount_amount + tax + other_total;
-				let grandtotalrp = (subtotal - discount_amount + tax + other_total) * $('#exchange_rate1111').val();
+                let grandtotal = subtotal - discount_amount + tax + other_total;
+                let grandtotalrp = (subtotal - discount_amount + tax + other_total) * $('#exchange_rate1111').val();
 
-				$("#grand_total_val").val(
-					grandtotal
-				);
+                $("#grand_total_val").val(
+                    grandtotal
+                );
 
-				$("#grand_total").val(
-					`${getSeparator()}${addCommas(grandtotal)},00`
-				);
+                $("#grand_total").val(
+                    `${getSeparator()}${addCommas(grandtotal)},00`
+                );
 
-				$("#grand_totalrp_val").val(
-					grandtotalrp
-				);
+                $("#grand_totalrp_val").val(
+                    grandtotalrp
+                );
 
-				$("#grand_totalrp").val(
-					`Rp ${addCommas(grandtotalrp)},00`
-				);
+                $("#grand_totalrp").val(
+                    `Rp ${addCommas(grandtotalrp)},00`
+                );
 
-			  // skip for arrow keys
-			  if(event.which >= 37 && event.which <= 40) return;
+              // skip for arrow keys
+              if(event.which >= 37 && event.which <= 40) return;
 
-			  // format number
-			  $(this).val(function(index, value) {
-			    return value
-			    .replace(/\D/g, "")
-			    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-			  });
+              // format number
+              $(this).val(function(index, value) {
+                return value
+                .replace(/\D/g, "")
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+              });
 
-			});
+            });
 
       var others_data = "";
       $(".checkprofit").on('click', function(event) {
@@ -1035,15 +1013,15 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('body').on('change', '#currency', function() {
-			let val = $(this).val();
+    $(document).ready(function() {
+        $('body').on('change', '#currency', function() {
+            let val = $(this).val();
 
-			if (val == 'idr') {
-				$('#exchange_rate1111').val(1);
-				$('#exchange_rate1111').attr('disabled', 'disabled');
-			}
-		});
+            if (val == 'idr') {
+                $('#exchange_rate1111').val(1);
+                $('#exchange_rate1111').attr('disabled', 'disabled');
+            }
+        });
 
     $.ajax({
         url: '/bankfa-internal',
@@ -1066,7 +1044,7 @@
             $("#bankinfo").select2().val(bank_uuid).trigger("change");
         }
     });
-	});
+    });
 </script>
 
 @endpush
