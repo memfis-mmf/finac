@@ -20,6 +20,11 @@ let tax_amount = 0;
 
 let exchange_rate = parseInt($('#exchange_rate').attr('value'));
 
+const formatter = new Intl.NumberFormat('de-DE', {
+   minimumFractionDigits: 2,      
+   maximumFractionDigits: 2,
+});
+
 function addCommas(nStr)
 {
 		nStr += '';
@@ -178,7 +183,7 @@ var DatatableAutoColumnHideDemo = function () {
               // if (currency.code == 'idr') {
               if (_currency == 'idr') {
                 //temptotal = t.h1 + t.h2;
-                temptotal = (t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price;
+                temptotal = formatter.format((t.total_manhours_with_performance_factor * t.manhour_rate_amount) + t.mat_tool_price);
                 subtotal += temptotal;
                 //discount += t.discount;
                 /*
@@ -258,7 +263,7 @@ var DatatableAutoColumnHideDemo = function () {
                 );
               } else {
                 //temptotal = t.h1 + t.h2;
-                temptotal = (t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price;
+                temptotal = formatter.format((t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price);
                 subtotal += temptotal;
                 if(t.pivot.discount_type == 'amount'){
                   discount += t.pivot.discount_value;
