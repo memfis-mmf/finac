@@ -590,6 +590,21 @@ var DatatableAutoColumnHideDemo = function () {
               }
 
             } else if (t.priceother != null) {
+              $("#sub_total_val").val(_subtotal);
+              $("#total_discount_val").val(discount_amount);
+              $("#grand_total_val").val(grandtotal_amount);
+              $("#grand_totalrp_val").val(
+                // grandtotal_amount * t.quotations[0].exchange_rate
+                grandtotal_amount * multiple
+              );
+
+              $("#sub_total").val(ForeignFormatter.format(_subtotal));
+              $("#total_discount").val(ForeignFormatter.format(discount_amount));
+              $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
+              $("#grand_totalrp").val(IDRformatter.format(
+                grandtotal_amount * t.quotations[0].exchange_rate
+              ));
+
               let _price_other = parseFloat(t.priceother);
               subtotal = parseFloat(subtotal) + _price_other;
               // if (currency.code == 'idr') {
