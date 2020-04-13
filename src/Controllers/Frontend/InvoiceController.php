@@ -848,11 +848,11 @@ class InvoiceController extends Controller
 
 		$quo_invoice = Invoice::where('id_quotation', $quotation->id)->first();
 
-		$quotation->duplicate = false;
+        $quotation->duplicate = false;
 
 		if ($quo_invoice) {
 			$quotation->duplicate = true;
-		}
+        }
 
         return response()->json($quotation);
     }
@@ -873,6 +873,7 @@ class InvoiceController extends Controller
         }
 
         foreach ($workpackages as $workPackage) {
+            // get project workpackage
             $project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
                 ->where('workpackage_id', $workPackage->id)
                 ->first();
@@ -892,16 +893,16 @@ class InvoiceController extends Controller
             $cpcp_count = 0;
             $si_count = 0;
 
-            $basictaskcards = ProjectWorkPackageTaskCard::with(['taskcard'])->where('project_workpackage_id', $project_workpackage->id)->get();
-            foreach ($basictaskcards as $basictaskcard) {
-                $taskcard =  TaskCard::find($basictaskcard->taskcard_id)->type;
-                if ($taskcard->code == "basic") {
+            // get taskcard in project workpackage
+            $taskcard = ProjectWorkPackageTaskCard::with(['taskcard'])->where('project_workpackage_id', $project_workpackage->id)->get();
+            foreach ($taskcard as $taskcard) {
+                if ($taskcard->type->code == "basic") {
                     $basic_count += 1;
-                } elseif ($taskcard->code == "sip") {
+                } elseif ($taskcard->type->code == "sip") {
                     $sip_count += 1;
-                } elseif ($taskcard->code == "cpcp") {
+                } elseif ($taskcard->type->code == "cpcp") {
                     $cpcp_count += 1;
-                } elseif ($taskcard->code == "si") {
+                } elseif ($taskcard->type->code == "si") {
                     $si_count += 1;
                 }
             }
