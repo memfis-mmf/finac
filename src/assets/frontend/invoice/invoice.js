@@ -185,7 +185,7 @@ let Invoice = {
                 return `${symbol} ${value}`;
             }},
             {data: 'status'},
-            {data: 'approved_by.name'},
+            {data: 'approved_by.name', defaultContent: '-'},
             {data: '', searchable: false, render: function (data, type, row) {
                 let t = row;
                 if (t.status == 'Approved') {
