@@ -143,37 +143,37 @@
                     <td valign="top" width="18%">Address</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-											{{$invoice->customer->addresses()->first()->address}}
-										</td>
+                        {{$invoice->customer->addresses()->first()->address}}
+                    </td>
                     <td valign="top" width="18%">Quotation No.</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-											{{$invoice->quotations->number}}
-										</td>
+                        {{$invoice->quotations->number}}
+                    </td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Phone</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-											{{$invoice->customer->phones()->first()->number}}
-										</td>
+                        {{$invoice->customer->phones()->first()->number}}
+                    </td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%" style="text-transform:uppercase">
-											{{$invoice->currencies->code}}
-										</td>
+                        {{$invoice->currencies->code}}
+                    </td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Attn</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-											{{json_decode($invoice->customer->attention)[0]->name}}
-										</td>
+                        {{json_decode($invoice->customer->attention)[0]->name}}
+                    </td>
                     <td valign="top" width="18%">Rate</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-											Rp. {{number_format($invoice->exchangerate, 0, 0, '.')}}
-										</td>
+                        Rp. {{number_format($invoice->exchangerate, 0, 0, '.')}}
+                    </td>
                 </tr>
             </table>
         </div>
@@ -193,95 +193,95 @@
                 <tr>
                     <td colspan="5" height="20">
                        <span style="font-size: 14px; font-weight: bold;padding:15px">
-												 Subject : {{$invoice->quotations->title}}
-											 </span>
+                            Subject : {{$invoice->quotations->title}}
+                        </span>
                     </td>
                 </tr>
-								@for ($a=0; $a < count($invoice->quotations->workpackages); $a++)
-									@php
-										$x = $invoice->quotations->workpackages[$a];
-									@endphp
-	                <tr>
-	                    <td width="10%" rowspan="{{ ($x->is_template != 'htcrr') ? 4: 3}}" align="center" valign="top">{{$a+1}}</td>
+                @for ($a=0; $a < count($invoice->quotations->workpackages); $a++)
+                    @php
+                        $x = $invoice->quotations->workpackages[$a];
+                    @endphp
+                    <tr>
+                        <td width="10%" rowspan="{{ ($x->is_template != 'htcrr') ? 4: 3}}" align="center" valign="top">{{$a+1}}</td>
 
-	                    <td width="65%" valign="top" style="border-bottom:none" colspan="2">
-												<b>{{$x->title}}</b>
-											</td>
+                        <td width="65%" valign="top" style="border-bottom:none" colspan="2">
+                            <b>{{$x->title}}</b>
+                        </td>
 
-	                    <td width="1%" style="border-right:none;border-bottom:none;"></td>
+                        <td width="1%" style="border-right:none;border-bottom:none;"></td>
 
-	                    <td width="24%" align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
-	                </tr>
-									@if ($x->is_template != 'htcrr')
-		                <tr>
-		                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
-													Facility
-												</td>
+                        <td width="24%" align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
+                    </tr>
+                    @if ($x->is_template != 'htcrr')
+                        <tr>
+                            <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
+                                Facility
+                            </td>
 
-		                    <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
+                            <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
 
-		                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
-													{{
-														number_format(
-															$x->facility
-															, 0
-															, 0
-															, '.'
-														)
-													}}
-												</td>
-		                </tr>
-									@endif
-	                <tr>
-	                    <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
-												Material Need {{number_format($x->material_item, 0, 0, '.')}} Item(s)
-											</td>
+                            <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
+                                {{
+                                    number_format(
+                                        $x->facility
+                                        , 0
+                                        , 0
+                                        , '.'
+                                    )
+                                }}
+                            </td>
+                        </tr>
+                    @endif
+                    <tr>
+                        <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
+                            Material Need {{number_format($x->material_item, 0, 0, '.')}} Item(s)
+                        </td>
 
-	                    <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
+                        <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
 
-	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
-												{{
-													number_format(
-														$x->mat_tool_price
-														, 0
-														, 0
-														, '.'
-													)
-												}}
-											</td>
-	                </tr>
-	                <tr>
-	                    <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
-												Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format(@$x->pivot->manhour_total)}} Manhours
-											</td>
+                        <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
+                            {{
+                                number_format(
+                                    $x->mat_tool_price
+                                    , 0
+                                    , 0
+                                    , '.'
+                                )
+                            }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
+                            Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format(@$x->pivot->manhour_total)}} Manhours
+                        </td>
 
-	                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
-												{{strtoupper($invoice->currencies->code)}}
-											</td>
+                        <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
+                            {{strtoupper($invoice->currencies->code)}}
+                        </td>
 
-	                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
-												@php
-													if ($x->is_template == 'htcrr') {
-														echo number_format(
-                              (float) $x->data_htcrr['total_manhours_with_performance_factor'] 
-                              * (float) $x->data_htcrr['manhour_rate_amount'] 
-                              * $invoice->_exchange_rate
-															, 0
-															, 0
-															, '.'
-														);
-													}else{
-														echo number_format(
-															@$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount * $invoice->_exchange_rate
-															, 0
-															, 0
-															, '.'
-														);
-													}
-												@endphp
-											</td>
-	                </tr>
-								@endfor
+                        <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+                            @php
+                                if ($x->is_template == 'htcrr') {
+                                    echo number_format(
+                                        (float) $x->data_htcrr['total_manhours_with_performance_factor'] 
+                                        * (float) $x->data_htcrr['manhour_rate_amount'] 
+                                        * $invoice->_exchange_rate
+                                        , 0
+                                        , 0
+                                        , '.'
+                                    );
+                                }else{
+                                    echo number_format(
+                                        @$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount * $invoice->_exchange_rate
+                                        , 0
+                                        , 0
+                                        , '.'
+                                    );
+                                }
+                            @endphp
+                        </td>
+                    </tr>
+                @endfor
                 {{-- Others&Disc --}}
                 <tr>
                     <td width="10%" align="center" valign="top"></td>
@@ -289,19 +289,19 @@
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Others</td>
 
                     <td width="1%" style="border-right:none;text-transform:uppercase">
-											{{strtoupper($invoice->currencies->code)}}
-										</td>
+                        {{strtoupper($invoice->currencies->code)}}
+                    </td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">
-											{{
-												number_format(
-													$other_workpackage->priceother
-													, 0
-													, 0
-													, '.'
-												)
-											}}
-										</td>
+                        {{
+                            number_format(
+                                $other_workpackage->priceother
+                                , 0
+                                , 0
+                                , '.'
+                            )
+                        }}
+                    </td>
                 </tr>
                 <tr>
                     <td width="10%" align="center" valign="top"></td>
@@ -309,19 +309,19 @@
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Disc</td>
 
                     <td width="1%" style="border-right:none;text-transform:uppercase">
-											{{$invoice->currencies->code}}
-										</td>
+                        {{$invoice->currencies->code}}
+                    </td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">
-											{{
-												number_format(
-													$invoice->discountvalue
-													, 0
-													, 0
-													, '.'
-												)
-											}}
-										</td>
+                        {{
+                            number_format(
+                                $invoice->discountvalue
+                                , 0
+                                , 0
+                                , '.'
+                            )
+                        }}
+                    </td>
                 </tr>
                  {{-- TheOthers --}}
                 <tr>
@@ -342,15 +342,15 @@
                     <td width="1%" style="border-right:none;border-bottom:none;">{{strtoupper($invoice->currencies->code)}}</td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;">
-											{{
-												number_format(
-													($invoice->grandtotalforeign - $invoice->other_price) / 1.1
-													, 0
-													, 0
-													, '.'
-												)
-											}}
-										</td>
+                        {{
+                            number_format(
+                                ($invoice->grandtotalforeign - $invoice->other_price) / 1.1
+                                , 0
+                                , 0
+                                , '.'
+                            )
+                        }}
+                    </td>
                 </tr>
                 <tr>
                     <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
@@ -358,43 +358,43 @@
                     <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">VAT 10% (included)</td>
 
                     <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
-											{{$invoice->currencies->code}}
-										</td>
+                        {{$invoice->currencies->code}}
+                    </td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
-											{{
-												number_format(
-													($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1
-													, 0
-													, 0
-													, '.'
-												)
-											}}
-										</td>
+                        {{
+                            number_format(
+                                ($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1
+                                , 0
+                                , 0
+                                , '.'
+                            )
+                        }}
+                    </td>
                 </tr>
                 <tr>
                     <td width="35%" style="border-top:none;border-bottom:none;border-right:none;"></td>
 
                     <td width="30%" valign="top" style="border-top:none;border-bottom:none;border-left:none;text-transform:uppercase"><b>
-											Total in {{$invoice->currencies->code}}
-										</b></td>
+                        Total in {{$invoice->currencies->code}}
+                    </b></td>
 
                     <td width="1%" style="border-right:none;border-bottom:none;border-top:none;text-transform:uppercase">
-											<b>{{$invoice->currencies->code}}</b>
-										</td>
+                        <b>{{$invoice->currencies->code}}</b>
+                    </td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
-											<b>
-												{{
-													number_format(
-														$invoice->grandtotalforeign
-														, 0
-														, 0
-														, '.'
-													)
-												}}
-											</b>
-										</td>
+                        <b>
+                            {{
+                                number_format(
+                                    $invoice->grandtotalforeign
+                                    , 0
+                                    , 0
+                                    , '.'
+                                )
+                            }}
+                        </b>
+                    </td>
                 </tr>
                 <tr>
                     <td width="35%" style="border-top:none;border-right:none;"></td>
@@ -403,16 +403,18 @@
 
                     <td width="1%" style="border-right:none;border-top:none"><b>IDR</b></td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;"><b>
-												{{
-													number_format(
-														$invoice->grandtotalforeign * $invoice->exchangerate
-														, 0
-														, 0
-														, '.'
-													)
-												}}
-										</b></td>
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
+                        <b>
+                            {{
+                                number_format(
+                                    $invoice->grandtotalforeign * $invoice->exchangerate
+                                    , 0
+                                    , 0
+                                    , '.'
+                                )
+                            }}
+                        </b>
+                    </td>
                 </tr>
                 {{-- Terbilang --}}
                 {{-- <tr>
