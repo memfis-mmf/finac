@@ -706,12 +706,6 @@ class ARController extends Controller
 		$ar_tmp = AReceive::where('uuid', $request->uuid);
 		$ar = $ar_tmp->first();
 
-        $ar->approvals()->save(new Approval([
-            'approvable_id' => $ar->id,
-            'is_approved' => 0,
-            'conducted_by' => Auth::id(),
-        ]));
-
 		$ara = $ar->ara;
 		$arb = $ar->arb;
 		$arc = $ar->arc;
@@ -728,7 +722,8 @@ class ARController extends Controller
 		];
 
 		$total_credit = 0;
-		$total_debit = 0;
+        $total_debit = 0;
+        $detail = [];
 
 		// looping sebenayak invoice
 		for ($a=0; $a < count($ara); $a++) {
@@ -787,7 +782,7 @@ class ARController extends Controller
 
 			$total_credit += $detail[count($detail)-1]->credit;
 			$total_debit += $detail[count($detail)-1]->debit;
-		}
+        }
 
 		// add object in first array $detai
 		array_unshift(
@@ -797,7 +792,7 @@ class ARController extends Controller
 				'coa_name' => $header->coa_name,
 				'credit' => 0,
 				'debit' => $total_credit - $total_debit,
-				'_desc' => @$header->description,
+				'_desc' => $header->description,
 			]
 		);
 

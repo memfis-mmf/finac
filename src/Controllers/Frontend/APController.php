@@ -714,12 +714,6 @@ class APController extends Controller
 		$ap_tmp = APayment::where('uuid', $request->uuid);
 		$ap = $ap_tmp->first();
 
-        $ap->approvals()->save(new Approval([
-            'approvable_id' => $ap->id,
-            'is_approved' => 0,
-            'conducted_by' => Auth::id(),
-        ]));
-
 		$apa = $ap->apa;
 		$apb = $ap->apb;
 		$apc = $ap->apc;
