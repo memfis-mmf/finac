@@ -109,7 +109,16 @@ var DatatableAutoColumnHideDemo = function () {
           field: 'code',
           title: 'No',
           width: '200px',
-        }, {
+          template: function (t) {
+            // if this is other, return null
+            if (t.priceother != null) {
+              return '';
+            }
+
+            return t.code;
+          }
+        }, 
+        {
           field: 'description',
           title: 'Detail',
           width: '700px',
@@ -164,10 +173,7 @@ var DatatableAutoColumnHideDemo = function () {
               );
 
             } else if (t.priceother != null) {
-              return (
-                "&nbsp;&nbsp;&nbsp;&nbsp;Others "
-
-              );
+              return '';
             }
 
           }
@@ -643,12 +649,14 @@ var DatatableAutoColumnHideDemo = function () {
               if (_currency == 'idr') {
                 others_price = t.priceother;
                 return (
-                  IDRformatter.format(t.priceother) + "<br/>"
+                  // IDRformatter.format(t.priceother) + "<br/>"
+                  "<br/>"
                 );
               } else {
                 others_price = t.priceother;
                 return (
-                  ForeignFormatter.format(t.priceother) + "<br/>"
+                  // ForeignFormatter.format(t.priceother) + "<br/>"
+                  "<br/>"
                 );
               }
 
