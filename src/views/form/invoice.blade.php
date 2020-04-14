@@ -283,7 +283,7 @@
                     </tr>
                 @endfor
                 {{-- Others&Disc --}}
-                <tr>
+                {{-- <tr>
                     <td width="10%" align="center" valign="top"></td>
 
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Others</td>
@@ -302,8 +302,8 @@
                             )
                         }}
                     </td>
-                </tr>
-                <tr>
+                </tr> --}}
+                {{-- <tr>
                     <td width="10%" align="center" valign="top"></td>
 
                     <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Disc</td>
@@ -322,10 +322,10 @@
                             )
                         }}
                     </td>
-                </tr>
+                </tr> --}}
                  {{-- TheOthers --}}
                 <tr>
-                    <td width="10%" rowspan="4" align="center" valign="top"></td>
+                    <td width="10%" rowspan="6" align="center" valign="top"></td>
 
                     <td width="35%" style="border-bottom:none;color:red;border-right:none;"></td>
 
@@ -355,6 +355,26 @@
                 <tr>
                     <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
 
+                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">Discount</td>
+
+                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
+                        {{$invoice->currencies->code}}
+                    </td>
+
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+                        {{
+                            number_format(
+                                ($invoice->discountvalue)
+                                , 0
+                                , 0
+                                , '.'
+                            )
+                        }}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
+
                     <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">VAT 10% (included)</td>
 
                     <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
@@ -365,6 +385,26 @@
                         {{
                             number_format(
                                 ($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1
+                                , 0
+                                , 0
+                                , '.'
+                            )
+                        }}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
+
+                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">Other</td>
+
+                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
+                        {{$invoice->currencies->code}}
+                    </td>
+
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+                        {{
+                            number_format(
+                                ($invoice->other_price)
                                 , 0
                                 , 0
                                 , '.'
