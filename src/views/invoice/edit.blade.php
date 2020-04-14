@@ -1120,6 +1120,14 @@
           field: 'code',
           title: 'No',
           width: '200px',
+          template: function (t) {
+            // if this is other, return null
+            if (t.priceother != null) {
+              return '';
+            }
+
+            return t.code;
+          }
         }, {
           field: 'description',
           title: 'Detail',
@@ -1175,10 +1183,7 @@
               );
 
             } else if (t.priceother != null) {
-              return (
-                "&nbsp;&nbsp;&nbsp;&nbsp;Others "
-
-              );
+              return '';
             }
 
           }
@@ -1259,7 +1264,7 @@
 
                 // $("#tax").val(IDRformatter.format(tax_amount));
 								$('.tax-symbol').html('Rp')
-                $("#tax").val(addCommas(tax_amount));
+                $("#tax").val(IDRformatter.format(tax_amount));
 
                 facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
                 material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
@@ -1370,7 +1375,7 @@
 
                 // $("#tax").val(ForeignFormatter.format(tax_amount));
 								$('.tax-symbol').html('US$')
-                $("#tax").val(addCommas(tax_amount));
+                $("#tax").val(ForeignFormatter.format(tax_amount));
 
                 facility_price += t.facilities_price_amount;
                 material_price += t.mat_tool_price;
@@ -1599,12 +1604,12 @@
               if (_currency == 'idr') {
                 others_price = t.priceother;
                 return (
-                  IDRformatter.format(t.priceother) + "<br/>"
+                   "<br/>"
                 );
               } else {
 	              others_price = t.priceother;
                 return (
-                  ForeignFormatter.format(t.priceother) + "<br/>"
+                   "<br/>"
                 );
               }
 
