@@ -718,8 +718,14 @@ class APController extends Controller
 		$apb = $ap->apb;
 		$apc = $ap->apc;
 
-		$date_approve = $ap->approvals->first()
+		$_date_approve = $ap->approvals->first()
 		->created_at->toDateTimeString();
+
+        $date_approve = $_date_approve;
+
+		if (!$_date_approve) {
+            $date_approve = null;
+		}
 
 		$header = (object) [
 			'voucher_no' => $ap->transactionnumber,

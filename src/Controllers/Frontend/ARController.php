@@ -710,8 +710,14 @@ class ARController extends Controller
 		$arb = $ar->arb;
 		$arc = $ar->arc;
 
-		$date_approve = $ar->approvals->first()
-		->created_at->toDateTimeString();
+		$_date_approve = $ar->approvals->first()
+        ->created_at->toDateTimeString();
+
+        $date_approve = $_date_approve;
+        
+        if (!$_date_approve) {
+            $date_approve = null;
+        }
 
 		$header = (object) [
 			'voucher_no' => $ar->transactionnumber,
