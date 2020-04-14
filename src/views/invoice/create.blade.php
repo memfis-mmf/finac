@@ -643,7 +643,7 @@
                                         <input type="hidden" name="total_discount_val" id="total_discount_val" value="">
                                         <input type="hidden" name="grand_total_val" id="grand_total_val" value="">
                                         <input type="hidden" name="grand_totalrp_val" id="grand_totalrp_val" value="">
-                                        <input type="hidden" name="other_price_val" id="other_price_val" value="">
+                                        <input type="hidden" name="other_price_val" id="other_price_val" value="0">
                                         <input type="hidden" name="htcrr_price_val" id="htcrr_price_val" value="">
                                         <div class="col-sm-6 col-md-6 col-lg-6">
                                             <div class="form-group m-form__group row">

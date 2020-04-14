@@ -19,6 +19,7 @@ let discount_amount = 0;
 let tax_amount = 0;
 
 let exchange_rate = parseInt($('#exchange_rate').attr('value'));
+let _exchange_rate = 1;
 
 const formatter = new Intl.NumberFormat('de-DE', {
    minimumFractionDigits: 2,      
@@ -226,6 +227,7 @@ var DatatableAutoColumnHideDemo = function () {
 
                 discount_price = discount_amount;
                 ppn_price = tax_amount;
+                tax = tax_amount;
 
                 $("#sub_total_val").val(_subtotal);
                 $("#total_discount_val").val(discount_amount);
@@ -322,6 +324,7 @@ var DatatableAutoColumnHideDemo = function () {
 
                 discount_price = discount_amount;
                 ppn_price = tax_amount;
+                tax = tax_amount;
 
                 let quotation_currency_value = t.quotations[0].exchange_rate;
                 let multiple = 0;
@@ -336,6 +339,8 @@ var DatatableAutoColumnHideDemo = function () {
                 }else{
                   multiple = t.quotations[0].exchange_rate;
                 }
+                
+                _exchange_rate = multiple;
 
                 $("#sub_total_val").val(_subtotal);
                 $("#total_discount_val").val(discount_amount);
@@ -401,6 +406,8 @@ var DatatableAutoColumnHideDemo = function () {
               convertidr = grand_total1 * exchange_get;
               schedule_payment = JSON.parse(t.schedulepayment);
               dataSet = schedule_payment;
+
+              _exchange_rate = exchange_get;
 
               // $("#grand_totalrp").attr("value", IDRformatter.format(convertidr));
               $("#grand_totalrp").val(IDRformatter.format(convertidr));
@@ -590,23 +597,48 @@ var DatatableAutoColumnHideDemo = function () {
               }
 
             } else if (t.priceother != null) {
-              // $("#sub_total_val").val(_subtotal);
-              // $("#total_discount_val").val(discount_amount);
-              // $("#grand_total_val").val(grandtotal_amount);
-              // $("#grand_totalrp_val").val(
-              //   // grandtotal_amount * t.quotations[0].exchange_rate
-              //   grandtotal_amount * multiple
-              // );
 
-              // $("#sub_total").val(ForeignFormatter.format(_subtotal));
-              // $("#total_discount").val(ForeignFormatter.format(discount_amount));
-              // $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
-              // $("#grand_totalrp").val(IDRformatter.format(
-              //   grandtotal_amount * t.quotations[0].exchange_rate
-              // ));
-
-              let _price_other = parseFloat(t.priceother);
+              let _price_other = parseFloat(t.priceother) * _exchange_rate;
               subtotal = parseFloat(subtotal) + _price_other;
+
+              // let old_subtotal = $("#sub_total_val").val();
+              // let old_total_discount = $("#total_discount_val").val();
+              let old_grandtotal = $("#grand_total_val").val();
+
+              // let discount_percent = old_total_discount / (old_subtotal / 100);
+              // let tax_percent = tax / (old_subtotal / 100);
+
+              // let new_subtotal = subtotal;
+              // let new_total_discount = new_subtotal * (discount_percent / 100);
+              // let new_tax = new_subtotal * (tax_percent /100);
+              let new_grandtotal = parseFloat(old_grandtotal) + parseFloat(_price_other);
+              let new_grandtotal_rp = new_grandtotal * _exchange_rate;
+
+              // for insert
+              // $("#sub_total_val").val(new_subtotal);
+              // $("#total_discount_val").val(new_total_discount);
+              // $("#other_price_val").val(_price_other);
+              $("#grand_total_val").val(new_grandtotal);
+              $("#grand_totalrp_val").val(new_grandtotal_rp);
+              $("#other_price_val").val(_price_other);
+
+              // for display
+              if (_currency != 'idr') { /* if currency not idr */
+                // $("#sub_total").val(ForeignFormatter.format(new_subtotal));
+                // $("#total_discount").val(ForeignFormatter.format(new_total_discount));
+                $("#other_price").val(ForeignFormatter.format(_price_other));
+                $("#grand_total").val(ForeignFormatter.format(new_grandtotal));
+              }else{
+                // $("#sub_total").val(IDRformatter.format(new_subtotal));
+                // $("#total_discount").val(IDRformatter.format(new_total_discount));
+                $("#other_price").val(IDRformatter.format(_price_other));
+                $("#grand_total").val(IDRformatter.format(new_grandtotal));
+              }
+
+              $("#grand_totalrp").val(IDRformatter.format(new_grandtotal_rp));
+              // $("#tax").val(addCommas(new_tax));
+              // tax = new_tax;
+
               // if (currency.code == 'idr') {
               if (_currency == 'idr') {
                 others_price = t.priceother;
