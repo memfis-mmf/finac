@@ -21,7 +21,7 @@ class ARController extends Controller
 {
     public function index()
     {
-		$wew = 'x';
+        $wew = 'x';
         return view('accountreceivableview::index');
     }
 
@@ -32,29 +32,29 @@ class ARController extends Controller
 
     public function store(AReceiveStore $request)
     {
-		$customer = Customer::where('id', $request->id_customer)->first();
-		if (!$customer) {
-			return [
-				'errors' => 'Customer not found'
-			];
-		}
+        $customer = Customer::where('id', $request->id_customer)->first();
+        if (!$customer) {
+            return [
+                'errors' => 'Customer not found'
+            ];
+        }
 
-		$request->merge([
-			'id_customer' => $customer->id
-		]);
+        $request->merge([
+            'id_customer' => $customer->id
+        ]);
 
-		$coa = Coa::where('code', $request->accountcode)->first();
+        $coa = Coa::where('code', $request->accountcode)->first();
 
-		$code = 'CCPJ';
+        $code = 'CCPJ';
 
-		if (strpos($coa->name, 'Bank') !== false) {
-			$code = 'CBPJ';
-		}
+        if (strpos($coa->name, 'Bank') !== false) {
+            $code = 'CBPJ';
+        }
 
-		$request->request->add([
-			'approve' => 0,
-			'transactionnumber' => AReceive::generateCode($code),
-		]);
+        $request->request->add([
+            'approve' => 0,
+            'transactionnumber' => AReceive::generateCode($code),
+        ]);
 
         $areceive = AReceive::create($request->all());
         return response()->json($areceive);
@@ -62,56 +62,56 @@ class ARController extends Controller
 
     public function edit(Request $request)
     {
-		$data['data'] = AReceive::where(
-			'uuid', $request->areceive
-		)->with([
-			'currencies',
-		])->first();
+        $data['data'] = AReceive::where(
+            'uuid', $request->areceive
+        )->with([
+            'currencies',
+        ])->first();
 
-		//if data already approved
-		if ($data['data']->approve) {
-			return redirect()->back();
-		}
+        //if data already approved
+        if ($data['data']->approve) {
+            return redirect()->back();
+        }
 
-		$data['customer'] = Customer::all();
-		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
-		)->whereIn('code',['idr','usd'])
-		->get();
+        $data['customer'] = Customer::all();
+        $data['currency'] = Currency::selectRaw(
+            'code, CONCAT(name, " (", symbol ,")") as full_name'
+        )->whereIn('code',['idr','usd'])
+        ->get();
 
-		$data['debt_total_amount'] = Invoice::where(
-			'id_customer',
-			$data['data']->id_customer
-		)->sum('grandtotal');
+        $data['debt_total_amount'] = Invoice::where(
+            'id_customer',
+            $data['data']->id_customer
+        )->sum('grandtotal');
 
-		$areceive = AReceive::where('id_customer', $data['data']->id_customer)
-			->get();
+        $areceive = AReceive::where('id_customer', $data['data']->id_customer)
+            ->get();
 
-		$payment_total_amount = 0;
+        $payment_total_amount = 0;
 
-		for ($i = 0; $i < count($areceive); $i++) {
-			$x = $areceive[$i];
+        for ($i = 0; $i < count($areceive); $i++) {
+            $x = $areceive[$i];
 
-			for ($j = 0; $j < count($x->ara); $j++) {
-				$y = $x->ara[$j];
+            for ($j = 0; $j < count($x->ara); $j++) {
+                $y = $x->ara[$j];
 
-				$payment_total_amount += ($y->credit * $x->exchangerate);
-			}
-		}
+                $payment_total_amount += ($y->credit * $x->exchangerate);
+            }
+        }
 
-		$data['payment_total_amount'] = $payment_total_amount;
-		$data['debt_balance'] = (
-			$data['debt_total_amount'] - $data['payment_total_amount']
-		);
+        $data['payment_total_amount'] = $payment_total_amount;
+        $data['debt_balance'] = (
+            $data['debt_total_amount'] - $data['payment_total_amount']
+        );
 
         return view('accountreceivableview::edit', $data);
     }
 
     public function update(AReceiveUpdate $request, AReceive $areceive)
     {
-		$request->merge([
-			'description' => $request->ar_description
-		]);
+        $request->merge([
+            'description' => $request->ar_description
+        ]);
 
         $areceive->update($request->all());
 
@@ -140,18 +140,18 @@ class ARController extends Controller
     public function datatables()
     {
         $data = $alldata = json_decode(AReceive::orderBy('id', 'desc')->with([
-			'customer',
-			'ara',
-			'coa',
-		])->get());
+            'customer',
+            'ara',
+            'coa',
+        ])->get());
 
-		$datatable = array_merge([
-			'pagination' => [], 'sort' => [], 'query' => []
-		], $_REQUEST);
+        $datatable = array_merge([
+            'pagination' => [], 'sort' => [], 'query' => []
+        ], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) &&
-			is_string($datatable['query']['generalSearch']) ?
-			$datatable['query']['generalSearch'] : '';
+        $filter = isset($datatable['query']['generalSearch']) &&
+            is_string($datatable['query']['generalSearch']) ?
+            $datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -161,8 +161,8 @@ class ARController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) &&
-			is_array($datatable['query']) ? $datatable['query'] : null;
+        $query = isset($datatable['query']) &&
+            is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -172,16 +172,16 @@ class ARController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ?
-			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ?
-			$datatable['sort']['field'] : 'RecordID';
+        $sort  = !empty($datatable['sort']['sort']) ?
+            $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ?
+            $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ?
-			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ?
-			(int) $datatable['pagination']['perpage'] : -1;
+        $page    = !empty($datatable['pagination']['page']) ?
+            (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ?
+            (int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -218,10 +218,10 @@ class ARController extends Controller
             'total'   => $total,
         ];
 
-		if (
-			isset($datatable['requestIds']) &&
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
-		{
+        if (
+            isset($datatable['requestIds']) &&
+            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
+        {
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
@@ -417,43 +417,43 @@ class ARController extends Controller
         if (!count($ara)) {
             return 0;
         }
-		$ar = $ara[0]->ar;
+        $ar = $ara[0]->ar;
 
-		$data['debt_total_amount'] = Invoice::where(
-			'id_customer',
-			$ar->customer->id
-		)->sum('grandtotal');
+        $data['debt_total_amount'] = Invoice::where(
+            'id_customer',
+            $ar->customer->id
+        )->sum('grandtotal');
 
-		$payment_total_amount = 0;
+        $payment_total_amount = 0;
 
-		for ($j = 0; $j < count($ara); $j++) {
-			$y = $ara[$j];
+        for ($j = 0; $j < count($ara); $j++) {
+            $y = $ara[$j];
 
-			$payment_total_amount += ($y->credit * $ar->exchangerate);
+            $payment_total_amount += ($y->credit * $ar->exchangerate);
         }
 
-		return $payment_total_amount;
+        return $payment_total_amount;
     }
 
     public function InvoiceModalDatatables(Request $request)
     {
-		$ar = AReceive::where('uuid', $request->ar_uuid)->first();
+        $ar = AReceive::where('uuid', $request->ar_uuid)->first();
         $currency = Currency::where('code', $ar->currency)->first();
 
-		if (count($ar->ara)) {
+        if (count($ar->ara)) {
             $invoice = Invoice::where('id_customer', $request->id_customer)
             ->with('coas')
-			->where(
-				'currency',
-				Currency::where('code', $ar->ara[0]->currency)->first()->id
-			)
-			->where('approve', 1)
-			->get();
-		} else {
-			$invoice = Invoice::where('id_customer', $request->id_customer)
+            ->where(
+                'currency',
+                Currency::where('code', $ar->ara[0]->currency)->first()->id
+            )
+            ->where('approve', 1)
+            ->get();
+        } else {
+            $invoice = Invoice::where('id_customer', $request->id_customer)
             ->with('coas')
-			->where('approve', 1)
-			->get();
+            ->where('approve', 1)
+            ->get();
         }
         
         for (
@@ -465,13 +465,13 @@ class ARController extends Controller
 
         $data = $alldata = json_decode($invoice);
 
-		$datatable = array_merge([
-			'pagination' => [], 'sort' => [], 'query' => []
-		], $_REQUEST);
+        $datatable = array_merge([
+            'pagination' => [], 'sort' => [], 'query' => []
+        ], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) &&
-			is_string($datatable['query']['generalSearch']) ?
-			$datatable['query']['generalSearch'] : '';
+        $filter = isset($datatable['query']['generalSearch']) &&
+            is_string($datatable['query']['generalSearch']) ?
+            $datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -481,8 +481,8 @@ class ARController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) &&
-			is_array($datatable['query']) ? $datatable['query'] : null;
+        $query = isset($datatable['query']) &&
+            is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -492,16 +492,16 @@ class ARController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ?
-			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ?
-			$datatable['sort']['field'] : 'RecordID';
+        $sort  = !empty($datatable['sort']['sort']) ?
+            $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ?
+            $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ?
-			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ?
-			(int) $datatable['pagination']['perpage'] : -1;
+        $page    = !empty($datatable['pagination']['page']) ?
+            (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ?
+            (int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -538,10 +538,10 @@ class ARController extends Controller
             'total'   => $total,
         ];
 
-		if (
-			isset($datatable['requestIds']) &&
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
-		{
+        if (
+            isset($datatable['requestIds']) &&
+            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
+        {
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
@@ -565,280 +565,279 @@ class ARController extends Controller
 
     public function approve(Request $request)
     {
-		DB::beginTransaction();
-		try {
+        DB::beginTransaction();
+        try {
 
-			$ar_tmp = AReceive::where('uuid', $request->uuid);
-			$ar = $ar_tmp->first();
+            $ar_tmp = AReceive::where('uuid', $request->uuid);
+            $ar = $ar_tmp->first();
 
-	        $ar->approvals()->save(new Approval([
-	            'approvable_id' => $ar->id,
-	            'is_approved' => 0,
-	            'conducted_by' => Auth::id(),
-	        ]));
+            $ar->approvals()->save(new Approval([
+                'approvable_id' => $ar->id,
+                'is_approved' => 0,
+                'conducted_by' => Auth::id(),
+            ]));
 
-			$ara = $ar->ara;
-			$arb = $ar->arb;
-			$arc = $ar->arc;
+            $ara = $ar->ara;
+            $arb = $ar->arb;
+            $arc = $ar->arc;
 
-			$date_approve = $ar->approvals->first()
-			->created_at->toDateTimeString();
+            $date_approve = $ar->approvals->first()
+            ->created_at->toDateTimeString();
 
-			$header = (object) [
-				'voucher_no' => $ar->transactionnumber,
-				'transaction_date' => $date_approve,
-				'coa' => $ar->coa->id,
-			];
+            $header = (object) [
+                'voucher_no' => $ar->transactionnumber,
+                'transaction_date' => $date_approve,
+                'coa' => $ar->coa->id,
+            ];
 
-			$total_credit = 0;
+            $total_credit = 0;
             $total_debit = 0;
 
-			// looping sebenayak invoice
-			for ($a=0; $a < count($ara); $a++) {
+            // looping sebenayak invoice
+            for ($a=0; $a < count($ara); $a++) {
                 $x = $ara[$a];
 
-				$detail[] = (object) [
-					'coa_detail' => $x->coa->id,
-					'credit' => $x->credit * $ar->exchangerate,
-					'debit' => 0,
-					'_desc' => 'Payment From : '.$x->transactionnumber.' '
-					.$x->ar->customer->name,
-				];
+                $detail[] = (object) [
+                    'coa_detail' => $x->coa->id,
+                    'credit' => $x->credit * $ar->exchangerate,
+                    'debit' => 0,
+                    '_desc' => 'Payment From : '.$x->transactionnumber.' '
+                    .$x->ar->customer->name,
+                ];
 
-				$total_credit += $detail[count($detail)-1]->credit;
-				$total_debit += $detail[count($detail)-1]->debit;
+                $total_credit += $detail[count($detail)-1]->credit;
+                $total_debit += $detail[count($detail)-1]->debit;
             }
 
-			// looping sebanyak adjustment
-			for ($a=0; $a < count($arb); $a++) {
-				$y = $arb[$a];
+            // looping sebanyak adjustment
+            for ($a=0; $a < count($arb); $a++) {
+                $y = $arb[$a];
 
-				$detail[] = (object) [
-					'coa_detail' => $y->coa->id,
-					'credit' => $y->credit,
-					'debit' => $y->debit,
-					'_desc' => 'Payment From : '.$x->transactionnumber.' '
-					.$x->ar->customer->name,
-				];
+                $detail[] = (object) [
+                    'coa_detail' => $y->coa->id,
+                    'credit' => $y->credit,
+                    'debit' => $y->debit,
+                    '_desc' => 'Payment From : '.$x->transactionnumber.' '
+                    .$x->ar->customer->name,
+                ];
 
-				$total_credit += $detail[count($detail)-1]->credit;
-				$total_debit += $detail[count($detail)-1]->debit;
-			}
+                $total_credit += $detail[count($detail)-1]->credit;
+                $total_debit += $detail[count($detail)-1]->debit;
+            }
 
-			// looping sebanyak gap
-			for ($a=0; $a < count($arc); $a++) {
-				$z = $arc[$a];
+            // looping sebanyak gap
+            for ($a=0; $a < count($arc); $a++) {
+                $z = $arc[$a];
 
-				$side = 'credit';
-				$x_side = 'debit';
-				$val = $z->difference;
+                $side = 'credit';
+                $x_side = 'debit';
+                $val = $z->difference;
 
-				// jika difference bernilai minus
-				if ($z->difference < 0) {
-					$side = 'debit';
-					$x_side = 'credit';
-					$val = $z->difference * (-1);
-				}
+                // jika difference bernilai minus
+                if ($z->difference < 0) {
+                    $side = 'debit';
+                    $x_side = 'credit';
+                    $val = $z->difference * (-1);
+                }
 
-				$detail[] = (object) [
-					'coa_detail' => $z->coa->id,
-					$side => $val,
-					$x_side => 0,
-					'_desc' => 'Payment From : '.$x->transactionnumber.' '
-					.$x->ar->customer->name,
-				];
+                $detail[] = (object) [
+                    'coa_detail' => $z->coa->id,
+                    $side => $val,
+                    $x_side => 0,
+                    '_desc' => 'Payment From : '.$x->transactionnumber.' '
+                    .$x->ar->customer->name,
+                ];
 
-				$total_credit += $detail[count($detail)-1]->credit;
-				$total_debit += $detail[count($detail)-1]->debit;
-			}
+                $total_credit += $detail[count($detail)-1]->credit;
+                $total_debit += $detail[count($detail)-1]->debit;
+            }
 
-			// add object in first array $detai
-			array_unshift(
-				$detail,
-				(object) [
-					'coa_detail' => $header->coa,
-					'credit' => 0,
-					'debit' => $total_credit - $total_debit,
-					'_desc' => 'Receive From : '.$x->transactionnumber.' '
-					.$x->ar->customer->name,
-				]
-			);
+            // add object in first array $detai
+            array_unshift(
+                $detail,
+                (object) [
+                    'coa_detail' => $header->coa,
+                    'credit' => 0,
+                    'debit' => $total_credit - $total_debit,
+                    '_desc' => 'Receive From : '.$x->transactionnumber.' '
+                    .$x->ar->customer->name,
+                ]
+            );
 
-			$total_credit += $detail[0]->credit;
-			$total_debit += $detail[0]->debit;
+            $total_credit += $detail[0]->credit;
+            $total_debit += $detail[0]->debit;
 
-			$ar_tmp->update([
-				'approve' => 1
-			]);
+            $ar_tmp->update([
+                'approve' => 1
+            ]);
 
-			$autoJournal = TrxJournal::autoJournal(
-				$header, $detail, 'CBRJ', 'BRJ'
-			);
+            $autoJournal = TrxJournal::autoJournal(
+                $header, $detail, 'CBRJ', 'BRJ'
+            );
 
-			if ($autoJournal['status']) {
+            if ($autoJournal['status']) {
 
-				DB::commit();
+                DB::commit();
 
-			}else{
+            }else{
 
-				DB::rollBack();
-				return response()->json([
-					'errors' => $autoJournal['message']
-				]);
+                DB::rollBack();
+                return response()->json([
+                    'errors' => $autoJournal['message']
+                ]);
 
-			}
+            }
 
-	        return response()->json($ar);
+            return response()->json($ar);
 
-		} catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-			DB::rollBack();
+            DB::rollBack();
 
-			$data['errors'] = $e;
+            $data['errors'] = $e;
 
-			return response()->json($data);
-		}
+            return response()->json($data);
+        }
 
     }
 
-	function print(Request $request)
-	{
-		$ar_tmp = AReceive::where('uuid', $request->uuid);
-		$ar = $ar_tmp->first();
+    function print(Request $request)
+    {
+        $ar_tmp = AReceive::where('uuid', $request->uuid);
+        $ar = $ar_tmp->first();
 
-		$ara = $ar->ara;
-		$arb = $ar->arb;
-		$arc = $ar->arc;
+        $ara = $ar->ara;
+        $arb = $ar->arb;
+        $arc = $ar->arc;
 
-		$_date_approve = $ar->approvals->first()
-        ->created_at->toDateTimeString();
-
-        $date_approve = $_date_approve;
+        $ar_approval = $ar->approvals->first();
         
-        if (!$_date_approve) {
-            $date_approve = null;
+        if ($ar_approval) {
+            $date_approve = $ar_approval->toDateTimeString();
+        }else{
+            $date_approve = '-';
         }
 
-		$header = (object) [
-			'voucher_no' => $ar->transactionnumber,
-			'transaction_date' => $date_approve,
-			'coa_code' => $ar->coa->code,
-			'coa_name' => $ar->coa->name,
-			'description' => $ar->description,
-		];
+        $header = (object) [
+            'voucher_no' => $ar->transactionnumber,
+            'transaction_date' => $date_approve,
+            'coa_code' => $ar->coa->code,
+            'coa_name' => $ar->coa->name,
+            'description' => $ar->description,
+        ];
 
-		$total_credit = 0;
+        $total_credit = 0;
         $total_debit = 0;
         $detail = [];
 
-		// looping sebenayak invoice
-		for ($a=0; $a < count($ara); $a++) {
-			$x = $ara[$a];
+        // looping sebenayak invoice
+        for ($a=0; $a < count($ara); $a++) {
+            $x = $ara[$a];
 
-			$detail[] = (object) [
-				'coa_code' => $x->coa->code,
-				'coa_name' => $x->coa->name,
-				'credit' => $x->credit * $ar->exchangerate,
-				'debit' => 0,
-				'_desc' => $x->description,
-			];
+            $detail[] = (object) [
+                'coa_code' => $x->coa->code,
+                'coa_name' => $x->coa->name,
+                'credit' => $x->credit * $ar->exchangerate,
+                'debit' => 0,
+                '_desc' => $x->description,
+            ];
 
-			$total_credit += $detail[count($detail)-1]->credit;
-			$total_debit += $detail[count($detail)-1]->debit;
-		}
-
-		// looping sebanyak adjustment
-		for ($a=0; $a < count($arb); $a++) {
-			$y = $arb[$a];
-
-			$detail[] = (object) [
-				'coa_code' => $y->coa->code,
-				'coa_name' => $y->coa->name,
-				'credit' => $y->credit,
-				'debit' => $y->debit,
-				'_desc' => $y->description,
-			];
-
-			$total_credit += $detail[count($detail)-1]->credit;
-			$total_debit += $detail[count($detail)-1]->debit;
-		}
-
-		// looping sebanyak gap
-		for ($a=0; $a < count($arc); $a++) {
-			$z = $arc[$a];
-
-			$side = 'credit';
-			$x_side = 'debit';
-			$val = $z->difference;
-
-			// jika difference bernilai minus
-			if ($z->difference < 0) {
-				$side = 'debit';
-				$x_side = 'credit';
-				$val = $z->difference * (-1);
-			}
-
-			$detail[] = (object) [
-				'coa_code' => $z->coa->code,
-				'coa_name' => $z->coa->name,
-				$side => $val,
-				$x_side => 0,
-				'_desc' => $z->description,
-			];
-
-			$total_credit += $detail[count($detail)-1]->credit;
-			$total_debit += $detail[count($detail)-1]->debit;
+            $total_credit += $detail[count($detail)-1]->credit;
+            $total_debit += $detail[count($detail)-1]->debit;
         }
 
-		// add object in first array $detai
-		array_unshift(
-			$detail,
-			(object) [
-				'coa_code' => $header->coa_code,
-				'coa_name' => $header->coa_name,
-				'credit' => 0,
-				'debit' => $total_credit - $total_debit,
-				'_desc' => $header->description,
-			]
-		);
+        // looping sebanyak adjustment
+        for ($a=0; $a < count($arb); $a++) {
+            $y = $arb[$a];
 
-		$total_credit += $detail[count($detail)-1]->credit;
-		$total_debit += $detail[count($detail)-1]->debit;
+            $detail[] = (object) [
+                'coa_code' => $y->coa->code,
+                'coa_name' => $y->coa->name,
+                'credit' => $y->credit,
+                'debit' => $y->debit,
+                '_desc' => $y->description,
+            ];
 
-		$data_detail = [];
+            $total_credit += $detail[count($detail)-1]->credit;
+            $total_debit += $detail[count($detail)-1]->debit;
+        }
 
-		for ($i = 0; $i < count($detail); $i++) {
+        // looping sebanyak gap
+        for ($a=0; $a < count($arc); $a++) {
+            $z = $arc[$a];
 
-			$x = $detail[$i];
+            $side = 'credit';
+            $x_side = 'debit';
+            $val = $z->difference;
 
-			if ($x->debit != 0 || $x->credit != 0) {
+            // jika difference bernilai minus
+            if ($z->difference < 0) {
+                $side = 'debit';
+                $x_side = 'credit';
+                $val = $z->difference * (-1);
+            }
 
-				$data_detail[] = $x;
+            $detail[] = (object) [
+                'coa_code' => $z->coa->code,
+                'coa_name' => $z->coa->name,
+                $side => $val,
+                $x_side => 0,
+                '_desc' => $z->description,
+            ];
 
-			}
+            $total_credit += $detail[count($detail)-1]->credit;
+            $total_debit += $detail[count($detail)-1]->debit;
+        }
 
-			$total_credit += $x->credit;
-			$total_debit += $x->debit;
-		}
+        // add object in first array $detai
+        array_unshift(
+            $detail,
+            (object) [
+                'coa_code' => $header->coa_code,
+                'coa_name' => $header->coa_name,
+                'credit' => 0,
+                'debit' => $total_credit - $total_debit,
+                '_desc' => $header->description,
+            ]
+        );
 
-	    $header_title = 'Cash';
+        $total_credit += $detail[count($detail)-1]->credit;
+        $total_debit += $detail[count($detail)-1]->debit;
 
-		if (strpos(strtolower($ar->coa->name), 'bank') !== false) {
-		    $header_title = 'Bank';
-		}
+        $data_detail = [];
 
-		$to = $ar->customer;
+        for ($i = 0; $i < count($detail); $i++) {
 
-		$data = [
-			'data' => $ar,
-			'data_child' => $data_detail,
-			'to' => $to,
-			'total' => $total_debit,
-			'header_title' => $header_title,
-		];
+            $x = $detail[$i];
 
-		$pdf = \PDF::loadView('formview::ar', $data);
-		return $pdf->stream();
-	}
+            if ($x->debit != 0 || $x->credit != 0) {
+
+                $data_detail[] = $x;
+
+            }
+
+            $total_credit += $x->credit;
+            $total_debit += $x->debit;
+        }
+
+        $header_title = 'Cash';
+
+        if (strpos(strtolower($ar->coa->name), 'bank') !== false) {
+            $header_title = 'Bank';
+        }
+
+        $to = $ar->customer;
+
+        $data = [
+            'data' => $ar,
+            'data_child' => $data_detail,
+            'to' => $to,
+            'total' => $total_debit,
+            'header_title' => $header_title,
+        ];
+
+        $pdf = \PDF::loadView('formview::ar', $data);
+        return $pdf->stream();
+    }
 
 }
