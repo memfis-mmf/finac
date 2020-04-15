@@ -337,7 +337,7 @@
 
                                         @component('input::select2')
                                         @slot('id', 'bankinfo1')
-                                        @slot('name', 'bankinfo[]')
+                                        @slot('name', 'bankinfo')
                                         @slot('class', 'bankinfo')
                                         @slot('text', 'Bank Name Information')
                                         @slot('id_error', 'bankinfo')
@@ -363,7 +363,7 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         @component('input::select2')
                                         @slot('id', 'bankinfo2')
-                                        @slot('name', 'bankinfo[]')
+                                        @slot('name', 'bankinfo2')
                                         @slot('class', 'bankinfo')
                                         @slot('text', 'Bank Name Information')
                                         @slot('id_error', 'bankinfo')

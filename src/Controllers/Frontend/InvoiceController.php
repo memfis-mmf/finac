@@ -134,6 +134,7 @@ class InvoiceController extends Controller
 
         $others = Coa::where('code', $request->other)->first();
         $bankaccount = BankAccount::where('uuid', $request->bank)->first();
+        $bankaccount2 = BankAccount::where('uuid', $request->bank2)->first();
         //dd($bankaccount);
         //dd($coa);
         $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest . '%')->withTrashed()->count();
@@ -178,6 +179,7 @@ class InvoiceController extends Controller
             'schedule_payment' => $request->schedule_payment,
             'ppnvalue' => $ppn_value,
             'id_bank' => $bankaccount->id,
+            'id_bank2' => $bankaccount2->id,
             'grandtotalforeign' => $grandtotalfrg,
             'grandtotal' => $grandtotalidr,
             'other_price' => $request->other_price,
@@ -209,6 +211,7 @@ class InvoiceController extends Controller
             'ppnvalue' => $ppn_value,
             'schedule_payment' => $request->schedule_payment,
             'id_bank' => $bankaccount->id,
+            'id_bank2' => $bankaccount2->id,
             'grandtotalforeign' => $grandtotalfrg,
             'grandtotal' => $grandtotalidr,
             'accountcode' => $coa->id,

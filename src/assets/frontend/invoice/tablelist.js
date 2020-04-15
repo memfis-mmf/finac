@@ -720,7 +720,9 @@ jQuery(document).ready(function () {
     data.append("pdir", $('#pdir').val());
     data.append("currency", $('#currency').val());
     data.append("exchange_rate", $('#exchange_rate1111').val());
-    data.append("bank", $("#bankinfo option:selected").val());
+    // data.append("bank", $("#bankinfo option:selected").val());
+    data.append("bank", $('[name=bankinfo]').val());
+    data.append("bank2", $('[name=bankinfo2]').val());
     data.append("pph", 10);
     data.append("pphvalue", tax);
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
