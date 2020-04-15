@@ -341,7 +341,7 @@ var DatatableAutoColumnHideDemo = function () {
                   t.quotations[0].currency.code == $('#currency').val()
                   && $('#currency').val() != 'idr'
                 ) {
-                  multiple = $('exchange_rate1111').val();
+                  multiple = $('#exchange_rate1111').val();
                 }else{
                   multiple = t.quotations[0].exchange_rate;
                 }
