@@ -31,6 +31,19 @@ class BankController extends Controller
         return json_encode($bank);
     }
 
+    public function internalSelect2(){
+        $bank = BankAccount::where('internal_account', 1)->get();
+
+        foreach ($bank as $key => $x) {
+			$data['results'][] = [
+				'id' => $x->uuid,
+				'text' => $x->name.' ('.$x->number.')'
+			];
+        }
+
+        return json_encode($data);
+    }
+
     public function detail($bankAccount){
         $bankAccountget = BankAccount::where('uuid',$bankAccount)->first();
         $bankget = Bank::where('id',$bankAccountget->bank_id)->first();

@@ -336,8 +336,9 @@
                                         </label>
 
                                         @component('input::select2')
-                                        @slot('id', 'bankinfo')
-                                        @slot('name', 'bankinfo')
+                                        @slot('id', 'bankinfo1')
+                                        @slot('name', 'bankinfo[]')
+                                        @slot('class', 'bankinfo')
                                         @slot('text', 'Bank Name Information')
                                         @slot('id_error', 'bankinfo')
                                         @endcomponent
@@ -348,6 +349,28 @@
                                                 Bank Account Information
                                             </label>
 
+                                            @component('input::inputreadonly')
+                                            @slot('id', 'bai')
+                                            @slot('name', 'bai')
+                                            @slot('text', 'Bank Account Information')
+                                            @slot('id_error', 'bankaccount')
+                                            @endcomponent
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        @component('input::select2')
+                                        @slot('id', 'bankinfo2')
+                                        @slot('name', 'bankinfo[]')
+                                        @slot('class', 'bankinfo')
+                                        @slot('text', 'Bank Name Information')
+                                        @slot('id_error', 'bankinfo')
+                                        @endcomponent
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div hidden id="bai_header">
                                             @component('input::inputreadonly')
                                             @slot('id', 'bai')
                                             @slot('name', 'bai')
@@ -996,7 +1019,7 @@
 <script src="{{ asset('js/frontend/functions/select2/phone.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/email.js') }}"></script>
 <script src="{{ asset('js/frontend/functions/select2/fax.js') }}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/select2/bank.js') }}"></script>
+{{-- <script src="{{ asset('vendor/courier/frontend/functions/select2/bank.js') }}"></script> --}}
 {{-- <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/bank.js') }}"></script> --}}
 <!--<script src="{{ asset('js/frontend/functions/select2/address.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/functions/select2/city.js') }}"></script>
@@ -1014,6 +1037,9 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
+
+        let _url = window.location.origin;
+
         $('body').on('change', '#currency', function() {
             let val = $(this).val();
 
@@ -1023,27 +1049,52 @@
             }
         });
 
-    $.ajax({
-        url: '/bankfa-internal',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
+        $('.bankinfo').select2({
+            ajax: {
+                url: _url+'/bankfa-internal-select2',
+                dataType: 'json'
+            },
+        });
 
-            $('select[name="bankinfo"]').empty();
+        $('.bankinfo').on('change', function () {
+            //console.log(this.value);
+            let uuid = this.value
+            let parent = $(this).parents('.form-group');
+            let bai_header = parent.find('#bai_header');
+            let bai = parent.find('#bai');
 
-            $('select[name="bankinfo"]').append(
-                '<option value=""> Select a Bank</option>'
-            );
-
-            $.each(data, function (key, value) {
-                $('select[name="bankinfo"]').append(
-                    '<option value="' + value + '">' + key + '</option>'
-                );
+            $.ajax({
+                url: '/bankfa/' + uuid,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    bai_header.removeAttr('hidden');
+                    bai.val(data.name);
+                }
             });
-            console.log(bank_uuid);
-            $("#bankinfo").select2().val(bank_uuid).trigger("change");
-        }
-    });
+        });
+
+        // $.ajax({
+        //     url: '/bankfa-internal',
+        //     type: 'GET',
+        //     dataType: 'json',
+        //     success: function (data) {
+
+        //         $('select[name="bankinfo"]').empty();
+
+        //         $('select[name="bankinfo"]').append(
+        //             '<option value=""> Select a Bank</option>'
+        //         );
+
+        //         $.each(data, function (key, value) {
+        //             $('select[name="bankinfo"]').append(
+        //                 '<option value="' + value + '">' + key + '</option>'
+        //             );
+        //         });
+        //         console.log(bank_uuid);
+        //         $("#bankinfo").select2().val(bank_uuid).trigger("change");
+        //     }
+        // });
     });
 </script>
 

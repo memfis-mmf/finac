@@ -331,23 +331,6 @@ jQuery(document).ready(function () {
         $('#refquo_modal').modal('hide');
 
     });
-    $('#bankinfo').on('change', function () {
-        //console.log(this.value);
-        var uuid = this.value
-
-
-        $.ajax({
-            url: '/bankfa/' + uuid,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                $('#bai_header').removeAttr('hidden');
-                $("#bai").val(data.name);
-            }
-        });
-    });
-
 
 });
 jQuery(document).on("click", ".open-AddRowDialog", function () {

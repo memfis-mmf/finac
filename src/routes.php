@@ -973,6 +973,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 	Route::get('/currencyfa', 'memfisfa\Finac\Controllers\Datatables\CurrencyController@index')->name('currency.fa');
 	Route::get('/bankfa', 'memfisfa\Finac\Controllers\Datatables\BankController@index')->name('bank.fa');
 	Route::get('/bankfa-internal', 'memfisfa\Finac\Controllers\Datatables\BankController@internal')->name('bank.internal');
+	Route::get('/bankfa-internal-select2', 'memfisfa\Finac\Controllers\Datatables\BankController@internalSelect2')->name('bank.internal');
 	Route::get('/bankfa/{bankaccount}', 'memfisfa\Finac\Controllers\Datatables\BankController@detail')->name('bank.detailfa');
 	Route::get('/customerfa/{customer}', 'memfisfa\Finac\Controllers\Frontend\ARController@cust_detail')->name('detailcusttt');
 	//Route::resource('cashbook', 'memfisfa\Finac\Controllers\Frontend\CashbookController');
