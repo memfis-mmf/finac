@@ -14,32 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends MemfisModel
 {
-    protected $fillable = [
-        'id_branch',
-        'closed',
-        'transactionnumber',
-        'transactiondate',
-        'id_customer',
-        'id_quotation',
-        'id_bank',
-        'currency',
-        'exchangerate',
-        'discountpercent',
-        'schedule_payment',
-        'discountvalue',
-        'ppnpercent',
-        'schedule_payment',
-        'attention',
-        'ppnvalue',
-        'grandtotalforeign',
-        'grandtotal',
-        'accountcode',
-        'description',
-        'presdir',
-        'location',
-        'company_department',
-        'other_price',
-    ];
+    protected $guarded = [];
 
 	protected $appends = [
 		'approved_by',
