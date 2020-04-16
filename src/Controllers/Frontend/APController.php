@@ -604,6 +604,8 @@ class APController extends Controller
 			$total_credit = 0;
 			$total_debit = 0;
 
+			$detail = [];
+
 			// looping sebenayak supplier invoice
 			for ($a=0; $a < count($apa); $a++) {
 				$x = $apa[$a];

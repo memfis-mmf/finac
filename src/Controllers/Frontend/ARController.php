@@ -593,6 +593,8 @@ class ARController extends Controller
             $total_credit = 0;
             $total_debit = 0;
 
+            $detail = [];
+
             // looping sebenayak invoice
             for ($a=0; $a < count($ara); $a++) {
                 $x = $ara[$a];
@@ -659,8 +661,7 @@ class ARController extends Controller
                     'coa_detail' => $header->coa,
                     'credit' => 0,
                     'debit' => $total_credit - $total_debit,
-                    '_desc' => 'Receive From : '.$x->transactionnumber.' '
-                    .$x->ar->customer->name,
+                    '_desc' => 'Receive From : '.$header->voucher_no
                 ]
             );
 
