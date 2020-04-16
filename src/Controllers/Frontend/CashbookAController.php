@@ -108,7 +108,12 @@ class CashbookAController extends Controller
 			$request->transactionnumber
 		)->get();
 
-		$this->sumTotal($request->transactionnumber, $type);
+        $total = $this->sumTotal($request->transactionnumber);
+
+		Cashbook::where('transactionnumber', $request->transactionnumber)
+		->update([
+			'totaltransaction' => $total
+		]);
 
 		DB::commit();
         return response()->json($cashbook);
@@ -143,7 +148,12 @@ class CashbookAController extends Controller
 			$request->transactionnumber
 		)->get();
 
-		$this->sumTotal($request->transactionnumber, $type);
+        $total = $this->sumTotal($request->transactionnumber);
+
+		Cashbook::where('transactionnumber', $request->transactionnumber)
+		->update([
+			'totaltransaction' => $total
+		]);
 
 		DB::commit();
         return response()->json($cashbook);
@@ -161,41 +171,32 @@ class CashbookAController extends Controller
 		return view('cashbooknewview::edit', $data);
     }
 
-	public function sumTotal($transactionnumber, $type)
+	public function sumTotal($transactionnumber)
 	{
 		$cashbook_a = CashbookA::where(
 			'transactionnumber',
 			$transactionnumber
-		)->get();
+        )->get();
 
-		$total_debit = 0;
-		$total_credit = 0;
-		for (
-			$index_cashbook=0;
-			$index_cashbook < count($cashbook_a);
-			$index_cashbook++
-		) {
-			$arr = $cashbook_a[$index_cashbook];
+        $cashbook = $cashbook_a[0]->cashbook;
 
-			$total_debit += $arr->debit;
-			$total_credit += $arr->credit;
+        $total_debit = 0;
+        $total_credit = 0;
 
-		}
+        foreach ($cashbook->cashbook_a as $key => $item) {
+            $total_debit += $item->debit * $cashbook->exchangerate;
+            $total_credit += $item->credit * $cashbook->exchangerate;
+        }
 
-		if ($type == 'pj') {
-			$total = $total_debit - $total_credit;
-		}else{
-			$total = $total_credit - $total_debit;
-		}
+        if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
+            $total_all = $total_debit;
+        }
 
-		Cashbook::where('transactionnumber', $cashbook_a[0]->transactionnumber)
-		->update([
-			'totaltransaction' => $total
-		]);
+        if (strpos($cashbook->transactionnumber, 'RJ') !== false) {
+            $total_all = $total_credit;
+        }
 
-		return [
-			'status' => true,
-		];
+        return $total_all;
 	}
 
     public function update(Request $request)
@@ -232,7 +233,12 @@ class CashbookAController extends Controller
 			'description',
 		]));
 
-		$this->sumTotal($cashbook_a_tmp->first()->transactionnumber, $type);
+        $total = $this->sumTotal($cashbook_a_tmp->first()->transactionnumber);
+
+		Cashbook::where('transactionnumber', $cashbook_a_tmp->first()->transactionnumber)
+		->update([
+			'totaltransaction' => $total
+		]);
 
 		DB::commit();
 
@@ -241,7 +247,7 @@ class CashbookAController extends Controller
 
     public function destroy(Request $request)
     {
-		DB::beginTransaction();
+        DB::beginTransaction();
 
 		$transactionnumber = CashbookA::where('uuid', $request->cashbooka)
 		->first()->transactionnumber;
@@ -262,10 +268,15 @@ class CashbookAController extends Controller
 			$type = 'rj';
 		}
 
+        $total = $this->sumTotal($transactionnumber, $type);
+
+		Cashbook::where('transactionnumber', $transactionnumber)
+		->update([
+			'totaltransaction' => $total
+		]);
+
         $cashbook_a_delete = CashbookA::where('uuid', $request->cashbooka)
 		->delete();
-
-		$this->sumTotal($transactionnumber, $type);
 
 		DB::commit();
 
