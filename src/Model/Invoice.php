@@ -66,6 +66,11 @@ class Invoice extends MemfisModel
         return $this->belongsTo(BankAccount::class, 'id_bank');
     }
 
+    public function bank2()
+    {
+        return $this->belongsTo(BankAccount::class, 'id_bank2');
+    }
+
 	static public function generateCode($code = "INVC")
 	{
 		$invoice = Invoice::orderBy('id', 'desc')
