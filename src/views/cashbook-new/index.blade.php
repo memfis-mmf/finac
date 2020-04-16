@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="m-portlet m-portlet--mobile">
-                    <div class="m-portlet__body">
+                    <div class="m-portlet__body pb-5">
                         <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                             <div class="row align-items-center">
                                 <div class="col-xl-8 order-2 order-xl-1">
