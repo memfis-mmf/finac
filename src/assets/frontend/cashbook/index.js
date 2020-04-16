@@ -1,180 +1,232 @@
 let Cashbook = {
     init: function () {
 
-				let _url = window.location.origin;
+        let _url = window.location.origin;
 
-				function addCommas(nStr)
-				{
-						nStr += '';
-						x = nStr.split('.');
-						x1 = x[0];
-						x2 = x.length > 1 ? '.' + x[1] : '';
-						var rgx = /(\d+)(\d{3})/;
-						while (rgx.test(x1)) {
-								x1 = x1.replace(rgx, '$1' + '.' + '$2');
-						}
-						return x1 + x2;
-				}
+        function addCommas(nStr)
+        {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        }
 
-        let cashbook_datatable = $('.cashbook_datatable').mDatatable({
-            data: {
-                type: 'remote',
-                source: {
-                    read: {
-                        method: 'GET',
-                        url: '/cashbook/datatables',
-                        map: function (raw) {
-                            let dataSet = raw;
+        // let cashbook_datatable = $('.cashbook_datatable').mDatatable({
+        //     data: {
+        //         type: 'remote',
+        //         source: {
+        //             read: {
+        //                 method: 'GET',
+        //                 url: '/cashbook/datatables',
+        //                 map: function (raw) {
+        //                     let dataSet = raw;
 
-                            if (typeof raw.data !== 'undefined') {
-                                dataSet = raw.data;
-                            }
+        //                     if (typeof raw.data !== 'undefined') {
+        //                         dataSet = raw.data;
+        //                     }
 
 
-                            return dataSet;
-                        }
-                    }
-                },
-                pageSize: 10,
-                serverPaging: !1,
-                serverFiltering: !0,
-                serverSorting: !1
-            },
-            layout: {
-                theme: 'default',
-                class: '',
-                scroll: false,
-                footer: !1
-            },
-            sortable: !0,
-            filterable: !1,
-            pagination: !0,
-            search: {
-                input: $('#generalSearch')
-            },
-            toolbar: {
-                items: {
-                    pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
-                    }
+        //                     return dataSet;
+        //                 }
+        //             }
+        //         },
+        //         pageSize: 10,
+        //         serverPaging: !1,
+        //         serverFiltering: !0,
+        //         serverSorting: !1
+        //     },
+        //     layout: {
+        //         theme: 'default',
+        //         class: '',
+        //         scroll: false,
+        //         footer: !1
+        //     },
+        //     sortable: !0,
+        //     filterable: !1,
+        //     pagination: !0,
+        //     search: {
+        //         input: $('#generalSearch')
+        //     },
+        //     toolbar: {
+        //         items: {
+        //             pagination: {
+        //                 pageSizeSelect: [5, 10, 20, 30, 50, 100]
+        //             }
+        //         }
+        //     },
+        //     columns: [
+        //         {
+        //             field: '#',
+        //             title: 'No',
+        //             width:'40',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             textAlign: 'center',
+        //             template: (row, index, datatable) => {
+        //                 return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
+        //             }
+        //         },
+        //         {
+        //             field: 'transactiondate',
+        //             title: 'Date',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 60
+        //         },
+        //         {
+        //             field: 'transactionnumber',
+        //             title: 'Transaction No',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'totaltransaction',
+        //             title: 'Total Transaction',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150,
+		// 								template: function(t, e, i) {
+		// 									// return addCommas(parseInt(t.totaltransaction));
+
+		// 									let total_debit = 0;
+		// 									let total_credit = 0;
+		// 									for (var i = 0; i < t.cashbook_a.length; i++) {
+		// 										total_debit += parseInt(t.cashbook_a[i].debit);
+		// 										total_credit += parseInt(t.cashbook_a[i].credit);
+		// 									}
+
+		// 									total = total_debit;
+		// 									if (total_debit == 0) {
+		// 										total = total_credit;
+		// 									}
+
+		// 									return t.currencies.symbol+' '+addCommas(parseInt(total));
+		// 								}
+        //         },
+        //         {
+        //             field: 'personal',
+        //             title: 'Payment/Received By',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'description',
+        //             title: 'Description',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: '',
+        //             title: 'Status',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'created_by.name',
+        //             title: 'Created By',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'approved_by.name',
+        //             title: 'Approved By',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'Actions',
+        //             width: 150,
+        //             title: 'Actions',
+        //             sortable: !1,
+        //             overflow: 'visible',
+        //             template: function (t, e, i) {
+        //                 var transno = t.transactionnumber;
+        //                 var res = transno.substring(0, 4);
+        //                 console.log(res);
+		// 										let _html =
+		//                       '<a href="cashbook/print/?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+		// 	                      t.uuid + '">' +
+		// 	                      '<i class="la la-print"></i>' +
+		//                       "</a>";
+
+		// 										if (!t.approve) {
+		//                       _html += '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+		// 												'<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
+		//                         '<i class="la la-check"></i>' +
+		//                         '</a>' +
+		// 	                      '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+		// 	                      t.uuid +
+		// 	                      ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+		// 										}
+
+	    //                   return (_html);
+        //             }
+        //         }
+        //     ]
+        // });
+
+        let cashbook_datatable = $('.cashbook_datatable').DataTable({
+          dom: '<"top"f>rt<"bottom">pil',
+          scrollX: true,
+          processing: true,
+          serverSide: true,
+          ajax: _url+'/cashbook/datatables',
+          columns: [
+            {data: 'transactiondate'},
+            {data: 'transactionnumber'},
+            {data: 'total', render: function(data, type, row) {
+                return row.currencies.symbol+' '+addCommas(parseInt(row.total));
+            }},
+            {data: 'personal'},
+            {data: 'description'},
+            {data: 'status', defaultContent: '-'},
+            {data: 'created_by.name', searchable: false},
+            {data: 'approved_by.name', searchable: false, defaultContent: '-'},
+            {data: '', searchable: false, render: function (data, type, row) {
+                t = row;
+
+                var transno = t.transactionnumber;
+                var res = transno.substring(0, 4);
+                console.log(res);
+                let _html =
+                '<a href="cashbook/print/?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+                    t.uuid + '">' +
+                    '<i class="la la-print"></i>' +
+                "</a>";
+
+                if (!t.approve) {
+                    _html += '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
+                    '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
+                    '<i class="la la-check"></i>' +
+                    '</a>' +
+                        '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                        t.uuid +
+                        ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
                 }
-            },
-            columns: [
-                {
-                    field: '#',
-                    title: 'No',
-                    width:'40',
-                    sortable: 'asc',
-                    filterable: !1,
-                    textAlign: 'center',
-                    template: (row, index, datatable) => {
-                        return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
-                    }
-                },
-                {
-                    field: 'transactiondate',
-                    title: 'Date',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60
-                },
-                {
-                    field: 'transactionnumber',
-                    title: 'Transaction No',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'totaltransaction',
-                    title: 'Total Transaction',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150,
-										template: function(t, e, i) {
-											// return addCommas(parseInt(t.totaltransaction));
 
-											let total_debit = 0;
-											let total_credit = 0;
-											for (var i = 0; i < t.cashbook_a.length; i++) {
-												total_debit += parseInt(t.cashbook_a[i].debit);
-												total_credit += parseInt(t.cashbook_a[i].credit);
-											}
-
-											total = total_debit;
-											if (total_debit == 0) {
-												total = total_credit;
-											}
-
-											return t.currencies.symbol+' '+addCommas(parseInt(total));
-										}
-                },
-                {
-                    field: 'personal',
-                    title: 'Payment/Received By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'description',
-                    title: 'Description',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: '',
-                    title: 'Status',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'created_by.name',
-                    title: 'Created By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'approved_by.name',
-                    title: 'Approved By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'Actions',
-                    width: 150,
-                    title: 'Actions',
-                    sortable: !1,
-                    overflow: 'visible',
-                    template: function (t, e, i) {
-                        var transno = t.transactionnumber;
-                        var res = transno.substring(0, 4);
-                        console.log(res);
-												let _html =
-		                      '<a href="cashbook/print/?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-			                      t.uuid + '">' +
-			                      '<i class="la la-print"></i>' +
-		                      "</a>";
-
-												if (!t.approve) {
-		                      _html += '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t' +
-														'<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
-		                        '<i class="la la-check"></i>' +
-		                        '</a>' +
-			                      '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-			                      t.uuid +
-			                      ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-												}
-
-	                      return (_html);
-                    }
-                }
-            ]
+                return (_html);
+            }}
+          ]
         });
+
+        $(".dataTables_length select").addClass("form-control m-input");
+        $(".dataTables_filter").addClass("pull-left");
+        $(".paging_simple_numbers").addClass("pull-left");
+        $(".dataTables_length").addClass("pull-right");
+        $(".dataTables_info").addClass("pull-right");
+        $(".dataTables_info").addClass("margin-info");
+        $(".paging_simple_numbers").addClass("padding-datatable");
 
         $('.modal-footer').on('click', '.reset', function () {
             coa_reset();
