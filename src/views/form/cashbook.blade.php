@@ -197,7 +197,7 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
-                        <td colspan="2" style="background:#e6eef2" align="right"><b>Total : {{$detail[0]->symbol}}. {{number_format($total, 0, 0, '.')}}</b></td>
+                        <td colspan="2" style="background:#e6eef2" align="right"><b>Total : {{$detail[0]->symbol}}. {{number_format($cashbook->totaltransaction, 0, 0, '.')}}</b></td>
                     </tr>
                 </table>
             </div>

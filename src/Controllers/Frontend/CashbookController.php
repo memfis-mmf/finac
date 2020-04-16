@@ -164,26 +164,6 @@ class CashbookController extends Controller
         ])->orderBy('id', 'desc');
 
         return DataTables::of($data)
-		->addColumn('total', function(Cashbook $cashbook) {
-
-            $total_debit = 0;
-            $total_credit = 0;
-
-            foreach ($cashbook->cashbook_a as $key => $item) {
-                $total_debit += $item->debit * $cashbook->exchangerate;
-                $total_credit += $item->credit * $cashbook->exchangerate;
-            }
-
-            if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
-                $total_all = $total_debit;
-            }
-
-            if (strpos($cashbook->transactionnumber, 'RJ') !== false) {
-                $total_all = $total_credit;
-            }
-
-			return $total_all;
-		})
 		->escapeColumns([])
 		->make(true);
     }
@@ -515,7 +495,6 @@ class CashbookController extends Controller
 		if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
 			$type = 'pj';
 			$total = $total_debit - $total_credit;
-			$total_all = $total_debit;
 			$positiion = 'credit';
 			$x_positiion = 'debit';
 		}
@@ -523,7 +502,6 @@ class CashbookController extends Controller
 		if (strpos($cashbook->transactionnumber, 'RJ') !== false) {
 			$type = 'rj';
 			$total = $total_credit - $total_debit;
-			$total_all = $total_credit;
 			$positiion = 'debit';
 			$x_positiion = 'credit';
 		}
@@ -544,7 +522,7 @@ class CashbookController extends Controller
 		$data = [
 			'cashbook' => $cashbook,
 			'detail' => $detail,
-			'total' => $total_all,
+			// 'total' => $total_all,
 			'type' => $type,
 		];
 
