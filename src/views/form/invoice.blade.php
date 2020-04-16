@@ -483,7 +483,7 @@
                                         <td valign="top" width="18%">Bank Name</td>
                                         <td valign="top" width="1%">:</td>
                                         <td valign="top" width="31%">
-                                            {{$invoice->bank2->bank->name}}
+                                            {{@$invoice->bank2->bank->name}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -493,7 +493,7 @@
                                         {{-- bank 2 --}}
                                         <td valign="top" width="18%">Bank Acc Name</td>
                                         <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">{{$invoice->bank2->name}}</td>
+                                        <td valign="top" width="31%">{{@$invoice->bank2->name}}</td>
                                     </tr>
                                     <tr>
                                         <td valign="top" width="18%">Bank Acc No.</td>
@@ -502,7 +502,7 @@
                                         {{-- bank 2 --}}
                                         <td valign="top" width="18%">Bank Acc No.</td>
                                         <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">{{$invoice->bank2->number}}</td>
+                                        <td valign="top" width="31%">{{@$invoice->bank2->number}}</td>
                                     </tr>
                                     <tr>
                                         <td valign="top" width="18%">Currency</td>
@@ -520,7 +520,7 @@
                                             <td valign="top" width="31%"></td>
                                         @endif
                                         {{-- bank 2 --}}
-                                        @if ($invoice->bank2->swift_code)
+                                        @if (@$invoice->bank2->swift_code)
                                             <td valign="top" width="18%">Swift Code</td>
                                             <td valign="top" width="1%">:</td>
                                             <td valign="top" width="31%">{{$invoice->bank->swift_code}}</td>

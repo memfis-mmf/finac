@@ -1209,9 +1209,11 @@ class InvoiceController extends Controller
             $other_workpackage->title = "Other";
             $other_workpackage->priceother = $total;
         }
-
-		$data['invoice'] = $invoice;
-		$data['other_workpackage'] = $other_workpackage;
+        
+        $data = [
+            'invoice' => $invoice,
+            'other_workpackage' => $other_workpackage,
+        ];
 
         $pdf = \PDF::loadView('formview::invoice', $data);
         return $pdf->stream();
