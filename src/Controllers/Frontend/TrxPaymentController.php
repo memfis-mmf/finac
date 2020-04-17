@@ -172,7 +172,7 @@ class TrxPaymentController extends Controller
 		->get();
 
         return view('supplierinvoicegeneralview::edit', $data);
-    }
+	}
 
     public function update(TrxPaymentUpdate $request, TrxPayment $trxpayment)
     {

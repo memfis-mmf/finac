@@ -143,28 +143,35 @@
                                         </div>
                                     </div>
                                 </div>  <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
 
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
 
-                                        @component('input::inputrightbutton')
+                                        {{-- @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
                                             @slot('name', 'account_code')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
+                                        @endcomponent --}}
+
+                                        @component('input::select2')
+                                            @slot('id', '_accountcode')
+                                            @slot('text', 'Account Code')
+                                            @slot('name', 'account_code')
+                                            @slot('id_error', 'accountcode')
                                         @endcomponent
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Account Code Name
                                         </label>
 
-																				<input type="text" name="account_name" id="grn_no" class="form-control m-input" disabled>
-                                    </div>
+                                                                                <input type="text" name="account_name" id="grn_no" class="form-control m-input" disabled>
+                                    </div> --}}
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -269,35 +276,47 @@
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
+    $(document).ready(function() {
 
-		$('body').on('input', '#term_of_payment', function() {
-			let date = new Date($('[name=transaction_date]').val());
+        let _url = window.location.origin;
 
-			console.log([
-				date,
-				$(this).val()
-			]);
+        // handle select2
+        $('#_accountcode').select2({
+            ajax: {
+            url: _url+'/journal/get-account-code-select2',
+            dataType: 'json'
+            },
+            minimumInputLength: 3,
+            // templateSelection: formatSelected
+        });
 
-			if (parseInt($(this).val())) {
-				date.setDate(date.getDate() + parseInt($(this).val()));
+        $('body').on('input', '#term_of_payment', function() {
+            let date = new Date($('[name=transaction_date]').val());
 
-	      $('#valid_until').val(date.toInputFormat());
-			}else{
-	      $('#valid_until').val('');
-			}
+            console.log([
+                date,
+                $(this).val()
+            ]);
 
-		});
+            if (parseInt($(this).val())) {
+                date.setDate(date.getDate() + parseInt($(this).val()));
 
-		Date.prototype.toInputFormat = function() {
+          $('#valid_until').val(date.toInputFormat());
+            }else{
+          $('#valid_until').val('');
+            }
+
+        });
+
+        Date.prototype.toInputFormat = function() {
        var yyyy = this.getFullYear().toString();
        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
        var dd  = this.getDate().toString();
        return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
     };
 
-		$('body').on('change', '[name=id_supplier]', function() {
-			let val = $(this).val();
+        $('body').on('change', '[name=id_supplier]', function() {
+            let val = $(this).val();
 
       $.ajax({
           headers: {
@@ -310,13 +329,13 @@
               id_vendor: val,
           },
           success: function (data) {
-						$('[name=account_code]').val(data.code);
-						$('[name=account_name]').val(data.name);
+                        $('[name=account_code]').val(data.code);
+                        $('[name=account_name]').val(data.name);
           }
       });
 
-		});
+        });
 
-	});
+    });
 </script>
 @endpush

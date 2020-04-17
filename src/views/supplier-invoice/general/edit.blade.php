@@ -64,21 +64,21 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transaction_date')
                                             @slot('id_error', 'date')
-																						@slot('value', $data->transaction_date)
+                                                                                        @slot('value', $data->transaction_date)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Vendor @include('label::required')
                                         </label>
-																				<select id="vendor" name="id_supplier" class="form-control m-select2">
-																						@foreach ($vendor as $x)
-																								<option value="{{ $x->id }}"
-																										@if ($x->id == $data->id_supplier) selected @endif>
-																										{{ $x->name }}
-																								</option>
-																						@endforeach
-																				</select>
+                                                                                <select id="vendor" name="id_supplier" class="form-control m-select2">
+                                                                                        @foreach ($vendor as $x)
+                                                                                                <option value="{{ $x->id }}"
+                                                                                                        @if ($x->id == $data->id_supplier) selected @endif>
+                                                                                                        {{ $x->name }}
+                                                                                                </option>
+                                                                                        @endforeach
+                                                                                </select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -94,7 +94,7 @@
                                                     @slot('text', 'Term Of Payment')
                                                     @slot('name', 'term_of_payment')
                                                     @slot('id_error', 'term_of_payment')
-																										@slot('value', $data->closed)
+                                                                                                        @slot('value', $data->closed)
                                                 @endcomponent
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -116,7 +116,7 @@
                                                     @slot('text', 'Due Date')
                                                     @slot('name', 'valid_until')
                                                     @slot('id_error', 'valid_until')
-																										@slot('value', $data->due_date)
+                                                                                                        @slot('value', $data->due_date)
                                                 @endcomponent --}}
                                             </div>
                                         </div>
@@ -127,14 +127,14 @@
                                                 <label class="form-control-label">
                                                     Currency @include('label::required')
                                                 </label>
-																								<select id="currency" name="currency" class="form-control m-select2">
-																										@foreach ($currency as $x)
-																												<option value="{{ $x->code }}"
-																														@if ($x->code == $data->currency) selected @endif>
-																														{{ $x->full_name }}
-																												</option>
-																										@endforeach
-																								</select>
+                                                                                                <select id="currency" name="currency" class="form-control m-select2">
+                                                                                                        @foreach ($currency as $x)
+                                                                                                                <option value="{{ $x->code }}"
+                                                                                                                        @if ($x->code == $data->currency) selected @endif>
+                                                                                                                        {{ $x->full_name }}
+                                                                                                                </option>
+                                                                                                        @endforeach
+                                                                                                </select>
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <label class="form-control-label">
@@ -145,35 +145,49 @@
                                                     @slot('id', 'exchange')
                                                     @slot('text', 'exchange')
                                                     @slot('name', 'exchange_rate')
-																										@slot('value', $data->exchange_rate)
+                                                                                                        @slot('value', $data->exchange_rate)
                                                 @endcomponent
                                             </div>
                                         </div>
                                     </div>
                                 </div>  <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
 
                                         <label class="form-control-label">
                                             Account Code
                                         </label>
 
-                                        @component('input::inputrightbutton')
+                                        {{-- @component('input::inputrightbutton')
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
                                             @slot('name', 'coa')
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
                                             @slot('data_target', '#coa_modal')
-																						@slot('value', $data->coa->code)
-                                        @endcomponent
+                                            @slot('value', $data->coa->code)
+                                        @endcomponent --}}
+
+                                        <select name="account_code" id="" class="_accountcode form-control">
+                                            <option value="{{$data->coa->code}}" selected>
+                                                {{$data->coa->name.' ('.$data->coa->code.')'}}
+                                            </option>
+                                        </select>
+
+                                        {{-- @component('input::select2')
+                                            @slot('id', '_accountcode')
+                                            @slot('class', '_accountcode')
+                                            @slot('text', 'Account Code')
+                                            @slot('name', 'account_code')
+                                            @slot('id_error', 'accountcode')
+                                        @endcomponent --}}
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Account Code Name
                                         </label>
 
-																				<input type="text" value="{{ $data->coa->name }}" id="account_name" class="form-control m-input" disabled>
-                                    </div>
+                                                                                <input type="text" value="{{ $data->coa->name }}" id="account_name" class="form-control m-input" disabled>
+                                    </div> --}}
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -186,7 +200,7 @@
                                             @slot('text', 'Remark')
                                             @slot('name', 'description_si')
                                             @slot('rows','5')
-																						@slot('value', $data->description)
+                                                                                        @slot('value', $data->description)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -251,12 +265,12 @@
 
                                             @include('buttons::reset')
 
-																						<a href="{{route('trxpayment.index')}}" class="btn btn-secondary btn-md" style="">
-																								<span>
-																										<i class="la la-undo"></i>
-																								</span>
-																								Back
-																						</a>
+                                                                                        <a href="{{route('trxpayment.index')}}" class="btn btn-secondary btn-md" style="">
+                                                                                                <span>
+                                                                                                        <i class="la la-undo"></i>
+                                                                                                </span>
+                                                                                                Back
+                                                                                        </a>
                                         </div>
                                     </div>
                                 </div>
@@ -286,25 +300,38 @@
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 <script>
   $(document).ready(function() {
-		$('body').on('input', '#term_of_payment', function() {
-			let date = new Date($('[name=transaction_date]').val());
 
-			console.log([
-				date,
-				$(this).val()
-			]);
+    let _url = window.location.origin;
 
-			if (parseInt($(this).val())) {
-				date.setDate(date.getDate() + parseInt($(this).val()));
+    // handle select2
+    $('._accountcode').select2({
+        ajax: {
+            url: _url+'/journal/get-account-code-select2',
+            dataType: 'json'
+        },
+        minimumInputLength: 3,
+        // templateSelection: formatSelected
+    });
 
-	      $('#valid_until').val(date.toInputFormat());
-			}else{
-	      $('#valid_until').val('');
-			}
+    $('body').on('input', '#term_of_payment', function() {
+        let date = new Date($('[name=transaction_date]').val());
+
+        console.log([
+            date,
+            $(this).val()
+        ]);
+
+        if (parseInt($(this).val())) {
+            date.setDate(date.getDate() + parseInt($(this).val()));
+
+        $('#valid_until').val(date.toInputFormat());
+        }else{
+        $('#valid_until').val('');
+        }
 
     });
 
-		Date.prototype.toInputFormat = function() {
+        Date.prototype.toInputFormat = function() {
        var yyyy = this.getFullYear().toString();
        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
        var dd  = this.getDate().toString();
