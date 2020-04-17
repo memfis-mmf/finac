@@ -97,7 +97,7 @@
                                                     <td>{{$item->Description}}</td>
                                                     <td>Rp {{number_format($item->Debit, 0, 0, '.')}}</td>
                                                     <td>Rp {{number_format($item->Credit, 0, 0, '.')}}</td>
-                                                    <td>Rp {{number_format($item->SaldoAwal, 0, 0, '.')}}</td>
+                                                    <td>Rp {{number_format($item->endingBalance, 0, 0, '.')}}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

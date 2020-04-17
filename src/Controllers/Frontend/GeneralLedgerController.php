@@ -54,6 +54,14 @@ class GeneralLedgerController extends Controller
 
 		}
 
+		foreach ($data_coa as $key_data_coa => $items) {
+			foreach ($items as $key_item => $item) {
+				$data_coa[$key_data_coa][$key_item]->endingBalance = 0;
+			}
+		}
+
+		dd($data_coa[0], $data_coa);
+
 		$data = [
 			'data' => $data_coa,
 			'beginDate' => $beginDate,
