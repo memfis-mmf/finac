@@ -512,7 +512,8 @@ class InvoiceController extends Controller
 
 			$header = (object) [
 				'voucher_no' => $invoice->transactionnumber,
-				'transaction_date' => $date_approve,
+				// 'transaction_date' => $date_approve,
+				'transaction_date' => $invoice->transactiondate,
 				'coa' => $invoice->customer->coa()->first()->id,
 			];
 

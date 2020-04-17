@@ -586,7 +586,8 @@ class ARController extends Controller
 
             $header = (object) [
                 'voucher_no' => $ar->transactionnumber,
-                'transaction_date' => $date_approve,
+                // 'transaction_date' => $date_approve,
+                'transaction_date' => $ar->transactiondate,
                 'coa' => $ar->coa->id,
             ];
 

@@ -356,7 +356,8 @@ class CashbookController extends Controller
 
 			$header = (object) [
 				'voucher_no' => $cashbook->transactionnumber,
-				'transaction_date' => $date_approve,
+				// 'transaction_date' => $date_approve,
+				'transaction_date' => $cashbook->transactiondate,
 				'coa' => $cashbook->coa->id,
 			];
 

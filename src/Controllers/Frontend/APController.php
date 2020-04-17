@@ -597,7 +597,8 @@ class APController extends Controller
 
 			$header = (object) [
 				'voucher_no' => $ap->transactionnumber,
-				'transaction_date' => $date_approve,
+				// 'transaction_date' => $date_approve,
+				'transaction_date' => $ap->transactiondate,
 				'coa' => $ap->coa->id,
 			];
 
