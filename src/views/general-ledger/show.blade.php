@@ -133,12 +133,12 @@
                             <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
 
                                 <div class="action-buttons">
-                                    @component('buttons::submit')
-                                    @slot('type', 'button')
-                                    @slot('text','Print')
-                                    @slot('id','print')
-                                    @slot('icon','fa-print')
-                                    @endcomponent
+                                    <a href="{{route('general_ledger.print')}}?data={{Request::get('data')}}&date={{Request::get('date')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md">
+                                        <span>
+                                            <i class="la la-file"></i>
+                                            <span>Print</span>
+                                        </span>
+                                    </a>
                                     @include('buttons::back')
                                 </div>
                             </div>
