@@ -156,9 +156,9 @@
                             <td valign="top" width="13%">{{$item->VoucherNo}}</td>
                             <td valign="top" width="12%">-</td>
                             <td valign="top" width="20%">{{$item->Description}}</td>
-                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Debit, 0, 0, '.')}}</td>
-                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Credit, 0, 0, '.')}}</td>
-                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->SaldoAwal, 0, 0, '.')}}</td>
+                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Debit, 2, ',', '.')}}</td>
+                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Credit, 2, ',', '.')}}</td>
+                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->endingBalance, 2, ',', '.')}}</td>
                         </tr>
                         
                     @endforeach
