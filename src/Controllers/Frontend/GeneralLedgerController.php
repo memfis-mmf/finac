@@ -158,7 +158,7 @@ class GeneralLedgerController extends Controller
             ->type->code;
 
             if ($index > 0) {
-                $balance = $data[$index-1]->SaldoAwal;
+                $balance = $data[$index-1]->endingBalance;
             }else{
                 $balance = $item->SaldoAwal;
             }
