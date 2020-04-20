@@ -93,7 +93,7 @@
                                                 <tr>
                                                     <td>{{$item->TransactionDate}}</td>
                                                     <td>{{$item->VoucherNo}}</td>
-                                                    <td>-</td>
+                                                    <td>{{$item->RefNo}}</td>
                                                     <td>{{$item->Description}}</td>
                                                     <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
                                                     <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
