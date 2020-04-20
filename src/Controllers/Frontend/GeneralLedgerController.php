@@ -356,6 +356,7 @@ class GeneralLedgerController extends Controller
         ];
 
         $pdf = \PDF::loadView('formview::general-ledger-docs', $data);
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream();
     }
 
