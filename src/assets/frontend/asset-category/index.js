@@ -3,109 +3,149 @@ let AssetCategory = {
 
 			let _url = window.location.origin;
 
-      let asset_category_datatable = $('.asset_category_datatable').mDatatable({
-          data: {
-              type: 'remote',
-              source: {
-                  read: {
-                      method: 'GET',
-                      url: `${_url}/typeasset/datatables`,
-                      map: function (raw) {
-                          let dataSet = raw;
+    //   let asset_category_datatable = $('.asset_category_datatable').mDatatable({
+    //       data: {
+    //           type: 'remote',
+    //           source: {
+    //               read: {
+    //                   method: 'GET',
+    //                   url: `${_url}/typeasset/datatables`,
+    //                   map: function (raw) {
+    //                       let dataSet = raw;
 
-                          if (typeof raw.data !== 'undefined') {
-                              dataSet = raw.data;
-                          }
+    //                       if (typeof raw.data !== 'undefined') {
+    //                           dataSet = raw.data;
+    //                       }
 
-                          return dataSet;
-                      }
-                  }
-              },
-              pageSize: 10,
-              serverPaging: !1,
-              serverFiltering: !0,
-              serverSorting: !1
-          },
-          layout: {
-              theme: 'default',
-              class: '',
-              scroll: false,
-              footer: !1
-          },
-          sortable: !0,
-          filterable: !1,
-          pagination: !0,
-          search: {
-              input: $('#generalSearch')
-          },
-          toolbar: {
-              items: {
-                  pagination: {
-                      pageSizeSelect: [5, 10, 20, 30, 50, 100]
-                  }
-              }
-          },
+    //                       return dataSet;
+    //                   }
+    //               }
+    //           },
+    //           pageSize: 10,
+    //           serverPaging: !1,
+    //           serverFiltering: !0,
+    //           serverSorting: !1
+    //       },
+    //       layout: {
+    //           theme: 'default',
+    //           class: '',
+    //           scroll: false,
+    //           footer: !1
+    //       },
+    //       sortable: !0,
+    //       filterable: !1,
+    //       pagination: !0,
+    //       search: {
+    //           input: $('#generalSearch')
+    //       },
+    //       toolbar: {
+    //           items: {
+    //               pagination: {
+    //                   pageSizeSelect: [5, 10, 20, 30, 50, 100]
+    //               }
+    //           }
+    //       },
+    //       columns: [
+    //           {
+    //               field: 'code',
+    //               title: 'Category Code',
+    //               sortable: 'asc',
+    //               filterable: !1,
+    //               width: 60
+    //           },
+    //           {
+    //               field: 'name',
+    //               title: 'Category Name',
+    //               sortable: 'asc',
+    //               filterable: !1,
+    //               width: 150
+    //           },
+    //           {
+    //               field: 'usefullife',
+    //               title: 'Useful Life',
+    //               sortable: 'asc',
+    //               filterable: !1,
+    //               width: 60,
+    //           },
+    //           {
+    //               field: 'accountcode',
+    //               title: 'Coa Asset',
+    //               sortable: 'asc',
+    //               filterable: !1,
+    //               width: 150
+    //           },
+    //           {
+    //               field: 'created_by',
+    //               title: 'Created By',
+    //               sortable: 'asc',
+    //               filterable: !1,
+    //               width: 150
+    //           },
+    //           {
+    //               field: 'Actions',
+    //               width: 110,
+    //               title: 'Actions',
+    //               sortable: !1,
+    //               overflow: 'visible',
+    //               template: function (t, e, i) {
+
+	// 									let _html = '';
+
+	// 									if (!t.approve) {
+	// 										_html +=
+    //                     '<a href="'+_url+'/typeasset/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+    //                     t.uuid +
+    //                     '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
+    //                     '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+    //                     t.uuid +
+    //                     ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
+	// 									}
+
+    //                 return (_html);
+    //               }
+    //           }
+    //       ]
+    //   });
+
+        let asset_category_datatable = $('.asset_category_datatable').DataTable({
+          dom: '<"top"f>rt<"bottom">pil',
+          scrollX: true,
+          processing: true,
+          serverSide: true,
+          ajax: `${_url}/typeasset/datatables`,
           columns: [
-              {
-                  field: 'code',
-                  title: 'Category Code',
-                  sortable: 'asc',
-                  filterable: !1,
-                  width: 60
-              },
-              {
-                  field: 'name',
-                  title: 'Category Name',
-                  sortable: 'asc',
-                  filterable: !1,
-                  width: 150
-              },
-              {
-                  field: 'usefullife',
-                  title: 'Useful Life',
-                  sortable: 'asc',
-                  filterable: !1,
-                  width: 60,
-              },
-              {
-                  field: 'accountcode',
-                  title: 'Coa Asset',
-                  sortable: 'asc',
-                  filterable: !1,
-                  width: 150
-              },
-              {
-                  field: 'created_by',
-                  title: 'Created By',
-                  sortable: 'asc',
-                  filterable: !1,
-                  width: 150
-              },
-              {
-                  field: 'Actions',
-                  width: 110,
-                  title: 'Actions',
-                  sortable: !1,
-                  overflow: 'visible',
-                  template: function (t, e, i) {
+            {data: 'code'},
+            {data: 'name'},
+            {data: 'usefullife'},
+            {data: 'accountcode'},
+            {data: 'created_by', searchable: false},
+            {data: '', searchable: false, render: function (data, type, row) {
+                t = row;
 
-										let _html = '';
+                let _html = '';
 
-										if (!t.approve) {
-											_html +=
-                        '<a href="'+_url+'/typeasset/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                        t.uuid +
-                        '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-                        '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                        t.uuid +
-                        ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
-										}
+                if (!t.approve) {
+                    _html +=
+                    '<a href="'+_url+'/typeasset/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                    t.uuid +
+                    '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
+                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                    t.uuid +
+                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
+                }
 
-                    return (_html);
-                  }
-              }
+                return (_html);
+            }}
           ]
-      });
+        });
+
+        $(".dataTables_length select").addClass("form-control m-input");
+        $(".dataTables_filter").addClass("pull-left");
+        $(".paging_simple_numbers").addClass("pull-left");
+        $(".dataTables_length").addClass("pull-right");
+        $(".dataTables_info").addClass("pull-right");
+        $(".dataTables_info").addClass("margin-info");
+        $(".paging_simple_numbers").addClass("padding-datatable");
 
       let remove = $('.asset_category_datatable').on('click', '.delete', function () {
           let triggerid = $(this).data('uuid');
