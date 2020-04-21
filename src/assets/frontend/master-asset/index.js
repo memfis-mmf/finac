@@ -170,6 +170,7 @@ let MasterAsset = {
             processing: true,
             serverSide: true,
             ajax: `${_url}/asset/datatables`,
+            order: [[0, 'desc']],
             columns: [
                 {data: 'transaction_number', defaultContent: '-'},
                 {data: 'name', defaultContent: '-'},
