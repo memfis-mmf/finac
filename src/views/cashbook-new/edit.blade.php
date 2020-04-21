@@ -464,6 +464,8 @@
         </div>
     </div>
 </div>
+
+{{-- modal adjustment cashbook --}}
 <div class="modal fade" id="modal_cashbook_adjustment" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -539,6 +541,114 @@
                                     <div class="action-buttons">
                                         @component('buttons::submit')
                                             @slot('id', 'create_cashbook_adjustment')
+                                            @slot('type', 'button')
+                                        @endcomponent
+
+                                        @include('buttons::reset')
+
+                                        @include('buttons::close')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- modal adjustment edit cashbook --}}
+<div class="modal fade" id="modal_cashbook_adjustment_edit" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TitleModalJournal">Cashbook Adjustment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="CoaForm">
+                    <input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
+                    <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-control-label">
+                                    Account Code
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="account_code_b"
+                                    value=""
+                                    readonly
+                                >
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-control-label">
+                                    Account Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="account_name_b"
+                                    value=""
+                                    readonly
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-control-label">
+                                    Debit @include('label::required')
+                                </label>
+
+                                @component('input::number')
+                                    @slot('id', 'debit_b')
+                                    @slot('text', 'debit_b')
+                                    @slot('name', 'debit_b')
+                                    @slot('value', 0)
+                                @endcomponent
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-control-label">
+                                    Credit @include('label::required')
+                                </label>
+
+                                @component('input::number')
+                                    @slot('id', 'credit_b')
+                                    @slot('text', 'credit_b')
+                                    @slot('name', 'credit_b')
+                                    @slot('value', 0)
+                                @endcomponent
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Remark
+                                </label>
+
+                                @component('input::textarea')
+                                    @slot('id', 'remark')
+                                    @slot('text', 'remark')
+                                    @slot('name', 'description_b')
+                                    @slot('rows','5')
+                                @endcomponent
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="flex">
+                            <div class="action-buttons">
+                                <div class="flex">
+                                    <div class="action-buttons">
+                                        @component('buttons::submit')
+                                            @slot('id', 'update_cashbook_adjustment')
                                             @slot('type', 'button')
                                         @endcomponent
 

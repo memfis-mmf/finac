@@ -81,7 +81,7 @@ let Coa = {
                 filterable: !1,
                 width: 150,
 								template: function(t, e, i) {
-									return addCommas(parseInt(t.debit));
+									return addCommas(parseFloat(t.debit));
 								}
             },
             {
@@ -91,7 +91,7 @@ let Coa = {
                 filterable: !1,
                 width: 150,
 								template: function(t, e, i) {
-									return addCommas(parseInt(t.credit));
+									return addCommas(parseFloat(t.credit));
 								}
             },
             {
@@ -110,8 +110,16 @@ let Coa = {
                 template: function (t, e, i) {
 
 									let _html =
-                    '<button id="show_coa_edit" data-target="#modal_coa_edit" type="button" href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-description="'+t.description+'" data-uuid=' +
-                    t.uuid +
+										`<button 
+										id="show_coa_edit" 
+										data-target="#modal_coa_edit" 
+										type="button" 
+										href="#" 
+										class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+										title="Edit" 
+										data-transactionnumber="${t.transactionnumber}"
+										data-description="${t.description}" 
+										data-uuid="${t.uuid}"` +
                     '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                     '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                     t.uuid +
@@ -121,27 +129,55 @@ let Coa = {
                 }
             }
         ]
-    });
+		});
+		
+		function display_modal_adj(_modal, data) {
+			_modal.find('[name=uuid]').val(data.uuid);
+			_modal.find('[name=account_code_b]').val(data.code);
+			_modal.find('[name=account_name_b]').val(data.name);
+			_modal.find('[name=debit_b]').val(parseFloat(data.debit));
+			_modal.find('[name=credit_b]').val(parseFloat(data.credit));
+			_modal.find('[name=description_b]').val(data._description);
+
+			_modal.modal('show');
+		}
+
+		function display_modal_transaction(_modal, data) {
+			_modal.find('[name=uuid]').val(data.uuid);
+			_modal.find('[name=account_code_a]').val(data.code);
+			_modal.find('[name=account_name_a]').val(data.name);
+			_modal.find('[name=amount_a]').val(
+				(data.debit > 0)? parseFloat(data.debit): parseFloat(data.credit)
+			);
+			_modal.find('[name=description_a]').val(data._description);
+
+			_modal.modal('show');
+		}
 
 		let display_coa_edit = $('body').on('click', '#show_coa_edit', function() {
 
 			let tr = $(this).parents('tr');
 			let tr_index = tr.index();
 			let data = coa_datatable.row(tr).data().mDatatable.dataSet[tr_index];
-			let _description = $(this).data('description');
-			let _modal = $('#modal_coa_edit');
+			data._description = $(this).data('description');
+			let transactionnumber = $(this).data('transactionnumber');
 
-			console.table(data);
+			if (transactionnumber.includes('PJ') && data.credit > 0) {
+				let _modal = $('#modal_cashbook_adjustment_edit');
+				console.log('adj');
+				display_modal_adj(_modal, data);
+			}else{
+				if (transactionnumber.includes('RJ') && data.debit > 0) {
+					let _modal = $('#modal_cashbook_adjustment_edit');
+					console.log('adj');
+					display_modal_adj(_modal, data);
+				}else{
+					let _modal = $('#modal_coa_edit');
+					display_modal_transaction(_modal, data);
+				}
+			}
 
-			_modal.find('[name=uuid]').val(data.uuid);
-			_modal.find('[name=account_code_a]').val(data.code);
-			_modal.find('[name=account_name_a]').val(data.name);
-			_modal.find('[name=amount_a]').val(
-				(data.debit > 0)? parseInt(data.debit): parseInt(data.credit)
-			);
-			_modal.find('[name=description_a]').val(_description);
 
-			$('#modal_coa_edit').modal('show');
 		})
 
 		let update_cashbook_a = $('body').on('click', '#update_cashbook_a', function () {
@@ -222,6 +258,38 @@ let Coa = {
 					},
 					type: 'post',
 					url: _url+'/cashbooka/adjustment',
+					data: _data,
+					success: function (data) {
+							if (data.errors) {
+								toastr.error(data.errors, 'Invalid', {
+										timeOut: 2000
+								});
+
+							} else {
+									$('.modal').modal('hide');
+
+									toastr.success('Data Saved', 'Success', {
+											timeOut: 2000
+									});
+
+									coa_datatable.reload()
+							}
+					}
+			});
+		});
+
+		let update_cashbook_adjustment = $('body').on('click', '#update_cashbook_adjustment', function () {
+
+			let modal = $(this).parents('.modal');
+			let form = modal.find('form');
+			let _data = form.serialize();
+
+			$.ajax({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type: 'post',
+					url: _url+'/cashbooka/adjustment-update',
 					data: _data,
 					success: function (data) {
 							if (data.errors) {

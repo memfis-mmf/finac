@@ -77,7 +77,6 @@ class CashbookAController extends Controller
 				'debit' => $request->amount_a,
 				'credit' => 0,
 			]);
-			$type = 'pj';
 		}
 
 		if (strpos($request->transactionnumber, 'RJ') !== false) {
@@ -85,7 +84,6 @@ class CashbookAController extends Controller
 				'debit' => 0,
 				'credit' => $request->amount_a,
 			]);
-			$type = 'rj';
 		}
 
 		$coa = Coa::where('code', $request->code_a)->first();
@@ -121,14 +119,6 @@ class CashbookAController extends Controller
 
     public function storeAdj(Request $request)
     {
-		if (strpos($request->transactionnumber, 'PJ') !== false) {
-			$type = 'pj';
-		}
-
-		if (strpos($request->transactionnumber, 'RJ') !== false) {
-			$type = 'rj';
-		}
-
 		$coa = Coa::where('code', $request->code_b)->first();
 
 		$request->request->add([
@@ -143,10 +133,29 @@ class CashbookAController extends Controller
 
         $cashbook = CashbookA::create($request->all());
 
-		$cashbook_a = CashbookA::where(
-			'transactionnumber',
-			$request->transactionnumber
-		)->get();
+        $total = $this->sumTotal($request->transactionnumber);
+
+		Cashbook::where('transactionnumber', $request->transactionnumber)
+		->update([
+			'totaltransaction' => $total
+		]);
+
+		DB::commit();
+        return response()->json($cashbook);
+    }
+
+    public function updateAdj(Request $request)
+    {
+
+		$request_data = [
+			'description' => $request->description_b,
+			'debit' => $request->debit_b,
+			'credit' => $request->credit_b,
+		];
+
+		DB::beginTransaction();
+
+        $cashbook = CashbookA::where('uuid', $request->uuid)->update($request_data);
 
         $total = $this->sumTotal($request->transactionnumber);
 

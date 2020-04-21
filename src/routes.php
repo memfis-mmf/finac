@@ -171,6 +171,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/adjustment',
 			'memfisfa\Finac\Controllers\Frontend\CashbookAController@storeAdj'
 		)->name('cashbooka.adjustment.store');
+		Route::post(
+			'/adjustment-update',
+			'memfisfa\Finac\Controllers\Frontend\CashbookAController@updateAdj'
+		)->name('cashbooka.adjustment.update');
 	});
 
     Route::prefix('journal')->group(function () {
