@@ -233,7 +233,7 @@
                                                             name="create"
                                                             value=""
                                                             class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"
-                                                            style=""
+                                                            style="display:none"
                                                             target=""
                                                             data-toggle="modal"
                                                             data-target="#modal_cashbook_adjustment"

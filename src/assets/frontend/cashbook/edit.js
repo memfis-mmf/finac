@@ -109,6 +109,8 @@ let Coa = {
                 overflow: 'visible',
                 template: function (t, e, i) {
 
+									$('#button_cushbook_adjustment').show();
+
 									let _html =
 										`<button 
 										id="show_coa_edit" 
@@ -345,6 +347,8 @@ let Coa = {
 
 		let remove = $('.coa_datatable').on('click', '.delete', function () {
 			let triggerid = $(this).data('uuid');
+
+			$('#button_cushbook_adjustment').hide();
 
 			swal({
 					title: 'Sure want to remove?',
