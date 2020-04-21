@@ -36,7 +36,10 @@ class Cashbook extends MemfisModel
 		'created_by',
 		'cashbook_type',
 		'account_name',
+		'status',
 	];
+
+	// append
 
     public function approvals()
     {
@@ -75,6 +78,18 @@ class Cashbook extends MemfisModel
 	{
 		return $this->coa->name;
 	}
+
+	public function getStatusAttribute()
+	{
+		$status = 'Open';
+		if ($this->approve) {
+			$status = 'Approved';
+		}
+
+		return $status;
+	}
+
+	// end append
 
 	static public function generateCode($code = "SITR")
 	{
