@@ -1,6 +1,23 @@
 @extends('frontend.master')
 
 @section('content')
+<style>
+  .dataTables_paginate a{
+      padding: 0 10px;
+  }
+  .dataTables_info{
+      margin-top:-10px;
+      margin-left:10px;
+  }
+  .dataTables_length{
+      margin-top:-30px;
+      visibility: hidden;
+  }
+  .dataTables_length select{
+      visibility: visible;
+  }
+</style>
+
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -77,7 +94,26 @@
                         <div class="col-lg-12">
                             @include('accountreceivableview::filter')
                         </div>
-                        <div class="account_receivable_datatable" id="scrolling_both"></div>
+                        {{-- <div class="account_receivable_datatable" id="scrolling_both"></div> --}}
+                        <table class="table table-striped table-bordered table-hover table-checkable account_receivable_datatable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>AP NO</th>
+                                    <th>Customer Name</th>
+                                    <th>Ref No</th>
+                                    <th>Currency</th>
+                                    <th>Exchange Rate</th>
+                                    <th>Total Transaction</th>
+                                    <th>Account Code</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Created By</th>
+                                    <th>Approved By</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -87,5 +123,6 @@
 @endsection
 
 @push('footer-scripts')
+<script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/account-receivable/index.js')}}"></script>
 @endpush
