@@ -54,40 +54,37 @@
                         <form id="SupplierInvoiceGRNForm">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
-																		@if ($cashbook->cashbook_ref)
-	                                    <div class="col-sm-6 col-md-6 col-lg-6">
-	                                        <label class="form-control-label">
-	                                            Cashbook Reference
-	                                        </label>
+                                    @if ($cashbook->cashbook_ref)
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <label class="form-control-label">
+                                                Cashbook Reference
+                                            </label>
 
-																					<select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref" disabled>
-																						<option value=""></option>
-																						@for ($index_cashbook_ref=0; $index_cashbook_ref < count($cashbook_ref); $index_cashbook_ref++)
-																							@php
-																								$arr = $cashbook_ref[$index_cashbook_ref]
-																							@endphp
-																							<option value="{{$arr->transactionnumber}}" {{ ($arr->transactionnumber == $cashbook->cashbook_ref)? 'selected': '' }}>
-																								{{$arr->transactionnumber}}
-																							</option>
-																						@endfor
-																					</select>
-	                                    </div>
-																		@endif
-
+                                            <select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref" disabled>
+                                                <option value=""></option>
+                                                @for ($index_cashbook_ref=0; $index_cashbook_ref < count($cashbook_ref); $index_cashbook_ref++)
+                                                    @php
+                                                        $arr = $cashbook_ref[$index_cashbook_ref]
+                                                    @endphp
+                                                    <option value="{{$arr->transactionnumber}}" {{ ($arr->transactionnumber == $cashbook->cashbook_ref)? 'selected': '' }}>
+                                                        {{$arr->transactionnumber}}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    @endif
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-																			<label class="form-control-label">
-																					Cashbook Type @include('label::required')
-																			</label>
+                                        <label class="form-control-label">
+                                            Cashbook Type @include('label::required')
+                                        </label>
 
-																			<select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types" disabled>
-																					<option value="bp" {{ (strpos($cashbook->transactionnumber, 'CBPJ') !== false)? 'selected': '' }}>Bank Payment</option>
-																					<option value="br" {{ (strpos($cashbook->transactionnumber, 'CBRJ') !== false)? 'selected': '' }}>Bank Receive</option>
-																					<option value="cp" {{ (strpos($cashbook->transactionnumber, 'CCPJ') !== false)? 'selected': '' }}>Cash Payment</option>
-																					<option value="cr" {{ (strpos($cashbook->transactionnumber, 'CCRJ') !== false)? 'selected': '' }}>Cash Receive</option>
-																			</select>
+                                        <select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types" disabled>
+                                            <option value="bp" {{ (strpos($cashbook->transactionnumber, 'CBPJ') !== false)? 'selected': '' }}>Bank Payment</option>
+                                            <option value="br" {{ (strpos($cashbook->transactionnumber, 'CBRJ') !== false)? 'selected': '' }}>Bank Receive</option>
+                                            <option value="cp" {{ (strpos($cashbook->transactionnumber, 'CCPJ') !== false)? 'selected': '' }}>Cash Payment</option>
+                                            <option value="cr" {{ (strpos($cashbook->transactionnumber, 'CCRJ') !== false)? 'selected': '' }}>Cash Receive</option>
+                                        </select>
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Date Transaction @include('label::required')
@@ -98,7 +95,7 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
-                                                                                        @slot('value', $cashbook->transactiondate)
+                                            @slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
                                 </div>
@@ -107,30 +104,30 @@
                                         <label class="form-control-label">
                                             Department @include('label::required')
                                         </label>
-																				<select name="company_department" id="company_department" class="form-control _select2">
-																					<option value="">-- Select --</option>
-																					@for ($index_department = 0; $index_department < count($department); $index_department++)
-																						<option
-																							value="{{$department[$index_department]->name}}"
-																							{{($cashbook->company_department == $department[$index_department]->name)? 'selected' : ''}}
-																						>
-																							{{$department[$index_department]->name}}
-																						</option>
-																					@endfor
-																				</select>
+                                        <select name="company_department" id="company_department" class="form-control _select2">
+                                            <option value="">-- Select --</option>
+                                            @for ($index_department = 0; $index_department < count($department); $index_department++)
+                                                <option
+                                                    value="{{$department[$index_department]->name}}"
+                                                    {{($cashbook->company_department == $department[$index_department]->name)? 'selected' : ''}}
+                                                >
+                                                    {{$department[$index_department]->name}}
+                                                </option>
+                                            @endfor
+                                        </select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-																			<label class="form-control-label">
-																				Location
-																			</label>
+                                        <label class="form-control-label">
+                                            Location
+                                        </label>
 
-																			<select class="form-control _select2" name="location" style="width:100%">
-																				<option value=""></option>
-																				<option value="sidoarjo" {{(strtolower($cashbook->location) == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
-																				<option value="surabaya" {{(strtolower($cashbook->location) == 'surabaya')? 'selected': ''}}>Surabaya</option>
-																				<option value="jakarta" {{(strtolower($cashbook->location) == 'jakarta')? 'selected': ''}}>Jakarta</option>
-																				<option value="biak" {{(strtolower($cashbook->location) == 'biak')? 'selected': ''}}>Biak</option>
-																			</select>
+                                        <select class="form-control _select2" name="location" style="width:100%">
+                                            <option value=""></option>
+                                            <option value="sidoarjo" {{(strtolower($cashbook->location) == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
+                                            <option value="surabaya" {{(strtolower($cashbook->location) == 'surabaya')? 'selected': ''}}>Surabaya</option>
+                                            <option value="jakarta" {{(strtolower($cashbook->location) == 'jakarta')? 'selected': ''}}>Jakarta</option>
+                                            <option value="biak" {{(strtolower($cashbook->location) == 'biak')? 'selected': ''}}>Biak</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -144,7 +141,7 @@
                                             @slot('text', 'Payment To')
                                             @slot('name', 'personal')
                                             @slot('id_error', 'payment_to')
-																						@slot('value', $cashbook->personal)
+                                            @slot('value', $cashbook->personal)
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -166,15 +163,14 @@
                                         <label class="form-control-label">
                                             Currency @include('label::required')
                                         </label>
-
-																				<select id="currency" name="currency" class="form-control m-select2">
-																						@foreach ($currency as $x)
-																								<option value="{{ $x->code }}"
-																										@if ($x->code == $cashbook->currency) selected @endif>
-																										{{ $x->full_name }}
-																								</option>
-																						@endforeach
-																				</select>
+                                        <select id="currency" name="currency" class="form-control m-select2">
+                                            @foreach ($currency as $x)
+                                                <option value="{{ $x->code }}"
+                                                    @if ($x->code == $cashbook->currency) selected @endif>
+                                                    {{ $x->full_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
@@ -231,42 +227,42 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-																											<button
-																												type="button"
-																												id="button_cushbook_adjustment"
-																												name="create"
-																												value=""
-																												class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"
-																												style=""
-																												target=""
-																												data-toggle="modal"
-																												data-target="#modal_cashbook_adjustment"
-																											>
+                                                        <button
+                                                            type="button"
+                                                            id="button_cushbook_adjustment"
+                                                            name="create"
+                                                            value=""
+                                                            class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"
+                                                            style=""
+                                                            target=""
+                                                            data-toggle="modal"
+                                                            data-target="#modal_cashbook_adjustment"
+                                                        >
 
-																											    <span>
-																											        <i class="la la-plus-circle"></i>
-																											        <span>Adjustment</span>
-																											    </span>
-																											</button>
+                                                            <span>
+                                                                <i class="la la-plus-circle"></i>
+                                                                <span>Adjustment</span>
+                                                            </span>
+                                                        </button>
 
-																											<button
-																												type="button"
-																												id="button_cushbook_transaction"
-																												name="create"
-																												value=""
-																												class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"
-																												style=""
-																												target=""
-																												data-toggle="modal"
-																												data-target="#modal_cashbook_transaction"
-																											>
+                                                        <button
+                                                            type="button"
+                                                            id="button_cushbook_transaction"
+                                                            name="create"
+                                                            value=""
+                                                            class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"
+                                                            style=""
+                                                            target=""
+                                                            data-toggle="modal"
+                                                            data-target="#modal_cashbook_transaction"
+                                                        >
 
-																											    <span>
-																											        <i class="la la-plus-circle"></i>
-																											        <span>Transaction</span>
-																											    </span>
-																											</button>
-                                                      <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                                            <span>
+                                                                <i class="la la-plus-circle"></i>
+                                                                <span>Transaction</span>
+                                                            </span>
+                                                        </button>
+                                                        <div class="m-separator m-separator--dashed d-xl-none"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -401,7 +397,7 @@
             </div>
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="CoaForm">
-										<input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
+                                        <input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
                     <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
@@ -479,7 +475,7 @@
             </div>
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="CoaForm">
-										<input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
+                                        <input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
                     <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
