@@ -1,197 +1,270 @@
 let Journal = {
     init: function () {
-				let _url = window.location.origin;
+        let _url = window.location.origin;
 
-				function addCommas(nStr)
-				{
-						nStr += '';
-						x = nStr.split('.');
-						x1 = x[0];
-						x2 = x.length > 1 ? '.' + x[1] : '';
-						var rgx = /(\d+)(\d{3})/;
-						while (rgx.test(x1)) {
-								x1 = x1.replace(rgx, '$1' + '.' + '$2');
-						}
-						return x1 + x2;
-				}
-
-        let supplier_invoice_datatable = $('.supplier_invoice_datatable').mDatatable({
-            data: {
-                type: 'remote',
-                source: {
-                    read: {
-                        method: 'GET',
-                        url: '/supplier-invoice/datatables',
-                        map: function (raw) {
-                            let dataSet = raw;
-
-                            if (typeof raw.data !== 'undefined') {
-                                dataSet = raw.data;
-                            }
-
-                            return dataSet;
-                        }
-                    }
-                },
-                pageSize: 10,
-                serverPaging: !1,
-                serverFiltering: !0,
-                serverSorting: !1
-            },
-            layout: {
-                theme: 'default',
-                class: '',
-                scroll: false,
-                footer: !1
-            },
-            sortable: !0,
-            filterable: !1,
-            pagination: !0,
-            search: {
-                input: $('#generalSearch')
-            },
-            toolbar: {
-                items: {
-                    pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
-                    }
+        function addCommas(nStr)
+        {
+                nStr += '';
+                x = nStr.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                        x1 = x1.replace(rgx, '$1' + '.' + '$2');
                 }
-            },
-            columns: [
-                {
-                    field: 'transaction_date',
-                    title: 'Date',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60
-                },
-                {
-                    field: 'transaction_number',
-                    title: 'SI NO.',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'x_type',
-                    title: 'Type',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60,
-                },
-                {
-                    field: 'vendor.name',
-                    title: 'Supplier Name',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'status',
-                    title: 'Status',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'currency',
-                    title: 'Currency',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'exchange_rate_fix',
-                    title: 'Exchange Rate',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'grandtotal_foreign',
-                    title: 'Grandtotal Foreign',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150,
-										template: function(t, e, i) {
-											let result = 0;
+                return x1 + x2;
+        }
 
-											if (t.grandtotal_foreign) {
-												result = addCommas(parseInt(t.grandtotal_foreign));
-											}
+        // let supplier_invoice_datatable = $('.supplier_invoice_datatable').mDatatable({
+        //     data: {
+        //         type: 'remote',
+        //         source: {
+        //             read: {
+        //                 method: 'GET',
+        //                 url: '/supplier-invoice/datatables',
+        //                 map: function (raw) {
+        //                     let dataSet = raw;
 
-											return result;
-										}
+        //                     if (typeof raw.data !== 'undefined') {
+        //                         dataSet = raw.data;
+        //                     }
 
-                },
-                {
-                    field: 'grandtotal',
-                    title: 'Grandtotal IDR',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150,
-										template: function(t, e, i) {
-											return addCommas(parseInt(t.grandtotal));
-										}
-                },
-                {
-                    field: 'account_code',
-                    title: 'Account Code',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'created_by.name',
-                    title: 'Created By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'updated_by.name',
-                    title: 'Updated By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'Actions',
-                    width: 110,
-                    title: 'Actions',
-                    sortable: !1,
-                    overflow: 'visible',
-                    template: function (t, e, i) {
-												let type = '';
+        //                     return dataSet;
+        //                 }
+        //             }
+        //         },
+        //         pageSize: 10,
+        //         serverPaging: !1,
+        //         serverFiltering: !0,
+        //         serverSorting: !1
+        //     },
+        //     layout: {
+        //         theme: 'default',
+        //         class: '',
+        //         scroll: false,
+        //         footer: !1
+        //     },
+        //     sortable: !0,
+        //     filterable: !1,
+        //     pagination: !0,
+        //     search: {
+        //         input: $('#generalSearch')
+        //     },
+        //     toolbar: {
+        //         items: {
+        //             pagination: {
+        //                 pageSizeSelect: [5, 10, 20, 30, 50, 100]
+        //             }
+        //         }
+        //     },
+        //     columns: [
+        //         {
+        //             field: 'transaction_date',
+        //             title: 'Date',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 60
+        //         },
+        //         {
+        //             field: 'transaction_number',
+        //             title: 'SI NO.',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'x_type',
+        //             title: 'Type',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 60,
+        //         },
+        //         {
+        //             field: 'vendor.name',
+        //             title: 'Supplier Name',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'status',
+        //             title: 'Status',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'currency',
+        //             title: 'Currency',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'exchange_rate_fix',
+        //             title: 'Exchange Rate',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'grandtotal_foreign',
+        //             title: 'Grandtotal Foreign',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150,
+        // 								template: function(t, e, i) {
+        // 									let result = 0;
 
-												if (t.x_type == "GRN") {
-													type = 'grn/';
-												}
+        // 									if (t.grandtotal_foreign) {
+        // 										result = addCommas(parseInt(t.grandtotal_foreign));
+        // 									}
 
-												let _html =
-                          '<a href="'+_url+'/supplier-invoice/'+type+'print/?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
-                              '<i class="la la-print"></i>' +
-                          '</a>';
+        // 									return result;
+        // 								}
 
-												// jika belum di approve
-												if (!t.approve) {
-													_html +=
-	                            '<a href="'+_url+'/supplier-invoice/'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-	                            t.uuid +
-	                            '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-	                            '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-	                            t.uuid +
-	                            ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-	                            '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-type="'+t.x_type+'" data-uuid="' + t.uuid + '">' +
-	                            '<i class="la la-check"></i>' +
-	                            '</a>';
-												}
+        //         },
+        //         {
+        //             field: 'grandtotal',
+        //             title: 'Grandtotal IDR',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150,
+        // 								template: function(t, e, i) {
+        // 									return addCommas(parseInt(t.grandtotal));
+        // 								}
+        //         },
+        //         {
+        //             field: 'account_code',
+        //             title: 'Account Code',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'created_by.name',
+        //             title: 'Created By',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'updated_by.name',
+        //             title: 'Updated By',
+        //             sortable: 'asc',
+        //             filterable: !1,
+        //             width: 150
+        //         },
+        //         {
+        //             field: 'Actions',
+        //             width: 110,
+        //             title: 'Actions',
+        //             sortable: !1,
+        //             overflow: 'visible',
+        //             template: function (t, e, i) {
+        // 										let type = '';
 
-                        return ( _html );
-                    }
+        // 										if (t.x_type == "GRN") {
+        // 											type = 'grn/';
+        // 										}
+
+        // 										let _html =
+        //                   '<a href="'+_url+'/supplier-invoice/'+type+'print/?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+        //                       '<i class="la la-print"></i>' +
+        //                   '</a>';
+
+        // 										// jika belum di approve
+        // 										if (!t.approve) {
+        // 											_html +=
+        //                         '<a href="'+_url+'/supplier-invoice/'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+        //                         t.uuid +
+        //                         '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
+        //                         '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+        //                         t.uuid +
+        //                         ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
+        //                         '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-type="'+t.x_type+'" data-uuid="' + t.uuid + '">' +
+        //                         '<i class="la la-check"></i>' +
+        //                         '</a>';
+        // 										}
+
+        //                 return ( _html );
+        //             }
+        //         }
+        //     ]
+        // });
+
+        let supplier_invoice_datatable = $('.supplier_invoice_datatable').DataTable({
+          dom: '<"top"f>rt<"bottom">pil',
+          scrollX: true,
+          processing: true,
+          serverSide: true,
+          ajax: _url+'/supplier-invoice/datatables',
+          order: [[1, 'desc']],
+          columns: [
+            {data: 'transaction_date'},
+            {data: 'transaction_number'},
+            {data: 'x_type'},
+            {data: 'vendor.name'},
+            {data: 'status'},
+            {data: 'currency'},
+            {data: 'exchange_rate_fix'},
+            {data: 'grandtotal_foreign', render: function(data, type, row) {
+                t = row;
+
+                let result = 0;
+
+                if (t.grandtotal_foreign) {
+                    result = addCommas(parseInt(t.grandtotal_foreign));
                 }
-            ]
+
+                return result;
+            }},
+            {data: 'grandtotal', render: function(data, type, row) {
+                return addCommas(parseInt(row.grandtotal));
+            }},
+            {data: 'account_code'},
+            {data: 'created_by.name', searchable: false},
+            {data: 'updated_by.name', searchable: false, defaultContent: '-'},
+            {data: '', searchable: false, render: function (data, para_type, row) {
+                t = row;
+
+                let type = '';
+
+                if (t.x_type == "GRN") {
+                    type = 'grn/';
+                }
+
+                let _html =
+                '<a href="'+_url+'/supplier-invoice/'+type+'print/?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
+                    '<i class="la la-print"></i>' +
+                '</a>';
+
+                                    // jika belum di approve
+                if (!t.approve) {
+                    _html +=
+                    '<a href="'+_url+'/supplier-invoice/'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                    t.uuid +
+                    '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
+                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                    t.uuid +
+                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
+                    '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-type="'+t.x_type+'" data-uuid="' + t.uuid + '">' +
+                    '<i class="la la-check"></i>' +
+                    '</a>';
+                }
+
+                return ( _html );
+            }}
+          ]
         });
+
+        $(".dataTables_length select").addClass("form-control m-input");
+        $(".dataTables_filter").addClass("pull-left");
+        $(".paging_simple_numbers").addClass("pull-left");
+        $(".dataTables_length").addClass("pull-right");
+        $(".dataTables_info").addClass("pull-right");
+        $(".dataTables_info").addClass("margin-info");
+        $(".paging_simple_numbers").addClass("padding-datatable");
 
         $('.modal-footer').on('click', '.reset', function () {
             coa_reset();
@@ -421,42 +494,42 @@ let Journal = {
             });
         });
 
-				let approve = $('body').on('click', 'a.approve', function() {
-					let _uuid = $(this).data('uuid');
-					let _type = $(this).data('type');
+                let approve = $('body').on('click', 'a.approve', function() {
+                    let _uuid = $(this).data('uuid');
+                    let _type = $(this).data('type');
 
-					let _type_url = '';
+                    let _type_url = '';
 
-					if (_type == "GRN") {
-						_type_url = 'grn/';
-					}
+                    if (_type == "GRN") {
+                        _type_url = 'grn/';
+                    }
 
-					$.ajax({
-							headers: {
-									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							},
-							type: 'post',
-							url: `/supplier-invoice/${_type_url}approve`,
-							data: {
-									_token: $('input[name=_token]').val(),
-									uuid: _uuid
-							},
-							success: function (data) {
-									if (data.errors) {
-											toastr.error(data.errors, 'Invalid', {
-													timeOut: 5000
-											});
+                    $.ajax({
+                            headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'post',
+                            url: `/supplier-invoice/${_type_url}approve`,
+                            data: {
+                                    _token: $('input[name=_token]').val(),
+                                    uuid: _uuid
+                            },
+                            success: function (data) {
+                                    if (data.errors) {
+                                            toastr.error(data.errors, 'Invalid', {
+                                                    timeOut: 5000
+                                            });
 
-									} else {
-											toastr.success('Data Saved', 'Success', {
-													timeOut: 5000
-											});
+                                    } else {
+                                            toastr.success('Data Saved', 'Success', {
+                                                    timeOut: 5000
+                                            });
 
-											supplier_invoice_datatable.reload();
-									}
-							}
-					});
-				})
+                                            supplier_invoice_datatable.reload();
+                                    }
+                            }
+                    });
+                })
 
     }
 };
