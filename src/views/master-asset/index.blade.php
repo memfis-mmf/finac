@@ -75,6 +75,7 @@
                                         <th>Depreciation Start</th>
                                         <th>Depreciation End</th>
                                         <th>Created By</th>
+                                        <th>Approved By</th>
                                         <th>Actions</th>
                                     </thead>
                                 </table>

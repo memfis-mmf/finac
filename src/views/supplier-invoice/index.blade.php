@@ -120,6 +120,7 @@
                                     <th>Account Code</th>
                                     <th>Created By</th>
                                     <th>Updated By</th>
+                                    <th>Approved By</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>

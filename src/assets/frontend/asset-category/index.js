@@ -75,7 +75,7 @@ let AssetCategory = {
                   width: 150
               },
               {
-                  field: 'created_by.name',
+                  field: 'created_by',
                   title: 'Created By',
                   sortable: 'asc',
                   filterable: !1,

@@ -192,8 +192,8 @@ let Cashbook = {
             {data: 'personal'},
             {data: 'description'},
             {data: 'status', defaultContent: '-'},
-            {data: 'created_by.name', searchable: false},
-            {data: 'approved_by.name', searchable: false, defaultContent: '-'},
+            {data: 'created_by', searchable: false},
+            {data: 'approved_by', searchable: false, defaultContent: '-'},
             {data: '', searchable: false, render: function (data, type, row) {
                 t = row;
 
@@ -268,7 +268,7 @@ let Cashbook = {
 													timeOut: 3000
 											});
 
-											cashbook_datatable.reload();
+											cashbook_datatable.ajax.reload();
 									}
 							}
 					});

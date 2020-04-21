@@ -28,7 +28,16 @@ class Invoice extends MemfisModel
 
 	public function getApprovedByAttribute()
 	{
-		return @User::find($this->approvals->first()->conducted_by);
+		$approval = $this->approvals->first();
+		$conducted_by = @User::find($approval->conducted_by)->name;
+
+		$result = '-';
+
+		if ($conducted_by) {
+			$result = $conducted_by.' '.$approval->created_at;
+		}
+
+		return $result;
 	}
 
 	public function getCreatedByAttribute()

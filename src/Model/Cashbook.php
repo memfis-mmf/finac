@@ -39,21 +39,39 @@ class Cashbook extends MemfisModel
 		'status',
 	];
 
-	// append
-
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
     }
 
+	// append
+
 	public function getApprovedByAttribute()
 	{
-		return @User::find($this->approvals->first()->conducted_by);
+		$approval = $this->approvals->first();
+		$conducted_by = @User::find($approval->conducted_by)->name;
+
+		$result = '-';
+
+		if ($conducted_by) {
+			$result = $conducted_by.' '.$approval->created_at;
+		}
+
+		return $result;
 	}
 
 	public function getCreatedByAttribute()
 	{
-		return @User::find($this->audits->first()->user_id);
+		$audit = $this->audits->first();
+		$conducted_by = @User::find($audit->user_id)->name;
+
+		$result = '-';
+
+		if ($conducted_by) {
+			$result = $conducted_by.' '.$this->created_at;
+		}
+
+		return $result;
 	}
 
 	public function getCashbookTypeAttribute()

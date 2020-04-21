@@ -49,9 +49,9 @@ let Journal = {
 
               return val;
             }},
-            {data: 'created_by.name', searchable: false},
-            {data: 'updated_by.name', searchable: false},
-            {data: 'approved_by.name', searchable: false},
+            {data: 'created_by', searchable: false},
+            {data: 'updated_by', searchable: false},
+            {data: 'approved_by', searchable: false},
             {data: '', searchable: false, render: function (data, type, row) {
               let _html =
                   '<a href="'+_url+'/journal/print?uuid='+row.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + row.uuid +'">' +

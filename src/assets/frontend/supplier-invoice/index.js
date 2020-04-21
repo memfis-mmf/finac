@@ -223,8 +223,9 @@ let Journal = {
                 return addCommas(parseInt(row.grandtotal));
             }},
             {data: 'account_code'},
-            {data: 'created_by.name', searchable: false},
-            {data: 'updated_by.name', searchable: false, defaultContent: '-'},
+            {data: 'created_by', searchable: false},
+            {data: 'updated_by', searchable: false, defaultContent: '-'},
+            {data: 'approved_by', searchable: false, defaultContent: '-'},
             {data: '', searchable: false, render: function (data, para_type, row) {
                 t = row;
 

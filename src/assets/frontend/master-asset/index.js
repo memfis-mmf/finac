@@ -185,7 +185,8 @@ let MasterAsset = {
                 {data: 'coa_expense.name', defaultContent: '-'},
                 {data: 'depreciationstart', defaultContent: '-'},
                 {data: 'depreciationend', defaultContent: '-'},
-                {data: 'created_by.name', defaultContent: '-'},
+                {data: 'created_by', defaultContent: '-'},
+                {data: 'approved_by', defaultContent: '-'},
                 {data: '', searchable: false, render: function (data, type, row) {
                     let t = row;
 
