@@ -22,6 +22,7 @@ let Journal = {
           processing: true,
           serverSide: true,
           ajax: _url+'/journal/datatables',
+          order: [[1, 'desc']],
           columns: [
             {data: 'transaction_date'},
             {data: 'voucher_no'},
