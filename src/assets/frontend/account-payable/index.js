@@ -202,16 +202,7 @@ let Journal = {
             {data: 'currency'},
             {data: 'exchangerate', render: function(data, type, row) {
 
-                t = row;
-
-                let total = 0;
-                for (var i = 0; i < t.apa.length; i++) {
-                    x = t.apa[i];
-
-                    total += x.debit;
-                }
-
-                return addCommas(parseInt(total));
+                return addCommas(parseInt(row.exchangerate));
 
             }},
             {data: 'apa.debit', render: function(data, type, row) {
