@@ -18,33 +18,6 @@
   }
 </style>
 
-<div class="m-subheader hidden">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title m-subheader__title--separator">
-                Supplier Invoice
-            </h3>
-            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                <li class="m-nav__item m-nav__item--home">
-                    <a href="" class="m-nav__link m-nav__link--icon">
-                        <i class="m-nav__link-icon la la-home"></i>
-                    </a>
-                </li>
-                <li class="m-nav__separator">
-                    -
-                </li>
-                <li class="m-nav__item">
-                    <a href="#" class="m-nav__link">
-                        <span class="m-nav__link-text">
-                            Supplier Invoice
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
 <div class="m-content">
     <div class="row">
         <div class="col-lg-12">
@@ -104,27 +77,32 @@
                         <div class="col-lg-12">
                             @include('supplierinvoiceview::filter')
                         </div>
-                        {{-- <div class="supplier_invoice_datatable" id="scrolling_both"></div> --}}
-                        <table class="table table-striped table-bordered table-hover table-checkable supplier_invoice_datatable">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>SI NO</th>
-                                    <th>Type</th>
-                                    <th>Supplier Name</th>
-                                    <th>Status</th>
-                                    <th>Currency</th>
-                                    <th>Exchange Rate</th>
-                                    <th>Grandtotal Foreign</th>
-                                    <th>Grandtotal IDR</th>
-                                    <th>Account Code</th>
-                                    <th>Created By</th>
-                                    <th>Updated By</th>
-                                    <th>Approved By</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                        </table>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{-- <div class="supplier_invoice_datatable" id="scrolling_both"></div> --}}
+                                <table class="table table-striped table-bordered table-hover table-checkable supplier_invoice_datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>SI NO</th>
+                                            <th>Type</th>
+                                            <th>Supplier Name</th>
+                                            <th>Status</th>
+                                            <th>Currency</th>
+                                            <th>Exchange Rate</th>
+                                            <th>Grandtotal Foreign</th>
+                                            <th>Grandtotal IDR</th>
+                                            <th>Account Code</th>
+                                            <th>Created By</th>
+                                            <th>Updated By</th>
+                                            <th>Approved By</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
