@@ -633,7 +633,7 @@ class APController extends Controller
         $ap_approval = $ap->approvals->first();
         
         if ($ap_approval) {
-            $date_approve = $ap_approval->toDateTimeString();
+            $date_approve = $ap_approval->created_at->toDateTimeString();
         }else{
             $date_approve = '-';
         }
@@ -759,6 +759,7 @@ class APController extends Controller
 			'to' => $to,
 			'total' => $total_credit,
 			'header_title' => $header_title,
+			'header' => $header,
 		];
 
 		$pdf = \PDF::loadView('formview::ap', $data);

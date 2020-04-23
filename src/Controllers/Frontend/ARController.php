@@ -623,7 +623,7 @@ class ARController extends Controller
         $ar_approval = $ar->approvals->first();
         
         if ($ar_approval) {
-            $date_approve = $ar_approval->toDateTimeString();
+            $date_approve = $ar_approval->created_at->toDateTimeString();
         }else{
             $date_approve = '-';
         }
@@ -744,6 +744,7 @@ class ARController extends Controller
             'to' => $to,
             'total' => $total_debit,
             'header_title' => $header_title,
+            'header' => $header,
         ];
 
         $pdf = \PDF::loadView('formview::ar', $data);
