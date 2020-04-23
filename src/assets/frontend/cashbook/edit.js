@@ -3,6 +3,7 @@ let Coa = {
 
 		let _url = window.location.origin;
 		let cashbook_uuid = $('input[name=cashbook_uuid]').val();
+		let number_format = new Intl.NumberFormat('de-DE');
 
 		function addCommas(nStr)
 		{
@@ -16,6 +17,9 @@ let Coa = {
 				}
 				return x1 + x2;
 		}
+
+		let tota_debit = 0;
+		let tota_credit = 0;
 
     let coa_datatable = $('.coa_datatable').mDatatable({
         data: {
@@ -81,7 +85,11 @@ let Coa = {
                 filterable: !1,
                 width: 150,
 								template: function(t, e, i) {
-									return addCommas(parseFloat(t.debit));
+									if (e == 0) {
+										total_debit = 0;
+									}
+									total_debit = parseFloat(total_debit) + parseFloat(t.debit);
+									return number_format.format(parseFloat(t.debit));
 								}
             },
             {
@@ -91,7 +99,11 @@ let Coa = {
                 filterable: !1,
                 width: 150,
 								template: function(t, e, i) {
-									return addCommas(parseFloat(t.credit));
+									if (e == 0) {
+										total_credit = 0;
+									}
+									total_credit = parseFloat(total_credit) + parseFloat(t.credit);
+									return number_format.format(parseFloat(t.credit));
 								}
             },
             {
@@ -108,6 +120,19 @@ let Coa = {
                 sortable: !1,
                 overflow: 'visible',
                 template: function (t, e, i) {
+
+									$('#total_debit').val(
+										number_format.format(total_debit)
+									)
+
+									$('#total_credit').val(
+										number_format.format(total_credit)
+									)
+
+									console.log([
+										total_debit,
+										total_credit,
+									]);
 
 									$('#button_cushbook_adjustment').show();
 

@@ -278,6 +278,33 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mb-4">
+
+                                  <div class="col-md-6">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div>
+                                                Total Debit
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                          <input type="text" class="form-control" disabled id="total_debit">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div>
+                                                Total Credit
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                          <input type="text" class="form-control" disabled id="total_credit">
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <label class="form-control-label">
