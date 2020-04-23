@@ -35,7 +35,7 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 1.8cm;
+            height: .7cm;
             font-size: 9px;
         }
         ul li{
@@ -50,6 +50,17 @@
             top:8px;
             left: 220px;
             position: absolute;
+        }
+
+        #footer{
+            position: absolute;
+            bottom: 18px;
+            z-index: 1;
+        }
+
+        .footer-container{
+            width: 100%;
+            margin: 0 12px;
         }
 
         .container{
@@ -84,6 +95,10 @@
             page-break-before: always;
         }
 
+        footer .num:after { 
+            content: counter(page); 
+        }
+
     </style>
 </head>
 <body>
@@ -110,12 +125,17 @@
     </header>
 
     <footer>
-        <table width="100%">
-            <tr>
-                <td>  <span style="margin-left:6px;">Created By : {{ @$journal->created_by->name }} ;  &nbsp;&nbsp;&nbsp; Approved By : {{ @$journal->approved_by->name }} ; </span> </td>
-            </tr>
-        </table>
         <img src="./vendor/courier/img/form/journal/Footer.png" width="100%" alt="" >
+        <div class="footer-container">
+            <div id="footer">
+                <table width="100%">
+                    <tr>
+                        <td>  <span style="margin-left:6px;">Created By : {{ @$journal->created_by->name }} ;  &nbsp;&nbsp;&nbsp; Approved By : {{ @$journal->approved_by->name }} ; </span> </td>
+                        <td align="right">Page <span class="num"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </footer>
 
     <div id="content">

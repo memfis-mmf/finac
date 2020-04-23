@@ -36,7 +36,8 @@
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 1.8cm;
+            height: .7cm;
+            font-size: 9px;
         }
         ul li{
             display: inline-block;
@@ -51,6 +52,17 @@
             left: 210px;
             position: absolute;
             text-align: center;
+        }
+
+        #footer{
+            position: absolute;
+            bottom: 18px;
+            z-index: 1;
+        }
+
+        .footer-container{
+            width: 100%;
+            margin: 0 12px;
         }
 
         .container{
@@ -78,6 +90,11 @@
         .page_break {
             page-break-before: always;
         }
+
+        footer .num:after { 
+            content: counter(page); 
+        }
+
     </style>
 </head>
 <body>
@@ -107,14 +124,18 @@
     </header>
 
     <footer>
-        <div class="container">
-            <table width="100%">
-                <tr>
-                    <td>  <span style="margin-left:6px;"><font size="8px">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </font></span> </td>
-                </tr>
-            </table>
-        </div>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
+
+        <div class="footer-container">
+            <div id="footer">
+                <table width="100%">
+                    <tr>
+                        <td>  <span style="margin-left:6px;">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </font></span> </td>
+                        <td align="right">Page <span class="num"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </footer>
 
     <div id="content">
