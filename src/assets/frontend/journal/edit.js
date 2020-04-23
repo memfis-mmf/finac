@@ -133,10 +133,10 @@ let JournalEdit = {
           {data: 'description'},
           {data: '', searchable: false, render: function (data, type, row) {
             $("#total_debit").val(
-              addCommas(parseInt(row.total_debit))
+              addCommas(parseFloat(row.total_debit))
             );
             $("#total_credit").val(
-              addCommas(parseInt(row.total_credit))
+              addCommas(parseFloat(row.total_credit))
             );
 
             let _html =
