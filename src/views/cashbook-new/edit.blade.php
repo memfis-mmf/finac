@@ -102,7 +102,7 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Department @include('label::required')
+                                            Department
                                         </label>
                                         <select name="company_department" id="company_department" class="form-control _select2">
                                             <option value="">-- Select --</option>
