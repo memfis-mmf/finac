@@ -3,6 +3,7 @@ let JournalEdit = {
 
 			let _url = window.location.origin;
       let _voucher_no = $('input[name=voucher_no]').val();
+			let number_format = new Intl.NumberFormat('de-DE');
       
       function addCommas(nStr)
       {
@@ -133,10 +134,10 @@ let JournalEdit = {
           {data: 'description'},
           {data: '', searchable: false, render: function (data, type, row) {
             $("#total_debit").val(
-              addCommas(parseInt(row.total_debit))
+              number_format.format(parseFloat(row.total_debit))
             );
             $("#total_credit").val(
-              addCommas(parseInt(row.total_credit))
+              number_format.format(parseFloat(row.total_credit))
             );
 
             let _html =

@@ -35,12 +35,12 @@ class TrxJournalA extends MemfisModel
 
 	public function getDebitCurrencyAttribute()
 	{
-		return number_format($this->debit, 0, 0, '.');
+		return number_format($this->debit, 2, ',', '.');
 	}
 
 	public function getCreditCurrencyAttribute()
 	{
-		return number_format($this->credit, 0, 0, '.');
+		return number_format($this->credit, 2, ',', '.');
 	}
 
 }
