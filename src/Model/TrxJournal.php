@@ -77,7 +77,7 @@ class TrxJournal extends MemfisModel
 		$result = '-';
 
 		if (count($tmp) > 1) {
-			$result =  User::find($tmp[count($tmp)-1]->user_id)
+			$result =  User::find($tmp[count($tmp)-1]->user_id)->name
 			.' '.$this->created_at;
 		}
 
