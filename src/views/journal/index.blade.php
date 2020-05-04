@@ -102,9 +102,9 @@
                                   <th>Transaction No</th> 
                                   <th>Ref Doc</th> 
                                   <th>Currency</th> 
-                                  <th>Exchange Rate</th> 
+                                  <th width="12%">Exchange Rate</th> 
                                   <th>Journal Type</th> 
-                                  <th>Total Amount</th> 
+                                  <th width="15%">Total Amount</th> 
                                   <th>Created By</th> 
                                   <th>Updated By</th> 
                                   <th>Approved By</th> 
