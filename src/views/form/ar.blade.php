@@ -195,7 +195,7 @@
                               <td width="31%" align="left">{{$arr->_desc}}</td>
                               <td width="17%" align="right">
                                 @php
-                                    if ($arr->debit) {
+                                    if ($arr->debit != 0) {
                                         echo $data->currencies->symbol.' '.
                                         number_format($arr->debit, 0, 0, '.');
                                     }
@@ -203,7 +203,7 @@
                               </td>
                               <td width="17%" align="right">
                                 @php
-                                    if ($arr->credit) {
+                                    if ($arr->credit != 0) {
                                         echo $data->currencies->symbol.' '.
                                         number_format($arr->credit, 0, 0, '.');
                                     }

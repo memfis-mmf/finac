@@ -715,6 +715,7 @@ class ARController extends Controller
         $total_debit += $detail[count($detail)-1]->debit;
 
         $data_detail = [];
+        $_total_debit = 0;
 
         for ($i = 0; $i < count($detail); $i++) {
 
@@ -726,8 +727,7 @@ class ARController extends Controller
 
             }
 
-            $total_credit += $x->credit;
-            $total_debit += $x->debit;
+            $_total_debit += $x->debit;
         }
 
         $header_title = 'Cash';
@@ -742,7 +742,7 @@ class ARController extends Controller
             'data' => $ar,
             'data_child' => $data_detail,
             'to' => $to,
-            'total' => $total_debit,
+            'total' => $_total_debit,
             'header_title' => $header_title,
             'header' => $header,
         ];
