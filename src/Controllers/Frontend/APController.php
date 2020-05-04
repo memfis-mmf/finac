@@ -730,6 +730,7 @@ class APController extends Controller
 		$total_debit += $detail[count($detail)-1]->debit;
 
 		$data_detail = [];
+		$_total_credit = 0;
 
 		for ($i = 0; $i < count($detail); $i++) {
 
@@ -741,8 +742,7 @@ class APController extends Controller
 
 			}
 
-			$total_credit += $x->credit;
-			$total_debit += $x->debit;
+			$_total_credit += $x->credit;
 		}
 
 	    $header_title = 'Cash';
@@ -757,7 +757,7 @@ class APController extends Controller
 			'data' => $ap,
 			'data_child' => $data_detail,
 			'to' => $to,
-			'total' => $total_credit,
+			'total' => $_total_credit,
 			'header_title' => $header_title,
 			'header' => $header,
 		];
