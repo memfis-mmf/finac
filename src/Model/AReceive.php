@@ -30,6 +30,7 @@ class AReceive extends MemfisModel
 		'date',
 		'created_by',
 		'approved_by',
+		'status'
 	];
 
     public function approvals()
@@ -68,6 +69,11 @@ class AReceive extends MemfisModel
 	public function getDateAttribute()
 	{
 		return date('Y-m-d', strtotime($this->transactiondate));
+	}
+
+	public function getStatusAttribute()
+	{
+		return ($this->approve)? 'Approved': 'Open';
 	}
 
 	static public function generateCode($code)

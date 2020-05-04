@@ -219,7 +219,7 @@ let Journal = {
             }},
             {data: 'coa.code', defaultContent: '-'},
             {data: 'description'},
-            {data: 'status', name: 'approve', defaultContent: '-'},
+            {data: 'status', name: 'status', defaultContent: '-'},
             {data: 'created_by', searchable: false},
             {data: 'approved_by', searchable: false, defaultContent: '-'},
             {data: '', searchable: false, render: function (data, type, row) {
