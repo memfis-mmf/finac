@@ -432,6 +432,14 @@ let Coa = {
 			// templateSelection: formatSelected
 		});
 
+		$('body').on('click', '#button_cushbook_transaction', function() {
+			console.log('wew');
+			$('#select2-_accountcode-container').empty();
+			$('#select2-_accountcode-container').css('height', '43');
+			$('[name=amount_a').val('');
+			$('[name=description_a').val('');
+		});
+
   }
 };
 
