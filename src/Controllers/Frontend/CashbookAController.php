@@ -187,6 +187,10 @@ class CashbookAController extends Controller
 			$transactionnumber
         )->get();
 
+        if (count($cashbook_a) < 1) {
+            return 0;
+        }
+
         $cashbook = $cashbook_a[0]->cashbook;
 
         $total_debit = 0;
@@ -274,18 +278,17 @@ class CashbookAController extends Controller
 				'debit' => 0,
 				'credit' => $request->amount_a,
 			]);
-			$type = 'rj';
 		}
 
-        $total = $this->sumTotal($transactionnumber, $type);
+        $cashbook_a_delete = CashbookA::where('uuid', $request->cashbooka)
+        ->delete();
+
+        $total = $this->sumTotal($transactionnumber);
 
 		Cashbook::where('transactionnumber', $transactionnumber)
 		->update([
 			'totaltransaction' => $total
 		]);
-
-        $cashbook_a_delete = CashbookA::where('uuid', $request->cashbooka)
-		->delete();
 
 		DB::commit();
 
