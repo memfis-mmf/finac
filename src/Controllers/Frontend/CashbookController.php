@@ -10,6 +10,7 @@ use App\Models\Approval;
 use App\Models\Department;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use DB;
 use DataTables;
 
@@ -505,7 +506,23 @@ class CashbookController extends Controller
 			$total = $total_credit - $total_debit;
 			$positiion = 'debit';
 			$x_positiion = 'credit';
-		}
+        }
+        
+        if (Str::contains(strtolower($cashbook->transactionnumber), ['cp'])) {
+            $type_header = 'Cash Payment Journal';
+        }
+
+        if (Str::contains(strtolower($cashbook->transactionnumber), ['cr'])) {
+            $type_header = 'Cash Receive Journal';
+        }
+
+        if (Str::contains(strtolower($cashbook->transactionnumber), ['br'])) {
+            $type_header = 'Bank Receive Journal';
+        }
+
+        if (Str::contains(strtolower($cashbook->transactionnumber), ['bp'])) {
+            $type_header = 'Bank Payment Journal';
+        }
 
 		// add object in first array $detai
 		array_unshift(
@@ -525,7 +542,8 @@ class CashbookController extends Controller
 			'detail' => $detail,
 			// 'total' => $total_all,
 			'type' => $type,
-		];
+			'type_header' => $type_header,
+        ];
 
         $pdf = \PDF::loadView('formview::cashbook', $data);
         return $pdf->stream();

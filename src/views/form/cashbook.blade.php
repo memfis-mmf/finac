@@ -96,7 +96,7 @@
                         Website : www.ptmmf.co.id
                     </td>
                     <td width="55%" valign="top" align="center" style="padding-top:-16px">
-                        <h1 style="font-size:24px;">Bank Payment Journal<br> 
+                        <h1 style="font-size:24px;">{{$type_header}}<br> 
                         <span style="font-size:18px;">(Cashbook)</span></h1>
                     </td>
                 </tr>
