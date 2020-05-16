@@ -132,3 +132,7 @@ Route::get('/profit-loss-project', function () {
     return $pdf->stream();
 });
 
+Route::get('/inventory-expense-details', function () {
+    $pdf = \PDF::loadView('formview::inventory-expense-details');
+    return $pdf->stream();
+});
