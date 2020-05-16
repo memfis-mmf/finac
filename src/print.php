@@ -126,3 +126,9 @@ Route::get('/supplier-invoice-general', function () {
     $pdf->setPaper('A5', 'landscape');
     return $pdf->stream();
 });
+
+Route::get('/profit-loss-project', function () {
+    $pdf = \PDF::loadView('formview::profit-loss-project');
+    return $pdf->stream();
+});
+
