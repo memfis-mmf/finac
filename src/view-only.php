@@ -121,4 +121,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::view('/master-coa/create', 'mastercoaview::create')->name('master-coa.create');
 
+
+    /** PROJECT REPORT*/
+
+    Route::view('/project-report', 'projectreportview::index')->name('project-report.index');
+
+    Route::view('/project-report/profit-loss', 'projectreport-profitlossview::index')->name('project-report.profit-loss.index');
+    Route::view('/project-report/profit-loss/view', 'projectreport-profitlossview::view')->name('project-report.profit-loss.view');
+
+    Route::view('/project-report/project-list', 'projectreport-projectlistview::index')->name('project-report.project-list.index');
+
 });
