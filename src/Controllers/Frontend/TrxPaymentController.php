@@ -434,7 +434,9 @@ class TrxPaymentController extends Controller
 
     public function grnEdit(Request $request)
     {
-		$data['data'] = TrxPayment::where(
+		$data['data'] = TrxPayment::with([
+            'project'
+        ])->where(
 			'uuid',
 			$request->trxpayment
 		)->first();
@@ -756,8 +758,15 @@ class TrxPaymentController extends Controller
 		]);
 	}
 
-    public function grnUpdate(TrxPaymentUpdate $request, TrxPayment $trxpayment)
+    public function grnUpdate(Request $request, TrxPayment $trxpayment)
     {
+        $request->validate([
+            'transaction_date' => 'required',
+            'id_supplier' => 'required',
+            'currency' => 'required',
+            'exchange_rate' => 'required',
+        ]);
+
 		$currency = $request->trxpayment->currency;
 		$transaction_number = $request->trxpayment->transaction_number;
 		$exchange_rate = $request->trxpayment->exchange_rate;

@@ -139,6 +139,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <label class="form-control-label">
+                                            Project
+                                        </label>
+
+                                        <select class="form-control m-input" name="id_project" id="project">
+                                          <option value="{{$data->project->id}}" selected>{{$data->project->code}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12">

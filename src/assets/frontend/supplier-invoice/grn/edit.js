@@ -2,7 +2,15 @@ let SupplierInvoice = {
     init: function () {
 
 			let _url = window.location.origin;
-			let _si_uuid = $('input[name=si_uuid]').val();
+      let _si_uuid = $('input[name=si_uuid]').val();
+      
+      $('#project').select2({
+        ajax: {
+          url: _url+'/journal/get-project-select2',
+          dataType: 'json'
+        },
+        minimumInputLength: 3,
+      });
 
 			function addCommas(nStr)
 			{
@@ -308,7 +316,18 @@ let SupplierInvoice = {
 											location.href = `${_url}/supplier-invoice/`;
 										}, 2000);
 								}
-						}
+						},
+            error: function(xhr) {
+              if (xhr.status == 422) {
+                toastr.error('Please fill required field', 'Invalid', {
+                  timeOut: 2000
+                });
+              }else{
+                toastr.error('Invalid Form', 'Invalid', {
+                  timeOut: 2000
+                });
+              }
+            }
 				});
 		});
 
