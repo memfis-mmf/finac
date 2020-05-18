@@ -81,6 +81,7 @@ class APController extends Controller
 			'uuid', $request->apayment
 		)->with([
 			'currencies',
+			'project',
 		])->first();
 
 		//if data already approved
@@ -123,8 +124,21 @@ class APController extends Controller
         return view('accountpayableview::edit', $data);
     }
 
-    public function update(APaymentUpdate $request, APayment $apayment)
+    public function update(Request $request, APayment $apayment)
     {
+        $request->validate([
+            'transactiondate' => 'required',
+            'id_supplier' => 'required',
+            'accountcode' => 'required',
+            'currency' => 'required',
+        ]);
+
+        if ($request->currency != 'idr') {
+            $request->validate([
+                'exchangerate' => 'required'
+            ]);
+        }
+
 		$request->merge([
 			'description' => $request->ap_description
 		]);
