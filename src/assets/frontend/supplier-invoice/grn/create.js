@@ -1,7 +1,15 @@
 let SupplierInvoice = {
 	init: function () {
 
-		let _url = window.location.origin;
+    let _url = window.location.origin;
+
+    $('#project').select2({
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+      minimumInputLength: 3,
+    });
 
     $.ajax({
         url: _url+'/supplier-invoice/get-vendors/',
@@ -136,7 +144,18 @@ let SupplierInvoice = {
 											location.href = `${_url}/supplier-invoice/grn/${data.uuid}/edit`;
 										}, 2000);
 								}
-						}
+						},
+            error: function(xhr) {
+              if (xhr.status == 422) {
+                toastr.error('Please fill required field', 'Invalid', {
+                  timeOut: 2000
+                });
+              }else{
+                toastr.error('Invalid Form', 'Invalid', {
+                  timeOut: 2000
+                });
+              }
+            }
 				});
 		});
   }

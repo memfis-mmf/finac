@@ -406,8 +406,15 @@ class TrxPaymentController extends Controller
         return view('supplierinvoicegrnview::create');
     }
 
-    public function grnStore(TrxPaymentStore $request)
+    public function grnStore(Request $request)
     {
+        $request->validate([
+            'transaction_date' => 'required',
+            'id_supplier' => 'required',
+            'currency' => 'required',
+            'exchange_rate' => 'required',
+        ]);
+
 		DB::beginTransaction();
 		$request->merge([
 			'id_supplier' => $request->id_supplier

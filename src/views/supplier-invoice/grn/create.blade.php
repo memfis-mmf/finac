@@ -100,6 +100,7 @@
                                                     @slot('id', 'valid_until')
                                                     @slot('text', 'Due Date')
                                                     @slot('id_error', 'valid_until')
+                                                    @slot('disabled', 'disabled')
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -130,6 +131,17 @@
                                                 @endcomponent
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <label class="form-control-label">
+                                            Project
+                                        </label>
+
+                                        @component('input::select')
+                                            @slot('id', 'project')
+                                            @slot('name', 'id_project')
+                                            @slot('text', 'Project')
+                                        @endcomponent
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
