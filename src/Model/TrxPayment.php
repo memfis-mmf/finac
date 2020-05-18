@@ -34,6 +34,7 @@ class TrxPayment extends MemfisModel
 		'grandtotal',
 		'account_code',
 		'description',
+		'id_project',
     ];
 
 	protected $appends = [

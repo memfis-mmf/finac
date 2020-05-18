@@ -143,7 +143,7 @@
                                         </div>
                                     </div>
                                 </div>  <div class="form-group m-form__group row ">
-                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
 
                                         <label class="form-control-label">
                                             Account Code
@@ -163,6 +163,17 @@
                                             @slot('text', 'Account Code')
                                             @slot('name', 'account_code')
                                             @slot('id_error', 'accountcode')
+                                        @endcomponent
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
+                                            Project
+                                        </label>
+
+                                        @component('input::select')
+                                            @slot('id', 'project')
+                                            @slot('name', 'id_project')
+                                            @slot('text', 'Project')
                                         @endcomponent
                                     </div>
                                     {{-- <div class="col-sm-6 col-md-6 col-lg-6">
@@ -288,6 +299,15 @@
             },
             minimumInputLength: 3,
             // templateSelection: formatSelected
+        });
+
+        // handle select2
+        $('#project').select2({
+          ajax: {
+            url: _url+'/journal/get-project-select2',
+            dataType: 'json'
+          },
+          minimumInputLength: 3,
         });
 
         $('body').on('input', '#term_of_payment', function() {
