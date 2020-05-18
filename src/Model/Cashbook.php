@@ -6,6 +6,7 @@ use memfisfa\Finac\Model\MemfisModel;
 use App\Models\Approval;
 use App\Models\Currency;
 use App\User;
+use App\Models\Project;
 use Auth;
 use DB;
 
@@ -29,6 +30,7 @@ class Cashbook extends MemfisModel
         'location',
         'company_department',
         'cashbook_ref',
+        'id_project',
     ];
 
 	protected $appends = [
@@ -159,5 +161,10 @@ class Cashbook extends MemfisModel
 	public function currencies()
 	{
 		return $this->belongsTo(Currency::class, 'currency', 'code');
-	}
+    }
+    
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project', 'id');
+    }
 }
