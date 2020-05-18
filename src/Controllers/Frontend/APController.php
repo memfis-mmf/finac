@@ -32,8 +32,21 @@ class APController extends Controller
         return view('accountpayableview::index');
     }
 
-    public function store(APaymentStore $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'transactiondate' => 'required',
+            'id_supplier' => 'required',
+            'accountcode' => 'required',
+            'currency' => 'required',
+        ]);
+
+        if ($request->currency != 'idr') {
+            $request->validate([
+                'exchangerate' => 'required'
+            ]);
+        }
+
 		$vendor = Vendor::where('id', $request->id_supplier)->first();
 		if (!$vendor) {
 			return [
