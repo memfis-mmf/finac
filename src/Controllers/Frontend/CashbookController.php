@@ -73,6 +73,15 @@ class CashbookController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'cashbook_type' => 'required',
+            'transactiondate' => 'required',
+            'personal' => 'required',
+            'refno' => 'required',
+            'currency' => 'required',
+            'accountcode' => 'required',
+        ]);
+
 		$request->request->add([
 			'transactionnumber' => Cashbook::generateCode(
 				$this->transactionnumber($request->cashbook_type)
