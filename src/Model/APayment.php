@@ -8,6 +8,7 @@ use App\Models\Currency;
 use App\Models\Vendor;
 use App\User;
 use App\Models\Approval;
+use App\Models\Project;
 
 class APayment extends MemfisModel
 {
@@ -24,6 +25,7 @@ class APayment extends MemfisModel
 		'exchangerate',
 		'totaltransaction',
 		'description',
+		'id_project',
     ];
 
 	protected $appends = [
@@ -133,5 +135,10 @@ class APayment extends MemfisModel
 	public function currencies()
 	{
 		return $this->belongsTo(Currency::class, 'currency', 'code');
-	}
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project', 'id');
+    }
 }
