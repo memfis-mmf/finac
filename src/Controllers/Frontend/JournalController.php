@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Approval;
 use DataTables;
+use App\Models\Project;
 
 class JournalController extends Controller
 {
@@ -359,6 +360,26 @@ class JournalController extends Controller
 				'text' => $x->name.' ('.$x->code.')'
 			];
 		}
+
+		return $data;
+	}
+
+	public function getProjectSelect2(Request $request)
+	{
+        $q = $request->q;
+
+        $projects = Project::with('aircraft', 'customer', 'approvals', 'audits')
+            ->where('code', 'like', "%$q%")
+            ->has('approvals', 2)->latest()->get();
+
+        $data['results'] = [];
+        
+        foreach ($projects as $x) {
+            $data['results'][] = [
+                'id' => $x->id,
+                'text' => $x->code
+            ];
+        }
 
 		return $data;
 	}
