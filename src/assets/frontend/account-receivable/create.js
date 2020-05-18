@@ -1,7 +1,15 @@
 let AccountReceivable = {
 	init: function () {
 
-		let _url = window.location.origin;
+    let _url = window.location.origin;
+
+    $('#project').select2({
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+      minimumInputLength: 3,
+    });
 
     $.ajax({
         url: _url+'/invoice/get-customers/',

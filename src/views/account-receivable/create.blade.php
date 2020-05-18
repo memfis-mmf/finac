@@ -76,6 +76,17 @@
                                             @slot('style', 'width:100%')
                                         @endcomponent
                                     </div>
+                                    <div class="col-md-12 mt-3">
+                                        <label class="form-control-label">
+                                            Project
+                                        </label>
+
+                                        @component('input::select')
+                                            @slot('id', 'project')
+                                            @slot('name', 'id_project')
+                                            @slot('text', 'Project')
+                                        @endcomponent
+                                    </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">

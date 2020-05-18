@@ -33,6 +33,19 @@ class ARController extends Controller
 
     public function store(AReceiveStore $request)
     {
+        $request->validate([
+            'transactiondate' => 'required',
+            'id_customer' => 'required',
+            'accountcode' => 'required',
+            'currency' => 'required',
+        ]);
+
+        if ($request->currency != 'idr') {
+            $request->validate([
+                'exchangerate' => 'required'
+            ]);
+        }
+
         $customer = Customer::where('id', $request->id_customer)->first();
         if (!$customer) {
             return [
