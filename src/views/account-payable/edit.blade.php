@@ -119,6 +119,15 @@
 																						@endforeach
 																				</select>
                                     </div>
+                                    <div class="col-md-12 mt-3">
+                                        <label class="form-control-label">
+                                            Project
+                                        </label>
+
+                                        <select class="form-control m-input" name="id_project" id="project">
+                                          <option value="{{$data->project->id}}" selected>{{$data->project->code}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
