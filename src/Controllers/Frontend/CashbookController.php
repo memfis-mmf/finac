@@ -82,6 +82,12 @@ class CashbookController extends Controller
             'accountcode' => 'required',
         ]);
 
+        if ($request->currency != 'idr') {
+            $request->validate([
+                'exchangerate' => 'required'
+            ]);
+        }
+
 		$request->request->add([
 			'transactionnumber' => Cashbook::generateCode(
 				$this->transactionnumber($request->cashbook_type)
