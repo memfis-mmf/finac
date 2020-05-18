@@ -100,7 +100,7 @@
 
                                         @component('input::select')
                                             @slot('id', 'project')
-                                            @slot('name', 'project')
+                                            @slot('name', 'id_project')
                                             @slot('text', 'Project')
                                         @endcomponent
                                     </div>
