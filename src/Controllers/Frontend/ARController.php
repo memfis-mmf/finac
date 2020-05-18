@@ -38,13 +38,8 @@ class ARController extends Controller
             'id_customer' => 'required',
             'accountcode' => 'required',
             'currency' => 'required',
+            'exchangerate' => 'required'
         ]);
-
-        if ($request->currency != 'idr') {
-            $request->validate([
-                'exchangerate' => 'required'
-            ]);
-        }
 
         $customer = Customer::where('id', $request->id_customer)->first();
         if (!$customer) {
@@ -80,6 +75,7 @@ class ARController extends Controller
             'uuid', $request->areceive
         )->with([
             'currencies',
+            'project',
         ])->first();
 
         //if data already approved
@@ -121,8 +117,16 @@ class ARController extends Controller
         return view('accountreceivableview::edit', $data);
     }
 
-    public function update(AReceiveUpdate $request, AReceive $areceive)
+    public function update(Request $request, AReceive $areceive)
     {
+        $request->validate([
+            'transactiondate' => 'required',
+            'id_customer' => 'required',
+            'accountcode' => 'required',
+            'currency' => 'required',
+            'exchangerate' => 'required'
+        ]);
+
         $request->merge([
             'description' => $request->ar_description
         ]);

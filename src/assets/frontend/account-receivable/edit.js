@@ -3,7 +3,15 @@ let AccountReceivableEdit = {
 
 		let _url = window.location.origin;
 		let ar_uuid = $('input[name=ar_uuid]').val();
-		let id_customer = $('select[name=id_customer]').val();
+    let id_customer = $('select[name=id_customer]').val();
+
+    $('#project').select2({
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+      minimumInputLength: 3,
+    });
 
 		function addCommas(nStr)
 		{
@@ -762,7 +770,18 @@ let AccountReceivableEdit = {
 										location.href = `${_url}/account-receivable/`;
 									}, 2000);
 								}
-						}
+						},
+            error: function(xhr) {
+              if (xhr.status == 422) {
+                toastr.error('Please fill required field', 'Invalid', {
+                  timeOut: 2000
+                });
+              }else{
+                toastr.error('Invalid Form', 'Invalid', {
+                  timeOut: 2000
+                });
+              }
+            }
 				});
 		});
 

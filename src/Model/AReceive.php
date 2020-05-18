@@ -8,6 +8,7 @@ use App\Models\Currency;
 use App\Models\Customer;
 use App\User;
 use App\Models\Approval;
+use App\Models\Project;
 
 class AReceive extends MemfisModel
 {
@@ -141,5 +142,10 @@ class AReceive extends MemfisModel
 	public function currencies()
 	{
 		return $this->belongsTo(Currency::class, 'currency', 'code');
-	}
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project', 'id');
+    }
 }

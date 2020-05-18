@@ -80,13 +80,8 @@ class CashbookController extends Controller
             'refno' => 'required',
             'currency' => 'required',
             'accountcode' => 'required',
+            'exchangerate' => 'required'
         ]);
-
-        if ($request->currency != 'idr') {
-            $request->validate([
-                'exchangerate' => 'required'
-            ]);
-        }
 
 		$request->request->add([
 			'transactionnumber' => Cashbook::generateCode(
@@ -119,13 +114,8 @@ class CashbookController extends Controller
             'refno' => 'required',
             'currency' => 'required',
             'accountcode' => 'required',
+            'exchangerate' => 'required'
         ]);
-
-        if ($request->currency != 'idr') {
-            $request->validate([
-                'exchangerate' => 'required'
-            ]);
-        }
 
         $cashbook->update($request->all());
 

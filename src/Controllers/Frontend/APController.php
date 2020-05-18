@@ -39,13 +39,8 @@ class APController extends Controller
             'id_supplier' => 'required',
             'accountcode' => 'required',
             'currency' => 'required',
+            'exchangerate' => 'required'
         ]);
-
-        if ($request->currency != 'idr') {
-            $request->validate([
-                'exchangerate' => 'required'
-            ]);
-        }
 
 		$vendor = Vendor::where('id', $request->id_supplier)->first();
 		if (!$vendor) {
@@ -131,13 +126,8 @@ class APController extends Controller
             'id_supplier' => 'required',
             'accountcode' => 'required',
             'currency' => 'required',
+            'exchangerate' => 'required'
         ]);
-
-        if ($request->currency != 'idr') {
-            $request->validate([
-                'exchangerate' => 'required'
-            ]);
-        }
 
 		$request->merge([
 			'description' => $request->ap_description
