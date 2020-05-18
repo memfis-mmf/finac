@@ -98,6 +98,15 @@
                                             @slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
+                                    <div class="col-md-12 mt-3">
+                                        <label class="form-control-label">
+                                            Project
+                                        </label>
+
+                                        <select class="form-control m-input" name="id_project" id="project">
+                                          <option value="{{$cashbook->project->id}}" selected>{{$cashbook->project->code}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -714,5 +723,20 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/cashbook-type.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+
+<script>
+  $(document).ready(function () {
+
+    let _url = window.location.origin;
+
+    $('#project').select2({
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+      minimumInputLength: 3,
+    });
+  });
+</script>
 
 @endpush
