@@ -3,7 +3,15 @@ let AccountPayable = {
 
 		let _url = window.location.origin;
 		let ap_uuid = $('input[name=ap_uuid]').val();
-		let id_vendor = $('select[name=id_supplier]').val();
+    let id_vendor = $('select[name=id_supplier]').val();
+
+    $('#project').select2({
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+      minimumInputLength: 3,
+    });
 
 		function addCommas(nStr)
 		{
@@ -752,7 +760,18 @@ let AccountPayable = {
 										location.href = `${_url}/account-payable/`;
 									}, 2000);
 								}
-						}
+						},
+            error: function(xhr) {
+              if (xhr.status == 422) {
+                toastr.error('Please fill required field', 'Invalid', {
+                  timeOut: 2000
+                });
+              }else{
+                toastr.error('Invalid Form', 'Invalid', {
+                  timeOut: 2000
+                });
+              }
+            }
 				});
 		});
 
