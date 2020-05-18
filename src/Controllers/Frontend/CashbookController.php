@@ -113,6 +113,20 @@ class CashbookController extends Controller
 
     public function update(Request $request, Cashbook $cashbook)
     {
+        $request->validate([
+            'transactiondate' => 'required',
+            'personal' => 'required',
+            'refno' => 'required',
+            'currency' => 'required',
+            'accountcode' => 'required',
+        ]);
+
+        if ($request->currency != 'idr') {
+            $request->validate([
+                'exchangerate' => 'required'
+            ]);
+        }
+
         $cashbook->update($request->all());
 
         return response()->json($cashbook);
