@@ -93,6 +93,17 @@
                                             @slot('id_error', 'date')
                                         @endcomponent
                                     </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
+                                            Project
+                                        </label>
+
+                                        @component('input::select')
+                                            @slot('id', 'project')
+                                            @slot('name', 'project')
+                                            @slot('text', 'Project')
+                                        @endcomponent
+                                    </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -252,108 +263,114 @@
             placeholder : '-- Select --'
         });
 
+        $('#project').select2({
+          ajax: {
+            url: _url+'/journal/get-project-select2',
+            dataType: 'json'
+          },
+          minimumInputLength: 3,
+        });
+
         $.ajax({
-                url: '/get-departments',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                        $('select#_department').empty();
+          url: '/get-departments',
+          type: 'GET',
+          dataType: 'json',
+          success: function (data) {
+            $('select#_department').empty();
 
-                        $('select#_department').append(
-                                '<option value=""> Select a Department</option>'
-                        );
+            $('select#_department').append(
+              '<option value=""> Select a Department</option>'
+            );
 
-                        $.each(data, function (key, value) {
-                                $('select#_department').append(
-                                        '<option value="' + value + '">' + value + '</option>'
-                                );
-                        });
-                }
+            $.each(data, function (key, value) {
+              $('select#_department').append(
+                '<option value="' + value + '">' + value + '</option>'
+              );
+            });
+          }
         });
 
         let simpan = $('body').on('click', '#cashbook_save', function () {
+          let form = $(this).parents('form');
+          form.find('[disabled=disabled]').removeAttr('disabled');
+          let _data = form.serialize();
 
-                let form = $(this).parents('form');
-                form.find('[disabled=disabled]').removeAttr('disabled');
-                let _data = form.serialize();
-
-                $.ajax({
-                        headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'post',
-                        url: '/cashbook',
-                        data: _data,
-                        success: function (data) {
-                                if (data.errors) {
-                                    toastr.error(data.errors, 'Invalid', {
-                                            timeOut: 2000
-                                    });
-
-                                } else {
-                                        $('.modal').modal('hide');
-
-                                        toastr.success('Data Saved', 'Success', {
-                                                timeOut: 2000
-                                        });
-
-                                        setTimeout(function(){
-                                            location.href = `${_url}/cashbook/${data.uuid}/edit`;
-                                        }, 2000);
-                                }
-                        }
+          $.ajax({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            url: '/cashbook',
+            data: _data,
+            success: function (data) {
+              if (data.errors) {
+                toastr.error(data.errors, 'Invalid', {
+                  timeOut: 2000
                 });
+
+              } else {
+                $('.modal').modal('hide');
+
+                toastr.success('Data Saved', 'Success', {
+                  timeOut: 2000
+                });
+
+                setTimeout(function(){
+                  location.href = `${_url}/cashbook/${data.uuid}/edit`;
+                }, 2000);
+              }
+            }
+          });
         });
 
         $('body').on('change', '[name=cashbook_ref]', function() {
 
-            let val = $(this).val();
+          let val = $(this).val();
 
-            $.ajax({
-                    headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'get',
-                    url: '/cashbook/get-ref/?transactionnumber='+val,
-                    success: function (data) {
-                            if (data.errors) {
-                                toastr.error(data.errors, 'Invalid', {
-                                        timeOut: 2000
-                                });
+          $.ajax({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'get',
+            url: '/cashbook/get-ref/?transactionnumber='+val,
+            success: function (data) {
+              if (data.errors) {
+                toastr.error(data.errors, 'Invalid', {
+                  timeOut: 2000
+                });
 
-                            } else {
-                                toastr.success('Data Loaded', 'Success', {
-                                        timeOut: 2000
-                                });
+              } else {
+                toastr.success('Data Loaded', 'Success', {
+                  timeOut: 2000
+                });
 
-                                console.table(data);
+                console.table(data);
 
-                                $.each( data, function( key, value ) {
-                                    $(`[name=${key}]`).val(value).trigger('change');
-                                    $(`[name=${key}]`).attr('disabled', '');
-                                });
+                $.each( data, function( key, value ) {
+                  $(`[name=${key}]`).val(value).trigger('change');
+                  $(`[name=${key}]`).attr('disabled', '');
+                });
 
-                                $(`[name=location]`).val(data.location.toLowerCase()).trigger('change');
-                                $(`[name=exchangerate]`).val(parseInt(data.exchangerate)).trigger('change');
-                                $(`button.checkprofit`).attr('disabled', '');
-
-                            }
-                    }
-            });
+                $(`[name=location]`).val(data.location.toLowerCase()).trigger('change');
+                $(`[name=exchangerate]`).val(parseInt(data.exchangerate)).trigger('change');
+                $(`button.checkprofit`).attr('disabled', '');
+              }
+            }
+          });
         })
 
         $('body').on('change', '[name=cashbook_type]', function() {
-            let val = $(this).find(":selected").html();
-            let _text = val.split(' ')[1];
+          let val = $(this).find(":selected").html();
+          let _text = val.split(' ')[1];
 
-            console.log(_text == 'Payment');
+          console.log(_text == 'Payment');
 
-            text = _text+' From'
-            if (_text == 'Payment') {
-                text = _text+' To'
-            }
+          text = _text+' From'
+          if (_text == 'Payment') {
+              text = _text+' To'
+          }
 
-            $('.payment_receive').html(text);
+          $('.payment_receive').html(text);
         });
 
     });
