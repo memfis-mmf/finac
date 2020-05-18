@@ -186,6 +186,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/get-account-code-select2',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@getAccountCodeSelect2'
 		)->name('journal.get-account-code-select2');
+		Route::get(
+			'/get-project-select2',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@getProjectSelect2'
+		)->name('journal.get-project-select2');
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@approve'
