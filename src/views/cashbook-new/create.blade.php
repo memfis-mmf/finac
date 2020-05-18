@@ -57,30 +57,27 @@
                                             Cashbook Reference
                                         </label>
 
-																				<select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref">
-																					<option value=""></option>
-																					@for ($index_cashbook_ref=0; $index_cashbook_ref < count($cashbook_ref); $index_cashbook_ref++)
-																						@php
-																							$arr = $cashbook_ref[$index_cashbook_ref]
-																						@endphp
-																						<option value="{{$arr->transactionnumber}}">
-																							{{$arr->transactionnumber}}
-																						</option>
-																					@endfor
-																				</select>
+                                        <select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref">
+                                            <option value=""></option>
+                                            @foreach ($cashbook_ref as $arr)
+                                                <option value="{{$arr->transactionnumber}}">
+                                                    {{$arr->transactionnumber}}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Cashbook Type @include('label::required')
                                         </label>
 
-																				<select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types">
-																					<option value=""></option>
-																					<option value="bp">Bank Payment</option>
-																					<option value="br">Bank Receive</option>
-																					<option value="cp">Cash Payment</option>
-																					<option value="cr">Cash Receive</option>
-																				</select>
+                                        <select class="form-control m-input _select2" name="cashbook_type" id="cashbook_types">
+                                            <option value=""></option>
+                                            <option value="bp">Bank Payment</option>
+                                            <option value="br">Bank Receive</option>
+                                            <option value="cp">Cash Payment</option>
+                                            <option value="cr">Cash Receive</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -110,17 +107,17 @@
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
-																			<label class="form-control-label">
-																				Location
-																			</label>
+                                        <label class="form-control-label">
+                                            Location
+                                        </label>
 
-																			<select class="_select2 form-control" name="location" style="width:100%">
-																				<option value=""></option>
-																				<option value="sidoarjo">Sidoarjo</option>
-																				<option value="surabaya">Surabaya</option>
-																				<option value="jakarta">Jakarta</option>
-																				<option value="biak">Biak</option>
-																			</select>
+                                        <select class="_select2 form-control" name="location" style="width:100%">
+                                            <option value=""></option>
+                                            <option value="sidoarjo">Sidoarjo</option>
+                                            <option value="surabaya">Surabaya</option>
+                                            <option value="jakarta">Jakarta</option>
+                                            <option value="biak">Biak</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -247,118 +244,118 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function() {
+    $(document).ready(function() {
 
-		let _url = window.location.origin;
+        let _url = window.location.origin;
 
-		$('._select2').select2({
-			placeholder : '-- Select --'
-		});
+        $('._select2').select2({
+            placeholder : '-- Select --'
+        });
 
-		$.ajax({
-				url: '/get-departments',
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-						$('select#_department').empty();
+        $.ajax({
+                url: '/get-departments',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                        $('select#_department').empty();
 
-						$('select#_department').append(
-								'<option value=""> Select a Department</option>'
-						);
+                        $('select#_department').append(
+                                '<option value=""> Select a Department</option>'
+                        );
 
-						$.each(data, function (key, value) {
-								$('select#_department').append(
-										'<option value="' + value + '">' + value + '</option>'
-								);
-						});
-				}
-		});
+                        $.each(data, function (key, value) {
+                                $('select#_department').append(
+                                        '<option value="' + value + '">' + value + '</option>'
+                                );
+                        });
+                }
+        });
 
-		let simpan = $('body').on('click', '#cashbook_save', function () {
+        let simpan = $('body').on('click', '#cashbook_save', function () {
 
-				let form = $(this).parents('form');
-				form.find('[disabled=disabled]').removeAttr('disabled');
-				let _data = form.serialize();
+                let form = $(this).parents('form');
+                form.find('[disabled=disabled]').removeAttr('disabled');
+                let _data = form.serialize();
 
-				$.ajax({
-						headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-						},
-						type: 'post',
-						url: '/cashbook',
-						data: _data,
-						success: function (data) {
-								if (data.errors) {
-									toastr.error(data.errors, 'Invalid', {
-											timeOut: 2000
-									});
+                $.ajax({
+                        headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'post',
+                        url: '/cashbook',
+                        data: _data,
+                        success: function (data) {
+                                if (data.errors) {
+                                    toastr.error(data.errors, 'Invalid', {
+                                            timeOut: 2000
+                                    });
 
-								} else {
-										$('.modal').modal('hide');
+                                } else {
+                                        $('.modal').modal('hide');
 
-										toastr.success('Data Saved', 'Success', {
-												timeOut: 2000
-										});
+                                        toastr.success('Data Saved', 'Success', {
+                                                timeOut: 2000
+                                        });
 
-										setTimeout(function(){
-											location.href = `${_url}/cashbook/${data.uuid}/edit`;
-										}, 2000);
-								}
-						}
-				});
-		});
+                                        setTimeout(function(){
+                                            location.href = `${_url}/cashbook/${data.uuid}/edit`;
+                                        }, 2000);
+                                }
+                        }
+                });
+        });
 
-		$('body').on('change', '[name=cashbook_ref]', function() {
+        $('body').on('change', '[name=cashbook_ref]', function() {
 
-			let val = $(this).val();
+            let val = $(this).val();
 
-			$.ajax({
-					headers: {
-							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-					type: 'get',
-					url: '/cashbook/get-ref/?transactionnumber='+val,
-					success: function (data) {
-							if (data.errors) {
-								toastr.error(data.errors, 'Invalid', {
-										timeOut: 2000
-								});
+            $.ajax({
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'get',
+                    url: '/cashbook/get-ref/?transactionnumber='+val,
+                    success: function (data) {
+                            if (data.errors) {
+                                toastr.error(data.errors, 'Invalid', {
+                                        timeOut: 2000
+                                });
 
-							} else {
-								toastr.success('Data Loaded', 'Success', {
-										timeOut: 2000
-								});
+                            } else {
+                                toastr.success('Data Loaded', 'Success', {
+                                        timeOut: 2000
+                                });
 
-								console.table(data);
+                                console.table(data);
 
-								$.each( data, function( key, value ) {
-									$(`[name=${key}]`).val(value).trigger('change');
-									$(`[name=${key}]`).attr('disabled', '');
-								});
+                                $.each( data, function( key, value ) {
+                                    $(`[name=${key}]`).val(value).trigger('change');
+                                    $(`[name=${key}]`).attr('disabled', '');
+                                });
 
-								$(`[name=location]`).val(data.location.toLowerCase()).trigger('change');
-								$(`[name=exchangerate]`).val(parseInt(data.exchangerate)).trigger('change');
-								$(`button.checkprofit`).attr('disabled', '');
+                                $(`[name=location]`).val(data.location.toLowerCase()).trigger('change');
+                                $(`[name=exchangerate]`).val(parseInt(data.exchangerate)).trigger('change');
+                                $(`button.checkprofit`).attr('disabled', '');
 
-							}
-					}
-			});
-		})
+                            }
+                    }
+            });
+        })
 
-		$('body').on('change', '[name=cashbook_type]', function() {
-			let val = $(this).find(":selected").html();
-			let _text = val.split(' ')[1];
+        $('body').on('change', '[name=cashbook_type]', function() {
+            let val = $(this).find(":selected").html();
+            let _text = val.split(' ')[1];
 
-			console.log(_text == 'Payment');
+            console.log(_text == 'Payment');
 
-			text = _text+' From'
-			if (_text == 'Payment') {
-				text = _text+' To'
-			}
+            text = _text+' From'
+            if (_text == 'Payment') {
+                text = _text+' To'
+            }
 
-			$('.payment_receive').html(text);
-		});
+            $('.payment_receive').html(text);
+        });
 
-	});
+    });
 </script>
 @endpush
