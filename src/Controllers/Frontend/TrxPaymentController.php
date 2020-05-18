@@ -165,7 +165,9 @@ class TrxPaymentController extends Controller
 
     public function edit(Request $request)
     {
-		$data['data'] = TrxPayment::where(
+		$data['data'] = TrxPayment::with([
+            'project'
+        ])->where(
 			'uuid',
 			$request->trxpayment
 		)->first();
@@ -183,8 +185,15 @@ class TrxPaymentController extends Controller
         return view('supplierinvoicegeneralview::edit', $data);
 	}
 
-    public function update(TrxPaymentUpdate $request, TrxPayment $trxpayment)
+    public function update(Request $request, TrxPayment $trxpayment)
     {
+        $request->validate([
+            'transaction_date' => 'required',
+            'id_supplier' => 'required',
+            'currency' => 'required',
+            'exchange_rate' => 'required',
+        ]);
+
 		$currency = $request->trxpayment->currency;
 		$transaction_number = $request->trxpayment->transaction_number;
 		$exchange_rate = $request->trxpayment->exchange_rate;

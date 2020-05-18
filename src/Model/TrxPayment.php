@@ -12,6 +12,7 @@ use App\Models\Approval;
 use App\User;
 use App\Models\Currency;
 use Illuminate\Support\Carbon;
+use App\Models\Project;
 
 class TrxPayment extends MemfisModel
 {
@@ -241,5 +242,10 @@ class TrxPayment extends MemfisModel
 	public function currencies()
 	{
 		return $this->belongsTo(Currency::class, 'currency', 'code');
-	}
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project', 'id');
+    }
 }
