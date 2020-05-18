@@ -299,7 +299,18 @@ let AccountReceivable = {
 											location.href = `${_url}/account-receivable/${data.uuid}/edit`;
 										}, 2000);
 								}
-						}
+						},
+            error: function(xhr) {
+              if (xhr.status == 422) {
+                toastr.error('Please fill required field', 'Invalid', {
+                  timeOut: 2000
+                });
+              }else{
+                toastr.error('Invalid Form', 'Invalid', {
+                  timeOut: 2000
+                });
+              }
+            }
 				});
 		});
 

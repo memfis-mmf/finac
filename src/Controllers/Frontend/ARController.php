@@ -31,7 +31,7 @@ class ARController extends Controller
         return view('accountreceivableview::create');
     }
 
-    public function store(AReceiveStore $request)
+    public function store(Request $request)
     {
         $request->validate([
             'transactiondate' => 'required',
