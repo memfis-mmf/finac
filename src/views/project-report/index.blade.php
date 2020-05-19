@@ -25,7 +25,7 @@
                     <div class="m-portlet__body pb-5">
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <a href="">
+                                <a href="{{ route('project-report.profit-loss.index')}}">
                                     <div class="m-portlet">                                
                                         <div class="m-dropdown__header m--align-center" style="background: url(../assets/metronic/app/media/img/bg/bg-4.jpg); background-size: cover;">
                                             <div class="m-card-user m-card-user--skin-dark" style="height: 150px;padding-left: 20px;">                            
