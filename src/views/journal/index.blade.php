@@ -16,6 +16,10 @@
   .dataTables_length select{
       visibility: visible;
   }
+
+  .dataTable td:nth-child(2) {
+    white-space: nowrap !important;
+  }
 </style>
 
 <div class="m-subheader hidden">
