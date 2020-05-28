@@ -103,11 +103,13 @@
                                             Project
                                         </label>
 
-                                        @if (@$cashbook->project)
-                                          <select class="form-control m-input" name="id_project" id="project">
+                                        <select class="form-control m-input" name="id_project" id="project">
+                                          @if (@$cashbook->project)
                                             <option value="{{$cashbook->project->id}}" selected>{{$cashbook->project->code}}</option>
-                                          </select>
-                                        @endif
+                                          @else
+                                            <option value="">-- Select --</option>
+                                          @endif
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
