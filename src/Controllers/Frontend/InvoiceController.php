@@ -345,11 +345,9 @@ class InvoiceController extends Controller
 
         $collection = collect();
 
-        $companies = Company::with('type','parent')->get();
-
         $departments = Department::with('type','parent')->get();
 
-        $company = $collection->merge($companies)->merge($departments);
+        $company = $departments;
 
         return view('invoiceview::edit')
             ->with('today', $invoice->transactiondate)
