@@ -63,11 +63,9 @@ class InvoiceController extends Controller
 
         $collection = collect();
 
-        $companies = Company::with('type','parent')->get();
-
         $departments = Department::with('type','parent')->get();
 
-        $data['company'] = $collection->merge($companies)->merge($departments);
+        $data['company'] = $departments;
 		$data['coa_default'] = (object) [
 			'manhours' => Coa::where('code', '41111001')->first(),
 			'material' => Coa::where('code', '41114001')->first(),
