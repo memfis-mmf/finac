@@ -125,7 +125,11 @@
                                         </label>
 
                                         <select class="form-control m-input" name="id_project" id="project">
-                                          <option value="{{$data->project->id}}" selected>{{$data->project->code}}</option>
+                                          @if ($data->project)
+                                            <option value="{{$data->project->id}}" selected>{{$data->project->code}}</option>
+                                          @else
+                                            <option value="">-- Select --</option>
+                                          @endif
                                         </select>
                                     </div>
                                 </div>
