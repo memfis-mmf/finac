@@ -783,7 +783,7 @@ class InvoiceController extends Controller
 
         foreach ($invoices as $invoice) {
 
-            if (!empty($invoice->approvals->toArray())) {
+            if (!empty($invoice->approvals->toArray()) || $invoice->approve) {
                 if ($invoice->quotations) {
                     $quotation = $invoice->quotations->toArray();
                     if ($quotation['parent_id'] == null) {
@@ -798,7 +798,12 @@ class InvoiceController extends Controller
                 $approval = $invoice->approvals->toArray();
 
                 $invoice->status .= 'Approved';
-                $invoice->approvedby .= $approval[0]['conducted_by'];
+                if (@$approval[0]['conducted_by']) {
+                    $conducted_by = $approval[0]['conducted_by'];
+                }else{
+                    $conducted_by = 'System';
+                }
+                $invoice->approvedby .= $conducted_by;
             } elseif ($invoice->closed == 2) {
                 $invoice->status .= 'Void';
                 $quotation = $invoice->quotations->toArray();

@@ -69,7 +69,7 @@
                                                         @slot('data_target', '#refquo_modal')
                                                         @slot('name', 'refquono')
                                                         @slot('id_error', 'refquono')
-                                                        @slot('value', "{$quotation->number}")
+                                                        @slot('value', @$quotation->number)
                                                         @endcomponent
                                                     </div>
                                                 </div>
