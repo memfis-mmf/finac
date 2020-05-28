@@ -784,12 +784,17 @@ class InvoiceController extends Controller
         foreach ($invoices as $invoice) {
 
             if (!empty($invoice->approvals->toArray())) {
-                $quotation = $invoice->quotations->toArray();
-                if ($quotation['parent_id'] == null) {
-                    $invoice->xstatus .= "Quotation Project";
-                } else {
-                    $invoice->xstatus .= "Quotation Additional";
+                if ($invoice->quotations) {
+                    $quotation = $invoice->quotations->toArray();
+                    if ($quotation['parent_id'] == null) {
+                        $invoice->xstatus .= "Quotation Project";
+                    } else {
+                        $invoice->xstatus .= "Quotation Additional";
+                    }
+                }else{
+                    $invoice->xstatus .= "";
                 }
+
                 $approval = $invoice->approvals->toArray();
 
                 $invoice->status .= 'Approved';
@@ -804,11 +809,15 @@ class InvoiceController extends Controller
                 }
             } else {
                 $invoice->status .= 'Open';
-                $quotation = $invoice->quotations->toArray();
-                if ($quotation['parent_id'] == null) {
-                    $invoice->xstatus .= "Quotation Project";
-                } else {
-                    $invoice->xstatus .= "Quotation Additional";
+                if ($invoice->quotations) {
+                    $quotation = $invoice->quotations->toArray();
+                    if ($quotation['parent_id'] == null) {
+                        $invoice->xstatus .= "Quotation Project";
+                    } else {
+                        $invoice->xstatus .= "Quotation Additional";
+                    }
+                }else{
+                    $invoice->xstatus .= "";
                 }
             }
             //$quotation->customer = $quotation->project->customer;

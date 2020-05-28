@@ -177,7 +177,7 @@ let Invoice = {
             {data: 'transactionnumber'},
             {data: 'xstatus'},
             {data: 'customer.name'},
-            {data: 'quotations.number'},
+            {data: 'quotations.number', defaultContent: '-'},
             {data: 'currencies.code'},
             {data: 'total_transaction', render: function(data, type, row) {
                 let value = addCommas(parseInt(row.grandtotalforeign));
