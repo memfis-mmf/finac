@@ -108,7 +108,13 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <td>  <span style="margin-left:6px;">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </span> </td>
+                    <td>  
+                      <span style="margin-left:6px;">
+                        Created By : {{$cashbook->created_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;
+                        Approved By : {{$cashbook->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; 
+                        Printed By :  {{Auth::user()->name.' '.date('Y-m-d H:i:s')}} 
+                      </span> 
+                    </td>
                 </tr>
             </table>
         </div>
@@ -208,14 +214,20 @@
         <div class="container">
             <table width="100%" border="1">
                 <tr>
-                    <td align="center" rowspan="2">Prepared By</td>
+                    <td align="center" rowspan="2">Ordered By</td>
                     <td align="center"  rowspan="2">Approve By <br><span style="font-size: 10px;"><b><i>President Director</i></b></span></td>
                     <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
-                    <td align="center"  rowspan="2"  width="15%">Paid By</td>
+                    <td align="center"  rowspan="2"  width="15%">
+											@if ($type == 'rj')
+                        Receive From
+											@else
+                        Receive By
+											@endif
+                    </td>
                 </tr>
                 <tr>
-                    <td align="center">Received By <br><span style="font-size: 10px;"><b><i>Accounting</i></b> </span></td>
-                    <td align="center">Acknowledge By <br><span style="font-size: 10px;"><b><i>Finance Manager</i></b> </span></td>
+                    <td align="center">Recorded By <br><span style="font-size: 10px;"><b><i>Accounting</i></b> </span></td>
+                    <td align="center">Checked By <br><span style="font-size: 10px;"><b><i>Finance Manager</i></b> </span></td>
                     <td align="center">Processed By<br><span style="font-size: 10px;"><b><i>Cashier</i></b></span> </td>
                 </tr>
                 <tr>
