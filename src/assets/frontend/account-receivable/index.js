@@ -506,7 +506,7 @@ let Journal = {
 													timeOut: 3000
 											});
 
-											account_receivable_datatable.reload();
+											account_receivable_datatable.ajax.reload();
 									}
 							}
 					});
