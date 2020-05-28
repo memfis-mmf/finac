@@ -103,9 +103,11 @@
                                             Project
                                         </label>
 
-                                        <select class="form-control m-input" name="id_project" id="project">
-                                          <option value="{{$cashbook->project->id}}" selected>{{$cashbook->project->code}}</option>
-                                        </select>
+                                        @if (@$cashbook->project)
+                                          <select class="form-control m-input" name="id_project" id="project">
+                                            <option value="{{$cashbook->project->id}}" selected>{{$cashbook->project->code}}</option>
+                                          </select>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
