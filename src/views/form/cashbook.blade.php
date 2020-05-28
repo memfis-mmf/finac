@@ -215,13 +215,13 @@
             <table width="100%" border="1">
                 <tr>
                     <td align="center" rowspan="2">Ordered By</td>
-                    <td align="center"  rowspan="2">Approve By <br><span style="font-size: 10px;"><b><i>President Director</i></b></span></td>
+                    <td align="center"  rowspan="2">Approved By <br><span style="font-size: 10px;"><b><i>President Director</i></b></span></td>
                     <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
                     <td align="center"  rowspan="2"  width="15%">
 											@if ($type == 'rj')
-                        Receive From
+                        Received From
 											@else
-                        Receive By
+                        Received By
 											@endif
                     </td>
                 </tr>
