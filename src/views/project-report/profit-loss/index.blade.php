@@ -122,6 +122,8 @@
                                                     @endcomponent
                                                 </div>
                                             </div>  
+                                            <i class="fa fa-info-circle fa-4x text-danger"></i>
+                                            <span class="text-danger">All Amount Should be in IDR</span>
                                         </fieldset>
                                     </div>
                                 </div>
