@@ -32,6 +32,72 @@
         <div class="col-xl-4">
             <div class="m-portlet m-portlet--full-height ">
                 <div class="m-portlet__body">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h5 class="m-portlet__head-text">
+                                Jaya Wijaya, PT
+                            </h5>
+                            <hr>
+                            <h6 class="m-portlet__head-text">
+                                Project Information : <br>
+                                <span style="font-size:11px; color:#454545">
+                                    Perform Loan hangar space for support replace drag here brace & inspection C-Check
+                                </span>
+                            </h6>
+                        </div>
+                    </div>
+                    <table class="mt-4" width="100%" cellpadding="4" style="font-size:12px">
+                        <tr valign="top">
+                            <td width="30%">Project No</td>
+                            <td width="1%">:</td>
+                            <td><b>PROJ-2020/03/00001</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">Quotaion No</td>
+                            <td width="1%">:</td>
+                            <td><b>QPRO-2020/03/00001</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">Work Order No</td>
+                            <td width="1%">:</td>
+                            <td><b>12/TSP/I/20/B723-200</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">A/C Type</td>
+                            <td width="1%">:</td>
+                            <td><b>B737-500</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">A/C Reg</td>
+                            <td width="1%">:</td>
+                            <td><b>PK-CNY</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">A/C SN</td>
+                            <td width="1%">:</td>
+                            <td><b>544323</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">Status</td>
+                            <td width="1%">:</td>
+                            <td><b>Closed</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">Project Start</td>
+                            <td width="1%">:</td>
+                            <td><b>2020/03/01</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">Project End</td>
+                            <td width="1%">:</td>
+                            <td><b>2020/03/23</b></td>
+                        </tr>
+                        <tr valign="top">
+                            <td width="30%">Quotation Approval</td>
+                            <td width="1%">:</td>
+                            <td><b>Elly Sugigi</b></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
