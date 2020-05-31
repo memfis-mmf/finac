@@ -101,6 +101,97 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-4">
+            <div class="m-portlet  m-portlet--full-height">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                               Profit & Loss Project Summary
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="m-portlet__head-tools">
+                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
+                            <li class="nav-item m-tabs__item">
+                                @component('buttons::create-new')
+                                    @slot('type', 'button')
+                                    @slot('size', 'sm')
+                                    @slot('color', 'success')
+                                    @slot('icon', 'rotate-left')
+                                    @slot('text', 'Update')
+                                    @slot('id','update')
+                                @endcomponent
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="row  align-items-center mt-2">
+                        <div class="col">
+                            <div id="m_chart_profit_share" class="m-widget14__chart" style="height: 160px"></div>
+                        </div>
+                        <div class="col">
+                            <div class="m-widget14__legends">
+                                <div class="m-widget14__legend text-danger">
+                                    <span style="font-size:16px">Total Net Profit : <br></span>
+                                    <span class="font-weight-bold" style="font-size:18px;">IDR 190.363.323.231</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-6 text-primary">
+                            <div class="m-widget__legends">
+                                <div class="m-widget__legend">
+                                    <span class="m-widget__legend-bullet m--bg-accent"></span>
+                                    <span class="m-widget__legend-text text-primary">87%</span>
+                                </div>
+                            </div>
+                            <p>Income Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR 112.232.123.123</span></p> 
+                        </div>
+                        <div class="col-6 text-primary" style="border-left:1px solid black;">
+                            <div class="m-widget__legends">
+                                <div class="m-widget__legend">
+                                    <span class="m-widget__legend-bullet m--bg-warning"></span>
+                                    <span class="m-widget__legend-text text-primary">13%</span>
+                                </div>
+                            </div>
+                            <p>Expense Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR 90.232.123.123</span></p> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                               Profit & Loss Project Summary
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="m-portlet__head-tools">
+                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
+                            <li class="nav-item m-tabs__item">
+                                @component('buttons::create-new')
+                                    @slot('type', 'button')
+                                    @slot('size', 'sm')
+                                    @slot('color', 'success')
+                                    @slot('icon', 'rotate-left')
+                                    @slot('text', 'Update')
+                                    @slot('id','update')
+                                @endcomponent
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-xl-5">
@@ -118,13 +209,14 @@
                             <li class="nav-item m-tabs__item">
                                 @component('buttons::create-new')
                                     @slot('type', 'button')
+                                    @slot('size', 'sm')
                                     @slot('color', 'success')
                                     @slot('icon', 'rotate-left')
                                     @slot('text', 'Update')
                                     @slot('id','update')
                                 @endcomponent
                             </li>
-                            <li class="pl-4 mt-3 m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
+                            <li class="pl-4 mt-2 m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
                                 <a href="#" class="m-portlet__nav-link m-portlet__nav-link--icon m-portlet__nav-link--icon-xl m-dropdown__toggle">
                                     <i class="la la-ellipsis-h m--font-brand"></i>
                                 </a>
@@ -203,7 +295,7 @@
             </div>
         </div>
         <div class="col-xl-7">
-            <div class="m-portlet m-portlet--full-height ">
+            <div class="m-portlet m-portlet--full-height">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
@@ -217,13 +309,14 @@
                             <li class="nav-item m-tabs__item">
                                 @component('buttons::create-new')
                                     @slot('type', 'button')
+                                    @slot('size', 'sm')
                                     @slot('color', 'success')
                                     @slot('icon', 'rotate-left')
                                     @slot('text', 'Update')
                                     @slot('id','update')
                                 @endcomponent
                             </li>
-                            <li class="pl-4 mt-3 m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
+                            <li class="pl-4 mt-2 m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
                                 <a href="#" class="m-portlet__nav-link m-portlet__nav-link--icon m-portlet__nav-link--icon-xl m-dropdown__toggle">
                                     <i class="la la-ellipsis-h m--font-brand"></i>
                                 </a>
@@ -300,8 +393,16 @@
         .table-wrapper-scroll-y {
             display: block;
         }
+        .m-widget__legend-bullet{
+            width: 5.5rem;
+            height: 0.45rem;
+            display: inline-block;
+            border-radius: 1.1rem;
+            margin: 0 1rem 0.1rem 0;
+        }
     </style>
 @endpush
 
 @push('footer-scripts')
+    <script src="{{ asset('vendor/courier/app/js/dashboard.js')}}"></script>
 @endpush
