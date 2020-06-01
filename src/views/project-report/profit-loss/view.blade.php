@@ -101,6 +101,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-xl-4">
             <div class="m-portlet  m-portlet--full-height">
                 <div class="m-portlet__head">
@@ -144,7 +146,7 @@
                         <div class="col-6 text-primary">
                             <div class="m-widget__legends">
                                 <div class="m-widget__legend">
-                                    <span class="m-widget__legend-bullet m--bg-accent"></span>
+                                    <span class="m-widget__legend-bullet" style="background: rgb(113, 106, 202)"></span>
                                     <span class="m-widget__legend-text text-primary">87%</span>
                                 </div>
                             </div>
@@ -163,7 +165,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4">
+        <div class="col-xl-8">
             <div class="m-portlet">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
@@ -189,6 +191,19 @@
                     </div>
                 </div>
                 <div class="m-portlet__body">
+                    <div id="m_morris_3" style="height:290px;"></div>
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fa fa-info-circle fa-4x text-danger"></i>
+                            <span class="text-danger">All Amount in IDR</span>
+                        </div>
+                        <div class="col-8">
+                            <span class="m-widget__legend-bullet" style="background: rgb(113, 106, 202)"></span>
+                            <span class="m-widget__legend-text text-primary">Revenue</span>
+                            <span class="m-widget__legend-bullet m--bg-warning ml-3"></span>
+                            <span class="m-widget__legend-text text-primary">Expense</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -290,7 +305,7 @@
                         </table>
                     </div>
                     <i class="fa fa-info-circle fa-4x text-danger"></i>
-                    <span class="text-danger">All Amount Should be in IDR</span>
+                    <span class="text-danger">All Amount in IDR</span>
                 </div>
             </div>
         </div>
@@ -375,7 +390,7 @@
                         </table>
                     </div>
                     <i class="fa fa-info-circle fa-4x text-danger"></i>
-                    <span class="text-danger">All Amount Should be in IDR</span>
+                    <span class="text-danger">All Amount in IDR</span>
                 </div>
             </div>
         </div>
@@ -400,9 +415,38 @@
             border-radius: 1.1rem;
             margin: 0 1rem 0.1rem 0;
         }
+        rect:nth-child(odd) {
+            fill: rgb(113, 106, 202);
+        }
+        rect:nth-child(even) {
+            fill: #ffb822;
+        }
     </style>
 @endpush
 
 @push('footer-scripts')
     <script src="{{ asset('vendor/courier/app/js/dashboard.js')}}"></script>
+    <script>
+    var MorrisCharts = {
+        init: function() {
+            new Morris.Bar({
+                element: "m_morris_3",
+                data: [
+                    { y: "411101", a: 100, b: 90 },
+                    { y: "411101", a: 75, b: 65 },
+                    { y: "411101", a: 50, b: 40 },
+                    { y: "411101", a: 75, b: 65 },
+                    { y: "411101", a: 50, b: 40 },
+                    { y: "411101", a: 100, b: 90 }
+                ],
+                xkey: "y",
+                ykeys: ["a", "b"],
+                labels: ["Series A", "Series B"]
+            });
+        }
+    };
+    jQuery(document).ready(function() {
+        MorrisCharts.init();
+    });
+    </script>
 @endpush
