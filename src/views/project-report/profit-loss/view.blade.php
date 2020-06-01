@@ -34,9 +34,9 @@
                 <div class="m-portlet__body">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
-                            <h5 class="m-portlet__head-text">
-                                Jaya Wijaya, PT
-                            </h5>
+                            <span class="m-badge m-badge--primary m-badge--wide" style="padding: 6px 10px 1px 10px;">
+                                <b><h4>Cakrawala Balliem, PT</h4></b>
+                            </span>
                             <hr>
                             <h6 class="m-portlet__head-text">
                                 Project Information : <br>
@@ -392,6 +392,27 @@
                     <i class="fa fa-info-circle fa-4x text-danger"></i>
                     <span class="text-danger">All Amount in IDR</span>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group m-form__group row ">
+        <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
+            <div class="action-buttons">
+                @component('buttons::submit')
+                    @slot('type', 'button')
+                    @slot('color', 'primary')
+                    @slot('icon', 'fa-search')
+                    @slot('text', 'Additional Project')
+                @endcomponent
+
+                @component('buttons::submit')
+                    @slot('type', 'button')
+                    @slot('color', 'success')
+                    @slot('icon', 'fa-redo')
+                    @slot('text', 'Update')
+                @endcomponent
+
+                @include('buttons::back')
             </div>
         </div>
     </div>
