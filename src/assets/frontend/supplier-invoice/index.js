@@ -220,6 +220,9 @@ let Journal = {
                 return result;
             }},
             {data: 'grandtotal', render: function(data, type, row) {
+                if (!row.grandtotal) {
+                  return addCommas(0)
+                }
                 return addCommas(parseInt(row.grandtotal));
             }},
             {data: 'account_code'},
