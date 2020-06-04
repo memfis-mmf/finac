@@ -188,7 +188,9 @@
                                         </label>
 
                                         <select class="form-control m-input" name="id_project" id="project">
-                                          <option value="{{$data->project->id}}" selected>{{$data->project->code}}</option>
+                                          @if (@$data->project->id)
+                                            <option value="{{$data->project->id}}" selected>{{$data->project->code}}</option>
+                                          @endif
                                         </select>
                                     </div>
                                     {{-- <div class="col-sm-6 col-md-6 col-lg-6">
