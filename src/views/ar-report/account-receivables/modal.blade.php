@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm">
+              <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm" action="{{route('fa-report.ar-history')}}">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -17,8 +17,8 @@
                                 </label>
                             
                                 @component('input::datepicker')
-                                    @slot('id', 'daterange_account_receivables_history')
-                                    @slot('name', 'daterange_account_receivables_history')
+                                    @slot('id', 'daterange')
+                                    @slot('name', 'daterange')
                                     @slot('id_error', 'daterange_account_receivables_history')
                                 @endcomponent
                             </div>
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
-                            <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Department
                                 </label>
@@ -63,7 +63,7 @@
                                     @slot('name', 'dep')
                                     @slot('id_error', 'dep')
                                 @endcomponent
-                            </div>
+                            </div> --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Currency
@@ -84,7 +84,7 @@
                                     <div class="action-buttons">
                                         @component('buttons::submit')
                                             @slot('id', 'update_adjustment')
-                                            @slot('type', 'button')
+                                            @slot('type', 'submit')
                                             @slot('color','primary')
                                             @slot('text','view')
                                             @slot('icon','fa-search')
@@ -113,6 +113,19 @@
     <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
 
     <script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("#daterange").daterangepicker({
+            buttonClasses: "m-btn btn",
+            applyClass: "btn-primary",
+            cancelClass: "btn-secondary",
+            locale: {
+              format: 'DD/MM/YYYY'
+            }
+        });
+      });
+    </script>
 @endpush
 
     

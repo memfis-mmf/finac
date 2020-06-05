@@ -992,4 +992,16 @@ Route::group(['middleware' => ['web','auth']], function () {
 	//Route::resource('cashbook-crj', 'memfisfa\Finac\Controllers\Frontend\CashbookCRJController');
 
 
+    Route::prefix('fa-report')->group(function () {
+		Route::get(
+			'/',
+			'memfisfa\Finac\Controllers\Frontend\FAReportController@index'
+        )->name('fa-report.index');
+
+		Route::get(
+			'/ar-history',
+			'memfisfa\Finac\Controllers\Frontend\FAReportController@arHistory'
+		)->name('fa-report.ar-history');
+	});
+
 });
