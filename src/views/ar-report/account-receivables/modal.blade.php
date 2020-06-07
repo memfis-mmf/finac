@@ -45,11 +45,13 @@
                                     Location
                                 </label>
                             
-                                @component('input::select2')
-                                    @slot('id', 'location')
-                                    @slot('name', 'location')
-                                    @slot('id_error', 'location')
-                                @endcomponent
+                                <select class="_select2 form-control" name="location" style="width:100%">
+                                    <option value=""></option>
+                                    <option value="Sidoarjo">Sidoarjo</option>
+                                    <option value="Surabaya">Surabaya</option>
+                                    <option value="Jakarta">Jakarta</option>
+                                    <option value="Biak">Biak</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
@@ -83,7 +85,7 @@
                                 <div class="flex">
                                     <div class="action-buttons">
                                         @component('buttons::submit')
-                                            @slot('id', 'update_adjustment')
+                                            @slot('id', 'view')
                                             @slot('type', 'submit')
                                             @slot('color','primary')
                                             @slot('text','view')
@@ -116,6 +118,10 @@
 
     <script>
       $(document).ready(function () {
+        $('._select2').select2({
+            placeholder : '-- Select --'
+        });
+
         $("#daterange").daterangepicker({
             buttonClasses: "m-btn btn",
             applyClass: "btn-primary",

@@ -1,6 +1,9 @@
 @extends('frontend.master')
 
 @section('content')
+@php
+  use Illuminate\Support\Carbon;
+@endphp
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -54,97 +57,104 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                  <h1>ACCOUNT RECEIVABLES HISTORY</h1>
-                                 <h4>Period : 01 January 2020 - 28 January 2020</h4>
+                                 <h4>Period : {{Carbon::parse($date[0])->format('d F Y')}} - {{Carbon::parse($date[1])->format('d F Y')}}</h4>
                                 </div>
                             </div>
+
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <table width="100%" cellpadding="3">
                                         <tr>
                                             <td width="12%" valign="top">MMF Department</td>
                                             <td width="1%" valign="top">:</td>
-                                            <td width="77%" valign="top">Production</td>
+                                          <td width="77%" valign="top">{{$department->name}}</td>
                                         </tr>
                                         <tr>
                                             <td>MMF Location</td>
                                             <td>:</td>
-                                            <td>Sidoarjo</td>
+                                            <td style="text-transform: capitalize">{{$location}}</td>
                                         </tr>
                                         <tr>
                                             <td>Currency</td>
                                             <td>:</td>
-                                            <td>IDR</td>
+                                            <td>{{$currency}}</td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
-                            <div class="form-group m-form__group row ">
-                                <div class="col-sm-12 col-md-12 col-lg-12">   
-                                    <table width="100%" cellpadding="3" class="table-head">
-                                        <tr>
-                                            <td width="12%" valign="top"><b>Customer Name</b></td>
-                                            <td width="1%" valign="top"><b>:</b></td>
-                                            <td width="77%" valign="top"><b>Sriwijaya Air, PT</b></td>
-                                        </tr>
-                                    </table>
-                                    <table width="100%"  cellpadding="4" class="table-body" page-break-inside: auto; >  
-                                        <thead style="border-bottom:2px solid black;">     
-                                            <tr>
-                                                <td width="14%" align="left" valign="top" style="padding-left:8px;"><b>Transaction No.</b></td>
-                                                <td width="5%"align="center" valign="top"><b>Date</b></td>
-                                                <td width="14%"align="center" valign="top"><b>Ref No.</b></td>
-                                                <td width="13%"align="center" valign="top"><b>Description</b></td>
-                                                <td width="9%"align="center" valign="top" colspan="2"><b>Sub Total</b></td>
-                                                <td width="9%"align="center" valign="top" colspan="2"><b>VAT</b></td>
-                                                <td width="9%"align="center" valign="top"  colspan="2"><b>Receivables Total</b></td>
-                                                <td width="9%"align="center" valign="top"  colspan="2"><b>Paid Amount</b></td>
-                                                <td width="9%"align="center" valign="top"  colspan="2"><b>PPH</b></td>
-                                                <td width="9%"align="center" valign="top"  colspan="2"><b>Ending Balance</b></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody >
-                                            @for ($i = 0; $i < 3; $i++)
-                                                <tr style="font-size:8.4pt;">
-                                                    <td width="14%" align="left" valign="top" style="padding-left:8px;">INVC-YYYY/MM/00001</td>
-                                                    <td width="5%"align="center" valign="top">10/01/2020</td>
-                                                    <td width="14%" align="left" valign="top">QPRO-YYYY/MM/00001</td>
-                                                    <td width="13%"align="left" valign="top"> </td>
-                                                    <td width="1%"align="right" valign="top">Rp.</td>
-                                                    <td width="8%" align="right" valign="top">1.142.680.000,00</td>
-                                                    <td width="1%"align="right" valign="top">Rp.</td>
-                                                    <td width="8%" align="right" valign="top">1.142.680.000,00</td>
-                                                    <td width="1%"align="right" valign="top">Rp.</td>
-                                                    <td width="8%"align="right" valign="top" >1.142.680.000,00</td>
-                                                    <td width="1%" align="right" valign="top">Rp.</td>
-                                                    <td width="8%"align="right" valign="top">1.142.680.000,00</td>
-                                                    <td width="1%" align="right" valign="top">Rp.</td>
-                                                    <td width="8%"align="right" valign="top">1.142.680.000,00</td>
-                                                    <td width="1%" align="right" valign="top">Rp.</td>
-                                                    <td width="8%"align="right" valign="top">1.142.680.000,00</td>
-                                                </tr>
-                                            @endfor
-                                            {{-- Total IDR --}}
-                                            <tr style="border-top:2px solid black; font-size:9pt;" >
-                                                <td colspan="3"></td>
-                                                <td align="left" valign="top" colspan="1"><b>Total IDR</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>$</b></td>
-                                                <td width="8%"align="right" valign="top" class="table-footer"><b>94.882,00</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                            </tr>
-                                           
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+
+                            @foreach ($data as $dataRow)
+                                
+                              {{-- content --}}
+                              <div class="form-group m-form__group row ">
+                                  <div class="col-sm-12 col-md-12 col-lg-12">   
+                                      <table width="100%" cellpadding="3" class="table-head">
+                                          <tr>
+                                              <td width="12%" valign="top"><b>Customer Name</b></td>
+                                              <td width="1%" valign="top"><b>:</b></td>
+                                              <td width="77%" valign="top"><b>{{$dataRow->customerName}}</b></td>
+                                          </tr>
+                                      </table>
+                                      <table width="100%"  cellpadding="4" class="table-body" page-break-inside: auto; >  
+                                          <thead style="border-bottom:2px solid black;">     
+                                              <tr>
+                                                  <td width="14%" align="left" valign="top" style="padding-left:8px;"><b>Transaction No.</b></td>
+                                                  <td width="5%"align="center" valign="top"><b>Date</b></td>
+                                                  <td width="14%"align="center" valign="top"><b>Ref No.</b></td>
+                                                  <td width="13%"align="center" valign="top"><b>Description</b></td>
+                                                  <td width="9%"align="center" valign="top" colspan="2"><b>Sub Total</b></td>
+                                                  <td width="9%"align="center" valign="top" colspan="2"><b>VAT</b></td>
+                                                  <td width="9%"align="center" valign="top"  colspan="2"><b>Receivables Total</b></td>
+                                                  <td width="9%"align="center" valign="top"  colspan="2"><b>Paid Amount</b></td>
+                                                  <td width="9%"align="center" valign="top"  colspan="2"><b>PPH</b></td>
+                                                  <td width="9%"align="center" valign="top"  colspan="2"><b>Ending Balance</b></td>
+                                              </tr>
+                                          </thead>
+                                          <tbody >
+                                              <tr style="font-size:8.4pt;">
+                                                  <td width="14%" align="left" valign="top" style="padding-left:8px;">{{$dataRow->transactionnumber}}</td>
+                                                  <td width="5%"align="center" valign="top">{{Carbon::parse($dataRow->transactiondate)->format('d/m/Y')}}</td>
+                                                  <td width="14%" align="left" valign="top">{{$dataRow->quotationNumber}}</td>
+                                                  <td width="13%"align="left" valign="top"> </td>
+                                                  <td width="1%"align="right" valign="top">Rp.</td>
+                                                  <td width="8%" align="right" valign="top">0</td>
+                                                  <td width="1%"align="right" valign="top">Rp.</td>
+                                                  <td width="8%" align="right" valign="top">0</td>
+                                                  <td width="1%"align="right" valign="top">Rp.</td>
+                                                  <td width="8%"align="right" valign="top" >0</td>
+                                                  <td width="1%" align="right" valign="top">Rp.</td>
+                                                  <td width="8%"align="right" valign="top">0</td>
+                                                  <td width="1%" align="right" valign="top">Rp.</td>
+                                                  <td width="8%"align="right" valign="top">0</td>
+                                                  <td width="1%" align="right" valign="top">Rp.</td>
+                                                  <td width="8%"align="right" valign="top">0</td>
+                                              </tr>
+                                              {{-- Total IDR --}}
+                                              <tr style="border-top:2px solid black; font-size:9pt;" >
+                                                  <td colspan="3"></td>
+                                                  <td align="left" valign="top" colspan="1"><b>Total IDR</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>$</b></td>
+                                                  <td width="8%"align="right" valign="top" class="table-footer"><b>94.882,00</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                                                  <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                                                  <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                                                  <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                                                  <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
+                                                  <td width="8%" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                              </tr>
+                                            
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                              {{-- end content --}}
+
+                            @endforeach
+
                             <hr>
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">

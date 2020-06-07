@@ -5,9 +5,14 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use memfisfa\Finac\Model\AReceive;
 use memfisfa\Finac\Model\Invoice;
+use stdClass;
+use DB;
 
 class FAReportController extends Controller
 {
@@ -37,16 +42,50 @@ class FAReportController extends Controller
         $date = $this->convertDate($request->daterange);
 
         $currency = Currency::where('code', $request->currency)->first();
+        
+        $department = Department::where('uuid', $request->department)->first();
 
-        $query = Invoice::where('transactiondate', [$date[0], $date[1]])
-            ->where('location', $request->location)
-            ->where('company_department', $request->company);
+        $query_ar = DB::table('a_receives')
+            ->select(
+                'invoices.transactionnumber', 
+                'invoices.transactiondate', 
+                'invoices.description', 
+                'customers.name as customerName', 
+                'quotations.number as quotationNumber'
+            )
+            ->join(
+                'a_receive_a', 
+                'a_receive_a.transactionnumber', 
+                '=', 
+                'a_receives.transactionnumber'
+            )
+            ->join('invoices', 'a_receive_a.id_invoice', '=', 'invoices.id')
+            ->join('quotations', 'invoices.id_quotation', '=', 'quotations.id')
+            ->join('customers', 'invoices.id_customer', '=', 'customers.id')
+            ->where('a_receives.approve', true)
+            ->whereBetween('invoices.transactiondate', [$date[0], $date[1]])
+            ->where('invoices.location', $request->location)
+            ->where('invoices.company_department', $department->name);
 
         if ($request->currency) {
-            $query = $query->where('currency', $currency->id);
+            $query_ar = $query_ar->where('invoices.currency', $currency->id);
         }
 
-        $data['data'] = $query->get();
+        $data = $query_ar->get();
+
+        $currency = '-';
+
+        if ($request->currency) {
+            $currency = Currency::find($request->currency)->name;
+        }
+
+        $data = [
+            'data' => $data,
+            'department' => $department,
+            'currency' => $currency,
+            'location' => $request->location,
+            'date' => $date,
+        ];
         
         return view('arreport-accountrhview::index', $data);
     }
