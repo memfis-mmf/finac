@@ -18,6 +18,9 @@ class Invoice extends MemfisModel
 
 	protected $appends = [
 		'approved_by',
+		'report_paid_amount',
+		'report_ending_balance',
+		'report_discount',
 		// 'created_by',
 	];
 
@@ -38,12 +41,62 @@ class Invoice extends MemfisModel
 		}
 
 		return $result;
-	}
+    }
 
+    public function getPaidAmountAttribute()
+    {
+        return $this->countPaidAmount($this->ara[0]->transactionnumber);
+    }
+
+    public function getReportEndingBalanceAttribute()
+    {
+        $paidAmount = $this->getPaidAmountAttribute();
+
+        return $this->grandtotalforeign - $this->discount + 
+                $this->vat - $paidAmount;
+    }
+
+    public function getReportDiscountAttribute()
+    {
+        return ($this->discountpercent) 
+            ? $this->grandtotalforeign * ($this->discountpercent/100)
+            : $this->discountvalue;
+    }
 	// public function getCreatedByAttribute()
 	// {
 	// 	return User::find($this->audits->first()->user_id);
-	// }
+    // }
+
+	public function countPaidAmount($arTransactionnumber)
+	{
+		$ara_tmp = AReceiveA::where(
+			'transactionnumber', $arTransactionnumber
+        )->first();
+
+		$ar = $ara_tmp->ar;
+        $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
+        ->get();
+
+		$data['debt_total_amount'] = Invoice::where(
+			'id_customer',
+			$ar->customer->id
+		)->sum('grandtotal');
+
+		$payment_total_amount = 0;
+
+		for ($j = 0; $j < count($ara); $j++) {
+			$y = $ara[$j];
+
+			$payment_total_amount += ($y->credit * $ar->exchangerate);
+        }
+
+		return $payment_total_amount;
+    }
+
+    public function ara()
+    {
+        return $this->hasMany(AReceiveA::class, 'id_invoice', 'id');
+    }
 
     public function currencies()
     {

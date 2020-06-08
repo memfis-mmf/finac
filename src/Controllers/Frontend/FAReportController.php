@@ -38,90 +38,35 @@ class FAReportController extends Controller
 		];
     }
 
-	public function countPaidAmount($arTransactionnumber)
-	{
-		$ara_tmp = AReceiveA::where(
-			'transactionnumber', $arTransactionnumber
-        )->first();
-
-		$ar = $ara_tmp->ar;
-        $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
-        ->get();
-
-		$data['debt_total_amount'] = Invoice::where(
-			'id_customer',
-			$ar->customer->id
-		)->sum('grandtotal');
-
-		$payment_total_amount = 0;
-
-		for ($j = 0; $j < count($ara); $j++) {
-			$y = $ara[$j];
-
-			$payment_total_amount += ($y->credit * $ar->exchangerate);
-        }
-
-		return $payment_total_amount;
-	}
-
     public function arHistory(Request $request)
     {
         $date = $this->convertDate($request->daterange);
         
         $department = Department::where('uuid', $request->department)->first();
 
-        $query_ar = DB::table('a_receives')
-            ->select(
-                'invoices.transactionnumber', 
-                'invoices.transactiondate', 
-                'invoices.description', 
-                'invoices.discountpercent', 
-                'invoices.discountvalue', 
-                'a_receive_a.transactionnumber as arTransactionnumber', 
-                // total invoice times exchangerate
-                'invoices.grandtotalforeign as totalInvoice',
-                // VAT
-                DB::raw(
-                    'invoices.ppnvalue as vat'
-                ),
-                'customers.name as customerName', 
-                'quotations.number as quotationNumber'
-            )
-            ->join(
-                'a_receive_a', 
-                'a_receive_a.transactionnumber', 
-                '=', 
-                'a_receives.transactionnumber'
-            )
-            ->join('invoices', 'a_receive_a.id_invoice', '=', 'invoices.id')
-            ->join('quotations', 'invoices.id_quotation', '=', 'quotations.id')
-            ->join('customers', 'invoices.id_customer', '=', 'customers.id')
-            ->where('a_receives.approve', true)
-            ->whereBetween('invoices.transactiondate', [$date[0], $date[1]])
-            ->where('invoices.location', $request->location)
-            ->where('invoices.company_department', $department->name);
+        $ar = AReceive::where('approve', true)->get();
+
+        $data = [];
+
+        // 1 ar banyak invoice dengan customer yang sama
+        $data = [];
+        foreach ($ar as $arRow) {
+            $ara = $arRow->ara;
+
+            foreach ($ara as $araRow) {
+                $data[] = $araRow->invoice()
+                    ->with(['customer'])
+                    ->whereBetween('transactiondate', [$date[0], $date[1]])
+                    ->where('location', $request->location)
+                    ->where('company_department', $department->name)->get();
+            }
+
+        }
+
+        dd($data);
 
         if ($request->currency) {
             $currency = Currency::where('id', $request->currency)->first();
-            $query_ar = $query_ar->where('invoices.currency', $currency->id);
-        }
-
-        $data = $query_ar->get();
-
-        foreach ($data as $dataIndex => $dataRow) {
-            // paidAmount
-            $paidAmount = $this->countPaidAmount($dataRow->arTransactionnumber);
-            $data[$dataIndex]->paidAmount = $paidAmount;
-
-            // discount
-            $data[$dataIndex]->discount = ($dataRow->discountpercent) 
-                ? $dataRow->totalInvoice * ($dataRow->discountpercent/100)
-                : $dataRow->discountvalue;
-
-            // ending balance
-            $data[$dataIndex]->endingBalance = 
-                $dataRow->totalInvoice - $dataRow->discount + 
-                $dataRow->vat - $paidAmount;
         }
 
         $currency = '-';
@@ -141,6 +86,8 @@ class FAReportController extends Controller
             'location' => $request->location,
             'date' => $date,
         ];
+
+        dd($data);
         
         return view('arreport-accountrhview::index', $data);
     }
