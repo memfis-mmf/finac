@@ -13,6 +13,7 @@ use memfisfa\Finac\Model\AReceive;
 use memfisfa\Finac\Model\Invoice;
 use stdClass;
 use DB;
+use memfisfa\Finac\Model\AReceiveA;
 
 class FAReportController extends Controller
 {
@@ -35,6 +36,32 @@ class FAReportController extends Controller
 			$startDate,
 			$endDate
 		];
+    }
+
+	public function countPaidAmount($arTransactionnumber)
+	{
+		$ara_tmp = AReceiveA::where(
+			'transactionnumber', $arTransactionnumber
+        )->first();
+
+		$ar = $ara_tmp->ar;
+        $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
+        ->get();
+
+		$data['debt_total_amount'] = Invoice::where(
+			'id_customer',
+			$ar->customer->id
+		)->sum('grandtotal');
+
+		$payment_total_amount = 0;
+
+		for ($j = 0; $j < count($ara); $j++) {
+			$y = $ara[$j];
+
+			$payment_total_amount += ($y->credit * $ar->exchangerate);
+        }
+
+		return $payment_total_amount;
 	}
 
     public function arHistory(Request $request)
@@ -48,6 +75,15 @@ class FAReportController extends Controller
                 'invoices.transactionnumber', 
                 'invoices.transactiondate', 
                 'invoices.description', 
+                'invoices.discountpercent', 
+                'invoices.discountvalue', 
+                'a_receive_a.transactionnumber as arTransactionnumber', 
+                // total invoice times exchangerate
+                'invoices.grandtotalforeign as totalInvoice',
+                // VAT
+                DB::raw(
+                    'invoices.ppnvalue as vat'
+                ),
                 'customers.name as customerName', 
                 'quotations.number as quotationNumber'
             )
@@ -72,16 +108,36 @@ class FAReportController extends Controller
 
         $data = $query_ar->get();
 
+        foreach ($data as $dataIndex => $dataRow) {
+            // paidAmount
+            $paidAmount = $this->countPaidAmount($dataRow->arTransactionnumber);
+            $data[$dataIndex]->paidAmount = $paidAmount;
+
+            // discount
+            $data[$dataIndex]->discount = ($dataRow->discountpercent) 
+                ? $dataRow->totalInvoice * ($dataRow->discountpercent/100)
+                : $dataRow->discountvalue;
+
+            // ending balance
+            $data[$dataIndex]->endingBalance = 
+                $dataRow->totalInvoice - $dataRow->discount + 
+                $dataRow->vat - $paidAmount;
+        }
+
         $currency = '-';
+        $symbol = 'Rp';
 
         if ($request->currency) {
-            $currency = Currency::find($request->currency)->name;
+            $currency_data = Currency::find($request->currency);
+            $currency = $currency_data->name;
+            $symbol = $currency_data->symbol;
         }
 
         $data = [
             'data' => $data,
             'department' => $department,
             'currency' => $currency,
+            'symbol' => $symbol,
             'location' => $request->location,
             'date' => $date,
         ];
