@@ -40,8 +40,6 @@ class FAReportController extends Controller
     public function arHistory(Request $request)
     {
         $date = $this->convertDate($request->daterange);
-
-        $currency = Currency::where('code', $request->currency)->first();
         
         $department = Department::where('uuid', $request->department)->first();
 
@@ -68,6 +66,7 @@ class FAReportController extends Controller
             ->where('invoices.company_department', $department->name);
 
         if ($request->currency) {
+            $currency = Currency::where('id', $request->currency)->first();
             $query_ar = $query_ar->where('invoices.currency', $currency->id);
         }
 
