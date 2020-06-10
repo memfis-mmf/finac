@@ -828,7 +828,7 @@ class InvoiceController extends Controller
             //$quotation->customer = $quotation->project->customer;
         }
 
-        $data = $alldata = json_decode($invoices);
+        $data = $invoices;
 
         return DataTables::of($data)
 		->escapeColumns([])

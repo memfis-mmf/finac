@@ -43,14 +43,14 @@ class Invoice extends MemfisModel
 		return $result;
     }
 
-    public function getPaidAmountAttribute()
+    public function getReportPaidAmountAttribute()
     {
-        return $this->countPaidAmount($this->ara[0]->transactionnumber);
+        return $this->countPaidAmount(@$this->ara[0]->transactionnumber);
     }
 
     public function getReportEndingBalanceAttribute()
     {
-        $paidAmount = $this->getPaidAmountAttribute();
+        $paidAmount = $this->getReportPaidAmountAttribute();
 
         return $this->grandtotalforeign - $this->discount + 
                 $this->vat - $paidAmount;
@@ -72,6 +72,10 @@ class Invoice extends MemfisModel
 		$ara_tmp = AReceiveA::where(
 			'transactionnumber', $arTransactionnumber
         )->first();
+
+        if (!$ara_tmp) {
+            return 0;
+        }
 
 		$ar = $ara_tmp->ar;
         $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
