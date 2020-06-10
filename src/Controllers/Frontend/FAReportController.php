@@ -63,8 +63,6 @@ class FAReportController extends Controller
 
         }
 
-        dd($data);
-
         if ($request->currency) {
             $currency = Currency::where('id', $request->currency)->first();
         }
@@ -86,8 +84,6 @@ class FAReportController extends Controller
             'location' => $request->location,
             'date' => $date,
         ];
-
-        dd($data);
         
         return view('arreport-accountrhview::index', $data);
     }

@@ -92,7 +92,7 @@
                                           <tr>
                                               <td width="12%" valign="top"><b>Customer Name</b></td>
                                               <td width="1%" valign="top"><b>:</b></td>
-                                              <td width="77%" valign="top"><b>{{$dataRow->customerName}}</b></td>
+                                              <td width="77%" valign="top"><b>{{$dataRow[0]->customer->name}}</b></td>
                                           </tr>
                                       </table>
                                       <table width="100%"  cellpadding="4" class="table-body" page-break-inside: auto; >  
@@ -103,54 +103,56 @@
                                                   <td width="14%" align="center" valign="top"><b>Ref No.</b></td>
                                                   <td width="13%" align="center" valign="top"><b>Description</b></td>
                                                   <td width="" align="center" valign="top" colspan="2"><b>Sub Total</b></td>
-                                                  <td width="" align="center" valign="top" colspan="2"><b>VAT</b></td>
                                                   <td width="" align="center" valign="top" colspan="2"><b>Discount</b></td>
+                                                  <td width="" align="center" valign="top" colspan="2"><b>VAT</b></td>
                                                   <td width="" align="center" valign="top"  colspan="2"><b>Receivables Total</b></td>
                                                   <td width="" align="center" valign="top"  colspan="2"><b>Paid Amount</b></td>
                                                   <td width="" align="center" valign="top"  colspan="2"><b>PPH</b></td>
                                                   <td width="" align="center" valign="top"  colspan="2"><b>Ending Balance</b></td>
                                               </tr>
                                           </thead>
-                                          <tbody >
+                                          <tbody>
+                                            @foreach ($dataRow as $item)
                                               <tr style="font-size:8.4pt;">
-                                                  <td width="14%" align="left" valign="top" style="padding-left:8px;">{{$dataRow->transactionnumber}}</td>
-                                                  <td width="5%" align="center" valign="top">{{Carbon::parse($dataRow->transactiondate)->format('d/m/Y')}}</td>
-                                                  <td width="14%" align="left" valign="top">{{$dataRow->quotationNumber}}</td>
-                                                  <td width="13%" align="left" valign="top">{{$dataRow->description}}</td>
-                                                  <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                  <td width="" align="right" valign="top">{{number_format($dataRow->totalInvoice)}}</td>
-                                                  <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                  <td width="" align="right" valign="top">{{number_format($dataRow->vat)}}</td>
-                                                  <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                  <td width="" align="right" valign="top">{{number_format($dataRow->discount)}}</td>
-                                                  <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                  <td width="" align="right" valign="top" >0</td>
-                                                  <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                  <td width="" align="right" valign="top">{{number_format($dataRow->paidAmount)}}</td>
-                                                  <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                  <td width="" align="right" valign="top">0</td>
-                                                  <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                  <td width="" align="right" valign="top">{{number_format($dataRow->endingBalance)}}</td>
+                                                <td width="14%" align="left" valign="top" style="padding-left:8px;">{{$item->transactionnumber}}</td>
+                                                <td width="5%" align="center" valign="top">{{Carbon::parse($item->transactiondate)->format('d/m/Y')}}</td>
+                                                <td width="14%" align="left" valign="top">{{$item->quotations->number}}</td>
+                                                <td width="13%" align="left" valign="top">{{$item->description}}</td>
+                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top">{{number_format($item->grandtotalforeign)}}</td>
+                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top">{{number_format($item->report_discount)}}</td>
+                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top">{{number_format($item->ppnvalue)}}</td>
+                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top" >0</td>
+                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top">{{number_format($item->report_paid_amount)}}</td>
+                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top">0</td>
+                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top">{{number_format($item->report_ending_balance)}}</td>
                                               </tr>
-                                              {{-- Total IDR --}}
-                                              <tr style="border-top:2px solid black; font-size:9pt;" >
-                                                  <td colspan="3"></td>
-                                                  <td align="left" valign="top" colspan="1"><b>Total IDR</b></td>
-                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>$</b></td>
-                                                  <td width=""align="right" valign="top" class="table-footer"><b>94.882,00</b></td>
-                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                  <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                  <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                  <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                  <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                  <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                  <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
-                                              </tr>
+                                            @endforeach
+                                            {{-- Total IDR --}}
+                                            <tr style="border-top:2px solid black; font-size:9pt;" >
+                                                <td colspan="3"></td>
+                                                <td align="left" valign="top" colspan="1"><b>Total IDR</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>$</b></td>
+                                                <td width=""align="right" valign="top" class="table-footer"><b>94.882,00</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                            </tr>
                                             
                                           </tbody>
                                       </table>
