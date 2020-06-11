@@ -15,6 +15,10 @@ use stdClass;
 use DB;
 use memfisfa\Finac\Model\AReceiveA;
 
+//use for export
+use memfisfa\Finac\Model\Exports\ARHistoryExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class FAReportController extends Controller
 {
     public function index()
@@ -38,16 +42,8 @@ class FAReportController extends Controller
 		];
     }
 
-    public function arHistory(Request $request)
+    public function getArHistory($request)
     {
-        if (
-            !$request->daterange 
-            || !$request->department 
-            || !$request->location
-        ) {
-            return redirect()->back();
-        }
-
         $date = $this->convertDate($request->daterange);
 
         $department = Department::where('uuid', $request->department)->first();
@@ -90,21 +86,45 @@ class FAReportController extends Controller
         }
 
         $currency_data = Currency::find($request->currency);
-
         $currency = 
             (@$currency_data)? strtoupper($currency_data->code): 'All';
-        @$symbol = $currency_data->symbol;
 
         $data = [
             'data' => $data,
             'currency' => $currency,
-            'symbol' => $symbol,
             'department' => $department,
             'location' => $request->location,
             'date' => $date,
         ];
+
+        return $data;
+    }
+
+    public function arHistory(Request $request)
+    {
+        if (
+            !$request->daterange 
+            || !$request->department 
+            || !$request->location
+        ) {
+            return redirect()->back();
+        }
+
+        $data = $this->getArHistory($request);
+        $data['export'] = route('fa-report.ar-history-export', $request->all());
         
         return view('arreport-accountrhview::index', $data);
+    }
+
+    public function arHistoryExport(Request $request)
+    {
+        $data = $this->getArHistory($request);
+
+        $startDate = Carbon::parse($data['date'][0])->format('d F Y');
+        $endDate = Carbon::parse($data['date'][1])->format('d F Y');
+
+        // return view('arreport-accountrhview::export', $data);
+		return Excel::download(new ARHistoryExport($data), "AR History $startDate - $endDate.xlsx");
     }
 
 }

@@ -145,19 +145,19 @@
                                                   <td width="" align="left" valign="top">{{number_format($item->ara[0]->ar->exchangerate)}}</td>
                                                 @endif
                                                 <td width="" align="left" valign="top">{{$item->description}}</td>
-                                                <td width="" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="" align="right" valign="top">{{$item->currencies->symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_subtotal)}}</td>
-                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="1%" align="right" valign="top">{{$item->currencies->symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_discount)}}</td>
-                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="1%" align="right" valign="top">{{$item->currencies->symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->ppnvalue)}}</td>
-                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="1%" align="right" valign="top">{{$item->currencies->symbol}}</td>
                                                 <td width="" align="right" valign="top" >0</td>
-                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="1%" align="right" valign="top">{{$item->currencies->symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_paid_amount)}}</td>
-                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="1%" align="right" valign="top">{{$item->currencies->symbol}}</td>
                                                 <td width="" align="right" valign="top">0</td>
-                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                                <td width="1%" align="right" valign="top">{{$item->currencies->symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_ending_balance)}}</td>
                                                 @if ($invoice_currency != 'idr')
                                                   <td width="1%" align="right" valign="top">RP</td>
@@ -178,20 +178,20 @@
                                             {{-- Total IDR --}}
                                             <tr style="border-top:2px solid black; font-size:9pt;" >
                                                 <td colspan="{{($invoice_currency != 'idr')? 5: 3}}"></td>
-                                                <td align="left" valign="top" colspan="1"><b>Total {{strtoupper($currency)}}</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td align="left" valign="top" colspan="1"><b>Total {{strtoupper($invoice_currency)}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$item->currencies->symbol}}</b></td>
                                                 <td width=""align="right" valign="top" class="table-footer"><b>{{number_format($sum_subtotal)}}</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$item->currencies->symbol}}</b></td>
                                                 <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_discount)}}</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$item->currencies->symbol}}</b></td>
                                                 <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_vat)}}</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$item->currencies->symbol}}</b></td>
                                                 <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_receivable_total)}}</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$item->currencies->symbol}}</b></td>
                                                 <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_paid_amount)}}</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$item->currencies->symbol}}</b></td>
                                                 <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_pph)}}</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$item->currencies->symbol}}</b></td>
                                                 <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_ending_balance)}}</b></td>
                                                 @if ($invoice_currency != 'idr')
                                                   <td width="1%" align="right" valign="top">RP</td>
@@ -218,17 +218,19 @@
                                           </span>
                                       </button>
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Print')
-                                        @slot('icon', 'fa-print')
-                                        @endcomponent
+                                      @component('buttons::submit')
+                                      @slot('text', 'Print')
+                                      @slot('icon', 'fa-print')
+                                      @endcomponent
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Export to Excel')
-                                        @slot('icon', 'fa-file-excel')
-                                        @endcomponent
+                                      <a href="{{$export}}" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
+                                        <span>
+                                          <i class="fa fa-file-excel"></i>
+                                          <span>Export to Excel</span>
+                                        </span>
+                                      </a>
 
-                                        @include('buttons::back')
+                                      @include('buttons::back')
                                     </div>
                                 </div>
                             </div>

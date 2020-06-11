@@ -1001,7 +1001,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/ar-history',
 			'memfisfa\Finac\Controllers\Frontend\FAReportController@arHistory'
-		)->name('fa-report.ar-history');
+        )->name('fa-report.ar-history');
+
+		Route::get(
+			'/ar-history-export',
+			'memfisfa\Finac\Controllers\Frontend\FAReportController@arHistoryExport'
+		)->name('fa-report.ar-history-export');
 	});
 
 });
