@@ -211,11 +211,12 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
                                     <div class="action-buttons">
-                                        @component('buttons::submit')
-                                        @slot('text', 'Change Filter')
-                                        @slot('color', 'primary')
-                                        @slot('icon', 'fa-filter')
-                                        @endcomponent
+                                      <button id="" type="button" name="submit" class="btn btn-primary btn-md add" data-target="#modal_account_rh" data-toggle="modal">
+                                          <span>
+                                              <i class="fa fa-filter"></i>
+                                              <span>Change Filter</span>
+                                          </span>
+                                      </button>
 
                                         @component('buttons::submit')
                                         @slot('text', 'Print')
@@ -238,6 +239,7 @@
         </div>
     </div>
 </div>
+@include('arreport-accountrhview::modal')
 <input hidden id="coaid">
 
 @endsection
