@@ -230,7 +230,12 @@
                                         </span>
                                       </a>
 
-                                      @include('buttons::back')
+                                      <a href="{{route('fa-report.index')}}" class="btn btn-secondary btn-md" >
+                                          <span>
+                                            <i class="la la-undo"></i>
+                                          </span>
+                                          Back
+                                      </a>
                                     </div>
                                 </div>
                             </div>
