@@ -40,8 +40,16 @@ class FAReportController extends Controller
 
     public function arHistory(Request $request)
     {
+        if (
+            !$request->daterange 
+            || !$request->department 
+            || !$request->location
+        ) {
+            return redirect()->back();
+        }
+
         $date = $this->convertDate($request->daterange);
-        
+
         $department = Department::where('uuid', $request->department)->first();
 
         $ar = AReceive::where('approve', true)->get();
@@ -56,8 +64,7 @@ class FAReportController extends Controller
             foreach ($ara as $araRow) {
                 $query_invoice = $araRow->invoice()
                     ->with(['customer'])
-                    ->whereBetween('transactiondate', [$date[0], $date[1]])
-                    ->where('location', $request->location);
+                    ->whereBetween('transactiondate', [$date[0], $date[1]]);
 
                 if ($request->currency) {
                     $query_invoice = $query_invoice
@@ -70,7 +77,9 @@ class FAReportController extends Controller
                 }
                 
                 $invoice = $query_invoice
-                    ->where('company_department', $department->name)->get();
+                    ->where('company_department', $department->name)
+                    ->where('location', $request->location)
+                    ->get();
                     
 
                 if (count($invoice) > 0) {

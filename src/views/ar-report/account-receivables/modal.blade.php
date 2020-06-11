@@ -61,7 +61,7 @@
                                 </label>
                             
                                 @component('input::select')
-                                    @slot('id', 'customer')
+                                    @slot('id', '_customer')
                                     @slot('name', 'customer')
                                     @slot('id_error', 'customer')
                                 @endcomponent
@@ -122,7 +122,7 @@
             placeholder : '-- Select --'
         });
 
-        $('#customer').select2({
+        $('#_customer').select2({
           ajax: {
             url: `{{route('frontend.customer.select2')}}`,
             dataType: 'json'
