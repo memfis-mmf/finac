@@ -63,6 +63,11 @@ class FAReportController extends Controller
                     $query_invoice = $query_invoice
                         ->where('currency', $request->currency);
                 }
+
+                if ($request->customer) {
+                    $query_invoice = $query_invoice
+                        ->where('id_customer', $request->customer);
+                }
                 
                 $invoice = $query_invoice
                     ->where('company_department', $department->name)->get();

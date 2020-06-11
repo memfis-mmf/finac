@@ -55,17 +55,17 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
-                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Department
+                                    Customer
                                 </label>
                             
-                                @component('input::select2')
-                                    @slot('id', 'dep')
-                                    @slot('name', 'dep')
-                                    @slot('id_error', 'dep')
+                                @component('input::select')
+                                    @slot('id', 'customer')
+                                    @slot('name', 'customer')
+                                    @slot('id_error', 'customer')
                                 @endcomponent
-                            </div> --}}
+                            </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Currency
@@ -120,6 +120,14 @@
       $(document).ready(function () {
         $('._select2').select2({
             placeholder : '-- Select --'
+        });
+
+        $('#customer').select2({
+          ajax: {
+            url: `{{route('frontend.customer.select2')}}`,
+            dataType: 'json'
+          },
+          width: '100%'
         });
 
         $("#daterange").daterangepicker({
