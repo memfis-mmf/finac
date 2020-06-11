@@ -54,33 +54,37 @@ class FAReportController extends Controller
             $ara = $arRow->ara;
 
             foreach ($ara as $araRow) {
-                $data[] = $araRow->invoice()
+                $query_invoice = $araRow->invoice()
                     ->with(['customer'])
                     ->whereBetween('transactiondate', [$date[0], $date[1]])
-                    ->where('location', $request->location)
+                    ->where('location', $request->location);
+
+                if ($request->currency) {
+                    $query_invoice = $query_invoice
+                        ->where('currency', $request->currency);
+                }
+                
+                $invoice = $query_invoice
                     ->where('company_department', $department->name)->get();
+                    
+
+                if (count($invoice) > 0) {
+                    $data[] = $invoice;
+                }
             }
 
         }
 
-        if ($request->currency) {
-            $currency = Currency::where('id', $request->currency)->first();
-        }
+        $invoice_example = $data[0][0];
 
-        $currency = '-';
-        $symbol = 'Rp';
-
-        if ($request->currency) {
-            $currency_data = Currency::find($request->currency);
-            $currency = $currency_data->name;
-            $symbol = $currency_data->symbol;
-        }
+        $currency = $invoice_example->currencies->code;
+        $symbol = $invoice_example->currencies->symbol;
 
         $data = [
             'data' => $data,
-            'department' => $department,
             'currency' => $currency,
             'symbol' => $symbol,
+            'department' => $department,
             'location' => $request->location,
             'date' => $date,
         ];

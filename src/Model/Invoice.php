@@ -18,6 +18,7 @@ class Invoice extends MemfisModel
 
 	protected $appends = [
 		'approved_by',
+		'report_subtotal',
 		'report_paid_amount',
 		'report_ending_balance',
 		'report_discount',
@@ -43,6 +44,19 @@ class Invoice extends MemfisModel
 		return $result;
     }
 
+    public function getReportSubtotalAttribute()
+    {
+        $currency = $this->currencies;
+
+        $result = $this->grandtotalforeign;
+
+        if ($currency->code == 'idr') {
+            $result = $this->grandtotal;
+        }
+
+        return $result;
+    }
+
     public function getReportPaidAmountAttribute()
     {
         return $this->countPaidAmount(@$this->ara[0]->transactionnumber);
@@ -53,7 +67,7 @@ class Invoice extends MemfisModel
         $paidAmount = $this->getReportPaidAmountAttribute();
 
         return $this->grandtotalforeign - $this->discount + 
-                $this->vat - $paidAmount;
+                $this->ppnvalue - $paidAmount;
     }
 
     public function getReportDiscountAttribute()

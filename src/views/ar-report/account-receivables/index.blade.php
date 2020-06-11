@@ -84,6 +84,15 @@
                             </div>
 
                             @foreach ($data as $dataRow)
+                              @php
+                                $sum_subtotal = 0;
+                                $sum_discount = 0;
+                                $sum_vat = 0;
+                                $sum_receivable_total = 0;
+                                $sum_paid_amount = 0;
+                                $sum_pph = 0;
+                                $sum_ending_balance = 0;
+                              @endphp
                                 
                               {{-- content --}}
                               <div class="form-group m-form__group row ">
@@ -119,7 +128,7 @@
                                                 <td width="14%" align="left" valign="top">{{$item->quotations->number}}</td>
                                                 <td width="13%" align="left" valign="top">{{$item->description}}</td>
                                                 <td width="1%" align="right" valign="top">{{$symbol}}</td>
-                                                <td width="" align="right" valign="top">{{number_format($item->grandtotalforeign)}}</td>
+                                                <td width="" align="right" valign="top">{{number_format($item->report_subtotal)}}</td>
                                                 <td width="1%" align="right" valign="top">{{$symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_discount)}}</td>
                                                 <td width="1%" align="right" valign="top">{{$symbol}}</td>
@@ -133,25 +142,34 @@
                                                 <td width="1%" align="right" valign="top">{{$symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_ending_balance)}}</td>
                                               </tr>
+                                              @php
+                                                $sum_subtotal += $item->report_subtotal;
+                                                $sum_discount += $item->report_discount;
+                                                $sum_vat += $item->ppnvalue;
+                                                $sum_receivable_total += 0;
+                                                $sum_paid_amount += $item->report_paid_amount;
+                                                $sum_pph += 0;
+                                                $sum_ending_balance += $item->report_ending_balance;
+                                              @endphp
                                             @endforeach
                                             {{-- Total IDR --}}
                                             <tr style="border-top:2px solid black; font-size:9pt;" >
                                                 <td colspan="3"></td>
-                                                <td align="left" valign="top" colspan="1"><b>Total IDR</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>$</b></td>
-                                                <td width=""align="right" valign="top" class="table-footer"><b>94.882,00</b></td>
+                                                <td align="left" valign="top" colspan="1"><b>Total {{strtoupper($currency)}}</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width=""align="right" valign="top" class="table-footer"><b>{{number_format($sum_subtotal)}}</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_discount)}}</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_vat)}}</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_receivable_total)}}</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_paid_amount)}}</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
-                                                <td width="" align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_pph)}}</b></td>
+                                                <td width="1%" align="right" valign="top" class="table-footer"><b>{{$symbol}}</b></td>
+                                                <td width="" align="right" valign="top" class="table-footer"><b>{{number_format($sum_ending_balance)}}</b></td>
                                             </tr>
                                             
                                           </tbody>
