@@ -15,177 +15,6 @@ let Journal = {
 						}
 						return x1 + x2;
 				}
-        // let account_receivable_datatable = $('.account_receivable_datatable').mDatatable({
-        //     data: {
-        //         type: 'remote',
-        //         source: {
-        //             read: {
-        //                 method: 'GET',
-        //                 url: _url+'/account-receivable/datatables',
-        //                 map: function (raw) {
-        //                     let dataSet = raw;
-
-        //                     if (typeof raw.data !== 'undefined') {
-        //                         dataSet = raw.data;
-        //                     }
-
-        //                     return dataSet;
-        //                 }
-        //             }
-        //         },
-        //         pageSize: 10,
-        //         serverPaging: !1,
-        //         serverFiltering: !0,
-        //         serverSorting: !1
-        //     },
-        //     layout: {
-        //         theme: 'default',
-        //         class: '',
-        //         scroll: false,
-        //         footer: !1
-        //     },
-        //     sortable: !0,
-        //     filterable: !1,
-        //     pagination: !0,
-        //     search: {
-        //         input: $('#generalSearch')
-        //     },
-        //     toolbar: {
-        //         items: {
-        //             pagination: {
-        //                 pageSizeSelect: [5, 10, 20, 30, 50, 100]
-        //             }
-        //         }
-        //     },
-        //     columns: [
-        //         {
-        //             field: 'transactiondate',
-        //             title: 'Date',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 60
-        //         },
-        //         {
-        //             field: 'transactionnumber',
-        //             title: 'AP NO.',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: 'customer.name',
-        //             title: 'Customer Name',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 60,
-        //         },
-        //         {
-        //             field: 'refno',
-        //             title: 'Ref No.',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: 'currency',
-        //             title: 'Currency',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: 'exchangerate',
-        //             title: 'Exchange Rate',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150,
-		// 								template: function(t, e, i) {
-		// 									return addCommas(parseInt(t.exchangerate));
-		// 								}
-        //         },
-        //         {
-        //             field: 'ara.credit',
-        //             title: 'Total Transaction',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150,
-		// 								template: function(t, e, i) {
-		// 									let total = 0;
-		// 									for (var i = 0; i < t.ara.length; i++) {
-		// 										x = t.ara[i];
-
-		// 										total += x.credit;
-		// 									}
-
-		// 									return addCommas(parseInt(total));
-		// 								}
-        //         },
-        //         {
-        //             field: 'coa.code',
-        //             title: 'Account Code',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: 'description',
-        //             title: 'Description',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: '',
-        //             title: 'Status',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: 'created_by.name',
-        //             title: 'Created By',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: 'approved_by.name',
-        //             title: 'Approve By',
-        //             sortable: 'asc',
-        //             filterable: !1,
-        //             width: 150
-        //         },
-        //         {
-        //             field: 'Actions',
-        //             width: 110,
-        //             title: 'Actions',
-        //             sortable: !1,
-        //             overflow: 'visible',
-        //             template: function (t, e, i) {
-
-		// 									let _html =
-        //                   '<a href="'+_url+'/account-receivable/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
-        //                       '<i class="la la-print"></i>' +
-        //                   '</a>';
-
-		// 									if (!t.approve) {
-		// 										_html +=
-        //                   '<a href="'+_url+'/account-receivable/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-        //                   t.uuid +
-        //                   '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-        //                   '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-        //                   t.uuid +
-        //                   ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-        //                   '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
-        //                   '<i class="la la-check"></i>' +
-        //                   '</a>';
-		// 									}
-
-        //               return (_html);
-        //             }
-        //         }
-        //     ]
-        // });
 
         let account_receivable_datatable = $('.account_receivable_datatable').DataTable({
           dom: '<"top"f>rt<"bottom">pil',
@@ -321,10 +150,7 @@ let Journal = {
 
                         $('#code-error').html('');
 
-                        let table = $('.coa_datatable').mDatatable();
-                        coa_reset();
-                        table.originalDataSet = [];
-                        table.reload();
+                        account_receivable_datatable.ajax.reload()();
                     }
                 }
             });
@@ -422,18 +248,7 @@ let Journal = {
                             timeOut: 5000
                         });
 
-                        let table = $('.coa_datatable').mDatatable();
-
-                        table.originalDataSet = [];
-                        table.reload();
-                        coa_reset();
-
-                        $('#code-error').html('');
-                        $('#name-error').html('');
-                        $('#type-error').html('');
-                        $('#level-error').html('');
-                        $('#description-error').html('');
-
+                        account_receivable_datatable.ajax.reload()();
                     }
                 }
             });
@@ -466,10 +281,7 @@ let Journal = {
                                 }
                             );
 
-                            let table = $('.account_receivable_datatable').mDatatable();
-
-                            table.originalDataSet = [];
-                            table.reload();
+                            account_receivable_datatable.ajax.reload()();
                         },
                         error: function (jqXhr, json, errorThrown) {
                             let errorsHtml = '';

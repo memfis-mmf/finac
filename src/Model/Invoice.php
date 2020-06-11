@@ -105,7 +105,8 @@ class Invoice extends MemfisModel
 		for ($j = 0; $j < count($ara); $j++) {
 			$y = $ara[$j];
 
-			$payment_total_amount += ($y->credit * $ar->exchangerate);
+			// $payment_total_amount += ($y->credit * $ar->exchangerate);
+			$payment_total_amount += ($y->credit);
         }
 
 		return $payment_total_amount;
