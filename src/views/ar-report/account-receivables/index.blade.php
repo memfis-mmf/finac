@@ -4,6 +4,11 @@
 @php
   use Illuminate\Support\Carbon;
 @endphp
+<style>
+  tr.nowrap td {
+    white-space: nowrap;
+  }
+</style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -107,10 +112,10 @@
                                       <table width="100%"  cellpadding="4" class="table-body" page-break-inside: auto; >  
                                           <thead style="border-bottom:2px solid black;">     
                                               <tr>
-                                                  <td width="14%" align="left" valign="top" style="padding-left:8px;"><b>Transaction No.</b></td>
-                                                  <td width="5%" align="center" valign="top"><b>Date</b></td>
-                                                  <td width="14%" align="center" valign="top"><b>Ref No.</b></td>
-                                                  <td width="13%" align="center" valign="top"><b>Description</b></td>
+                                                  <td width="" align="left" valign="top" style="padding-left:8px;"><b>Transaction No.</b></td>
+                                                  <td width="" align="center" valign="top"><b>Date</b></td>
+                                                  <td width="" align="center" valign="top"><b>Ref No.</b></td>
+                                                  <td width="" align="center" valign="top"><b>Description</b></td>
                                                   <td width="" align="center" valign="top" colspan="2"><b>Sub Total</b></td>
                                                   <td width="" align="center" valign="top" colspan="2"><b>Discount</b></td>
                                                   <td width="" align="center" valign="top" colspan="2"><b>VAT</b></td>
@@ -122,12 +127,12 @@
                                           </thead>
                                           <tbody>
                                             @foreach ($dataRow as $item)
-                                              <tr style="font-size:8.4pt;">
-                                                <td width="14%" align="left" valign="top" style="padding-left:8px;">{{$item->transactionnumber}}</td>
-                                                <td width="5%" align="center" valign="top">{{Carbon::parse($item->transactiondate)->format('d/m/Y')}}</td>
-                                                <td width="14%" align="left" valign="top">{{$item->quotations->number}}</td>
-                                                <td width="13%" align="left" valign="top">{{$item->description}}</td>
-                                                <td width="1%" align="right" valign="top">{{$symbol}}</td>
+                                              <tr style="font-size:8.4pt;" class="nowrap">
+                                                <td width="" align="left" valign="top" style="padding-left:8px;">{{$item->transactionnumber}}</td>
+                                                <td width="" align="center" valign="top">{{Carbon::parse($item->transactiondate)->format('d/m/Y')}}</td>
+                                                <td width="" align="left" valign="top">{{$item->quotations->number}}</td>
+                                                <td width="" align="left" valign="top">{{$item->description}}</td>
+                                                <td width="" align="right" valign="top">{{$symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_subtotal)}}</td>
                                                 <td width="1%" align="right" valign="top">{{$symbol}}</td>
                                                 <td width="" align="right" valign="top">{{number_format($item->report_discount)}}</td>

@@ -75,10 +75,11 @@ class FAReportController extends Controller
 
         }
 
-        $invoice_example = $data[0][0];
+        $currency_data = Currency::find($request->currency);
 
-        $currency = $invoice_example->currencies->code;
-        $symbol = $invoice_example->currencies->symbol;
+        $currency = 
+            (@$currency_data)? strtoupper($currency_data->code): 'All';
+        @$symbol = $currency_data->symbol;
 
         $data = [
             'data' => $data,
