@@ -172,141 +172,141 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/sub-account.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-        let _url = window.location.origin;
+  $(document).ready(function() {
+    let _url = window.location.origin;
 
-        $('._select2').select2({
-            placeholder: '-- Select --'
-        });
+    $('._select2').select2({
+      placeholder: '-- Select --'
+    });
 
-		$('body').on('change', '[name=account_group]', function() {
-            $('[name=account_no]').val('');
-            $('[name=sub_account]').removeAttr('disabled');
+    $('body').on('change', '[name=account_group]', function() {
+      $('[name=account_no]').val('');
+      $('[name=sub_account]').removeAttr('disabled');
+    })
+
+    // set data to sub account
+    $('body').on('change', '[name=account_type]', function() {
+
+      let coa_type = $(this).val();
+      let _data = {
+        'coa_type' : coa_type, //activa, pasiva, ekuitas, pendapatan, biaya
+      };
+
+      mApp.blockPage()
+
+      $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          type: 'get',
+          url: `/master-coa/get-subaccount`,
+          data: _data,
+          success: function (data) {
+              if (data.errors) {
+                  toastr.error(data.errors, 'Invalid', {
+                      timeOut: 3000
+                  });
+              } else {
+                  $('#sub_account').empty();
+                  $('#sub_account').select2({
+                      data: data,
+                      placeholder: '-- Select --',
+                      escapeMarkup: function(markup) {
+                          return markup;
+                      },
+                      templateResult: function(data) {
+                          return data.html;
+                      },
+                      templateSelection: function(data) {
+                          return data.text;
+                      }
+                  });
+              }
+          }
+      })
+      .fail(function () {
+          mApp.unblockPage()
+      })
+      .done(function () {
+          mApp.unblockPage()
+      });
+
+    });
+
+    $('body').on('change', '[name=sub_account]', function() {
+        let form = $(this).parents('form');
+        let _data = form.serializeArray();
+
+        mApp.blockPage()
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'get',
+            url: `/master-coa/generate-new-coa`,
+            data: _data,
+            success: function (data) {
+                if (data.errors) {
+                    toastr.error(data.errors, 'Invalid', {
+                        timeOut: 3000
+                    });
+                } else {
+                    $('#account_no').val(data);
+                }
+            }
         })
-
-		// set data to sub account
-		$('body').on('change', '[name=account_type]', function() {
-
-			let coa_type = $(this).val();
-			let _data = {
-				'coa_type' : coa_type, //activa, pasiva, ekuitas, pendapatan, biaya
-            };
-
-            mApp.blockPage()
-
-			$.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'get',
-                url: `/master-coa/get-subaccount`,
-                data: _data,
-                success: function (data) {
-                    if (data.errors) {
-                        toastr.error(data.errors, 'Invalid', {
-                            timeOut: 3000
-                        });
-                    } else {
-                        $('#sub_account').empty();
-                        $('#sub_account').select2({
-                            data: data,
-                            placeholder: '-- Select --',
-                            escapeMarkup: function(markup) {
-                                return markup;
-                            },
-                            templateResult: function(data) {
-                                return data.html;
-                            },
-                            templateSelection: function(data) {
-                                return data.text;
-                            }
-                        });
-                    }
-                }
-            })
-            .fail(function () {
-                mApp.unblockPage()
-            })
-            .done(function () {
-                mApp.unblockPage()
-            });
-
-		});
-
-        $('body').on('change', '[name=sub_account]', function() {
-            let form = $(this).parents('form');
-            let _data = form.serializeArray();
-
-            mApp.blockPage()
-
-			$.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'get',
-                url: `/master-coa/generate-new-coa`,
-                data: _data,
-                success: function (data) {
-                    if (data.errors) {
-                        toastr.error(data.errors, 'Invalid', {
-                            timeOut: 3000
-                        });
-                    } else {
-                        $('#account_no').val(data);
-                    }
-                }
-            })
-            .fail(function () {
-                mApp.unblockPage()
-            })
-            .done(function () {
-                mApp.unblockPage()
-            });
+        .fail(function () {
+            mApp.unblockPage()
+        })
+        .done(function () {
+            mApp.unblockPage()
         });
+    });
 
-        $('body').on('click', '#master_coa_save', function() {
-            let form = $(this).parents('form');
-            let _data = form.serializeArray();
+    $('body').on('click', '#master_coa_save', function() {
+        let form = $(this).parents('form');
+        let _data = form.serializeArray();
 
-            mApp.blockPage()
+        mApp.blockPage()
 
-			$.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'post',
-                url: `/master-coa`,
-                data: _data,
-                success: function (data) {
-                    if (data.errors) {
-                        toastr.error(data.errors, 'Invalid', {
-                            timeOut: 2000
-                        });
-                    } else {
-                        toastr.success('Data Saved', 'Success', {
-                            timeOut: 2000
-                        });
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            url: `/master-coa`,
+            data: _data,
+            success: function (data) {
+                if (data.errors) {
+                    toastr.error(data.errors, 'Invalid', {
+                        timeOut: 2000
+                    });
+                } else {
+                    toastr.success('Data Saved', 'Success', {
+                        timeOut: 2000
+                    });
 
-                        setTimeout(function(){
-                            location.href = `${_url}/master-coa`;
-                        }, 2000);
-                    }
+                    setTimeout(function(){
+                        location.href = `${_url}/master-coa`;
+                    }, 2000);
                 }
-            })
-            .fail(function (xhr, status, error) {
-                mApp.unblockPage()
+            }
+        })
+        .fail(function (xhr, status, error) {
+            mApp.unblockPage()
 
-                let err = $.parseJSON(xhr.responseText).message;
+            let err = $.parseJSON(xhr.responseText).message;
 
-                toastr.error(err, 'Invalid', {
-                    timeOut: 3000
-                });
-            })
-            .done(function () {
-                mApp.unblockPage()
+            toastr.error(err, 'Invalid', {
+                timeOut: 3000
             });
+        })
+        .done(function () {
+            mApp.unblockPage()
         });
+    });
 
-	});
+  });
 </script>
 @endpush
