@@ -438,7 +438,7 @@ class MasterCoaController extends Controller
 				$query = $query->where('code', 'like', $coa->coa_number.'%');
 			}
 
-			$coa_detail = $query->first();
+			$coa_detail = $query->orderBy('code', 'desc')->first();
 
 			if ($coa_detail) {
 				$last_character_code = substr($coa_detail->code, -2);
