@@ -46,11 +46,11 @@ class FAReportController extends Controller
     {
         $date = $this->convertDate($request->daterange);
 
-        $department = Department::where('uuid', $request->department)->first();
-
         $ar = AReceive::where('approve', true)->get();
 
         $data = [];
+
+        $department = 'All';
 
         // 1 ar banyak invoice dengan customer yang sama
         $data = [];
@@ -71,11 +71,20 @@ class FAReportController extends Controller
                     $query_invoice = $query_invoice
                         ->where('id_customer', $request->customer);
                 }
+
+                if ($request->department) {
+                    $department = Department::where('uuid', $request->department)
+                        ->first()->name;
+                    $query_invoice = $query_invoice
+                        ->where('company_department', $department);
+                }
+
+                if ($request->customer) {
+                    $query_invoice = $query_invoice
+                        ->where('location', $request->location);
+                }
                 
-                $invoice = $query_invoice
-                    ->where('company_department', $department->name)
-                    ->where('location', $request->location)
-                    ->get();
+                $invoice = $query_invoice->get();
                     
 
                 if (count($invoice) > 0) {
@@ -93,7 +102,7 @@ class FAReportController extends Controller
             'data' => $data,
             'currency' => $currency,
             'department' => $department,
-            'location' => $request->location,
+            'location' => ($request->location)? $request->location: 'All',
             'date' => $date,
         ];
 
@@ -104,8 +113,6 @@ class FAReportController extends Controller
     {
         if (
             !$request->daterange 
-            || !$request->department 
-            || !$request->location
         ) {
             return redirect()->back();
         }
