@@ -16,7 +16,7 @@
         }
         
         body {
-            margin-top: 2.6cm;
+            margin-top: 3.5cm;
             margin-bottom: 3cm;
             font-family: 'Segeo UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -67,6 +67,7 @@
             padding-bottom: 20px;
             min-height: 125px;
             background: #ccdfe8;
+            margin-top:-29px;
         }
 
         #content2, #content4, #content3{
