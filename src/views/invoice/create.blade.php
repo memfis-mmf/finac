@@ -833,13 +833,13 @@
                                     <div class="m-portlet__body">
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="m_tabs_6_1_1" role="tabpanel">
-                                                @include('invoice-apcview::index')
+                                                @include('invoice-itemlistview::index')
                                             </div>
                                             <div class="tab-pane" id="m_tabs_6_2_2" role="tabpanel">
                                                 @include('invoice-additionalview::index') 
                                             </div>
                                             <div class="tab-pane" id="m_tabs_6_3_3" role="tabpanel">
-                                                @include('invoice-itemlistview::index')
+                                                @include('invoice-apcview::index')
                                             </div>
                                         </div>
                                     </div>
