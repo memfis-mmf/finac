@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Bank;
 use App\Models\BankAccount;
 use App\User;
+use Carbon\Carbon;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,7 @@ class Invoice extends MemfisModel
     protected $guarded = [];
 
 	protected $appends = [
+		'date',
 		'approved_by',
 		'report_subtotal',
 		'report_paid_amount',
@@ -28,6 +30,11 @@ class Invoice extends MemfisModel
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
+    }
+
+    public function getDateAttribute()
+    {
+        return Carbon::parse($this->transactiondate)->format('Y-m-d');
     }
 
 	public function getApprovedByAttribute()

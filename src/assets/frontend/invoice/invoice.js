@@ -173,7 +173,7 @@ let Invoice = {
           serverSide: true,
           ajax: _url+'/invoice/datatables',
           columns: [
-            {data: 'transactiondate'},
+            {data: 'date'},
             {data: 'transactionnumber'},
             {data: 'xstatus'},
             {data: 'customer.name'},
