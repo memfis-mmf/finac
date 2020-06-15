@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Bank;
 use App\Models\BankAccount;
 use App\User;
+use Carbon\Carbon;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,17 +18,23 @@ class Invoice extends MemfisModel
     protected $guarded = [];
 
 	protected $appends = [
+		'date',
 		'approved_by',
 		'report_subtotal',
 		'report_paid_amount',
 		'report_ending_balance',
 		'report_discount',
-		// 'created_by',
+		'created_by',
 	];
 
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
+    }
+
+    public function getDateAttribute()
+    {
+        return Carbon::parse($this->transactiondate)->format('Y-m-d');
     }
 
 	public function getApprovedByAttribute()
@@ -76,10 +83,19 @@ class Invoice extends MemfisModel
             ? $this->grandtotalforeign * ($this->discountpercent/100)
             : $this->discountvalue;
     }
-	// public function getCreatedByAttribute()
-	// {
-	// 	return User::find($this->audits->first()->user_id);
-    // }
+	public function getCreatedByAttribute()
+	{
+		$audit = $this->audits->first();
+		$conducted_by = @User::find($audit->user_id)->name;
+
+		$result = '-';
+
+		if ($conducted_by) {
+			$result = $conducted_by.' '.$this->created_at;
+		}
+
+		return $result;
+	}
 
 	public function countPaidAmount($arTransactionnumber)
 	{

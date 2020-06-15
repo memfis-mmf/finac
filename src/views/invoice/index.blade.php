@@ -16,6 +16,10 @@
   .dataTables_length select{
       visibility: visible;
   }
+
+  table td {
+    white-space: nowrap !important;
+  }
 </style>
 
 <div class="m-content">

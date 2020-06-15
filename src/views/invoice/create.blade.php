@@ -614,7 +614,7 @@
 
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-6 col-md-6 col-lg-6">
-                                            {{-- <div class="form-group m-form__group row">
+                                            <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div class="m--align-left" style="padding-top:15px">
                                                         PPH
@@ -641,11 +641,11 @@
                                                 </div>
                                                 <div class="col-sm-1 col-md-1 col-lg-1">
                                                 </div>
-                                            </div> --}}
-                                            {{-- <div class="form-group m-form__group row">
+                                            </div>
+                                            <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div class="m--align-left" style="padding-top:15px">
-                                                        Freemark
+                                                        Remark
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-9 col-md-9 col-lg-9">
@@ -660,7 +660,7 @@
                                                 </div>
                                                 <div class="col-sm-1 col-md-1 col-lg-1">
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                         </div>
                                         <input type="hidden" name="sub_total_val" id="sub_total_val" value="">
                                         <input type="hidden" name="total_discount_val" id="total_discount_val" value="">
