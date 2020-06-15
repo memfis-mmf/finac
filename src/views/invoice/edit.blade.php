@@ -359,7 +359,7 @@
                                 </div>
                                 <br />
                                 <br />
-                                @if("quotationsales"=="quotationsales")
+                                @if(@$quotation->number=="quotationsales")
                                     <div id="quotation-sales">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="m-portlet__head">
