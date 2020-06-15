@@ -136,3 +136,9 @@ Route::get('/inventory-expense-details', function () {
     $pdf = \PDF::loadView('formview::inventory-expense-details');
     return $pdf->stream();
 });
+
+Route::get('/invoice-sales', function () {
+    $pdf = \PDF::loadView('formview::invoice-sales');
+    return $pdf->stream();
+});
+
