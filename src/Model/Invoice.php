@@ -22,7 +22,7 @@ class Invoice extends MemfisModel
 		'report_paid_amount',
 		'report_ending_balance',
 		'report_discount',
-		// 'created_by',
+		'created_by',
 	];
 
     public function approvals()
@@ -76,10 +76,19 @@ class Invoice extends MemfisModel
             ? $this->grandtotalforeign * ($this->discountpercent/100)
             : $this->discountvalue;
     }
-	// public function getCreatedByAttribute()
-	// {
-	// 	return User::find($this->audits->first()->user_id);
-    // }
+	public function getCreatedByAttribute()
+	{
+		$audit = $this->audits->first();
+		$conducted_by = @User::find($audit->user_id)->name;
+
+		$result = '-';
+
+		if ($conducted_by) {
+			$result = $conducted_by.' '.$this->created_at;
+		}
+
+		return $result;
+	}
 
 	public function countPaidAmount($arTransactionnumber)
 	{
