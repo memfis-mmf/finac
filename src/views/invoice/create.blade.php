@@ -842,6 +842,31 @@
                                                 @include('invoice-apcview::index')
                                             </div>
                                         </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <div class="form-group m-form__group row">
+                                                <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
+                                                    <div class="flex">
+                                                        <div class="action-buttons">
+                                                            @component('buttons::submit')
+                                                                @slot('text', 'Print')
+                                                                @slot('icon', 'fa-print')
+                                                                @slot('color', 'primary')
+                                                            @endcomponent
+
+                                                            @component('frontend.common.buttons.submit')
+                                                                @slot('type','button')
+                                                                @slot('id', 'add-invoice-sales')
+                                                                @slot('class', 'add-invoice-sales')
+                                                            @endcomponent
+
+                                                            @include('frontend.common.buttons.reset')
+
+                                                            @include('frontend.common.buttons.back')
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
