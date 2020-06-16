@@ -359,429 +359,495 @@
                                 </div>
                                 <br />
                                 <br />
-                                <div id="hiddennext">
-                                <div class="form-group m-form__group row">
-                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                            <br />
-                                            <br />
-                                            <fieldset class="border p-2">
-                                                <legend class="w-auto">Profit Center :</legend>
-                                                <div class="row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            <label style="margin-top:13px" class="form-control-label">
+                                @if(@$quotation->number=="quotationsales")
+                                    <div id="quotation-sales">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="m-portlet__head">
+                                                <div class="m-portlet__head-tools">
+                                                    <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
+                                                        <li class="nav-item m-tabs__item">
+                                                            <a class="nav-link m-tabs__link active" data-toggle="tab" id="m_tab_6_1_1" href="#m_tabs_6_1_1" role="tab">
+                                                                <i class="la la-cog"></i> Item List
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item m-tabs__item">
+                                                            <a class="nav-link m-tabs__link" data-toggle="tab" id="m_tab_6_2_2" href="#m_tabs_6_2_2" role="tab">
+                                                                <i class="la la-briefcase"></i> Additional Info
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item m-tabs__item">
+                                                            <a class="nav-link m-tabs__link" data-toggle="tab" id="m_tab_6_3_3" href="#m_tabs_6_3_3" role="tab">
+                                                                <i class="la la-briefcase"></i> Account/Profit Center
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-portlet__body">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="m_tabs_6_1_1" role="tabpanel">
+                                                    @include('invoice-itemlistview::edit')
+                                                </div>
+                                                <div class="tab-pane" id="m_tabs_6_2_2" role="tabpanel">
+                                                    @include('invoice-additionalview::edit') 
+                                                </div>
+                                                <div class="tab-pane" id="m_tabs_6_3_3" role="tabpanel">
+                                                    @include('invoice-apcview::edit')
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group m-form__group row">
+                                                    <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
+                                                        <div class="flex">
+                                                            <div class="action-buttons">
+                                                                @component('buttons::submit')
+                                                                    @slot('text', 'Print')
+                                                                    @slot('icon', 'fa-print')
+                                                                    @slot('color', 'primary')
+                                                                @endcomponent
 
-                                                                Manhours
-                                                            </label>
+                                                                @component('frontend.common.buttons.submit')
+                                                                    @slot('type','button')
+                                                                    @slot('id', 'edit-invoice-sales')
+                                                                    @slot('class', 'edit-invoice-sales')
+                                                                @endcomponent
 
+                                                                @include('frontend.common.buttons.reset')
 
-                                                        </div>
-
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            <label style="margin-top:35px" class="form-control-label">
-
-                                                                Material
-                                                            </label>
-
-
-                                                        </div>
-
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            <label style="margin-top:15px" class="form-control-label">
-                                                                <br />
-                                                                Facility
-                                                            </label>
-
-
-                                                        </div>
-
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            <label style="margin-top:15px" class="form-control-label">
-                                                                <br />
-																																Discount
-                                                            </label>
-
-
-                                                        </div>
-
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            <label style="margin-top:15px" class="form-control-label">
-                                                                <br />
-																																PPN
-                                                            </label>
-
-
-                                                        </div>
-
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            <label style="margin-top:34px" class="form-control-label">
-
-                                                                Other
-                                                            </label>
-
-
-                                                        </div>
-
-
-                                                    </div>
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputrightbutton')
-                                                            @slot('id', 'coa')
-                                                            @slot('text', 'coa')
-                                                            @slot('class', 'manhours')
-                                                            @slot('dataid','manhours')
-                                                            @slot('name', 'manhours')
-                                                            @slot('type', 'text')
-                                                            @slot('value', "{$manhours->code}")
-                                                            @slot('style', 'width:100%')
-                                                            @slot('data_target', '#coa_modal')
-                                                            @endcomponent
-                                                        </div>
-                                                        <br />
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputrightbutton')
-                                                            @slot('id', 'coa')
-                                                            @slot('text', 'coa')
-                                                            @slot('class', 'material')
-                                                            @slot('name', 'material')
-                                                            @slot('dataid','material')
-                                                            @slot('value', "{$material->code}")
-                                                            @slot('type', 'text')
-                                                            @slot('style', 'width:100%')
-                                                            @slot('data_target', '#coa_modal')
-                                                            @endcomponent
-                                                        </div>
-                                                        <br />
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputrightbutton')
-                                                            @slot('id', 'coa')
-                                                            @slot('text', 'coa')
-                                                            @slot('name', 'facility')
-                                                            @slot('type', 'text')
-                                                            @slot('value', "{$facility->code}")
-                                                            @slot('class', 'facility')
-                                                            @slot('dataid','facility')
-                                                            @slot('style', 'width:100%')
-                                                            @slot('data_target', '#coa_modal')
-                                                            @endcomponent
-                                                        </div>
-                                                        <br />
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputrightbutton')
-                                                            @slot('id', 'coa')
-                                                            @slot('text', 'coa')
-                                                            @slot('name', 'discount')
-                                                            @slot('class', 'discount')
-                                                            @slot('dataid','discount')
-                                                            @slot('type', 'text')
-                                                            @slot('value', $discount->code)
-                                                            @slot('style', 'width:100%')
-                                                            @slot('data_target', '#coa_modal')
-                                                            @endcomponent
-                                                        </div>
-                                                        <br />
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputrightbutton')
-                                                            @slot('id', 'coa')
-                                                            @slot('text', 'coa')
-                                                            @slot('name', 'ppn')
-                                                            @slot('class', 'ppn')
-                                                            @slot('dataid','ppn')
-                                                            @slot('type', 'text')
-                                                            @slot('value', $ppn->code)
-                                                            @slot('style', 'width:100%')
-                                                            @slot('data_target', '#coa_modal')
-                                                            @endcomponent
-                                                        </div>
-                                                        <br />
-                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputrightbutton')
-                                                            @slot('id', 'coa')
-                                                            @slot('text', 'coa')
-                                                            @slot('name', 'other')
-                                                            @slot('value', "{$others->code}")
-                                                            @slot('class', 'others')
-                                                            @slot('dataid','others')
-                                                            @slot('type', 'text')
-                                                            @slot('style', 'width:100%')
-                                                            @slot('data_target', '#coa_modal')
-                                                            @endcomponent
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                                        <div style="margin-top:1px" class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputreadonly')
-                                                            @slot('id', 'manhours_name')
-                                                            @slot('name', 'manhours_name')
-                                                            @slot('value', "{$manhours->name}")
-                                                            @slot('text', '')
-                                                            @slot('id_error', 'manhours_name')
-                                                            @endcomponent
-                                                        </div>
-                                                        <div style="margin-top:22px" class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputreadonly')
-                                                            @slot('id', 'material_name')
-                                                            @slot('name', 'material_name')
-                                                            @slot('text', '')
-                                                            @slot('value', "{$material->name}")
-                                                            @slot('id_error', 'material_name')
-                                                            @endcomponent
-                                                        </div>
-                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputreadonly')
-                                                            @slot('id', 'facility_name')
-                                                            @slot('name', 'facility_name')
-                                                            @slot('value', "{$facility->name}")
-                                                            @slot('text', '')
-                                                            @slot('id_error', 'facility_name')
-                                                            @endcomponent
-                                                        </div>
-                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputreadonly')
-                                                            @slot('id', 'discount_name')
-                                                            @slot('name', 'discount_name')
-                                                            @slot('value', $discount->name)
-                                                            @slot('text', '')
-                                                            @slot('id_error', 'discount_name')
-                                                            @endcomponent
-                                                        </div>
-                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputreadonly')
-                                                            @slot('id', 'ppn_name')
-                                                            @slot('name', 'ppn_name')
-                                                            @slot('value', $ppn->name)
-                                                            @slot('text', '')
-                                                            @slot('id_error', 'ppn_name')
-                                                            @endcomponent
-                                                        </div>
-                                                        <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
-                                                            @component('input::inputreadonly')
-                                                            @slot('id', 'other_name')
-                                                            @slot('name', 'other_name')
-                                                            @slot('value', "{$others->name}")
-                                                            @slot('text', '')
-                                                            @slot('id_error', 'other_name')
-                                                            @endcomponent
+                                                                @include('frontend.common.buttons.back')
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <fieldset class="border p-2">
-                                                    <legend class="w-auto">Scheduled Payment :</legend>
-
-                                                    <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
-                                                        <tfoot>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th colspan="2"></th>
-                                                        </tfoot>
-                                                    </table>
-                                                </fieldset>
+                                            </div>
                                         </div>
                                     </div>
-                                    <br />
-                                    <br />
-
-                                    <center>
-                                        <h3 id="subjectquo">Subject</h3>
-                                    </center>
-                                    {{-- <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
-                                      <thead>
-                                        <th>No</th> 
-                                        <th>Detail</th> 
-                                        <th>Total</th>
-                                      </thead>
-                                    </table> --}}
-                                    <br />
-                                    <div class="summary_datatable" id="scrolling_both"></div>
-                                    <br>
-                                    <hr>
-
+                                @else
+                                    <div id="hiddennext">
                                     <div class="form-group m-form__group row">
-                                        <div class="col-sm-6 col-md-6 col-lg-6">
-                                            {{-- <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="m--align-left" style="padding-top:15px">
-                                                        PPH
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-2 col-md-2 col-lg-2">
-                                                    @component('input::input')
-                                                    @slot('id', 'pph')
-                                                    @slot('class', 'pph')
-                                                    @slot('text', '')
-                                                    @slot('value', '')
-                                                    @endcomponent
-                                                </div>
-                                                %
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'percent')
-                                                    @slot('class', 'percent')
-                                                    @slot('text', '')
-                                                    @slot('value', '')
-                                                    @endcomponent
-                                                </div>
-                                                <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
-                                                <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
-                                            </div> --}}
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <br />
+                                                <br />
+                                                <fieldset class="border p-2">
+                                                    <legend class="w-auto">Profit Center :</legend>
+                                                    <div class="row">
+                                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label style="margin-top:13px" class="form-control-label">
 
-                                            {{-- <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="m--align-left" style="padding-top:15px">
-                                                        Freemark
+                                                                    Manhours
+                                                                </label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label style="margin-top:35px" class="form-control-label">
+
+                                                                    Material
+                                                                </label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label style="margin-top:15px" class="form-control-label">
+                                                                    <br />
+                                                                    Facility
+                                                                </label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label style="margin-top:15px" class="form-control-label">
+                                                                    <br />
+                                                                                                                                    Discount
+                                                                </label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label style="margin-top:15px" class="form-control-label">
+                                                                    <br />
+                                                                                                                                    PPN
+                                                                </label>
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label style="margin-top:34px" class="form-control-label">
+
+                                                                    Other
+                                                                </label>
+
+
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputrightbutton')
+                                                                @slot('id', 'coa')
+                                                                @slot('text', 'coa')
+                                                                @slot('class', 'manhours')
+                                                                @slot('dataid','manhours')
+                                                                @slot('name', 'manhours')
+                                                                @slot('type', 'text')
+                                                                @slot('value', "{$manhours->code}")
+                                                                @slot('style', 'width:100%')
+                                                                @slot('data_target', '#coa_modal')
+                                                                @endcomponent
+                                                            </div>
+                                                            <br />
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputrightbutton')
+                                                                @slot('id', 'coa')
+                                                                @slot('text', 'coa')
+                                                                @slot('class', 'material')
+                                                                @slot('name', 'material')
+                                                                @slot('dataid','material')
+                                                                @slot('value', "{$material->code}")
+                                                                @slot('type', 'text')
+                                                                @slot('style', 'width:100%')
+                                                                @slot('data_target', '#coa_modal')
+                                                                @endcomponent
+                                                            </div>
+                                                            <br />
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputrightbutton')
+                                                                @slot('id', 'coa')
+                                                                @slot('text', 'coa')
+                                                                @slot('name', 'facility')
+                                                                @slot('type', 'text')
+                                                                @slot('value', "{$facility->code}")
+                                                                @slot('class', 'facility')
+                                                                @slot('dataid','facility')
+                                                                @slot('style', 'width:100%')
+                                                                @slot('data_target', '#coa_modal')
+                                                                @endcomponent
+                                                            </div>
+                                                            <br />
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputrightbutton')
+                                                                @slot('id', 'coa')
+                                                                @slot('text', 'coa')
+                                                                @slot('name', 'discount')
+                                                                @slot('class', 'discount')
+                                                                @slot('dataid','discount')
+                                                                @slot('type', 'text')
+                                                                @slot('value', $discount->code)
+                                                                @slot('style', 'width:100%')
+                                                                @slot('data_target', '#coa_modal')
+                                                                @endcomponent
+                                                            </div>
+                                                            <br />
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputrightbutton')
+                                                                @slot('id', 'coa')
+                                                                @slot('text', 'coa')
+                                                                @slot('name', 'ppn')
+                                                                @slot('class', 'ppn')
+                                                                @slot('dataid','ppn')
+                                                                @slot('type', 'text')
+                                                                @slot('value', $ppn->code)
+                                                                @slot('style', 'width:100%')
+                                                                @slot('data_target', '#coa_modal')
+                                                                @endcomponent
+                                                            </div>
+                                                            <br />
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputrightbutton')
+                                                                @slot('id', 'coa')
+                                                                @slot('text', 'coa')
+                                                                @slot('name', 'other')
+                                                                @slot('value', "{$others->code}")
+                                                                @slot('class', 'others')
+                                                                @slot('dataid','others')
+                                                                @slot('type', 'text')
+                                                                @slot('style', 'width:100%')
+                                                                @slot('data_target', '#coa_modal')
+                                                                @endcomponent
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                            <div style="margin-top:1px" class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputreadonly')
+                                                                @slot('id', 'manhours_name')
+                                                                @slot('name', 'manhours_name')
+                                                                @slot('value', "{$manhours->name}")
+                                                                @slot('text', '')
+                                                                @slot('id_error', 'manhours_name')
+                                                                @endcomponent
+                                                            </div>
+                                                            <div style="margin-top:22px" class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputreadonly')
+                                                                @slot('id', 'material_name')
+                                                                @slot('name', 'material_name')
+                                                                @slot('text', '')
+                                                                @slot('value', "{$material->name}")
+                                                                @slot('id_error', 'material_name')
+                                                                @endcomponent
+                                                            </div>
+                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputreadonly')
+                                                                @slot('id', 'facility_name')
+                                                                @slot('name', 'facility_name')
+                                                                @slot('value', "{$facility->name}")
+                                                                @slot('text', '')
+                                                                @slot('id_error', 'facility_name')
+                                                                @endcomponent
+                                                            </div>
+                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputreadonly')
+                                                                @slot('id', 'discount_name')
+                                                                @slot('name', 'discount_name')
+                                                                @slot('value', $discount->name)
+                                                                @slot('text', '')
+                                                                @slot('id_error', 'discount_name')
+                                                                @endcomponent
+                                                            </div>
+                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputreadonly')
+                                                                @slot('id', 'ppn_name')
+                                                                @slot('name', 'ppn_name')
+                                                                @slot('value', $ppn->name)
+                                                                @slot('text', '')
+                                                                @slot('id_error', 'ppn_name')
+                                                                @endcomponent
+                                                            </div>
+                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                                @component('input::inputreadonly')
+                                                                @slot('id', 'other_name')
+                                                                @slot('name', 'other_name')
+                                                                @slot('value', "{$others->name}")
+                                                                @slot('text', '')
+                                                                @slot('id_error', 'other_name')
+                                                                @endcomponent
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-9 col-md-9 col-lg-9">
-                                                    @component('input::textarea')
-                                                    @slot('id', 'desc')
-                                                    @slot('class', 'desc')
-                                                    @slot('text', '')
-                                                    @slot('value', "{$invoice->description}")
-                                                    @endcomponent
-                                                </div>
-                                                <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
-                                                <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
-                                            </div> --}}
+                                                    <fieldset class="border p-2">
+                                                        <legend class="w-auto">Scheduled Payment :</legend>
+
+                                                        <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
+                                                            <tfoot>
+                                                                <th></th>
+                                                                <th></th>
+                                                                <th colspan="2"></th>
+                                                            </tfoot>
+                                                        </table>
+                                                    </fieldset>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-6 col-lg-6">
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-                                                        Sub Total
+                                        <br />
+                                        <br />
+
+                                        <center>
+                                            <h3 id="subjectquo">Subject</h3>
+                                        </center>
+                                        {{-- <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
+                                        <thead>
+                                            <th>No</th> 
+                                            <th>Detail</th> 
+                                            <th>Total</th>
+                                        </thead>
+                                        </table> --}}
+                                        <br />
+                                        <div class="summary_datatable" id="scrolling_both"></div>
+                                        <br>
+                                        <hr>
+
+                                        <div class="form-group m-form__group row">
+                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                                {{-- <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div class="m--align-left" style="padding-top:15px">
+                                                            PPH
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'sub_total')
-                                                    @slot('class', 'sub_total')
-                                                    @slot('text', '')
-                                                    @slot('value', $invoice->currencies->symbol.' '.number_format(($invoice->grandtotalforeign - $invoice->other_price) / 1.1, 0, 0, '.'))
-                                                    @endcomponent
-                                                </div>
+                                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                                        @component('input::input')
+                                                        @slot('id', 'pph')
+                                                        @slot('class', 'pph')
+                                                        @slot('text', '')
+                                                        @slot('value', '')
+                                                        @endcomponent
+                                                    </div>
+                                                    %
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'percent')
+                                                        @slot('class', 'percent')
+                                                        @slot('text', '')
+                                                        @slot('value', '')
+                                                        @endcomponent
+                                                    </div>
+                                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                                    </div>
+                                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                                    </div>
+                                                </div> --}}
+
+                                                {{-- <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div class="m--align-left" style="padding-top:15px">
+                                                            Freemark
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-9 col-md-9 col-lg-9">
+                                                        @component('input::textarea')
+                                                        @slot('id', 'desc')
+                                                        @slot('class', 'desc')
+                                                        @slot('text', '')
+                                                        @slot('value', "{$invoice->description}")
+                                                        @endcomponent
+                                                    </div>
+                                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                                    </div>
+                                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                                    </div>
+                                                </div> --}}
                                             </div>
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-                                                        Total Discount
+                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div>
+                                                            Sub Total
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'sub_total')
+                                                        @slot('class', 'sub_total')
+                                                        @slot('text', '')
+                                                        @slot('value', $invoice->currencies->symbol.' '.number_format(($invoice->grandtotalforeign - $invoice->other_price) / 1.1, 0, 0, '.'))
+                                                        @endcomponent
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'total_discount')
-                                                    @slot('class', 'total_discount')
-                                                    @slot('text', '0')
-                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->discountvalue, 0, 0, '.'))
-                                                    @endcomponent
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div>
+                                                            Total Discount
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'total_discount')
+                                                        @slot('class', 'total_discount')
+                                                        @slot('text', '0')
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->discountvalue, 0, 0, '.'))
+                                                        @endcomponent
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div>
+                                                            Tax 10%
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'tax')
+                                                        @slot('class', 'tax')
+                                                        @slot('text', '')
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format(($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1, 0, 0, '.'))
+                                                        @endcomponent
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div>
+                                                                                                                Other
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'other_price')
+                                                        @slot('class', 'other_price')
+                                                        @slot('text', '')
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->other_price, 0, 0, '.'))
+                                                        @endcomponent
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div>
+                                                            Grand Total
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'grandtotal')
+                                                        @slot('class', 'grandtotal')
+                                                        @slot('text', '')
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign, 0, 0, '.'))
+                                                        @endcomponent
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div>
+                                                            Grand Total Rupiah
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'grandtotalrp')
+                                                        @slot('class', 'grandtotalrp')
+                                                        @slot('text', '')
+                                                        @slot('value', 	'Rp.  '.number_format($invoice->grandtotal, 0, 0, '.'))
+                                                        @endcomponent
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group m-form__group row" style="display:none">
+                                                    <div style="color:red;" class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div>
+                                                            Due Payment Amount
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        @component('input::inputreadonly')
+                                                        @slot('id', 'due_payment')
+                                                        @slot('class', 'due_payment')
+                                                        @slot('text', '')
+                                                        @slot('value', "{$invoice->schedule_payment}")
+                                                        @endcomponent
+                                                    </div>
                                                 </div>
 
                                             </div>
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-                                                        Tax 10%
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'tax')
-                                                    @slot('class', 'tax')
-                                                    @slot('text', '')
-                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format(($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1, 0, 0, '.'))
-                                                    @endcomponent
-                                                </div>
-                                            </div>
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group m-form__group row">
+                                                    <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
+                                                        <div class="flex">
+                                                            <div class="action-buttons">
+                                                                @component('frontend.common.buttons.submit')
+                                                                @slot('type','submit')
+                                                                @slot('id', 'edit-invoice')
+                                                                @slot('class', 'edit-invoice')
+                                                                @endcomponent
 
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-																											Other
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'other_price')
-                                                    @slot('class', 'other_price')
-                                                    @slot('text', '')
-                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->other_price, 0, 0, '.'))
-                                                    @endcomponent
-                                                </div>
-                                            </div>
+                                                                @include('frontend.common.buttons.reset')
 
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-                                                        Grand Total
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'grandtotal')
-                                                    @slot('class', 'grandtotal')
-                                                    @slot('text', '')
-                                                    @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign, 0, 0, '.'))
-                                                    @endcomponent
-                                                </div>
-                                            </div>
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-                                                        Grand Total Rupiah
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'grandtotalrp')
-                                                    @slot('class', 'grandtotalrp')
-                                                    @slot('text', '')
-                                                    @slot('value', 	'Rp.  '.number_format($invoice->grandtotal, 0, 0, '.'))
-                                                    @endcomponent
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group m-form__group row" style="display:none">
-                                                <div style="color:red;" class="col-sm-3 col-md-3 col-lg-3">
-                                                    <div>
-                                                        Due Payment Amount
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
-                                                    @component('input::inputreadonly')
-                                                    @slot('id', 'due_payment')
-                                                    @slot('class', 'due_payment')
-                                                    @slot('text', '')
-                                                    @slot('value', "{$invoice->schedule_payment}")
-                                                    @endcomponent
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                            <div class="form-group m-form__group row">
-                                                <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
-                                                    <div class="flex">
-                                                        <div class="action-buttons">
-                                                            @component('frontend.common.buttons.submit')
-                                                            @slot('type','submit')
-                                                            @slot('id', 'edit-invoice')
-                                                            @slot('class', 'edit-invoice')
-                                                            @endcomponent
-
-                                                            @include('frontend.common.buttons.reset')
-
-                                                            @include('frontend.common.buttons.back')
+                                                                @include('frontend.common.buttons.back')
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </form>
                     </div>

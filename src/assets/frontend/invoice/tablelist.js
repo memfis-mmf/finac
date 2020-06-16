@@ -682,7 +682,11 @@ jQuery(document).ready(function () {
   $("#add-invocheck").click(function () {
     uuidquo = $("#refquono").data('uuid');
     $("#actheader").attr("hidden", true);
-    $("#hiddennext").removeAttr("hidden");
+    if("quotationsales"=="quotationsales"){
+      $("#quotation-sales").removeAttr("hidden");
+    }else{
+      $("#hiddennext").removeAttr("hidden");
+    }
     DatatableAutoColumnHideDemo.init();
 
     //alert("The paragraph was clicked.");
