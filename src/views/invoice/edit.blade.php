@@ -331,7 +331,7 @@
                                             Bank Name Information @include('frontend.common.label.required')
                                         </label>
 
-																				<select class="form-control" name="_bankinfo" id="" style="width:100%">
+																				<select class="form-control bankinfo" name="_bankinfo" id="" style="width:100%">
 																					@for ($a=0; $a < count($banks); $a++)
 																						@php
 																							$x = $banks[$a];
@@ -351,6 +351,34 @@
                                             @slot('id', 'bai')
                                             @slot('name', 'bai')
                                             @slot('value', "{$bankget->name}")
+                                            @slot('text', 'Bank Account Information')
+                                            @slot('id_error', 'bankaccount')
+                                            @endcomponent
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <select class="form-control bankinfo" name="_bankinfo2" id="" style="width:100%">
+                                          @if (!$invoice->id_bank2)
+                                            <option value="" selected>--Pilih--</option>
+                                          @endif
+																					@for ($a=0; $a < count($banks); $a++)
+																						@php
+																							$x = $banks[$a];
+                                            @endphp
+
+																						<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank2)? 'selected': ''}}>{{$x->full}}</option>
+																					@endfor
+																				</select>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div {{(!$invoice->id_bank2)? 'hidden': ''}} id="bai_header">
+                                            @component('input::inputreadonly')
+                                            @slot('id', 'bai')
+                                            @slot('name', 'bai')
+                                            @slot('value', @$bankget2->name)
                                             @slot('text', 'Bank Account Information')
                                             @slot('id_error', 'bankaccount')
                                             @endcomponent
@@ -1691,6 +1719,24 @@
 <script>
     let scheduled_payments11 = {
         init: function() {
+
+            $('.bankinfo').on('change', function () {
+                //console.log(this.value);
+                let uuid = this.value
+                let parent = $(this).parents('.form-group');
+                let bai_header = parent.find('#bai_header');
+                let bai = parent.find('#bai');
+
+                $.ajax({
+                    url: '/bankfa/' + uuid,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        bai_header.removeAttr('hidden');
+                        bai.val(data.name);
+                    }
+                });
+            });
 
             let scheduled_payment_datatable = $('#scheduled_payments_datatables').DataTable({
                 data: dataScheduleClear,

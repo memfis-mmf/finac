@@ -348,11 +348,12 @@ class InvoiceController extends Controller
         $others_id = Coa::where('id',$others->accountcode)->first();
 
         $bankAccountget = BankAccount::where('id',$invoice->id_bank)->first();
-        //dd($bankAccountget->uuid);
         $bankget = Bank::where('id',$bankAccountget->bank_id)->first();
+        
+        $bankAccountget2 = BankAccount::where('id',$invoice->id_bank2)->first();
+        $bankget2 = Bank::where('id',$bankAccountget2->bank_id)->first();
+
         $bank = BankAccount::selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
-        //dump($bank);
-        // dd($invoice);
 
         $collection = collect();
 
@@ -371,9 +372,11 @@ class InvoiceController extends Controller
             ->with('ppn',$ppn_id)
             ->with('others',$others_id)
             ->with('invoice', $invoice)
-            ->with('bankget',$bankget)
             ->with('banks',$bank)
             ->with('bankaccountget',$bankAccountget)
+            ->with('bankget',$bankget)
+            ->with('bankaccountget2',$bankAccountget2)
+            ->with('bankget2',$bankget2)
             ->with('company',$company)
             // ->with('summary_table',$this->table($invoice->quotations->uuid))
             ->with('currencycode', $currency);
@@ -390,7 +393,16 @@ class InvoiceController extends Controller
     {
         $currency = Currency::where('name', $request->currency)->first();
         // $coa = Coa::where('code', $request->coa)->first();
-        $bankaccount = BankAccount::where('uuid', $request->_bankinfo)->first();
+
+        $bankaccount = BankAccount::where('uuid', $request->_bankinfo)
+            ->first()->id;
+
+        $bankaccount2 = NULL;
+
+        if ($request->_bankinfo2) {
+            $bankaccount2 = BankAccount::where('uuid', $request->_bankinfo2)
+                ->first()->id;
+        }
 
 		$subtotal = $invoice->grandtotalforeign / 1.1;
 
@@ -414,7 +426,8 @@ class InvoiceController extends Controller
             // 'discountvalue' => $discount_value,
             // 'ppnpercent' => $ppn_percent,
             // 'ppnvalue' => $ppn_value,
-            'id_bank' => $bankaccount->id,
+            'id_bank' => $bankaccount,
+            'id_bank2' => $bankaccount2,
             // 'grandtotalforeign' => $grandtotalfrg,
             'grandtotal' => $grandtotalidr,
             // 'accountcode' => $coa->id,
@@ -437,7 +450,7 @@ class InvoiceController extends Controller
             'discountvalue' => $discount_value,
             'ppnpercent' => $ppn_percent,
             'ppnvalue' => $ppn_value,
-            'id_bank' => $bankaccount->id,
+            'id_bank' => $bankaccount,
             'grandtotalforeign' => $grandtotalfrg,
             'grandtotal' => $grandtotalidr,
             // 'accountcode' => $coa->id,
