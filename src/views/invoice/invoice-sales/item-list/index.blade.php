@@ -1,4 +1,3 @@
-
 <div class="form-group m-form__group row">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <table class="table table-striped table-bordered table-hover table-checkable item_list_datatable">
