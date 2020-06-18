@@ -806,69 +806,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div hidden id="quotation-sales">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <div class="m-portlet__head">
-                                            <div class="m-portlet__head-tools">
-                                                <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
-                                                    <li class="nav-item m-tabs__item">
-                                                        <a class="nav-link m-tabs__link active" data-toggle="tab" id="m_tab_6_1_1" href="#m_tabs_6_1_1" role="tab">
-                                                            <i class="la la-cog"></i> Item List
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item m-tabs__item">
-                                                        <a class="nav-link m-tabs__link" data-toggle="tab" id="m_tab_6_2_2" href="#m_tabs_6_2_2" role="tab">
-                                                            <i class="la la-briefcase"></i> Additional Info
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item m-tabs__item">
-                                                        <a class="nav-link m-tabs__link" data-toggle="tab" id="m_tab_6_3_3" href="#m_tabs_6_3_3" role="tab">
-                                                            <i class="la la-briefcase"></i> Account/Profit Center
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-portlet__body">
-                                        <div class="tab-content">
-                                            <div class="tab-pane active" id="m_tabs_6_1_1" role="tabpanel">
-                                                @include('invoice-itemlistview::index')
-                                            </div>
-                                            <div class="tab-pane" id="m_tabs_6_2_2" role="tabpanel">
-                                                @include('invoice-additionalview::index') 
-                                            </div>
-                                            <div class="tab-pane" id="m_tabs_6_3_3" role="tabpanel">
-                                                @include('invoice-apcview::index')
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                            <div class="form-group m-form__group row">
-                                                <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
-                                                    <div class="flex">
-                                                        <div class="action-buttons">
-                                                            @component('buttons::submit')
-                                                                @slot('text', 'Print')
-                                                                @slot('icon', 'fa-print')
-                                                                @slot('color', 'primary')
-                                                            @endcomponent
-
-                                                            @component('frontend.common.buttons.submit')
-                                                                @slot('type','button')
-                                                                @slot('id', 'add-invoice-sales')
-                                                                @slot('class', 'add-invoice-sales')
-                                                            @endcomponent
-
-                                                            @include('frontend.common.buttons.reset')
-
-                                                            @include('frontend.common.buttons.back')
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </form>
                     </div>
