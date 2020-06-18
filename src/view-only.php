@@ -131,11 +131,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::view('/project-report/project-list', 'projectreport-projectlistview::index')->name('project-report.project-list.index');
 
-
-
     /** INVOICE-SALES*/
 
     Route::view('/invoice-sales/create', 'invoice-salesview::create')->name('invoice-sales.create');
     Route::view('/invoice-sales/edit', 'invoice-salesview::edit')->name('invoice-sales.edit');
+
+    /** INVOICE-WORKSHOP*/
+
+    Route::view('/invoice-workshop/create', 'invoice-workshopview::create')->name('invoice-workshop.create');
+    Route::view('/invoice-workshop/edit', 'invoice-workshopview::edit')->name('invoice-workshop.edit');
 
 });
