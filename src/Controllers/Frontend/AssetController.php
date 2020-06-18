@@ -65,9 +65,8 @@ class AssetController extends Controller
 		$data['type_asset'] = TypeAsset::all();
 
         $collection = collect();
-        $companies = Company::with('type','parent')->get();
         $departments = Department::with('type','parent')->get();
-        $data['company'] = $collection->merge($companies)->merge($departments);
+        $data['company'] = $departments;
 
         return view('masterassetview::edit', $data);
     }
