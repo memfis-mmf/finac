@@ -40,9 +40,10 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/coa', 'coaview');
         $this->loadViewsFrom(__DIR__.'/views/cashbook', 'cashbookview');
         $this->loadViewsFrom(__DIR__.'/views/invoice', 'invoiceview');
-        $this->loadViewsFrom(__DIR__.'/views/invoice/account-profit-center', 'invoice-apcview');
-        $this->loadViewsFrom(__DIR__.'/views/invoice/additional-info', 'invoice-additionalview');
-        $this->loadViewsFrom(__DIR__.'/views/invoice/item-list', 'invoice-itemlistview');
+        $this->loadViewsFrom(__DIR__.'/views/invoice/invoice-sales/', 'invoice-salesview');
+        $this->loadViewsFrom(__DIR__.'/views/invoice/invoice-sales/account-profit-center', 'invoice-sales-apcview');
+        $this->loadViewsFrom(__DIR__.'/views/invoice/invoice-sales/additional-info', 'invoice-sales-additionalview');
+        $this->loadViewsFrom(__DIR__.'/views/invoice/invoice-sales/item-list', 'invoice-sales-itemlistview');
         $this->loadViewsFrom(__DIR__.'/views/ar', 'arview');
         $this->loadViewsFrom(__DIR__.'/views/frontend', 'frontend');
         $this->loadViewsFrom(__DIR__.'/views/frontend/common/label', 'label');
