@@ -901,8 +901,6 @@
 </script>
 <script src="{{ asset('js/frontend/functions/repeater-core.js') }}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/functions/datepicker/valid-until.js')}}"></script>
-
 <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ $browser_key }}&callback=initMap"></script>
 
 <script src="{{ asset('js/frontend/functions/select2/customer.js') }}"></script>
