@@ -85,6 +85,10 @@
             border: none;
         }
 
+        #content2 table tr td .table-service-info tr td{
+            border: none;
+        }
+
         .page_break {
             page-break-before: always;
         }
@@ -187,32 +191,51 @@
                 <thead>
                     <tr style="background:#49535c; color:white; text-align: center">
                         <td width="2%"><b>No</b></td>
-                        <td width="15%"><b>Part Number</b></td>
-                        <td width="17%"><b>Item Name</b></td>
-                        <td width="2%"><b>Qty</b></td>
-                        <td width="2%"><b>Unit</b></td>
-                        <td width="11%"><b>Price</b></td>
-                        <td width="15%"><b>Sub Total</b></td>
+                        <td width="28%"><b>Service Detail</b></td>
+                        <td width="9%"><b>Status</b></td>
+                        <td width="14%"><b>Cost</b></td>
+                        <td width="15%"><b>Material Cost</b></td>
                         <td width="11%"><b>Disc</b></td>
-                        <td width="20%"><b>Total</b></td>
+                        <td width="16%"><b>Total</b></td>
                     </tr>
                 </thead>
                 <tbody style="font-size:10px">
-                    @for ($i = 0; $i < 14; $i++)                        
+                    @for ($i = 1; $i < 12; $i++)                        
                         <tr>
-                            <td valign="top" align="center">1</td>
-                            <td valign="top">1123123-12312</td>
-                            <td valign="top">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat accusantium voluptas aliquam </td>
-                            <td valign="top" align="center">12</td>
-                            <td valign="top" align="center">Each</td>
-                            <td valign="top" align="right" nowrap><div style="float:left;">$</div>000.000.000</td>
+                            <td valign="top" align="center">{{$i}}</td>
+                            <td valign="top">
+                                <table width="100%" class="table-service-info">
+                                    <tr style="font-weight: bold">
+                                        <td valign="top" width="40%">Part Number</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="59%">B812-11-9932MZ</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" width="40%">Item Name</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="59%">PLace</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" width="40%">Job Request</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="59%">Repair</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" width="40%">Complaint</td>
+                                        <td valign="top" width="1%">:</td>
+                                        <td valign="top" width="59%">Lorem ipsum dolor sit amet </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td valign="top" align="center">Unserviceable</td>
+                            <td valign="top" align="right" nowrap><div style="float:left;">$</div>000.000.000.000</td>
                             <td valign="top" align="right" nowrap><div style="float:left;">$</div>000.000.000.000</td>
                             <td valign="top" align="right" nowrap><div style="float:left;">$</div>000.000.000</td>
-                            <td valign="top" align="right" nowrap><div style="float:left;">$</div>000.000.000.000</td>
+                            <td valign="top" align="right" nowrap><div style="float:left;">$</div>0.000.000.000.000</td>
                         </tr>
                     @endfor
                     <tr>
-                        <td colspan="6" valign="top">
+                        <td colspan="4" valign="top">
                             <b>Delivery Address :</b><br>
                             <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi adipisci voluptatum repellendus, hic nam excepturi obcaecati animi reprehenderit quibusdam architecto itaque similique veniam expedita asperiores accusamus debitis dignissimos illum veritatis.</span>
                         </td>
