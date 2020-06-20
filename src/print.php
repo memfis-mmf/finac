@@ -142,3 +142,8 @@ Route::get('/invoice-sales', function () {
     return $pdf->stream();
 });
 
+Route::get('/invoice-workshop', function () {
+    $pdf = \PDF::loadView('formview::invoice-workshop');
+    return $pdf->stream();
+});
+
