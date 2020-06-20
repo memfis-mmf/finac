@@ -269,6 +269,9 @@
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="7" align="center"><b><i>TERBILANG SESUAI DENGAN GRAND TOTAL</i></b></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
