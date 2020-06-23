@@ -900,9 +900,15 @@ class InvoiceController extends Controller
     public function table(Quotation $quotation)
     {
         $workpackages = $quotation->workpackages()->with([
-			'quotations',
-			'quotations.currency',
-		])->get();
+			'quotations' => function($q) use($quotation) {
+                $q->with([
+                    'currency',
+                    'taxes',
+                ])
+                ->where('uuid', $quotation->uuid);
+            },
+        ])->get();
+
         $items = $quotation->item;
         $taxes =  $quotation->taxes->first();
         if ($taxes != null) {
