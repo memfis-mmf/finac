@@ -413,7 +413,11 @@ var DatatableAutoColumnHideDemo = function () {
 
               // let exchange_get = $("#exchange_rate1111").val();
               let exchange_get = t.quotations[0].exchange_rate;
-              convertidr = grand_total1 * exchange_get;
+              if (_currency == 'idr') {
+                convertidr = grand_total1 * 1;
+              }else{
+                convertidr = grand_total1 * exchange_get;
+              }
               schedule_payment = JSON.parse(t.schedulepayment);
               dataSet = schedule_payment;
 
@@ -481,7 +485,13 @@ var DatatableAutoColumnHideDemo = function () {
               let old_grandtotal = $("#grand_total_val").val();
 
               let new_grandtotal = parseFloat(old_grandtotal) + parseFloat(_price_other);
-              let new_grandtotal_rp = new_grandtotal * _exchange_rate;
+
+              let new_grandtotal_rp = 0;
+              if (_currency == 'idr') {
+                new_grandtotal_rp = new_grandtotal * 1;
+              }else{
+                new_grandtotal_rp = new_grandtotal * _exchange_rate;
+              }
 
               $("#grand_total_val").val(new_grandtotal);
               $("#grand_totalrp_val").val(new_grandtotal_rp);
