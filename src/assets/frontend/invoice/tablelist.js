@@ -223,7 +223,13 @@ var DatatableAutoColumnHideDemo = function () {
                   tax_amount = 0;
                 }
 
-                let grandtotal_amount = _subtotal - discount_amount + tax_amount
+                let grandtotal_amount = 0;
+
+                if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+                  grandtotal_amount = _subtotal - discount_amount
+                }else{
+                  grandtotal_amount = _subtotal - discount_amount + tax_amount
+                }
 
                 discount_price = discount_amount;
                 ppn_price = tax_amount;
@@ -308,7 +314,13 @@ var DatatableAutoColumnHideDemo = function () {
                   tax_amount = 0;
                 }
 
-                let grandtotal_amount = _subtotal - discount_amount + tax_amount
+                let grandtotal_amount = 0;
+
+                if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+                  grandtotal_amount = _subtotal - discount_amount
+                }else{
+                  grandtotal_amount = _subtotal - discount_amount + tax_amount
+                }
 
                 discount_price = discount_amount;
                 ppn_price = tax_amount;
@@ -392,7 +404,12 @@ var DatatableAutoColumnHideDemo = function () {
                 other_total += v.amount;
                 $(".append-other").append("<div class=\"form-group m-form__group row\"><div class=\"col-sm-3 col-md-3 col-lg-3\"><div>" + v.type + "</div></div><div class=\"col-sm-6 col-md-6 col-lg-6\"><input type=\"text\" id=\"others\" value=\"" + v.amount + "\" name=\"\" class=\"form-control m-input others\" readonly><div class=\"form-control-feedback text-danger\" id=\"-error\"></div><span class=\"m-form__help\"></span></div></div>");
               });
-              grand_total1 = subtotal - discount_amount + tax + other_total;
+
+              if (t.taxes.tax_payment_method.code == 'include') {
+                grand_total1 = subtotal - discount_amount + other_total;
+              }else{
+                grand_total1 = subtotal - discount_amount + tax + other_total;
+              }
 
               let exchange_get = $("#exchange_rate1111").val();
               convertidr = grand_total1 * exchange_get;
