@@ -904,13 +904,14 @@ class InvoiceController extends Controller
                 $q->with([
                     'currency',
                     'taxes',
+                    'taxes.TaxPaymentMethod',
                 ])
                 ->where('uuid', $quotation->uuid);
             },
         ])->get();
 
         $items = $quotation->item;
-        $taxes =  $quotation->taxes->first();
+        $taxes =  $workpackages[0]->quotations[0]->taxes[0];
         if ($taxes != null) {
             $taxes_type = Type::where('id', $taxes->type_id)->first();
         } else {
