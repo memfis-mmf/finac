@@ -1050,6 +1050,7 @@ class InvoiceController extends Controller
             $htcrr_workpackage->schedulepayment = $quotation->scheduled_payment_amount;
             $htcrr_workpackage->tax_type = $taxes_type->code;
             $htcrr_workpackage->taxes = $taxes;
+            $htcrr_workpackage->quotations = $workPackage->quotations;
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
 

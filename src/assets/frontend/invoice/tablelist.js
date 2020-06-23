@@ -411,7 +411,8 @@ var DatatableAutoColumnHideDemo = function () {
                 grand_total1 = subtotal - discount_amount + tax + other_total;
               }
 
-              let exchange_get = $("#exchange_rate1111").val();
+              // let exchange_get = $("#exchange_rate1111").val();
+              let exchange_get = t.quotations[0].exchange_rate;
               convertidr = grand_total1 * exchange_get;
               schedule_payment = JSON.parse(t.schedulepayment);
               dataSet = schedule_payment;
@@ -451,7 +452,7 @@ var DatatableAutoColumnHideDemo = function () {
                 });
                 $("#schedule_payment").html(sp_show);
                 return (
-                  IDRformatter.format(t.price) + "<br/>"
+                  IDRformatter.format(t.price * exchange_get) + "<br/>"
                 );
               } else {
                 $("#sub_total").val(ForeignFormatter.format(subtotal));
