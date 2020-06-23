@@ -1288,7 +1288,7 @@
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-						// jika htcrr kosong dan priceother kosong
+            // jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
 
               if (_currency == 'idr') {
@@ -1316,14 +1316,24 @@
                 }
 
                 if (t.quotations[0].taxes[0].percent) {
-                  tax_amount = t.quotations[0].taxes[0].percent;
+                  if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+                    tax_amount = _subtotal / 1.1 * 0.1;
+                  }else{
+                    tax_amount = _subtotal * 0.1;
+                  }
                 }
 
                 if (!t.quotations[0].taxes[0].percent && !t.quotations[0].taxes[0].amount) {
                   tax_amount = 0;
                 }
 
-                let grandtotal_amount = _subtotal - discount_amount + tax_amount
+                let grandtotal_amount = 0;
+
+                if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+                  grandtotal_amount = _subtotal - discount_amount
+                }else{
+                  grandtotal_amount = _subtotal - discount_amount + tax_amount
+                }
 
                 discount_price = discount_amount;
                 ppn_price = tax_amount;
@@ -1354,7 +1364,7 @@
                 ]);
 
                 $('.tax-symbol').html('Rp')
-                $("#tax").val(addCommas(tax_amount));
+                $("#tax").val(IDRformatter.format(tax_amount));
 
                 facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
                 material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
@@ -1397,14 +1407,24 @@
                 }
 
                 if (t.quotations[0].taxes[0].percent) {
-                  tax_amount = t.quotations[0].taxes[0].percent;
+                  if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+                    tax_amount = _subtotal / 1.1 * 0.1;
+                  }else{
+                    tax_amount = _subtotal * 0.1;
+                  }
                 }
 
                 if (!t.quotations[0].taxes[0].percent && !t.quotations[0].taxes[0].amount) {
                   tax_amount = 0;
                 }
 
-                let grandtotal_amount = _subtotal - discount_amount + tax_amount
+                let grandtotal_amount = 0;
+
+                if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+                  grandtotal_amount = _subtotal - discount_amount
+                }else{
+                  grandtotal_amount = _subtotal - discount_amount + tax_amount
+                }
 
                 discount_price = discount_amount;
                 ppn_price = tax_amount;
@@ -1451,7 +1471,7 @@
                 ]);
 
                 $('.tax-symbol').html('US$')
-                $("#tax").val(addCommas(tax_amount));
+                $("#tax").val(ForeignFormatter.format(tax_amount));
 
                 facility_price += t.facilities_price_amount;
                 material_price += t.mat_tool_price;
@@ -1465,18 +1485,17 @@
               }
             } else if (t.htcrrcount != null) {
               tipetax = t.tax_type;
-              if (tipetax == "include") {
-                tax = (subtotal - discount) / 1.1 * 0.1;
-              } else {
-                tax = (subtotal - discount) * 0.1;
-              }
 
               if (t.taxes.amount) {
                 tax = t.taxes.amount;
               }
 
               if (t.taxes.percent) {
-                tax = t.taxes.percent;
+                if (t.taxes.tax_payment_method.code == 'include') {
+                  tax = subtotal / 1.1 * 0.1;
+                }else{
+                  tax = subtotal * 0.1;
+                }
               }
 
               if (!t.taxes.percent && !t.taxes.amount) {
@@ -1489,7 +1508,12 @@
                 other_total += v.amount;
                 $(".append-other").append("<div class=\"form-group m-form__group row\"><div class=\"col-sm-3 col-md-3 col-lg-3\"><div>" + v.type + "</div></div><div class=\"col-sm-6 col-md-6 col-lg-6\"><input type=\"text\" id=\"others\" value=\"" + v.amount + "\" name=\"\" class=\"form-control m-input others\" readonly><div class=\"form-control-feedback text-danger\" id=\"-error\"></div><span class=\"m-form__help\"></span></div></div>");
               });
-              grand_total1 = subtotal - discount_amount + tax + other_total;
+
+              if (t.taxes.tax_payment_method.code == 'include') {
+                grand_total1 = subtotal - discount_amount + other_total;
+              }else{
+                grand_total1 = subtotal - discount_amount + tax + other_total;
+              }
 
               let exchange_get = $("#exchange_rate1111").val();
               convertidr = grand_total1 * exchange_get;
@@ -1520,7 +1544,7 @@
                 $("#sub_total").val(IDRformatter.format(subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
                 $('.tax-symbol').html('Rp')
-                $("#tax").val(addCommas(tax));
+                $("#tax").val(IDRformatter.format(tax));
                 $("#grand_total").val(IDRformatter.format(grand_total1));
                 $("#grand_total_rupiah").val(IDRformatter.format(convertidr));
                 $("#other_price").val(IDRformatter.format(other_total));
@@ -1537,7 +1561,7 @@
                 $("#sub_total").val(ForeignFormatter.format(subtotal));
                 $("#total_discount").val(ForeignFormatter.format(discount_amount));
                 $('.tax-symbol').html('US$')
-                $("#tax").val(addCommas(tax));
+                $("#tax").val(ForeignFormatter.format(tax));
                 $("#grand_total").val(ForeignFormatter.format(grand_total1));
                 $("#grand_total_rupiah").val(ForeignFormatter.format(convertidr));
 
