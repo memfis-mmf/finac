@@ -367,6 +367,19 @@ var DatatableAutoColumnHideDemo = function () {
                 tax = (subtotal - discount) * 0.1;
               }
 
+              if (t.taxes.amount) {
+                tax = t.taxes.amount;
+              }
+
+              if (t.taxes.percent) {
+                tax = t.taxes.percent;
+              }
+
+              if (!t.taxes.percent && !t.taxes.amount) {
+                tax = 0;
+              }
+
+
               others_data = JSON.parse(t.other);
               $.each(others_data, function (k, v) {
                 other_total += v.amount;

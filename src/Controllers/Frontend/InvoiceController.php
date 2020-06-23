@@ -1048,6 +1048,7 @@ class InvoiceController extends Controller
             $htcrr_workpackage->data_htcrr = json_decode($quotation->data_htcrr, true);
             $htcrr_workpackage->schedulepayment = $quotation->scheduled_payment_amount;
             $htcrr_workpackage->tax_type = $taxes_type->code;
+            $htcrr_workpackage->taxes = $taxes;
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
 
