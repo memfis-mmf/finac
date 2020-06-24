@@ -52,7 +52,7 @@
 													@csrf
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6">
                                         <div class="form-group m-form__group row">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group m-form__group row">
@@ -120,7 +120,7 @@
                                                                             @endcomponent
                                                                         </div>
                                                                         <br />
-                                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                                        <div class="col-sm-6 col-md-6">
                                                                             <br />
                                                                             <label class="form-control-label">
                                                                                 Level
@@ -132,7 +132,7 @@
                                                                             @slot('name', 'level')
                                                                             @endcomponent
                                                                         </div>
-                                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                                        <div class="col-sm-6 col-md-6">
                                                                             <br />
                                                                             <label class="form-control-label">
                                                                                 Attention
@@ -150,7 +150,7 @@
                                                             <div class="tab-pane" id="m_tabs_6_2" role="tabpanel">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                                     <div class="form-group m-form__group row">
-                                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                                        <div class="col-sm-6 col-md-6">
                                                                             <label class="form-control-label">
                                                                                 Phone
                                                                             </label>
@@ -162,7 +162,7 @@
                                                                             @endcomponent
 
                                                                         </div>
-                                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                                        <div class="col-sm-6 col-md-6">
                                                                             <label class="form-control-label">
                                                                                 Fax
                                                                             </label>
@@ -215,7 +215,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6">
                                         <div class="form-group m-form__group row">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group m-form__group row">
@@ -328,7 +328,7 @@
                                 </div>
 
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6">
                                         <label class="form-control-label">
                                             Bank Name Information @include('frontend.common.label.required')
                                         </label>
@@ -343,7 +343,7 @@
 																					@endfor
 																				</select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6">
                                         <div id="bai_header">
                                             <label class="form-control-label">
                                                 Bank Account Information
@@ -361,7 +361,7 @@
                                 </div>
 
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6">
                                         <select class="form-control bankinfo" name="_bankinfo2" id="" style="width:100%">
                                           @if (!$invoice->id_bank2)
                                             <option value="" selected>--Pilih--</option>
@@ -375,7 +375,7 @@
 																					@endfor
 																				</select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6">
                                         <div {{(!$invoice->id_bank2)? 'hidden': ''}} id="bai_header">
                                             @component('input::inputreadonly')
                                             @slot('id', 'bai')
@@ -462,7 +462,7 @@
                                                 <fieldset class="border p-2">
                                                     <legend class="w-auto">Profit Center :</legend>
                                                     <div class="row">
-                                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div class="col-sm-3 col-md-3">
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                                 <label style="margin-top:13px" class="form-control-label">
 
@@ -519,7 +519,7 @@
 
 
                                                         </div>
-                                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div class="col-sm-3 col-md-3">
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                                 @component('input::inputrightbutton')
                                                                 @slot('id', 'coa')
@@ -605,7 +605,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                        <div class="col-sm-6 col-md-6">
                                                             <div style="margin-top:1px" class="col-sm-12 col-md-12 col-lg-12">
                                                                 @component('input::inputreadonly')
                                                                 @slot('id', 'manhours_name')
@@ -694,9 +694,9 @@
                                         <hr>
 
                                         <div class="form-group m-form__group row">
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="col-sm-12">
                                                 {{-- <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-3 col-md-3">
                                                         <div class="m--align-left" style="padding-top:15px">
                                                             PPH
                                                         </div>
@@ -710,7 +710,7 @@
                                                         @endcomponent
                                                     </div>
                                                     %
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-6 col-md-6">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'percent')
                                                         @slot('class', 'percent')
@@ -725,13 +725,13 @@
                                                 </div> --}}
 
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-12 col-md-12">
                                                         <div class="m--align-left" style="padding-top:15px">
                                                             Remark
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9 col-lg-9">
-                                                        @component('input::textarea')
+                                                    <div class="col-sm-12 col-md-12">
+                                                        @component('frontend.common.input.summernote')
                                                         @slot('id', 'desc')
                                                         @slot('class', 'desc')
                                                         @slot('name', 'description')
@@ -746,13 +746,13 @@
                                                 </div>
 
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-12 col-md-12">
                                                         <div class="m--align-left" style="padding-top:15px">
                                                             Term and Condition
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9 col-lg-9">
-                                                        @component('input::textarea')
+                                                    <div class="col-sm-12 col-md-12">
+                                                        @component('frontend.common.input.summernote')
                                                         @slot('id', 'term_and_condition')
                                                         @slot('class', 'term_and_condition')
                                                         @slot('name', 'term_and_condition')
@@ -766,14 +766,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="col-md-6 offset-md-6">
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-3 col-md-3">
                                                         <div>
                                                             Sub Total
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-9 col-md-9">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'sub_total')
                                                         @slot('class', 'sub_total')
@@ -783,12 +783,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-3 col-md-3">
                                                         <div>
                                                             Total Discount
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-9 col-md-9">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'total_discount')
                                                         @slot('class', 'total_discount')
@@ -799,12 +799,12 @@
 
                                                 </div>
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-3 col-md-3">
                                                         <div>
                                                             Vat 10%
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-9 col-md-9">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'tax')
                                                         @slot('class', 'tax')
@@ -815,12 +815,12 @@
                                                 </div>
 
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                                                                                Other
+                                                          Other
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-9 col-md-9">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'other_price')
                                                         @slot('class', 'other_price')
@@ -831,12 +831,12 @@
                                                 </div>
 
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-3 col-md-3">
                                                         <div>
                                                             Grand Total
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-9 col-md-9">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'grandtotal')
                                                         @slot('class', 'grandtotal')
@@ -846,12 +846,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="col-sm-3 col-md-3">
                                                         <div>
                                                             Grand Total Rupiah
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-9 col-md-9">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'grandtotalrp')
                                                         @slot('class', 'grandtotalrp')
@@ -862,12 +862,12 @@
                                                 </div>
 
                                                 <div class="form-group m-form__group row" style="display:none">
-                                                    <div style="color:red;" class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div style="color:red;" class="col-sm-3 col-md-3">
                                                         <div>
                                                             Due Payment Amount
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="col-sm-6 col-md-6">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'due_payment')
                                                         @slot('class', 'due_payment')
@@ -1131,6 +1131,7 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tableshow.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
+<script src="{{ asset('js/frontend/functions/summernote.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -1530,7 +1531,7 @@
               others_data = JSON.parse(t.other);
               $.each(others_data, function (k, v) {
                 other_total += v.amount;
-                $(".append-other").append("<div class=\"form-group m-form__group row\"><div class=\"col-sm-3 col-md-3 col-lg-3\"><div>" + v.type + "</div></div><div class=\"col-sm-6 col-md-6 col-lg-6\"><input type=\"text\" id=\"others\" value=\"" + v.amount + "\" name=\"\" class=\"form-control m-input others\" readonly><div class=\"form-control-feedback text-danger\" id=\"-error\"></div><span class=\"m-form__help\"></span></div></div>");
+                $(".append-other").append("<div class=\"form-group m-form__group row\"><div class=\"col-sm-3 col-md-3\"><div>" + v.type + "</div></div><div class=\"col-sm-6 col-md-6\"><input type=\"text\" id=\"others\" value=\"" + v.amount + "\" name=\"\" class=\"form-control m-input others\" readonly><div class=\"form-control-feedback text-danger\" id=\"-error\"></div><span class=\"m-form__help\"></span></div></div>");
               });
 
               if (t.taxes.tax_payment_method.code == 'include') {
