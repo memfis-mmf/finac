@@ -615,7 +615,7 @@
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-6 col-md-6 col-lg-6">
                                             <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                {{-- <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div class="m--align-left" style="padding-top:15px">
                                                         PPH
                                                     </div>
@@ -640,7 +640,7 @@
                                                 <div class="col-sm-1 col-md-1 col-lg-1">
                                                 </div>
                                                 <div class="col-sm-1 col-md-1 col-lg-1">
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
@@ -653,7 +653,24 @@
                                                     @slot('id', 'desc')
                                                     @slot('class', 'desc')
                                                     @slot('text', '')
-                                                    @slot('value', "")
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                                </div>
+                                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="m--align-left" style="padding-top:15px">
+                                                        Term and Condition
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
+                                                    @component('input::textarea')
+                                                    @slot('id', 'term_and_condition')
+                                                    @slot('class', 'term_and_condition')
+                                                    @slot('text', '')
                                                     @endcomponent
                                                 </div>
                                                 <div class="col-sm-1 col-md-1 col-lg-1">

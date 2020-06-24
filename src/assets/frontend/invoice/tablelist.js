@@ -615,6 +615,7 @@ jQuery(document).ready(function () {
     data.append("schedule_payment",$("#due_payment").val());
     data.append("otherprice",others_price);
     data.append("description", $('textarea#desc').val());
+    data.append("term_and_condition", $('textarea#term_and_condition').val());
 
     let grandtotal = $("#grand_total").val();
 

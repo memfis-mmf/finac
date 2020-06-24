@@ -174,7 +174,8 @@ class InvoiceController extends Controller
         $ppn_value = $request->pphvalue; //this ppnvalue get data from pph and i don't understand why...
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $request->grand_totalrp;
-        $description = "";
+        $description = $request->description;
+        $term_and_condition = $request->term_and_condition;
         $invoice = Invoice::create([
             'id_branch' => $id_branch,
             'closed' => $closed,
@@ -196,6 +197,7 @@ class InvoiceController extends Controller
             'other_price' => $request->other_price,
             'accountcode' => $coa->id,
             'description' => $description,
+            'term_and_condition' => $term_and_condition,
             'attention' => $fix_attention,
             'presdir' => $request->presdir,
             'location' => $request->location,
@@ -415,8 +417,9 @@ class InvoiceController extends Controller
         $ppn_value = $request->pphvalue; //this ppnvalue get data from pph and i don't understand why...
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $invoice->grandtotalforeign * $request->exchangerate;
-        $description = $request->description;
         $transaction_date = $request->date;
+        $description = $request->description;
+        $term_and_condition = $request->term_and_condition;
 
         $invoice1 = Invoice::where('id', $invoice->id)
         ->update([
@@ -432,6 +435,7 @@ class InvoiceController extends Controller
             'grandtotal' => $grandtotalidr,
             // 'accountcode' => $coa->id,
             'description' => $description,
+            'term_and_condition' => $term_and_condition,
             'presdir' => $request->presdir,
             'location' => $request->location,
             'company_department' => $request->company_department,
