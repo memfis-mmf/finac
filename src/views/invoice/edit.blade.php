@@ -1134,6 +1134,7 @@
 <script src="{{ asset('js/frontend/functions/summernote.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+    let _exchange_rate = 1;
 
     function addCommas(nStr)
     {
@@ -1531,7 +1532,7 @@
               others_data = JSON.parse(t.other);
               $.each(others_data, function (k, v) {
                 other_total += v.amount;
-                $(".append-other").append("<div class=\"form-group m-form__group row\"><div class=\"col-sm-3 col-md-3\"><div>" + v.type + "</div></div><div class=\"col-sm-6 col-md-6\"><input type=\"text\" id=\"others\" value=\"" + v.amount + "\" name=\"\" class=\"form-control m-input others\" readonly><div class=\"form-control-feedback text-danger\" id=\"-error\"></div><span class=\"m-form__help\"></span></div></div>");
+                $(".append-other").append("<div class=\"form-group m-form__group row\"><div class=\"col-sm-3 col-md-3 col-lg-3\"><div>" + v.type + "</div></div><div class=\"col-sm-6 col-md-6 col-lg-6\"><input type=\"text\" id=\"others\" value=\"" + v.amount + "\" name=\"\" class=\"form-control m-input others\" readonly><div class=\"form-control-feedback text-danger\" id=\"-error\"></div><span class=\"m-form__help\"></span></div></div>");
               });
 
               if (t.taxes.tax_payment_method.code == 'include') {

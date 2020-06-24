@@ -188,81 +188,79 @@ var DatatableAutoColumnHideDemo = function () {
             if (t.htcrrcount == null && t.priceother == null) {
               $('#term_and_condition').summernote('code', t.quotations[0].term_of_condition);
 
-              if (_currency == 'idr') {
-                temptotal = ((t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price).toFixed(2);
-                subtotal += temptotal;
-                discount_amount = 0;
+              /*****************************************
+              *  perhitungan sub total, discount, dkk  *
+              *****************************************/
+              let _subtotal = (
+                t.quotations[0].subtotal * t.quotations[0].exchange_rate
+              ).toFixed(2);
 
-                let _subtotal = (
-                  t.quotations[0].subtotal * t.quotations[0].exchange_rate
-                ).toFixed(2);
-                subtotal = _subtotal;
+              // discount sementara dibuat 0
+              discount_amount = 0;
 
-                if (t.discount_type == 'amount') {
-                  discount_amount = t.quotations[0].pivot.discount_value * t.quotations[0].exchange_rate;
-                } else {
-                  if (t.discount_type == 'percentage') {
-                    discount_amount = (
-                      t.quotations[0].pivot.discount_value * _subtotal
-                    ) / 100;
-                  }
-                }
+              if (t.quotations[0].taxes[0].amount) {
+                tax_amount = t.quotations[0].taxes[0].amount;
+              }
 
-                if (t.quotations[0].taxes[0].amount) {
-                  tax_amount = t.quotations[0].taxes[0].amount;
-                }
-
-                if (t.quotations[0].taxes[0].percent) {
-                  if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
-                    tax_amount = _subtotal / 1.1 * 0.1;
-                  }else{
-                    tax_amount = _subtotal * 0.1;
-                  }
-                }
-
-                if (!t.quotations[0].taxes[0].percent && !t.quotations[0].taxes[0].amount) {
-                  tax_amount = 0;
-                }
-
-                let grandtotal_amount = 0;
-
+              if (t.quotations[0].taxes[0].percent) {
                 if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
-                  grandtotal_amount = _subtotal - discount_amount
+                  tax_amount = _subtotal / 1.1 * 0.1;
                 }else{
-                  grandtotal_amount = _subtotal - discount_amount + tax_amount
+                  tax_amount = _subtotal * 0.1;
                 }
+              }
 
-                discount_price = discount_amount;
-                ppn_price = tax_amount;
-                tax = tax_amount;
+              if (!t.quotations[0].taxes[0].percent && !t.quotations[0].taxes[0].amount) {
+                tax_amount = 0;
+              }
 
-                $("#sub_total_val").val(_subtotal);
-                $("#total_discount_val").val(discount_amount);
-                $("#grand_total_val").val(grandtotal_amount);
+              let grandtotal_amount = 0;
+
+              if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+                grandtotal_amount = _subtotal - discount_amount
+              }else{
+                grandtotal_amount = _subtotal - discount_amount + tax_amount
+              }
+
+              discount_price = discount_amount;
+              ppn_price = tax_amount;
+              tax = tax_amount;
+
+              $("#sub_total_val").val(_subtotal);
+              $("#total_discount_val").val(discount_amount);
+              $("#grand_total_val").val(grandtotal_amount);
+
+              if (_currency == 'idr') {
                 $("#grand_totalrp_val").val(grandtotal_amount);
-
-                console.table([
-                  1,
-                  t.quotations[0].subtotal * t.quotations[0].exchange_rate,
-                  (t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
-                  (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
-                ]);
 
                 $("#sub_total").val(IDRformatter.format(_subtotal));
                 $("#total_discount").val(IDRformatter.format(discount_amount));
                 $("#grand_total").val(IDRformatter.format(grandtotal_amount));
                 $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount));
 
-                console.table([
-                  2,
-                  t.quotations[0].subtotal * t.quotations[0].exchange_rate,
-                  (t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
-                  (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
-                ]);
-
                 $('.tax-symbol').html('Rp')
                 $("#tax").val(IDRformatter.format(tax_amount));
+              }else{
+                $("#grand_totalrp_val").val(
+                  grandtotal_amount * multiple
+                );
 
+                $("#sub_total").val(ForeignFormatter.format(_subtotal));
+                $("#total_discount").val(ForeignFormatter.format(discount_amount));
+                $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
+                $("#grand_totalrp").val(IDRformatter.format(
+                  grandtotal_amount * t.quotations[0].exchange_rate
+                ));
+
+                $('.tax-symbol').html('US$')
+                $("#tax").val(ForeignFormatter.format(tax_amount));
+              }
+
+              /***********************************************
+              *  akhir perhitungan sub total, discount, dkk  *
+              ************************************************/
+
+              if (_currency == 'idr') {
                 facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
                 material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate;
@@ -273,102 +271,6 @@ var DatatableAutoColumnHideDemo = function () {
                   IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>'
                 );
               } else {
-                temptotal = ((t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price).toFixed(2);
-                subtotal += temptotal;
-                if(t.pivot.discount_type == 'amount'){
-                  discount += t.pivot.discount_value;
-                  }else {
-                    if(t.pivot.discount_type == 'percentage') {
-                    discount += temptotal * (t.pivot.discount_value/100);
-                  }else{
-                    discount += 0;
-                  }
-                }
-                discount_amount = 0;
-
-                let _subtotal = (t.quotations[0].subtotal).toFixed(2);
-                subtotal = _subtotal;
-
-                if (t.discount_type == 'amount') {
-                  discount_amount = t.quotations[0].pivot.discount_value;
-                } else {
-                  if (t.discount_type == 'percentage') {
-                    discount_amount = (
-                      t.quotations[0].pivot.discount_value * _subtotal
-                    ) / 100;
-                  }
-                }
-
-                if (t.quotations[0].taxes[0].amount) {
-                  tax_amount = t.quotations[0].taxes[0].amount;
-                }
-
-                if (t.quotations[0].taxes[0].percent) {
-                  if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
-                    tax_amount = _subtotal / 1.1 * 0.1;
-                  }else{
-                    tax_amount = _subtotal * 0.1;
-                  }
-                }
-
-                if (!t.quotations[0].taxes[0].percent && !t.quotations[0].taxes[0].amount) {
-                  tax_amount = 0;
-                }
-
-                let grandtotal_amount = 0;
-
-                if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
-                  grandtotal_amount = _subtotal - discount_amount
-                }else{
-                  grandtotal_amount = _subtotal - discount_amount + tax_amount
-                }
-
-                discount_price = discount_amount;
-                ppn_price = tax_amount;
-                tax = tax_amount;
-
-                let quotation_currency_value = t.quotations[0].exchange_rate;
-                let multiple = 0;
-
-                if (
-                  t.quotations[0].currency.code == $('#currency').val()
-                  && $('#currency').val() != 'idr'
-                ) {
-                  multiple = $('#exchange_rate1111').val();
-                }else{
-                  multiple = t.quotations[0].exchange_rate;
-                }
-                
-                _exchange_rate = multiple;
-
-                $("#sub_total_val").val(_subtotal);
-                $("#total_discount_val").val(discount_amount);
-                $("#grand_total_val").val(grandtotal_amount);
-                $("#grand_totalrp_val").val(
-                  grandtotal_amount * multiple
-                );
-                console.table([
-                  3,
-                  t.quotations[0].subtotal * t.quotations[0].exchange_rate,
-                  (t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
-                  (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
-                ]);
-
-                $("#sub_total").val(ForeignFormatter.format(_subtotal));
-                $("#total_discount").val(ForeignFormatter.format(discount_amount));
-                $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
-                $("#grand_totalrp").val(IDRformatter.format(
-                  grandtotal_amount * t.quotations[0].exchange_rate
-                ));
-                console.table([
-                  4,
-                  t.quotations[0].subtotal * t.quotations[0].exchange_rate,
-                  (t.quotations[0].pivot.discount_value * t.quotations[0].subtotal) * t.quotations[0].exchange_rate,
-                  (((t.quotations[0].subtotal * t.quotations[0].exchange_rate) * (10/100)) * t.quotations[0].exchange_rate)
-                ]);
-
-                $('.tax-symbol').html('US$')
-                $("#tax").val(ForeignFormatter.format(tax_amount));
 
                 facility_price += t.facilities_price_amount;
                 material_price += t.mat_tool_price;
@@ -380,6 +282,7 @@ var DatatableAutoColumnHideDemo = function () {
                   ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'
                 );
               }
+
             } else if (t.htcrrcount != null) {
               tipetax = t.tax_type;
 
@@ -398,7 +301,6 @@ var DatatableAutoColumnHideDemo = function () {
               if (!t.taxes.percent && !t.taxes.amount) {
                 tax = 0;
               }
-
 
               others_data = JSON.parse(t.other);
               $.each(others_data, function (k, v) {
@@ -424,31 +326,10 @@ var DatatableAutoColumnHideDemo = function () {
 
               _exchange_rate = exchange_get;
 
-              $("#grand_totalrp").val(IDRformatter.format(convertidr));
-
-              console.table({
-                'subtotal' : subtotal,
-                'discount_amount' : discount_amount,
-                'tax' : tax,
-                'grandtotal' : grand_total1,
-                'other_total' : other_total,
-                'exchange_get' : exchange_get
-              });
-
-              $("#sub_total_val").val(subtotal);
-              $("#total_discount_val").val(discount_amount);
-              $("#grand_total_val").val(grand_total1);
-              $("#grand_totalrp_val").val(convertidr);
               $("#other_price_val").val(other_total);
               $("#htcrr_price_val").val(t.price);
               if (_currency == 'idr') {
 
-                $("#sub_total").val(IDRformatter.format(subtotal));
-                $("#total_discount").val(IDRformatter.format(discount_amount));
-                $('.tax-symbol').html('Rp')
-                $("#tax").val(IDRformatter.format(tax));
-                $("#grand_total").val(IDRformatter.format(grand_total1));
-                $("#grand_total_rupiah").val(IDRformatter.format(convertidr));
                 $("#other_price").val(IDRformatter.format(other_total));
 
                 let sp_show = "";
@@ -460,13 +341,6 @@ var DatatableAutoColumnHideDemo = function () {
                   IDRformatter.format(t.price * exchange_get) + "<br/>"
                 );
               } else {
-                $("#sub_total").val(ForeignFormatter.format(subtotal));
-                $("#total_discount").val(ForeignFormatter.format(discount_amount));
-                $('.tax-symbol').html('US$')
-                $("#tax").val(ForeignFormatter.format(tax));
-                $("#grand_total").val(ForeignFormatter.format(grand_total1));
-                $("#grand_total_rupiah").val(ForeignFormatter.format(convertidr));
-
                 let sp_show = "";
                 $.each(schedule_payment, function (k, v) {
                   sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + ForeignFormatter.format(v.amount) + "\n";
@@ -494,32 +368,26 @@ var DatatableAutoColumnHideDemo = function () {
                 new_grandtotal_rp = new_grandtotal * _exchange_rate;
               }
 
-              $("#grand_total_val").val(new_grandtotal);
-              $("#grand_totalrp_val").val(new_grandtotal_rp);
-              $("#other_price_val").val(_price_other);
-
               // for display
               if (_currency != 'idr') { /* if currency not idr */
                 $("#other_price").val(ForeignFormatter.format(_price_other));
-                $("#grand_total").val(ForeignFormatter.format(new_grandtotal));
               }else{
                 $("#other_price").val(IDRformatter.format(_price_other));
-                $("#grand_total").val(IDRformatter.format(new_grandtotal));
               }
 
-              $("#grand_totalrp").val(IDRformatter.format(new_grandtotal_rp));
               if (_currency == 'idr') {
                 others_price = t.priceother;
                 return (
+                  others_price +
                   "<br/>"
                 );
               } else {
                 others_price = t.priceother;
                 return (
+                  others_price +
                   "<br/>"
                 );
               }
-
 
             }
 

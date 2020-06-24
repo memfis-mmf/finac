@@ -906,6 +906,7 @@ class InvoiceController extends Controller
         $workpackages = $quotation->workpackages()->with([
 			'quotations' => function($q) use($quotation) {
                 $q->with([
+                    'promos',
                     'currency',
                     'taxes',
                     'taxes.TaxPaymentMethod',
@@ -1070,6 +1071,7 @@ class InvoiceController extends Controller
             $other_workpackage->code = "Other";
             $other_workpackage->title = "Other";
             $other_workpackage->priceother = $total;
+            $other_workpackage->quotations = $workPackage->quotations;
             //$htcrr_workpackage->other = $quotation->charge;
             $workpackages[sizeof($workpackages)] = $other_workpackage;
         }
