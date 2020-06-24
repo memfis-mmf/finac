@@ -254,10 +254,11 @@
                                                         </label>
 
                                                         @component('input::inputreadonly')
-                                                        @slot('id', 'currency')
+                                                        @slot('id', '_currency')
                                                         @slot('text', 'Currency')
                                                         @slot('name', 'currency')
-                                                        @slot('id_error', 'currency')
+                                                        @slot('id_error', '_currency')
+                                                        @slot('value', $currencycode->name)
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -271,9 +272,10 @@
                                                         </label>
 
                                                         @component('input::numberreadonly')
-                                                        @slot('id', 'exchange_rate1111')
-                                                        @slot('text', 'exchange_rate1111')
+                                                        @slot('id', '_exchange_rate1111')
+                                                        @slot('text', '_exchange_rate1111')
                                                         @slot('name', 'exchangerate')
+                                                        @slot('value', number_format($invoice->exchangerate, 0, 0, '.'))
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
