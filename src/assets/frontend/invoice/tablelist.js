@@ -186,7 +186,7 @@ var DatatableAutoColumnHideDemo = function () {
           template: function (t, e, i) {
             // jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
-              $('#term_and_condition').val(t.quotations[0].term_of_condition);
+              $('#term_and_condition').summernote('code', t.quotations[0].term_of_condition);
 
               if (_currency == 'idr') {
                 temptotal = ((t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + t.mat_tool_price).toFixed(2);

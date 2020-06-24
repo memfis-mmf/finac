@@ -613,7 +613,7 @@
                                     <hr>
 
                                     <div class="form-group m-form__group row">
-                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="col-sm-12">
                                             <div class="form-group m-form__group row">
                                                 {{-- <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div class="m--align-left" style="padding-top:15px">
@@ -643,13 +643,13 @@
                                                 </div> --}}
                                             </div>
                                             <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                <div class="col-sm-12 col-md-12">
                                                     <div class="m--align-left" style="padding-top:15px">
                                                         Remark
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-9 col-md-9 col-lg-9">
-                                                    @component('input::textarea')
+                                                <div class="col-sm-12 col-md-12">
+                                                    @component('frontend.common.input.summernote')
                                                     @slot('id', 'desc')
                                                     @slot('class', 'desc')
                                                     @slot('text', '')
@@ -661,13 +661,13 @@
                                                 </div>
                                             </div>
                                             <div class="form-group m-form__group row">
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                <div class="col-sm-12 col-md-12">
                                                     <div class="m--align-left" style="padding-top:15px">
                                                         Term and Condition
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-9 col-md-9 col-lg-9">
-                                                    @component('input::textarea')
+                                                <div class="col-sm-12 col-md-12">
+                                                    @component('frontend.common.input.summernote')
                                                     @slot('id', 'term_and_condition')
                                                     @slot('class', 'term_and_condition')
                                                     @slot('text', '')
@@ -685,14 +685,14 @@
                                         <input type="hidden" name="grand_totalrp_val" id="grand_totalrp_val" value="">
                                         <input type="hidden" name="other_price_val" id="other_price_val" value="0">
                                         <input type="hidden" name="htcrr_price_val" id="htcrr_price_val" value="">
-                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="col-sm-6 offset-sm-6">
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div>
                                                         Sub Total
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
                                                     @component('input::inputreadonly')
                                                     @slot('id', 'sub_total')
                                                     @slot('class', 'sub_total')
@@ -707,7 +707,7 @@
                                                         Total Discount
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
                                                     @component('input::inputreadonly')
                                                     @slot('id', 'total_discount')
                                                     @slot('class', 'total_discount')
@@ -723,7 +723,7 @@
                                                         Tax 10%
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
                                                     {{-- @component('input::inputreadonly')
                                                     @slot('id', 'tax')
                                                     @slot('class', 'tax')
@@ -745,7 +745,7 @@
                                                         Other
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
                                                     @component('input::inputreadonly')
                                                     @slot('id', 'other_price')
                                                     @slot('class', 'other_price')
@@ -761,7 +761,7 @@
                                                         Grand Total
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
                                                     @component('input::inputreadonly')
                                                     @slot('id', 'grand_total')
                                                     @slot('class', 'grand_total')
@@ -776,7 +776,7 @@
                                                         Grand Total Rupiah
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
                                                     @component('input::inputreadonly')
                                                     @slot('id', 'grand_totalrp')
                                                     @slot('class', 'grand_totalrp')
@@ -1052,6 +1052,7 @@
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
+<script src="{{ asset('js/frontend/functions/summernote.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
 
