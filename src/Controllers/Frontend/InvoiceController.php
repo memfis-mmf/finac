@@ -202,6 +202,7 @@ class InvoiceController extends Controller
             'presdir' => $request->presdir,
             'location' => $request->location,
             'company_department' => $request->company_department,
+            'total' => $request->total,
         ]);
 
         // return response()->json([

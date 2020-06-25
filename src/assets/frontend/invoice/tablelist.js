@@ -315,6 +315,7 @@ var DatatableAutoColumnHideDemo = function () {
             *****************************************/
             $("#sub_total_val").val(_subtotal);
             $("#total_discount_val").val(discount_amount);
+            $("#total_val").val(_total);
             $("#grand_total_val").val(grandtotal_amount);
 
             if (_currency == 'idr') {
@@ -409,6 +410,7 @@ jQuery(document).ready(function () {
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
     // data.append("scheduled_payment_note", JSON.stringify(scheduled_payment_note_array));
     data.append("discount", $("#total_discount_val").val());
+    data.append("total", $("#total_val").val());
     data.append('attention', $("#attention option:selected").text());
     data.append('phone', $("#phone option:selected").text());
     data.append('fax', $("#fax option:selected").text());
