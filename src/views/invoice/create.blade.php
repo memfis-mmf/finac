@@ -720,7 +720,23 @@
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div>
-                                                        Tax 10%
+                                                        Total
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
+                                                    @component('input::inputreadonly')
+                                                    @slot('id', 'total')
+                                                    @slot('class', 'total')
+                                                    @slot('text', '0')
+                                                    @slot('value', '0')
+                                                    @endcomponent
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div>
+                                                        VAT 10%
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-9 col-md-9 col-lg-9">

@@ -978,19 +978,13 @@ class InvoiceController extends Controller
             }
 
             $getdiscount = QuotationWorkPackage::where('quotation_id', $quotation->id)
-                ->where('workpackage_id', $workPackage->id)->first();
+                ->where('workpackage_id', $workPackage->id)
+                ->first()
+                ->promos;
 
-            if ($getdiscount != null) {
-                //dd($getdiscount);
-                if ($getdiscount->discount_type == "percentage") {
-                    $h1 = ($getdiscount->discount_value / 100) * $real_h1;
-                    $h2 = ($getdiscount->discount_value / 100) * $real_h2;
-                    $workPackage->discount = $h1 + $h2;
-                } else {
-                    $workPackage->discount = $getdiscount->discount_value;
-                }
-            } else {
-                $workPackage->discount = 0;
+            $workPackage->discount = 0;
+            foreach ($getdiscount as $getdiscount_row) {
+                $workPackage->discount += $getdiscount_row->pivot->amount;
             }
 
             $adsb_count = 0;
@@ -1056,6 +1050,13 @@ class InvoiceController extends Controller
             $htcrr_workpackage->tax_type = $taxes_type->code;
             $htcrr_workpackage->taxes = $taxes;
             $htcrr_workpackage->quotations = $workPackage->quotations;
+
+            if ($quotation->promos->first()) {
+                $htcrr_workpackage->discount =  $quotation->promos->first()->pivot->amount;
+            } else {
+                $htcrr_workpackage->discount = 0;
+            }
+
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
 

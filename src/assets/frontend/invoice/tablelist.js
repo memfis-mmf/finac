@@ -187,26 +187,37 @@ var DatatableAutoColumnHideDemo = function () {
             /*****************************************
             *  perhitungan sub total, discount, dkk  *
             *****************************************/
+
+            if (_currency == 'idr') {
+              multiple = t.quotations[0].exchange_rate;
+            }else{
+              multiple = 1;
+            }
+
             let _subtotal = (
-              t.quotations[0].subtotal * t.quotations[0].exchange_rate
+              t.quotations[0].subtotal * multiple
             ).toFixed(2);
 
-            // discount sementara dibuat 0
-            discount_amount = 0;
-
-            if (t.quotations[0].taxes[0].amount) {
-              tax_amount = t.quotations[0].taxes[0].amount;
+            _disc = 0;
+            // check if data has discount
+            if ('discount' in t) {
+              _disc = t.discount * multiple;
             }
 
-            if (t.quotations[0].taxes[0].percent) {
-              if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
-                tax_amount = _subtotal / 1.1 * 0.1;
-              }else{
-                tax_amount = _subtotal * 0.1;
-              }
+            discount_amount += _disc;
+
+            // menghitung vat
+            if (t.quotations[0].taxes[0].tax_payment_method.code == 'include') {
+              _total = (_subtotal - _disc) / 1.1;
             }
 
-            if (!t.quotations[0].taxes[0].percent && !t.quotations[0].taxes[0].amount) {
+            if (t.quotations[0].taxes[0].tax_payment_method.code == 'exclude') {
+              _total = _subtotal - _disc;
+            }
+
+            tax_amount = _total * 0.1;
+
+            if (t.quotations[0].taxes[0].tax_payment_method.code == 'none') {
               tax_amount = 0;
             }
 
@@ -226,31 +237,35 @@ var DatatableAutoColumnHideDemo = function () {
             $("#total_discount_val").val(discount_amount);
             $("#grand_total_val").val(grandtotal_amount);
 
+            formater = [];
+            formater['idr'] = IDRformatter;
+            formater['foreign'] = ForeignFormatter;
+
+            symbol = [];
+            symbol['idr'] = 'Rp'
+            symbol['foreign'] = 'US$'
+
+            formater_val = 'foreign';
+
             if (_currency == 'idr') {
+              formater_val = 'idr';
               $("#grand_totalrp_val").val(grandtotal_amount);
-
-              $("#sub_total").val(IDRformatter.format(_subtotal));
-              $("#total_discount").val(IDRformatter.format(discount_amount));
-              $("#grand_total").val(IDRformatter.format(grandtotal_amount));
               $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount));
-
-              $('.tax-symbol').html('Rp')
-              $("#tax").val(IDRformatter.format(tax_amount));
             }else{
               $("#grand_totalrp_val").val(
                 grandtotal_amount * t.quotations[0].exchange_rate
               );
-
-              $("#sub_total").val(ForeignFormatter.format(_subtotal));
-              $("#total_discount").val(ForeignFormatter.format(discount_amount));
-              $("#grand_total").val(ForeignFormatter.format(grandtotal_amount));
               $("#grand_totalrp").val(IDRformatter.format(
                 grandtotal_amount * t.quotations[0].exchange_rate
               ));
-
-              $('.tax-symbol').html('US$')
-              $("#tax").val(ForeignFormatter.format(tax_amount));
             }
+
+            $("#sub_total").val(formater[formater_val].format(_subtotal));
+            $("#total_discount").val(formater[formater_val].format(discount_amount));
+            $("#total").val(formater[formater_val].format(_total));
+            $("#grand_total").val(formater[formater_val].format(grandtotal_amount));
+            $("#tax").val(formater[formater_val].format(tax_amount));
+            $('.tax-symbol').html(symbol[formater_val])
 
             /***********************************************
             *  akhir perhitungan sub total, discount, dkk  *
@@ -354,19 +369,12 @@ var DatatableAutoColumnHideDemo = function () {
 
             } else if (t.priceother != null) {
 
-              let _price_other = parseFloat(t.priceother) * _exchange_rate;
+              let _price_other = parseFloat(t.priceother) * multiple;
               subtotal = parseFloat(subtotal) + _price_other;
 
               let old_grandtotal = $("#grand_total_val").val();
 
               let new_grandtotal = parseFloat(old_grandtotal) + parseFloat(_price_other);
-
-              let new_grandtotal_rp = 0;
-              if (_currency == 'idr') {
-                new_grandtotal_rp = new_grandtotal * 1;
-              }else{
-                new_grandtotal_rp = new_grandtotal * _exchange_rate;
-              }
 
               // for display
               if (_currency != 'idr') { /* if currency not idr */
