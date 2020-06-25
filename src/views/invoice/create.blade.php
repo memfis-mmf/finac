@@ -682,6 +682,7 @@
                                         <input type="hidden" name="sub_total_val" id="sub_total_val" value="">
                                         <input type="hidden" name="total_discount_val" id="total_discount_val" value="">
                                         <input type="hidden" name="total_val" id="total_val" value="">
+                                        <input type="hidden" name="tax_total_val" id="tax_total_val" value="">
                                         <input type="hidden" name="grand_total_val" id="grand_total_val" value="">
                                         <input type="hidden" name="grand_totalrp_val" id="grand_totalrp_val" value="">
                                         <input type="hidden" name="other_price_val" id="other_price_val" value="0">
