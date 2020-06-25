@@ -253,14 +253,14 @@ var DatatableAutoColumnHideDemo = function () {
               $('#term_and_condition').summernote('code', t.quotations[0].term_of_condition);
 
               if (_currency == 'idr') {
-                facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
-                material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
-                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate;
+                facility_price += t.facilities_price_amount * multiple;
+                material_price += t.mat_tool_price * multiple;
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple;
 
                 _result =  
-                  IDRformatter.format(t.facilities_price_amount * t.quotations[0].exchange_rate) + '<br>' +
-                  IDRformatter.format(t.mat_tool_price * t.quotations[0].exchange_rate) + '<br>' +
-                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>'
+                  IDRformatter.format(t.facilities_price_amount * multiple) + '<br>' +
+                  IDRformatter.format(t.mat_tool_price * multiple) + '<br>' +
+                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple) + '<br>'
                 ;
               } else {
 
@@ -325,10 +325,10 @@ var DatatableAutoColumnHideDemo = function () {
               $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount));
             }else{
               $("#grand_totalrp_val").val(
-                grandtotal_amount * t.quotations[0].exchange_rate
+                grandtotal_amount * $('#exchange_rate1111').val()
               );
               $("#grand_totalrp").val(IDRformatter.format(
-                grandtotal_amount * t.quotations[0].exchange_rate
+                grandtotal_amount * $('#exchange_rate1111').val()
               ));
             }
 
