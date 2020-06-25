@@ -736,7 +736,7 @@
                                             <div class="form-group m-form__group row">
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div>
-                                                        VAT 10%
+                                                        VAT 10% (<span id="vat_type"></span>)
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-9 col-md-9 col-lg-9">
