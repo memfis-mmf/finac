@@ -95,10 +95,6 @@ class InvoiceController extends Controller
 			];
 		}
 
-        //dd($quotation->scheduled_payment_amount);
-
-        $invoice_check = Invoice::where('id_quotation',$quotation->id)->count();
-        //dd($invoice_check);
         $schedule_payment = json_decode($quotation->scheduled_payment_amount);
 
         if (!@$schedule_payment[0]->amount_percentage) {
@@ -106,7 +102,6 @@ class InvoiceController extends Controller
 			  'error' => 'amount percentage cannot be null'
 		  ];
         }
-        //dd($schedule_payment);
         $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
         $last_sp = $end_sp + 1;
         $percent_sp =$schedule_payment[$last_sp - 1]->amount_percentage;
@@ -114,13 +109,6 @@ class InvoiceController extends Controller
         $project = $quotation->quotationable()->first();
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
 
-        // return response()->json([
-		// 	'error' => 'error message',
-		// 	'data' => $customer->coa()->first()->code;
-		// ]);
-
-        $crjsuggest = 'INV-MMF/' . Carbon::now()->format('Y/m');
-        // $currency = Currency::where('name', $request->currency)->first();
         $currency = Currency::where('code', $request->currency)->first();
 
         $coa = Coa::where('code', $customer->coa()->first()->code)->first();
@@ -146,9 +134,6 @@ class InvoiceController extends Controller
                 ->first()->id;
         }
 
-        //dd($bankaccount);
-        //dd($coa);
-        $cashbookCount = Invoice::where('transactionnumber', 'like', $crjsuggest . '%')->withTrashed()->count();
         $id_branch = 1;
         $closed = 0;
         $transaction_number = Invoice::generateCode();
@@ -157,8 +142,6 @@ class InvoiceController extends Controller
         $currency_id = $currency->id;
         $quotation_id = $quotation->id;
         $exchange_rate = $request->exchange_rate;
-        $discount_value = $request->discountprice;
-        $percent = $discount_value / $request->subtotal;
         $attention = [];
         $attention['name'] = $request->attention;
         $attention['phone'] = $request->phone;
@@ -166,16 +149,27 @@ class InvoiceController extends Controller
         $attention['fax'] = $request->fax;
         $attention['email'] = $request->email;
         $fix_attention = json_encode($attention);
-        //dd($fix_attention);
-
-        //$request->merge(['attention' => json_encode($attention)]);
-        $percent_friendly = number_format($percent * 100);
-        $ppn_percent = 10;
-        $ppn_value = $request->pphvalue; //this ppnvalue get data from pph and i don't understand why...
-        $grandtotalfrg = $request->grand_total;
-        $grandtotalidr = $request->grand_totalrp;
         $description = $request->description;
         $term_and_condition = $request->term_and_condition;
+
+        // calculate
+
+        $subtotal_val = $request->subtotal_val;
+        $discount_val = $request->discount_val;
+        $discount_percent_val = 0;
+        if ($discount_val) {
+            $discount_percent_val = ($discount_val / $subtotal_val) * 100;
+        }
+        $total_val = $request->total_val;
+        $other_price_val = $request->other_price_val;
+        $htcrr_price_val = $request->htcrr_price_val;
+        $tax_total_val = $request->tax_total_val;
+        if ($tax_total_val) {
+            $tax_percent_val = ($tax_total_val / $total_val) * 100;
+        }
+        $grandtotal_val = $request->grandtotal_val;
+        $grandtotal_rp_val = $request->grandtotalrp_val;
+
         $invoice = Invoice::create([
             'id_branch' => $id_branch,
             'closed' => $closed,
@@ -185,16 +179,9 @@ class InvoiceController extends Controller
             'id_customer' => $customer_id,
             'currency' => $currency_id,
             'exchangerate' => $exchange_rate,
-            'discountpercent' => $percent_friendly,
-            'discountvalue' => $discount_value,
-            'ppnpercent' => $ppn_percent,
             'schedule_payment' => $request->schedule_payment,
-            'ppnvalue' => $ppn_value,
             'id_bank' => $bankaccount,
             'id_bank2' => $bankaccount2,
-            'grandtotalforeign' => $grandtotalfrg,
-            'grandtotal' => $grandtotalidr,
-            'other_price' => $request->other_price,
             'accountcode' => $coa->id,
             'description' => $description,
             'term_and_condition' => $term_and_condition,
@@ -202,35 +189,15 @@ class InvoiceController extends Controller
             'presdir' => $request->presdir,
             'location' => $request->location,
             'company_department' => $request->company_department,
-            'total' => $request->total,
-        ]);
-
-        // return response()->json([
-		// 	'error' => 'error message',
-		// 	'data' => $invoice
-		// ]);
-
-        $invoicetrx = Trxinvoice::create([
-            'id_branch' => $id_branch,
-            'closed' => $closed,
-            'id_quotation' => $quotation_id,
-            'transactionnumber' => $transaction_number,
-            'transactiondate' => $transaction_date,
-            'id_customer' => $customer_id,
-            'currency' => $currency_id,
-            'exchangerate' => $exchange_rate,
-            'discountpercent' => $percent_friendly,
-            'discountvalue' => $discount_value,
-            'ppnpercent' => $ppn_percent,
-            'ppnvalue' => $ppn_value,
-            'schedule_payment' => $request->schedule_payment,
-            'id_bank' => $bankaccount,
-            'id_bank2' => $bankaccount2,
-            'grandtotalforeign' => $grandtotalfrg,
-            'grandtotal' => $grandtotalidr,
-            'accountcode' => $coa->id,
-            'description' => $description,
-            'attention' => $fix_attention,
+            'subtotal' => $subtotal_val,
+            'total' => $total_val,
+            'discountpercent' => $discount_percent_val,
+            'discountvalue' => $discount_val,
+            'ppnpercent' => $tax_percent_val,
+            'ppnvalue' => $tax_total_val,
+            'other_price' => $other_price_val,
+            'grandtotalforeign' => $grandtotal_val,
+            'grandtotal' => $grandtotal_rp_val,
         ]);
 
         $list = [
@@ -277,28 +244,28 @@ class InvoiceController extends Controller
         $discount_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $discount->id,
-            'amount' => $request->discountprice,
+            'amount' => $discount_val,
             'type' => 'discount'
         ]);
 
         $ppn_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $ppn->id,
-            'amount' => $request->ppnprice,
+            'amount' => $tax_total_val,
             'type' => 'ppn'
         ]);
 
         $others_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $others->id,
-            'amount' => $request->otherprice,
+            'amount' => $other_price_val,
             'type' => 'others'
         ]);
 
         $others_ins = Invoicetotalprofit::create([
             'invoice_id' => $invoice->id,
             'accountcode' => $manhours->id,
-            'amount' => $request->htcrr_price,
+            'amount' => $htcrr_price_val,
             'type' => 'others'
         ]);
 

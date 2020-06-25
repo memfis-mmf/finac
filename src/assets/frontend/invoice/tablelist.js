@@ -316,6 +316,7 @@ var DatatableAutoColumnHideDemo = function () {
             $("#sub_total_val").val(_subtotal);
             $("#total_discount_val").val(discount_amount);
             $("#total_val").val(_total);
+            $("#tax_total_val").val(tax_amount);
             $("#grand_total_val").val(grandtotal_amount);
 
             if (_currency == 'idr') {
@@ -409,18 +410,11 @@ jQuery(document).ready(function () {
     data.append("pphvalue", tax);
     // data.append("scheduled_payment_amount", JSON.stringify(scheduled_payment_amount_array));
     // data.append("scheduled_payment_note", JSON.stringify(scheduled_payment_note_array));
-    data.append("discount", $("#total_discount_val").val());
-    data.append("total", $("#total_val").val());
     data.append('attention', $("#attention option:selected").text());
     data.append('phone', $("#phone option:selected").text());
     data.append('fax', $("#fax option:selected").text());
     data.append('email', $("#email option:selected").text());
-    data.append("subtotal", $("#sub_total_val").val());
     data.append("account", $('#coa').val());
-    data.append("grand_total", $("#grand_total_val").val());
-    data.append("grand_totalrp", $("#grand_totalrp_val").val());
-    data.append("other_price", $("#other_price_val").val());
-    data.append("htcrr_price", $("#htcrr_price_val").val());
     data.append("material",$(".material").val());
     data.append("manhours",$(".manhours").val());
     data.append("facility",$(".facility").val());
@@ -431,6 +425,15 @@ jQuery(document).ready(function () {
     data.append("materialprice",material_price);
     data.append("manhoursprice",manhour_price);
     data.append("discountprice",discount_price);
+
+    data.append("subtotal_val", $("#sub_total_val").val());
+    data.append("discount_val", $("#total_discount_val").val());
+    data.append("total_val", $("#total_val").val());
+    data.append("other_price_val", $("#other_price_val").val());
+    data.append("htcrr_price_val", $("#htcrr_price_val").val());
+    data.append("tax_total_val", $("#tax_total_val").val());
+    data.append("grandtotal_val", $("#grand_total_val").val());
+    data.append("grandtotalrp_val", $("#grand_totalrp_val").val());
     // data.append("ppnprice",ppn_price);
     // data.append(
     // 	"ppnprice",
