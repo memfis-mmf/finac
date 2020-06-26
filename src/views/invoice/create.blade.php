@@ -588,7 +588,7 @@
 
 
                                                 </div>
-                                                <fieldset class="border p-2">
+                                                {{-- <fieldset class="border p-2">
                                                     <legend class="w-auto">Scheduled Payment :</legend>
 
                                                     <table id="scheduled_payments_datatables" class="table table-striped table-bordered" width="80%">
@@ -598,7 +598,7 @@
                                                             <th colspan="2"></th>
                                                         </tfoot>
                                                     </table>
-                                                </fieldset>
+                                                </fieldset> --}}
                                             </fieldset>
                                         </div>
                                     </div>
