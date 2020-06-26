@@ -50,9 +50,7 @@ var DatatableAutoColumnHideDemo = function () {
     let locale = 'id';
     let IDRformatter = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 2, maximumFractionDigits: 2 });
     let ForeignFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency: _currency, minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    let IDRformatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    let ForeignFormatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: _currency, minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    let numberFormat = new Intl.NumberFormat('id', { maximumSignificantDigits: 3, maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    let no = 1;
 
     $('.summary_datatable').mDatatable({
       data: {
@@ -111,11 +109,12 @@ var DatatableAutoColumnHideDemo = function () {
           width: '200px',
           template: function (t) {
             // if this is other, return null
-            if (t.priceother != null) {
-              return '';
-            }
+            // if (t.priceother != null) {
+            //   return '';
+            // }
 
-            return t.code;
+            // return t.code;
+            return no++;
           }
         }, 
         {
@@ -180,7 +179,7 @@ var DatatableAutoColumnHideDemo = function () {
         },
         {
           field: 'total',
-          title: 'Total',
+          title: 'Total Amount',
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
@@ -209,19 +208,24 @@ var DatatableAutoColumnHideDemo = function () {
 
             discount_amount += _disc;
 
-            if (vat_type == 'include') {
-              _total = (_subtotal - discount_amount) / 1.1;
-
-            }
-
-            if (vat_type == 'exclude') {
-              _total = _subtotal - discount_amount;
-            }
-
-            tax_amount = _total * 0.1;
-
             if (vat_type == 'none') {
+
               tax_amount = 0;
+              _total = _subtotal - discount_amount;
+
+            }else{
+
+              if (vat_type == 'include') {
+                _total = (_subtotal - discount_amount) / 1.1;
+
+              }
+
+              if (vat_type == 'exclude') {
+                _total = _subtotal - discount_amount;
+              }
+
+              tax_amount = _total * 0.1;
+
             }
 
             if (vat_type == 'include') {

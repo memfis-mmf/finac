@@ -164,6 +164,7 @@ class InvoiceController extends Controller
         $other_price_val = $request->other_price_val;
         $htcrr_price_val = $request->htcrr_price_val;
         $tax_total_val = $request->tax_total_val;
+        $tax_percent_val = 0;
         if ($tax_total_val) {
             $tax_percent_val = ($tax_total_val / $total_val) * 100;
         }

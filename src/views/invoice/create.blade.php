@@ -2,9 +2,17 @@
 
 @section('content')
 <style media="screen">
-    .m-datatable__cell:last-of-type {
-        vertical-align: top !important;
-    }
+  /* .m-datatable__cell:last-of-type {
+      vertical-align: top !important;
+  } */
+
+  table td, table th {
+    text-align: center !important;
+  }
+
+  table tbody tr:last-child span{
+    color: transparent !important;
+  }
 </style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">

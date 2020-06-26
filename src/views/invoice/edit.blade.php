@@ -4,6 +4,19 @@
 @php
     use Carbon\Carbon;
 @endphp
+<style>
+  /* .m-datatable__cell:last-of-type {
+      vertical-align: top !important;
+  } */
+
+  table td, table th {
+    text-align: center !important;
+  }
+
+  table tbody tr:last-child span{
+    color: transparent !important;
+  }
+</style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -1194,6 +1207,7 @@
     let dataSet = '';
     let discount_amount = 0;
     let tax_amount = 0;
+    let no = 1;
 
     let exchange_rate = '{{(int)$invoice->exchangerate}}';
     $('.summary_datatable').mDatatable({
@@ -1253,11 +1267,12 @@
           width: '200px',
           template: function (t) {
             // if this is other, return null
-            if (t.priceother != null) {
-              return '';
-            }
+            // if (t.priceother != null) {
+            //   return '';
+            // }
 
-            return t.code;
+            // return t.code;
+            return no++;
           }
         }, {
           field: 'description',
@@ -1321,7 +1336,7 @@
         },
         {
           field: 'total',
-          title: 'Total',
+          title: 'Total Amount',
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
@@ -1330,7 +1345,8 @@
             *  perhitungan sub total, discount, dkk  *
             *****************************************/
 
-            vat_type = t.quotations[0].taxes[0].tax_payment_method.code;
+            // vat_type = t.quotations[0].taxes[0].tax_payment_method.code;
+            vat_type = `{{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}}`;
 
             if (_currency == 'idr') {
               multiple = t.quotations[0].exchange_rate;
@@ -1350,19 +1366,24 @@
 
             discount_amount += _disc;
 
-            if (vat_type == 'include') {
-              _total = (_subtotal - discount_amount) / 1.1;
-
-            }
-
-            if (vat_type == 'exclude') {
-              _total = _subtotal - discount_amount;
-            }
-
-            tax_amount = _total * 0.1;
-
             if (vat_type == 'none') {
+
               tax_amount = 0;
+              _total = _subtotal - discount_amount;
+
+            }else{
+
+              if (vat_type == 'include') {
+                _total = (_subtotal - discount_amount) / 1.1;
+
+              }
+
+              if (vat_type == 'exclude') {
+                _total = _subtotal - discount_amount;
+              }
+
+              tax_amount = _total * 0.1;
+
             }
 
             if (vat_type == 'include') {
