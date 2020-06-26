@@ -1,18 +1,24 @@
+
+<div class="form-group m-form__group row">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-right">
+        @component('buttons::create-new')
+            @slot('text', 'Item')
+            @slot('data_target', '#item_modal')
+        @endcomponent
+    </div>
+</div>
 <div class="form-group m-form__group row">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <table class="table table-striped table-bordered table-hover table-checkable item_list_datatable">
             <thead>
                 <th>No</th>
-                <th>Part Number</th>
-                <th>Item Name</th>
-                <th>Qty</th>
-                <th>Unit</th>
-                <th>Price List</th>
-                <th>Unit Price</th>
-                <th>Sub Total</th>
+                <th>Detail Information</th>
+                <th>Status</th>
+                <th>Evaluation Cost</th>
+                <th>Full Package Cost</th>
+                <th>Material Cost</th>
                 <th>Discount</th>
-                <th>Total</th>
-                <th>Remark</th>
+                <th>Other Cost</th>
             </thead>
         </table>
     </div>
@@ -22,13 +28,13 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="form-control-label mt-3">
-            Subtotal
+            Evaluation Cost Total
         </label>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
         @component('input::number')
-            @slot('id', 'subtotal')
-            @slot('class', 'subtotal')
+            @slot('id', 'evaluation_cost_total')
+            @slot('class', 'evaluation_cost_total')
             @slot('text', '')
             @slot('value', '')
         @endcomponent
@@ -39,13 +45,13 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="form-control-label mt-3">
-            Total Discount
+            Full Package Cost Total
         </label>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
         @component('input::number')
-            @slot('id', 'total_discount')
-            @slot('class', 'total_discount')
+            @slot('id', 'full_package_cost_total')
+            @slot('class', 'full_package_cost_total')
             @slot('text', '')
             @slot('value', '')
         @endcomponent
@@ -56,7 +62,24 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="form-control-label mt-3">
-            VAT 10%
+            Discount Total
+        </label>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+        @component('input::number')
+            @slot('id', 'discount_total')
+            @slot('class', 'discount_total')
+            @slot('text', '')
+            @slot('value', '')
+        @endcomponent
+    </div>
+</div>
+<div class="form-group m-form__group row">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+    </div>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+        <label class="form-control-label mt-3">
+            VAT 10% (Exclude)
         </label>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -73,13 +96,13 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="form-control-label mt-3">
-            Other Cost
+            Other Cost Total
         </label>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
         @component('input::number')
-            @slot('id', 'other_cost')
-            @slot('class', 'other_cost')
+            @slot('id', 'other_cost_total')
+            @slot('class', 'other_cost_total')
             @slot('text', '')
             @slot('value', '')
         @endcomponent
@@ -120,6 +143,9 @@
     </div>
 </div>
 
+@include('invoice-workshop-servicedetailview::item')
 @push('footer-scripts')
     <script src="{{ asset('vendor/courier/frontend/invoice/item-list.js')}}"></script>
+    <script src="{{ asset('vendor/courier/frontend/invoice/invoice-workshop/index.js')}}"></script>
+    <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush

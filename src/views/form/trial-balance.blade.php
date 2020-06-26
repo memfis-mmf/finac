@@ -36,8 +36,22 @@
             right: 0cm;
             height: 1.8cm;
         }
-        ul li{
+        /* ul li{
             display: inline-block;
+        } */
+
+        ol,ul {
+            counter-reset: item; 
+            padding-left: 0; 
+            line-height: 1;
+        }
+
+        ol > li,
+        ul > li{ 
+            counter-increment: item;  
+            padding-left:1.5em;
+            position: relative; 
+            page-break-inside: avoid;
         }
 
         table{
