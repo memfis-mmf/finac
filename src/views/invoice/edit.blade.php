@@ -1,6 +1,9 @@
 @extends('frontend.master')
 
 @section('content')
+@php
+    use Carbon\Carbon;
+@endphp
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -224,20 +227,12 @@
                                                             Date @include('frontend.common.label.required')
                                                         </label>
 
-                                                        {{-- @component('input::inputreadonly')
-                                                        @slot('id', 'date')
-                                                        @slot('text', 'Date')
-                                                        @slot('name', 'date')
-                                                        @slot('value', $today)
-                                                        @slot('id_error','requested_at')
-                                                        @endcomponent --}}
-
                                                         @component('input::datepicker')
                                                           @slot('id', 'date')
                                                           @slot('text', 'Date')
                                                           @slot('name', 'date')
                                                           @slot('id_error', 'date')
-                                                          @slot('value', $invoice->transactiondate)
+                                                          @slot('value', Carbon::parse($invoice->transactiondate)->format('Y-m-d'))
                                                           @slot('id_error','requested_at')
                                                         @endcomponent
                                                     </div>
