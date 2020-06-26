@@ -10,9 +10,9 @@
     text-align: center !important;
   }
 
-  table tbody tr:last-child span{
+  /* table tbody tr:last-child span{
     color: transparent !important;
-  }
+  } */
 </style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">

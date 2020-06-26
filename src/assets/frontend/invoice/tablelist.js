@@ -348,6 +348,12 @@ var DatatableAutoColumnHideDemo = function () {
             *  akhir set nilai perhitungan  *
             ************************************************/
 
+            count_data = $('.summary_datatable tbody tr').length;
+
+            if (count_data > 1) {
+              $('.summary_datatable tbody tr').eq(count_data - 1).find('span').css('color', 'transparent');
+            }
+
             return _result;
 
           }

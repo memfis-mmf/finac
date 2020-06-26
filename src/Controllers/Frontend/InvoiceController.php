@@ -884,9 +884,16 @@ class InvoiceController extends Controller
             },
         ])->get();
 
+        $quo = Quotation::where('uuid', $quotation->uuid)->with([
+            'promos',
+            'currency',
+            'taxes',
+            'taxes.TaxPaymentMethod',
+        ])->get();
+
         $items = $quotation->item;
-        $taxes =  $workpackages[0]->quotations[0]->taxes[0];
-        if ($taxes != null) {
+        @$taxes =  $quotation->taxes[0];
+        if (@$taxes) {
             $taxes_type = Type::where('id', $taxes->type_id)->first();
         } else {
             $taxes_type = new stdClass();
@@ -1018,7 +1025,7 @@ class InvoiceController extends Controller
             $htcrr_workpackage->schedulepayment = $quotation->scheduled_payment_amount;
             $htcrr_workpackage->tax_type = $taxes_type->code;
             $htcrr_workpackage->taxes = $taxes;
-            $htcrr_workpackage->quotations = $workPackage->quotations;
+            $htcrr_workpackage->quotations = $quo;
 
             if ($quotation->promos->first()) {
                 $htcrr_workpackage->discount =  $quotation->promos->first()->pivot->amount;
@@ -1041,7 +1048,7 @@ class InvoiceController extends Controller
             $other_workpackage->code = "Other";
             $other_workpackage->title = "Other";
             $other_workpackage->priceother = $total;
-            $other_workpackage->quotations = $workPackage->quotations;
+            $other_workpackage->quotations = $quo;
             //$htcrr_workpackage->other = $quotation->charge;
             $workpackages[sizeof($workpackages)] = $other_workpackage;
         }

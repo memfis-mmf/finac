@@ -13,9 +13,9 @@
     text-align: center !important;
   }
 
-  table tbody tr:last-child span{
+  /* table tbody tr:last-child span{
     color: transparent !important;
-  }
+  } */
 </style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
@@ -1465,6 +1465,13 @@
                 parseFloat(grandtotal_amount) + parseFloat(_price_other);
 
               _result = "<br/>";
+            }
+
+
+            count_data = $('.summary_datatable tbody tr').length;
+
+            if (count_data > 1) {
+              $('.summary_datatable tbody tr').eq(count_data - 1).find('span').css('color', 'transparent');
             }
 
             return _result;
