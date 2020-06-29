@@ -1076,7 +1076,7 @@
 <!--<script src="{{ asset('vendor/courier/frontend/invoice/scheduled-payment.js') }}"></script>-->
 <!--<script src="{{ asset('js/custom.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js?123')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 <script src="{{ asset('js/frontend/functions/summernote.js') }}"></script>
 <script type="text/javascript">
