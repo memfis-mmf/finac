@@ -2,9 +2,9 @@
 
 @section('content')
 <style media="screen">
-  /* .m-datatable__cell:last-of-type {
+  .m-datatable__cell:last-of-type {
       vertical-align: top !important;
-  } */
+  }
 
   table td, table th {
     text-align: center !important;

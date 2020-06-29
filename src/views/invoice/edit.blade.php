@@ -5,9 +5,9 @@
     use Carbon\Carbon;
 @endphp
 <style>
-  /* .m-datatable__cell:last-of-type {
+  .m-datatable__cell:last-of-type {
       vertical-align: top !important;
-  } */
+  }
 
   table td, table th {
     text-align: center !important;
@@ -1419,6 +1419,7 @@
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate;
 
                 _result =  
+                  '<br>' +
                   IDRformatter.format(t.facilities_price_amount * t.quotations[0].exchange_rate) + '<br>' +
                   IDRformatter.format(t.mat_tool_price * t.quotations[0].exchange_rate) + '<br>' +
                   IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>'
@@ -1430,6 +1431,7 @@
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
 
                 _result = 
+                  '<br>' +
                   ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
                   ForeignFormatter.format(t.mat_tool_price) + '<br>' +
                   ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'

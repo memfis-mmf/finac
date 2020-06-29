@@ -262,6 +262,7 @@ var DatatableAutoColumnHideDemo = function () {
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple;
 
                 _result =  
+                  '<br>' +
                   IDRformatter.format(t.facilities_price_amount * multiple) + '<br>' +
                   IDRformatter.format(t.mat_tool_price * multiple) + '<br>' +
                   IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple) + '<br>'
@@ -273,6 +274,7 @@ var DatatableAutoColumnHideDemo = function () {
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
 
                 _result = 
+                  '<br>' +
                   ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
                   ForeignFormatter.format(t.mat_tool_price) + '<br>' +
                   ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'
