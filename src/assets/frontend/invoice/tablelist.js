@@ -52,315 +52,312 @@ var DatatableAutoColumnHideDemo = function () {
     let ForeignFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency: _currency, minimumFractionDigits: 2, maximumFractionDigits: 2 });
     let no = 1;
 
-    $('.summary_datatable').mDatatable({
+    $.ajax({
+      type: "get",
+      url: "url",
       data: {
-        type: 'remote',
-        source: {
-          read: {
-            method: 'GET',
-            url: '/invoice/quotation/table/modal/' + uuidquo + '/detail',
-            map: function (raw) {
-              let dataSet = raw;
-              let total = subtotal = 0;
-              var discount = 0;
-
-              if (typeof raw.data !== 'undefined') {
-                dataSet = raw.data;
-              }
-
-              return dataSet;
-            }
-          }
-        },
-        pageSize: 10,
-        serverPaging: !1,
-        serverSorting: !1
-
+        'invoice_currency': _currency
       },
-      responsive: true,
+      dataType: "dataType",
+      success: function (response) {
 
-      sortable: true,
+        $('.summary_datatable').mDatatable({
+          data: {
+            type: 'remote',
+            source: {
+              read: {
+                method: 'GET',
+                url: '/invoice/quotation/table/modal/' + uuidquo + '/detail',
+                map: function (raw) {
+                  let dataSet = raw;
+                  let total = subtotal = 0;
+                  var discount = 0;
 
-      pagination: true,
+                  if (typeof raw.data !== 'undefined') {
+                    dataSet = raw.data;
+                  }
 
-      toolbar: {
+                  return dataSet;
+                }
+              }
+            },
+            pageSize: 10,
+            serverPaging: !1,
+            serverSorting: !1
 
-        items: {
-
-          pagination: {
-
-            pageSizeSelect: [10, 20, 30, 50, 100],
           },
-        },
-      },
+          responsive: true,
 
-      search: {
-        input: $('#generalSearch'),
-      },
+          sortable: true,
 
-      rows: {
+          pagination: true,
+
+          toolbar: {
+
+            items: {
+
+              pagination: {
+
+                pageSizeSelect: [10, 20, 30, 50, 100],
+              },
+            },
+          },
+
+          search: {
+            input: $('#generalSearch'),
+          },
+
+          rows: {
 
 
-      },
-      columns: [
-        {
-          field: 'code',
-          title: 'No',
-          width: '200px',
-          template: function (t) {
-            // if this is other, return null
-            // if (t.priceother != null) {
-            //   return '';
-            // }
+          },
+          columns: [
+            {
+              field: 'code',
+              title: 'No',
+              width: '200px',
+              template: function (t) {
+                // if this is other, return null
+                // if (t.priceother != null) {
+                //   return '';
+                // }
 
-            // return t.code;
-            return no++;
-          }
-        }, 
-        {
-          field: 'description',
-          title: 'Detail',
-          width: '700px',
-
-          template: function (t) {
-            if (t.htcrrcount == null && t.priceother == null) {
-              var template = "";
-              var basic = "&nbsp;&nbsp;&nbsp;&nbsp;Basic TaskCard " + t.basic + " item(s)<br/>";
-              var sip = "&nbsp;&nbsp;&nbsp;&nbsp;SIP TaskCard " + t.sip + " item(s)<br/>";
-              var cpcp = "&nbsp;&nbsp;&nbsp;&nbsp;CPCP TaskCard " + t.cpcp + " item(s)<br/>";
-              var adsb = "&nbsp;&nbsp;&nbsp;&nbsp;AD/SB TaskCard " + t.adsb + " item(s)<br/>";
-              var cmrwl = "&nbsp;&nbsp;&nbsp;&nbsp;CMR/AWL TaskCard " + t.cmrawl + " item(s)<br/>";
-              var eo = "&nbsp;&nbsp;&nbsp;&nbsp;EO TaskCard " + t.eo + " item(s)<br/>";
-              var ea = "&nbsp;&nbsp;&nbsp;&nbsp;EA TaskCard " + t.ea + " item(s)<br/>";
-              var si = "&nbsp;&nbsp;&nbsp;&nbsp;SI TaskCard " + t.si + " item(s)";
-              if (t.basic != 0) {
-                template += basic;
+                // return t.code;
+                return no++;
               }
-              if (t.sip != 0) {
-                template += sip;
-              }
-              if (t.cpcp != 0) {
-                template += cpcp;
-              }
-              if (t.adsb != 0) {
-                template += adsb;
-              }
-              if (t.cmrawl != 0) {
-                template += cmrwl;
-              }
-              if (t.eo != 0) {
-                template += eo;
-              }
-              if (t.ea != 0) {
-                template += ea;
-              }
-              if (t.si != 0) {
-                template += si;
-              }
-              return (
-                "<b>" + t.description + "</b><br/>"
-                + "Facility <br/>"
-                + "Material Need " + t.materialitem + " item(s)<br/>"
-                + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
-                + template
+            }, 
+            {
+              field: 'description',
+              title: 'Detail',
+              width: '700px',
 
-              );
-            } else if (t.htcrrcount != null) {
-              return (
-                "&nbsp;&nbsp;&nbsp;&nbsp;HardTime TaskCard " + t.htcrrcount + " item(s)"
+              template: function (t) {
+                if (t.htcrrcount == null && t.priceother == null) {
+                  var template = "";
+                  var basic = "&nbsp;&nbsp;&nbsp;&nbsp;Basic TaskCard " + t.basic + " item(s)<br/>";
+                  var sip = "&nbsp;&nbsp;&nbsp;&nbsp;SIP TaskCard " + t.sip + " item(s)<br/>";
+                  var cpcp = "&nbsp;&nbsp;&nbsp;&nbsp;CPCP TaskCard " + t.cpcp + " item(s)<br/>";
+                  var adsb = "&nbsp;&nbsp;&nbsp;&nbsp;AD/SB TaskCard " + t.adsb + " item(s)<br/>";
+                  var cmrwl = "&nbsp;&nbsp;&nbsp;&nbsp;CMR/AWL TaskCard " + t.cmrawl + " item(s)<br/>";
+                  var eo = "&nbsp;&nbsp;&nbsp;&nbsp;EO TaskCard " + t.eo + " item(s)<br/>";
+                  var ea = "&nbsp;&nbsp;&nbsp;&nbsp;EA TaskCard " + t.ea + " item(s)<br/>";
+                  var si = "&nbsp;&nbsp;&nbsp;&nbsp;SI TaskCard " + t.si + " item(s)";
+                  if (t.basic != 0) {
+                    template += basic;
+                  }
+                  if (t.sip != 0) {
+                    template += sip;
+                  }
+                  if (t.cpcp != 0) {
+                    template += cpcp;
+                  }
+                  if (t.adsb != 0) {
+                    template += adsb;
+                  }
+                  if (t.cmrawl != 0) {
+                    template += cmrwl;
+                  }
+                  if (t.eo != 0) {
+                    template += eo;
+                  }
+                  if (t.ea != 0) {
+                    template += ea;
+                  }
+                  if (t.si != 0) {
+                    template += si;
+                  }
+                  return (
+                    "<b>" + t.description + "</b><br/>"
+                    + "Facility <br/>"
+                    + "Material Need " + t.materialitem + " item(s)<br/>"
+                    + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
+                    + template
 
-              );
+                  );
+                } else if (t.htcrrcount != null) {
+                  return (
+                    "&nbsp;&nbsp;&nbsp;&nbsp;HardTime TaskCard " + t.htcrrcount + " item(s)"
 
-            } else if (t.priceother != null) {
-              return '';
-            }
+                  );
 
-          }
-        },
-        {
-          field: 'total',
-          title: 'Total Amount',
-          sortable: 'asc',
-          filterable: !1,
-          template: function (t, e, i) {
-
-            /*****************************************
-            *  perhitungan sub total, discount, dkk  *
-            *****************************************/
-
-            vat_type = t.quotations[0].taxes[0].tax_payment_method.code;
-
-            if (_currency == 'idr') {
-              multiple = t.quotations[0].exchange_rate;
-            }else{
-              multiple = 1;
-            }
-
-            let _subtotal = (
-              t.quotations[0].subtotal * multiple
-            ).toFixed(2);
-
-            _disc = 0;
-            // check if data has discount
-            if ('discount' in t) {
-              _disc = t.discount * multiple;
-            }
-
-            discount_amount += _disc;
-
-            if (vat_type == 'none') {
-
-              tax_amount = 0;
-              _total = _subtotal - discount_amount;
-
-            }else{
-
-              if (vat_type == 'include') {
-                _total = (_subtotal - discount_amount) / 1.1;
+                } else if (t.priceother != null) {
+                  return '';
+                }
 
               }
+            },
+            {
+              field: 'total',
+              title: 'Total Amount',
+              sortable: 'asc',
+              filterable: !1,
+              template: function (t, e, i) {
 
-              if (vat_type == 'exclude') {
-                _total = _subtotal - discount_amount;
+                /*****************************************
+                *  perhitungan sub total, discount, dkk  *
+                *****************************************/
+
+                vat_type = t.quotations[0].taxes[0].tax_payment_method.code;
+
+                if (_currency == 'idr') {
+                  multiple = t.quotations[0].exchange_rate;
+                }else{
+                  multiple = 1;
+                }
+
+                let _subtotal = (
+                  t.quotations[0].subtotal * multiple
+                ).toFixed(2);
+
+                _disc = 0;
+                // check if data has discount
+                if ('discount' in t) {
+                  _disc = t.discount * multiple;
+                }
+
+                discount_amount += _disc;
+
+                if (vat_type == 'none') {
+
+                  tax_amount = 0;
+                  _total = _subtotal - discount_amount;
+
+                }else{
+
+                  if (vat_type == 'include') {
+                    _total = (_subtotal - discount_amount) / 1.1;
+
+                  }
+
+                  if (vat_type == 'exclude') {
+                    _total = _subtotal - discount_amount;
+                  }
+
+                  tax_amount = _total * 0.1;
+
+                }
+
+                if (vat_type == 'include') {
+                  grandtotal_amount = _subtotal - discount_amount
+                }else{
+                  grandtotal_amount = _subtotal - discount_amount + tax_amount
+                }
+
+                discount_price = discount_amount;
+                ppn_price = tax_amount;
+                tax = tax_amount;
+
+                formater = [];
+                formater['idr'] = IDRformatter;
+                formater['foreign'] = ForeignFormatter;
+
+                symbol = [];
+                symbol['idr'] = 'Rp'
+                symbol['foreign'] = 'US$'
+
+                formater_val = 'foreign';
+
+                /***********************************************
+                *  akhir perhitungan sub total, discount, dkk  *
+                ************************************************/
+
+                // jika htcrr kosong dan priceother kosong
+                if (t.htcrrcount == null && t.priceother == null) {
+                  $('#term_and_condition').summernote('code', t.quotations[0].term_of_condition);
+
+                  if (_currency == 'idr') {
+                    facility_price += t.facilities_price_amount * multiple;
+                    material_price += t.mat_tool_price * multiple;
+                    manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple;
+
+                    _result =  
+                      '<br>' +
+                      IDRformatter.format(t.facilities_price_amount * multiple) + '<br>' +
+                      IDRformatter.format(t.mat_tool_price * multiple) + '<br>' +
+                      IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple) + '<br>'
+                    ;
+                  } else {
+
+                    facility_price += t.facilities_price_amount;
+                    material_price += t.mat_tool_price;
+                    manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
+
+                    _result = 
+                      '<br>' +
+                      ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
+                      ForeignFormatter.format(t.mat_tool_price) + '<br>' +
+                      ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'
+                  }
+
+                } else if (t.htcrrcount != null) {
+                  $("#htcrr_price_val").val(t.price);
+
+                  if (_currency == 'idr') {
+                    _result = IDRformatter.format(t.price * multiple) + "<br/>"
+                  } else {
+                    _result = ForeignFormatter.format(t.price) + "<br/>"
+                  }
+                } else if (t.priceother != null) {
+                  let _price_other = parseFloat(t.priceother) * multiple;
+
+                  // for display
+                  $("#other_price_val").val(_price_other);
+                  $("#other_price").val(formater[formater_val].format(_price_other));
+
+                  grandtotal_amount = 
+                    parseFloat(grandtotal_amount) + parseFloat(_price_other);
+
+                  _result = "<br/>";
+                }
+
+                /*****************************************
+                *  set nilai perhitungan  *
+                *****************************************/
+                $("#sub_total_val").val(_subtotal);
+                $("#total_discount_val").val(discount_amount);
+                $("#total_val").val(_total);
+                $("#tax_total_val").val(tax_amount);
+                $("#grand_total_val").val(grandtotal_amount);
+
+                if (_currency == 'idr') {
+                  formater_val = 'idr';
+                  $("#grand_totalrp_val").val(grandtotal_amount);
+                  $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount));
+                }else{
+                  $("#grand_totalrp_val").val(
+                    grandtotal_amount * $('#exchange_rate1111').val()
+                  );
+                  $("#grand_totalrp").val(IDRformatter.format(
+                    grandtotal_amount * $('#exchange_rate1111').val()
+                  ));
+                }
+
+                $("#sub_total").val(formater[formater_val].format(_subtotal));
+                $("#total_discount").val(formater[formater_val].format(discount_amount));
+                $("#total").val(formater[formater_val].format(_total));
+                $("#grand_total").val(formater[formater_val].format(grandtotal_amount));
+                $("#tax").val(formater[formater_val].format(tax_amount));
+                $('.tax-symbol').html(symbol[formater_val])
+                $('#vat_type').html(vat_type)
+
+                /***********************************************
+                *  akhir set nilai perhitungan  *
+                ************************************************/
+
+                count_data = $('.summary_datatable tbody tr').length;
+
+                if (count_data > 1) {
+                  $('.summary_datatable tbody tr').eq(count_data - 1).find('span').css('color', 'transparent');
+                }
+
+                return _result;
+
               }
+            },
+          ],
+        });
 
-              tax_amount = _total * 0.1;
-
-            }
-
-            if (vat_type == 'include') {
-              grandtotal_amount = _subtotal - discount_amount
-            }else{
-              grandtotal_amount = _subtotal - discount_amount + tax_amount
-            }
-
-            discount_price = discount_amount;
-            ppn_price = tax_amount;
-            tax = tax_amount;
-
-            formater = [];
-            formater['idr'] = IDRformatter;
-            formater['foreign'] = ForeignFormatter;
-
-            symbol = [];
-            symbol['idr'] = 'Rp'
-            symbol['foreign'] = 'US$'
-
-            formater_val = 'foreign';
-
-            /***********************************************
-            *  akhir perhitungan sub total, discount, dkk  *
-            ************************************************/
-
-            // jika htcrr kosong dan priceother kosong
-            if (t.htcrrcount == null && t.priceother == null) {
-              $('#term_and_condition').summernote('code', t.quotations[0].term_of_condition);
-
-              if (_currency == 'idr') {
-                facility_price += t.facilities_price_amount * multiple;
-                material_price += t.mat_tool_price * multiple;
-                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple;
-
-                _result =  
-                  '<br>' +
-                  IDRformatter.format(t.facilities_price_amount * multiple) + '<br>' +
-                  IDRformatter.format(t.mat_tool_price * multiple) + '<br>' +
-                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple) + '<br>'
-                ;
-              } else {
-
-                facility_price += t.facilities_price_amount;
-                material_price += t.mat_tool_price;
-                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
-
-                _result = 
-                  '<br>' +
-                  ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
-                  ForeignFormatter.format(t.mat_tool_price) + '<br>' +
-                  ForeignFormatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount) + '<br>'
-              }
-
-            } else if (t.htcrrcount != null) {
-              $("#htcrr_price_val").val(t.price);
-              if (_currency == 'idr') {
-                let sp_show = "";
-                $.each(schedule_payment, function (k, v) {
-                  sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + IDRformatter.format(v.amount) + "\n";
-                });
-
-                $("#schedule_payment").html(sp_show);
-                _result = 
-                  IDRformatter.format(t.price * multiple) + "<br/>"
-              } else {
-                let sp_show = "";
-                $.each(schedule_payment, function (k, v) {
-                  sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + ForeignFormatter.format(v.amount) + "\n";
-                });
-
-                $("#schedule_payment").html(sp_show);
-                _result = 
-                  ForeignFormatter.format(t.price) + "<br/>"
-              }
-
-            } else if (t.priceother != null) {
-
-              let _price_other = parseFloat(t.priceother) * multiple;
-
-              // for display
-              $("#other_price_val").val(_price_other);
-              $("#other_price").val(formater[formater_val].format(_price_other));
-
-              grandtotal_amount = 
-                parseFloat(grandtotal_amount) + parseFloat(_price_other);
-
-              _result = "<br/>";
-            }
-
-            /*****************************************
-            *  set nilai perhitungan  *
-            *****************************************/
-            $("#sub_total_val").val(_subtotal);
-            $("#total_discount_val").val(discount_amount);
-            $("#total_val").val(_total);
-            $("#tax_total_val").val(tax_amount);
-            $("#grand_total_val").val(grandtotal_amount);
-
-            if (_currency == 'idr') {
-              formater_val = 'idr';
-              $("#grand_totalrp_val").val(grandtotal_amount);
-              $("#grand_totalrp").val(IDRformatter.format(grandtotal_amount));
-            }else{
-              $("#grand_totalrp_val").val(
-                grandtotal_amount * $('#exchange_rate1111').val()
-              );
-              $("#grand_totalrp").val(IDRformatter.format(
-                grandtotal_amount * $('#exchange_rate1111').val()
-              ));
-            }
-
-            $("#sub_total").val(formater[formater_val].format(_subtotal));
-            $("#total_discount").val(formater[formater_val].format(discount_amount));
-            $("#total").val(formater[formater_val].format(_total));
-            $("#grand_total").val(formater[formater_val].format(grandtotal_amount));
-            $("#tax").val(formater[formater_val].format(tax_amount));
-            $('.tax-symbol').html(symbol[formater_val])
-            $('#vat_type').html(vat_type)
-
-            /***********************************************
-            *  akhir set nilai perhitungan  *
-            ************************************************/
-
-            count_data = $('.summary_datatable tbody tr').length;
-
-            if (count_data > 1) {
-              $('.summary_datatable tbody tr').eq(count_data - 1).find('span').css('color', 'transparent');
-            }
-
-            return _result;
-
-          }
-        },
-      ],
+      }
     });
 
   };

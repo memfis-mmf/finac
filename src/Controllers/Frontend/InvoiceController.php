@@ -349,7 +349,6 @@ class InvoiceController extends Controller
             ->with('bankaccountget2',$bankAccountget2)
             ->with('bankget2',$bankget2)
             ->with('company',$company)
-            // ->with('summary_table',$this->table($invoice->quotations->uuid))
             ->with('currencycode', $currency);
     }
 
