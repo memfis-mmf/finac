@@ -33,6 +33,7 @@ use App\Models\TaskCard;
 use App\Models\Type;
 use App\Models\Company;
 use App\Models\Department;
+use App\Helpers\CalculateQuoPrice;
 use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\Trxinvoice;
 use memfisfa\Finac\Model\TrxJournal;
@@ -869,6 +870,21 @@ class InvoiceController extends Controller
         return response()->json($quotation);
     }
 
+    public function calculateQuo(Request $request)
+    {
+        $quotation = Quotation::where('uuid', $request->uuid_quo)->with([
+            'workpackages',
+            'promos',
+            'currency',
+            'taxes',
+            'taxes.TaxPaymentMethod',
+        ])->first();
+
+        $calculate = CalculateQuoPrice::calculate($quotation, $request->invoice_currency);
+
+        return $calculate;
+    }
+
     public function table(Quotation $quotation)
     {
         $workpackages = $quotation->workpackages()->with([
@@ -890,7 +906,6 @@ class InvoiceController extends Controller
             'taxes.TaxPaymentMethod',
         ])->get();
 
-        $items = $quotation->item;
         @$taxes =  $quotation->taxes[0];
         if (@$taxes) {
             $taxes_type = Type::where('id', $taxes->type_id)->first();
@@ -899,6 +914,7 @@ class InvoiceController extends Controller
             $taxes_type->code = 0;
         }
 
+        // looping sebanyak workpacke yang ada di invoice
         foreach ($workpackages as $workPackage) {
             // get project workpackage
             $project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)

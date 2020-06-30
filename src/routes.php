@@ -951,7 +951,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 	// });
 
 	Route::prefix('invoice')->group(function () {
-		Route::get('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
+        Route::get('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
+		Route::get(
+			'/calculate-quo',
+			'memfisfa\Finac\Controllers\Frontend\InvoiceController@calculateQuo'
+		)->name('invoice.calculate.quo');
 		Route::get('/datatables', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@datatables')->name('invoice.datatables');
 		Route::post('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@store')->name('invoice.store');
 		Route::post('/{invoice}/approve', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@approve')->name('invoice.approve');

@@ -786,7 +786,7 @@
                                                         @slot('id', 'sub_total')
                                                         @slot('class', 'sub_total')
                                                         @slot('text', '')
-                                                        @slot('value', $invoice->currencies->symbol.' '.number_format($invoice->subtotal , 0, 0, '.'))
+                                                        @slot('value', $invoice->currencies->symbol.' '.number_format($invoice->subtotal, 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -801,7 +801,7 @@
                                                         @slot('id', 'total_discount')
                                                         @slot('class', 'total_discount')
                                                         @slot('text', '0')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->discountvalue, 0, 0, '.'))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->discountvalue, 2))
                                                         @endcomponent
                                                     </div>
 
@@ -817,7 +817,7 @@
                                                         @slot('id', 'total')
                                                         @slot('class', 'total')
                                                         @slot('text', '0')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->total, 0, 0, '.'))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->total, 2))
                                                         @endcomponent
                                                     </div>
 
@@ -833,7 +833,7 @@
                                                         @slot('id', 'tax')
                                                         @slot('class', 'tax')
                                                         @slot('text', '')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->ppnvalue, 0, 0, '.'))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->ppnvalue, 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -849,7 +849,7 @@
                                                         @slot('id', 'other_price')
                                                         @slot('class', 'other_price')
                                                         @slot('text', '')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->other_price, 0, 0, '.'))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->other_price, 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -865,7 +865,7 @@
                                                         @slot('id', 'grandtotal')
                                                         @slot('class', 'grandtotal')
                                                         @slot('text', '')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign, 0, 0, '.'))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign, 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -880,7 +880,7 @@
                                                         @slot('id', 'grandtotalrp')
                                                         @slot('class', 'grandtotalrp')
                                                         @slot('text', '')
-                                                        @slot('value', 	'Rp.  '.number_format($invoice->grandtotal, 0, 0, '.'))
+                                                        @slot('value', 	'Rp.  '.number_format($invoice->grandtotal, 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -1341,88 +1341,26 @@
           filterable: !1,
           template: function (t, e, i) {
 
-            /*****************************************
-            *  perhitungan sub total, discount, dkk  *
-            *****************************************/
-
-            // vat_type = t.quotations[0].taxes[0].tax_payment_method.code;
-            vat_type = `{{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}}`;
-
             if (_currency == 'idr') {
               multiple = t.quotations[0].exchange_rate;
             }else{
               multiple = 1;
             }
 
-            let _subtotal = (
-              t.quotations[0].subtotal * multiple
-            ).toFixed(2);
-
-            _disc = 0;
-            // check if data has discount
-            if ('discount' in t) {
-              _disc = t.discount * multiple;
-            }
-
-            discount_amount += _disc;
-
-            if (vat_type == 'none') {
-
-              tax_amount = 0;
-              _total = _subtotal - discount_amount;
-
-            }else{
-
-              if (vat_type == 'include') {
-                _total = (_subtotal - discount_amount) / 1.1;
-
-              }
-
-              if (vat_type == 'exclude') {
-                _total = _subtotal - discount_amount;
-              }
-
-              tax_amount = _total * 0.1;
-
-            }
-
-            if (vat_type == 'include') {
-              grandtotal_amount = _subtotal - discount_amount
-            }else{
-              grandtotal_amount = _subtotal - discount_amount + tax_amount
-            }
-
-            discount_price = discount_amount;
-            ppn_price = tax_amount;
-            tax = tax_amount;
-
-            formater = [];
-            formater['idr'] = IDRformatter;
-            formater['foreign'] = ForeignFormatter;
-
-            symbol = [];
-            symbol['idr'] = 'Rp'
-            symbol['foreign'] = 'US$'
-
-            formater_val = 'foreign';
-
-            /***********************************************
-            *  akhir perhitungan sub total, discount, dkk  *
-            ************************************************/
-
             // jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
+              $('#term_and_condition').summernote('code', t.quotations[0].term_of_condition);
 
               if (_currency == 'idr') {
-                facility_price += t.facilities_price_amount * t.quotations[0].exchange_rate;
-                material_price += t.mat_tool_price * t.quotations[0].exchange_rate;
-                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate;
+                facility_price += t.facilities_price_amount * multiple;
+                material_price += t.mat_tool_price * multiple;
+                manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple;
 
                 _result =  
                   '<br>' +
-                  IDRformatter.format(t.facilities_price_amount * t.quotations[0].exchange_rate) + '<br>' +
-                  IDRformatter.format(t.mat_tool_price * t.quotations[0].exchange_rate) + '<br>' +
-                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * t.quotations[0].exchange_rate) + '<br>'
+                  IDRformatter.format(t.facilities_price_amount * multiple) + '<br>' +
+                  IDRformatter.format(t.mat_tool_price * multiple) + '<br>' +
+                  IDRformatter.format(t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple) + '<br>'
                 ;
               } else {
 
@@ -1439,37 +1377,19 @@
 
             } else if (t.htcrrcount != null) {
               $("#htcrr_price_val").val(t.price);
+
               if (_currency == 'idr') {
-                let sp_show = "";
-                $.each(schedule_payment, function (k, v) {
-                  sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + IDRformatter.format(v.amount) + "\n";
-                });
-
-                $("#schedule_payment").html(sp_show);
-                _result = 
-                  IDRformatter.format(t.price * multiple) + "<br/>"
+                _result = IDRformatter.format(t.price * multiple) + "<br/>"
               } else {
-                let sp_show = "";
-                $.each(schedule_payment, function (k, v) {
-                  sp_show += "Work Progress " + v.work_progress + "% Invoice Payment " + ForeignFormatter.format(v.amount) + "\n";
-                });
-
-                $("#schedule_payment").html(sp_show);
-                _result = 
-                  ForeignFormatter.format(t.price) + "<br/>"
+                _result = ForeignFormatter.format(t.price) + "<br/>"
               }
-
             } else if (t.priceother != null) {
-
               let _price_other = parseFloat(t.priceother) * multiple;
-
-              grandtotal_amount = 
-                parseFloat(grandtotal_amount) + parseFloat(_price_other);
 
               _result = "<br/>";
             }
 
-
+            // hide last line datalist
             count_data = $('.summary_datatable tbody tr').length;
 
             if (count_data > 1) {
