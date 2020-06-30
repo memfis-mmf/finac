@@ -13,6 +13,10 @@
     text-align: center !important;
   }
 
+  .note-editable {
+    padding-top: 20px !important;
+  }
+
   /* table tbody tr:last-child span{
     color: transparent !important;
   } */
