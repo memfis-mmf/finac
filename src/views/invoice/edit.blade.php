@@ -1349,7 +1349,6 @@
 
             // jika htcrr kosong dan priceother kosong
             if (t.htcrrcount == null && t.priceother == null) {
-              $('#term_and_condition').summernote('code', t.quotations[0].term_of_condition);
 
               if (_currency == 'idr') {
                 facility_price += t.facilities_price_amount * multiple;
