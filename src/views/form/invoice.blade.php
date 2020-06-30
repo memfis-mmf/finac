@@ -566,7 +566,7 @@
                             </tr>
                             <tr>
                                 <td height="40" valign="top">
-                                    {!!$invoice->quotations->term_of_condition!!}
+                                    {!!$invoice->term_and_condition!!}
                                 </td>
                             </tr>
                             <tr>
@@ -574,7 +574,7 @@
                             </tr>
                             <tr>
                                 <td height="40" valign="top">
-                                    {{$invoice->description}}
+                                    {!! $invoice->description !!}
                                 </td>
                             </tr>
                         </table>
