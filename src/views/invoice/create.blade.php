@@ -14,6 +14,10 @@
     padding-top: 20px !important;
   }
 
+  .blockUI.blockOverlay {
+    z-index: 99999999 !important;
+  }
+
   /* table tbody tr:last-child span{
     color: transparent !important;
   } */
@@ -1080,7 +1084,7 @@
 <!--<script src="{{ asset('vendor/courier/frontend/invoice/scheduled-payment.js') }}"></script>-->
 <!--<script src="{{ asset('js/custom.js') }}"></script>-->
 <script src="{{ asset('vendor/courier/frontend/invoice/coamodal-invoice.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js?111')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/invoice/tablelist.js?112')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/invoice/refquomodal-invoice.js')}}"></script>
 <script src="{{ asset('js/frontend/functions/summernote.js') }}"></script>
 <script type="text/javascript">

@@ -56,12 +56,14 @@ let RefQuoDatatables = {
         $('#refquo_modal').on('click', '.select-refquo', function () {
             var code = $(this).data('uuid');
             $('#coa_modal').modal('hide');
+            mApp.blockPage();
             //console.log(code);
             $.ajax({
                 url: '/invoice/quotation/datatables/modal/' + code + '/detail',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
+                    mApp.unblockPage();
                     console.log(data);
                     // if (data.spcount != data.invoicecount) {
                     if (!data.duplicate) {
