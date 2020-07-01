@@ -266,7 +266,11 @@
                     </tr>
                     <tr>
                         <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
-                            Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{number_format(@$x->pivot->manhour_total)}} Manhours
+                            Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{
+                              number_format(
+                                ($x->is_template == 'htcrr')? @$x->data_htcrr['manhour_rate_amount']: @$x->pivot->manhour_total
+                              )
+                            }} Manhours
                         </td>
 
                         <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
@@ -339,7 +343,7 @@
                 </tr> --}}
                  {{-- TheOthers --}}
                 <tr>
-                    <td width="10%" rowspan="6" align="center" valign="top"></td>
+                    <td width="10%" rowspan="{{($invoice->currencies->code != 'idr')? '6': '5'}}" align="center" valign="top"></td>
 
                     <td width="35%" style="border-bottom:none;color:red;border-right:none;"></td>
 
@@ -358,7 +362,7 @@
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;">
                         {{
                             number_format(
-                                ($invoice->grandtotalforeign - $invoice->other_price) / 1.1
+                                ($invoice->subtotal)
                                 , 0
                                 , 0
                                 , '.'
@@ -398,7 +402,7 @@
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
                         {{
                             number_format(
-                                ($invoice->grandtotalforeign - $invoice->other_price) / 1.1 * 0.1
+                                ($invoice->ppnvalue)
                                 , 0
                                 , 0
                                 , '.'
@@ -426,30 +430,34 @@
                         }}
                     </td>
                 </tr>
-                <tr>
-                    <td width="35%" style="border-top:none;border-bottom:none;border-right:none;"></td>
 
-                    <td width="30%" valign="top" style="border-top:none;border-bottom:none;border-left:none;text-transform:uppercase"><b>
-                        Total in {{$invoice->currencies->code}}
-                    </b></td>
+                @if ($invoice->currencies->code != 'idr')
+                  <tr>
+                      <td width="35%" style="border-top:none;border-bottom:none;border-right:none;"></td>
 
-                    <td width="1%" style="border-right:none;border-bottom:none;border-top:none;text-transform:uppercase">
-                        <b>{{$invoice->currencies->code}}</b>
-                    </td>
+                      <td width="30%" valign="top" style="border-top:none;border-bottom:none;border-left:none;text-transform:uppercase"><b>
+                          Total in {{$invoice->currencies->code}}
+                      </b></td>
 
-                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
-                        <b>
-                            {{
-                                number_format(
-                                    $invoice->grandtotalforeign
-                                    , 0
-                                    , 0
-                                    , '.'
-                                )
-                            }}
-                        </b>
-                    </td>
-                </tr>
+                      <td width="1%" style="border-right:none;border-bottom:none;border-top:none;text-transform:uppercase">
+                          <b>{{$invoice->currencies->code}}</b>
+                      </td>
+
+                      <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+                          <b>
+                              {{
+                                  number_format(
+                                      $invoice->grandtotalforeign
+                                      , 0
+                                      , 0
+                                      , '.'
+                                  )
+                              }}
+                          </b>
+                      </td>
+                  </tr>
+                @endif
+
                 <tr>
                     <td width="35%" style="border-top:none;border-right:none;"></td>
 
