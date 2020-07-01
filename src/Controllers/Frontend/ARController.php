@@ -22,7 +22,6 @@ class ARController extends Controller
 {
     public function index()
     {
-        $wew = 'x';
         return view('accountreceivableview::index');
     }
 
@@ -363,7 +362,6 @@ class ARController extends Controller
     public function InvoiceModalDatatables(Request $request)
     {
         $ar = AReceive::where('uuid', $request->ar_uuid)->first();
-        $currency = Currency::where('code', $ar->currency)->first();
 
         if (count($ar->ara)) {
             $invoice = Invoice::where('id_customer', $request->id_customer)
@@ -382,7 +380,9 @@ class ARController extends Controller
         }
         
         for (
-            $invoice_index = 0; $invoice_index < count($invoice); $invoice_index++
+            $invoice_index = 0; 
+            $invoice_index < count($invoice); 
+            $invoice_index++
         ) { 
             $invoice[$invoice_index]->paid_amount = $this
             ->countPaidAmount($invoice[$invoice_index]->id);
