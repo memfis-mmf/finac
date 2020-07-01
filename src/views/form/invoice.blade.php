@@ -268,7 +268,7 @@
                         <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
                             Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{
                               number_format(
-                                ($x->is_template == 'htcrr')? @$x->data_htcrr['manhour_rate_amount']: @$x->pivot->manhour_total
+                                ($x->is_template == 'htcrr')? @$x->data_htcrr['total_manhours_with_performance_factor']: @$x->pivot->manhour_total
                               )
                             }} Manhours
                         </td>
