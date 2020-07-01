@@ -325,7 +325,7 @@ class InvoiceController extends Controller
         $bankAccountget2 = BankAccount::where('id',$invoice->id_bank2)->first();
         @$bankget2 = Bank::where('id',$bankAccountget2->bank_id)->first();
 
-        $bank = BankAccount::selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
+        $bank = BankAccount::where('internal_account', 1)->selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
 
         $collection = collect();
 
