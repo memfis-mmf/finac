@@ -135,7 +135,9 @@ class ARAController extends Controller
 		$result = Invoice::where(
 			'id',
 			$x->id_invoice
-		)->first();
+        )
+        ->with('currencies')
+        ->first();
 
 		return $result;
 	}
@@ -191,6 +193,7 @@ class ARAController extends Controller
 		$ARA = AReceiveA::where('transactionnumber', $AR->transactionnumber)
 			->with([
 				'ar',
+				'ar.currencies',
 				'currencies'
 			])
 			->get();

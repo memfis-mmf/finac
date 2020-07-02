@@ -154,7 +154,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.exchangerate));
+                return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.exchangerate));
 							}
 						},
 						{
@@ -163,7 +163,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.invoice.grandtotalforeign));
+								return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.invoice.grandtotalforeign));
 							}
 						},
 						{
@@ -172,7 +172,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.paid_amount));
+								return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.paid_amount));
 							}
 						},
 						{
@@ -187,7 +187,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return t.currencies.symbol+' '+addCommas(parseInt(t.credit));
+								return t.ar.currencies.symbol+' '+addCommas(parseFloat(t.credit));
 							}
 						},
 						{
@@ -196,7 +196,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return 'Rp '+addCommas(parseInt(t.credit * t.ar.exchangerate));
+								return 'Rp '+addCommas(parseFloat(t.credit * t.ar.exchangerate));
 							}
 						},
 						{
@@ -213,7 +213,7 @@ let AccountReceivableEdit = {
 								]);
 
 								return 'Rp '+addCommas(
-									parseInt(
+									parseFloat(
 										(t.credit * t.ar.exchangerate) - (t.credit * t.exchangerate)
 									)
 								);
@@ -303,7 +303,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.debit));
+								return addCommas(parseFloat(t.debit));
 							}
 						},
 						{
@@ -312,7 +312,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.credit));
+								return addCommas(parseFloat(t.credit));
 							}
 						},
 						{
@@ -406,7 +406,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function (t, e, i) {
-								return addCommas(parseInt(t.exchangerate));
+								return addCommas(parseFloat(t.exchangerate));
 							}
 						},
 						{
@@ -415,7 +415,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function (t, e, i) {
-								return addCommas(parseInt(t.grandtotalforeign));
+								return addCommas(parseFloat(t.grandtotalforeign));
 							}
 						},
 						{
@@ -424,7 +424,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.paid_amount));
+								return addCommas(parseFloat(t.paid_amount));
 							}
 						},
 						{
@@ -682,17 +682,17 @@ let AccountReceivableEdit = {
 			$(target).find('input[name=invoice_uuid]').val(uuid);
 			$(target).find('[name=description]').val(data.description);
 			$(target).find('input[name=credit]').val(
-				parseInt(data.credit)
+				parseFloat(data.credit)
 			);
 
 			$(target).find('.iv_date').val(data.ar.transactiondate);
 			$(target).find('.iv_transactionnumber').val(data.transactionnumber);
 			$(target).find('.iv_code').val(data.code);
 			$(target).find('.iv_currency').val(data.currency);
-			$(target).find('.iv_exchangerate').val(addCommas(parseInt(data.exchangerate)));
-			$(target).find('.iv_total_amount').val(addCommas(parseInt(data.invoice.grandtotalforeign)));
-			$(target).find('.iv_paid_amount').val(addCommas(parseInt(data.paid_amount)));
-			$(target).find('.iv_exchangerate_gap').val(addCommas(parseInt((data.credit * data.ar.exchangerate) - (data.credit * data.exchangerate))));
+			$(target).find('.iv_exchangerate').val(addCommas(parseFloat(data.exchangerate)));
+			$(target).find('.iv_total_amount').val(addCommas(parseFloat(data.invoice.grandtotalforeign)));
+			$(target).find('.iv_paid_amount').val(addCommas(parseFloat(data.paid_amount)));
+			$(target).find('.iv_exchangerate_gap').val(addCommas(parseFloat((data.credit * data.ar.exchangerate) - (data.credit * data.exchangerate))));
 
 			$(target).modal('show');
 		})
@@ -706,8 +706,8 @@ let AccountReceivableEdit = {
 			let data = adjustment_datatable.row(tr).data().mDatatable.dataSet[tr_index];
 
 			$(target).find('input[name=_uuid]').val(uuid);
-			$(target).find('[name=debit_b]').val(parseInt(data.debit));
-			$(target).find('[name=credit_b]').val(parseInt(data.credit));
+			$(target).find('[name=debit_b]').val(parseFloat(data.debit));
+			$(target).find('[name=credit_b]').val(parseFloat(data.credit));
 			$(target).find('[name=description_b]').val(data.description);
 
 			$(target).modal('show');
