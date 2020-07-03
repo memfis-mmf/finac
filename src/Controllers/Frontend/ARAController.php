@@ -67,23 +67,49 @@ class ARAController extends Controller
         return response()->json($areceivea);
     }
 
+    public function calculateAmount($ara, $credit)
+    {
+        $invoice = $ara->invoice;
+        $ar = $ara->ar;
+
+        // jika header ar currency nya idr
+        if ($ar->currencies->code == 'idr') {
+            // jik currency ar dan invoice berbeda
+            if ($ar->currencies->code != $invoice->currencies->code) {
+                $calculate_credit = $credit / $ar->exchangerate;
+                $idr_credit = $calculate_credit * $invoice->exchangerate;
+
+                $gep = $credit - $idr_credit;
+            }else{
+
+            }
+        }
+    }
+
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
     {
 
 		DB::beginTransaction();
 		try {
 
+            $calculation = $this->calculateCredit($areceivea, $request->credit);
+
+            $request->merge([
+                'credit' => $calculation->credit
+            ]);
+
 	        $areceivea->update($request->all());
 
 			$ara = $areceivea;
-			$ar = $ara->ar;
-
+            $ar = $ara->ar;
+            
 			$arc = AReceiveC::where('id_invoice', $ara->id_invoice)
 			->where('transactionnumber', $ara->transactionnumber)
 			->first();
 
             $difference = 
-                ($ara->credit * $ar->exchangerate) - ($ara->credit * $ara->exchangerate);
+                ($ara->credit * $ar->exchangerate) - 
+                ($ara->credit * $ara->exchangerate);
 
 			if ($arc) {
 				AReceiveC::where('id', $arc->id)->update([
