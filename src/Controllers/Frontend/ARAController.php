@@ -82,7 +82,8 @@ class ARAController extends Controller
 			->where('transactionnumber', $ara->transactionnumber)
 			->first();
 
-			$difference = ($ara->credit * $ar->exchangerate) - ($ara->credit * $ara->exchangerate);
+            $difference = 
+                ($ara->credit * $ar->exchangerate) - ($ara->credit * $ara->exchangerate);
 
 			if ($arc) {
 				AReceiveC::where('id', $arc->id)->update([
