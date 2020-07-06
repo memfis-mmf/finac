@@ -67,21 +67,52 @@ class ARAController extends Controller
         return response()->json($areceivea);
     }
 
-    public function calculateAmount($ara, $credit)
+    public function calculateAmount($ara, $amount_to_pay)
     {
         $invoice = $ara->invoice;
         $ar = $ara->ar;
 
         // jika header ar currency nya idr
         if ($ar->currencies->code == 'idr') {
-            // jik currency ar dan invoice berbeda
+            // jik currency ar IDR dan invoice USD atau yang lain
             if ($ar->currencies->code != $invoice->currencies->code) {
-                $calculate_credit = $credit / $ar->exchangerate;
-                $idr_credit = $calculate_credit * $invoice->exchangerate;
+                $foreign_amount_to_pay = $amount_to_pay / $ar->exchangerate;
+                $idr_amount_to_pay_invoice_rate = 
+                    $foreign_amount_to_pay * $invoice->exchangerate;
 
-                $gep = $credit - $idr_credit;
-            }else{
+                $result = [
+                    'gep' => round(
+                        $amount_to_pay - $idr_amount_to_pay_invoice_rate, 2
+                    ),
+                    'credit' => round($foreign_amount_to_pay, 2),
+                    'credit_idr' => round($amount_to_pay, 2),
+                ];
+            }else{ //jika ar IDR dan invoice IDR
+                $result = [
+                    'gep' => 0,
+                    'credit' => round($amount_to_pay, 2),
+                    'credit_idr' => round($amount_to_pay, 2),
+                ];
+            }
+        }
 
+        if ($ar->currencies->code != 'idr') {
+            // jik currency ar USD atau yang lain dan invoice IDR
+            if ($ar->currencies->code != $invoice->currencies->code) {
+
+                $idr_amount_to_pay = $amount_to_pay * $ar->exchangerate;
+
+                $result = [
+                    'gep' => round($amount_to_pay - $idr_credit, 2),
+                    'credit' => round($foreign_credit, 2),
+                    'credit_idr' => round($amount_to_pay, 2),
+                ];
+            }else{ //jika currency AR dan Invoice sama
+                $result = [
+                    'gep' => 0,
+                    'credit' => round($amount_to_pay, 2),
+                    'credit_idr' => round($amount_to_pay, 2),
+                ];
             }
         }
     }
