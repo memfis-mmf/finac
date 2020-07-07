@@ -96,25 +96,6 @@ class ARAController extends Controller
             }
         }
 
-        if ($ar->currencies->code != 'idr') {
-            // jik currency ar USD atau yang lain dan invoice IDR
-            if ($ar->currencies->code != $invoice->currencies->code) {
-
-                $idr_amount_to_pay = $amount_to_pay * $ar->exchangerate;
-
-                $result = [
-                    'gep' => round($amount_to_pay - $idr_credit, 2),
-                    'credit' => round($foreign_credit, 2),
-                    'credit_idr' => round($amount_to_pay, 2),
-                ];
-            }else{ //jika currency AR dan Invoice sama
-                $result = [
-                    'gep' => 0,
-                    'credit' => round($amount_to_pay, 2),
-                    'credit_idr' => round($amount_to_pay, 2),
-                ];
-            }
-        }
     }
 
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
