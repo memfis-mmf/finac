@@ -88,7 +88,7 @@ class ARAController extends Controller
                 $result = [
                     // amount to pay idr dari ar dikurangi hasil rupiah
                     // dari usd ar dikali dengan rate invoice
-                    'gep' => round(
+                    'gap' => round(
                         $amount_to_pay - $idr_amount_to_pay_invoice_rate,
                         2
                     ),
@@ -97,43 +97,59 @@ class ARAController extends Controller
                 ];
             } else { //jika ar IDR dan invoice IDR
                 $result = [
-                    'gep' => 0,
+                    'gap' => 0,
                     'credit' => round($amount_to_pay, 2),
                     'credit_idr' => round($amount_to_pay, 2),
                 ];
             }
         }
 
+        // jika header ar currency nya Foreign
         if ($ar->currencies->code != 'idr') {
             // jik currency ar Foreign dan invoice IDR
             if ($ar->currencies->code != $invoice->currencies->code) {
+                    
+                $idr_amount_to_pay = $amount_to_pay * $ar->exchangerate;
+
                 // jika belum pembayaran terakhir
                 if (!$request->is_clearing) {
-
-                    $gep = 0;
-                    $credit = $amount_to_pay;
-                    $credit_idr = $amount_to_pay * $ar->exchangerate;
-                } else {
+                    $gap = 0;
+                } else { //jika pembayaran terakhir
                     $all_invoice = AReceiveA::select(
                         'sum(credit) as total_credit',
                         'sum(credit_idr) as total_credit_idr',
                     )
                         ->where('id_invoice', $invoice->id)
                         ->first();
-                    $total_credit = $all_invoice->total_credit + $amount_to_pay;
+
                     $total_credit_idr =
-                        $all_invoice->total_credit_idr + ($amount_to_pay * $ar->exchangerate);
+                        $all_invoice->total_credit_idr + $idr_amount_to_pay;
+                    
+                    $gap = $idr_amount_to_pay - 
+                        ($invoice->grandtotalforeign - $total_credit_idr);
+
                 }
 
+                $credit = $amount_to_pay;
+                $credit_idr = $idr_amount_to_pay;
+
                 $result = [
-                    'gep' => $gep,
+                    'gap' => $gap,
                     'credit' => $credit,
                     'credit_idr' => $credit_idr,
                 ];
             } else { //jika ar Foreign dan invoice Foreign
+                $new_rate = $ar->exchangerate - $invoice->exchangerate;
 
+                $result = [
+                    'gap' => ($new_rate * $amount_to_pay),
+                    'credit' => $amount_to_pay,
+                    'credit_idr' => $amount_to_pay * $ar->exchangerate,
+                ];
             }
         }
+
+        return $result;
     }
 
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
@@ -145,7 +161,8 @@ class ARAController extends Controller
             $calculation = $this->calculateCredit($areceivea, $request);
 
             $request->merge([
-                'credit' => $calculation->credit
+                'credit' => $calculation->credit,
+                'credit_idr' => $calculation->credit_idr,
             ]);
 
             $areceivea->update($request->all());
@@ -157,20 +174,26 @@ class ARAController extends Controller
                 ->where('transactionnumber', $ara->transactionnumber)
                 ->first();
 
-            $difference =
-                ($ara->credit * $ar->exchangerate) -
-                ($ara->credit * $ara->exchangerate);
+            $arc_debit = 0;
+            $arc_credit = 0;
+            if ($calculation->gap) {
+                $arc_credit = $calculation->gap;
+            }else{
+                $arc_debit = $calculation->gap;
+            }
 
             if ($arc) {
                 AReceiveC::where('id', $arc->id)->update([
-                    'difference' => $difference
+                    'debit' => $arc_debit,
+                    'credit' => $arc_credit,
                 ]);
             } else {
                 AReceiveC::create([
                     'transactionnumber' => $ara->transactionnumber,
                     'id_invoice' => $ara->id_invoice,
                     'code' => '81112003',
-                    'difference' => $difference,
+                    'debit' => $arc_debit,
+                    'credit' => $arc_credit,
                 ]);
             }
 
