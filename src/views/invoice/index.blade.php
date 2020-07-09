@@ -71,13 +71,13 @@
                                                         <span>Invoice</span>
                                                     </span>
                                                 </a>
-                                                <a class="dropdown-item" href="{{ route('invoice-sales.create')}}">
+                                                <a class="dropdown-item" href="{{-- {{route('frontend.invoice-sales.create')}} --}}">
                                                     <span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>Invoice Sales</span>
                                                     </span>
                                                 </a>
-                                                <a class="dropdown-item" href="{{ route('invoice-workshop.create')}}">
+                                                <a class="dropdown-item" href="{{route('frontend.invoice-workshop.create')}}">
                                                     <span>
                                                         <i class="la la-plus-circle"></i>
                                                         <span>Invoice Workshop</span>
