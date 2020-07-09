@@ -154,7 +154,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.exchangerate));
+								return 'Rp '+addCommas(parseInt(t.exchangerate));
 							}
 						},
 						{
@@ -163,7 +163,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.invoice.grandtotalforeign));
+								return t.currencies.symbol+' '+addCommas(parseInt(t.invoice.grandtotalforeign));
 							}
 						},
 						{
@@ -172,7 +172,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.paid_amount));
+								return t.currencies.symbol+' '+addCommas(parseInt(t.paid_amount));
 							}
 						},
 						{
@@ -187,7 +187,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return t.currencies.symbol+' '+addCommas(parseInt(t.credit));
+								return t.ar.currencies.symbol+' '+addCommas(parseInt(t.credit));
 							}
 						},
 						{
