@@ -108,7 +108,7 @@ class ARAController extends Controller
         if ($ar->currencies->code != 'idr') {
             // jik currency ar Foreign dan invoice IDR
             if ($ar->currencies->code != $invoice->currencies->code) {
-                    
+
                 $idr_amount_to_pay = $amount_to_pay * $ar->exchangerate;
 
                 // jika belum pembayaran terakhir
@@ -124,10 +124,9 @@ class ARAController extends Controller
 
                     $total_credit_idr =
                         $all_invoice->total_credit_idr + $idr_amount_to_pay;
-                    
-                    $gap = $idr_amount_to_pay - 
-                        ($invoice->grandtotalforeign - $total_credit_idr);
 
+                    $gap = $idr_amount_to_pay -
+                        ($invoice->grandtotalforeign - $total_credit_idr);
                 }
 
                 $credit = $amount_to_pay;
@@ -149,7 +148,7 @@ class ARAController extends Controller
             }
         }
 
-        return $result;
+        return (object) $result;
     }
 
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
@@ -158,7 +157,7 @@ class ARAController extends Controller
         DB::beginTransaction();
         try {
 
-            $calculation = $this->calculateCredit($areceivea, $request);
+            $calculation = $this->calculateAmount($areceivea, $request);
 
             $request->merge([
                 'credit' => $calculation->credit,
@@ -168,17 +167,14 @@ class ARAController extends Controller
             $areceivea->update($request->all());
 
             $ara = $areceivea;
-            $ar = $ara->ar;
 
-            $arc = AReceiveC::where('id_invoice', $ara->id_invoice)
-                ->where('transactionnumber', $ara->transactionnumber)
-                ->first();
+            $arc = $ara->arc;
 
             $arc_debit = 0;
             $arc_credit = 0;
             if ($calculation->gap) {
                 $arc_credit = $calculation->gap;
-            }else{
+            } else {
                 $arc_debit = $calculation->gap;
             }
 
@@ -189,6 +185,7 @@ class ARAController extends Controller
                 ]);
             } else {
                 AReceiveC::create([
+                    'ara_id' => $ara->id,
                     'transactionnumber' => $ara->transactionnumber,
                     'id_invoice' => $ara->id_invoice,
                     'code' => '81112003',
@@ -239,51 +236,23 @@ class ARAController extends Controller
         return $result;
     }
 
-    public function old_countPaidAmount($x)
+    public function countPaidAmount($ara_tmp)
     {
-        $ara = AReceiveA::where(
-            'transactionnumber',
-            $x->transactionnumber
-        )->get();
-
-        $total = 0;
-        for ($i = 0; $i < count($ara); $i++) {
-            $y = $ara[$i];
-
-            // check if this AR is approved or not
-            if ($y->ar->approve) {
-                $total += $y->debit;
-            }
-        }
-
-        return $total;
-    }
-
-    public function countPaidAmount($x)
-    {
-        $ara_tmp = AReceiveA::where(
-            'transactionnumber',
-            $x->transactionnumber
-        )->first();
-
-        $ar = $ara_tmp->ar;
+        $invoice = $ara_tmp->invoice;
         $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
             ->get();
 
-        $data['debt_total_amount'] = Invoice::where(
-            'id_customer',
-            $ar->customer->id
-        )->sum('grandtotal');
 
-        $payment_total_amount = 0;
-
-        for ($j = 0; $j < count($ara); $j++) {
-            $y = $ara[$j];
-
-            $payment_total_amount += ($y->credit * $ar->exchangerate);
+        $paid_amount = 0;
+        foreach ($ara as $ara_row) {
+            if ($invoice->currencies->code != 'idr') {
+                $paid_amount += $ara_row->credit;
+            } else {
+                $paid_amount += $ara_row->credit_idr;
+            }
         }
 
-        return $payment_total_amount;
+        return $paid_amount;
     }
 
     public function datatables(Request $request)
@@ -292,17 +261,21 @@ class ARAController extends Controller
         $ARA = AReceiveA::where('transactionnumber', $AR->transactionnumber)
             ->with([
                 'ar',
+                'arc',
                 'ar.currencies',
                 'currencies'
             ])
             ->get();
 
-        for ($i = 0; $i < count($ARA); $i++) {
-            $x = $ARA[$i];
+        for ($ara_index = 0; $ara_index < count($ARA); $ara_index++) {
+            $ara_row = $ARA[$ara_index];
 
-            $ARA[$i]->_transaction_number = $x->id_invoice;
-            $ARA[$i]->invoice = $this->getDataInvoice($x);
-            $ARA[$i]->paid_amount = $this->countPaidAmount($x);
+            $ARA[$ara_index]->_transaction_number = $ara_row->id_invoice;
+            $ARA[$ara_index]->invoice = $this->getDataInvoice($ara_row);
+            $ARA[$ara_index]->paid_amount = $this->countPaidAmount($ara_row);
+            if ($AR->currencies->code == 'idr') {
+                $ARA[$ara_index]->credit = $ARA[$ara_index]->credit_idr;
+            }
         }
 
         $data = $alldata = json_decode(
