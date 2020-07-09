@@ -67,22 +67,61 @@ class ARAController extends Controller
         return response()->json($areceivea);
     }
 
+    public function calculateAmount($ara, $amount_to_pay)
+    {
+        $invoice = $ara->invoice;
+        $ar = $ara->ar;
+
+        // jika header ar currency nya idr
+        if ($ar->currencies->code == 'idr') {
+            // jik currency ar IDR dan invoice USD atau yang lain
+            if ($ar->currencies->code != $invoice->currencies->code) {
+                $foreign_amount_to_pay = $amount_to_pay / $ar->exchangerate;
+                $idr_amount_to_pay_invoice_rate = 
+                    $foreign_amount_to_pay * $invoice->exchangerate;
+
+                $result = [
+                    'gep' => round(
+                        $amount_to_pay - $idr_amount_to_pay_invoice_rate, 2
+                    ),
+                    'credit' => round($foreign_amount_to_pay, 2),
+                    'credit_idr' => round($amount_to_pay, 2),
+                ];
+            }else{ //jika ar IDR dan invoice IDR
+                $result = [
+                    'gep' => 0,
+                    'credit' => round($amount_to_pay, 2),
+                    'credit_idr' => round($amount_to_pay, 2),
+                ];
+            }
+        }
+
+    }
+
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
     {
 
 		DB::beginTransaction();
 		try {
 
+            $calculation = $this->calculateCredit($areceivea, $request->credit);
+
+            $request->merge([
+                'credit' => $calculation->credit
+            ]);
+
 	        $areceivea->update($request->all());
 
 			$ara = $areceivea;
-			$ar = $ara->ar;
-
+            $ar = $ara->ar;
+            
 			$arc = AReceiveC::where('id_invoice', $ara->id_invoice)
 			->where('transactionnumber', $ara->transactionnumber)
 			->first();
 
-			$difference = ($ara->credit * $ar->exchangerate) - ($ara->credit * $ara->exchangerate);
+            $difference = 
+                ($ara->credit * $ar->exchangerate) - 
+                ($ara->credit * $ara->exchangerate);
 
 			if ($arc) {
 				AReceiveC::where('id', $arc->id)->update([
@@ -135,7 +174,9 @@ class ARAController extends Controller
 		$result = Invoice::where(
 			'id',
 			$x->id_invoice
-		)->first();
+        )
+        ->with('currencies')
+        ->first();
 
 		return $result;
 	}
