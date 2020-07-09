@@ -191,6 +191,7 @@ class ARAController extends Controller
 		$ARA = AReceiveA::where('transactionnumber', $AR->transactionnumber)
 			->with([
 				'ar',
+				'ar.currencies',
 				'currencies'
 			])
 			->get();
