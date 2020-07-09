@@ -29,34 +29,34 @@ class ARAController extends Controller
 
     public function store(Request $request)
     {
-		$AR = AReceive::where('uuid', $request->ar_uuid)->first();
+        $AR = AReceive::where('uuid', $request->ar_uuid)->first();
 
-		$invoice = Invoice::where('uuid', $request->data_uuid)->first();
+        $invoice = Invoice::where('uuid', $request->data_uuid)->first();
 
-		$ARA = AReceiveA::where(
-			'transactionnumber',
-			$AR->transactionnumber
-		)->first();
+        $ARA = AReceiveA::where(
+            'transactionnumber',
+            $AR->transactionnumber
+        )->first();
 
-		$currency = Currency::find($invoice->currency)->code;
-		@$code = ($v = $invoice->customer->coa->first()->code)? $v: '';
+        $currency = Currency::find($invoice->currency)->code;
+        @$code = ($v = $invoice->customer->coa->first()->code) ? $v : '';
 
-		if ($ARA) {
-			if ($currency != $ARA->currency) {
-				return response()->json([
-					'errors' => 'Currency not consistent'
-				]);
-			}
-		}
+        if ($ARA) {
+            if ($currency != $ARA->currency) {
+                return response()->json([
+                    'errors' => 'Currency not consistent'
+                ]);
+            }
+        }
 
-		$request->request->add([
-			'description' => '',
-			'transactionnumber' => $AR->transactionnumber,
-			'id_invoice' => $invoice->id,
-			'currency' => $currency,
-			'exchangerate' => $invoice->exchangerate,
-			'code' => $code,
-		]);
+        $request->request->add([
+            'description' => '',
+            'transactionnumber' => $AR->transactionnumber,
+            'id_invoice' => $invoice->id,
+            'currency' => $currency,
+            'exchangerate' => $invoice->exchangerate,
+            'code' => $code,
+        ]);
 
         $areceivea = AReceiveA::create($request->all());
         return response()->json($areceivea);
@@ -67,27 +67,35 @@ class ARAController extends Controller
         return response()->json($areceivea);
     }
 
-    public function calculateAmount($ara, $amount_to_pay)
+    public function calculateAmount($ara, $request)
     {
+        $amount_to_pay = $request->credit;
         $invoice = $ara->invoice;
         $ar = $ara->ar;
 
         // jika header ar currency nya idr
         if ($ar->currencies->code == 'idr') {
-            // jik currency ar IDR dan invoice USD atau yang lain
+            // jik currency ar IDR dan invoice foreign
             if ($ar->currencies->code != $invoice->currencies->code) {
+                // mencari foreign amount to pay, 
+                // dengan cara membagi amount to pay dengan rate ar
                 $foreign_amount_to_pay = $amount_to_pay / $ar->exchangerate;
-                $idr_amount_to_pay_invoice_rate = 
+                // mencari nilai rupiah dengan rate invoice 
+                // dari nilai usd ar yang sudah dihitung sblmnya
+                $idr_amount_to_pay_invoice_rate =
                     $foreign_amount_to_pay * $invoice->exchangerate;
 
                 $result = [
+                    // amount to pay idr dari ar dikurangi hasil rupiah
+                    // dari usd ar dikali dengan rate invoice
                     'gep' => round(
-                        $amount_to_pay - $idr_amount_to_pay_invoice_rate, 2
+                        $amount_to_pay - $idr_amount_to_pay_invoice_rate,
+                        2
                     ),
                     'credit' => round($foreign_amount_to_pay, 2),
                     'credit_idr' => round($amount_to_pay, 2),
                 ];
-            }else{ //jika ar IDR dan invoice IDR
+            } else { //jika ar IDR dan invoice IDR
                 $result = [
                     'gep' => 0,
                     'credit' => round($amount_to_pay, 2),
@@ -96,58 +104,85 @@ class ARAController extends Controller
             }
         }
 
+        if ($ar->currencies->code != 'idr') {
+            // jik currency ar Foreign dan invoice IDR
+            if ($ar->currencies->code != $invoice->currencies->code) {
+                // jika belum pembayaran terakhir
+                if (!$request->is_clearing) {
+
+                    $gep = 0;
+                    $credit = $amount_to_pay;
+                    $credit_idr = $amount_to_pay * $ar->exchangerate;
+                } else {
+                    $all_invoice = AReceiveA::select(
+                        'sum(credit) as total_credit',
+                        'sum(credit_idr) as total_credit_idr',
+                    )
+                        ->where('id_invoice', $invoice->id)
+                        ->first();
+                    $total_credit = $all_invoice->total_credit + $amount_to_pay;
+                    $total_credit_idr =
+                        $all_invoice->total_credit_idr + ($amount_to_pay * $ar->exchangerate);
+                }
+
+                $result = [
+                    'gep' => $gep,
+                    'credit' => $credit,
+                    'credit_idr' => $credit_idr,
+                ];
+            } else { //jika ar Foreign dan invoice Foreign
+
+            }
+        }
     }
 
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
     {
 
-		DB::beginTransaction();
-		try {
+        DB::beginTransaction();
+        try {
 
-            $calculation = $this->calculateCredit($areceivea, $request->credit);
+            $calculation = $this->calculateCredit($areceivea, $request);
 
             $request->merge([
                 'credit' => $calculation->credit
             ]);
 
-	        $areceivea->update($request->all());
+            $areceivea->update($request->all());
 
-			$ara = $areceivea;
+            $ara = $areceivea;
             $ar = $ara->ar;
-            
-			$arc = AReceiveC::where('id_invoice', $ara->id_invoice)
-			->where('transactionnumber', $ara->transactionnumber)
-			->first();
 
-            $difference = 
-                ($ara->credit * $ar->exchangerate) - 
+            $arc = AReceiveC::where('id_invoice', $ara->id_invoice)
+                ->where('transactionnumber', $ara->transactionnumber)
+                ->first();
+
+            $difference =
+                ($ara->credit * $ar->exchangerate) -
                 ($ara->credit * $ara->exchangerate);
 
-			if ($arc) {
-				AReceiveC::where('id', $arc->id)->update([
-					'difference' => $difference
-				]);
-			} else {
-				AReceiveC::create([
-				    'transactionnumber' => $ara->transactionnumber,
-				    'id_invoice' => $ara->id_invoice,
-				    'code' => '81112003',
-				    'difference' => $difference,
-				]);
-			}
+            if ($arc) {
+                AReceiveC::where('id', $arc->id)->update([
+                    'difference' => $difference
+                ]);
+            } else {
+                AReceiveC::create([
+                    'transactionnumber' => $ara->transactionnumber,
+                    'id_invoice' => $ara->id_invoice,
+                    'code' => '81112003',
+                    'difference' => $difference,
+                ]);
+            }
 
-			DB::commit();
+            DB::commit();
 
-	        return response()->json($areceivea);
+            return response()->json($areceivea);
+        } catch (\Exception $e) {
 
-		} catch (\Exception $e) {
+            DB::rollBack();
 
-			DB::rollBack();
-
-			return response()->json($e->getMessage());
-
-		}
-
+            return response()->json($e->getMessage());
+        }
     }
 
     public function destroy(AReceiveA $areceivea)
@@ -169,93 +204,95 @@ class ARAController extends Controller
         return response()->json($areceivea);
     }
 
-	public function getDataInvoice($x)
-	{
-		$result = Invoice::where(
-			'id',
-			$x->id_invoice
+    public function getDataInvoice($x)
+    {
+        $result = Invoice::where(
+            'id',
+            $x->id_invoice
         )
-        ->with('currencies')
-        ->first();
+            ->with('currencies')
+            ->first();
 
-		return $result;
-	}
-
-	public function old_countPaidAmount($x)
-	{
-		$ara = AReceiveA::where(
-			'transactionnumber', $x->transactionnumber
-		)->get();
-
-		$total = 0;
-		for ($i=0; $i < count($ara); $i++) {
-			$y = $ara[$i];
-
-			// check if this AR is approved or not
-			if ($y->ar->approve) {
-				$total += $y->debit;
-			}
-		}
-
-		return $total;
+        return $result;
     }
 
-	public function countPaidAmount($x)
-	{
-		$ara_tmp = AReceiveA::where(
-			'transactionnumber', $x->transactionnumber
-        )->first();
+    public function old_countPaidAmount($x)
+    {
+        $ara = AReceiveA::where(
+            'transactionnumber',
+            $x->transactionnumber
+        )->get();
 
-		$ar = $ara_tmp->ar;
-        $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
-        ->get();
+        $total = 0;
+        for ($i = 0; $i < count($ara); $i++) {
+            $y = $ara[$i];
 
-		$data['debt_total_amount'] = Invoice::where(
-			'id_customer',
-			$ar->customer->id
-		)->sum('grandtotal');
-
-		$payment_total_amount = 0;
-
-		for ($j = 0; $j < count($ara); $j++) {
-			$y = $ara[$j];
-
-			$payment_total_amount += ($y->credit * $ar->exchangerate);
+            // check if this AR is approved or not
+            if ($y->ar->approve) {
+                $total += $y->debit;
+            }
         }
 
-		return $payment_total_amount;
-	}
+        return $total;
+    }
+
+    public function countPaidAmount($x)
+    {
+        $ara_tmp = AReceiveA::where(
+            'transactionnumber',
+            $x->transactionnumber
+        )->first();
+
+        $ar = $ara_tmp->ar;
+        $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
+            ->get();
+
+        $data['debt_total_amount'] = Invoice::where(
+            'id_customer',
+            $ar->customer->id
+        )->sum('grandtotal');
+
+        $payment_total_amount = 0;
+
+        for ($j = 0; $j < count($ara); $j++) {
+            $y = $ara[$j];
+
+            $payment_total_amount += ($y->credit * $ar->exchangerate);
+        }
+
+        return $payment_total_amount;
+    }
 
     public function datatables(Request $request)
     {
-		$AR = AReceive::where('uuid', $request->ar_uuid)->first();
-		$ARA = AReceiveA::where('transactionnumber', $AR->transactionnumber)
-			->with([
-				'ar',
-				'ar.currencies',
-				'currencies'
-			])
-			->get();
+        $AR = AReceive::where('uuid', $request->ar_uuid)->first();
+        $ARA = AReceiveA::where('transactionnumber', $AR->transactionnumber)
+            ->with([
+                'ar',
+                'ar.currencies',
+                'currencies'
+            ])
+            ->get();
 
-		for ($i=0; $i < count($ARA); $i++) {
-			$x = $ARA[$i];
+        for ($i = 0; $i < count($ARA); $i++) {
+            $x = $ARA[$i];
 
-			$ARA[$i]->_transaction_number = $x->id_invoice;
-			$ARA[$i]->invoice = $this->getDataInvoice($x);
-			$ARA[$i]->paid_amount = $this->countPaidAmount($x);
-		}
+            $ARA[$i]->_transaction_number = $x->id_invoice;
+            $ARA[$i]->invoice = $this->getDataInvoice($x);
+            $ARA[$i]->paid_amount = $this->countPaidAmount($x);
+        }
 
         $data = $alldata = json_decode(
-			$ARA
+            $ARA
         );
 
-		$datatable = array_merge([
-			'pagination' => [], 'sort' => [], 'query' => []
-		], $_REQUEST);
+        $datatable = array_merge([
+            'pagination' => [], 'sort' => [], 'query' => []
+        ], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) &&
-			is_string($datatable['query']['generalSearch']) ?
-			$datatable['query']['generalSearch'] : '';
+        $filter = isset($datatable['query']['generalSearch']) &&
+            is_string($datatable['query']['generalSearch']) ?
+            $datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -265,8 +302,8 @@ class ARAController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) &&
-			is_array($datatable['query']) ? $datatable['query'] : null;
+        $query = isset($datatable['query']) &&
+            is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -276,16 +313,16 @@ class ARAController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ?
-			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ?
-			$datatable['sort']['field'] : 'RecordID';
+        $sort  = !empty($datatable['sort']['sort']) ?
+            $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ?
+            $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ?
-			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ?
-			(int) $datatable['pagination']['perpage'] : -1;
+        $page    = !empty($datatable['pagination']['page']) ?
+            (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ?
+            (int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -322,10 +359,10 @@ class ARAController extends Controller
             'total'   => $total,
         ];
 
-		if (
-			isset($datatable['requestIds']) &&
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
-		{
+        if (
+            isset($datatable['requestIds']) &&
+            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)
+        ) {
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);

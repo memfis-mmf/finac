@@ -154,11 +154,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-<<<<<<< HEAD
-								return 'Rp '+addCommas(parseInt(t.exchangerate));
-=======
-                return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.exchangerate));
->>>>>>> 57c7eeb2979bfad6d9c3198a5af8465fbe9b2322
+                return 'Rp '+addCommas(parseFloat(t.exchangerate));
 							}
 						},
 						{
@@ -167,11 +163,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-<<<<<<< HEAD
-								return t.currencies.symbol+' '+addCommas(parseInt(t.invoice.grandtotalforeign));
-=======
 								return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.invoice.grandtotalforeign));
->>>>>>> 57c7eeb2979bfad6d9c3198a5af8465fbe9b2322
 							}
 						},
 						{
@@ -180,11 +172,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-<<<<<<< HEAD
-								return t.currencies.symbol+' '+addCommas(parseInt(t.paid_amount));
-=======
 								return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.paid_amount));
->>>>>>> 57c7eeb2979bfad6d9c3198a5af8465fbe9b2322
 							}
 						},
 						{
@@ -199,11 +187,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-<<<<<<< HEAD
-								return t.ar.currencies.symbol+' '+addCommas(parseInt(t.credit));
-=======
 								return t.ar.currencies.symbol+' '+addCommas(parseFloat(t.credit));
->>>>>>> 57c7eeb2979bfad6d9c3198a5af8465fbe9b2322
 							}
 						},
 						{
