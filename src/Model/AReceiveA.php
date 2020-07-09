@@ -17,7 +17,9 @@ class AReceiveA extends MemfisModel
 		'currency',
 		'exchangerate',
 		'debit',
+		'debit_idr',
 		'credit',
+		'credit_idr',
 		'description',
     ];
 
@@ -28,7 +30,12 @@ class AReceiveA extends MemfisModel
 			'transactionnumber',
 			'transactionnumber'
 		);
-	}
+    }
+
+    public function arc()
+    {
+        return $this->hasOne(AReceiveC::class, 'ara_id');
+    }
 
 	public function invoice()
 	{
