@@ -695,13 +695,13 @@ class ARController extends Controller
 
             $side = 'credit';
             $x_side = 'debit';
-            $val = $z->difference;
+            $val = $z->gap;
 
-            // jika difference bernilai minus
-            if ($z->difference < 0) {
+            // jika gap bernilai minus
+            if ($z->gap < 0) {
                 $side = 'debit';
                 $x_side = 'credit';
-                $val = $z->difference * (-1);
+                $val = $z->gap * (-1);
             }
 
             $detail[] = (object) [
