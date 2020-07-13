@@ -280,7 +280,7 @@ let AccountReceivableEdit = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return t.ar.currencies.symbol+' '+number_format.format(parseFloat(t.debit));
+            return t.ar.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit));
           }
         },
         {
@@ -289,7 +289,7 @@ let AccountReceivableEdit = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return t.ar.currencies.symbol+' '+number_format.format(parseFloat(t.credit));
+            return t.ar.currencies.symbol + ' ' + number_format.format(parseFloat(t.credit));
           }
         },
         {
@@ -618,7 +618,8 @@ let AccountReceivableEdit = {
       let modal = $(this).parents('.modal');
       let _data = {
         'credit': modal.find('input[name=credit]').val(),
-        'description': modal.find('[name=description]').val()
+        'description': modal.find('[name=description]').val(),
+        'is_clearing': (modal.find('[name=is_clearing]:checked').length) ? '1' : '0',
       };
       let invoice_uuid = modal.find('input[name=invoice_uuid]').val();
 
