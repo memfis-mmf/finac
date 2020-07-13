@@ -658,15 +658,21 @@ class ARController extends Controller
         $detail = [];
 
         // looping sebenayak invoice
-        for ($a=0; $a < count($ara); $a++) {
-            $x = $ara[$a];
+        foreach ($ara as $ara_row) {
+
+            // jika invoice nya foreign
+            if ($ara_row->invoice->currencies->code != 'idr') {
+                $credit = $ara_row->credit * $ara_row->invoice->exchangerate;
+            }else{
+                $credit = $ara_row->credit_idr;
+            }
 
             $detail[] = (object) [
-                'coa_code' => $x->coa->code,
-                'coa_name' => $x->coa->name,
-                'credit' => $x->credit * $ar->exchangerate,
+                'coa_code' => $ara_row->coa->code,
+                'coa_name' => $ara_row->coa->name,
+                'credit' => $credit,
                 'debit' => 0,
-                '_desc' => $x->description,
+                '_desc' => $ara_row->description,
             ];
 
             $total_credit += $detail[count($detail)-1]->credit;
