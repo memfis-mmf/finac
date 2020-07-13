@@ -25,6 +25,8 @@
             if (_hash.length < 2) {
                 window.location.href=currentUrl+"#faAP";
 
+            } else {
+                window.location.href=currentUrl;
             }
         });
     </script>

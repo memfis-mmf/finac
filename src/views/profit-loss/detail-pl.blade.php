@@ -187,6 +187,8 @@
             let _hash = currentUrl.split('#');
             if (_hash.length < 2) {
                 window.location.href=currentUrl+"#faPL";
+            } else {
+                window.location.href=currentUrl;
             }
         });
     </script>

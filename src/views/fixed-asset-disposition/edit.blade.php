@@ -222,6 +222,8 @@
             let _hash = currentUrl.split('#');
             if (_hash.length < 2) {
                 window.location.href=currentUrl+"#faFixedAssetDisposition";
+            } else {
+                window.location.href=currentUrl;
             }
         });
     </script>

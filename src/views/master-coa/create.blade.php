@@ -176,6 +176,8 @@
             let _hash = currentUrl.split('#');
             if (_hash.length < 2) {
                 window.location.href=currentUrl+"#faMasterCoa";
+            } else {
+                window.location.href=currentUrl;
             }
         });
     </script>

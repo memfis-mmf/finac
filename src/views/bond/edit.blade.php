@@ -227,6 +227,8 @@
             let _hash = currentUrl.split('#');
             if (_hash.length < 2) {
                 window.location.href=currentUrl+"#faBond";
+            } else {
+                window.location.href=currentUrl;
             }
         });
     </script>
