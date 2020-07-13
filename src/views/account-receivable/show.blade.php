@@ -1,5 +1,7 @@
 @extends('frontend.master')
 
+@section('faAR', 'm-menu__item--active m-menu__item--open')
+@section('faARReceive', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
@@ -234,5 +236,14 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faAR";
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/account-receivable/show.js')}}"></script>
 @endpush
