@@ -1,5 +1,7 @@
 @extends('frontend.master')
 
+@section('faAP', 'm-menu__item--active m-menu__item--open')
+@section('faAPSI', 'm-menu__item--active')
 @section('content')
 <input type="hidden" value="{{ Request::segment(3) }}" name="si_uuid" id=""/>
 <div class="m-subheader hidden">
@@ -247,6 +249,15 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faAP";
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
