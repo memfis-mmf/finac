@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faTB', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
@@ -87,6 +88,15 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faTB";
+            }
+        });
+    </script>
     <script src="{{ asset('vendor/courier/frontend/trial-balance/index.js')}}"></script>
     <script src="{{ asset('vendor/courier/frontend/functions/daterange/trial-balance.js')}}"></script>
     <script>
