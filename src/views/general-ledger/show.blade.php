@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faGL', 'm-menu__item--active')
 @section('content')
 <input type="hidden" name="_beginDate" value="{{$beginDate}}">
 <input type="hidden" name="_endingDate" value="{{$endingDate}}">
@@ -153,5 +154,14 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faGL";
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/general-ledger/show.js')}}"></script>
 @endpush

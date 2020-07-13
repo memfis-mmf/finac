@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faGL', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
@@ -120,6 +121,15 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faGL";
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/general-ledger.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/general-ledger/index.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
