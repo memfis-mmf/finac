@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faAsset', 'm-menu__item--active')
 @section('content')
 <style>
   .dataTables_paginate a{
@@ -90,6 +91,15 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faAsset";
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/master-asset/index.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush
