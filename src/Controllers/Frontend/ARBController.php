@@ -93,6 +93,10 @@ class ARBController extends Controller
 
         $data = $alldata = json_decode(
             AReceiveB::where('transactionnumber', $AR->transactionnumber)
+                ->with([
+                    'ar',
+                    'ar.currencies',
+                ])
                 ->get()
         );
 

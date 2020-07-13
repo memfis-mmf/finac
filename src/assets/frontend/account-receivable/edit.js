@@ -280,7 +280,7 @@ let AccountReceivableEdit = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return number_format.format(parseFloat(t.debit));
+            return t.ar.currencies.symbol+' '+number_format.format(parseFloat(t.debit));
           }
         },
         {
@@ -289,7 +289,7 @@ let AccountReceivableEdit = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return number_format.format(parseFloat(t.credit));
+            return t.ar.currencies.symbol+' '+number_format.format(parseFloat(t.credit));
           }
         },
         {
