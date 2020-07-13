@@ -24,14 +24,14 @@ class ARBController extends Controller
 
     public function store(AReceiveBStore $request)
     {
-		$coa = Coa::where('uuid', $request->coa_uuid)->first();
-		$ar = AReceive::where('uuid', $request->ar_uuid)->first();
+        $coa = Coa::where('uuid', $request->coa_uuid)->first();
+        $ar = AReceive::where('uuid', $request->ar_uuid)->first();
 
-		$request->request->add([
-			'transactionnumber' => $ar->transactionnumber,
-			'code' => $coa->code,
-			'name' => $coa->name,
-		]);
+        $request->request->add([
+            'transactionnumber' => $ar->transactionnumber,
+            'code' => $coa->code,
+            'name' => $coa->name,
+        ]);
 
         $AReceiveB = AReceiveB::create($request->all());
         return response()->json($AReceiveB);
@@ -44,24 +44,35 @@ class ARBController extends Controller
 
     public function update(AReceiveBUpdate $request, AReceiveB $AReceiveB)
     {
-		$request->merge([
-			'description' => $request->description_b,
-			'debit' => $request->debit_b,
-			'credit' => $request->credit_b,
-		]);
+        $arb_tmp = AReceiveB::where('uuid', $request->areceiveb);
+        $arb = $arb_tmp->first();
+        $ar = $arb->ar;
 
-		AReceiveB::where('uuid', $request->areceiveb)->update($request->only([
-			'debit',
-			'credit',
-			'description',
-		]));
+        $request->merge([
+            'description' => $request->description_b,
+            'debit' => $request->debit_b,
+            'credit' => $request->credit_b,
+        ]);
+
+        $request->request->add([
+            'debit_idr' => $request->debit_b * $ar->exchangerate,
+            'credit_idr' => $request->credit_b * $ar->exchangerate,
+        ]);
+
+        $arb_tmp->update($request->only([
+            'debit',
+            'credit',
+            'debit_idr',
+            'credit_idr',
+            'description',
+        ]));
 
         return response()->json($AReceiveB);
     }
 
     public function destroy(Request $request)
     {
-		AReceiveB::where('uuid', $request->areceiveb)->delete();
+        AReceiveB::where('uuid', $request->areceiveb)->delete();
     }
 
     public function api()
@@ -78,20 +89,20 @@ class ARBController extends Controller
 
     public function datatables(Request $request)
     {
-		$AR = AReceive::where('uuid', $request->ar_uuid)->first();
+        $AR = AReceive::where('uuid', $request->ar_uuid)->first();
 
         $data = $alldata = json_decode(
-			AReceiveB::where('transactionnumber', $AR->transactionnumber)
-			->get()
-		);
+            AReceiveB::where('transactionnumber', $AR->transactionnumber)
+                ->get()
+        );
 
-		$datatable = array_merge([
-			'pagination' => [], 'sort' => [], 'query' => []
-		], $_REQUEST);
+        $datatable = array_merge([
+            'pagination' => [], 'sort' => [], 'query' => []
+        ], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) &&
-			is_string($datatable['query']['generalSearch']) ?
-			$datatable['query']['generalSearch'] : '';
+        $filter = isset($datatable['query']['generalSearch']) &&
+            is_string($datatable['query']['generalSearch']) ?
+            $datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -101,8 +112,8 @@ class ARBController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) &&
-			is_array($datatable['query']) ? $datatable['query'] : null;
+        $query = isset($datatable['query']) &&
+            is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -112,16 +123,16 @@ class ARBController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ?
-			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ?
-			$datatable['sort']['field'] : 'RecordID';
+        $sort  = !empty($datatable['sort']['sort']) ?
+            $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ?
+            $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ?
-			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ?
-			(int) $datatable['pagination']['perpage'] : -1;
+        $page    = !empty($datatable['pagination']['page']) ?
+            (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ?
+            (int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -158,10 +169,10 @@ class ARBController extends Controller
             'total'   => $total,
         ];
 
-		if (
-			isset($datatable['requestIds']) &&
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
-		{
+        if (
+            isset($datatable['requestIds']) &&
+            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)
+        ) {
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
