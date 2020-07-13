@@ -1,5 +1,7 @@
 @extends('frontend.master')
 
+@section('faAP', 'm-menu__item--active m-menu__item--open')
+@section('faAPPayment', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
 	<input type="hidden" name="ap_uuid" value="{{ Request::segment(2) }}" disabled>
@@ -367,6 +369,16 @@
 @endpush
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faAP";
+
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
