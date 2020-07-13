@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faJournal', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
@@ -165,5 +166,14 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faJournal";
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/journal/show.js')}}"></script>
 @endpush
