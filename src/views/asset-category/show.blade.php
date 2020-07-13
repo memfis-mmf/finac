@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faAssetCategory', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
