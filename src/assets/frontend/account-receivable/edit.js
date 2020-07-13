@@ -4,6 +4,7 @@ let AccountReceivableEdit = {
 		let _url = window.location.origin;
 		let ar_uuid = $('input[name=ar_uuid]').val();
     let id_customer = $('select[name=id_customer]').val();
+    let number_format = new Intl.NumberFormat('de-DE');
 
     $('#project').select2({
       ajax: {
@@ -12,19 +13,6 @@ let AccountReceivableEdit = {
       },
       minimumInputLength: 3,
     });
-
-		function addCommas(nStr)
-		{
-			nStr += '';
-			x = nStr.split('.');
-			x1 = x[0];
-			x2 = x.length > 1 ? '.' + x[1] : '';
-			var rgx = /(\d+)(\d{3})/;
-			while (rgx.test(x1)) {
-				x1 = x1.replace(rgx, '$1' + '.' + '$2');
-			}
-			return x1 + x2;
-		}
 
 		let coa_datatables = $("#coa_datatables").DataTable({
 				"dom": '<"top"f>rt<"bottom">pl',
@@ -154,7 +142,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-                return 'Rp '+addCommas(parseFloat(t.exchangerate));
+                return 'Rp '+number_format.format(parseFloat(t.exchangerate));
 							}
 						},
 						{
@@ -163,7 +151,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.invoice.grandtotalforeign));
+								return t.invoice.currencies.symbol+' '+number_format.format(parseFloat(t.invoice.grandtotalforeign));
 							}
 						},
 						{
@@ -172,7 +160,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return t.invoice.currencies.symbol+' '+addCommas(parseFloat(t.paid_amount));
+								return t.invoice.currencies.symbol+' '+number_format.format(parseFloat(t.paid_amount));
 							}
 						},
 						{
@@ -187,7 +175,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return t.ar.currencies.symbol+' '+addCommas(parseFloat(t.credit));
+								return t.ar.currencies.symbol+' '+number_format.format(parseFloat(t.credit));
 							}
 						},
 						{
@@ -196,7 +184,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return 'Rp '+addCommas(parseFloat(t.credit_idr));
+								return 'Rp '+number_format.format(parseFloat(t.credit_idr));
 							}
 						},
 						{
@@ -205,7 +193,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return 'Rp '+addCommas(parseFloat(t.arc.gap));
+								return 'Rp '+number_format.format(parseFloat(t.arc.gap));
 							}
 						},
 						{
@@ -292,7 +280,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseFloat(t.debit));
+								return number_format.format(parseFloat(t.debit));
 							}
 						},
 						{
@@ -301,7 +289,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseFloat(t.credit));
+								return number_format.format(parseFloat(t.credit));
 							}
 						},
 						{
@@ -395,7 +383,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function (t, e, i) {
-								return addCommas(parseFloat(t.exchangerate));
+								return number_format.format(parseFloat(t.exchangerate));
 							}
 						},
 						{
@@ -404,7 +392,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function (t, e, i) {
-								return addCommas(parseFloat(t.grandtotalforeign));
+								return number_format.format(parseFloat(t.grandtotalforeign));
 							}
 						},
 						{
@@ -413,7 +401,7 @@ let AccountReceivableEdit = {
 							sortable: 'asc',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseFloat(t.paid_amount));
+								return number_format.format(parseFloat(t.paid_amount));
 							}
 						},
 						{
@@ -676,10 +664,10 @@ let AccountReceivableEdit = {
 			$(target).find('.iv_transactionnumber').val(data.transactionnumber);
 			$(target).find('.iv_code').val(data.code);
 			$(target).find('.iv_currency').val(data.currency);
-			$(target).find('.iv_exchangerate').val(addCommas(parseFloat(data.exchangerate)));
-			$(target).find('.iv_total_amount').val(addCommas(parseFloat(data.invoice.grandtotalforeign)));
-			$(target).find('.iv_paid_amount').val(addCommas(parseFloat(data.paid_amount)));
-      $(target).find('.iv_exchangerate_gap').val(addCommas(parseFloat((data.credit * data.ar.exchangerate) - (data.credit * data.exchangerate))));
+			$(target).find('.iv_exchangerate').val('Rp '+number_format.format(parseFloat(data.exchangerate)));
+			$(target).find('.iv_total_amount').val(data.invoice.currencies.symbol+' '+number_format.format(parseFloat(data.invoice.grandtotalforeign)));
+			$(target).find('.iv_paid_amount').val(data.invoice.currencies.symbol+' '+number_format.format(parseFloat(data.paid_amount)));
+      $(target).find('.iv_exchangerate_gap').val('Rp '+number_format.format(parseFloat(data.arc.gap)));
       $(target).find('.atp_symbol').html(data.ar.currencies.symbol);
 
 			$(target).modal('show');
