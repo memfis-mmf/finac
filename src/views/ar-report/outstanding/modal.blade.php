@@ -104,6 +104,15 @@
 
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faReport";
+            }
+        });
+    </script>
     <script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
 
     <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
