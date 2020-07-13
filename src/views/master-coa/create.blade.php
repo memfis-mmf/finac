@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faMasterCoa', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
@@ -169,6 +170,15 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faMasterCoa";
+            }
+        });
+    </script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/sub-account.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
 <script type="text/javascript">

@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faMasterCoa', 'm-menu__item--active')
 @section('content')
 <style>
   .dataTables_paginate a{
@@ -77,6 +78,15 @@
 @endsection
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faMasterCoa";
+            }
+        });
+    </script>
     <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('vendor/courier/frontend/master-coa/index.js')}}"></script>
 @endpush
