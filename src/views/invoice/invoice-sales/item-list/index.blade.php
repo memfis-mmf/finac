@@ -121,5 +121,14 @@
 </div>
 
 @push('footer-scripts')
+    <script>
+        $(document).ready(function() {
+            let currentUrl = window.location.href;
+            let _hash = currentUrl.split('#');
+            if (_hash.length < 2) {
+                window.location.href=currentUrl+"#faAR";
+            }
+        });
+    </script>
     <script src="{{ asset('vendor/courier/frontend/invoice/item-list.js')}}"></script>
 @endpush
