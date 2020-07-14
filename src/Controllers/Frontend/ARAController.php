@@ -207,7 +207,8 @@ class ARAController extends Controller
 
     public function destroy(AReceiveA $areceivea)
     {
-        $areceivea->delete();
+        AReceiveC::where('ara_id', $areceivea->id)->forceDelete();
+        $areceivea->forceDelete();
 
         return response()->json($areceivea);
     }
