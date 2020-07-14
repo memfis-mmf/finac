@@ -172,7 +172,7 @@ class ARAController extends Controller
 
             $arc_debit = 0;
             $arc_credit = 0;
-            if ($calculation->gap) {
+            if ($calculation->gap > 0) {
                 $arc_credit = $calculation->gap;
             } else {
                 $arc_debit = $calculation->gap;
