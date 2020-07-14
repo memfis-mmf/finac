@@ -15,8 +15,8 @@ class AReceiveC extends MemfisModel
 	    'transactionnumber',
 	    'id_invoice',
 	    'code',
-	    'crdit',
 	    'debit',
+	    'credit',
 	    'description',
     ];
     
