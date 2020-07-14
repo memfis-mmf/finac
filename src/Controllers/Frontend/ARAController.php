@@ -151,6 +151,43 @@ class ARAController extends Controller
         return (object) $result;
     }
 
+    public function checkAmount($ara, $request)
+    {
+        $amount_to_pay = $request->credit;
+
+        $invoice = $ara->invoice;
+        $invoice_amount = $invoice->grandtotalforeign;
+
+        // get all receive amount invoice
+        $query = AReceiveA::where('id_invoice', $invoice->id)
+            ->where('id', '!=', $ara->id);
+
+        // jika invoice foreign
+        if ($invoice->currencies->code != 'idr') {
+            $total_invoice_receive_amount = $query->sum('credit');
+        } else { //jika invoice idr
+            $total_invoice_receive_amount = $query->sum('credit_idr');
+        }
+
+        $total_invoice_receive_amount += $amount_to_pay;
+
+        // jika currency ar dan invoice sama
+        if ($ara->ar->currencies->code == $invoice->currencies->code) {
+            if ($total_invoice_receive_amount > $invoice_amount) {
+                return (object)[
+                    'status' => false,
+                    'message' => 'Total amount receive is more than invoice amount',
+                ];
+            }
+        }
+
+        return (object)[
+            'status' => true,
+            'message' => ''
+        ];
+
+    }
+
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
     {
 
@@ -158,6 +195,13 @@ class ARAController extends Controller
         try {
 
             $calculation = $this->calculateAmount($areceivea, $request);
+            $check_amount = $this->checkAmount($areceivea, $request);
+
+            if (!$check_amount->status) {
+                return response()->json([
+                    'errors' => $check_amount->message
+                ]);
+            }
 
             $request->merge([
                 'credit' => $calculation->credit,
@@ -240,9 +284,9 @@ class ARAController extends Controller
     public function countPaidAmount($ara_tmp)
     {
         $invoice = $ara_tmp->invoice;
-        $ara = AReceiveA::where('id_invoice', $ara_tmp->id_invoice)
+        // ambil semua data pembayaran invoice ini
+        $ara = AReceiveA::where('id_invoice', $invoice->id)
             ->get();
-
 
         $paid_amount = 0;
         foreach ($ara as $ara_row) {
