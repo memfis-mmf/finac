@@ -193,7 +193,7 @@ let AccountReceivableEdit = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp ' + number_format.format(parseFloat(t.arc.gap));
+            return 'Rp ' + number_format.format(parseFloat((v = t.arc) ? v.gap : 0));
           }
         },
         {
@@ -668,7 +668,7 @@ let AccountReceivableEdit = {
       $(target).find('.iv_exchangerate').val('Rp ' + number_format.format(parseFloat(data.exchangerate)));
       $(target).find('.iv_total_amount').val(data.invoice.currencies.symbol + ' ' + number_format.format(parseFloat(data.invoice.grandtotalforeign)));
       $(target).find('.iv_paid_amount').val(data.invoice.currencies.symbol + ' ' + number_format.format(parseFloat(data.paid_amount)));
-      $(target).find('.iv_exchangerate_gap').val('Rp ' + number_format.format(parseFloat(data.arc.gap)));
+      $(target).find('.iv_exchangerate_gap').val('Rp ' + number_format.format(parseFloat(v = data.arc) ? v.gap : 0));
       $(target).find('.atp_symbol').html(data.ar.currencies.symbol);
 
       $(target).modal('show');
