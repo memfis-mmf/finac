@@ -6,12 +6,8 @@ use Auth;
 use Illuminate\Http\Request;
 use memfisfa\Finac\Model\APayment;
 use memfisfa\Finac\Model\APaymentA;
-use memfisfa\Finac\Model\APaymentB;
-use memfisfa\Finac\Model\APaymentC;
 use memfisfa\Finac\Model\Coa;
-use memfisfa\Finac\Model\TrxPayment;
-use memfisfa\Finac\Request\APaymentUpdate;
-use memfisfa\Finac\Request\APaymentStore;
+use memfisfa\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Currency;
@@ -19,17 +15,19 @@ use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 use DataTables;
 use DB;
+use memfisfa\Finac\Model\TrxPayment;
 
 class APController extends Controller
 {
     public function index()
     {
-        return redirect()->route('apayment.create');
+        return view('accountpayableview::index');
     }
 
     public function create()
     {
-        return view('accountpayableview::index');
+        $data['vendor'] = Vendor::all();
+        return view('accountpayableview::create', $data);
     }
 
     public function store(Request $request)
@@ -42,29 +40,29 @@ class APController extends Controller
             'exchangerate' => 'required'
         ]);
 
-		$vendor = Vendor::where('id', $request->id_supplier)->first();
-		if (!$vendor) {
-			return [
-				'errors' => 'Supplier not found'
-			];
-		}
+        $vendor = Vendor::where('id', $request->id_supplier)->first();
+        if (!$vendor) {
+            return [
+                'errors' => 'Vendor not found'
+            ];
+        }
 
-		$request->merge([
-			'id_supplier' => $vendor->id
-		]);
+        $request->merge([
+            'id_supplier' => $vendor->id
+        ]);
 
-		$coa = Coa::where('code', $request->accountcode)->first();
+        $coa = Coa::where('code', $request->accountcode)->first();
 
-		$code = 'CCPJ';
+        $code = 'CCPJ';
 
-		if (strpos($coa->name, 'Bank') !== false) {
-			$code = 'CBPJ';
-		}
+        if (strpos($coa->name, 'Bank') !== false) {
+            $code = 'CBPJ';
+        }
 
-		$request->request->add([
-			'approve' => 0,
-			'transactionnumber' => APayment::generateCode($code),
-		]);
+        $request->request->add([
+            'approve' => 0,
+            'transactionnumber' => '-',
+        ]);
 
         $apayment = APayment::create($request->all());
         return response()->json($apayment);
@@ -72,49 +70,54 @@ class APController extends Controller
 
     public function edit(Request $request)
     {
-		$data['data'] = APayment::where(
-			'uuid', $request->apayment
-		)->with([
-			'currencies',
-			'project',
-		])->first();
+        $data['data'] = APayment::where(
+            'uuid',
+            $request->apayment
+        )->with([
+            'currencies',
+            'project',
+        ])->first();
 
-		//if data already approved
-		if ($data['data']->approve) {
-			return redirect()->back();
-		}
+        //if data already approved
+        if ($data['data']->approve) {
+            return redirect()->route('apayment.index');
+        }
 
-		$data['vendor'] = Vendor::all();
-		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
-		)->whereIn('code',['idr','usd'])
-		->get();
+        $data['vendor'] = Vendor::all();
+        $data['currency'] = Currency::selectRaw(
+            'code, CONCAT(name, " (", symbol ,")") as full_name'
+        )->whereIn('code', ['idr', 'usd'])
+            ->get();
 
-		$data['debt_total_amount'] = TrxPayment::where(
-			'id_supplier',
-			$data['data']->id_supplier
-		)->sum('grandtotal');
+        $data['credit_total_amount'] = Invoice::where(
+            'id_supplier',
+            $data['data']->id_supplier
+        )->sum('grandtotal');
 
-		$apayment = APayment::where('id_supplier', $data['data']->id_supplier)
-		->where('approve', 1)
-		->get();
+        $apayment = APayment::where('id_supplier', $data['data']->id_supplier)
+            ->where('approve', true)
+            ->get();
 
-		$payment_total_amount = 0;
+        $payment_total_amount = 0;
+        for ($i = 0; $i < count($apayment); $i++) {
+            $x = $apayment[$i];
 
-		for ($i = 0; $i < count($apayment); $i++) {
-			$x = $apayment[$i];
+            for ($j = 0; $j < count($x->apa); $j++) {
+                $y = $x->apa[$j];
 
-			for ($j = 0; $j < count($x->apa); $j++) {
-				$y = $x->apa[$j];
+                $payment_total_amount += $y->credit_idr;
+            }
+        }
 
-				$payment_total_amount += ($y->debit * $x->exchangerate);
-			}
-		}
+        $data['payment_total_amount'] = $payment_total_amount;
+        $credit_balance = abs(($data['credit_total_amount'] - $data['payment_total_amount']));
 
-		$data['payment_total_amount'] = $payment_total_amount;
-		$data['debt_balance'] = (
-			$data['debt_total_amount'] - $data['payment_total_amount']
-		);
+        $class = 'danger';
+        if ($credit_balance > $data['credit_total_amount']) {
+            $class = 'success';
+        }
+
+        $data['credit_balance'] = "<span class='text-$class'>Rp " . number_format($credit_balance, 0, 0, '.') . "</span>";
 
         return view('accountpayableview::edit', $data);
     }
@@ -129,9 +132,9 @@ class APController extends Controller
             'exchangerate' => 'required'
         ]);
 
-		$request->merge([
-			'description' => $request->ap_description
-		]);
+        $request->merge([
+            'description' => $request->ar_description
+        ]);
 
         $apayment->update($request->all());
 
@@ -140,47 +143,16 @@ class APController extends Controller
 
     public function destroy(APayment $apayment)
     {
-		DB::beginTransaction();
-
-		$apa = APaymentA::where(
-			'transactionnumber', $apayment->transactionnumber
-		)
-		->first();
-
-		if ($apa) {
-			$apa->delete();
-		}
-
-		$apb = APaymentB::where(
-			'transactionnumber', $apayment->transactionnumber
-		)
-		->first();
-
-		if ($apb) {
-			$apb->delete();
-		}
-
-		$apc = APaymentC::where(
-			'transactionnumber', $apayment->transactionnumber
-		)
-		->first();
-
-		if ($apc) {
-			$apc->delete();
-		}
-
         $apayment->delete();
-
-		DB::commit();
 
         return response()->json($apayment);
     }
 
     public function api()
     {
-        $apaymentdata = APayment::all();
+        $areceivedata = APayment::all();
 
-        return json_encode($apaymentdata);
+        return json_encode($areceivedata);
     }
 
     public function apidetail(APayment $apayment)
@@ -191,80 +163,81 @@ class APController extends Controller
     public function datatables()
     {
         $data = APayment::orderBy('id', 'desc')->with([
-			'vendor',
-			'apa',
-			'coa',
-		]);
+            'vendor',
+            'apa',
+            'coa',
+        ]);
 
         return DataTables::of($data)
-		->escapeColumns([])
-		->make(true);
-
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function coaDatatables()
     {
-        function filterArray( $array, $allowed = [] ) {
+        function filterArray($array, $allowed = [])
+        {
             return array_filter(
                 $array,
-                function ( $val, $key ) use ( $allowed ) { // N.b. $val, $key not $key, $val
-                    return isset( $allowed[ $key ] ) && ( $allowed[ $key ] === true || $allowed[ $key ] === $val );
+                function ($val, $key) use ($allowed) { // N.b. $val, $key not $key, $val
+                    return isset($allowed[$key]) && ($allowed[$key] === true || $allowed[$key] === $val);
                 },
                 ARRAY_FILTER_USE_BOTH
             );
         }
 
-        function filterKeyword( $data, $search, $field = '' ) {
+        function filterKeyword($data, $search, $field = '')
+        {
             $filter = '';
-            if ( isset( $search['value'] ) ) {
+            if (isset($search['value'])) {
                 $filter = $search['value'];
             }
-            if ( ! empty( $filter ) ) {
-                if ( ! empty( $field ) ) {
-                    if ( strpos( strtolower( $field ), 'date' ) !== false ) {
+            if (!empty($filter)) {
+                if (!empty($field)) {
+                    if (strpos(strtolower($field), 'date') !== false) {
                         // filter by date range
-                        $data = filterByDateRange( $data, $filter, $field );
+                        $data = filterByDateRange($data, $filter, $field);
                     } else {
                         // filter by column
-                        $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
-                            return (boolean) preg_match( "/$filter/i", $a[ $field ] );
-                        } );
+                        $data = array_filter($data, function ($a) use ($field, $filter) {
+                            return (bool) preg_match("/$filter/i", $a[$field]);
+                        });
                     }
-
                 } else {
                     // general filter
-                    $data = array_filter( $data, function ( $a ) use ( $filter ) {
-                        return (boolean) preg_grep( "/$filter/i", (array) $a );
-                    } );
+                    $data = array_filter($data, function ($a) use ($filter) {
+                        return (bool) preg_grep("/$filter/i", (array) $a);
+                    });
                 }
             }
 
             return $data;
         }
 
-        function filterByDateRange( $data, $filter, $field ) {
+        function filterByDateRange($data, $filter, $field)
+        {
             // filter by range
-            if ( ! empty( $range = array_filter( explode( '|', $filter ) ) ) ) {
+            if (!empty($range = array_filter(explode('|', $filter)))) {
                 $filter = $range;
             }
 
-            if ( is_array( $filter ) ) {
-                foreach ( $filter as &$date ) {
+            if (is_array($filter)) {
+                foreach ($filter as &$date) {
                     // hardcoded date format
-                    $date = date_create_from_format( 'm/d/Y', stripcslashes( $date ) );
+                    $date = date_create_from_format('m/d/Y', stripcslashes($date));
                 }
                 // filter by date range
-                $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
+                $data = array_filter($data, function ($a) use ($field, $filter) {
                     // hardcoded date format
-                    $current = date_create_from_format( 'm/d/Y', $a[ $field ] );
+                    $current = date_create_from_format('m/d/Y', $a[$field]);
                     $from    = $filter[0];
                     $to      = $filter[1];
-                    if ( $from <= $current && $to >= $current ) {
+                    if ($from <= $current && $to >= $current) {
                         return true;
                     }
 
                     return false;
-                } );
+                });
             }
 
             return $data;
@@ -280,10 +253,10 @@ class APController extends Controller
             'Actions'      => true,
         ];
 
-        if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
+        if (isset($_REQUEST['columnsDef']) && is_array($_REQUEST['columnsDef'])) {
             $columnsDefault = [];
-            foreach ( $_REQUEST['columnsDef'] as $field ) {
-                $columnsDefault[ $field ] = true;
+            foreach ($_REQUEST['columnsDef'] as $field) {
+                $columnsDefault[$field] = true;
             }
         }
 
@@ -291,67 +264,67 @@ class APController extends Controller
         $coa  = Coa::where('description', 'Detail')->get();
 
 
-        $alldata = json_decode( $coa, true);
+        $alldata = json_decode($coa, true);
 
         $data = [];
         // internal use; filter selected columns only from raw data
-        foreach ( $alldata as $d ) {
-            $data[] = filterArray( $d, $columnsDefault );
+        foreach ($alldata as $d) {
+            $data[] = filterArray($d, $columnsDefault);
         }
 
         // count data
-        $totalRecords = $totalDisplay = count( $data );
+        $totalRecords = $totalDisplay = count($data);
 
         // filter by general search keyword
-        if ( isset( $_REQUEST['search'] ) ) {
-            $data         = filterKeyword( $data, $_REQUEST['search'] );
-            $totalDisplay = count( $data );
+        if (isset($_REQUEST['search'])) {
+            $data         = filterKeyword($data, $_REQUEST['search']);
+            $totalDisplay = count($data);
         }
 
-        if ( isset( $_REQUEST['columns'] ) && is_array( $_REQUEST['columns'] ) ) {
-            foreach ( $_REQUEST['columns'] as $column ) {
-                if ( isset( $column['search'] ) ) {
-                    $data         = filterKeyword( $data, $column['search'], $column['data'] );
-                    $totalDisplay = count( $data );
+        if (isset($_REQUEST['columns']) && is_array($_REQUEST['columns'])) {
+            foreach ($_REQUEST['columns'] as $column) {
+                if (isset($column['search'])) {
+                    $data         = filterKeyword($data, $column['search'], $column['data']);
+                    $totalDisplay = count($data);
                 }
             }
         }
 
         // sort
-        if ( isset( $_REQUEST['order'][0]['column'] ) && $_REQUEST['order'][0]['dir'] ) {
+        if (isset($_REQUEST['order'][0]['column']) && $_REQUEST['order'][0]['dir']) {
             $column = $_REQUEST['order'][0]['column'];
             $dir    = $_REQUEST['order'][0]['dir'];
-            usort( $data, function ( $a, $b ) use ( $column, $dir ) {
-                $a = array_slice( $a, $column, 1 );
-                $b = array_slice( $b, $column, 1 );
-                $a = array_pop( $a );
-                $b = array_pop( $b );
+            usort($data, function ($a, $b) use ($column, $dir) {
+                $a = array_slice($a, $column, 1);
+                $b = array_slice($b, $column, 1);
+                $a = array_pop($a);
+                $b = array_pop($b);
 
-                if ( $dir === 'asc' ) {
+                if ($dir === 'asc') {
                     return $a > $b ? true : false;
                 }
 
                 return $a < $b ? true : false;
-            } );
+            });
         }
 
         // pagination length
-        if ( isset( $_REQUEST['length'] ) ) {
-            $data = array_splice( $data, $_REQUEST['start'], $_REQUEST['length'] );
+        if (isset($_REQUEST['length'])) {
+            $data = array_splice($data, $_REQUEST['start'], $_REQUEST['length']);
         }
 
         // return array values only without the keys
-        if ( isset( $_REQUEST['array_values'] ) && $_REQUEST['array_values'] ) {
+        if (isset($_REQUEST['array_values']) && $_REQUEST['array_values']) {
             $tmp  = $data;
             $data = [];
-            foreach ( $tmp as $d ) {
-                $data[] = array_values( $d );
+            foreach ($tmp as $d) {
+                $data[] = array_values($d);
             }
         }
 
         $secho = 0;
-        if ( isset( $_REQUEST['sEcho'] ) ) {
-            $secho = intval( $_REQUEST['sEcho'] );
+        if (isset($_REQUEST['sEcho'])) {
+            $secho = intval($_REQUEST['sEcho']);
         }
 
         $result = [
@@ -367,48 +340,67 @@ class APController extends Controller
         header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
-        echo json_encode( $result, JSON_PRETTY_PRINT );
+        echo json_encode($result, JSON_PRETTY_PRINT);
+    }
+
+    public function countPaidAmount($id_invoice)
+    {
+        $apa = APaymentA::where('id_invoice', $id_invoice)->get();
+        if (!count($apa)) {
+            return 0;
+        }
+        $ap = $apa[0]->ap;
+
+        $payment_total_amount = 0;
+
+        for ($j = 0; $j < count($apa); $j++) {
+            $y = $apa[$j];
+
+            $payment_total_amount += $y->credit_idr;
+        }
+
+        return $payment_total_amount;
     }
 
     public function SIModalDatatables(Request $request)
     {
-		$ap = APayment::where('uuid', $request->ap_uuid)->first();
+        $ap = APayment::where('uuid', $request->ap_uuid)->first();
 
-		$trxpayment_grn = TrxPayment::where('id_supplier', $request->id_vendor)
-			->where('x_type', 'GRN')
-			->where('approve', 1)
-			->get();
+        $trxpayment_grn = TrxPayment::where('id_supplier', $request->id_vendor)
+            ->where('x_type', 'GRN')
+            ->where('approve', 1)
+            ->get();
 
-		$arr = [];
-		$index_arr = 0;
+        $arr = [];
+        $index_arr = 0;
 
-		for ($i=0; $i < count($trxpayment_grn); $i++) {
-			$x = $trxpayment_grn[$i];
+        for ($i = 0; $i < count($trxpayment_grn); $i++) {
+            $x = $trxpayment_grn[$i];
 
-			for ($j=0; $j < count($x->trxpaymenta); $j++) {
-				$z = $x->trxpaymenta[$j];
+            for ($j = 0; $j < count($x->trxpaymenta); $j++) {
+                $z = $x->trxpaymenta[$j];
 
-				$arr[$index_arr] = json_decode($x);
-				$arr[$index_arr]->transaction_number = $z->grn->number;
-				$arr[$index_arr]->uuid = $z->grn->uuid;
-				$index_arr++;
-			}
-		}
+                $arr[$index_arr] = json_decode($x);
+                $arr[$index_arr]->transaction_number = $z->grn->number;
+                $arr[$index_arr]->uuid = $z->grn->uuid;
+                $index_arr++;
+            }
+        }
 
-		$trxpayment_non_grn = TrxPayment::where('id_supplier', $request->id_vendor)
-			->where('x_type', 'NON GRN')
-			->where('approve', 1)
-			->get();
+        $trxpayment_non_grn = TrxPayment::where('id_supplier', $request->id_vendor)
+            ->where('x_type', 'NON GRN')
+            ->where('approve', 1)
+            ->get();
 
         $data = $alldata = array_merge($arr, json_decode($trxpayment_non_grn));
 
-		$datatable = array_merge([
-			'pagination' => [], 'sort' => [], 'query' => []
-		], $_REQUEST);
+        $datatable = array_merge([
+            'pagination' => [], 'sort' => [], 'query' => []
+        ], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) &&
-			is_string($datatable['query']['generalSearch']) ?
-			$datatable['query']['generalSearch'] : '';
+        $filter = isset($datatable['query']['generalSearch']) &&
+            is_string($datatable['query']['generalSearch']) ?
+            $datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -418,8 +410,8 @@ class APController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) &&
-			is_array($datatable['query']) ? $datatable['query'] : null;
+        $query = isset($datatable['query']) &&
+            is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -429,16 +421,16 @@ class APController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ?
-			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ?
-			$datatable['sort']['field'] : 'RecordID';
+        $sort  = !empty($datatable['sort']['sort']) ?
+            $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ?
+            $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ?
-			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ?
-			(int) $datatable['pagination']['perpage'] : -1;
+        $page    = !empty($datatable['pagination']['page']) ?
+            (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ?
+            (int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -475,10 +467,10 @@ class APController extends Controller
             'total'   => $total,
         ];
 
-		if (
-			isset($datatable['requestIds']) &&
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
-		{
+        if (
+            isset($datatable['requestIds']) &&
+            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)
+        ) {
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
@@ -502,285 +494,297 @@ class APController extends Controller
 
     public function approve(Request $request)
     {
-		DB::beginTransaction();
-		try {
+        DB::beginTransaction();
+        try {
 
-			$ap_tmp = APayment::where('uuid', $request->uuid);
-			$ap = $ap_tmp->first();
+            $ar_tmp = APayment::where('uuid', $request->uuid);
+            $ap = $ar_tmp->first();
 
-	        $ap->approvals()->save(new Approval([
-	            'approvable_id' => $ap->id,
-	            'is_approved' => 0,
-	            'conducted_by' => Auth::id(),
-	        ]));
+            $coa = Coa::where('code', $ap->accountcode)->first();
 
-			$apa = $ap->apa;
-			$apb = $ap->apb;
-			$apc = $ap->apc;
+            $code = 'CCPJ';
 
-			$date_approve = $ap->approvals->first()
-			->created_at->toDateTimeString();
+            if (strpos($coa->name, 'Bank') !== false) {
+                $code = 'CBPJ';
+            }
 
-			$header = (object) [
-				'voucher_no' => $ap->transactionnumber,
-				// 'transaction_date' => $date_approve,
-				'transaction_date' => $ap->transactiondate,
-				'coa' => $ap->coa->id,
-			];
+            $ar_tmp->update([
+                'transactionnumber' => APayment::generateCode($code)
+            ]);
 
-			$total_credit = 0;
-			$total_debit = 0;
+            $ap->approvals()->save(new Approval([
+                'approvable_id' => $ap->id,
+                'is_approved' => 0,
+                'conducted_by' => Auth::id(),
+            ]));
 
-			$detail = [];
+            $apa = $ap->apa;
+            $apb = $ap->apb;
+            $apc = $ap->apc;
 
-			// looping sebenayak supplier invoice
-			for ($a=0; $a < count($apa); $a++) {
-				$x = $apa[$a];
+            $date_approve = $ap->approvals->first()
+                ->created_at->toDateTimeString();
 
-				$detail[] = (object) [
-					'coa_detail' => $x->coa->id,
-					'debit' => $x->debit * $ap->exchangerate,
-					'credit' => 0,
-					'_desc' => 'Debt Payment : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
-				];
+            $header = (object) [
+                'voucher_no' => $ap->transactionnumber,
+                // 'transaction_date' => $date_approve,
+                'transaction_date' => $ap->transactiondate,
+                'coa' => $ap->coa->id,
+            ];
 
-				$total_credit += $detail[count($detail)-1]->credit;
-				$total_debit += $detail[count($detail)-1]->debit;
-			}
+            $total_credit = 0;
+            $total_debit = 0;
 
-			// looping sebanyak adjustment
-			for ($a=0; $a < count($apb); $a++) {
-				$y = $apb[$a];
+            $detail = [];
 
-				$detail[] = (object) [
-					'coa_detail' => $y->coa->id,
-					'credit' => $y->credit,
-					'debit' => $y->debit,
-					'_desc' => 'Debt Payment : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
-				];
+            // looping sebenayak invoice
+            for ($a = 0; $a < count($apa); $a++) {
+                $x = $apa[$a];
 
-				$total_credit += $detail[count($detail)-1]->credit;
-				$total_debit += $detail[count($detail)-1]->debit;
-			}
+                $detail[] = (object) [
+                    'coa_detail' => $x->coa->id,
+                    'credit' => $x->credit * $ap->exchangerate,
+                    'debit' => 0,
+                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
+                        . $x->ap->vendor->name,
+                ];
 
-			// looping sebanyak gap
-			for ($a=0; $a < count($apc); $a++) {
-				$z = $apc[$a];
+                $total_credit += $detail[count($detail) - 1]->credit;
+                $total_debit += $detail[count($detail) - 1]->debit;
+            }
 
-				$side = 'debit';
-				$x_side = 'credit';
-				$val = $z->difference;
+            // looping sebanyak adjustment
+            for ($a = 0; $a < count($apb); $a++) {
+                $y = $apb[$a];
 
-				// jika difference bernilai minus
-				if ($z->difference < 1) {
-					$side = 'credit';
-					$x_side = 'debit';
-					$val = $z->difference * (-1);
-				}
+                $detail[] = (object) [
+                    'coa_detail' => $y->coa->id,
+                    'credit' => $y->credit,
+                    'debit' => $y->debit,
+                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
+                        . $x->ap->vendor->name,
+                ];
 
-				$detail[] = (object) [
-					'coa_detail' => $z->coa->id,
-					$side => $val,
-					$x_side => 0,
-					'_desc' => 'Debt Payment : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
-				];
+                $total_credit += $detail[count($detail) - 1]->credit;
+                $total_debit += $detail[count($detail) - 1]->debit;
+            }
 
-				$total_credit += $detail[count($detail)-1]->credit;
-				$total_debit += $detail[count($detail)-1]->debit;
-			}
+            // looping sebanyak gap
+            for ($a = 0; $a < count($apc); $a++) {
+                $z = $apc[$a];
 
-			// add object in first array $detai
-			array_unshift(
-				$detail,
-				(object) [
-					'coa_detail' => $header->coa,
-					'credit' => $total_debit - $total_credit,
-					'debit' => 0,
-					'_desc' => 'Payment To : '.$x->transactionnumber.' '
-					.$x->ap->vendor->name,
-				]
-			);
+                $side = 'credit';
+                $x_side = 'debit';
+                $val = $z->difference;
 
-			// $total_credit += $detail[0]->credit;
-			// $total_debit += $detail[0]->debit;
+                // jika difference bernilai minus
+                if ($z->difference < 0) {
+                    $side = 'debit';
+                    $x_side = 'credit';
+                    $val = $z->difference * (-1);
+                }
 
-			$ap_tmp->update([
-				'approve' => 1
-			]);
+                $detail[] = (object) [
+                    'coa_detail' => $z->coa->id,
+                    $side => $val,
+                    $x_side => 0,
+                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
+                        . $x->ap->vendor->name,
+                ];
 
-			$autoJournal = TrxJournal::autoJournal($header, $detail, 'CBPJ', 'BPJ');
+                $total_credit += $detail[count($detail) - 1]->credit;
+                $total_debit += $detail[count($detail) - 1]->debit;
+            }
 
-			if ($autoJournal['status']) {
+            // add object in first array $detai
+            array_unshift(
+                $detail,
+                (object) [
+                    'coa_detail' => $header->coa,
+                    'credit' => 0,
+                    'debit' => $total_credit - $total_debit,
+                    '_desc' => 'Receive From : ' . $header->voucher_no
+                ]
+            );
 
-				DB::commit();
+            $total_credit += $detail[0]->credit;
+            $total_debit += $detail[0]->debit;
 
-			}else{
+            $ar_tmp->update([
+                'approve' => 1
+            ]);
 
-				DB::rollBack();
-				return response()->json([
-					'errors' => $autoJournal['message']
-				]);
+            $autoJournal = TrxJournal::autoJournal(
+                $header,
+                $detail,
+                'CBRJ',
+                'BRJ'
+            );
 
-			}
+            if ($autoJournal['status']) {
 
-	        return response()->json($ap);
+                DB::commit();
+            } else {
 
-		} catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json([
+                    'errors' => $autoJournal['message']
+                ]);
+            }
 
-			DB::rollBack();
+            return response()->json($ap);
+        } catch (\Exception $e) {
 
-			$data['errors'] = $e->getMessage();
+            DB::rollBack();
 
-			return response()->json($data);
-		}
+            $data['errors'] = $e;
+
+            return response()->json($data);
+        }
     }
 
-	function print(Request $request)
-	{
-		$ap_tmp = APayment::where('uuid', $request->uuid);
-		$ap = $ap_tmp->first();
+    function print(Request $request)
+    {
+        $ar_tmp = APayment::where('uuid', $request->uuid);
+        $ap = $ar_tmp->first();
 
-		$apa = $ap->apa;
-		$apb = $ap->apb;
-		$apc = $ap->apc;
+        $apa = $ap->apa;
+        $apb = $ap->apb;
+        $apc = $ap->apc;
 
-        $ap_approval = $ap->approvals->first();
-        
-        if ($ap_approval) {
-            $date_approve = $ap_approval->created_at->toDateTimeString();
-        }else{
+        $ar_approval = $ap->approvals->first();
+
+        if ($ar_approval) {
+            $date_approve = $ar_approval->created_at->toDateTimeString();
+        } else {
             $date_approve = '-';
         }
 
-		$header = (object) [
-			'voucher_no' => $ap->transactionnumber,
-			'transaction_date' => $date_approve,
-			'coa_code' => $ap->coa->code,
-			'coa_name' => $ap->coa->name,
-			'description' => $ap->description,
-		];
+        $header = (object) [
+            'voucher_no' => $ap->transactionnumber,
+            'transaction_date' => $date_approve,
+            'coa_code' => $ap->coa->code,
+            'coa_name' => $ap->coa->name,
+            'description' => $ap->description,
+        ];
 
-		$total_credit = 0;
+        $total_credit = 0;
         $total_debit = 0;
-        
-        if (count($apa) < 1) {
-			return redirect()->route('apayment.index')->with([
-				'errors' => 'Please select supplier invoice'
-			]);
+        $detail = [];
+
+        // looping sebenayak invoice
+        foreach ($apa as $ara_row) {
+
+            // jika invoice nya foreign
+            if ($ara_row->invoice->currencies->code != 'idr') {
+                $credit = $ara_row->credit * $ara_row->invoice->exchangerate;
+            } else {
+                $credit = $ara_row->credit_idr;
+            }
+
+            $detail[] = (object) [
+                'coa_code' => $ara_row->coa->code,
+                'coa_name' => $ara_row->coa->name,
+                'credit' => $credit,
+                'debit' => 0,
+                '_desc' => $ara_row->description,
+            ];
+
+            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_debit += $detail[count($detail) - 1]->debit;
         }
 
-		// looping sebenayak supplier invoice
-		for ($a=0; $a < count($apa); $a++) {
-			$x = $apa[$a];
+        // looping sebanyak adjustment
+        for ($a = 0; $a < count($apb); $a++) {
+            $y = $apb[$a];
 
-			$detail[] = (object) [
-				'coa_code' => $x->coa->code,
-				'coa_name' => $x->coa->name,
-				'debit' => $x->debit * $ap->exchangerate,
-				'credit' => 0,
-				'_desc' => 'supplier-invoice',
-			];
+            $detail[] = (object) [
+                'coa_code' => $y->coa->code,
+                'coa_name' => $y->coa->name,
+                'credit' => $y->credit,
+                'debit' => $y->debit,
+                '_desc' => $y->description,
+            ];
 
-			$total_credit += $detail[count($detail)-1]->credit;
-			$total_debit += $detail[count($detail)-1]->debit;
-		}
+            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_debit += $detail[count($detail) - 1]->debit;
+        }
 
-		// looping sebanyak adjustment
-		for ($a=0; $a < count($apb); $a++) {
-			$y = $apb[$a];
+        // looping sebanyak gap
+        for ($a = 0; $a < count($apc); $a++) {
+            $z = $apc[$a];
 
-			$detail[] = (object) [
-				'coa_code' => $y->coa->code,
-				'coa_name' => $y->coa->name,
-				'credit' => $y->credit,
-				'debit' => $y->debit,
-				'_desc' => 'adjustment',
-			];
+            $side = 'credit';
+            $x_side = 'debit';
+            $val = $z->gap;
 
-			$total_credit += $detail[count($detail)-1]->credit;
-			$total_debit += $detail[count($detail)-1]->debit;
-		}
+            // jika gap bernilai minus
+            if ($z->gap < 0) {
+                $side = 'debit';
+                $x_side = 'credit';
+                $val = $z->gap * (-1);
+            }
 
-		// looping sebanyak gap
-		for ($a=0; $a < count($apc); $a++) {
-			$z = $apc[$a];
+            $detail[] = (object) [
+                'coa_code' => $z->coa->code,
+                'coa_name' => $z->coa->name,
+                $side => $val,
+                $x_side => 0,
+                '_desc' => $z->description,
+            ];
 
-			$side = 'debit';
-			$x_side = 'credit';
-			$val = $z->difference;
+            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_debit += $detail[count($detail) - 1]->debit;
+        }
 
-			// jika difference bernilai minus
-			if ($z->difference < 1) {
-				$side = 'credit';
-				$x_side = 'debit';
-				$val = $z->difference * (-1);
-			}
+        // add object in first array $detai
+        array_unshift(
+            $detail,
+            (object) [
+                'coa_code' => $header->coa_code,
+                'coa_name' => $header->coa_name,
+                'credit' => 0,
+                'debit' => $total_credit - $total_debit,
+                '_desc' => $header->description,
+            ]
+        );
 
-			$detail[] = (object) [
-				'coa_code' => $z->coa->code,
-				'coa_name' => $z->coa->name,
-				$side => $val,
-				$x_side => 0,
-				'_desc' => 'gap',
-			];
+        $total_credit += $detail[count($detail) - 1]->credit;
+        $total_debit += $detail[count($detail) - 1]->debit;
 
-			$total_credit += $detail[count($detail)-1]->credit;
-			$total_debit += $detail[count($detail)-1]->debit;
-		}
+        $data_detail = [];
+        $_total_debit = 0;
 
-		// add object in first array $detai
-		array_unshift(
-			$detail,
-			(object) [
-				'coa_code' => $header->coa_code,
-				'coa_name' => $header->coa_name,
-				'credit' => $total_debit - $total_credit,
-				'debit' => 0,
-				'_desc' => 'coa bank',
-			]
-		);
+        for ($i = 0; $i < count($detail); $i++) {
 
-		$total_credit += $detail[count($detail)-1]->credit;
-		$total_debit += $detail[count($detail)-1]->debit;
+            $x = $detail[$i];
 
-		$data_detail = [];
-		$_total_credit = 0;
+            if ($x->debit != 0 || $x->credit != 0) {
 
-		for ($i = 0; $i < count($detail); $i++) {
+                $data_detail[] = $x;
+            }
 
-			$x = $detail[$i];
+            $_total_debit += $x->debit;
+        }
 
-			if ($x->debit != 0 || $x->credit != 0) {
+        $header_title = 'Cash';
 
-				$data_detail[] = $x;
+        if (strpos(strtolower($ap->coa->name), 'bank') !== false) {
+            $header_title = 'Bank';
+        }
 
-			}
+        $to = $ap->vendor;
 
-			$_total_credit += $x->credit;
-		}
+        $data = [
+            'data' => $ap,
+            'data_child' => $data_detail,
+            'to' => $to,
+            'total' => $_total_debit,
+            'header_title' => $header_title,
+            'header' => $header,
+        ];
 
-	    $header_title = 'Cash';
-
-		if (strpos(strtolower($ap->coa->name), 'bank') !== false) {
-		    $header_title = 'Bank';
-		}
-
-		$to = $ap->vendor;
-
-		$data = [
-			'data' => $ap,
-			'data_child' => $data_detail,
-			'to' => $to,
-			'total' => $_total_credit,
-			'header_title' => $header_title,
-			'header' => $header,
-		];
-
-		$pdf = \PDF::loadView('formview::ap', $data);
-		return $pdf->stream();
-	}
-
+        $pdf = \PDF::loadView('formview::ap', $data);
+        return $pdf->stream();
+    }
 }
