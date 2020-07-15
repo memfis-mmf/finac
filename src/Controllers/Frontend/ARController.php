@@ -81,7 +81,7 @@ class ARController extends Controller
 
         //if data already approved
         if ($data['data']->approve) {
-            return redirect()->back();
+            return redirect()->route('areceive.index');
         }
 
         $data['customer'] = Customer::all();
