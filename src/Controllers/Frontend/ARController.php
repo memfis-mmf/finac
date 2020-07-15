@@ -27,7 +27,8 @@ class ARController extends Controller
 
     public function create()
     {
-        return view('accountreceivableview::create');
+        $data['customer'] = Customer::all();
+        return view('accountreceivableview::create', $data);
     }
 
     public function store(Request $request)

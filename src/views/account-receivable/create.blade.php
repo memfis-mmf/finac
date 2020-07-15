@@ -71,17 +71,17 @@
                                             Customer @include('label::required')
                                         </label>
 
-                                        @component('input::select')
-                                            @slot('id', 'customer')
-                                            @slot('name', 'id_customer')
-                                            @slot('text', 'Customer')
-                                            @slot('style', 'width:100%')
-                                        @endcomponent
-                                    </div>
-                                    <div class="col-md-12 mt-3">
-                                        <label class="form-control-label">
-                                            Project
-                                        </label>
+                    <select name="id_customer" class="form-control m-input select2" style="width:100%">
+                      <option value=""></option>
+                      @foreach ($customer as $customer_row)
+                      <option value="{{$customer_row->id}}">{{$customer_row->name}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <label class="form-control-label">
+                      Project
+                    </label>
 
                                         @component('input::select')
                                             @slot('id', 'project')
@@ -317,6 +317,11 @@
             } else {
                 window.location.href=currentUrl;
             }
+
+    $('.select2').select2({
+      placeholder: 'Select Customer'
+    });
+
         });
     </script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
