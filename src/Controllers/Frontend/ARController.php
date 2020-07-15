@@ -90,28 +90,35 @@ class ARController extends Controller
         )->whereIn('code', ['idr', 'usd'])
             ->get();
 
-        $data['debt_total_amount'] = Invoice::where(
+        $data['credit_total_amount'] = Invoice::where(
             'id_customer',
             $data['data']->id_customer
         )->sum('grandtotal');
 
         $areceive = AReceive::where('id_customer', $data['data']->id_customer)
+            ->where('approve', true)
             ->get();
 
         $payment_total_amount = 0;
-
         for ($i = 0; $i < count($areceive); $i++) {
             $x = $areceive[$i];
 
             for ($j = 0; $j < count($x->ara); $j++) {
                 $y = $x->ara[$j];
 
-                $payment_total_amount += ($y->credit * $x->exchangerate);
+                $payment_total_amount += $y->credit_idr;
             }
         }
 
         $data['payment_total_amount'] = $payment_total_amount;
-        $data['debt_balance'] = ($data['debt_total_amount'] - $data['payment_total_amount']);
+        $credit_balance = abs(($data['credit_total_amount'] - $data['payment_total_amount']));
+
+        $class = 'danger';
+        if ($credit_balance > $data['credit_total_amount']) {
+            $class = 'success';
+        }
+
+        $data['credit_balance'] = "<span class='text-$class'>Rp " . number_format($credit_balance, 0, 0, '.') . "</span>";
 
         return view('accountreceivableview::edit', $data);
     }
@@ -345,17 +352,12 @@ class ARController extends Controller
         }
         $ar = $ara[0]->ar;
 
-        $data['debt_total_amount'] = Invoice::where(
-            'id_customer',
-            $ar->customer->id
-        )->sum('grandtotal');
-
         $payment_total_amount = 0;
 
         for ($j = 0; $j < count($ara); $j++) {
             $y = $ara[$j];
 
-            $payment_total_amount += ($y->credit * $ar->exchangerate);
+            $payment_total_amount += $y->credit_idr;
         }
 
         return $payment_total_amount;
