@@ -110,8 +110,7 @@ class AReceive extends MemfisModel
     {
         return $this->hasMany(
             AReceiveA::class,
-            'transactionnumber',
-            'transactionnumber'
+            'ar_id'
         );
     }
 
