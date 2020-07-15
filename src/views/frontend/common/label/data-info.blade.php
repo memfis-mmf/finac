@@ -4,6 +4,6 @@
     class="{{ $class or '' }}"
     value="{{ $value or '' }}">
 
-    {{ $text or '' }}
+    {!! $text or '' !!}
 
 </{{ $element or 'div'}}>
