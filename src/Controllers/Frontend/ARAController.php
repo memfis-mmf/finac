@@ -305,7 +305,7 @@ class ARAController extends Controller
     public function datatables(Request $request)
     {
         $AR = AReceive::where('uuid', $request->ar_uuid)->first();
-        $ARA = AReceiveA::where('transactionnumber', $AR->transactionnumber)
+        $ARA = AReceiveA::where('ar_id', $AR->id)
             ->with([
                 'ar',
                 'arc',
