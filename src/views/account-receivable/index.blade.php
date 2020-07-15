@@ -101,7 +101,7 @@
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>AP NO</th>
+                                    <th>AR NO</th>
                                     <th>Customer Name</th>
                                     <th>Ref No</th>
                                     <th>Currency</th>
