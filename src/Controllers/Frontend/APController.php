@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use memfisfa\Finac\Model\APayment;
 use memfisfa\Finac\Model\APaymentA;
 use memfisfa\Finac\Model\Coa;
-use memfisfa\Finac\Model\Invoice;
+use memfisfa\Finac\Model\TrxPayment;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Currency;
@@ -15,7 +15,6 @@ use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 use DataTables;
 use DB;
-use memfisfa\Finac\Model\TrxPayment;
 
 class APController extends Controller
 {
@@ -89,7 +88,7 @@ class APController extends Controller
         )->whereIn('code', ['idr', 'usd'])
             ->get();
 
-        $data['credit_total_amount'] = Invoice::where(
+        $data['debt_total_amount'] = TrxPayment::where(
             'id_supplier',
             $data['data']->id_supplier
         )->sum('grandtotal');
@@ -110,14 +109,14 @@ class APController extends Controller
         }
 
         $data['payment_total_amount'] = $payment_total_amount;
-        $credit_balance = abs(($data['credit_total_amount'] - $data['payment_total_amount']));
+        $debt_balance = abs(($data['debt_total_amount'] - $data['payment_total_amount']));
 
         $class = 'danger';
-        if ($credit_balance > $data['credit_total_amount']) {
+        if ($debt_balance > $data['debt_total_amount']) {
             $class = 'success';
         }
 
-        $data['credit_balance'] = "<span class='text-$class'>Rp " . number_format($credit_balance, 0, 0, '.') . "</span>";
+        $data['debt_balance'] = "<span class='text-$class'>Rp " . number_format($debt_balance, 0, 0, '.') . "</span>";
 
         return view('accountpayableview::edit', $data);
     }

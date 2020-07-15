@@ -280,7 +280,7 @@
                       </label>
 
                       @component('label::data-info')
-                      @slot('text', number_format($debt_balance, 0, 0, '.'))
+                      @slot('text', $debt_balance)
                       @endcomponent
                     </div>
                   </div>
