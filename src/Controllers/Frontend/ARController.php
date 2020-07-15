@@ -62,7 +62,7 @@ class ARController extends Controller
 
         $request->request->add([
             'approve' => 0,
-            'transactionnumber' => AReceive::generateCode($code),
+            'transactionnumber' => '-',
         ]);
 
         $areceive = AReceive::create($request->all());
@@ -496,6 +496,18 @@ class ARController extends Controller
 
             $ar_tmp = AReceive::where('uuid', $request->uuid);
             $ar = $ar_tmp->first();
+
+            $coa = Coa::where('code', $ar->accountcode)->first();
+
+            $code = 'CCPJ';
+
+            if (strpos($coa->name, 'Bank') !== false) {
+                $code = 'CBPJ';
+            }
+
+            $ar_tmp->update([
+                'transactionnumber' => AReceive::generateCode($code)
+            ]);
 
             $ar->approvals()->save(new Approval([
                 'approvable_id' => $ar->id,
