@@ -11,6 +11,7 @@ class AReceiveC extends MemfisModel
 
 	protected $fillable = [
 	    'ara_id',
+		'ar_id',
 	    'uuid',
 	    'transactionnumber',
 	    'id_invoice',
@@ -37,8 +38,7 @@ class AReceiveC extends MemfisModel
 	{
 		return $this->belongsTo(
 			AReceive::class,
-			'transactionnumber',
-			'transactionnumber'
+			'ar_id'
 		);
     }
     
