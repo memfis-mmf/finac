@@ -72,7 +72,8 @@ class ARController extends Controller
     public function edit(Request $request)
     {
         $data['data'] = AReceive::where(
-            'uuid', $request->areceive
+            'uuid',
+            $request->areceive
         )->with([
             'currencies',
             'project',
@@ -86,8 +87,8 @@ class ARController extends Controller
         $data['customer'] = Customer::all();
         $data['currency'] = Currency::selectRaw(
             'code, CONCAT(name, " (", symbol ,")") as full_name'
-        )->whereIn('code',['idr','usd'])
-        ->get();
+        )->whereIn('code', ['idr', 'usd'])
+            ->get();
 
         $data['debt_total_amount'] = Invoice::where(
             'id_customer',
@@ -110,9 +111,7 @@ class ARController extends Controller
         }
 
         $data['payment_total_amount'] = $payment_total_amount;
-        $data['debt_balance'] = (
-            $data['debt_total_amount'] - $data['payment_total_amount']
-        );
+        $data['debt_balance'] = ($data['debt_total_amount'] - $data['payment_total_amount']);
 
         return view('accountreceivableview::edit', $data);
     }
@@ -164,73 +163,75 @@ class ARController extends Controller
         ]);
 
         return DataTables::of($data)
-		->escapeColumns([])
-		->make(true);
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function coaDatatables()
     {
-        function filterArray( $array, $allowed = [] ) {
+        function filterArray($array, $allowed = [])
+        {
             return array_filter(
                 $array,
-                function ( $val, $key ) use ( $allowed ) { // N.b. $val, $key not $key, $val
-                    return isset( $allowed[ $key ] ) && ( $allowed[ $key ] === true || $allowed[ $key ] === $val );
+                function ($val, $key) use ($allowed) { // N.b. $val, $key not $key, $val
+                    return isset($allowed[$key]) && ($allowed[$key] === true || $allowed[$key] === $val);
                 },
                 ARRAY_FILTER_USE_BOTH
             );
         }
 
-        function filterKeyword( $data, $search, $field = '' ) {
+        function filterKeyword($data, $search, $field = '')
+        {
             $filter = '';
-            if ( isset( $search['value'] ) ) {
+            if (isset($search['value'])) {
                 $filter = $search['value'];
             }
-            if ( ! empty( $filter ) ) {
-                if ( ! empty( $field ) ) {
-                    if ( strpos( strtolower( $field ), 'date' ) !== false ) {
+            if (!empty($filter)) {
+                if (!empty($field)) {
+                    if (strpos(strtolower($field), 'date') !== false) {
                         // filter by date range
-                        $data = filterByDateRange( $data, $filter, $field );
+                        $data = filterByDateRange($data, $filter, $field);
                     } else {
                         // filter by column
-                        $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
-                            return (boolean) preg_match( "/$filter/i", $a[ $field ] );
-                        } );
+                        $data = array_filter($data, function ($a) use ($field, $filter) {
+                            return (bool) preg_match("/$filter/i", $a[$field]);
+                        });
                     }
-
                 } else {
                     // general filter
-                    $data = array_filter( $data, function ( $a ) use ( $filter ) {
-                        return (boolean) preg_grep( "/$filter/i", (array) $a );
-                    } );
+                    $data = array_filter($data, function ($a) use ($filter) {
+                        return (bool) preg_grep("/$filter/i", (array) $a);
+                    });
                 }
             }
 
             return $data;
         }
 
-        function filterByDateRange( $data, $filter, $field ) {
+        function filterByDateRange($data, $filter, $field)
+        {
             // filter by range
-            if ( ! empty( $range = array_filter( explode( '|', $filter ) ) ) ) {
+            if (!empty($range = array_filter(explode('|', $filter)))) {
                 $filter = $range;
             }
 
-            if ( is_array( $filter ) ) {
-                foreach ( $filter as &$date ) {
+            if (is_array($filter)) {
+                foreach ($filter as &$date) {
                     // hardcoded date format
-                    $date = date_create_from_format( 'm/d/Y', stripcslashes( $date ) );
+                    $date = date_create_from_format('m/d/Y', stripcslashes($date));
                 }
                 // filter by date range
-                $data = array_filter( $data, function ( $a ) use ( $field, $filter ) {
+                $data = array_filter($data, function ($a) use ($field, $filter) {
                     // hardcoded date format
-                    $current = date_create_from_format( 'm/d/Y', $a[ $field ] );
+                    $current = date_create_from_format('m/d/Y', $a[$field]);
                     $from    = $filter[0];
                     $to      = $filter[1];
-                    if ( $from <= $current && $to >= $current ) {
+                    if ($from <= $current && $to >= $current) {
                         return true;
                     }
 
                     return false;
-                } );
+                });
             }
 
             return $data;
@@ -246,10 +247,10 @@ class ARController extends Controller
             'Actions'      => true,
         ];
 
-        if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
+        if (isset($_REQUEST['columnsDef']) && is_array($_REQUEST['columnsDef'])) {
             $columnsDefault = [];
-            foreach ( $_REQUEST['columnsDef'] as $field ) {
-                $columnsDefault[ $field ] = true;
+            foreach ($_REQUEST['columnsDef'] as $field) {
+                $columnsDefault[$field] = true;
             }
         }
 
@@ -257,67 +258,67 @@ class ARController extends Controller
         $coa  = Coa::where('description', 'Detail')->get();
 
 
-        $alldata = json_decode( $coa, true);
+        $alldata = json_decode($coa, true);
 
         $data = [];
         // internal use; filter selected columns only from raw data
-        foreach ( $alldata as $d ) {
-            $data[] = filterArray( $d, $columnsDefault );
+        foreach ($alldata as $d) {
+            $data[] = filterArray($d, $columnsDefault);
         }
 
         // count data
-        $totalRecords = $totalDisplay = count( $data );
+        $totalRecords = $totalDisplay = count($data);
 
         // filter by general search keyword
-        if ( isset( $_REQUEST['search'] ) ) {
-            $data         = filterKeyword( $data, $_REQUEST['search'] );
-            $totalDisplay = count( $data );
+        if (isset($_REQUEST['search'])) {
+            $data         = filterKeyword($data, $_REQUEST['search']);
+            $totalDisplay = count($data);
         }
 
-        if ( isset( $_REQUEST['columns'] ) && is_array( $_REQUEST['columns'] ) ) {
-            foreach ( $_REQUEST['columns'] as $column ) {
-                if ( isset( $column['search'] ) ) {
-                    $data         = filterKeyword( $data, $column['search'], $column['data'] );
-                    $totalDisplay = count( $data );
+        if (isset($_REQUEST['columns']) && is_array($_REQUEST['columns'])) {
+            foreach ($_REQUEST['columns'] as $column) {
+                if (isset($column['search'])) {
+                    $data         = filterKeyword($data, $column['search'], $column['data']);
+                    $totalDisplay = count($data);
                 }
             }
         }
 
         // sort
-        if ( isset( $_REQUEST['order'][0]['column'] ) && $_REQUEST['order'][0]['dir'] ) {
+        if (isset($_REQUEST['order'][0]['column']) && $_REQUEST['order'][0]['dir']) {
             $column = $_REQUEST['order'][0]['column'];
             $dir    = $_REQUEST['order'][0]['dir'];
-            usort( $data, function ( $a, $b ) use ( $column, $dir ) {
-                $a = array_slice( $a, $column, 1 );
-                $b = array_slice( $b, $column, 1 );
-                $a = array_pop( $a );
-                $b = array_pop( $b );
+            usort($data, function ($a, $b) use ($column, $dir) {
+                $a = array_slice($a, $column, 1);
+                $b = array_slice($b, $column, 1);
+                $a = array_pop($a);
+                $b = array_pop($b);
 
-                if ( $dir === 'asc' ) {
+                if ($dir === 'asc') {
                     return $a > $b ? true : false;
                 }
 
                 return $a < $b ? true : false;
-            } );
+            });
         }
 
         // pagination length
-        if ( isset( $_REQUEST['length'] ) ) {
-            $data = array_splice( $data, $_REQUEST['start'], $_REQUEST['length'] );
+        if (isset($_REQUEST['length'])) {
+            $data = array_splice($data, $_REQUEST['start'], $_REQUEST['length']);
         }
 
         // return array values only without the keys
-        if ( isset( $_REQUEST['array_values'] ) && $_REQUEST['array_values'] ) {
+        if (isset($_REQUEST['array_values']) && $_REQUEST['array_values']) {
             $tmp  = $data;
             $data = [];
-            foreach ( $tmp as $d ) {
-                $data[] = array_values( $d );
+            foreach ($tmp as $d) {
+                $data[] = array_values($d);
             }
         }
 
         $secho = 0;
-        if ( isset( $_REQUEST['sEcho'] ) ) {
-            $secho = intval( $_REQUEST['sEcho'] );
+        if (isset($_REQUEST['sEcho'])) {
+            $secho = intval($_REQUEST['sEcho']);
         }
 
         $result = [
@@ -333,7 +334,7 @@ class ARController extends Controller
         header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
-        echo json_encode( $result, JSON_PRETTY_PRINT );
+        echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
     public function countPaidAmount($id_invoice)
@@ -366,27 +367,27 @@ class ARController extends Controller
 
         if (count($ar->ara)) {
             $invoice = Invoice::where('id_customer', $request->id_customer)
-            ->with('coas')
-            ->where(
-                'currency',
-                Currency::where('code', $ar->ara[0]->currency)->first()->id
-            )
-            ->where('approve', 1)
-            ->get();
+                ->with('coas')
+                ->where(
+                    'currency',
+                    Currency::where('code', $ar->ara[0]->currency)->first()->id
+                )
+                ->where('approve', 1)
+                ->get();
         } else {
             $invoice = Invoice::where('id_customer', $request->id_customer)
-            ->with('coas')
-            ->where('approve', 1)
-            ->get();
+                ->with('coas')
+                ->where('approve', 1)
+                ->get();
         }
-        
+
         for (
-            $invoice_index = 0; 
-            $invoice_index < count($invoice); 
+            $invoice_index = 0;
+            $invoice_index < count($invoice);
             $invoice_index++
-        ) { 
+        ) {
             $invoice[$invoice_index]->paid_amount = $this
-            ->countPaidAmount($invoice[$invoice_index]->id);
+                ->countPaidAmount($invoice[$invoice_index]->id);
         }
 
         $data = $alldata = json_decode($invoice);
@@ -466,8 +467,8 @@ class ARController extends Controller
 
         if (
             isset($datatable['requestIds']) &&
-            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
-        {
+            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)
+        ) {
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);
@@ -520,7 +521,7 @@ class ARController extends Controller
             $arc = $ar->arc;
 
             $date_approve = $ar->approvals->first()
-            ->created_at->toDateTimeString();
+                ->created_at->toDateTimeString();
 
             $header = (object) [
                 'voucher_no' => $ar->transactionnumber,
@@ -535,39 +536,39 @@ class ARController extends Controller
             $detail = [];
 
             // looping sebenayak invoice
-            for ($a=0; $a < count($ara); $a++) {
+            for ($a = 0; $a < count($ara); $a++) {
                 $x = $ara[$a];
 
                 $detail[] = (object) [
                     'coa_detail' => $x->coa->id,
                     'credit' => $x->credit * $ar->exchangerate,
                     'debit' => 0,
-                    '_desc' => 'Payment From : '.$x->transactionnumber.' '
-                    .$x->ar->customer->name,
+                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
+                        . $x->ar->customer->name,
                 ];
 
-                $total_credit += $detail[count($detail)-1]->credit;
-                $total_debit += $detail[count($detail)-1]->debit;
+                $total_credit += $detail[count($detail) - 1]->credit;
+                $total_debit += $detail[count($detail) - 1]->debit;
             }
 
             // looping sebanyak adjustment
-            for ($a=0; $a < count($arb); $a++) {
+            for ($a = 0; $a < count($arb); $a++) {
                 $y = $arb[$a];
 
                 $detail[] = (object) [
                     'coa_detail' => $y->coa->id,
                     'credit' => $y->credit,
                     'debit' => $y->debit,
-                    '_desc' => 'Payment From : '.$x->transactionnumber.' '
-                    .$x->ar->customer->name,
+                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
+                        . $x->ar->customer->name,
                 ];
 
-                $total_credit += $detail[count($detail)-1]->credit;
-                $total_debit += $detail[count($detail)-1]->debit;
+                $total_credit += $detail[count($detail) - 1]->credit;
+                $total_debit += $detail[count($detail) - 1]->debit;
             }
 
             // looping sebanyak gap
-            for ($a=0; $a < count($arc); $a++) {
+            for ($a = 0; $a < count($arc); $a++) {
                 $z = $arc[$a];
 
                 $side = 'credit';
@@ -585,12 +586,12 @@ class ARController extends Controller
                     'coa_detail' => $z->coa->id,
                     $side => $val,
                     $x_side => 0,
-                    '_desc' => 'Payment From : '.$x->transactionnumber.' '
-                    .$x->ar->customer->name,
+                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
+                        . $x->ar->customer->name,
                 ];
 
-                $total_credit += $detail[count($detail)-1]->credit;
-                $total_debit += $detail[count($detail)-1]->debit;
+                $total_credit += $detail[count($detail) - 1]->credit;
+                $total_debit += $detail[count($detail) - 1]->debit;
             }
 
             // add object in first array $detai
@@ -600,7 +601,7 @@ class ARController extends Controller
                     'coa_detail' => $header->coa,
                     'credit' => 0,
                     'debit' => $total_credit - $total_debit,
-                    '_desc' => 'Receive From : '.$header->voucher_no
+                    '_desc' => 'Receive From : ' . $header->voucher_no
                 ]
             );
 
@@ -612,24 +613,24 @@ class ARController extends Controller
             ]);
 
             $autoJournal = TrxJournal::autoJournal(
-                $header, $detail, 'CBRJ', 'BRJ'
+                $header,
+                $detail,
+                'CBRJ',
+                'BRJ'
             );
 
             if ($autoJournal['status']) {
 
                 DB::commit();
-
-            }else{
+            } else {
 
                 DB::rollBack();
                 return response()->json([
                     'errors' => $autoJournal['message']
                 ]);
-
             }
 
             return response()->json($ar);
-
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -638,7 +639,6 @@ class ARController extends Controller
 
             return response()->json($data);
         }
-
     }
 
     function print(Request $request)
@@ -651,10 +651,10 @@ class ARController extends Controller
         $arc = $ar->arc;
 
         $ar_approval = $ar->approvals->first();
-        
+
         if ($ar_approval) {
             $date_approve = $ar_approval->created_at->toDateTimeString();
-        }else{
+        } else {
             $date_approve = '-';
         }
 
@@ -676,7 +676,7 @@ class ARController extends Controller
             // jika invoice nya foreign
             if ($ara_row->invoice->currencies->code != 'idr') {
                 $credit = $ara_row->credit * $ara_row->invoice->exchangerate;
-            }else{
+            } else {
                 $credit = $ara_row->credit_idr;
             }
 
@@ -688,12 +688,12 @@ class ARController extends Controller
                 '_desc' => $ara_row->description,
             ];
 
-            $total_credit += $detail[count($detail)-1]->credit;
-            $total_debit += $detail[count($detail)-1]->debit;
+            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_debit += $detail[count($detail) - 1]->debit;
         }
 
         // looping sebanyak adjustment
-        for ($a=0; $a < count($arb); $a++) {
+        for ($a = 0; $a < count($arb); $a++) {
             $y = $arb[$a];
 
             $detail[] = (object) [
@@ -704,12 +704,12 @@ class ARController extends Controller
                 '_desc' => $y->description,
             ];
 
-            $total_credit += $detail[count($detail)-1]->credit;
-            $total_debit += $detail[count($detail)-1]->debit;
+            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_debit += $detail[count($detail) - 1]->debit;
         }
 
         // looping sebanyak gap
-        for ($a=0; $a < count($arc); $a++) {
+        for ($a = 0; $a < count($arc); $a++) {
             $z = $arc[$a];
 
             $side = 'credit';
@@ -731,8 +731,8 @@ class ARController extends Controller
                 '_desc' => $z->description,
             ];
 
-            $total_credit += $detail[count($detail)-1]->credit;
-            $total_debit += $detail[count($detail)-1]->debit;
+            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_debit += $detail[count($detail) - 1]->debit;
         }
 
         // add object in first array $detai
@@ -747,8 +747,8 @@ class ARController extends Controller
             ]
         );
 
-        $total_credit += $detail[count($detail)-1]->credit;
-        $total_debit += $detail[count($detail)-1]->debit;
+        $total_credit += $detail[count($detail) - 1]->credit;
+        $total_debit += $detail[count($detail) - 1]->debit;
 
         $data_detail = [];
         $_total_debit = 0;
@@ -760,7 +760,6 @@ class ARController extends Controller
             if ($x->debit != 0 || $x->credit != 0) {
 
                 $data_detail[] = $x;
-
             }
 
             $_total_debit += $x->debit;
@@ -786,5 +785,4 @@ class ARController extends Controller
         $pdf = \PDF::loadView('formview::ar', $data);
         return $pdf->stream();
     }
-
 }
