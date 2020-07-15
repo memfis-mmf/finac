@@ -29,6 +29,7 @@ class ARBController extends Controller
 
         $request->request->add([
             'transactionnumber' => $ar->transactionnumber,
+            'ar_id' => $ar->id,
             'code' => $coa->code,
             'name' => $coa->name,
         ]);

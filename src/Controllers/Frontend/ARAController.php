@@ -52,6 +52,7 @@ class ARAController extends Controller
         $request->request->add([
             'description' => '',
             'transactionnumber' => $AR->transactionnumber,
+            'ar_id' => $AR->id,
             'id_invoice' => $invoice->id,
             'currency' => $currency,
             'exchangerate' => $invoice->exchangerate,
@@ -230,6 +231,7 @@ class ARAController extends Controller
             } else {
                 AReceiveC::create([
                     'ara_id' => $ara->id,
+                    'ar_id' => $ara->ar->id,
                     'transactionnumber' => $ara->transactionnumber,
                     'id_invoice' => $ara->id_invoice,
                     'code' => '81112003',
