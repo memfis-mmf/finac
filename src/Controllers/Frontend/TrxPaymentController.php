@@ -170,7 +170,7 @@ class TrxPaymentController extends Controller
         ])->where(
 			'uuid',
 			$request->trxpayment
-		)->first();
+        )->first();
 
 		if ($data['data']->approve) {
 			return redirect()->back();
@@ -247,7 +247,7 @@ class TrxPaymentController extends Controller
     {
 		$data = TrxPayment::with([
 			'vendor'
-		]);
+		])->select('trxpayments.*');
 
         return DataTables::of($data)
 		->escapeColumns([])
