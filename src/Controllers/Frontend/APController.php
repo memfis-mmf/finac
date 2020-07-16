@@ -373,9 +373,11 @@ class APController extends Controller
         $arr = [];
         $index_arr = 0;
 
+        // looping sebanyak supplier invoice
         for ($i = 0; $i < count($trxpayment_grn); $i++) {
             $x = $trxpayment_grn[$i];
 
+            // looping sebanyak GRN
             for ($j = 0; $j < count($x->trxpaymenta); $j++) {
                 $z = $x->trxpaymenta[$j];
 
