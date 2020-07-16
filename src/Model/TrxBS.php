@@ -76,7 +76,7 @@ class TrxBS extends MemfisModel
 
 		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
 
-		$code = $code."-".date('Y/m')."/".$number;
+		$code = $code."-".date('Y')."/".$number;
 
 		return $code;
 	}
