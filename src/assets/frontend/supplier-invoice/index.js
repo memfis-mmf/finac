@@ -27,7 +27,7 @@ let Journal = {
             {data: 'transaction_number'},
             {data: 'x_type'},
             {data: 'vendor.name'},
-            {data: 'status'},
+            {data: 'status', searchable: false},
             {data: 'currency'},
             {data: 'exchange_rate_fix'},
             {data: 'grandtotal_foreign', render: function(data, type, row) {
