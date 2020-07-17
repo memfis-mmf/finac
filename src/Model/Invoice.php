@@ -66,7 +66,11 @@ class Invoice extends MemfisModel
 
     public function getReportPaidAmountAttribute()
     {
-        return $this->countPaidAmount(@$this->ara[0]->transactionnumber);
+        if (@$this->ara[0]->transactionnumber) {
+            return $this->countPaidAmount($this->ara[0]->transactionnumber);
+        }
+
+        return 0;
     }
 
     public function getReportEndingBalanceAttribute()
