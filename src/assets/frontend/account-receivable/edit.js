@@ -171,7 +171,7 @@ let AccountReceivableEdit = {
         },
         {
           field: 'credit',
-          title: 'Amount to Pay',
+          title: 'Receive Amount',
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
@@ -180,11 +180,11 @@ let AccountReceivableEdit = {
         },
         {
           field: '',
-          title: 'Amount to Pay IDR',
+          title: 'Receive Amount (IDR)',
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp ' + number_format.format(parseFloat(t.credit_idr));
+            return 'Rp. ' + number_format.format(parseFloat(t.credit_idr));
           }
         },
         {
@@ -193,7 +193,7 @@ let AccountReceivableEdit = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp ' + number_format.format(parseFloat((v = t.arc) ? v.gap : 0));
+            return 'Rp. ' + number_format.format(parseFloat((v = t.arc) ? v.gap : 0));
           }
         },
         {

@@ -267,7 +267,7 @@
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                       <label class="form-control-label">
-                        Payment Total Amount
+                        Receive Total Amount
                       </label>
 
                       @component('label::data-info')
