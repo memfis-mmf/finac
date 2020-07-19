@@ -12,6 +12,10 @@
     text-align: center !important;
   }
 
+  table td:last-child {
+    text-align: right !important;
+  }
+
   .note-editable {
     padding-top: 20px !important;
   }
