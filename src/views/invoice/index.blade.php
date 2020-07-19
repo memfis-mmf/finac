@@ -99,6 +99,7 @@
                         {{-- <div class="invoice_datatable" id="scrolling_both"></div> --}}
                                 <table class="table table-striped table-bordered table-hover table-checkable invoice_datatable">
                                     <thead>
+                                        <th></th>
                                         <th>Date</th>
                                         <th>Invoice No.</th>
                                         <th>Type</th>

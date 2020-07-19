@@ -21,7 +21,9 @@ let Invoice = {
           processing: true,
           serverSide: true,
           ajax: _url+'/invoice/datatables',
+          order: [[ 0, "desc" ]],
           columns: [
+            {data: 'created_at', searchable: false, visible: false},
             {data: 'date'},
             {data: 'transactionnumber'},
             {data: 'xstatus'},
