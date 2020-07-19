@@ -664,7 +664,11 @@ class InvoiceController extends Controller
             }
         }
 
-        $quotations = Quotation::whereHas('approvals')->get();
+        $quotations = Quotation::whereHas('approvals')
+            ->whereDoesntHave('invoice', function($invoice) {
+                $invoice->where('approve', true);
+            })
+            ->get();
 
         //dd($quotations);
 
