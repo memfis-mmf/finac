@@ -157,7 +157,7 @@
                     <td valign="top" width="18%">Address</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-                        {{$invoice->customer->addresses()->first()->address}}
+                        {{@$invoice->customer->addresses()->first()->address}}
                     </td>
                     <td valign="top" width="18%">Quotation No.</td>
                     <td valign="top" width="1%">:</td>
