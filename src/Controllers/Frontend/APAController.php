@@ -13,6 +13,7 @@ use memfisfa\Finac\Request\APaymentAUpdate;
 use memfisfa\Finac\Request\APaymentAStore;
 use App\Http\Controllers\Controller;
 use App\Models\GoodsReceived as GRN;
+use Illuminate\Support\Str;
 use DB;
 
 class APAController extends Controller
@@ -29,57 +30,60 @@ class APAController extends Controller
 
     public function store(Request $request)
     {
-		$AP = APayment::where('uuid', $request->ap_uuid)->first();
+        $AP = APayment::where('uuid', $request->ap_uuid)->first();
 
-		if ($request->type == "GRN") {
-			$grn = GRN::where('uuid', $request->data_uuid)->first();
-			$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
+        $APA = $AP->apa->first();
 
-			$APA = APaymentA::where(
-				'transactionnumber',
-				$AP->transactionnumber
-			)->first();
+        // cek type
+        if ($request->type == "GRN") {
+            $grn = GRN::where('uuid', $request->data_uuid)->first();
+            $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
-			// jika data yang sudah terinput itu bukan GRN
-			if ($APA && strpos($APA->id_payment, "GRN") !== true) {
-				return [
-					'errors' => 'Data detail must not GRN'
-				];
-			}
+            // jika data yang sudah terinput itu GRN
+            if ($APA) {
+                if ($APA->type != 'GRN') {
+                    return [
+                        'errors' => 'Data detail must not GRN'
+                    ];
+                }
+            }
+            $si = $trxpaymenta->si;
 
-			$si = $trxpaymenta->si;
+            $x['transaction_number'] = $trxpaymenta->grn->number;
+        } else {
+            $si = TrxPayment::where('uuid', $request->data_uuid)->first();
 
-			$x['transaction_number'] = $trxpaymenta->grn->number;
-		} else {
-			$si = TrxPayment::where('uuid', $request->data_uuid)->first();
+            // jika data yang sudah terinput itu GRN
+            if ($APA) {
+                if ($APA->type == 'GRN') {
+                    return [
+                        'errors' => 'Data detail must be GRN'
+                    ];
+                }
+            }
 
-			$APA = APaymentA::where(
-				'transactionnumber',
-				$AP->transactionnumber
-			)->first();
+            $x['transaction_number'] = $si->transaction_number;
+        }
 
-			// jika data yang sudah terinput itu GRN
-			if ($APA && strpos($APA->id_payment, "GRN") !== false) {
-				return [
-					'errors' => 'Data detail must be GRN'
-				];
-			}
+        // cek currency
+        // jika currency inputan pertama berbeda dengan currency inputan ke dua
+        if ($APA) {
+            if ($APA->currency != $si->currency) {
+                return [
+                    'errors' => 'Currency not consistent'
+                ];
+            }
+        }
 
-			$x['transaction_number'] = $si->transaction_number;
-		}
-
-		$x['currency'] = $si->currency;
-		$x['exchange_rate'] = $si->exchange_rate;
-		@$x['code'] = ($v = $si->vendor->coa->first()->code)? $v: '';
-
-		$request->request->add([
-			'description' => '',
-			'transactionnumber' => $AP->transactionnumber,
-			'id_payment' => $si->id,
-			'currency' => $x['currency'],
-			'exchangerate' => $x['exchange_rate'],
-			'code' => $x['code'],
-		]);
+        $request->request->add([
+            'description' => '',
+            'transactionnumber' => $AP->transactionnumber,
+            'ap_id' => $AP->id,
+            'id_payment' => $si->id,
+            'currency' => $si->currency,
+            'exchangerate' => $si->exchange_rate,
+            'code' => $si->vendor->coa->first()->code,
+        ]);
 
         $apaymenta = APaymentA::create($request->all());
         return response()->json($apaymenta);
@@ -90,53 +94,192 @@ class APAController extends Controller
         return response()->json($apaymenta);
     }
 
+    public function calculateAmount($apa, $request)
+    {
+        $amount_to_pay = $request->debit;
+        $si = $apa->si;
+        $ap = $apa->ap;
+
+        // jika header ap currency nya idr
+        if ($ap->currencies->code == 'idr') {
+            // jik currency ap IDR dan si foreign
+            if ($ap->currencies->code != $si->currencies->code) {
+                // mencari foreign amount to pay, 
+                // dengan cara membagi amount to pay dengan rate ar
+                $foreign_amount_to_pay = $amount_to_pay / $ap->exchangerate;
+                // mencari nilai rupiah dengan rate si 
+                // dari nilai usd ap yang sudah dihitung sblmnya
+                $idr_amount_to_pay_si_rate =
+                    $foreign_amount_to_pay * $si->exchangerate;
+
+                $result = [
+                    // amount to pay idr dari ap dikurangi hasil rupiah
+                    // dari usd ap dikali dengan rate si
+                    'gap' => round(
+                        $amount_to_pay - $idr_amount_to_pay_si_rate,
+                        2
+                    ),
+                    'debit' => round($foreign_amount_to_pay, 2),
+                    'debit_idr' => round($amount_to_pay, 2),
+                ];
+            } else { //jika ap IDR dan si IDR
+                $result = [
+                    'gap' => 0,
+                    'debit' => round($amount_to_pay, 2),
+                    'debit_idr' => round($amount_to_pay, 2),
+                ];
+            }
+        }
+
+        // jika header ap currency nya Foreign
+        if ($ap->currencies->code != 'idr') {
+            // jik currency ap Foreign dan si IDR
+            if ($ap->currencies->code != $si->currencies->code) {
+
+                $idr_amount_to_pay = $amount_to_pay * $ap->exchangerate;
+
+                // jika belum pembayaran terakhir
+                if (!$request->is_clearing) {
+                    $gap = 0;
+                } else { //jika pembayaran terakhir
+                    $all_si = APaymentA::select(
+                        'sum(debit) as total_debit',
+                        'sum(debit_idr) as total_debit_idr',
+                    )
+                        ->where('id_payment', $si->id)
+                        ->first();
+
+                    $total_debit_idr =
+                        $all_si->total_debit_idr + $idr_amount_to_pay;
+
+                    $gap = $idr_amount_to_pay -
+                        ($si->grandtotal_foreign - $total_debit_idr);
+                }
+
+                $debit = $amount_to_pay;
+                $debit_idr = $idr_amount_to_pay;
+
+                $result = [
+                    'gap' => $gap,
+                    'debit' => $debit,
+                    'debit_idr' => $debit_idr,
+                ];
+            } else { //jika ap Foreign dan si Foreign
+                $new_rate = $ap->exchangerate - $si->exchangerate;
+
+                $result = [
+                    'gap' => ($new_rate * $amount_to_pay),
+                    'debit' => $amount_to_pay,
+                    'debit_idr' => $amount_to_pay * $ap->exchangerate,
+                ];
+            }
+        }
+
+        return (object) $result;
+    }
+
+    public function checkAmount($apa, $request)
+    {
+        $amount_to_pay = $request->debit;
+
+        $si = $apa->si;
+        $si_amount = $si->grandtotal_foreign;
+
+        // get all payment amount si
+        $query = APaymentA::where('id_payment', $si->id)
+            ->where('id', '!=', $apa->id);
+
+        // jika si foreign
+        if ($si->currencies->code != 'idr') {
+            $total_si_payment_amount = $query->sum('debit');
+        } else { //jika si idr
+            $total_si_payment_amount = $query->sum('debit_idr');
+        }
+
+        $total_si_payment_amount += $amount_to_pay;
+
+        // jika currency ap dan si sama
+        if ($apa->ap->currencies->code == $si->currencies->code) {
+            if ($total_si_payment_amount > $si_amount) {
+                return (object)[
+                    'status' => false,
+                    'message' => 'Total amount payment is more than si amount',
+                ];
+            }
+        }
+
+        return (object)[
+            'status' => true,
+            'message' => ''
+        ];
+    }
+
     public function update(APaymentAUpdate $request, APaymentA $apaymenta)
     {
 
-		DB::beginTransaction();
-		try {
+        DB::beginTransaction();
+        try {
 
-	        $apaymenta->update($request->all());
+            $calculation = $this->calculateAmount($apaymenta, $request);
+            $check_amount = $this->checkAmount($apaymenta, $request);
 
-			$apa = $apaymenta;
-			$ap = $apa->ap;
+            if (!$check_amount->status) {
+                return response()->json([
+                    'errors' => $check_amount->message
+                ]);
+            }
 
-			$apc = APaymentC::where('id_payment', $apa->id_payment)
-			->where('transactionnumber', $apa->transactionnumber)
-			->first();
+            $request->merge([
+                'debit' => $calculation->debit,
+                'debit_idr' => $calculation->debit_idr,
+            ]);
 
-			$difference = ($apa->debit * $ap->exchangerate) - ($apa->debit * $apa->exchangerate);
+            $apaymenta->update($request->all());
 
-			if ($apc) {
-				APaymentC::where('id', $apc->id)->update([
-					'difference' => $difference
-				]);
-			} else {
-				APaymentC::create([
-				    'transactionnumber' => $apa->transactionnumber,
-				    'id_payment' => $apa->id_payment,
-				    'code' => '81112003',
-				    'difference' => $difference,
-				]);
-			}
+            $apa = $apaymenta;
 
-			DB::commit();
+            $apc = $apa->apc;
 
-	        return response()->json($apaymenta);
+            $apc_debit = 0;
+            $apc_credit = 0;
+            if ($calculation->gap <= 0) {
+                $apc_credit = $calculation->gap;
+            } else {
+                $apc_debit = $calculation->gap;
+            }
 
-		} catch (\Exception $e) {
+            if ($apc) {
+                APaymentC::where('id', $apc->id)->update([
+                    'debit' => $apc_debit,
+                    'credit' => $apc_credit,
+                ]);
+            } else {
+                APaymentC::create([
+                    'apa_id' => $apa->id,
+                    'ap_id' => $apa->ap->id,
+                    'transactionnumber' => $apa->transactionnumber,
+                    'id_payment' => $apa->id_payment,
+                    'code' => '81112003',
+                    'debit' => $apc_debit,
+                    'credit' => $apc_credit,
+                ]);
+            }
 
-			DB::rollBack();
+            DB::commit();
 
-	        return response()->json($e->getMessage());
+            return response()->json($apaymenta);
+        } catch (\Exception $e) {
 
-		}
+            DB::rollBack();
 
+            return response()->json($e->getMessage());
+        }
     }
 
     public function destroy(APaymentA $apaymenta)
     {
-        $apaymenta->delete();
+        APaymentC::where('ara_id', $apaymenta->id)->forceDelete();
+        $apaymenta->forceDelete();
 
         return response()->json($apaymenta);
     }
@@ -153,84 +296,81 @@ class APAController extends Controller
         return response()->json($apaymenta);
     }
 
-	public function getDataSI($x)
-	{
-		// if id payment is GRN number
-		if (strpos($x->id_payment, "GRN") !== false) {
-			$grn = GRN::where('id', $x->id_payment)->first();
-			$trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)
-			->with(['currencies'])
-			->first();
+    public function getDataSI($x)
+    {
+        // if id payment is GRN number
+        if (strpos($x->id_payment, "GRN") !== false) {
+            $grn = GRN::where('id', $x->id_payment)->first();
+            $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)
+                ->with(['currencies'])
+                ->first();
 
-			$result = $trxpaymenta->si;
-		} else {
-			$result = TrxPayment::where(
-				'id',
-				$x->id_payment
-			)
-			->with(['currencies'])
-			->first();
-		}
-
-		return $result;
-	}
-
-	public function countPaidAmount($x)
-	{
-		$apa_tmp = APaymentA::where(
-			'transactionnumber', $x->transactionnumber
-        )->first();
-
-		$ap = $apa_tmp->ap;
-        $apa = APaymentA::where('id_payment', $apa_tmp->id_payment)
-        ->get();
-
-		$data['debt_total_amount'] = TrxPayment::where(
-			'id_supplier',
-			$ap->vendor->id
-		)->sum('grandtotal');
-
-		$payment_total_amount = 0;
-
-		for ($j = 0; $j < count($apa); $j++) {
-			$y = $apa[$j];
-
-			$payment_total_amount += ($y->debit * $ap->exchangerate);
+            $result = $trxpaymenta->si;
+        } else {
+            $result = TrxPayment::where(
+                'id',
+                $x->id_payment
+            )
+                ->with(['currencies'])
+                ->first();
         }
 
-        return $payment_total_amount;
-	}
+        return $result;
+    }
+
+    public function countPaidAmount($apa_tmp)
+    {
+        $si = $apa_tmp->si;
+        // ambil semua data pembayaran invoice ini
+        $apa = APaymentA::where('id_payment', $si->id)
+            ->get();
+
+        $paid_amount = 0;
+        foreach ($apa as $apa_row) {
+            if ($si->currencies->code != 'idr') {
+                $paid_amount += $apa_row->debit;
+            } else {
+                $paid_amount += $apa_row->debit_idr;
+            }
+        }
+
+        return $paid_amount;
+    }
 
     public function datatables(Request $request)
     {
-		$AP = APayment::where('uuid', $request->ap_uuid)->first();
-		$APA = APaymentA::where('transactionnumber', $AP->transactionnumber)
-			->with([
-				'ap',
-				'ap.currencies',
-				'currencies'
-			])
-			->get();
+        $AP = APayment::where('uuid', $request->ap_uuid)->first();
+        $APA = APaymentA::where('transactionnumber', $AP->transactionnumber)
+            ->with([
+                'ap',
+                'apc',
+                'ap.currencies',
+                'currencies'
+            ])
+            ->get();
 
-		for ($i=0; $i < count($APA); $i++) {
-			$x = $APA[$i];
+        for ($apa_index = 0; $apa_index < count($APA); $apa_index++) {
+            $apa_row = $APA[$apa_index];
 
-			$APA[$i]->_transaction_number = $x->id_payment;
-			$APA[$i]->si = $this->getDataSI($x);
-			$APA[$i]->paid_amount = $this->countPaidAmount($x);
-		}
+            $APA[$apa_index]->_transaction_number = $apa_row->id_payment;
+            $APA[$apa_index]->si = $this->getDataSI($apa_row);
+            $APA[$apa_index]->paid_amount = $this->countPaidAmount($apa_row);
+            if ($AP->currencies->code == 'idr') {
+                $APA[$apa_index]->credit = $APA[$apa_index]->credit_idr;
+            }
+        }
 
         $data = $alldata = json_decode(
-			$APA
-		);
+            $APA
+        );
 
-		$datatable = array_merge([
-			'pagination' => [], 'sort' => [], 'query' => []
-		], $_REQUEST);
+        $datatable = array_merge([
+            'pagination' => [], 'sort' => [], 'query' => []
+        ], $_REQUEST);
 
-		$filter = isset($datatable['query']['generalSearch']) &&
-			is_string($datatable['query']['generalSearch']) ?
-			$datatable['query']['generalSearch'] : '';
+        $filter = isset($datatable['query']['generalSearch']) &&
+            is_string($datatable['query']['generalSearch']) ?
+            $datatable['query']['generalSearch'] : '';
 
         if (!empty($filter)) {
             $data = array_filter($data, function ($a) use ($filter) {
@@ -240,8 +380,8 @@ class APAController extends Controller
             unset($datatable['query']['generalSearch']);
         }
 
-		$query = isset($datatable['query']) &&
-			is_array($datatable['query']) ? $datatable['query'] : null;
+        $query = isset($datatable['query']) &&
+            is_array($datatable['query']) ? $datatable['query'] : null;
 
         if (is_array($query)) {
             $query = array_filter($query);
@@ -251,16 +391,16 @@ class APAController extends Controller
             }
         }
 
-		$sort  = !empty($datatable['sort']['sort']) ?
-			$datatable['sort']['sort'] : 'asc';
-		$field = !empty($datatable['sort']['field']) ?
-			$datatable['sort']['field'] : 'RecordID';
+        $sort  = !empty($datatable['sort']['sort']) ?
+            $datatable['sort']['sort'] : 'asc';
+        $field = !empty($datatable['sort']['field']) ?
+            $datatable['sort']['field'] : 'RecordID';
 
         $meta    = [];
-		$page    = !empty($datatable['pagination']['page']) ?
-			(int) $datatable['pagination']['page'] : 1;
-		$perpage = !empty($datatable['pagination']['perpage']) ?
-			(int) $datatable['pagination']['perpage'] : -1;
+        $page    = !empty($datatable['pagination']['page']) ?
+            (int) $datatable['pagination']['page'] : 1;
+        $perpage = !empty($datatable['pagination']['perpage']) ?
+            (int) $datatable['pagination']['perpage'] : -1;
 
         $pages = 1;
         $total = count($data);
@@ -297,10 +437,10 @@ class APAController extends Controller
             'total'   => $total,
         ];
 
-		if (
-			isset($datatable['requestIds']) &&
-			filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN))
-		{
+        if (
+            isset($datatable['requestIds']) &&
+            filter_var($datatable['requestIds'], FILTER_VALIDATE_BOOLEAN)
+        ) {
             $meta['rowIds'] = array_map(function ($row) {
                 return $row->RecordID;
             }, $alldata);

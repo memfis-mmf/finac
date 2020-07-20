@@ -11,6 +11,7 @@ class APaymentB extends MemfisModel
 
 	protected $fillable = [
 	    'uuid',
+	    'ap_id',
 	    'transactionnumber',
 	    'code',
 	    'name',
@@ -23,8 +24,7 @@ class APaymentB extends MemfisModel
 	{
 		return $this->belongsTo(
 			APayment::class,
-			'transactionnumber',
-			'transactionnumber'
+			'ap_id'
 		);
 	}
 

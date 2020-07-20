@@ -157,7 +157,7 @@
                     <td valign="top" width="18%">Address</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-                        {{$invoice->customer->addresses()->first()->address}}
+                        {{@$invoice->customer->addresses()->first()->address}}
                     </td>
                     <td valign="top" width="18%">Quotation No.</td>
                     <td valign="top" width="1%">:</td>
@@ -169,7 +169,7 @@
                     <td valign="top" width="18%">Phone</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-                        {{$invoice->customer->phones()->first()->number}}
+                        {{@$invoice->customer->phones()->first()->number}}
                     </td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
@@ -181,7 +181,7 @@
                     <td valign="top" width="18%">Attn</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-                        {{json_decode($invoice->customer->attention)[0]->name}}
+                        {{json_decode(@$invoice->customer->attention)[0]->name}}
                     </td>
                     <td valign="top" width="18%">Rate</td>
                     <td valign="top" width="1%">:</td>
@@ -283,14 +283,14 @@
                                     echo number_format(
                                         (float) $x->data_htcrr['total_manhours_with_performance_factor'] 
                                         * (float) $x->data_htcrr['manhour_rate_amount'] 
-                                        * $invoice->_exchange_rate
+                                        * $invoice->multiple
                                         , 0
                                         , 0
                                         , '.'
                                     );
                                 }else{
                                     echo number_format(
-                                        @$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount * $invoice->_exchange_rate
+                                        @$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount * $invoice->multiple
                                         , 0
                                         , 0
                                         , '.'
@@ -469,7 +469,7 @@
                         <b>
                             {{
                                 number_format(
-                                    $invoice->grandtotalforeign * $invoice->exchangerate
+                                    $invoice->grandtotal
                                     , 0
                                     , 0
                                     , '.'

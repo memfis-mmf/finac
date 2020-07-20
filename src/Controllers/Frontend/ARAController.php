@@ -39,7 +39,6 @@ class ARAController extends Controller
         )->first();
 
         $currency = Currency::find($invoice->currency)->code;
-        @$code = ($v = $invoice->customer->coa->first()->code) ? $v : '';
 
         if ($ARA) {
             if ($currency != $ARA->currency) {
@@ -56,7 +55,7 @@ class ARAController extends Controller
             'id_invoice' => $invoice->id,
             'currency' => $currency,
             'exchangerate' => $invoice->exchangerate,
-            'code' => $code,
+            'code' => $invoice->customer->coa->first()->code,
         ]);
 
         $areceivea = AReceiveA::create($request->all());

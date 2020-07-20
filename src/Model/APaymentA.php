@@ -13,11 +13,15 @@ class APaymentA extends MemfisModel
     protected $fillable = [
 		'transactionnumber',
 		'id_payment',
+        'ap_id',
 		'code',
+		'type',
 		'currency',
 		'exchangerate',
-		'debit',
-		'credit',
+        'debit',
+        'debit_idr',
+        'credit',
+        'credit_idr',
 		'description',
     ];
 
@@ -25,10 +29,14 @@ class APaymentA extends MemfisModel
 	{
 		return $this->belongsTo(
 			APayment::class,
-			'transactionnumber',
-			'transactionnumber'
+			'ap_id'
 		);
-	}
+    }
+    
+    public function apc()
+    {
+        return $this->hasOne(APaymentC::class, 'apa_id');
+    }
 
 	public function si()
 	{
