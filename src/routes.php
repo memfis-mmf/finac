@@ -619,8 +619,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::prefix('account-payable')->group(function () {
 		Route::get(
 			'/',
-			'memfisfa\Finac\Controllers\Frontend\APController@create'
+			'memfisfa\Finac\Controllers\Frontend\APController@index'
 		)->name('apayment.index');
+		Route::get(
+			'/create',
+			'memfisfa\Finac\Controllers\Frontend\APController@create'
+		)->name('apayment.create');
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\APController@print'
