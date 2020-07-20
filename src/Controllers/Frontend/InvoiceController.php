@@ -268,7 +268,7 @@ class InvoiceController extends Controller
             'invoice_id' => $invoice->id,
             'accountcode' => $manhours->id,
             'amount' => $htcrr_price_val,
-            'type' => 'others'
+            'type' => 'htcrr'
         ]);
 
 		// return [
