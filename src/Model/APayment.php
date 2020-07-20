@@ -105,8 +105,7 @@ class APayment extends MemfisModel
 	{
 		return $this->hasMany(
 			APaymentA::class,
-			'transactionnumber',
-			'transactionnumber'
+			'ap_id'
 		);
 	}
 
@@ -114,22 +113,20 @@ class APayment extends MemfisModel
 	{
 		return $this->hasMany(
 			APaymentB::class,
-			'transactionnumber',
-			'transactionnumber'
+			'ap_id'
 		);
 	}
 	public function apc()
 	{
 		return $this->hasMany(
 			APaymentC::class,
-			'transactionnumber',
-			'transactionnumber'
+			'ap_id'
 		);
 	}
 
 	public function coa()
 	{
-		return $this->belongsTo(Coa::class, 'accountcode', 'code');
+        return $this->belongsTo(Coa::class, 'accountcode', 'code');
 	}
 
 	public function currencies()
