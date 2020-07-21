@@ -690,21 +690,23 @@ class TrxPaymentController extends Controller
 
 	public function sumGrnItem($grn_id)
 	{
-		$grn = GRN::find($grn_id);
-		$tax = $grn->purchase_order->taxes;
+        $grn = GRN::find($grn_id);
+        $po = $grn->purchase_order;
+        $tax = $po->taxes;
+        $currency = $po->currency;
 
-		$percent = 0;
+		$tax_percent = 0;
 		//jika ada data tax
 		if (count($tax)) {
 
 			$tax_data = $tax[0];
 
 			$type = Type::find($tax_data->type_id);
-			$percent = $tax_data->percent;
+			$tax_percent = $tax_data->percent;
 
 			//jika tax memiliki code 'none'
 			if ($type->code != 'none') {
-				$percent = 0;
+				$tax_percent = 0;
 			}
 		}
 
@@ -715,16 +717,20 @@ class TrxPaymentController extends Controller
 			$x = $items[$i];
 			$pivot = $x->pivot;
 			$total = $pivot->price * $pivot->quantity;
-			$percent_price = $total * ($percent/100);
+			$tax_price = $total * ($tax_percent/100);
 
-			$sum += ($total + $percent_price);
+			$sum += ($total + $tax_price);
 		}
 
-		return $sum;
+		return (object)[
+            'total' => $sum,
+            'total_idr' => $sum * $po->exchange_rate,
+        ];
 	}
 
 	public function grnUse(Request $request)
 	{
+		DB::beginTransaction();
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 		$grn = GRN::where('uuid', $request->uuid)->first();
 
@@ -748,14 +754,16 @@ class TrxPaymentController extends Controller
 			}
 		}
 
-		$total = $this->sumGrnItem($grn->id);
-		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
+		$calculate = $this->sumGrnItem($grn->id);
 
 		TrxPaymentA::create([
 			'transaction_number' => $trxpayment->transaction_number,
-			'total' => $total,
+			'total' => $calculate->total,
+			'total_idr' => $calculate->total_idr,
 			'id_grn' => $grn->id,
-		]);
+        ]);
+        
+        DB::commit();
 	}
 
     public function grnUpdate(Request $request, TrxPayment $trxpayment)
@@ -778,6 +786,7 @@ class TrxPaymentController extends Controller
 
 		if ($currency == 'idr') {
 			$request->merge([
+				'grandtotal_foreign' => $total,
 				'grandtotal' => $total
 			]);
 		}else{

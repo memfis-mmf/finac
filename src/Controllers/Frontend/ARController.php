@@ -350,7 +350,6 @@ class ARController extends Controller
         if (!count($ara)) {
             return 0;
         }
-        $ar = $ara[0]->ar;
 
         $payment_total_amount = 0;
 

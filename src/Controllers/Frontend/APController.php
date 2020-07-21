@@ -13,6 +13,7 @@ use App\Models\Vendor;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use App\Models\GoodsReceived;
 use DataTables;
 use DB;
 
@@ -342,20 +343,29 @@ class APController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function countPaidAmount($id_invoice)
+    public function countPaidAmount($si_uuid, $type)
     {
-        $apa = APaymentA::where('id_invoice', $id_invoice)->get();
+        
+        if ($type == 'GRN') {
+            $data = TrxPayment::where('uuid', $si_uuid)->first();
+        }else{
+            $data = GoodsReceived::where('uuid', $si_uuid)->first();
+        }
+
+        $apa = APaymentA::where('id_payment', $data->id)
+            ->where('type', $type)
+            ->get();
+
         if (!count($apa)) {
             return 0;
         }
-        $ap = $apa[0]->ap;
 
         $payment_total_amount = 0;
 
         for ($j = 0; $j < count($apa); $j++) {
             $y = $apa[$j];
 
-            $payment_total_amount += $y->credit_idr;
+            $payment_total_amount += $y->debit_idr;
         }
 
         return $payment_total_amount;
@@ -393,7 +403,18 @@ class APController extends Controller
             ->where('approve', 1)
             ->get();
 
-        $data = $alldata = array_merge($arr, json_decode($trxpayment_non_grn));
+        $si = array_merge($arr, json_decode($trxpayment_non_grn));
+
+        for (
+            $si_index = 0;
+            $si_index < count($si);
+            $si_index++
+        ) {
+            $si[$si_index]->paid_amount = 
+                $this->countPaidAmount($si[$si_index]->uuid, $si[$si_index]->x_type);
+        }
+
+        $data = $alldata = $si;
 
         $datatable = array_merge([
             'pagination' => [], 'sort' => [], 'query' => []

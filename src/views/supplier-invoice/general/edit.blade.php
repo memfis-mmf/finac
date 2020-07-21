@@ -170,9 +170,11 @@
                                         @endcomponent --}}
 
                                         <select name="account_code" id="" class="_accountcode form-control">
+                                          @if (@$data->coa->code)
                                             <option value="{{$data->coa->code}}" selected>
                                                 {{$data->coa->name.' ('.$data->coa->code.')'}}
                                             </option>
+                                          @endif
                                         </select>
 
                                         {{-- @component('input::select2')
