@@ -46,13 +46,13 @@ class Install extends Command
                 $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assetsfa']);
                 $this->info('[DONE] Publishing Assets..........');
             }
-            if ($this->confirm('Install/Seed Initial Data?')) {
-                if ($this->confirm('You Are in Production Mode, Are You Sure?')) {
-                    $this->info('[START] Install Initial Data..........');
-                    $this->callSilent('db:seed', ['--class' => "memfisfa\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
-                    $this->info('[DONE] Install Initial Data.');
-                }
-            }
+            // if ($this->confirm('Install/Seed Initial Data?')) {
+            //     if ($this->confirm('You Are in Production Mode, Are You Sure?')) {
+            //         $this->info('[START] Install Initial Data..........');
+            //         $this->callSilent('db:seed', ['--class' => "memfisfa\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
+            //         $this->info('[DONE] Install Initial Data.');
+            //     }
+            // }
         }
     }
 
@@ -65,7 +65,7 @@ class Install extends Command
     protected function copyright()
     {
         $this->line('');
-        $this->line('"fa: Install" artisan command');
+        $this->line('"fa:install" artisan command');
         $this->line('Version 0.1 by MeMFIS');
     }
 }

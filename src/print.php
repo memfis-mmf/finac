@@ -137,12 +137,12 @@ Route::get('/inventory-expense-details', function () {
     return $pdf->stream();
 });
 
-Route::get('/invoice-sales', function () {
+Route::get('/invoice-sales-doc', function () {
     $pdf = \PDF::loadView('formview::invoice-sales');
     return $pdf->stream();
 });
 
-Route::get('/invoice-workshop', function () {
+Route::get('/invoice-workshop-doc', function () {
     $pdf = \PDF::loadView('formview::invoice-workshop');
     return $pdf->stream();
 });
