@@ -383,7 +383,7 @@ let AccountPayable = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return number_format.format(parseFloat(t.exchange_rate));
+            return 'Rp '+number_format.format(parseFloat(t.exchange_rate));
           }
         },
         {
@@ -392,7 +392,7 @@ let AccountPayable = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return number_format.format(parseFloat(t.grandtotal_foreign));
+            return t.currencies.symbol+' '+number_format.format(parseFloat(t.grandtotal_foreign));
           }
         },
         {
@@ -401,7 +401,7 @@ let AccountPayable = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return number_format.format(parseFloat(t.paid_amount));
+            return 'Rp '+number_format.format(parseFloat(t.paid_amount));
           }
         },
         {

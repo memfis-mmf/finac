@@ -92,7 +92,24 @@ class APController extends Controller
         $data['debt_total_amount'] = TrxPayment::where(
             'id_supplier',
             $data['data']->id_supplier
-        )->sum('grandtotal');
+        )
+            ->where('x_type', 'NON GRN')
+            ->where('approve', true)
+            ->sum('grandtotal');
+        
+        $x = $data['debt_total_amount'];
+
+        $si = TrxPayment::where(
+            'id_supplier',
+            $data['data']->id_supplier
+        )
+            ->where('x_type', 'GRN')
+            ->where('approve', true)
+            ->first();
+
+        foreach ($si->trxpaymenta as $tpa_row) {
+            $data['debt_total_amount'] += $tpa_row->total_idr;
+        }
 
         $apayment = APayment::where('id_supplier', $data['data']->id_supplier)
             ->where('approve', true)
@@ -347,9 +364,9 @@ class APController extends Controller
     {
         
         if ($type == 'GRN') {
-            $data = TrxPayment::where('uuid', $si_uuid)->first();
-        }else{
             $data = GoodsReceived::where('uuid', $si_uuid)->first();
+        }else{
+            $data = TrxPayment::where('uuid', $si_uuid)->first();
         }
 
         $apa = APaymentA::where('id_payment', $data->id)
@@ -394,6 +411,9 @@ class APController extends Controller
                 $arr[$index_arr] = json_decode($x);
                 $arr[$index_arr]->transaction_number = $z->grn->number;
                 $arr[$index_arr]->uuid = $z->grn->uuid;
+                $arr[$index_arr]->grandtotal_foreign = $z->total;
+                $arr[$index_arr]->grandtotal = $z->total_idr;
+                $arr[$index_arr]->currencies = $x->currencies;
                 $index_arr++;
             }
         }
@@ -401,6 +421,7 @@ class APController extends Controller
         $trxpayment_non_grn = TrxPayment::where('id_supplier', $request->id_vendor)
             ->where('x_type', 'NON GRN')
             ->where('approve', 1)
+            ->with(['currencies'])
             ->get();
 
         $si = array_merge($arr, json_decode($trxpayment_non_grn));

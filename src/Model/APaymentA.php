@@ -5,6 +5,7 @@ namespace memfisfa\Finac\Model;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Currency;
+use App\Models\GoodsReceived;
 
 class APaymentA extends MemfisModel
 {
@@ -40,11 +41,11 @@ class APaymentA extends MemfisModel
 
 	public function si()
 	{
-		return $this->belongsTo(
-			TrxPayment::class,
-			'id_payment'
-		);
-	}
+        return $this->belongsTo(
+            TrxPayment::class,
+            'id_payment'
+        );
+    }
 
 	public function coa()
 	{

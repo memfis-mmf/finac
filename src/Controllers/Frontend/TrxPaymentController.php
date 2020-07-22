@@ -693,7 +693,6 @@ class TrxPaymentController extends Controller
         $grn = GRN::find($grn_id);
         $po = $grn->purchase_order;
         $tax = $po->taxes;
-        $currency = $po->currency;
 
 		$tax_percent = 0;
 		//jika ada data tax

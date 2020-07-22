@@ -177,7 +177,7 @@
                       Exchange Rate
                       <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                     </label>
-                    @component('input::numberreadonly')
+                    @component('input::number')
                     @slot('id', 'exchange')
                     @slot('text', 'exchange')
                     @slot('name', 'exchangerate')
@@ -262,7 +262,7 @@
                       </label>
 
                       @component('label::data-info')
-                      @slot('text', number_format($debt_total_amount, 0, 0, '.'))
+                      @slot('text', 'Rp '.number_format($debt_total_amount, 0, 0, '.'))
                       @endcomponent
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -271,7 +271,7 @@
                       </label>
 
                       @component('label::data-info')
-                      @slot('text', number_format($payment_total_amount, 0, 0, '.'))
+                      @slot('text', 'Rp '.number_format($payment_total_amount, 0, 0, '.'))
                       @endcomponent
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -380,7 +380,6 @@
             let _hash = currentUrl.split('#');
             if (_hash.length < 2) {
                 window.location.href=currentUrl+"#faAP";
-
             } else {
                 window.location.href=currentUrl;
             }

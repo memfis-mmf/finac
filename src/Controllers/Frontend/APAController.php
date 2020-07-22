@@ -48,11 +48,10 @@ class APAController extends Controller
                 }
             }
             $si = $trxpaymenta->si;
-
-            $x['transaction_number'] = $trxpaymenta->grn->number;
+            $id = $grn->id;
         } else {
             $si = TrxPayment::where('uuid', $request->data_uuid)->first();
-
+            $id = $si->id;
             // jika data yang sudah terinput itu GRN
             if ($APA) {
                 if ($APA->type == 'GRN') {
@@ -61,8 +60,6 @@ class APAController extends Controller
                     ];
                 }
             }
-
-            $x['transaction_number'] = $si->transaction_number;
         }
 
         // cek currency
@@ -79,10 +76,11 @@ class APAController extends Controller
             'description' => '',
             'transactionnumber' => $AP->transactionnumber,
             'ap_id' => $AP->id,
-            'id_payment' => $si->id,
+            'id_payment' => $id,
             'currency' => $si->currency,
             'exchangerate' => $si->exchange_rate,
             'code' => $si->vendor->coa->first()->code,
+            'type' => $request->type,
         ]);
 
         $apaymenta = APaymentA::create($request->all());
@@ -99,6 +97,14 @@ class APAController extends Controller
         $amount_to_pay = $request->debit;
         $si = $apa->si;
         $ap = $apa->ap;
+
+        if ($apa->type == 'GRN') {
+            $grn = GRN::where('id', $apa->id_payment)->first();
+            $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
+
+            $si->grandtotal_foreign = $trxpaymenta->total;
+            $si->grandtotal = $trxpaymenta->total_idr;
+        }
 
         // jika header ap currency nya idr
         if ($ap->currencies->code == 'idr') {
@@ -138,7 +144,7 @@ class APAController extends Controller
 
                 $idr_amount_to_pay = $amount_to_pay * $ap->exchangerate;
 
-                // jika belum pembayaran terakhir
+                // jika belum pembayaran terakhir (clearing tidak di centang)
                 if (!$request->is_clearing) {
                     $gap = 0;
                 } else { //jika pembayaran terakhir
@@ -147,13 +153,14 @@ class APAController extends Controller
                         'sum(debit_idr) as total_debit_idr',
                     )
                         ->where('id_payment', $si->id)
+                        ->where('type', $apa->type)
                         ->first();
 
                     $total_debit_idr =
                         $all_si->total_debit_idr + $idr_amount_to_pay;
 
                     $gap = $idr_amount_to_pay -
-                        ($si->grandtotal_foreign - $total_debit_idr);
+                        ($si->grandtotal - $total_debit_idr);
                 }
 
                 $debit = $amount_to_pay;
@@ -183,7 +190,13 @@ class APAController extends Controller
         $amount_to_pay = $request->debit;
 
         $si = $apa->si;
-        $si_amount = $si->grandtotal_foreign;
+        if ($apa->type == 'GRN') {
+            $grn = GRN::where('id', $apa->id_payment)->first();
+            $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
+
+            $si->grandtotal_foreign = $trxpaymenta->total;
+            $si->grandtotal = $trxpaymenta->total_idr;
+        }
 
         // get all payment amount si
         $query = APaymentA::where('id_payment', $si->id)
@@ -200,7 +213,7 @@ class APAController extends Controller
 
         // jika currency ap dan si sama
         if ($apa->ap->currencies->code == $si->currencies->code) {
-            if ($total_si_payment_amount > $si_amount) {
+            if ($total_si_payment_amount > $si->grandtotal_foreign) {
                 return (object)[
                     'status' => false,
                     'message' => 'Total amount payment is more than si amount',
@@ -218,67 +231,60 @@ class APAController extends Controller
     {
 
         DB::beginTransaction();
-        try {
 
-            $calculation = $this->calculateAmount($apaymenta, $request);
-            $check_amount = $this->checkAmount($apaymenta, $request);
+        $calculation = $this->calculateAmount($apaymenta, $request);
+        $check_amount = $this->checkAmount($apaymenta, $request);
 
-            if (!$check_amount->status) {
-                return response()->json([
-                    'errors' => $check_amount->message
-                ]);
-            }
-
-            $request->merge([
-                'debit' => $calculation->debit,
-                'debit_idr' => $calculation->debit_idr,
+        if (!$check_amount->status) {
+            return response()->json([
+                'errors' => $check_amount->message
             ]);
-
-            $apaymenta->update($request->all());
-
-            $apa = $apaymenta;
-
-            $apc = $apa->apc;
-
-            $apc_debit = 0;
-            $apc_credit = 0;
-            if ($calculation->gap <= 0) {
-                $apc_credit = $calculation->gap;
-            } else {
-                $apc_debit = $calculation->gap;
-            }
-
-            if ($apc) {
-                APaymentC::where('id', $apc->id)->update([
-                    'debit' => $apc_debit,
-                    'credit' => $apc_credit,
-                ]);
-            } else {
-                APaymentC::create([
-                    'apa_id' => $apa->id,
-                    'ap_id' => $apa->ap->id,
-                    'transactionnumber' => $apa->transactionnumber,
-                    'id_payment' => $apa->id_payment,
-                    'code' => '81112003',
-                    'debit' => $apc_debit,
-                    'credit' => $apc_credit,
-                ]);
-            }
-
-            DB::commit();
-
-            return response()->json($apaymenta);
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            return response()->json($e->getMessage());
         }
+
+        $request->merge([
+            'debit' => $calculation->debit,
+            'debit_idr' => $calculation->debit_idr,
+        ]);
+
+        $apaymenta->update($request->all());
+
+        $apa = $apaymenta;
+
+        $apc = $apa->apc;
+
+        $apc_debit = 0;
+        $apc_credit = 0;
+        if ($calculation->gap <= 0) {
+            $apc_credit = $calculation->gap;
+        } else {
+            $apc_debit = $calculation->gap;
+        }
+
+        if ($apc) {
+            APaymentC::where('id', $apc->id)->update([
+                'debit' => $apc_debit,
+                'credit' => $apc_credit,
+            ]);
+        } else {
+            APaymentC::create([
+                'apa_id' => $apa->id,
+                'ap_id' => $apa->ap->id,
+                'transactionnumber' => $apa->transactionnumber,
+                'id_payment' => $apa->id_payment,
+                'code' => '81112003',
+                'debit' => $apc_debit,
+                'credit' => $apc_credit,
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json($apaymenta);
     }
 
     public function destroy(APaymentA $apaymenta)
     {
-        APaymentC::where('ara_id', $apaymenta->id)->forceDelete();
+        APaymentC::where('apa_id', $apaymenta->id)->forceDelete();
         $apaymenta->forceDelete();
 
         return response()->json($apaymenta);
@@ -296,21 +302,19 @@ class APAController extends Controller
         return response()->json($apaymenta);
     }
 
-    public function getDataSI($x)
+    public function getDataSI($apa)
     {
         // if id payment is GRN number
-        if (strpos($x->id_payment, "GRN") !== false) {
-            $grn = GRN::where('id', $x->id_payment)->first();
-            $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)
-                ->with(['currencies'])
-                ->first();
+        if ($apa->type == 'GRN') {
+            $grn = GRN::where('id', $apa->id_payment)->first();
+            $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
-            $result = $trxpaymenta->si;
+            $si = $trxpaymenta->si;
+            $si->grandtotal_foreign = $trxpaymenta->total;
+            $si->grandtotal = $trxpaymenta->total_idr;
+            $result = $si;
         } else {
-            $result = TrxPayment::where(
-                'id',
-                $x->id_payment
-            )
+            $result = TrxPayment::where('id', $apa->id_payment)
                 ->with(['currencies'])
                 ->first();
         }
@@ -323,6 +327,7 @@ class APAController extends Controller
         $si = $apa_tmp->si;
         // ambil semua data pembayaran invoice ini
         $apa = APaymentA::where('id_payment', $si->id)
+            ->where('type', $apa_tmp->type)
             ->get();
 
         $paid_amount = 0;
@@ -340,7 +345,7 @@ class APAController extends Controller
     public function datatables(Request $request)
     {
         $AP = APayment::where('uuid', $request->ap_uuid)->first();
-        $APA = APaymentA::where('transactionnumber', $AP->transactionnumber)
+        $APA = APaymentA::where('ap_id', $AP->id)
             ->with([
                 'ap',
                 'apc',
@@ -352,7 +357,7 @@ class APAController extends Controller
         for ($apa_index = 0; $apa_index < count($APA); $apa_index++) {
             $apa_row = $APA[$apa_index];
 
-            $APA[$apa_index]->_transaction_number = $apa_row->id_payment;
+            $APA[$apa_index]->_transaction_number = $apa_row->transactionnumber;
             $APA[$apa_index]->si = $this->getDataSI($apa_row);
             $APA[$apa_index]->paid_amount = $this->countPaidAmount($apa_row);
             if ($AP->currencies->code == 'idr') {
