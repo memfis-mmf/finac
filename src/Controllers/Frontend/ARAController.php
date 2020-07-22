@@ -126,7 +126,7 @@ class ARAController extends Controller
                         $all_invoice->total_credit_idr + $idr_amount_to_pay;
 
                     $gap = $idr_amount_to_pay -
-                        ($invoice->grandtotalforeign - $total_credit_idr);
+                        ($invoice->grandtotal - $total_credit_idr);
                 }
 
                 $credit = $amount_to_pay;
