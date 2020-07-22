@@ -205,7 +205,6 @@ let AccountReceivableEdit = {
         {
           field: 'actions',
           title: 'Actions',
-          width: 110,
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
@@ -301,7 +300,6 @@ let AccountReceivableEdit = {
         {
           field: 'actions',
           title: 'Actions',
-          width: 110,
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
@@ -317,130 +315,171 @@ let AccountReceivableEdit = {
       ]
     });
 
-    let invoice_modal_table = $('.invoice_modal_datatable').mDatatable({
-      data: {
-        type: 'remote',
-        source: {
-          read: {
-            method: 'GET',
-            url: `${_url}/account-receivable/invoice/modal/datatable/?ar_uuid=${ar_uuid}&id_customer=${id_customer}`,
-            map: function (raw) {
-              let dataSet = raw;
+    // let invoice_modal_table = $('.invoice_modal_datatable').mDatatable({
+    //   data: {
+    //     type: 'remote',
+    //     source: {
+    //       read: {
+    //         method: 'GET',
+    //         url: `${_url}/account-receivable/invoice/modal/datatable/?ar_uuid=${ar_uuid}&id_customer=${id_customer}`,
+    //         map: function (raw) {
+    //           let dataSet = raw;
 
-              if (typeof raw.data !== 'undefined') {
-                dataSet = raw.data;
-              }
+    //           if (typeof raw.data !== 'undefined') {
+    //             dataSet = raw.data;
+    //           }
 
-              return dataSet;
-            }
-          }
-        },
-        pageSize: 10,
-        serverPaging: !0,
-        serverSorting: !0
-      },
-      layout: {
-        theme: 'default',
-        class: '',
-        scroll: false,
-        footer: !1
-      },
-      sortable: !0,
-      filterable: !1,
-      pagination: !0,
-      search: {
-        input: $('#generalSearch')
-      },
-      toolbar: {
-        items: {
-          pagination: {
-            pageSizeSelect: [5, 10, 20, 30, 50, 100]
-          }
-        }
-      },
+    //           return dataSet;
+    //         }
+    //       }
+    //     },
+    //     pageSize: 10,
+    //     serverPaging: !0,
+    //     serverSorting: !0
+    //   },
+    //   layout: {
+    //     theme: 'default',
+    //     class: '',
+    //     scroll: false,
+    //     footer: !1
+    //   },
+    //   sortable: !0,
+    //   filterable: !1,
+    //   pagination: !0,
+    //   search: {
+    //     input: $('#generalSearch')
+    //   },
+    //   toolbar: {
+    //     items: {
+    //       pagination: {
+    //         pageSizeSelect: [5, 10, 20, 30, 50, 100]
+    //       }
+    //     }
+    //   },
+    //   columns: [
+    //     {
+    //       field: 'transactionnumber',
+    //       title: 'Transaction No.',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'transactiondate',
+    //       title: 'Date',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: '',
+    //       title: 'Due Date',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'exchangerate',
+    //       title: 'Exchange Rate',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //       template: function (t, e, i) {
+    //         return number_format.format(parseFloat(t.exchangerate));
+    //       }
+    //     },
+    //     {
+    //       field: 'grandtotalforeign',
+    //       title: 'Total Amount',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //       template: function (t, e, i) {
+    //         return number_format.format(parseFloat(t.grandtotalforeign));
+    //       }
+    //     },
+    //     {
+    //       field: 'paid_amount',
+    //       title: 'Paid Amount',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //       template: function (t, e, i) {
+    //         return number_format.format(parseFloat(t.paid_amount));
+    //       }
+    //     },
+    //     {
+    //       field: 'coas.code',
+    //       title: 'Account Code',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: '',
+    //       title: 'Amount to Pay',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: '',
+    //       title: 'Exchange Rate Gap',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'description',
+    //       title: 'Description',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'actions',
+    //       title: 'Actions',
+    //       sortable: !1,
+    //       overflow: 'visible',
+    //       template: function (t, e, i) {
+    //         return (
+    //           '<a class="btn btn-primary btn-sm m-btn--hover-brand select-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+    //         );
+    //       }
+    //     }
+
+    //   ]
+    // });
+
+    let invoice_modal_table = $('._invoice_modal_datatable').DataTable({
+      dom: '<"top"f>rt<"bottom">pil',
+      scrollX: true,
+      processing: true,
+      serverSide: true,
+      ajax: `${_url}/account-receivable/invoice/modal/datatable/?ar_uuid=${ar_uuid}&id_customer=${id_customer}`,
+      pageLength: 100,
       columns: [
+        { data: 'transactionnumber' },
+        { data: 'transactiondate' },
+        { data: 'empty', searchable: false, orderable: false, defaultContent: '-' },
         {
-          field: 'transactionnumber',
-          title: 'Transaction No.',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: 'transactiondate',
-          title: 'Date',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: '',
-          title: 'Due Date',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: 'exchangerate',
-          title: 'Exchange Rate',
-          sortable: 'asc',
-          filterable: !1,
-          template: function (t, e, i) {
-            return number_format.format(parseFloat(t.exchangerate));
+          data: 'exchangerate', render: (data, type, row) => {
+            return number_format.format(parseFloat(row.exchangerate));
           }
         },
         {
-          field: 'grandtotalforeign',
-          title: 'Total Amount',
-          sortable: 'asc',
-          filterable: !1,
-          template: function (t, e, i) {
-            return number_format.format(parseFloat(t.grandtotalforeign));
+          data: 'grandtotalforeign', render: (data, type, row) => {
+            return number_format.format(parseFloat(row.grandtotalforeign));
           }
         },
         {
-          field: 'paid_amount',
-          title: 'Paid Amount',
-          sortable: 'asc',
-          filterable: !1,
-          template: function (t, e, i) {
-            return number_format.format(parseFloat(t.paid_amount));
+          data: 'paid_amount', render: (data, type, row) => {
+            return number_format.format(parseFloat(row.paid_amount));
           }
         },
+        { data: 'coas.code' },
+        { data: 'empty', searchable: false, orderable: false, defaultContent: '-' },
+        { data: 'empty', searchable: false, orderable: false, defaultContent: '-' },
+        { data: 'description' },
         {
-          field: 'coas.code',
-          title: 'Account Code',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: '',
-          title: 'Amount to Pay',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: '',
-          title: 'Exchange Rate Gap',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: 'description',
-          title: 'Description',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: 'actions',
-          title: 'Actions',
-          width: 110,
-          sortable: !1,
-          overflow: 'visible',
-          template: function (t, e, i) {
+          data: '', searchable: false, render: function (data, type, row) {
+            t = row;
+
             return (
               '<a class="btn btn-primary btn-sm m-btn--hover-brand select-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
             );
           }
         }
-
       ]
     });
 
@@ -450,9 +489,8 @@ let AccountReceivableEdit = {
       let type = $(this).data('type');
 
       let tr = $(this).parents('tr');
-      let tr_index = tr.index();
 
-      let data = invoice_modal_table.row(tr).data().mDatatable.dataSet[tr_index];
+      let data = invoice_modal_table.row(tr).data();
 
       $.ajax({
         url: _url + '/areceivea',
@@ -477,7 +515,7 @@ let AccountReceivableEdit = {
             $('#modal_create_invoice').modal('hide');
 
             invoice_table.reload();
-            invoice_modal_table.reload();
+            invoice_modal_table.ajax.reload();
 
             toastr.success('Data tersimpan', 'Sukses', {
               timeOut: 2000
@@ -761,6 +799,14 @@ let AccountReceivableEdit = {
         }
       });
     });
+
+    $(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_filter").addClass("pull-left");
+    $(".paging_simple_numbers").addClass("pull-left");
+    $(".dataTables_length").addClass("pull-right");
+    $(".dataTables_info").addClass("pull-right");
+    $(".dataTables_info").addClass("margin-info");
+    $(".paging_simple_numbers").addClass("padding-datatable");
 
   }
 };

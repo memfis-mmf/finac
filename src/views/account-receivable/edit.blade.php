@@ -3,6 +3,31 @@
 @section('faAR', 'm-menu__item--active m-menu__item--open')
 @section('faARReceive', 'm-menu__item--active')
 @section('content')
+<style>
+  .dataTables_paginate a{
+      padding: 0 10px;
+  }
+  .dataTables_info{
+      margin-top:-10px;
+      margin-left:10px;
+  }
+  .dataTables_length{
+      margin-top:-30px;
+      visibility: hidden;
+  }
+  .dataTables_length select{
+      visibility: visible;
+  }
+
+  table td {
+    white-space: nowrap !important;
+  }
+
+  table,
+  table thead {
+    min-width: 100%;
+  }
+</style>
 <div class="m-subheader hidden">
   <input type="hidden" name="ar_uuid" value="{{ Request::segment(2) }}" disabled>
   <div class="d-flex align-items-center">
@@ -393,7 +418,7 @@
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/customer.js')}}"></script>
 
+<script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/account-receivable/edit.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush

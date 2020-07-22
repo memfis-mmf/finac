@@ -8,17 +8,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row mb-5">
-          <div class="col-md-6">
-            <div class="m-input-icon m-input-icon--left">
-              <input type="text" class="form-control m-input" placeholder="Search..." id="generalSearch">
-              <span class="m-input-icon__icon m-input-icon__icon--left">
-                <span><i class="la la-search"></i></span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="invoice_modal_datatable" id="scrolling_both"></div>
+        <table class="table table-striped table-bordered table-hover _invoice_modal_datatable">
+          <thead>
+            <tr>
+              <th>Transaction No.</th>
+              <th>Date</th>
+              <th>Due Date</th>
+              <th>Exchange Rate</th>
+              <th>Total Amount</th>
+              <th>Paid Amount</th>
+              <th>Account Code</th>
+              <th>Ammount to pay</th>
+              <th>Exchange rate Gap</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+        </table>
       </div>
       <div class="modal-footer">
         <div class="flex">
