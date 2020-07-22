@@ -93,7 +93,9 @@ class ARController extends Controller
         $data['credit_total_amount'] = Invoice::where(
             'id_customer',
             $data['data']->id_customer
-        )->sum('grandtotal');
+        )
+            ->where('approve', true)
+            ->sum('grandtotal');
 
         $areceive = AReceive::where('id_customer', $data['data']->id_customer)
             ->where('approve', true)
