@@ -93,7 +93,7 @@ class APBController extends Controller
         $AP = APayment::where('uuid', $request->ap_uuid)->first();
 
         $data = $alldata = json_decode(
-            APaymentB::where('transactionnumber', $AP->transactionnumber)
+            APaymentB::where('ap_id', $AP->id)
                 ->with([
                     'ap',
                     'ap.currencies',
