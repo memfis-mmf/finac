@@ -93,7 +93,7 @@ class ARBController extends Controller
         $AR = AReceive::where('uuid', $request->ar_uuid)->first();
 
         $data = $alldata = json_decode(
-            AReceiveB::where('transactionnumber', $AR->transactionnumber)
+            AReceiveB::where('ar_id', $AR->id)
                 ->with([
                     'ar',
                     'ar.currencies',
