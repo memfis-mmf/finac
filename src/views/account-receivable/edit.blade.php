@@ -25,7 +25,7 @@
 
   table,
   table thead {
-    min-width: 100%;
+    min-width: 100% !important;
   }
 </style>
 <div class="m-subheader hidden">
@@ -236,7 +236,7 @@
                       </div>
                       <div class="col-xl-12 order-1 order-xl-2 m--align-right">
                         <button data-target="#modal_create_invoice" data-toggle="modal" type="button"
-                          class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                          class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md btn-modal-create-invoice"><span>
                             <i class="la la-plus-circle"></i>
                             <span>Invoice</span>
                           </span>

@@ -315,132 +315,6 @@ let AccountReceivableEdit = {
       ]
     });
 
-    // let invoice_modal_table = $('.invoice_modal_datatable').mDatatable({
-    //   data: {
-    //     type: 'remote',
-    //     source: {
-    //       read: {
-    //         method: 'GET',
-    //         url: `${_url}/account-receivable/invoice/modal/datatable/?ar_uuid=${ar_uuid}&id_customer=${id_customer}`,
-    //         map: function (raw) {
-    //           let dataSet = raw;
-
-    //           if (typeof raw.data !== 'undefined') {
-    //             dataSet = raw.data;
-    //           }
-
-    //           return dataSet;
-    //         }
-    //       }
-    //     },
-    //     pageSize: 10,
-    //     serverPaging: !0,
-    //     serverSorting: !0
-    //   },
-    //   layout: {
-    //     theme: 'default',
-    //     class: '',
-    //     scroll: false,
-    //     footer: !1
-    //   },
-    //   sortable: !0,
-    //   filterable: !1,
-    //   pagination: !0,
-    //   search: {
-    //     input: $('#generalSearch')
-    //   },
-    //   toolbar: {
-    //     items: {
-    //       pagination: {
-    //         pageSizeSelect: [5, 10, 20, 30, 50, 100]
-    //       }
-    //     }
-    //   },
-    //   columns: [
-    //     {
-    //       field: 'transactionnumber',
-    //       title: 'Transaction No.',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //     },
-    //     {
-    //       field: 'transactiondate',
-    //       title: 'Date',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //     },
-    //     {
-    //       field: '',
-    //       title: 'Due Date',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //     },
-    //     {
-    //       field: 'exchangerate',
-    //       title: 'Exchange Rate',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //       template: function (t, e, i) {
-    //         return number_format.format(parseFloat(t.exchangerate));
-    //       }
-    //     },
-    //     {
-    //       field: 'grandtotalforeign',
-    //       title: 'Total Amount',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //       template: function (t, e, i) {
-    //         return number_format.format(parseFloat(t.grandtotalforeign));
-    //       }
-    //     },
-    //     {
-    //       field: 'paid_amount',
-    //       title: 'Paid Amount',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //       template: function (t, e, i) {
-    //         return number_format.format(parseFloat(t.paid_amount));
-    //       }
-    //     },
-    //     {
-    //       field: 'coas.code',
-    //       title: 'Account Code',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //     },
-    //     {
-    //       field: '',
-    //       title: 'Amount to Pay',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //     },
-    //     {
-    //       field: '',
-    //       title: 'Exchange Rate Gap',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //     },
-    //     {
-    //       field: 'description',
-    //       title: 'Description',
-    //       sortable: 'asc',
-    //       filterable: !1,
-    //     },
-    //     {
-    //       field: 'actions',
-    //       title: 'Actions',
-    //       sortable: !1,
-    //       overflow: 'visible',
-    //       template: function (t, e, i) {
-    //         return (
-    //           '<a class="btn btn-primary btn-sm m-btn--hover-brand select-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
-    //         );
-    //       }
-    //     }
-
-    //   ]
-    // });
-
     let invoice_modal_table = $('._invoice_modal_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
       scrollX: true,
@@ -481,6 +355,11 @@ let AccountReceivableEdit = {
           }
         }
       ]
+    });
+
+
+    $(document).on('click', '.btn-modal-create-invoice', function () {
+      invoice_modal_table.ajax.reload();
     });
 
     $('body').on('click', '.select-invoice', function () {
