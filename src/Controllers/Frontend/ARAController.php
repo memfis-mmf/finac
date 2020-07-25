@@ -34,8 +34,8 @@ class ARAController extends Controller
         $invoice = Invoice::where('uuid', $request->data_uuid)->first();
 
         $ARA = AReceiveA::where(
-            'transactionnumber',
-            $AR->transactionnumber
+            'ar_id',
+            $AR->id
         )->first();
 
         $currency = Currency::find($invoice->currency)->code;
