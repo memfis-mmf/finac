@@ -48,6 +48,16 @@ class ARAController extends Controller
             }
         }
 
+        $cek = AReceiveA::where('id_invoice', $invoice->id)
+            ->where('ar_id', $AR->id)
+            ->first();
+
+        if ($cek) {
+            return response()->json([
+                'errors' => 'Invoice already exist'
+            ]);
+        }
+
         $request->request->add([
             'description' => '',
             'transactionnumber' => $AR->transactionnumber,
