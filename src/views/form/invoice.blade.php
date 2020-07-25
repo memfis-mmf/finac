@@ -213,20 +213,20 @@
                 </tr>
                 @for ($a=0; $a < count($invoice->quotations->workpackages); $a++)
                     @php
-                        $x = $invoice->quotations->workpackages[$a];
+                        $workpackage_row = $invoice->quotations->workpackages[$a];
                     @endphp
                     <tr>
-                        <td width="10%" rowspan="{{ ($x->is_template != 'htcrr') ? 4: 3}}" align="center" valign="top">{{$a+1}}</td>
+                        <td width="10%" rowspan="{{ ($workpackage_row->is_template != 'htcrr') ? 4: 3}}" align="center" valign="top">{{$a+1}}</td>
 
                         <td width="65%" valign="top" style="border-bottom:none" colspan="2">
-                            <b>{{$x->title}}</b>
+                            <b>{{$workpackage_row->title}}</b>
                         </td>
 
                         <td width="1%" style="border-right:none;border-bottom:none;"></td>
 
                         <td width="24%" align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;"></td>
                     </tr>
-                    @if ($x->is_template != 'htcrr')
+                    @if ($workpackage_row->is_template != 'htcrr')
                         <tr>
                             <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
                                 Facility
@@ -237,7 +237,7 @@
                             <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
                                 {{
                                     number_format(
-                                        $x->facility
+                                        $workpackage_row->facility
                                         , 0
                                         , 0
                                         , '.'
@@ -248,7 +248,7 @@
                     @endif
                     <tr>
                         <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
-                            Material Need {{number_format($x->material_item, 0, 0, '.')}} Item(s)
+                            Material Need {{number_format($workpackage_row->material_item, 0, 0, '.')}} Item(s)
                         </td>
 
                         <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
@@ -256,7 +256,7 @@
                         <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
                             {{
                                 number_format(
-                                    $x->mat_tool_price
+                                    $workpackage_row->mat_tool_price
                                     , 0
                                     , 0
                                     , '.'
@@ -266,9 +266,9 @@
                     </tr>
                     <tr>
                         <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
-                            Total {{number_format(count($x->taskcards), 0, 0, '.')}} Taskcard(s) - {{
+                            Total {{number_format(count($workpackage_row->taskcards), 0, 0, '.')}} Taskcard(s) - {{
                               number_format(
-                                ($x->is_template == 'htcrr')? @$x->data_htcrr['total_manhours_with_performance_factor']: @$x->pivot->manhour_total
+                                ($workpackage_row->is_template == 'htcrr')? @$workpackage_row->data_htcrr['total_manhours_with_performance_factor']: @$workpackage_row->pivot->manhour_total
                               )
                             }} Manhours
                         </td>
@@ -279,10 +279,10 @@
 
                         <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
                             @php
-                                if ($x->is_template == 'htcrr') {
+                                if ($workpackage_row->is_template == 'htcrr') {
                                     echo number_format(
-                                        (float) $x->data_htcrr['total_manhours_with_performance_factor'] 
-                                        * (float) $x->data_htcrr['manhour_rate_amount'] 
+                                        (float) $workpackage_row->data_htcrr['total_manhours_with_performance_factor'] 
+                                        * (float) $workpackage_row->data_htcrr['manhour_rate_amount'] 
                                         * $invoice->multiple
                                         , 0
                                         , 0
@@ -290,7 +290,7 @@
                                     );
                                 }else{
                                     echo number_format(
-                                        @$x->pivot->manhour_total * @$x->pivot->manhour_rate_amount * $invoice->multiple
+                                        @$workpackage_row->pivot->manhour_total * @$workpackage_row->pivot->manhour_rate_amount * $invoice->multiple
                                         , 0
                                         , 0
                                         , '.'
