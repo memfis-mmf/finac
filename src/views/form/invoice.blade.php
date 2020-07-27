@@ -267,9 +267,9 @@
                     <tr>
                         <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
                             Total {{number_format(count($workpackage_row->taskcards), 0, 0, '.')}} Taskcard(s) - {{
-                              number_format(
-                                ($workpackage_row->is_template == 'htcrr')? @$workpackage_row->data_htcrr['total_manhours_with_performance_factor']: @$workpackage_row->pivot->manhour_total
-                              )
+                                ($workpackage_row->is_template == 'htcrr')
+                                ? @$workpackage_row->data_htcrr['total_manhours_with_performance_factor']
+                                : @$workpackage_row->pivot->manhour_total
                             }} Manhours
                         </td>
 
