@@ -31,7 +31,7 @@ class TrxPaymentController extends Controller
 	public function checkVendor(Request $request)
 	{
 		$vendor = Vendor::find($request->id_vendor);
-		$coa = $vendor->coa()->get();
+		$coa = $vendor->coa->first();
 
 		return $coa;
 	}
