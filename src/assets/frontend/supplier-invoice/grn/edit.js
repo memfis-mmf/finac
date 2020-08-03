@@ -3,6 +3,7 @@ let SupplierInvoice = {
 
     let _url = window.location.origin;
     let _si_uuid = $('input[name=si_uuid]').val();
+    let number_format = new Intl.NumberFormat('de-DE');
 
     $('#project').select2({
       ajax: {
@@ -11,99 +12,6 @@ let SupplierInvoice = {
       },
       minimumInputLength: 3,
     });
-
-    function addCommas(nStr) {
-      nStr += '';
-      x = nStr.split('.');
-      x1 = x[0];
-      x2 = x.length > 1 ? '.' + x[1] : '';
-      var rgx = /(\d+)(\d{3})/;
-      while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + '.' + '$2');
-      }
-      return x1 + x2;
-    }
-
-    // let grn_table = $('.grn_datatable').mDatatable({
-    // 		data: {
-    // 				type: 'remote',
-    // 				source: {
-    // 						read: {
-    // 								method: 'GET',
-    // 								url: '/supplier-invoice/grn/items/datatables?si_uuid='+_si_uuid,
-    // 								map: function (raw) {
-    // 										let dataSet = raw;
-
-    // 										if (typeof raw.data !== 'undefined') {
-    // 												dataSet = raw.data;
-    // 										}
-
-    // 										return dataSet;
-    // 								}
-    // 						}
-    // 				},
-    // 				pageSize: 10,
-    // 				serverPaging: !0,
-    // 				serverSorting: !0
-    // 		},
-    // 		layout: {
-    // 				theme: 'default',
-    // 				class: '',
-    // 				scroll: false,
-    // 				footer: !1
-    // 		},
-    // 		sortable: !0,
-    // 		filterable: !1,
-    // 		pagination: !0,
-    // 		search: {
-    // 				input: $('#generalSearch')
-    // 		},
-    // 		toolbar: {
-    // 				items: {
-    // 						pagination: {
-    // 								pageSizeSelect: [5, 10, 20, 30, 50, 100]
-    // 						}
-    // 				}
-    // 		},
-    // 		columns: [
-    // 				{
-    // 					field: 'grn.number',
-    // 					title: 'GRN No.',
-    // 					sortable: 'asc',
-    // 					filterable: !1,
-    // 				},
-    // 				{
-    // 					field: 'total',
-    // 					title: 'Total Amount',
-    // 					sortable: 'asc',
-    // 					filterable: !1,
-    // 					template: function(t, e, i) {
-    // 						return addCommas(parseInt(t.total));
-    // 					}
-    // 				},
-    // 				{
-    // 					field: 'description',
-    // 					title: 'Invoice No.',
-    // 					sortable: 'asc',
-    // 					filterable: !1,
-    // 				},
-    // 				{
-    // 					field: 'Actions',
-    // 					width: 110,
-    // 					sortable: !1,
-    // 					overflow: 'visible',
-    // 					template: function (t, e, i) {
-    // 						return (
-    // 							'<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-    // 							'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-    // 							t.uuid +
-    // 							' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-    // 							);
-    // 					}
-    // 				}
-
-    // 		]
-    // });
 
     let grn_table = $('.grn_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
@@ -114,7 +22,7 @@ let SupplierInvoice = {
       columns: [
         { data: 'grn.number' },
         { data: 'total', render: (data, type, row) => {
-          return addCommas(parseInt(row.total));
+          return row.grn.purchase_order.currency.symbol + ' ' + number_format.format(parseInt(row.total));
         }},
         { data: 'description', defaultContent: '-' },
         {
@@ -148,7 +56,7 @@ let SupplierInvoice = {
       let data = grn_table.row(tr).data();
 
       _modal.find('input#grn_no').val(data.grn.number);
-      _modal.find('input#total_amount').val(addCommas(parseInt(data.total)));
+      _modal.find('input#total_amount').val(number_format.format(parseInt(data.total)));
       _modal.find('#invoice_no').val(data.description);
       _modal.find('input[name=uuid]').val(uuid);
       _modal.modal('show');

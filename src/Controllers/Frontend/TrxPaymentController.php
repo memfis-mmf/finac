@@ -476,7 +476,8 @@ class TrxPaymentController extends Controller
 		$data = TrxPaymentA::where(
 				'transaction_number', $trxpayment->transaction_number
 			)->with([
-				'grn'
+                'grn',
+                'grn.purchase_order'
 			])->select('trxpaymenta.*');
 
         return DataTables::of($data)
@@ -609,7 +610,7 @@ class TrxPaymentController extends Controller
 			$tax_percent = $tax_data->percent;
 
 			//jika tax memiliki code 'none'
-			if ($type->code != 'none') {
+			if ($type->code == 'none') {
 				$tax_percent = 0;
 			}
 		}
