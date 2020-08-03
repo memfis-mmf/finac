@@ -32,11 +32,26 @@ class APayment extends MemfisModel
 		'date',
 		'created_by',
 		'approved_by',
+		'status',
 	];
 
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
+    }
+
+	public function getCreatedByAttribute()
+	{
+		$audit = $this->audits->first();
+		$conducted_by = @User::find($audit->user_id)->name;
+
+		$result = '-';
+
+		if ($conducted_by) {
+			$result = $conducted_by.' '.$this->created_at;
+		}
+
+		return $result;
     }
 
 	public function getApprovedByAttribute()
@@ -53,18 +68,15 @@ class APayment extends MemfisModel
 		return $result;
 	}
 
-	public function getCreatedByAttribute()
+	public function getStatusAttribute()
 	{
-		$audit = $this->audits->first();
-		$conducted_by = @User::find($audit->user_id)->name;
 
-		$result = '-';
+        $status = 'Open';
+        if ($this->approve) {
+            $status = 'Approved';
+        }
 
-		if ($conducted_by) {
-			$result = $conducted_by.' '.$this->created_at;
-		}
-
-		return $result;
+		return $status;
 	}
 
 	public function getDateAttribute()
