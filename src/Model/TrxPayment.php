@@ -133,7 +133,7 @@ class TrxPayment extends MemfisModel
         if ($this->approve) {
             $status = 'Approved';
         }else{
-            $status = 'Unapproved';
+            $status = 'Open';
         }
 
         // check if supplier invoice is used in account payable
