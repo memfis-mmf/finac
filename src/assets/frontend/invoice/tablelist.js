@@ -242,6 +242,9 @@ var DatatableAutoColumnHideDemo = function () {
           filterable: !1,
           template: function (t, e, i) {
 
+            // rate invoice selalu 1 jika currency invoice idr 
+            // jika invoice currency-nya idr maka convert to idr menggunkana rate QN
+            // jika invoice currency-nya foreign maka convert to idr menggunakan rate invoice sendiri
             if (_currency == 'idr') {
               multiple = t.quotations[0].exchange_rate;
             }else{

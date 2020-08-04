@@ -64,17 +64,17 @@ class InvoiceController extends Controller
 
         $collection = collect();
 
-        $departments = Department::with('type','parent')->get();
+        $departments = Department::with('type', 'parent')->get();
 
         $data['company'] = $departments;
-		$data['coa_default'] = (object) [
-			'manhours' => Coa::where('code', '41111001')->first(),
-			'material' => Coa::where('code', '41114001')->first(),
-			'facility' => Coa::where('code', '41113001')->first(),
-			'discount' => Coa::where('code', '41121001')->first(),
-			'ppn' => Coa::where('code', '21115005')->first(),
-			'other' => Coa::where('code', '41114003')->first(),
-		];
+        $data['coa_default'] = (object) [
+            'manhours' => Coa::where('code', '41111001')->first(),
+            'material' => Coa::where('code', '41114001')->first(),
+            'facility' => Coa::where('code', '41113001')->first(),
+            'discount' => Coa::where('code', '41121001')->first(),
+            'ppn' => Coa::where('code', '21115005')->first(),
+            'other' => Coa::where('code', '41114003')->first(),
+        ];
 
         return view('invoiceview::create', $data);
     }
@@ -87,25 +87,25 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-		DB::beginTransaction();
+        DB::beginTransaction();
         $quotation = Quotation::where('number', $request->quotation)->first();
 
-		if (Invoice::where('id_quotation', $quotation->id)->first()) {
-			return [
-				'error' => 'quotation alredy in use'
-			];
-		}
+        if (Invoice::where('id_quotation', $quotation->id)->first()) {
+            return [
+                'error' => 'quotation alredy in use'
+            ];
+        }
 
         $schedule_payment = json_decode($quotation->scheduled_payment_amount);
 
         if (!@$schedule_payment[0]->amount_percentage) {
-          return [
-			  'error' => 'amount percentage cannot be null'
-		  ];
+            return [
+                'error' => 'amount percentage cannot be null'
+            ];
         }
-        $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
+        $end_sp = array_key_last($schedule_payment);         // move the internal pointer to the end of the array
         $last_sp = $end_sp + 1;
-        $percent_sp =$schedule_payment[$last_sp - 1]->amount_percentage;
+        $percent_sp = $schedule_payment[$last_sp - 1]->amount_percentage;
 
         $project = $quotation->quotationable()->first();
         $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
@@ -203,21 +203,21 @@ class InvoiceController extends Controller
         ]);
 
         $list = [
-            'manhours' => $request->manhoursprice ,
+            'manhours' => $request->manhoursprice,
             'manhours_percent' => $percent_sp,
-            'manhours_calc' => ($percent_sp/100),
+            'manhours_calc' => ($percent_sp / 100),
             'manhours_result' =>  $request->manhoursprice,
-            'material' => $request->materialprice ,
+            'material' => $request->materialprice,
             'material_percent' => $percent_sp,
-            'material_calc' => ($percent_sp/100),
+            'material_calc' => ($percent_sp / 100),
             'material_result' =>  $request->materialprice,
-            'facility' => $request->facilityprice ,
+            'facility' => $request->facilityprice,
             'facility_percent' => $percent_sp,
-            'facility_calc' => ($percent_sp/100),
+            'facility_calc' => ($percent_sp / 100),
             'facility_result' =>  $request->facilityprice,
-            'others' => $request->otherprice ,
+            'others' => $request->otherprice,
             'others_percent' => $percent_sp,
-            'others_calc' => ($percent_sp/100),
+            'others_calc' => ($percent_sp / 100),
             'others_result' =>  $request->otherprice,
 
         ];
@@ -271,12 +271,12 @@ class InvoiceController extends Controller
             'type' => 'htcrr'
         ]);
 
-		// return [
-		// 	'error' => Invoicetotalprofit::select('amount')->get(),
-		// 	'all_request' => $request->all()
-		// ];
+        // return [
+        // 	'error' => Invoicetotalprofit::select('amount')->get(),
+        // 	'all_request' => $request->all()
+        // ];
 
-		DB::commit();
+        DB::commit();
 
         return response()->json($invoice);
     }
@@ -308,31 +308,31 @@ class InvoiceController extends Controller
         $currency = $invoice->currencies;
         $coa = $invoice->coas;
         //dd($invoice->id);
-        $material = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','material')->first();
-        $material_id = Coa::where('id',$material->accountcode)->first();
-        $manhours = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','manhours')->first();
-        $manhours_id = Coa::where('id',$manhours->accountcode)->first();
-        $facility = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','facility')->first();
-        $facility_id = Coa::where('id',$facility->accountcode)->first();
-        $discount = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','discount')->first();
-        $discount_id = Coa::where('id',$discount->accountcode)->first();
-        $ppn = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','ppn')->first();
-        $ppn_id = Coa::where('id',$ppn->accountcode)->first();
+        $material = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'material')->first();
+        $material_id = Coa::where('id', $material->accountcode)->first();
+        $manhours = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'manhours')->first();
+        $manhours_id = Coa::where('id', $manhours->accountcode)->first();
+        $facility = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'facility')->first();
+        $facility_id = Coa::where('id', $facility->accountcode)->first();
+        $discount = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'discount')->first();
+        $discount_id = Coa::where('id', $discount->accountcode)->first();
+        $ppn = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'ppn')->first();
+        $ppn_id = Coa::where('id', $ppn->accountcode)->first();
 
-        $others = Invoicetotalprofit::where('invoice_id',$invoice->id)->where('type','others')->first();
-        $others_id = Coa::where('id',$others->accountcode)->first();
+        $others = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'others')->first();
+        $others_id = Coa::where('id', $others->accountcode)->first();
 
-        $bankAccountget = BankAccount::where('id',$invoice->id_bank)->first();
-        $bankget = Bank::where('id',$bankAccountget->bank_id)->first();
-        
-        $bankAccountget2 = BankAccount::where('id',$invoice->id_bank2)->first();
-        @$bankget2 = Bank::where('id',$bankAccountget2->bank_id)->first();
+        $bankAccountget = BankAccount::where('id', $invoice->id_bank)->first();
+        $bankget = Bank::where('id', $bankAccountget->bank_id)->first();
+
+        $bankAccountget2 = BankAccount::where('id', $invoice->id_bank2)->first();
+        @$bankget2 = Bank::where('id', $bankAccountget2->bank_id)->first();
 
         $bank = BankAccount::where('internal_account', 1)->selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
 
         $collection = collect();
 
-        $departments = Department::with('type','parent')->get();
+        $departments = Department::with('type', 'parent')->get();
 
         $company = $departments;
 
@@ -340,19 +340,19 @@ class InvoiceController extends Controller
             ->with('today', $invoice->transactiondate)
             ->with('quotation', $quotation)
             ->with('coa', $coa)
-            ->with('manhours',$manhours_id)
-            ->with('material',$material_id)
-            ->with('facility',$facility_id)
-            ->with('discount',$discount_id)
-            ->with('ppn',$ppn_id)
-            ->with('others',$others_id)
+            ->with('manhours', $manhours_id)
+            ->with('material', $material_id)
+            ->with('facility', $facility_id)
+            ->with('discount', $discount_id)
+            ->with('ppn', $ppn_id)
+            ->with('others', $others_id)
             ->with('invoice', $invoice)
-            ->with('banks',$bank)
-            ->with('bankaccountget',$bankAccountget)
-            ->with('bankget',$bankget)
-            ->with('bankaccountget2',$bankAccountget2)
-            ->with('bankget2',$bankget2)
-            ->with('company',$company)
+            ->with('banks', $bank)
+            ->with('bankaccountget', $bankAccountget)
+            ->with('bankget', $bankget)
+            ->with('bankaccountget2', $bankAccountget2)
+            ->with('bankget2', $bankget2)
+            ->with('company', $company)
             ->with('currencycode', $currency);
     }
 
@@ -381,7 +381,7 @@ class InvoiceController extends Controller
                 ->first()->id;
         }
 
-		$subtotal = $invoice->grandtotalforeign / 1.1;
+        $subtotal = $invoice->grandtotalforeign / 1.1;
 
         $currency_id = $currency->id;
         $exchange_rate = $request->exchangerate;
@@ -397,85 +397,85 @@ class InvoiceController extends Controller
         $term_and_condition = $request->term_and_condition;
 
         $invoice1 = Invoice::where('id', $invoice->id)
-        ->update([
-            'currency' => $currency_id,
-            'exchangerate' => $exchange_rate,
-            // 'discountpercent' => $percent_friendly,
-            // 'discountvalue' => $discount_value,
-            // 'ppnpercent' => $ppn_percent,
-            // 'ppnvalue' => $ppn_value,
-            'id_bank' => $bankaccount,
-            'id_bank2' => $bankaccount2,
-            // 'grandtotalforeign' => $grandtotalfrg,
-            'grandtotal' => $grandtotalidr,
-            // 'accountcode' => $coa->id,
-            'description' => $description,
-            'term_and_condition' => $term_and_condition,
-            'presdir' => $request->presdir,
-            'location' => $request->location,
-            'company_department' => $request->company_department,
-            'transactiondate' => $transaction_date,
-        ]);
+            ->update([
+                'currency' => $currency_id,
+                'exchangerate' => $exchange_rate,
+                // 'discountpercent' => $percent_friendly,
+                // 'discountvalue' => $discount_value,
+                // 'ppnpercent' => $ppn_percent,
+                // 'ppnvalue' => $ppn_value,
+                'id_bank' => $bankaccount,
+                'id_bank2' => $bankaccount2,
+                // 'grandtotalforeign' => $grandtotalfrg,
+                'grandtotal' => $grandtotalidr,
+                // 'accountcode' => $coa->id,
+                'description' => $description,
+                'term_and_condition' => $term_and_condition,
+                'presdir' => $request->presdir,
+                'location' => $request->location,
+                'company_department' => $request->company_department,
+                'transactiondate' => $transaction_date,
+            ]);
 
         //dd($invoice);
         $trxinvoice = Trxinvoice::where(
-            'transactionnumber', 
+            'transactionnumber',
             $invoice->transactionnumber
         )
-        ->update([
-            'currency' => $currency_id,
-            'exchangerate' => $exchange_rate,
-            'discountpercent' => $percent_friendly,
-            'discountvalue' => $discount_value,
-            'ppnpercent' => $ppn_percent,
-            'ppnvalue' => $ppn_value,
-            'id_bank' => $bankaccount,
-            'grandtotalforeign' => $grandtotalfrg,
-            'grandtotal' => $grandtotalidr,
-            // 'accountcode' => $coa->id,
-            'description' => $description,
-            'transactiondate' => $transaction_date,
-        ]);
+            ->update([
+                'currency' => $currency_id,
+                'exchangerate' => $exchange_rate,
+                'discountpercent' => $percent_friendly,
+                'discountvalue' => $discount_value,
+                'ppnpercent' => $ppn_percent,
+                'ppnvalue' => $ppn_value,
+                'id_bank' => $bankaccount,
+                'grandtotalforeign' => $grandtotalfrg,
+                'grandtotal' => $grandtotalidr,
+                // 'accountcode' => $coa->id,
+                'description' => $description,
+                'transactiondate' => $transaction_date,
+            ]);
 
         $manhours_ins = Invoicetotalprofit::where('type', 'manhours')
-		->where('invoice_id', $invoice->id)
-		->update([
-            'accountcode' => Coa::where('code', $request->manhours)->first()->id,
-        ]);
+            ->where('invoice_id', $invoice->id)
+            ->update([
+                'accountcode' => Coa::where('code', $request->manhours)->first()->id,
+            ]);
 
         $manhours_ins = Invoicetotalprofit::where('type', 'material')
-		->where('invoice_id', $invoice->id)
-		->update([
-            'accountcode' => Coa::where('code', $request->material)->first()->id,
-        ]);
+            ->where('invoice_id', $invoice->id)
+            ->update([
+                'accountcode' => Coa::where('code', $request->material)->first()->id,
+            ]);
 
         $manhours_ins = Invoicetotalprofit::where('type', 'facility')
-		->where('invoice_id', $invoice->id)
-		->update([
-            'accountcode' => Coa::where('code', $request->facility)->first()->id,
-        ]);
+            ->where('invoice_id', $invoice->id)
+            ->update([
+                'accountcode' => Coa::where('code', $request->facility)->first()->id,
+            ]);
 
         $manhours_ins = Invoicetotalprofit::where('type', 'discount')
-		->where('invoice_id', $invoice->id)
-		->update([
-            'accountcode' => Coa::where('code', $request->discount)->first()->id,
-        ]);
+            ->where('invoice_id', $invoice->id)
+            ->update([
+                'accountcode' => Coa::where('code', $request->discount)->first()->id,
+            ]);
 
         $manhours_ins = Invoicetotalprofit::where('type', 'ppn')
-		->where('invoice_id', $invoice->id)
-		->update([
-            'accountcode' => Coa::where('code', $request->ppn)->first()->id,
-        ]);
+            ->where('invoice_id', $invoice->id)
+            ->update([
+                'accountcode' => Coa::where('code', $request->ppn)->first()->id,
+            ]);
 
         $manhours_ins = Invoicetotalprofit::where('type', 'others')
-		->where('invoice_id', $invoice->id)
-		->update([
-            'accountcode' => Coa::where('code', $request->other)->first()->id,
-        ]);
+            ->where('invoice_id', $invoice->id)
+            ->update([
+                'accountcode' => Coa::where('code', $request->other)->first()->id,
+            ]);
 
         return redirect()->route('invoice.index')->with([
-			'success' => 'data updated'
-		]);
+            'success' => 'data updated'
+        ]);
     }
 
     /**
@@ -490,95 +490,99 @@ class InvoiceController extends Controller
         //     ->update([
         //         'closed' => 2,
         //     ]);
-		$invoice->delete();
+        $invoice->delete();
         return response()->json($invoice);
     }
 
     public function approve(Invoice $invoice)
     {
-		DB::beginTransaction();
-		try {
+        DB::beginTransaction();
+        try {
 
-	        $invoice->approvals()->save(new Approval([
-	            'approvable_id' => $invoice->id,
-	            'is_approved' => 0,
-	            'conducted_by' => Auth::id(),
-	        ]));
+            $invoice->approvals()->save(new Approval([
+                'approvable_id' => $invoice->id,
+                'is_approved' => 0,
+                'conducted_by' => Auth::id(),
+            ]));
 
-			$data_detail = Invoicetotalprofit::where('invoice_id', $invoice->id)
-			->get();
+            $data_detail = Invoicetotalprofit::where('invoice_id', $invoice->id)
+                ->get();
 
-			$date_approve = $invoice->approvals->first()
-			->created_at->toDateTimeString();
+            $date_approve = $invoice->approvals->first()
+                ->created_at->toDateTimeString();
 
-			$header = (object) [
-				'voucher_no' => $invoice->transactionnumber,
-				// 'transaction_date' => $date_approve,
-				'transaction_date' => $invoice->transactiondate,
-				'coa' => $invoice->customer->coa()->first()->id,
-			];
+            $header = (object) [
+                'voucher_no' => $invoice->transactionnumber,
+                // 'transaction_date' => $date_approve,
+                'transaction_date' => $invoice->transactiondate,
+                'coa' => $invoice->customer->coa()->first()->id,
+            ];
 
-			$total_credit = 0;
+            $total_credit = 0;
+            foreach ($data_detail as $detail_row) {
+                $detail[] = (object) [
+                    'coa_detail' => $detail_row->accountcode,
+                    'credit' => $detail_row->amount * $invoice->exchangerate,
+                    'debit' => 0,
+                    '_desc' => 'Income : '
+                        . $detail_row->invoice->transactionnumber . ' '
+                        . $detail_row->invoice->customer->name,
+                ];
 
-			for ($a=0; $a < count($data_detail); $a++) {
-				$x = $data_detail[$a];
+                if ($detail_row->type == 'discount') {
+                    $total_after_discount = 
+                        $total_credit - $detail[count($detail) - 1]->credit;
+                    
+                    $total_credit = $total_after_discount / 1.1;
+                } else {
+                    $total_credit += $detail[count($detail) - 1]->credit;
+                }
+            }
 
-				$detail[] = (object) [
-					'coa_detail' => $x->accountcode,
-					'credit' => $x->amount * $invoice->exchangerate,
-					'debit' => 0,
-					'_desc' => 'Income : '
-					.$x->invoice->transactionnumber.' '
-					.$x->invoice->customer->name,
-				];
+            // add object in first array $detai
+            array_unshift(
+                $detail,
+                (object) [
+                    'coa_detail' => $header->coa,
+                    'credit' => 0,
+                    'debit' => $total_credit,
+                    '_desc' => 'Account Receivable : '
+                        . $invoice->transactionnumber . ' '
+                        . $invoice->customer->name,
+                ]
+            );
 
-				$total_credit += $detail[count($detail)-1]->credit;
-			}
+            $autoJournal = TrxJournal::autoJournal(
+                $header,
+                $detail,
+                'IVJR',
+                'SRJ'
+            );
 
-			// add object in first array $detai
-			array_unshift(
-				$detail,
-				(object) [
-					'coa_detail' => $header->coa,
-					'credit' => 0,
-					'debit' => $total_credit,
-					'_desc' => 'Account Receivable : '
-					.$x->invoice->transactionnumber.' '
-					.$x->invoice->customer->name,
-				]
-			);
+            Invoice::where('id', $invoice->id)->update([
+                'approve' => 1
+            ]);
 
-			Invoice::where('id', $invoice->id)->update([
-				'approve' => 1
-			]);
+            if ($autoJournal['status']) {
 
-			$autoJournal = TrxJournal::autoJournal(
-				$header, $detail, 'IVJR', 'SRJ'
-			);
+                DB::commit();
+            } else {
 
-			if ($autoJournal['status']) {
+                DB::rollBack();
+                return response()->json([
+                    'errors' => $autoJournal['message']
+                ]);
+            }
 
-				DB::commit();
+            return response()->json($invoice);
+        } catch (\Exception $e) {
 
-			}else{
+            DB::rollBack();
 
-				DB::rollBack();
-				return response()->json([
-					'errors' => $autoJournal['message']
-				]);
-			}
+            $data['errors'] = $e->getMessage();
 
-	        return response()->json($invoice);
-
-		} catch (\Exception $e) {
-
-			DB::rollBack();
-
-			$data['errors'] = $e->getMessage();
-
-			return response()->json($data);
-		}
-
+            return response()->json($data);
+        }
     }
 
 
@@ -671,7 +675,7 @@ class InvoiceController extends Controller
         }
 
         $quotations = Quotation::whereHas('approvals')
-            ->whereDoesntHave('invoice', function($invoice) {
+            ->whereDoesntHave('invoice', function ($invoice) {
                 $invoice->where('approve', true);
             })
             ->get();
@@ -686,7 +690,7 @@ class InvoiceController extends Controller
                 $quotation->status .= '';
             }
             $project = $quotation->quotationable->toArray();
-            $cust = Customer::where('id',$project['customer_id'])->first();
+            $cust = Customer::where('id', $project['customer_id'])->first();
             if ($project == null) {
                 $quotation->project_no .= "-";
                 $quotation->workorder_no .= "-";
@@ -786,9 +790,9 @@ class InvoiceController extends Controller
     public function datatables()
     {
         $invoices = Invoice::with([
-			'customer',
-			'currencies',
-		])->orderBy('transactiondate', 'desc')->orderBy('id', 'asc')->get();
+            'customer',
+            'currencies',
+        ])->orderBy('transactiondate', 'desc')->orderBy('id', 'asc')->get();
 
         foreach ($invoices as $invoice) {
 
@@ -800,7 +804,7 @@ class InvoiceController extends Controller
                     } else {
                         $invoice->xstatus .= "Quotation Additional";
                     }
-                }else{
+                } else {
                     $invoice->xstatus .= "";
                 }
 
@@ -809,7 +813,7 @@ class InvoiceController extends Controller
                 $invoice->status .= 'Approved';
                 if (@$approval[0]['conducted_by']) {
                     $conducted_by = $approval[0]['conducted_by'];
-                }else{
+                } else {
                     $conducted_by = 'System';
                 }
                 $invoice->approvedby .= $conducted_by;
@@ -830,7 +834,7 @@ class InvoiceController extends Controller
                     } else {
                         $invoice->xstatus .= "Quotation Additional";
                     }
-                }else{
+                } else {
                     $invoice->xstatus .= "";
                 }
             }
@@ -840,9 +844,8 @@ class InvoiceController extends Controller
         $data = $invoices;
 
         return DataTables::of($data)
-		->escapeColumns([])
-		->make(true);
-
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function apidetail(Quotation $quotation)
@@ -850,15 +853,15 @@ class InvoiceController extends Controller
         $project = $quotation->quotationable()->first();
         $currency = $quotation->currency()->first();
         $project_init = Project::find($project->id)->workpackages()->get();
-        $invoicecount = Invoice::where('id_quotation',$quotation->id)->count();
+        $invoicecount = Invoice::where('id_quotation', $quotation->id)->count();
         $schedule_payment = json_decode($quotation->scheduled_payment_amount);
         //dd($schedule_payment);
-        $end_sp = array_key_last ( $schedule_payment );         // move the internal pointer to the end of the array
+        $end_sp = array_key_last($schedule_payment);         // move the internal pointer to the end of the array
         $last_sp = $end_sp + 1;
         //$workpackages =
         //dd($project->customer_id);
         $attn_quo =
-        $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
+            $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
         //dd($customer);
         $quotation->project .= $project;
         $quotation->customer .= $customer;
@@ -869,12 +872,12 @@ class InvoiceController extends Controller
         $quotation->attention_cust .= $customer->attention;
         $quotation->attention_quo .= $quotation->attention;
 
-		$quo_invoice = Invoice::where('id_quotation', $quotation->id)->first();
+        $quo_invoice = Invoice::where('id_quotation', $quotation->id)->first();
 
         $quotation->duplicate = false;
 
-		if ($quo_invoice) {
-			$quotation->duplicate = true;
+        if ($quo_invoice) {
+            $quotation->duplicate = true;
         }
 
         return response()->json($quotation);
@@ -898,14 +901,14 @@ class InvoiceController extends Controller
     public function table(Quotation $quotation)
     {
         $workpackages = $quotation->workpackages()->with([
-			'quotations' => function($q) use($quotation) {
+            'quotations' => function ($q) use ($quotation) {
                 $q->with([
                     'promos',
                     'currency',
                     'taxes',
                     'taxes.TaxPaymentMethod',
                 ])
-                ->where('uuid', $quotation->uuid);
+                    ->where('uuid', $quotation->uuid);
             },
         ])->get();
 
@@ -933,7 +936,7 @@ class InvoiceController extends Controller
 
             // if WorkPackage is empty
             if (!$project_workpackage) {
-              return ['error' => 'workpackages not found'];
+                return ['error' => 'workpackages not found'];
             }
 
             $countWPItem = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
@@ -1037,7 +1040,7 @@ class InvoiceController extends Controller
 
         $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->get();
         $parseHtccr = json_decode($quotation->data_htcrr);
-		// dd($quotation->workpackages[0]->pivot->manhour_rate_amount);
+        // dd($quotation->workpackages[0]->pivot->manhour_rate_amount);
         @$pricehtccr = $parseHtccr->manhour_rate_amount * $parseHtccr->total_manhours_with_performance_factor;
         if (sizeof($htcrrs) > 0) {
             $htcrr_workpackage = new WorkPackage();
@@ -1061,11 +1064,11 @@ class InvoiceController extends Controller
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
         }
 
-        if ($quotation->charge != null){
+        if ($quotation->charge != null) {
             $encode = json_decode($quotation->charge);
             $last_index_key = array_key_last($encode);
             $total = 0;
-            for ($i=0;$i<=$last_index_key;$i++){
+            for ($i = 0; $i <= $last_index_key; $i++) {
                 $total += $encode[$i]->amount;
             }
             //dd($encode[0]->amount);
@@ -1078,9 +1081,9 @@ class InvoiceController extends Controller
             $workpackages[sizeof($workpackages)] = $other_workpackage;
         }
 
-		// start datatable
+        // start datatable
 
-		// dd($workpackages[0]->quotations[0]);
+        // dd($workpackages[0]->quotations[0]);
 
         $data = $alldata = json_decode($workpackages);
 
@@ -1171,42 +1174,44 @@ class InvoiceController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-	public function print(Request $request)
-	{
-		$invoice = Invoice::where('uuid', $request->uuid)->first();
-		$quotation = $invoice->quotations;
+    public function print(Request $request)
+    {
+        $invoice = Invoice::where('uuid', $request->uuid)->first();
+        $quotation = $invoice->quotations;
         $workpackage = $quotation->workpackages;
 
         if ($invoice->currencies->code == 'idr') {
             $invoice->multiple = $quotation->exchange_rate;
-        }else{
+        } else {
             $invoice->multiple = 1;
         }
 
-		for ($a=0; $a < count($workpackage); $a++) {
-			$x = $workpackage[$a];
+        for ($a = 0; $a < count($workpackage); $a++) {
+            $x = $workpackage[$a];
 
-			$invoice->quotations->workpackages[$a]->mat_tool_price =  QuotationWorkPackageTaskCardItem::where(
-				'quotation_id', $invoice->quotations->id
-			)
-			->where('workpackage_id',$x->id)
-            ->sum('subtotal') * $invoice->multiple;
+            $invoice->quotations->workpackages[$a]->mat_tool_price =  QuotationWorkPackageTaskCardItem::where(
+                'quotation_id',
+                $invoice->quotations->id
+            )
+                ->where('workpackage_id', $x->id)
+                ->sum('subtotal') * $invoice->multiple;
 
-	        $invoice->quotations->workpackages[$a]->material_item = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
-	            ->where('workpackage_id', $x->id)
-	            ->count();
+            $invoice->quotations->workpackages[$a]->material_item = QuotationWorkpackageTaskcardItem::where('quotation_id', $quotation->id)
+                ->where('workpackage_id', $x->id)
+                ->count();
 
-			$project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
-            ->where(
-				'workpackage_id', $x->id
-			)->first();
+            $project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
+                ->where(
+                    'workpackage_id',
+                    $x->id
+                )->first();
 
-			$invoice->quotations->workpackages[$a]->facility = ProjectWorkPackageFacility::where('project_workpackage_id', $project_workpackage->id)
-                    ->with('facility')
-                    ->sum('price_amount') * $invoice->multiple;
+            $invoice->quotations->workpackages[$a]->facility = ProjectWorkPackageFacility::where('project_workpackage_id', $project_workpackage->id)
+                ->with('facility')
+                ->sum('price_amount') * $invoice->multiple;
 
             $invoice->quotations->workpackages[$a]->is_template = 'not htcrr';
-		}
+        }
 
         $htcrrs = HtCrr::where('project_id', $quotation->quotationable->id)->whereNull('parent_id')->get();
         $mats_tools_htcrr = QuotationHtcrrItem::where('quotation_id', $quotation->id)->sum('subtotal');
@@ -1219,9 +1224,9 @@ class InvoiceController extends Controller
             $htcrr_workpackage->is_template = "htcrr";
             $htcrr_workpackage->ac_type = $quotation->quotationable->aircraft->name;
 
-            if($quotation->promos->first()){
+            if ($quotation->promos->first()) {
                 $promo = $quotation->promos->first();
-                switch($promo->code){
+                switch ($promo->code) {
                     case "discount-amount":
                         $htcrr_workpackage->jobrequest_discount_amount = $promo->pivot->amount;
                         // array_push($discount, $disc);
@@ -1239,22 +1244,22 @@ class InvoiceController extends Controller
                 }
                 $htcrr_workpackage->jobrequest_discount_type =  $quotation->promos->first()->code;
                 $htcrr_workpackage->jobrequest_discount_value =  $quotation->promos->first()->pivot->amount;
-            }else{
+            } else {
                 $htcrr_workpackage->jobrequest_discount_value = null;
                 $htcrr_workpackage->jobrequest_discount_type = null;
                 $htcrr_workpackage->jobrequest_discount_percentage =  null;
             }
 
             $invoice
-			->quotations
-			->workpackages[sizeof($invoice->quotations->workpackages)] = $htcrr_workpackage;
+                ->quotations
+                ->workpackages[sizeof($invoice->quotations->workpackages)] = $htcrr_workpackage;
         }
 
-        if ($quotation->charge != null){
+        if ($quotation->charge != null) {
             $encode = json_decode($quotation->charge);
             $last_index_key = array_key_last($encode);
             $total = 0;
-            for ($i=0;$i<=$last_index_key;$i++){
+            for ($i = 0; $i <= $last_index_key; $i++) {
                 $total += $encode[$i]->amount;
             }
             //dd($encode[0]->amount);
@@ -1263,7 +1268,7 @@ class InvoiceController extends Controller
             $other_workpackage->title = "Other";
             $other_workpackage->priceother = $total;
         }
-        
+
         $data = [
             'invoice' => $invoice,
             'other_workpackage' => $other_workpackage,
@@ -1271,20 +1276,20 @@ class InvoiceController extends Controller
 
         $pdf = \PDF::loadView('formview::invoice', $data);
         return $pdf->stream();
-	}
+    }
 
-	public function getCustomer()
-	{
-		$customer = Customer::all();
+    public function getCustomer()
+    {
+        $customer = Customer::all();
 
-		$type = [];
+        $type = [];
 
-		for ($i = 0; $i < count($customer); $i++) {
-			$x = $customer[$i];
+        for ($i = 0; $i < count($customer); $i++) {
+            $x = $customer[$i];
 
-			$type[$x->id] = $x->name;
-		}
+            $type[$x->id] = $x->name;
+        }
 
         return json_encode($type, JSON_PRETTY_PRINT);
-	}
+    }
 }
