@@ -520,23 +520,22 @@ class InvoiceController extends Controller
 
             $total_credit = 0;
             foreach ($data_detail as $detail_row) {
+
+                $amount = $detail_row->amount;
+                if ($detail_row->type == 'discount') {
+                    $amount = abs($detail_row->amount) * -1;
+                }
+
                 $detail[] = (object) [
                     'coa_detail' => $detail_row->accountcode,
-                    'credit' => $detail_row->amount * $invoice->exchangerate,
+                    'credit' => $amount * $invoice->exchangerate,
                     'debit' => 0,
                     '_desc' => 'Income : '
                         . $detail_row->invoice->transactionnumber . ' '
                         . $detail_row->invoice->customer->name,
                 ];
 
-                if ($detail_row->type == 'discount') {
-                    $total_after_discount = 
-                        $total_credit - $detail[count($detail) - 1]->credit;
-                    
-                    $total_credit = $total_after_discount / 1.1;
-                } else {
-                    $total_credit += $detail[count($detail) - 1]->credit;
-                }
+                $total_credit += $detail[count($detail) - 1]->credit;
             }
 
             // add object in first array $detai
