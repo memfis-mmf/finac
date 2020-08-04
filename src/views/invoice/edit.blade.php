@@ -811,7 +811,7 @@
                                                         @slot('id', 'total_discount')
                                                         @slot('class', 'total_discount')
                                                         @slot('text', '0')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->discountvalue, 2))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format(abs($invoice->discountvalue) * -1, 2))
                                                         @endcomponent
                                                     </div>
 

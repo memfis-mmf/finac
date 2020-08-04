@@ -518,6 +518,13 @@ class InvoiceController extends Controller
                 'coa' => $invoice->customer->coa()->first()->id,
             ];
 
+            $vat_type = $invoice->quotations->taxes[0]->TaxPaymentMethod->code;
+
+            $divider = 1;
+            if ($vat_type == 'include') {
+                $divider = 1.1;
+            }
+
             $total_credit = 0;
             foreach ($data_detail as $detail_row) {
 
@@ -526,9 +533,17 @@ class InvoiceController extends Controller
                     $amount = abs($detail_row->amount) * -1;
                 }
 
+                if (
+                    $detail_row->type == 'ppn'
+                    || $detail_row->type == 'other' 
+                    || $detail_row->type == 'htcrr'
+                ) {
+                    $divider = 1;
+                }
+
                 $detail[] = (object) [
                     'coa_detail' => $detail_row->accountcode,
-                    'credit' => $amount * $invoice->exchangerate,
+                    'credit' => ($amount / $divider) * $invoice->exchangerate,
                     'debit' => 0,
                     '_desc' => 'Income : '
                         . $detail_row->invoice->transactionnumber . ' '
@@ -538,18 +553,33 @@ class InvoiceController extends Controller
                 $total_credit += $detail[count($detail) - 1]->credit;
             }
 
-            // add object in first array $detai
-            array_unshift(
-                $detail,
-                (object) [
-                    'coa_detail' => $header->coa,
+            // detail piutang
+            $detail[] = (object) [
+                'coa_detail' => $header->coa,
+                'credit' => 0,
+                'debit' => $invoice->grandtotal,
+                '_desc' => 'Account Receivable : '
+                    . $invoice->transactionnumber . ' '
+                    . $invoice->customer->name,
+            ];
+
+            if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
+                $coa_diff = Coa::where('code', '81112003')->first();
+                if (!$coa_diff) {
+                    return [
+                        'errors' => 'Coa (Cash Balances Differential) not found'
+                    ];
+                }
+
+                $detail[] = (object) [
+                    'coa_detail' => $coa_diff->id,
                     'credit' => 0,
-                    'debit' => $total_credit,
-                    '_desc' => 'Account Receivable : '
+                    'debit' => $invoice->grandtotal - $total_credit,
+                    '_desc' => 'Differential : '
                         . $invoice->transactionnumber . ' '
                         . $invoice->customer->name,
-                ]
-            );
+                ];
+            }
 
             $autoJournal = TrxJournal::autoJournal(
                 $header,

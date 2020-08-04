@@ -26,6 +26,11 @@ const formatter = new Intl.NumberFormat('de-DE', {
    maximumFractionDigits: 2,
 });
 
+let number_format = new Intl.NumberFormat('de-DE', {
+   minimumFractionDigits: 2,      
+   maximumFractionDigits: 2,
+});
+
 function addCommas(nStr)
 {
     nStr += '';
@@ -62,15 +67,9 @@ var DatatableAutoColumnHideDemo = function () {
       },
       dataType: "json",
       success: function (response) {
-        formater = [];
-        formater['idr'] = IDRformatter;
-        formater['foreign'] = ForeignFormatter;
-
         symbol = [];
         symbol['idr'] = 'Rp'
         symbol['foreign'] = 'US$'
-
-        formater_val = 'foreign';
 
         /*****************************************
         *  set nilai perhitungan  *
@@ -87,6 +86,7 @@ var DatatableAutoColumnHideDemo = function () {
           $("#grand_totalrp_val").val(response.grandtotal_amount);
           $("#grand_totalrp").val(IDRformatter.format(response.grandtotal_amount));
         }else{
+          formater_val = 'foreign';
           $("#grand_totalrp_val").val(
             response.grandtotal_amount * $('#exchange_rate1111').val()
           );
@@ -95,12 +95,12 @@ var DatatableAutoColumnHideDemo = function () {
           ));
         }
 
-        $("#sub_total").val(formater[formater_val].format(response.subtotal));
-        $("#total_discount").val(formater[formater_val].format(response.discount_amount));
-        $("#total").val(formater[formater_val].format(response.total));
-        $("#other_price").val(formater[formater_val].format(response.price_other));
-        $("#grand_total").val(formater[formater_val].format(response.grandtotal_amount));
-        $("#tax").val(formater[formater_val].format(response.tax_amount));
+        $("#sub_total").val(symbol[formater_val] + ' ' + number_format.format(response.subtotal));
+        $("#total_discount").val(symbol[formater_val] + ' -' + number_format.format(Math.abs(response.discount_amount)));
+        $("#total").val(symbol[formater_val] + ' ' + number_format.format(response.total));
+        $("#other_price").val(symbol[formater_val] + ' ' + number_format.format(response.price_other));
+        $("#grand_total").val(symbol[formater_val] + ' ' + number_format.format(response.grandtotal_amount));
+        $("#tax").val(number_format.format(response.tax_amount));
         $('.tax-symbol').html(symbol[formater_val])
         $('#vat_type').html(response.vat_type)
 

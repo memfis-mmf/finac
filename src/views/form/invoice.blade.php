@@ -380,7 +380,7 @@
                     </td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
-                        {{
+                        -{{
                             number_format(
                                 ($invoice->discountvalue)
                                 , 0
