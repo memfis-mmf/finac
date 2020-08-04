@@ -518,10 +518,7 @@ let Journal = {
                                 }
                             );
 
-                            let table = $('.journal_datatable').mDatatable();
-
-                            table.originalDataSet = [];
-                            table.reload();
+                            journal_datatable.ajax.reload();
                         },
                         error: function (jqXhr, json, errorThrown) {
                             let errorsHtml = '';
