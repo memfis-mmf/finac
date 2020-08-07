@@ -24,7 +24,9 @@ class Invoice extends MemfisModel
 		'report_paid_amount',
 		'report_ending_balance',
 		'report_discount',
-		'created_by',
+        'created_by',
+        'status',
+        'xstatus',
 	];
 
     public function approvals()
@@ -99,7 +101,37 @@ class Invoice extends MemfisModel
 		}
 
 		return $result;
-	}
+    }
+    
+    public function getStatusAttribute()
+    {
+        $result = 'open';
+        if ($this->approved_by != '-') {
+            $result = 'Approved';
+        }
+
+        if ($this->closed == 2) {
+            $result = 'Void';
+        }
+
+        return $result;
+    }
+
+    public function getXstatusAttribute()
+    {
+        $qn = $this->quotations->toArray();
+
+        $result = '';
+        if ($qn) {
+            if ($qn['parent_id'] == null) {
+                $result = "Quotation Project";
+            } else {
+                $result = "Quotation Additional";
+            }
+        }
+
+        return $result;
+    }
 
 	public function countPaidAmount($arTransactionnumber)
 	{

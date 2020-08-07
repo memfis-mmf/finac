@@ -821,54 +821,10 @@ class InvoiceController extends Controller
         $invoices = Invoice::with([
             'customer',
             'currencies',
-        ])->orderBy('transactiondate', 'desc')->orderBy('id', 'asc')->get();
-
-        foreach ($invoices as $invoice) {
-
-            if (!empty($invoice->approvals->toArray()) || $invoice->approve) {
-                if ($invoice->quotations) {
-                    $quotation = $invoice->quotations->toArray();
-                    if ($quotation['parent_id'] == null) {
-                        $invoice->xstatus .= "Quotation Project";
-                    } else {
-                        $invoice->xstatus .= "Quotation Additional";
-                    }
-                } else {
-                    $invoice->xstatus .= "";
-                }
-
-                $approval = $invoice->approvals->toArray();
-
-                $invoice->status .= 'Approved';
-                if (@$approval[0]['conducted_by']) {
-                    $conducted_by = $approval[0]['conducted_by'];
-                } else {
-                    $conducted_by = 'System';
-                }
-                $invoice->approvedby .= $conducted_by;
-            } elseif ($invoice->closed == 2) {
-                $invoice->status .= 'Void';
-                $quotation = $invoice->quotations->toArray();
-                if ($quotation['parent_id'] == null) {
-                    $invoice->xstatus .= "Quotation Project";
-                } else {
-                    $invoice->xstatus .= "Quotation Additional";
-                }
-            } else {
-                $invoice->status .= 'Open';
-                if ($invoice->quotations) {
-                    $quotation = $invoice->quotations->toArray();
-                    if ($quotation['parent_id'] == null) {
-                        $invoice->xstatus .= "Quotation Project";
-                    } else {
-                        $invoice->xstatus .= "Quotation Additional";
-                    }
-                } else {
-                    $invoice->xstatus .= "";
-                }
-            }
-            //$quotation->customer = $quotation->project->customer;
-        }
+        ])
+            ->orderBy('transactiondate', 'desc')
+            ->orderBy('id', 'asc')
+            ->select('invoices.*');
 
         $data = $invoices;
 
