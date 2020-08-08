@@ -821,6 +821,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::with([
             'customer',
             'currencies',
+            'quotations',
         ])
             ->orderBy('transactiondate', 'desc')
             ->orderBy('id', 'asc')
