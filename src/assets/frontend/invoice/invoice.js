@@ -29,7 +29,11 @@ let Invoice = {
             {data: 'xstatus', searchable: false, orderable: false},
             {data: 'customer.name'},
             {data: 'quotations.number', defaultContent: '-', render: (data, type, row) => {
-              return `<a target="_blank" href="${_url}/quotation/${row.quotations.uuid}/print">${row.quotations.number}</a>`;
+              if (row.quotations) {
+                return `<a target="_blank" href="${_url}/quotation/${row.quotations.uuid}/print">${row.quotations.number}</a>`;
+              }
+
+              return '';
             }},
             {data: 'currencies.code'},
             {data: 'grandtotalforeign', render: function(data, type, row) {

@@ -119,7 +119,8 @@ class Invoice extends MemfisModel
 
     public function getXstatusAttribute()
     {
-        $qn = $this->quotations->toArray();
+        $quotation = $this->quotations;
+        $qn = ($quotation)? $quotation->toArray(): null;
 
         $result = '';
         if ($qn) {
