@@ -129,10 +129,10 @@ class JournalController extends Controller
 		$data['journal']= Journal::where('uuid', $request->journal)->with([
 			'type_jurnal',
 			'currency',
-		])->first();
+        ])->first();
 
 		if ($data['journal']->approve) {
-			return redirect()->back();
+			return abort(404);
 		}
 
 		$data['journal_type'] = TypeJurnal::all();
@@ -146,6 +146,10 @@ class JournalController extends Controller
 
     public function update(JournalUpdate $request, Journal $journal)
     {
+		if ($journal->approve) {
+			return abort(404);
+        }
+
 		$voucher_no = $request->journal->voucher_no;
 
         $journal->update($request->all());
@@ -155,6 +159,10 @@ class JournalController extends Controller
 
     public function destroy(Journal $journal)
     {
+		if ($journal->approve) {
+			return abort(404);
+        }
+
         $journal->delete();
 
         return response()->json($journal);

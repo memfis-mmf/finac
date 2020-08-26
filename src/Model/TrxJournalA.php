@@ -41,6 +41,15 @@ class TrxJournalA extends MemfisModel
 	public function getCreditCurrencyAttribute()
 	{
 		return number_format($this->credit, 2, ',', '.');
+    }
+
+	public function journal()
+	{
+		return $this->belongsTo(
+			'memfisfa\Finac\Model\TrxJournal',
+			'voucher_no',
+			'voucher_no'
+		);
 	}
 
 }

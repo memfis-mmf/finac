@@ -10,6 +10,7 @@ use memfisfa\Finac\Request\JournalAUpdate;
 use memfisfa\Finac\Request\JournalAStore;
 use App\Http\Controllers\Controller;
 use DataTables;
+use memfisfa\Finac\Model\TrxJournal;
 
 class JournalAController extends Controller
 {
@@ -25,6 +26,10 @@ class JournalAController extends Controller
 
     public function store(JournalAStore $request)
     {
+        $journal = TrxJournal::where('voucher_no', $request->voucher_no)->first();
+        if ($journal->approve) {
+            return abort(404);
+        }
 		$coa = Coa::where('code', $request->account_code)->first();
 
 		$request->merge([
@@ -60,12 +65,23 @@ class JournalAController extends Controller
 			'coa',
 			'coa.type',
 		])->first();
+        $journal = $journala->journal;
+        if ($journal->approve) {
+            return abort(404);
+        }
 
         return response()->json($journala);
     }
 
     public function update(Request $request)
     {
+        $journala = JournalA::where('uuid', $request->uuid);
+        $journal = $journala->first()->journal;
+
+        if ($journal->approve) {
+            return abort(404);
+        }
+
 		$request->request->add([
 			'debit' => 0,
 			'credit' => 0,
@@ -85,8 +101,6 @@ class JournalAController extends Controller
 			'description' => $request->remark
 		]);
 
-        $journala = JournalA::where('uuid', $request->uuid);
-
 		$journala->update(
 			$request->only([
 				$method,
@@ -102,6 +116,10 @@ class JournalAController extends Controller
 
     public function destroy(JournalA $journala)
     {
+        $journal = $journala->journal;
+        if ($journal->approve) {
+            return abort(404);
+        }
         $journala->delete();
 
 		$this->updateJournalTotalTransaction($journala->voucher_no);
