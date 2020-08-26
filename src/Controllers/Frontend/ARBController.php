@@ -27,6 +27,10 @@ class ARBController extends Controller
         $coa = Coa::where('uuid', $request->coa_uuid)->first();
         $ar = AReceive::where('uuid', $request->ar_uuid)->first();
 
+        if ($ar->approve) {
+            return abort(404);
+        }
+
         $request->request->add([
             'transactionnumber' => $ar->transactionnumber,
             'ar_id' => $ar->id,
@@ -40,6 +44,11 @@ class ARBController extends Controller
 
     public function edit(AReceiveB $AReceiveB)
     {
+        $ar = $AReceiveB->ar;
+        if ($ar->approve) {
+            return abort(404);
+        }
+
         return response()->json($AReceiveB);
     }
 
@@ -48,6 +57,10 @@ class ARBController extends Controller
         $arb_tmp = AReceiveB::where('uuid', $request->areceiveb);
         $arb = $arb_tmp->first();
         $ar = $arb->ar;
+
+        if ($ar->approve) {
+            return abort(404);
+        }
 
         $request->merge([
             'description' => $request->description_b,
@@ -73,6 +86,11 @@ class ARBController extends Controller
 
     public function destroy(Request $request)
     {
+        $arb = AReceiveB::where('uuid', $request->areceiveb)->first();
+        $ar = $arb->ar;
+        if ($ar->approve) {
+            return abort(404);
+        }
         AReceiveB::where('uuid', $request->areceiveb)->delete();
     }
 

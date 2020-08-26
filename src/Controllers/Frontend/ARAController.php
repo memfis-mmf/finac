@@ -31,6 +31,10 @@ class ARAController extends Controller
     {
         $AR = AReceive::where('uuid', $request->ar_uuid)->first();
 
+        if ($AR->approve) {
+            return abort(404);
+        }
+
         $invoice = Invoice::where('uuid', $request->data_uuid)->first();
 
         $ARA = AReceiveA::where(
@@ -74,6 +78,11 @@ class ARAController extends Controller
 
     public function edit(AReceiveA $areceivea)
     {
+        $ar = $areceivea->ar;
+        if ($ar->approve) {
+            return abort(404);
+        }
+
         return response()->json($areceivea);
     }
 
@@ -200,6 +209,10 @@ class ARAController extends Controller
 
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
     {
+        $ar = $areceivea->ar;
+        if ($ar->approve) {
+            return abort(404);
+        }
 
         DB::beginTransaction();
         try {
@@ -262,6 +275,10 @@ class ARAController extends Controller
 
     public function destroy(AReceiveA $areceivea)
     {
+        $ar = $areceivea->ar;
+        if ($ar->approve) {
+            return abort(404);
+        }
         AReceiveC::where('ara_id', $areceivea->id)->forceDelete();
         $areceivea->forceDelete();
 
