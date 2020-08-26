@@ -173,7 +173,7 @@ class TrxPaymentController extends Controller
         )->first();
 
 		if ($data['data']->approve) {
-			return redirect()->back();
+			return abort(404);
 		}
 
 		$data['vendor'] = Vendor::all();
@@ -187,6 +187,10 @@ class TrxPaymentController extends Controller
 
     public function update(Request $request, TrxPayment $trxpayment)
     {
+		if ($trxpayment->approve) {
+			return abort(404);
+        }
+
         $request->validate([
             'transaction_date' => 'required',
             'id_supplier' => 'required',
@@ -442,7 +446,7 @@ class TrxPaymentController extends Controller
 		)->first();
 
 		if ($data['data']->approve) {
-			return redirect()->back();
+			return abort(404);
 		}
 
 		$data['vendor'] = Vendor::all();
@@ -673,6 +677,10 @@ class TrxPaymentController extends Controller
 
     public function grnUpdate(Request $request, TrxPayment $trxpayment)
     {
+		if ($trxpayment->approve) {
+			return abort(404);
+        }
+
         $request->validate([
             'transaction_date' => 'required',
             'id_supplier' => 'required',
