@@ -81,7 +81,7 @@ class ARController extends Controller
 
         //if data already approved
         if ($data['data']->approve) {
-            return redirect()->route('areceive.index');
+            return abort(404);
         }
 
         $data['customer'] = Customer::all();
@@ -127,6 +127,10 @@ class ARController extends Controller
 
     public function update(Request $request, AReceive $areceive)
     {
+        if ($areceive->approve) {
+            return abort(404);
+        }
+
         $request->validate([
             'transactiondate' => 'required',
             'id_customer' => 'required',
