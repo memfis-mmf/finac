@@ -26,6 +26,9 @@ class APBController extends Controller
     {
         $coa = Coa::where('uuid', $request->coa_uuid)->first();
         $ap = APayment::where('uuid', $request->ap_uuid)->first();
+        if ($ap->approve) {
+            return abort(404);
+        }
 
         $request->request->add([
             'transactionnumber' => $ap->transactionnumber,
@@ -40,6 +43,10 @@ class APBController extends Controller
 
     public function edit(APaymentB $APaymentB)
     {
+        $ap = $APaymentB->ap;
+        if ($ap->approve) {
+            return abort(404);
+        }
         return response()->json($APaymentB);
     }
 
@@ -48,6 +55,9 @@ class APBController extends Controller
         $apb_tmp = APaymentB::where('uuid', $request->apeceiveb);
         $apb = $apb_tmp->first();
         $ap = $apb->ap;
+        if ($ap->approve) {
+            return abort(404);
+        }
 
         $request->merge([
             'description' => $request->description_b,
@@ -73,6 +83,12 @@ class APBController extends Controller
 
     public function destroy(Request $request)
     {
+        $apb = APaymentB::where('uuid', $request->apaymentb)->first();
+        $ap = $apb->ap;
+        if ($ap->approve) {
+            return abort(404);
+        }
+
         APaymentB::where('uuid', $request->apaymentb)->delete();
     }
 

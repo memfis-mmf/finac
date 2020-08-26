@@ -31,6 +31,9 @@ class APAController extends Controller
     public function store(Request $request)
     {
         $AP = APayment::where('uuid', $request->ap_uuid)->first();
+        if ($AP->approve) {
+            return abort(404);
+        }
 
         $APA = $AP->apa->first();
 
@@ -89,6 +92,10 @@ class APAController extends Controller
 
     public function edit(APaymentA $apaymenta)
     {
+        $ap = $apaymenta->ap;
+        if ($ap->approve) {
+            return abort(404);
+        }
         return response()->json($apaymenta);
     }
 
@@ -230,6 +237,11 @@ class APAController extends Controller
     public function update(APaymentAUpdate $request, APaymentA $apaymenta)
     {
 
+        $ap = $apaymenta->ap;
+        if ($ap->approve) {
+            return abort(404);
+        }
+
         DB::beginTransaction();
 
         $calculation = $this->calculateAmount($apaymenta, $request);
@@ -284,6 +296,10 @@ class APAController extends Controller
 
     public function destroy(APaymentA $apaymenta)
     {
+        $ap = $apaymenta->ap;
+        if ($ap->approve) {
+            return abort(404);
+        }
         APaymentC::where('apa_id', $apaymenta->id)->forceDelete();
         $apaymenta->forceDelete();
 

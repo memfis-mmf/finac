@@ -80,7 +80,7 @@ class APController extends Controller
 
         //if data already approved
         if ($data['data']->approve) {
-            return redirect()->route('apayment.index');
+            return abort(404);
         }
 
         $data['vendor'] = Vendor::all();
@@ -141,6 +141,10 @@ class APController extends Controller
 
     public function update(Request $request, APayment $apayment)
     {
+        if ($apayment->approve) {
+            return abort(404);
+        }
+
         $request->validate([
             'transactiondate' => 'required',
             'id_supplier' => 'required',
@@ -160,6 +164,9 @@ class APController extends Controller
 
     public function destroy(APayment $apayment)
     {
+        if ($apayment->approve) {
+            return abort(404);
+        }
         $apayment->delete();
 
         return response()->json($apayment);

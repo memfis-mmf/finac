@@ -26,7 +26,7 @@ class TrxPaymentBController extends Controller
         $si = TrxPayment::where('transaction_number', $request->transaction_number)
             ->first();
         
-        if ($si->approved) {
+        if ($si->approve) {
             return abort(404);
         }
 
@@ -37,7 +37,7 @@ class TrxPaymentBController extends Controller
     public function edit(TrxPaymentB $trxpaymentb)
     {
         $si = $trxpaymentb->si;
-        if ($si->approved) {
+        if ($si->approve) {
             return abort(404);
         }
         return response()->json($trxpaymentb);
@@ -46,7 +46,7 @@ class TrxPaymentBController extends Controller
     public function update(TrxPaymentBUpdate $request, TrxPaymentB $trxpaymentb)
     {
         $si = $trxpaymentb->si;
-        if ($si->approved) {
+        if ($si->approve) {
             return abort(404);
         }
 
@@ -58,7 +58,7 @@ class TrxPaymentBController extends Controller
     public function destroy(TrxPaymentB $trxpaymentb)
     {
         $si = $trxpaymentb->si;
-        if ($si->approved) {
+        if ($si->approve) {
             return abort(404);
         }
 
