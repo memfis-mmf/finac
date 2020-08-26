@@ -21,5 +21,14 @@ class TrxPaymentB extends MemfisModel
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'code', 'code');
+    }
+    
+	public function si()
+	{
+		return $this->belongsTo(
+			TrxPayment::class,
+			'transaction_number',
+			'transaction_number'
+		);
 	}
 }

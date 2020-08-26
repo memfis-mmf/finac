@@ -7,8 +7,7 @@ use memfisfa\Finac\Model\TrxPaymentA as TrxPaymentA;
 use memfisfa\Finac\Request\TrxPaymentAUpdate;
 use memfisfa\Finac\Request\TrxPaymentAStore;
 use App\Http\Controllers\Controller;
-
-
+use memfisfa\Finac\Model\TrxPayment;
 
 class TrxPaymentAController extends Controller
 {
@@ -24,17 +23,32 @@ class TrxPaymentAController extends Controller
 
     public function store(TrxPaymentAStore $request)
     {
+        $si = TrxPayment::where('transaction_number', $request->transaction_number)
+            ->first();
+        
+        if ($si->approved) {
+            return abort(404);
+        }
+
         $trxpaymenta = TrxPaymentA::create($request->all());
         return response()->json($trxpaymenta);
     }
 
     public function edit(TrxPaymentA $trxpaymenta)
     {
+        $si = $trxpaymenta->si;
+        if ($si->approved) {
+            return abort(404);
+        }
         return response()->json($trxpaymenta);
     }
 
     public function update(TrxPaymentAUpdate $request, TrxPaymentA $trxpaymenta)
     {
+        $si = $trxpaymenta->si;
+        if ($si->approved) {
+            return abort(404);
+        }
 
         $trxpaymenta->update($request->all());
 
@@ -43,6 +57,10 @@ class TrxPaymentAController extends Controller
 
     public function destroy(TrxPaymentA $trxpaymenta)
     {
+        $si = $trxpaymenta->si;
+        if ($si->approved) {
+            return abort(404);
+        }
         $trxpaymenta->delete();
 
         return response()->json($trxpaymenta);
