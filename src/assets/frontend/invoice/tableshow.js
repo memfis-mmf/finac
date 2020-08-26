@@ -375,6 +375,12 @@ jQuery(document).ready(function () {
     data.append("grand_total", grand_total1);
     data.append("grand_totalrp", convertidr);
     data.append("description", $('textarea#desc').val());
+    data.append("material",$(".material").val());
+    data.append("manhours",$(".manhours").val());
+    data.append("facility",$(".facility").val());
+    data.append("discount",$(".discount").val());
+    data.append("ppn",$(".ppn").val());
+    data.append("other",$(".others").val());
 
 
     $.ajax({

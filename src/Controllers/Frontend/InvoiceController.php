@@ -417,26 +417,6 @@ class InvoiceController extends Controller
                 'transactiondate' => $transaction_date,
             ]);
 
-        //dd($invoice);
-        $trxinvoice = Trxinvoice::where(
-            'transactionnumber',
-            $invoice->transactionnumber
-        )
-            ->update([
-                'currency' => $currency_id,
-                'exchangerate' => $exchange_rate,
-                'discountpercent' => $percent_friendly,
-                'discountvalue' => $discount_value,
-                'ppnpercent' => $ppn_percent,
-                'ppnvalue' => $ppn_value,
-                'id_bank' => $bankaccount,
-                'grandtotalforeign' => $grandtotalfrg,
-                'grandtotal' => $grandtotalidr,
-                // 'accountcode' => $coa->id,
-                'description' => $description,
-                'transactiondate' => $transaction_date,
-            ]);
-
         $manhours_ins = Invoicetotalprofit::where('type', 'manhours')
             ->where('invoice_id', $invoice->id)
             ->update([
