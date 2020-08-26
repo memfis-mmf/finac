@@ -301,7 +301,7 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         if ($invoice->approve) {
-            return redirect()->route('invoice.index');
+            return abort(404);
         }
         //dd($invoice->transactiondate);
         $quotation = Quotation::where('id', $invoice->id_quotation)->first();
@@ -366,7 +366,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         if ($invoice->approve) {
-            return redirect()->route('invoice.index');
+            return abort(404);
         }
         $currency = Currency::where('name', $request->currency)->first();
         // $coa = Coa::where('code', $request->coa)->first();
