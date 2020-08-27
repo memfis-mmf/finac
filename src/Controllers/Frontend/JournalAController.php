@@ -144,6 +144,7 @@ class JournalAController extends Controller
         $data = JournalA::where('voucher_no', $request->voucher_no)->with([
             'coa',
             'coa.type',
+            'journal.currency'
         ])->orderBy('trxjournala.id', 'DESC')->get();
 
         $total_debit = 0;

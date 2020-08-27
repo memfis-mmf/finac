@@ -18,108 +18,6 @@ let JournalEdit = {
           return x1 + x2;
       }
 
-			// let account_code_table_old = $('.accountcode_datatable_old').mDatatable({
-			// 		data: {
-			// 				type: 'remote',
-			// 				source: {
-			// 						read: {
-			// 								method: 'GET',
-			// 								url: '/journala/datatables?voucher_no=' + _voucher_no,
-			// 								map: function (raw) {
-			// 										let dataSet = raw;
-
-			// 										if (typeof raw.data !== 'undefined') {
-			// 												dataSet = raw.data;
-			// 										}
-
-			// 										return dataSet;
-			// 								}
-			// 						}
-			// 				},
-			// 				pageSize: 5,
-			// 				serverPaging: !0,
-			// 				serverSorting: !0
-			// 		},
-			// 		layout: {
-			// 				theme: 'default',
-			// 				class: '',
-			// 				scroll: false,
-			// 				footer: !1
-			// 		},
-			// 		sortable: !0,
-			// 		filterable: !1,
-			// 		pagination: !0,
-			// 		search: {
-			// 				input: $('#generalSearch')
-			// 		},
-			// 		toolbar: {
-			// 				items: {
-			// 						pagination: {
-			// 								pageSizeSelect: [5, 10, 20, 30, 50, 100]
-			// 						}
-			// 				}
-			// 		},
-			// 		columns: [
-			// 				{
-			// 						field: '#',
-			// 						title: 'No',
-			// 						width:'40',
-			// 						sortable: 'asc',
-			// 						filterable: !1,
-			// 						textAlign: 'center',
-			// 						template: function (row, index, datatable) {
-			// 								return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
-			// 						}
-			// 				},
-			// 				{
-			// 						field: 'coa.code',
-			// 						title: 'Account Code',
-			// 						sortable: 'asc',
-			// 						filterable: !1,
-			// 				},
-			// 				{
-			// 						field: 'coa.name',
-			// 						title: 'Account Name',
-			// 						sortable: 'asc',
-			// 						filterable: !1,
-			// 				},
-			// 				{
-			// 						field: 'debit_currency',
-			// 						title: 'Debit',
-			// 						sortable: 'asc',
-			// 						filterable: !1,
-			// 				},
-			// 				{
-			// 						field: 'credit_currency',
-			// 						title: 'Credit',
-			// 						sortable: 'asc',
-			// 						filterable: !1,
-			// 				},
-			// 				{
-			// 						field: 'description',
-			// 						title: 'Remark',
-			// 						sortable: 'asc',
-			// 						filterable: !1,
-			// 				},
-			// 				{
-			// 						field: 'Actions',
-			// 						width: 110,
-			// 						title: 'Actions',
-			// 						sortable: !1,
-			// 						overflow: 'visible',
-			// 						template: function (t, e, i) {
-			// 								return (
-			// 										'<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + ' data-description='+t.coa.description+'>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-			// 										'\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-			// 										t.uuid +
-			// 										' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-			// 										);
-			// 						}
-			// 				}
-
-			// 		]
-      // });
-
       let account_code_table = $('.accountcode_datatable').DataTable({
         dom: '<"top"f>rt<"bottom">pil',
         scrollX: true,
@@ -129,8 +27,12 @@ let JournalEdit = {
         columns: [
           {data: 'coa.code'},
           {data: 'coa.name'},
-          {data: 'debit_currency'},
-          {data: 'credit_currency'},
+          {data: 'debit', render: (data, type, row) => {
+            return row.journal.currency.symbol + ' ' + number_format.format(row.debit);
+          }},
+          {data: 'credit', render: (data, type, row) => {
+            return row.journal.currency.symbol + ' ' + number_format.format(row.credit);
+          }},
           {data: 'description'},
           {data: '', searchable: false, render: function (data, type, row) {
             $("#total_debit").val(
