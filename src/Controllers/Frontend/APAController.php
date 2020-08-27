@@ -325,7 +325,7 @@ class APAController extends Controller
             $grn = GRN::where('id', $apa->id_payment)->first();
             $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
-            $si = $trxpaymenta->si;
+            $si = $trxpaymenta->si()->with(['currencies'])->first();
             $si->grandtotal_foreign = $trxpaymenta->total;
             $si->grandtotal = $trxpaymenta->total_idr;
             $result = $si;
