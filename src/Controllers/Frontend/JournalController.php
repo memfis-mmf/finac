@@ -6,7 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\TrxJournal as Journal;
-use memfisfa\Finac\Model\TrxJournalA;
+use memfisfa\Finac\Model\TrxJournalA as JournalA;
 use memfisfa\Finac\Model\TypeJurnal;
 use memfisfa\Finac\Model\JurnalA;
 use memfisfa\Finac\Request\JournalUpdate;
