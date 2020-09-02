@@ -126,20 +126,20 @@ class JournalController extends Controller
 
     public function edit(Request $request)
     {
-		$data['journal']= Journal::where('uuid', $request->journal)->with([
-			'type_jurnal',
-			'currency',
-        ])->first();
+        $data['journal']= Journal::where('uuid', $request->journal)->with([
+            'type_jurnal',
+            'currency',
+        ])->firstOrFail();
 
-		if ($data['journal']->approve) {
-			return abort(404);
-		}
+        if ($data['journal']->approve) {
+            return abort(404);
+        }
 
-		$data['journal_type'] = TypeJurnal::all();
-		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
-		)->whereIn('code',['idr','usd'])
-		->get();
+        $data['journal_type'] = TypeJurnal::all();
+        $data['currency'] = Currency::selectRaw(
+            'code, CONCAT(name, " (", symbol ,")") as full_name'
+        )->whereIn('code',['idr','usd'])
+        ->get();
 
         return view('journalview::edit', $data);
     }
