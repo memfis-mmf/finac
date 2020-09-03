@@ -325,21 +325,20 @@
     });
 
     $('body').on('input', '#term_of_payment', function() {
-        let date = new Date($('[name=transaction_date]').val());
+      let date = new Date($('[name=transaction_date]').val());
 
-        console.log([
-            date,
-            $(this).val()
-        ]);
+      if (parseInt($(this).val())) {
+        date.setDate(date.getDate() + parseInt($(this).val()));
 
-        if (parseInt($(this).val())) {
-            date.setDate(date.getDate() + parseInt($(this).val()));
+        $('#valid_until').val(date.toInputFormat());
+          }else{
+        $('#valid_until').val('');
+      }
 
-      $('#valid_until').val(date.toInputFormat());
-        }else{
-      $('#valid_until').val('');
-        }
+    });
 
+    $(document).on('change', '[name=transaction_date]', function () {
+      $('#term_of_payment').trigger('input');
     });
 
     Date.prototype.toInputFormat = function() {
