@@ -286,7 +286,7 @@ let RefQuoDatatables = {
                         $('#refquo_modal').modal('hide');
                     } else {
                         //console.log("gak bisa");
-                        toastr.error('Schedule Payment Sudah Penuh', 'Error!', {
+                        toastr.error('Invoice already created', 'Error!', {
                             timeOut: 5000
                         }
                     );
