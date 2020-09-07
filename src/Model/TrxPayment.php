@@ -129,7 +129,6 @@ class TrxPayment extends MemfisModel
 		$apa_tmp = $this->apa;
 
         // if account payable detail is empty
-
         if ($this->approve) {
             $status = 'Approved';
         }else{
@@ -141,7 +140,7 @@ class TrxPayment extends MemfisModel
             if ($this->approve) {
                 return 'Approved';
             }else{
-                return 'Unapproved';
+                return 'Open';
             }
         }
 
