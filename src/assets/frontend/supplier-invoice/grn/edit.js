@@ -123,16 +123,13 @@ let SupplierInvoice = {
           filterable: !1,
         },
         {
-          field: 'purchase_order.purchase_request.number',
-          title: 'PR No.',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: '',
+          field: 'total_amount',
           title: 'Total Amount',
           sortable: 'asc',
           filterable: !1,
+          template: (t, e, i) => {
+            return 'Rp ' + number_format.format(t.total_amount);
+          }
         },
         {
           field: 'Actions',
@@ -145,6 +142,10 @@ let SupplierInvoice = {
         }
 
       ]
+    });
+
+    $('#modal_create_grn').on('shown.bs.modal', function() {
+      grn_modal_table.reload();
     });
 
     $('.grn_modal_datatable').on('click', '.select-grn', function () {

@@ -489,8 +489,6 @@ class TrxPaymentController extends Controller
 		->make(true);
     }
 
-
-
     public function grnDatatables(Request $request)
     {
 		$data = $alldata = json_decode(
