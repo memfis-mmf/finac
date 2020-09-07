@@ -40,6 +40,108 @@ let SupplierInvoice = {
       ]
     });
 
+    // let grn_modal_table = $('.grn_modal_datatable').mDatatable({
+    //   data: {
+    //     type: 'remote',
+    //     source: {
+    //       read: {
+    //         method: 'GET',
+    //         url: '/supplier-invoice/grn/datatables?si_uuid=' + _si_uuid,
+    //         map: function (raw) {
+    //           let dataSet = raw;
+
+    //           if (typeof raw.data !== 'undefined') {
+    //             dataSet = raw.data;
+    //           }
+
+    //           return dataSet;
+    //         }
+    //       }
+    //     },
+    //     pageSize: 10,
+    //     serverPaging: !0,
+    //     serverSorting: !0
+    //   },
+    //   layout: {
+    //     theme: 'default',
+    //     class: '',
+    //     scroll: false,
+    //     footer: !1
+    //   },
+    //   sortable: !0,
+    //   filterable: !1,
+    //   pagination: !0,
+    //   search: {
+    //     input: $('#generalSearch')
+    //   },
+    //   toolbar: {
+    //     items: {
+    //       pagination: {
+    //         pageSizeSelect: [5, 10, 20, 30, 50, 100]
+    //       }
+    //     }
+    //   },
+    //   columns: [
+    //     {
+    //       field: 'received_at',
+    //       title: 'Date',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'number',
+    //       title: 'GRN No.',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'purchase_order.number',
+    //       title: 'PO No.',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'total_amount',
+    //       title: 'Total Amount',
+    //       sortable: 'asc',
+    //       filterable: !1,
+    //       template: (t, e, i) => {
+    //         return 'Rp ' + number_format.format(t.total_amount);
+    //       }
+    //     },
+    //     {
+    //       field: 'Actions',
+    //       width: 110,
+    //       sortable: !1,
+    //       overflow: 'visible',
+    //       template: function (t, e, i) {
+    //         return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+    //       }
+    //     }
+
+    //   ]
+    // });
+
+    let grn_modal_table = $('.grn_modal_datatable').DataTable({
+      dom: '<"top"f>rt<"bottom">pil',
+      scrollX: true,
+      processing: true,
+      serverSide: true,
+      ajax: _url + '/supplier-invoice/grn/datatables?si_uuid=' + _si_uuid,
+      order: [[ 0, "desc" ]],
+      columns: [
+        {data: 'received_at', searchable: false, orderable: false},
+        {data: 'number'},
+        {data: 'purchase_order.number'},
+        {data: 'total_amount', searchable: false, orderable: false, render: (data, type, row) => {
+          return 'Rp ' + number_format.format(row.total_amount);
+        }},
+        {data: '', searchable: false, orderable: false, render: (data, type, row) => {
+          return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-uuid="' + row.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+        }}
+      ]
+    });
+
     $(".dataTables_length select").addClass("form-control m-input");
     $(".dataTables_filter").addClass("pull-left");
     $(".paging_simple_numbers").addClass("pull-left");
@@ -62,90 +164,8 @@ let SupplierInvoice = {
       _modal.modal('show');
     });
 
-    let grn_modal_table = $('.grn_modal_datatable').mDatatable({
-      data: {
-        type: 'remote',
-        source: {
-          read: {
-            method: 'GET',
-            url: '/supplier-invoice/grn/datatables?si_uuid=' + _si_uuid,
-            map: function (raw) {
-              let dataSet = raw;
-
-              if (typeof raw.data !== 'undefined') {
-                dataSet = raw.data;
-              }
-
-              return dataSet;
-            }
-          }
-        },
-        pageSize: 10,
-        serverPaging: !0,
-        serverSorting: !0
-      },
-      layout: {
-        theme: 'default',
-        class: '',
-        scroll: false,
-        footer: !1
-      },
-      sortable: !0,
-      filterable: !1,
-      pagination: !0,
-      search: {
-        input: $('#generalSearch')
-      },
-      toolbar: {
-        items: {
-          pagination: {
-            pageSizeSelect: [5, 10, 20, 30, 50, 100]
-          }
-        }
-      },
-      columns: [
-        {
-          field: 'received_at',
-          title: 'Date',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: 'number',
-          title: 'GRN No.',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: 'purchase_order.number',
-          title: 'PO No.',
-          sortable: 'asc',
-          filterable: !1,
-        },
-        {
-          field: 'total_amount',
-          title: 'Total Amount',
-          sortable: 'asc',
-          filterable: !1,
-          template: (t, e, i) => {
-            return 'Rp ' + number_format.format(t.total_amount);
-          }
-        },
-        {
-          field: 'Actions',
-          width: 110,
-          sortable: !1,
-          overflow: 'visible',
-          template: function (t, e, i) {
-            return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
-          }
-        }
-
-      ]
-    });
-
     $('#modal_create_grn').on('shown.bs.modal', function() {
-      grn_modal_table.reload();
+      grn_modal_table.ajax.reload();
     });
 
     $('.grn_modal_datatable').on('click', '.select-grn', function () {
