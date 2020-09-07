@@ -378,7 +378,10 @@ class JournalController extends Controller
 
         $projects = Project::with('aircraft', 'customer', 'approvals', 'audits')
             ->where('code', 'like', "%$q%")
-            ->has('approvals', 2)->latest()->get();
+            ->has('approvals', 2)
+            ->latest()
+            ->limit(10)
+            ->get();
 
         $data['results'] = [];
         

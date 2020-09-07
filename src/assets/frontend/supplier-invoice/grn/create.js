@@ -4,11 +4,11 @@ let SupplierInvoice = {
     let _url = window.location.origin;
 
     $('#project').select2({
+      placeholder: '--Select--',
       ajax: {
         url: _url+'/journal/get-project-select2',
         dataType: 'json'
       },
-      minimumInputLength: 3,
     });
 
     $.ajax({
