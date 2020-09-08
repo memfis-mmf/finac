@@ -192,7 +192,8 @@ let BondCreate = {
 						},
 						type: 'post',
 						url: '/bond',
-						data: _data,
+            data: _data,
+						dataType: 'json',
 						success: function (data) {
 								if (data.errors) {
 										if (data.errors.code) {

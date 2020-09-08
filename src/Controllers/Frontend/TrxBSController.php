@@ -2,7 +2,6 @@
 
 namespace memfisfa\Finac\Controllers\Frontend;
 
-use Auth;
 use Illuminate\Http\Request;
 use memfisfa\Finac\Model\TrxBS as BS;
 use memfisfa\Finac\Model\TrxJournal as Journal;
@@ -12,6 +11,8 @@ use memfisfa\Finac\Request\BSStore;
 use App\Models\Currency;
 use App\Models\Employee;
 use App\Models\Approval;
+use Illuminate\Support\Facades\Auth;
+use memfisfa\Finac\Model\TypeJurnal;
 
 class TrxBSController extends Controller
 {
@@ -85,7 +86,16 @@ class TrxBSController extends Controller
 
 	public function bsaStore(Request $request)
 	{
-		BSA::create($request->all());
+        $employee = Employee::where('uuid', $request->id_employee)
+            ->firstOrFail();
+
+        $request->request->add([
+            'id_employee' => $employee->id
+        ]);
+
+        $bs = BS::create($request->all());
+        
+        return $bs;
 	}
 
     public function store(BSStore $request)

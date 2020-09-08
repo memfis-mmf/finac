@@ -7,6 +7,7 @@ use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Models\Approval;
+use App\Models\Employee;
 
 class TrxBS extends MemfisModel
 {
@@ -83,7 +84,7 @@ class TrxBS extends MemfisModel
 
 	public function employee()
 	{
-		return $this->belongsTo('App\Models\Employee', 'id_employee', 'code');
+		return $this->belongsTo(Employee::class, 'id_employee');
 	}
 
 }

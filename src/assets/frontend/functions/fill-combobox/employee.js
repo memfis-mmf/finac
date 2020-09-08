@@ -1,25 +1,9 @@
 $(document).ready(function () {
-    employee = function () {
-        $.ajax({
-            url: '/get-employees-uuid',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-
-                $('select#employee').empty();
-
-                $('select#employee').append(
-                    '<option value=""> Select a Customer </option>'
-                );
-
-                $.each(data, function (key, value) {
-                    $('select#employee').append(
-                        '<option value="' + key + '">' + value + '</option>'
-                    );
-                });
-            }
-        });
-    };
-
-    employee();
+  $('#employee').select2({
+    placeholder: ' Select a Customer ',
+    ajax: {
+      url: '/get-employees-uuid',
+      dataType: 'json'
+    }
+  });
 });
