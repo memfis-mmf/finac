@@ -99,7 +99,7 @@ class APController extends Controller
         
         $x = $data['debt_total_amount'];
 
-        $si = TrxPayment::where(
+        $si_grn = TrxPayment::where(
             'id_supplier',
             $data['data']->id_supplier
         )
@@ -107,8 +107,10 @@ class APController extends Controller
             ->where('approve', true)
             ->first();
 
-        foreach ($si->trxpaymenta as $tpa_row) {
-            $data['debt_total_amount'] += $tpa_row->total_idr;
+        if ($si_grn) {
+            foreach ($si_grn->trxpaymenta as $tpa_row) {
+                $data['debt_total_amount'] += $tpa_row->total_idr;
+            }
         }
 
         $apayment = APayment::where('id_supplier', $data['data']->id_supplier)
