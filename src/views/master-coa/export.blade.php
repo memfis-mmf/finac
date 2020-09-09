@@ -5,7 +5,7 @@
       <th valign="top" align="center">Account Name</th>
       <th valign="top" align="center">Account Type</th>
       <th valign="top" align="center">Account Group</th>
-      <th valign="top" align="center">Active</th>
+      <th valign="top" align="center">Status</th>
     </tr>
   </thead>
   <tbody>
@@ -15,7 +15,7 @@
         <td valign="top" align="center">{{ $data->name }}</td>
         <td valign="top" align="center">{{ $data->type->name }}</td>
         <td valign="top" align="center">{{ $data->description }}</td>
-        <td valign="top" align="center">{{ ($data->active)? 'true': 'false' }}</td>
+        <td valign="top" align="center">{{ ($data->active)? 'Active': 'Inactive' }}</td>
       </tr>
     @endforeach
   </tbody>

@@ -478,7 +478,7 @@ class MasterCoaController extends Controller
             'datas' => $coa
         ];
 
-        $name = 'COA';
+        $name = 'Chart Of Account';
         
         if ($request->uuid) {
             $name .= '-'.$coa->code;
