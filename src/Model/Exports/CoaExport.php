@@ -2,36 +2,32 @@
 
 namespace memfisfa\Finac\Model\Exports;
 
-use memfisfa\Finac\Model\Coa;
-use Maatwebsite\Excel\Concerns\FromArray;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class CoaExport implements FromArray
+class CoaExport implements FromView
 {
-    public function array(): array
-    {
-		$coa = Coa::select([
-			'code',
-			'name',
-			'description',
-			'created_at',
-		])->get();
+    protected $data;
 
-		$header = [ 0 =>
-			[
-				'Account Code',
-				'Account Name',
-				'Description',
-				'Date Created',
-			]
-        ];
+    function __construct($data) {
 
-		$data = array_merge($header, json_decode($coa));
-
-		return $data;
+        $this->data = $data;
     }
 
-    public function startCell(): string
+    public function view(): View
     {
-        return 'B2';
+        ini_set('memory_limit', '-1');
+
+        return view('mastercoaview::export', $this->data);
+    }
+
+    public static function afterSheet(AfterSheet $event)
+    {
+        $columns = ['A', 'B', 'C'];
+
+        foreach ($columns as $column) {
+            $event->sheet->getDelegate()->getColumnDimension($column)->setWidth(9999);
+        }
     }
 }

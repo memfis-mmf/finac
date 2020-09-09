@@ -11,6 +11,10 @@ use DB;
 use Auth;
 use DataTables;
 
+//use for export
+use memfisfa\Finac\Model\Exports\CoaExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class MasterCoaController extends Controller
 {
     public function index()
@@ -458,5 +462,28 @@ class MasterCoaController extends Controller
 		}
 
 		return $new_coa;
-	}
+    }
+    
+    public function export(Request $request)
+    {
+        $query = Coa::orderBy('code', 'asc')->withTrashed();
+
+        if ($request->uuid) {
+            $query = $query->where('uuid', $request->uuid);
+        }
+
+        $coa = $query->get();
+
+        $data = [
+            'datas' => $coa
+        ];
+
+        $name = 'COA';
+        
+        if ($request->uuid) {
+            $name .= '-'.$coa->code;
+        }
+
+        return Excel::download(new CoaExport($data), $name.'.xlsx');
+    }
 }

@@ -32,7 +32,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 		'master-coa',
 		'memfisfa\Finac\Controllers\Frontend\MasterCoaController',
 		['except' => 'show']
-	);
+    );
+    
+    Route::get(
+        '/master-coa-export-all', 
+        'memfisfa\Finac\Controllers\Frontend\MasterCoaController@export'
+    )->name('master-coa.export-all');
 
 	Route::post(
 		'/master-coa-switch-coa/{master_coa}',

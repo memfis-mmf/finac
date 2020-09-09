@@ -42,9 +42,18 @@
                     <div class="m-portlet__body pb-5">
                         <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                             <div class="row align-items-center">
-                                <div class="col-xl-8 order-2 order-xl-1">
+                                <div class="col-xl-6 order-2 order-xl-1">
                                 </div>
-                                <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                                <div class="col-xl-6 order-1 order-xl-2 m--align-right">
+                                    <a id="export" href="{{route('master-coa.export-all')}}" 
+                                      id="name=" 
+                                      class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-info btn-md" style="">
+
+                                      <span>
+                                        <i class="fa fa-file-download"></i>
+                                        <span>Export All</span>
+                                      </span>
+                                    </a>
                                     <a href="{{url('master-coa/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                             <i class="la la-plus-circle"></i>
                                             <span>Chart of Accounts</span>
