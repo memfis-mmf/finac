@@ -6,6 +6,10 @@ let AccountPayable = {
     let id_vendor = $('select[name=id_supplier]').val();
     let number_format = new Intl.NumberFormat('de-DE');
 
+    $('#modal_create_supplier_invoice').on('shown.bs.modal', function (e) {
+      supplier_invoice_modal_table.reload();
+    })
+
     $('#project').select2({
       ajax: {
         url: _url + '/journal/get-project-select2',
