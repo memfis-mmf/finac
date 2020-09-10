@@ -150,7 +150,7 @@ class TrxPayment extends MemfisModel
             if ($this->approve) {
                 return 'Approved';
             }else{
-                return 'Unapproved';
+                return 'Open';
             }
         }
         // get all account payable same supplier
