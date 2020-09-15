@@ -13,7 +13,7 @@ use App\User;
 use App\Models\Approval;
 use Illuminate\Validation\ValidationException;
 use Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class TrxJournal extends MemfisModel
 {
@@ -283,7 +283,9 @@ class TrxJournal extends MemfisModel
 		}
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
-		$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
+        $data['description'] = 'Generate from auto journal '.$data['voucher_no'];
+
+        DB::beginTransaction();
 
 		$journal = TrxJournal::create($data);
 
@@ -325,7 +327,9 @@ class TrxJournal extends MemfisModel
 				'status' => false,
 				'message' => 'Invalid debit or credit value'
 			];
-		}
+        }
+
+        DB::commit();
 
 		return ['status' => true];
 	}
@@ -416,10 +420,6 @@ class TrxJournal extends MemfisModel
 			$data['exchange_rate'] = 1;
 			$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
 
-			$total_debit = 0;
-
-            $detail_tmp = $detail;
-
             $sumDetail = [];
 
             foreach ($detail as $detailVal) {
@@ -467,12 +467,12 @@ class TrxJournal extends MemfisModel
                 }
             }
 
-			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'GJV');
+            // get status dari autoJournal
+            $auto_journal = TrxJournal::autoJournal(
+                $header, $sumDetail, 'PRJR', 'GJV'
+            );
 
-			return [
-				'status' => true,
-				'message' => ''
-			];
+            return $auto_journal;
 
 		} catch (\Exception $e) {
 
