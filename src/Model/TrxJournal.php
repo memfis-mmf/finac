@@ -422,48 +422,47 @@ class TrxJournal extends MemfisModel
 
             $sumDetail = [];
 
+            // looping sebanyak item
             foreach ($detail as $detailVal) {
                 $coaExistIv = false;
                 $coaExistCogs = false;
 
+                // looping sebanyak array baru
                 foreach ($sumDetail as $key => $sumDetailValue) {
                     if ($detailVal->coa_iv == $sumDetailValue->coa_detail) {
                         $sumDetail[$key]->debit += $detailVal->val;
+                        // set coa iv status true
                         $coaExistIv = true;
                     }
-                }
-
-                if (!$coaExistIv) {
-                    $newSumDetail = (object)[
-                        'coa_detail' => $detailVal->coa_iv,
-                        'debit' => $detailVal->val,
-                        'credit' => 0,
-                        '_desc' => 'Increased Inventory : '
-                        .$header->voucher_no.' '
-                        // .$header->supplier.' ',
-                    ];
-
-                    $sumDetail[] = $newSumDetail;
-                }
-
-                foreach ($sumDetail as $key => $sumDetailValue) {
                     if ($detailVal->coa_cogs == $sumDetailValue->coa_detail) {
-                        $sumDetail[$key]->debit += $detailVal->val;
+                        $sumDetail[$key]->credit += $detailVal->val;
                         $coaExistCogs = true;
                     }
                 }
 
-                if (!$coaExistCogs) {
-                    $newSumDetail = (object)[
-                        'coa_detail' => $detailVal->coa_cogs,
+                // jika coa iv statusnya false
+                if (!$coaExistIv) {
+                    // create new array baru
+                    $sumDetail[]  = (object)[
+                        'coa_detail' => $detailVal->coa_iv,
                         'debit' => 0,
                         'credit' => $detailVal->val,
                         '_desc' => 'Increased Inventory : '
                         .$header->voucher_no.' '
                         // .$header->supplier.' ',
                     ];
+                }
 
-                    $sumDetail[] = $newSumDetail;
+                // jika coa cogs statusnya false
+                if (!$coaExistCogs) {
+                    $sumDetail[] = (object)[
+                        'coa_detail' => $detailVal->coa_cogs,
+                        'debit' => $detailVal->val,
+                        'credit' => 0,
+                        '_desc' => 'Increased Inventory : '
+                        .$header->voucher_no.' '
+                        // .$header->supplier.' ',
+                    ];
                 }
             }
 
