@@ -411,31 +411,24 @@ class TrxJournal extends MemfisModel
 
 	static public function insertFromIvOut($header, $detail)
 	{
-		try {
-			$data['voucher_no'] = TrxJournal::generateCode('PRJR');
-			$data['ref_no'] = $header->voucher_no;
-			$data['transaction_date'] = $header->transaction_date;
-			$data['journal_type'] = TypeJurnal::where('code', 'PRJ')->first()->id;
-			$data['currency_code'] = 'idr';
-			$data['exchange_rate'] = 1;
-			$data['description'] = 'Generate from auto journal '.$data['voucher_no'];
-
-            $sumDetail = [];
+        try {
+            $sum_detail = [];
 
             // looping sebanyak item
-            foreach ($detail as $detailVal) {
+            foreach ($detail as $detail_row) {
                 $coaExistIv = false;
                 $coaExistCogs = false;
 
                 // looping sebanyak array baru
-                foreach ($sumDetail as $key => $sumDetailValue) {
-                    if ($detailVal->coa_iv == $sumDetailValue->coa_detail) {
-                        $sumDetail[$key]->debit += $detailVal->val;
+                foreach ($sum_detail as $key => $sum_detailValue) {
+                    if ($detail_row->item_categories == $sum_detailValue->item_categories) {
+                        $sum_detail[$key]->credit += $detail_row->val;
                         // set coa iv status true
                         $coaExistIv = true;
                     }
-                    if ($detailVal->coa_cogs == $sumDetailValue->coa_detail) {
-                        $sumDetail[$key]->credit += $detailVal->val;
+
+                    if ($detail_row->coa_cogs == $sum_detailValue->coa_detail) {
+                        $sum_detail[$key]->debit += $detail_row->val;
                         $coaExistCogs = true;
                     }
                 }
@@ -443,10 +436,11 @@ class TrxJournal extends MemfisModel
                 // jika coa iv statusnya false
                 if (!$coaExistIv) {
                     // create new array baru
-                    $sumDetail[]  = (object)[
-                        'coa_detail' => $detailVal->coa_iv,
+                    $sum_detail[]  = (object)[
+                        'coa_detail' => $detail_row->coa_iv,
+                        'item_categories' => $detail_row->item_categories,
                         'debit' => 0,
-                        'credit' => $detailVal->val,
+                        'credit' => $detail_row->val,
                         '_desc' => 'Increased Inventory : '
                         .$header->voucher_no.' '
                         // .$header->supplier.' ',
@@ -455,9 +449,10 @@ class TrxJournal extends MemfisModel
 
                 // jika coa cogs statusnya false
                 if (!$coaExistCogs) {
-                    $sumDetail[] = (object)[
-                        'coa_detail' => $detailVal->coa_cogs,
-                        'debit' => $detailVal->val,
+                    $sum_detail[] = (object)[
+                        'coa_detail' => $detail_row->coa_cogs,
+                        'item_categories' => $detail_row->item_categories,
+                        'debit' => $detail_row->val,
                         'credit' => 0,
                         '_desc' => 'Increased Inventory : '
                         .$header->voucher_no.' '
@@ -468,7 +463,10 @@ class TrxJournal extends MemfisModel
 
             // get status dari autoJournal
             $auto_journal = TrxJournal::autoJournal(
-                $header, $sumDetail, 'PRJR', 'GJV'
+                $header,
+                $sum_detail,
+                'PRJR',
+                'GJV'
             );
 
             return $auto_journal;
