@@ -421,12 +421,14 @@ class TrxJournal extends MemfisModel
 
                 // looping sebanyak array baru
                 foreach ($sum_detail as $key => $sum_detailValue) {
+                    // persediaan
                     if ($detail_row->item_categories == $sum_detailValue->item_categories) {
                         $sum_detail[$key]->credit += $detail_row->val;
                         // set coa iv status true
                         $coaExistIv = true;
                     }
 
+                    // biaya
                     if ($detail_row->coa_cogs == $sum_detailValue->coa_detail) {
                         $sum_detail[$key]->debit += $detail_row->val;
                         $coaExistCogs = true;
