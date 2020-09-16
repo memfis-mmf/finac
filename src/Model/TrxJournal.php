@@ -439,26 +439,30 @@ class TrxJournal extends MemfisModel
                 if (!$coaExistIv) {
                     // create new array baru
                     $sum_detail[]  = (object)[
+                        'item_id' => $detail_row->item_id,
                         'coa_detail' => $detail_row->coa_iv,
                         'item_categories' => $detail_row->item_categories,
                         'debit' => 0,
                         'credit' => $detail_row->val,
                         '_desc' => 'Increased Inventory : '
-                        .$header->voucher_no.' '
-                        // .$header->supplier.' ',
+                            . $header->voucher_no 
+                            . ' '
+                            . $detail_row->item_categories->name 
                     ];
                 }
 
                 // jika coa cogs statusnya false
                 if (!$coaExistCogs) {
                     $sum_detail[] = (object)[
+                        'item_id' => $detail_row->item_id,
                         'coa_detail' => $detail_row->coa_cogs,
                         'item_categories' => $detail_row->item_categories,
                         'debit' => $detail_row->val,
                         'credit' => 0,
-                        '_desc' => 'Increased Inventory : '
-                        .$header->voucher_no.' '
-                        // .$header->supplier.' ',
+                        '_desc' => 'Material Usage: '
+                            . $header->voucher_no 
+                            . ' '
+                            . $detail_row->part_number 
                     ];
                 }
             }
