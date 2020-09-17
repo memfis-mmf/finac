@@ -420,35 +420,22 @@ class TrxJournal extends MemfisModel
                 $coaExistCogs = false;
 
                 // looping sebanyak array baru
-                foreach ($sum_detail as $key => $sum_detailValue) {
-                    // persediaan
-                    if ($detail_row->item_categories == $sum_detailValue->item_categories) {
-                        $sum_detail[$key]->credit += $detail_row->val;
-                        // set coa iv status true
-                        $coaExistIv = true;
-                    }
-
+                foreach ($sum_detail as $sum_detail_row) {
                     // biaya
-                    if ($detail_row->coa_cogs == $sum_detailValue->coa_detail) {
-                        $sum_detail[$key]->debit += $detail_row->val;
-                        $coaExistCogs = true;
+                    if ($detail_row->coa_cogs == $sum_detail_row->coa_detail) {
+                        if ($detail_row->item_id == $sum_detail_row->item_id) {
+                            $sum_detail_row->debit += $detail_row->val;
+                            $coaExistCogs = true;
+                        }
                     }
-                }
 
-                // jika coa iv statusnya false
-                if (!$coaExistIv) {
-                    // create new array baru
-                    $sum_detail[]  = (object)[
-                        'item_id' => $detail_row->item_id,
-                        'coa_detail' => $detail_row->coa_iv,
-                        'item_categories' => $detail_row->item_categories,
-                        'debit' => 0,
-                        'credit' => $detail_row->val,
-                        '_desc' => 'Increased Inventory : '
-                            . $header->voucher_no 
-                            . ' '
-                            . $detail_row->item_categories->name 
-                    ];
+                    // persediaan
+                    if ($detail_row->coa_iv == $sum_detail_row->coa_detail) {
+                        if ($detail_row->item_categories->id == $sum_detail_row->item_categories_id) {
+                            $sum_detail_row->credit += $detail_row->val;
+                            $coaExistIv = true;
+                        }
+                    }
                 }
 
                 // jika coa cogs statusnya false
@@ -456,7 +443,7 @@ class TrxJournal extends MemfisModel
                     $sum_detail[] = (object)[
                         'item_id' => $detail_row->item_id,
                         'coa_detail' => $detail_row->coa_cogs,
-                        'item_categories' => $detail_row->item_categories,
+                        'item_categories_id' => $detail_row->item_categories->id,
                         'debit' => $detail_row->val,
                         'credit' => 0,
                         '_desc' => 'Material Usage: '
@@ -465,7 +452,27 @@ class TrxJournal extends MemfisModel
                             . $detail_row->part_number 
                     ];
                 }
+
+                // jika coa iv statusnya false
+                if (!$coaExistIv) {
+                    // create new array baru
+                    $sum_detail[]  = (object)[
+                        'item_id' => $detail_row->item_id,
+                        'coa_detail' => $detail_row->coa_iv,
+                        'item_categories_id' => $detail_row->item_categories->id,
+                        'debit' => 0,
+                        'credit' => $detail_row->val,
+                        '_desc' => 'Increased Inventory : '
+                            . $header->voucher_no 
+                            . ' '
+                            . $detail_row->item_categories->name 
+                    ];
+                }
             }
+
+            usort($sum_detail, function ($item1, $item2) {
+                return $item2->debit <=> $item1->debit;
+            });
 
             // get status dari autoJournal
             $auto_journal = TrxJournal::autoJournal(
