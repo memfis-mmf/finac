@@ -578,10 +578,16 @@ class TrxPaymentController extends Controller
 		$transaction_number = $request->trxpayment->transaction_number;
 		$exchange_rate = $request->trxpayment->exchange_rate;
 
-		$total = TrxPaymentA::where(
+        $tmp_trxpaymenta = TrxPaymentA::where(
 			'transaction_number',
 			$transaction_number
-		)->sum('total');
+		);
+
+        $trxpaymenta = $tmp_trxpaymenta->first();
+
+		$total = $tmp_trxpaymenta->sum('total');
+
+        $total += ($total * ($trxpaymenta->tax_percent / 100));
 
 		if ($currency == 'idr') {
 			$request->merge([
