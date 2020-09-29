@@ -492,7 +492,6 @@ class TrxPaymentController extends Controller
     public function grnDatatables(Request $request)
     {
 		$data = GRN::with([
-            'purchase_order',
             'purchase_order.purchase_request',
         ])->select('goods_received.*');
 
@@ -578,16 +577,14 @@ class TrxPaymentController extends Controller
 		$transaction_number = $request->trxpayment->transaction_number;
 		$exchange_rate = $request->trxpayment->exchange_rate;
 
-        $tmp_trxpaymenta = TrxPaymentA::where(
-			'transaction_number',
-			$transaction_number
-		);
-
-        $trxpaymenta = $tmp_trxpaymenta->first();
-
-		$total = $tmp_trxpaymenta->sum('total');
-
-        $total += ($total * ($trxpaymenta->tax_percent / 100));
+        $total = TrxPaymentA::where(
+                'transaction_number',
+                $transaction_number
+            )
+            ->get()
+            ->sum(function($row) {
+                return $row->total + ($row->total * ($row->tax_percent / 100));
+            });
 
 		if ($currency == 'idr') {
 			$request->merge([

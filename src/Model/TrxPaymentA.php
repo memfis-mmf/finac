@@ -19,7 +19,17 @@ class TrxPaymentA extends MemfisModel
 		'total_idr',
         'tax_percent',
 		'description',
+    ],
+    $appends = [
+        'total_after_tax'
     ];
+
+    public function getTotalAfterTaxAttribute()
+    {
+        $result = $this->total + ($this->total * ($this->tax_percent / 100));
+
+        return $result;
+    }
 
 	public function grn()
 	{

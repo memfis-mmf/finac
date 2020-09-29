@@ -21,8 +21,8 @@ let SupplierInvoice = {
       ajax: _url + '/supplier-invoice/grn/items/datatables?si_uuid=' + _si_uuid,
       columns: [
         { data: 'grn.number' },
-        { data: 'total', render: (data, type, row) => {
-          return row.grn.purchase_order.currency.symbol + ' ' + number_format.format(parseInt(row.total));
+        { data: 'total', searchable: false, render: (data, type, row) => {
+          return row.grn.purchase_order.currency.symbol + ' ' + number_format.format(parseInt(row.total_after_tax));
         }},
         { data: 'description', defaultContent: '-' },
         {
