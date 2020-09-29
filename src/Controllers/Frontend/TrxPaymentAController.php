@@ -61,7 +61,7 @@ class TrxPaymentAController extends Controller
         if ($si->approve) {
             return abort(404);
         }
-        $trxpaymenta->delete();
+        $trxpaymenta->forceDelete();
 
         return response()->json($trxpaymenta);
     }

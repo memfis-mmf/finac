@@ -17,8 +17,8 @@ use App\Models\Type;
 use App\Models\GoodsReceived as GRN;
 use App\Models\PurchaseOrder as PO;
 use App\Models\Approval;
-use DB;
-use Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 
 class TrxPaymentController extends Controller
@@ -503,22 +503,6 @@ class TrxPaymentController extends Controller
 	{
         $grn = GRN::find($grn_id);
         $po = $grn->purchase_order;
-        $tax = $po->taxes;
-
-		$tax_percent = 0;
-		//jika ada data tax
-		if (count($tax)) {
-
-			$tax_data = $tax[0];
-
-			$type = Type::find($tax_data->type_id);
-			$tax_percent = $tax_data->percent;
-
-			//jika tax memiliki code 'none'
-			if ($type->code == 'none') {
-				$tax_percent = 0;
-			}
-		}
 
 		$items = $grn->items;
 
@@ -527,9 +511,8 @@ class TrxPaymentController extends Controller
 			$x = $items[$i];
 			$pivot = $x->pivot;
 			$total = $pivot->price * $pivot->quantity;
-			$tax_price = $total * ($tax_percent/100);
 
-			$sum += ($total + $tax_price);
+			$sum += $total;
 		}
 
 		return (object)[
@@ -566,10 +549,12 @@ class TrxPaymentController extends Controller
 
 		$calculate = $this->sumGrnItem($grn->id);
 
+        $po_tax = $grn->purchase_order->taxes->first()->percent;
 		TrxPaymentA::create([
 			'transaction_number' => $trxpayment->transaction_number,
 			'total' => $calculate->total,
 			'total_idr' => $calculate->total_idr,
+            'tax_percent' => $po_tax,
 			'id_grn' => $grn->id,
         ]);
         

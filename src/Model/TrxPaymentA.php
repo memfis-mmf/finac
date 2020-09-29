@@ -17,6 +17,7 @@ class TrxPaymentA extends MemfisModel
 		'id_grn',
 		'total',
 		'total_idr',
+        'tax_percent',
 		'description',
     ];
 
