@@ -5,6 +5,7 @@ let SupplierInvoice = {
     let _si_uuid = $('input[name=si_uuid]').val();
 
     $('#project').select2({
+      placeholder: '-- Select --',
       ajax: {
         url: _url+'/journal/get-project-select2',
         dataType: 'json'
@@ -374,6 +375,7 @@ let SupplierInvoice = {
     });
 
     $('#_accountcode').select2({
+      placeholder: '-- Select --',
       ajax: {
         url: _url+'/journal/get-account-code-select2',
         dataType: 'json'

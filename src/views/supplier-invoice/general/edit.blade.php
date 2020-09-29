@@ -184,14 +184,14 @@
                                             @slot('name', 'account_code')
                                             @slot('id_error', 'accountcode')
                                         @endcomponent --}}
-                                    </div>
-
+                                    </div> 
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Project
                                         </label>
 
                                         <select class="form-control m-input" name="id_project" id="project">
+                                          <option></option>
                                           @if (@$data->project->id)
                                             <option value="{{$data->project->id}}" selected>{{$data->project->code}}</option>
                                           @endif
@@ -332,6 +332,7 @@
 
     // handle select2
     $('._accountcode').select2({
+        placeholder: '-- Select --',
         ajax: {
             url: _url+'/journal/get-account-code-select2',
             dataType: 'json'
