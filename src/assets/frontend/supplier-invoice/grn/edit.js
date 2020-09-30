@@ -321,7 +321,7 @@ let SupplierInvoice = {
             type: 'DELETE',
             url: '/trxpaymenta/' + triggerid + '',
             success: function (data) {
-              toastr.success('AR has been deleted.', 'Deleted', {
+              toastr.success('AP has been deleted.', 'Deleted', {
                 timeOut: 2000
               }
               );
