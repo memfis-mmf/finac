@@ -45,6 +45,14 @@ let Bond = {
       ]
     })
 
+    $(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_filter").addClass("pull-left");
+    $(".paging_simple_numbers").addClass("pull-left");
+    $(".dataTables_length").addClass("pull-right");
+    $(".dataTables_info").addClass("pull-right");
+    $(".dataTables_info").addClass("margin-info");
+    $(".paging_simple_numbers").addClass("padding-datatable");
+
     let remove = $('.bond_datatable').on('click', '.delete', function () {
       let triggerid = $(this).data('uuid');
 
