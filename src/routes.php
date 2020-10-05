@@ -281,11 +281,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/{bs}/edit',
 			'memfisfa\Finac\Controllers\Frontend\TrxBSController@edit'
-		);
+		)->name('bs.edit');
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\TrxBSController@print'
-		);
+		)->name('bs.print');
 	});
 
     Route::prefix('bsr')->group(function () {
