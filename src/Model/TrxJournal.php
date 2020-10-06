@@ -322,7 +322,7 @@ class TrxJournal extends MemfisModel
 
 		// TrxJournal::approve($tmp_journal);
 
-		if ($total_debit == 0 || $total_debit != $total_credit) {
+		if ($total_debit != $total_credit) {
 			return [
 				'status' => false,
 				'message' => 'Invalid debit or credit value'
