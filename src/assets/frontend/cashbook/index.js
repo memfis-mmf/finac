@@ -264,7 +264,7 @@ let Cashbook = {
 													timeOut: 3000
 											});
 									} else {
-											toastr.success('Data berhasil disimpan.', 'Sukses', {
+											toastr.success('Data saved.', 'Sukses', {
 													timeOut: 3000
 											});
 
@@ -361,7 +361,7 @@ let Cashbook = {
                         save_button();
                         $('#modal_coa').modal('hide');
 
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                        toastr.success('Data saved.', 'Sukses', {
                             timeOut: 5000
                         });
 

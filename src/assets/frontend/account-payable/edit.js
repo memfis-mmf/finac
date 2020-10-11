@@ -640,7 +640,7 @@ let AccountPayable = {
               timeOut: 2000
             });
           } else {
-            toastr.success('Data berhasil disimpan.', 'Sukses', {
+            toastr.success('Data saved.', 'Sukses', {
               timeOut: 2000
             });
 

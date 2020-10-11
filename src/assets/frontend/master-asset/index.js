@@ -236,7 +236,7 @@ let MasterAsset = {
 											timeOut: 3000
 									});
 							} else {
-									toastr.success('Data berhasil disimpan.', 'Sukses', {
+									toastr.success('Data saved.', 'Sukses', {
 											timeOut: 3000
 									});
 

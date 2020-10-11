@@ -525,7 +525,7 @@
 
                     } else {
 
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                        toastr.success('Data saved.', 'Sukses', {
                             timeOut: 5000
                         });
 

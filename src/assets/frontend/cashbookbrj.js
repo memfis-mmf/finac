@@ -149,7 +149,7 @@ let Coa = {
                     } else {
                         $('#modal_coa').modal('hide');
 
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                        toastr.success('Data saved.', 'Sukses', {
                             timeOut: 5000
                         });
 
@@ -251,7 +251,7 @@ let Coa = {
                         save_button();
                         $('#modal_coa').modal('hide');
 
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                        toastr.success('Data saved.', 'Sukses', {
                             timeOut: 5000
                         });
 
