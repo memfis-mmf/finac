@@ -49,7 +49,8 @@ class AssetController extends Controller
     public function store(Request $request)
     {
 		$request->request->add([
-			'transaction_number' => Asset::generateCode()
+            'transaction_number' => Asset::generateCode(),
+            'povalue' => 0
 		]);
 
         $asset = Asset::create($request->all());
@@ -73,6 +74,11 @@ class AssetController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'usefullife' => 'required|numeric'
+        ]);
+
 		$asset_tmp = Asset::where('uuid', $request->asset);
 		$asset = $asset_tmp->first();
 
@@ -134,11 +140,12 @@ class AssetController extends Controller
     public function datatables()
     {
 		$data = Asset::with([
-			'type',
-			'type.coa',
-			'coa_accumulate',
-			'coa_expense',
-		]);
+                'type',
+                'type.coa',
+                'coa_accumulate',
+                'coa_expense',
+            ])
+            ->select('assets.*');
 
         return DataTables::of($data)
 		->escapeColumns([])
