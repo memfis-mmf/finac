@@ -86,7 +86,6 @@ class AssetController extends Controller
         );
 
 		$asset_tmp = Asset::where('uuid', $request->asset);
-		$asset = $asset_tmp->first();
 
 		$request->request->add([
 			'warrantystart' => $this->convertDate(
@@ -121,7 +120,10 @@ class AssetController extends Controller
 
         $asset_tmp->update($request->only($list));
 
-        return response()->json($asset);
+        return [
+            'status' => true,
+            'message' => 'Data saved'
+        ];
     }
 
     public function destroy(Asset $asset)

@@ -151,14 +151,14 @@ let MasterAssetEdit = {
         type: 'put',
         url: `/asset/${uuid}`,
         data: _data,
-        success: function (data) {
+        success: function (response) {
           if (response.status) {
             toastr.success('Data Saved', 'Success', {
               timeOut: 2000
             });
 
             setTimeout(() => {
-              location.replace(response.redirect);
+              location.replace(_url + '/asset');
             }, 2000)
           } else {
             errorHandler(response);
