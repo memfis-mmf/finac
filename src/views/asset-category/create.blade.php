@@ -84,7 +84,7 @@
                                             Useful Life @include('label::required')
                                         </label>
 
-                                        @component('input::text')
+                                        @component('input::number')
                                             @slot('id', 'useful_life')
                                             @slot('text', 'Useful Life')
                                             @slot('name', 'usefullife')

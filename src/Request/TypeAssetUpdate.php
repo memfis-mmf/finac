@@ -30,7 +30,7 @@ class TypeAssetUpdate extends FormRequest
             'code' => 'required',
             'name' => 'required',
             'accountcode' => 'required',
-            'usefullife' => 'required',
+            'usefullife' => 'required|numeric',
         ];
     }
 
