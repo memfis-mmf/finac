@@ -74,10 +74,16 @@ class AssetController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'usefullife' => 'required|numeric'
-        ]);
+        $request->validate(
+            [
+                'name' => 'required',
+                'usefullife' => 'required|numeric|min:1',
+                'povalue' => 'required|numeric|min:1'
+            ],
+            [
+                'povalue.min' => 'Asset value must be at least 1'
+            ]
+        );
 
 		$asset_tmp = Asset::where('uuid', $request->asset);
 		$asset = $asset_tmp->first();
