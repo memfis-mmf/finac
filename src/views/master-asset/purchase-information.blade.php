@@ -60,7 +60,7 @@
         <div class="form-group m-form__group row ">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                    Asset Value
+                    Asset Value @include('label::required')
                 </label>
 
                 @component('input::text')

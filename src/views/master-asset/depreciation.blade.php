@@ -185,6 +185,7 @@
 
       // select 2 aja for coa
 			$('._accountcode').select2({
+        placeholder: '--Select--',
 			  ajax: {
 			    url: _url+'/journal/get-account-code-select2',
           dataType: 'json',
