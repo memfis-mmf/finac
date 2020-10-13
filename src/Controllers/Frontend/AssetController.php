@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use DB;
 use Auth;
 use DataTables;
+use memfisfa\Finac\Model\Coa;
 
 class AssetController extends Controller
 {
@@ -50,7 +51,8 @@ class AssetController extends Controller
     {
 		$request->request->add([
             'transaction_number' => Asset::generateCode(),
-            'povalue' => 0
+            'povalue' => 0,
+            'coaexpense' => Coa::find(214)->code
 		]);
 
         $asset = Asset::create($request->all());
@@ -72,15 +74,22 @@ class AssetController extends Controller
 
     public function edit(Request $request)
     {
-		$data['asset'] = Asset::where('uuid', $request->asset)->with([
+		$asset = Asset::where('uuid', $request->asset)->with([
 			'type',
-		])->first();
+        ])->first();
 
-		$data['type_asset'] = TypeAsset::all();
+        if (!$asset->coaexpense) {
+            Asset::where('id', $asset->id)
+                ->update([
+                    'coaexpense' => Coa::find(214)->code
+                ]);
+        }
 
-        $collection = collect();
-        $departments = Department::with('type','parent')->get();
-        $data['company'] = $departments;
+        $data = [
+            'asset' => $asset,
+            'type_asset' => TypeAsset::all(),
+            'company' => Department::with('type','parent')->get()
+        ];
 
         return view('masterassetview::edit', $data);
     }
@@ -91,10 +100,14 @@ class AssetController extends Controller
             [
                 'name' => 'required',
                 'usefullife' => 'required|numeric|min:1',
-                'povalue' => 'required|numeric|min:1'
+                'povalue' => 'required|numeric|min:1',
+                'coaacumulated' => 'required|numeric',
+                'coadepreciation' => 'required|numeric',
             ],
             [
-                'povalue.min' => 'Asset value must be at least 1'
+                'povalue.min' => 'Asset value must be at least 1',
+                'coaacumulated.required' => 'Accumulate Depreciation Account cannot be empty',
+                'coadepreciation.required' => 'Depreciation Account cannot be empty',
             ]
         );
 
@@ -126,7 +139,7 @@ class AssetController extends Controller
 			'salvagevalue',
 			'usefullife',
 			'coaacumulated',
-			'coaexpense',
+			'coadepreciation',
 			'warrantystart',
 			'warrantyend',
 		];
@@ -164,6 +177,7 @@ class AssetController extends Controller
                 'type',
                 'type.coa',
                 'coa_accumulate',
+                'coa_depreciation',
                 'coa_expense',
             ])
             ->select('assets.*');
@@ -345,7 +359,7 @@ class AssetController extends Controller
 			array_unshift(
 				$detail,
 				(object) [
-					'coa_detail' => $header->coaexpense->coa->id,
+					'coa_detail' => $header->coadepreciation->coa->id,
 					'credit' => 0,
 					'debit' => $total_credit,
 					'_desc' => 'Asset Depreciation : '

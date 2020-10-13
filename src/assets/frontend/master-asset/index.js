@@ -30,6 +30,10 @@ let MasterAsset = {
         { data: '', defaultContent: '-' }, //refdoc
         {
           data: 'povalue', defaultContent: '-', render: function (data, type, row) {
+            if (!row.povalue) {
+              row.povalue = 0;
+            }
+
             return addCommas(parseFloat(row.povalue));
           }
         },
@@ -38,8 +42,27 @@ let MasterAsset = {
             return addCommas(parseFloat(row.usefullife)) + ' Month';
           }
         },
-        { data: 'coa_accumulate.name', defaultContent: '-' },
-        { data: 'coa_expense.name', defaultContent: '-' },
+        { data: 'coa_accumulate.name', defaultContent: '-', render: (data, type, row) => {
+          if (row.coa_accumulate) {
+            return row.coa_accumulate.name + ' (' + row.coa_accumulate.code + ')';
+          }
+
+          return '-';
+        }},
+        { data: 'coa_expense.name', defaultContent: '-', render: (data, type, row) => {
+          if (row.coa_expense) {
+            return row.coa_expense.name + ' (' + row.coa_expense.code + ')';
+          }
+
+          return '-';
+        }},
+        { data: 'coa_depreciation.name', defaultContent: '-', render: (data, type, row) => {
+          if (row.coa_depreciation) {
+            return row.coa_depreciation.name + ' (' + row.coa_depreciation.code + ')';
+          }
+
+          return '-';
+        }},
         { data: 'depreciationstart_format', name: 'depreciationstart', defaultContent: '-' },
         { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-' },
         { data: 'created_by', defaultContent: '-' },

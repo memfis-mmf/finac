@@ -17,6 +17,14 @@
   .dataTables_length select{
       visibility: visible;
   }
+
+  table td {
+    white-space: nowrap !important;
+  }
+
+  table {
+    min-width: 100%;
+  }
 </style>
 <div class="m-content">
     <div class="row">
@@ -73,6 +81,7 @@
                                         <th>Useful Life</th>
                                         <th>COA Accumulate</th>
                                         <th>COA Expense</th>
+                                        <th>COA Depreciation</th>
                                         <th>Depreciation Start</th>
                                         <th>Depreciation End</th>
                                         <th>Created By</th>

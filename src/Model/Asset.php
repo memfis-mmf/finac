@@ -37,6 +37,7 @@ class Asset extends MemfisModel
 		'depreciationstart',
 		'depreciationend',
 		'coaacumulated',
+		'coadepreciation',
 		'coaexpense',
 		'usestatus',
 		'description',
@@ -103,7 +104,7 @@ class Asset extends MemfisModel
 
 	public function type()
 	{
-		return $this->belongsTo(TypeAsset::class, 'group', 'id');
+		return $this->belongsTo(TypeAsset::class, 'asset_category_id', 'id');
 	}
 
 	public function coa_accumulate()
@@ -111,11 +112,16 @@ class Asset extends MemfisModel
 		return $this->belongsTo(
 			Coa::class, 'coaacumulated', 'code'
 		);
-	}
+    }
 
 	public function coa_expense()
 	{
 		return $this->belongsTo(Coa::class, 'coaexpense', 'code');
+	}
+
+	public function coa_depreciation()
+	{
+		return $this->belongsTo(Coa::class, 'coadepreciation', 'code');
 	}
 
 	public function category()

@@ -85,7 +85,7 @@ class MasterCoaController extends Controller
 			'salvagevalue',
 			'usefullife',
 			'coaacumulated',
-			'coaexpense',
+			'coadepreciation',
 			'warrantystart',
 			'warrantyend',
 		];
@@ -172,7 +172,7 @@ class MasterCoaController extends Controller
 			'type',
 			'type.coa',
 			'coa_accumulate',
-			'coa_expense',
+			'coa_depreciation',
 		])->get());
 
 		$datatable = array_merge([
