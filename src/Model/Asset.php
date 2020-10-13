@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use memfisfa\Finac\Model\MemfisModel;
 use App\User;
 use App\Models\Approval;
+use Carbon\Carbon;
 
 class Asset extends MemfisModel
 {
@@ -46,7 +47,9 @@ class Asset extends MemfisModel
 
 	protected $appends = [
 		'created_by',
-		'approved_by',
+        'approved_by',
+        'depreciationstart_format',
+        'depreciationend_format',
 	];
 
     public function approvals()
@@ -80,7 +83,23 @@ class Asset extends MemfisModel
 		}
 
 		return $result;
-	}
+    }
+    
+    public function getDepreciationstartFormatAttribute()
+    {
+        if (!$this->depreciationstart) {
+            return '-';
+        }
+        return Carbon::parse($this->depreciationstart)->format('Y-m-d');
+    }
+
+    public function getDepreciationendFormatAttribute()
+    {
+        if (!$this->depreciationend) {
+            return '-';
+        }
+        return Carbon::parse($this->depreciationend)->format('Y-m-d');
+    }
 
 	public function type()
 	{
