@@ -871,11 +871,6 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
-	Route::resource(
-		'asset',
-		'memfisfa\Finac\Controllers\Frontend\AssetController',
-		['except' => 'show']
-	);
     Route::prefix('asset')->group(function () {
 		Route::get(
 			'/datatables',
@@ -889,7 +884,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@approve'
 		);
-	});
+    });
+	Route::resource('asset', 'memfisfa\Finac\Controllers\Frontend\AssetController');
 
 	Route::resource(
 		'typeasset',

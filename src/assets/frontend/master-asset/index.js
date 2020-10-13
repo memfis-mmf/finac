@@ -23,7 +23,9 @@ let MasterAsset = {
       ajax: `${_url}/asset/datatables`,
       order: [[0, 'desc']],
       columns: [
-        { data: 'transaction_number', defaultContent: '-' },
+        { data: 'transaction_number', defaultContent: '-', render: (data, type, row) => {
+          return `<a href="${_url}/asset/${row.uuid}">${row.transaction_number}</a>`
+        }},
         { data: 'name', defaultContent: '-' },
         { data: '', defaultContent: '-' }, //refdoc
         {

@@ -130,7 +130,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row ">
+                                @if (@$page != 'show')
+                                  <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
                                             @component('buttons::submit')
@@ -144,7 +145,8 @@
                                             @include('buttons::back')
                                         </div>
                                     </div>
-                                </div>
+                                  </div>   
+                                @endif
                             </div>
                         </form>
                     </div>
@@ -156,17 +158,21 @@
 @endsection
 
 @push('footer-scripts')
-    <script>
-        $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faAsset";
-            } else {
-                window.location.href=currentUrl;
-            }
-        });
-    </script>
+<script>
+  $(document).ready(function() {
+    let currentUrl = window.location.href;
+    let _hash = currentUrl.split('#');
+    if (_hash.length < 2) {
+      window.location.href=currentUrl+"#faAsset";
+    } else {
+      window.location.href=currentUrl;
+    }
+
+    if ('{{@$page}}' == 'show') {
+      $('input, textarea, select').attr('disabled', 'disabled');
+    }
+  });
+</script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/asset-category.js')}}"></script>

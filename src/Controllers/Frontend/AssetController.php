@@ -57,6 +57,19 @@ class AssetController extends Controller
         return response()->json($asset);
     }
 
+    public function show($uuid)
+    {
+        $asset = Asset::where('uuid', $uuid)->firstOrFail();
+        $data = [
+            'asset' => $asset,
+            'type_asset' => TypeAsset::all(),
+            'company' => Department::with(['type', 'parent'])->get(),
+            'page' => 'show'
+        ];
+
+        return view('masterassetview::edit', $data);
+    }
+
     public function edit(Request $request)
     {
 		$data['asset'] = Asset::where('uuid', $request->asset)->with([
