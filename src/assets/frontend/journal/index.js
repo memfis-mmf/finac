@@ -513,7 +513,7 @@ let Journal = {
                         type: 'DELETE',
                         url: '/journal/' + triggerid + '',
                         success: function (data) {
-                            toastr.success('AR has been deleted.', 'Deleted', {
+                            toastr.success('Data has been deleted.', 'Deleted', {
                                     timeOut: 5000
                                 }
                             );
