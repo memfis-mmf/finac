@@ -140,6 +140,7 @@ class TrxPaymentController extends Controller
             'id_supplier' => 'required',
             'currency' => 'required',
             'exchange_rate' => 'required',
+            'closed' => 'required'
         ]);
 
 		DB::beginTransaction();
@@ -196,6 +197,7 @@ class TrxPaymentController extends Controller
             'id_supplier' => 'required',
             'currency' => 'required',
             'exchange_rate' => 'required',
+            'closed' => 'required'
         ]);
 
 		$currency = $request->trxpayment->currency;
@@ -417,6 +419,7 @@ class TrxPaymentController extends Controller
             'id_supplier' => 'required',
             'currency' => 'required',
             'exchange_rate' => 'required',
+            'closed' => 'required'
         ]);
 
 		DB::beginTransaction();
@@ -571,6 +574,7 @@ class TrxPaymentController extends Controller
             'id_supplier' => 'required',
             'currency' => 'required',
             'exchange_rate' => 'required',
+            'closed' => 'required'
         ]);
 
 		$currency = $request->trxpayment->currency;
