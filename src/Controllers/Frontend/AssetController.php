@@ -214,7 +214,7 @@ class AssetController extends Controller
 			$total_credit = 0;
 
 			$detail[] = (object) [
-				'coa_detail' => 214, // coa : 31121001
+				'coa_detail' => $asset->coa_expense->id, // coa : 31121001
 				'credit' => $asset->povalue,
 				'debit' => 0,
 				'_desc' => 'Fixed Asset : '
