@@ -380,7 +380,7 @@ class JournalController extends Controller
             ->where('code', 'like', "%$q%")
             ->has('approvals', 2)
             ->latest()
-            ->limit(10)
+            ->limit(50)
             ->get();
 
         $data['results'] = [];
