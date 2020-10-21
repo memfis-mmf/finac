@@ -12,6 +12,10 @@ class FixedAssetDispositionController extends Controller
         return view('fixassetdispositionview::index');
     }
 
+    public function datatable()
+    {
+    }
+
     public function create()
     {
         return view('fixassetdispositionview::create');
