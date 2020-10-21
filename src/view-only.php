@@ -108,11 +108,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     /** FIX ASSET DISPOSITION*/
 
-    Route::view('/fixed-asset-disposition', 'fixassetdispositionview::index')->name('fixed-asset-disposition.index');
+    // Route::view('/fixed-asset-disposition', 'fixassetdispositionview::index')->name('fixed-asset-disposition.index');
 
-    Route::view('/fixed-asset-disposition/create', 'fixassetdispositionview::create')->name('fixed-asset-disposition.create');
-    Route::view('/fixed-asset-disposition/edit', 'fixassetdispositionview::edit')->name('fixed-asset-disposition.edit');
-    Route::view('/fixed-asset-disposition/show', 'fixassetdispositionview::show')->name('fixed-asset-disposition.show');
+    // Route::view('/fixed-asset-disposition/create', 'fixassetdispositionview::create')->name('fixed-asset-disposition.create');
+    // Route::view('/fixed-asset-disposition/edit', 'fixassetdispositionview::edit')->name('fixed-asset-disposition.edit');
+    // Route::view('/fixed-asset-disposition/show', 'fixassetdispositionview::show')->name('fixed-asset-disposition.show');
 
 
     /** MASTER COA*/
