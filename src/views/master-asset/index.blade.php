@@ -56,10 +56,12 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                    <a href="{{url('asset/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                    <a href="{{url('asset/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md">
+                                      <span>
                                         <i class="la la-plus-circle"></i>
                                         <span>Master Asset</span>
-                                    </span></a>
+                                      </span>
+                                    </a>
 
                                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                                 </div>

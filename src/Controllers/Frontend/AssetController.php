@@ -239,7 +239,6 @@ class AssetController extends Controller
 
 			Asset::where('id', $asset->id)->update([
 				'approve' => 1,
-				'count_journal_report' => 1
 			]);
 
 			$depreciationStart = new Carbon($date_approve);
@@ -283,40 +282,38 @@ class AssetController extends Controller
 
     }
 
-	public function autoJournalDepreciation(Request $request)
+	public function autoJournalDepreciation()
 	{
 		$asset = Asset::where('approve', 1)->get();
 
-		DB::beginTransaction();
-
-		for ($index_asset=0; $index_asset < $asset; $index_asset++) {
-			$arr = $asset[$index_asset];
-
-			$date_approve = $arr->approvals->first()
+        DB::beginTransaction();
+        
+        foreach ($asset as $asset_row) {
+			$date_approve = $asset_row->approvals->first()
 			->created_at->toDateTimeString();
 
 			$depreciationStart = new Carbon($date_approve);
-			$depreciationEnd = $depreciationStart->addMonths($arr->usefullife);
+			$depreciationEnd = $depreciationStart->addMonths($asset_row->usefullife);
 
 			$day = $depreciationEnd->diff($depreciationStart)->days;
 
-			$value_per_day = ($arr->povalue - $arr->salvagevalue) / $day;
+			$value_per_day = ($asset_row->povalue - $asset_row->salvagevalue) / $day;
 
 			$last_day_this_month = new Carbon('last day of this month');
 			$first_day_this_month = new Carbon('first day of this month');
 
 			if (Carbon::now() != $depreciationEnd) {
 				if (Carbon::now() == $last_day_this_month) {
-					$this->scheduledJournal($arr, $value_per_day);
+					$this->scheduledJournal($asset_row, $value_per_day);
 				}
 			}else{
 				$value_last_count = $depreciationEnd
 				->diff($first_day_this_month)
 				->days * $value_per_day;
 
-				$this->scheduledJournal($arr, $value_last_count);
+				$this->scheduledJournal($asset_row, $value_last_count);
 			}
-		}
+        }
 
 		DB::commit();
 	}
