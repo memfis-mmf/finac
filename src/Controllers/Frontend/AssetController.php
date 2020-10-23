@@ -278,128 +278,155 @@ class AssetController extends Controller
 			$data['errors'] = $e;
 
 			return response()->json($data);
-		}
+        }
 
     }
 
-	public function autoJournalDepreciation()
+    /**
+     * fungsi untuk autojournal depreciation
+     * 
+     * @param  date $date_generate ini berisi tanggal kapan asset akan didepresiasikan
+     */
+	public function autoJournalDepreciation($date_generate)
 	{
 		$asset = Asset::where('approve', 1)->get();
 
         DB::beginTransaction();
         
+        // looping sebanyak asset yang sudah di approve
         foreach ($asset as $asset_row) {
-			$date_approve = $asset_row->approvals->first()
-			->created_at->toDateTimeString();
 
-			$depreciationStart = new Carbon($date_approve);
+            $asset_row->put(
+                'date_generate', 
+                Carbon::createFromFormat('Y-m-d', $date_generate)
+            );
+
+            // mengambil tanggal approve
+            $date_approve = $asset_row
+                ->approvals
+                ->first()
+                ->created_at
+                ->toDateTimeString();
+
+            // set depreciation start (depreciation start sama dengan tanggal approve)
+            $depreciationStart = new Carbon($date_approve);
+            
+            // set depreciation end (deprection end sama dengan depreciation start ditambah bulan useful life)
 			$depreciationEnd = $depreciationStart->addMonths($asset_row->usefullife);
 
-			$day = $depreciationEnd->diff($depreciationStart)->days;
+            // mecari total hari dari depreciation start sampai depreciation end
+			$day = $depreciationEnd->diffInDays($depreciationStart);
 
+            // set value per hari
 			$value_per_day = ($asset_row->povalue - $asset_row->salvagevalue) / $day;
 
-			$last_day_this_month = new Carbon('last day of this month');
-			$first_day_this_month = new Carbon('first day of this month');
+            // set hari terakhir di bulan ini
+            $last_day_this_month = new Carbon('last day of this month');
+            
+            // set hari pertama di bulan ini
+            $first_day_this_month = new Carbon('first day of this month');
+            
+            // jika tanggal generate lebih besar dari tanggal akhir depreciation
+            if ($asset->date_generate > $depreciationEnd) {
+                return response([
+                    'status' => false,
+                    'message' => 'Date cannot more than depreciation end date'
+                ], 422);
+            }
 
-			if (Carbon::now() != $depreciationEnd) {
-				if (Carbon::now() == $last_day_this_month) {
-					$this->scheduledJournal($asset_row, $value_per_day);
-				}
-			}else{
-				$value_last_count = $depreciationEnd
-				->diff($first_day_this_month)
-				->days * $value_per_day;
+            // jika tanggal generate tidak sama dengan tanggal depreciation
+            if ($asset->date_generate != $depreciationEnd) {
 
-				$this->scheduledJournal($asset_row, $value_last_count);
-			}
+                // jika tanggal generate sama dengan bulan terakhir
+                if ($asset->date_generate == $last_day_this_month) {
+                    $this->scheduledJournal($asset_row, $value_per_day);
+                }
+            } else {
+                $value_last_count = $depreciationEnd
+                    ->diff($first_day_this_month)
+                    ->days * $value_per_day;
+
+                $this->scheduledJournal($asset_row, $value_last_count);
+            }
         }
 
 		DB::commit();
 	}
 
+    /**
+     * fungsi untuk skeduling journal
+     * 
+     * @param collection $asset berisi collection dari asset
+     * @param bigInteger $value berisi value (harga)
+     */
 	public function scheduledJournal($asset, $value)
     {
-		DB::beginTransaction();
-		try {
+        DB::beginTransaction();
 
-	        $asset->approvals()->save(new Approval([
-	            'approvable_id' => $asset->id,
-	            'is_approved' => 0,
-	            'conducted_by' => Auth::id(),
-	        ]));
+        $asset->approvals()->save(new Approval([
+            'approvable_id' => $asset->id,
+            'conducted_by' => Auth::id(),
+        ]));
 
-			$date_approve = $asset->approvals->first()
-			->created_at->toDateTimeString();
+        $header = (object) [
+            'voucher_no' => $asset->transaction_number,
+            'transaction_date' => $asset->date_generate,
+            'coa' => $asset->category->coa->id,
+        ];
 
-			$header = (object) [
-				'voucher_no' => $asset->transaction_number,
-				'transaction_date' => $date_approve,
-				'coa' => $asset->category->coa->id,
-			];
+        $total_credit = 0;
 
-			$total_credit = 0;
+        $detail[] = (object) [
+            'coa_detail' => $asset->coaacumulated->coa->id,
+            'credit' => $value,
+            'debit' => 0,
+            '_desc' => 'Accm Depr Asset : '
+                .$asset->name
+                .($asset->count_journal_report+1).
+            'Month Depreciation',
+        ];
 
-			$detail[] = (object) [
-				'coa_detail' => $asset->coaacumulated->coa->id,
-				'credit' => $value,
-				'debit' => 0,
-				'_desc' => 'Accm Depr Asset : '
-				.$asset->name
-				.($asset->count_journal_report+1).
-				'Month Depreciation',
-			];
+        $total_credit += $detail[count($detail)-1]->credit;
 
-			$total_credit += $detail[count($detail)-1]->credit;
+        // add object in first array $detai
+        array_unshift(
+            $detail,
+            (object) [
+                'coa_detail' => $header->coadepreciation->coa->id,
+                'credit' => 0,
+                'debit' => $total_credit,
+                '_desc' => 'Asset Depreciation : '
+                .$asset->name
+                .($asset->count_journal_report+1).
+                'Month Depreciation',
+            ]
+        );
 
-			// add object in first array $detai
-			array_unshift(
-				$detail,
-				(object) [
-					'coa_detail' => $header->coadepreciation->coa->id,
-					'credit' => 0,
-					'debit' => $total_credit,
-					'_desc' => 'Asset Depreciation : '
-					.$asset->name
-					.($asset->count_journal_report+1).
-					'Month Depreciation',
-				]
-			);
+        Asset::where('id', $asset->id)->update([
+            'approve' => 1,
+            'count_journal_report' => $asset->count_journal_report+1
+        ]);
 
-			Asset::where('id', $asset->id)->update([
-				'approve' => 1,
-				'count_journal_report' => $asset->count_journal_report+1
-			]);
+        $autoJournal = TrxJournal::autoJournal(
+            $header,
+            $detail,
+            'PRJR',
+            'GJV'
+        );
 
-			$autoJournal = TrxJournal::autoJournal(
-				$header,
-				$detail,
-				'PRJR',
-				'GJV'
-			);
+        if (!$autoJournal['status']) {
+            return response([
+                'status' => false,
+                'message' => 'Something went wrong'
+            ], 422);
+        }
 
-			if ($autoJournal['status']) {
+        DB::commit();
 
-				DB::commit();
-
-			}else{
-
-				DB::rollBack();
-				return response()->json([
-					'errors' => $autoJournal['message']
-				]);
-			}
-
-	        return response()->json($asset);
-
-		} catch (\Exception $e) {
-
-			DB::rollBack();
-
-			$data['errors'] = $e->getMessage();
-
-			return response()->json($data);
-		}
+        return response([
+            'status' => true,
+            'message' => 'Generate success'
+        ]);
 
     }
 
