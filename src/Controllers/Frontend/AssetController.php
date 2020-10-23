@@ -319,35 +319,47 @@ class AssetController extends Controller
 
             // set value per hari
 			$value_per_day = ($asset_row->povalue - $asset_row->salvagevalue) / $day;
-
-            // set hari terakhir di bulan ini
-            $last_day_this_month = new Carbon('last day of this month');
-            
-            // set hari pertama di bulan ini
-            $first_day_this_month = new Carbon('first day of this month');
             
             // jika tanggal generate lebih besar dari tanggal akhir depreciation
             if ($asset->date_generate > $depreciationEnd) {
                 return response([
                     'status' => false,
-                    'message' => 'Date cannot more than depreciation end date'
+                    'message' => 'Date cannot more than depreciation end date '
+                        . $depreciationEnd->format('Y-m-d')
                 ], 422);
             }
 
-            // jika tanggal generate tidak sama dengan tanggal depreciation
-            if ($asset->date_generate != $depreciationEnd) {
+            // mengambil journal terakhir atas asset
+            $journal = TrxJournal::where('ref_no', $asset->transaction_number)
+                ->orderBy('id', 'desc')
+                ->first();
 
-                // jika tanggal generate sama dengan bulan terakhir
-                if ($asset->date_generate == $last_day_this_month) {
-                    $this->scheduledJournal($asset_row, $value_per_day);
-                }
-            } else {
-                $value_last_count = $depreciationEnd
-                    ->diff($first_day_this_month)
-                    ->days * $value_per_day;
+            // set tanggal awal
+            $start_date = Carbon::createFromFormat('Y-m-d', $journal->transaction_date);
 
-                $this->scheduledJournal($asset_row, $value_last_count);
+            // set tanggal akhir
+            $end_date = $asset->date_generate;
+
+            /**
+             * pengecekan apakah end_date (date generate) 
+             * lebih kecil dari tanggal laporan journal terakhir atas asset tersebut
+             */
+            if ($end_date < $start_date) {
+                return response([
+                    'status' => false,
+                    'message' => 'Date cannot less than last report ' 
+                        . $start_date->format('Y-m-d')
+                ], 422);
             }
+
+            // mencari seilish hari
+            $diff_date = $start_date->diffInDays($end_date);
+
+            // total nilai atas selisih hari
+            $value = $diff_date * $value_per_day;
+
+            // melakukan penjurnalan
+            $this->scheduledJournal($asset_row, $value);
         }
 
 		DB::commit();
