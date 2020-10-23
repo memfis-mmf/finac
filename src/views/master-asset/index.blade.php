@@ -49,17 +49,25 @@
                     <div class="m-portlet__body pb-5">
                         <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                             <div class="row align-items-center">
-                                <div class="col-xl-8 order-2 order-xl-1">
+                                <div class="col-xl-6 order-2 order-xl-1">
                                     <div class="form-group m-form__group row align-items-center">
                                         <div class="col-md-4">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                                <div class="col-xl-6 order-1 order-xl-2 m--align-right">
                                     <a href="{{url('asset/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md">
                                       <span>
                                         <i class="la la-plus-circle"></i>
                                         <span>Master Asset</span>
+                                      </span>
+                                    </a>
+                                    <a 
+                                      href="#modal_depreciation" data-toggle="modal" 
+                                      class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md btn-depreciation">
+                                      <span>
+                                        <i class="fa fa-copy"></i>
+                                        <span>Generate Depreciation</span>
                                       </span>
                                     </a>
 
@@ -98,6 +106,28 @@
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="modal_depreciation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="TitleModalInstruction" style="margin-top:-5px">
+          Depreciation <small id="instruction" class="m--font-focus"></small>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="form-group">
+            <label for="">Month</label>
+            <input type="month" class="form-control">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 

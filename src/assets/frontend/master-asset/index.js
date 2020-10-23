@@ -127,6 +127,10 @@ let MasterAsset = {
         }
       });
     })
+
+    $(document).on('click', '.btn-depreciation', function () {
+      
+    });
   }
 };
 
