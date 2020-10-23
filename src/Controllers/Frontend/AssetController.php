@@ -322,11 +322,13 @@ class AssetController extends Controller
             
             // jika tanggal generate lebih besar dari tanggal akhir depreciation
             if ($asset->date_generate > $depreciationEnd) {
-                return response([
-                    'status' => false,
-                    'message' => 'Date cannot more than depreciation end date '
-                        . $depreciationEnd->format('Y-m-d')
-                ], 422);
+                // return response([
+                //     'status' => false,
+                //     'message' => 'Date cannot more than depreciation end date '
+                //         . $depreciationEnd->format('Y-m-d')
+                // ], 422);
+
+                continue;
             }
 
             // mengambil journal terakhir atas asset
@@ -345,11 +347,13 @@ class AssetController extends Controller
              * lebih kecil dari tanggal laporan journal terakhir atas asset tersebut
              */
             if ($end_date < $start_date) {
-                return response([
-                    'status' => false,
-                    'message' => 'Date cannot less than last report ' 
-                        . $start_date->format('Y-m-d')
-                ], 422);
+                // return response([
+                //     'status' => false,
+                //     'message' => 'Date cannot less than last report ' 
+                //         . $start_date->format('Y-m-d')
+                // ], 422);
+
+                continue;
             }
 
             // mencari seilish hari
