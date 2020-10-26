@@ -3,6 +3,13 @@ let MasterAsset = {
 
     let _url = window.location.origin;
 
+    $("[name=date_generate]").daterangepicker({
+      singleDatePicker: true,
+      locale: {
+        format: 'YYYY-MM-DD'
+      }
+    });
+
     function addCommas(nStr) {
       nStr += '';
       x = nStr.split('.');
@@ -67,28 +74,7 @@ let MasterAsset = {
         { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-' },
         { data: 'created_by', defaultContent: '-' },
         { data: 'approved_by', defaultContent: '-' },
-        {
-          data: '', searchable: false, render: function (data, type, row) {
-            let t = row;
-
-            let _html = '';
-
-            if (!t.approve) {
-              _html +=
-                '<a href="' + _url + '/asset/' + t.uuid + '/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                t.uuid +
-                '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-                '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                t.uuid +
-                ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-                '<a href="javascript:;" data-uuid="' + t.uuid + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
-                '<i class="la la-check"></i>' +
-                '</a>';
-            }
-
-            return (_html);
-          }
-        }
+        { data: 'action' }
       ]
     });
 
@@ -128,11 +114,79 @@ let MasterAsset = {
       });
     })
 
-    $(document).on('click', '.btn-depreciation', function () {
+    $(document).on('submit', '#form-depreciation', function (e) {
+      e.preventDefault();
+
+      let form = $(this);
+
+      let data = form.serializeArray();
+      let action = form.attr('action');
+
+      $.ajax({
+        type: "get",
+        url: action,
+        data: data,
+        success: function (response) {
+          if (response.status) {
+            toastr.success('Generated', 'Success', {
+              timeOut: 2000
+            });
+
+            $('.modal').modal('hide');
+          } else {
+            errorHandler(response);
+          }
+        },
+        error: function(xhr) {
+          errorHandler(xhr.responseJSON);
+        }
+      });
       
+    });
+
+    $(document).on('click', '.history-depreciation', function () {
+
+      let url = $(this).data('url');
+
+      $.ajax({
+        type: "get",
+        url: url,
+        success: function (response) {
+
+          let _modal = $('#modal_history_depreciation');
+          _modal.find('.modal-body').html(response);
+          _modal.modal('show');
+
+        }
+      });
     });
   }
 };
+
+let errorHandler = (response) => {
+
+  let message = '';
+
+  if (!('errors' in response)) {
+    message = response.message;
+  } else {
+    errors = response.errors;
+
+    loop = 0;
+    $.each(errors, function (index, value) {
+
+      if (!loop) {
+        message = value[0]
+      }
+
+      loop++;
+    })
+  }
+
+  toastr.error(message, 'Invalid', {
+    timeOut: 2000
+  });
+}
 
 jQuery(document).ready(function () {
   MasterAsset.init();

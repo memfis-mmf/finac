@@ -873,6 +873,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('asset')->group(function () {
 		Route::get(
+			'/generate-depreciation',
+			'memfisfa\Finac\Controllers\Frontend\AssetController@autoJournalDepreciation'
+		)->name('asset.depreciation');
+		Route::get(
+			'/history-depreciation',
+			'memfisfa\Finac\Controllers\Frontend\AssetController@historyDepreciation'
+		)->name('asset.history.depreciation');
+		Route::get(
 			'/datatables',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@datatables'
 		)->name('asset.datatables');

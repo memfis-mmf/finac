@@ -185,6 +185,47 @@ class AssetController extends Controller
             ->select('assets.*');
 
         return DataTables::of($data)
+        ->addColumn('action', function($row) {
+            $html = '';
+            if (!$row->approve) {
+                $html .= 
+                    '<a 
+                        href="'.route('asset.edit', $row->uuid).'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                        title="Edit" 
+                        data-uuid="'.$row->uuid.'"> 
+                        <i class="la la-pencil"></i> 
+                    </a>
+                    <a 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                        href="#" 
+                        data-uuid="'.$row->uuid.'"
+                        title="Delete">
+                        <i class="la la-trash"></i> 
+                    </a>
+                    <a 
+                        href="javascript:;" 
+                        data-uuid="'.$row->uuid.'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                        title="Approve" 
+                        data-uuid="'.$row->uuid.'">
+                        <i class="la la-check"></i>
+                    </a>';
+            }
+
+            if ($row->approve) {
+                $html .= 
+                    '<button 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill history-depreciation"
+                        data-url="'.route('asset.history.depreciation').'?asset_uuid='.$row->uuid.'"
+                        data-uuid="'.$row->uuid.'"
+                        title="History Depreciation">
+                        <i class="fa fa-copy"></i> 
+                    </button>';
+            }
+
+            return $html;
+        })
 		->escapeColumns([])
 		->make(true);
 
@@ -289,8 +330,11 @@ class AssetController extends Controller
      * 
      * @param  date $date_generate ini berisi tanggal kapan asset akan didepresiasikan
      */
-	public function autoJournalDepreciation($date_generate)
+	public function autoJournalDepreciation(Request $request)
 	{
+
+        $date_generate = $request->date_generate;
+
 		$asset = Asset::where('approve', 1)->get();
 
         DB::beginTransaction();
@@ -298,10 +342,7 @@ class AssetController extends Controller
         // looping sebanyak asset yang sudah di approve
         foreach ($asset as $asset_row) {
 
-            $asset_row->put(
-                'date_generate', 
-                Carbon::createFromFormat('Y-m-d', $date_generate)
-            );
+            $asset_row->date_generate = Carbon::createFromFormat('Y-m-d', $date_generate);
 
             // mengambil tanggal approve
             $date_approve = $asset_row
@@ -346,9 +387,9 @@ class AssetController extends Controller
 
             /**
              * pengecekan apakah end_date (date generate) 
-             * lebih kecil dari tanggal laporan journal terakhir atas asset tersebut
+             * lebih kecil sama dengan dari tanggal laporan journal terakhir atas asset tersebut
              */
-            if ($end_date < $start_date) {
+            if ($end_date <= $start_date) {
                 // return response([
                 //     'status' => false,
                 //     'message' => 'Date cannot less than last report ' 
@@ -462,5 +503,16 @@ class AssetController extends Controller
 			$startDate,
 			$endDate
 		];
+    }
+
+    public function historyDepreciation(Request $request)
+    {
+        $asset = Asset::where('uuid', $request->asset_uuid)->firstOrFail();
+
+        $data['journal'] = TrxJournal::where('ref_no', $asset->transaction_number)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('masterassetview::history-depreciation', $data);
     }
 }
