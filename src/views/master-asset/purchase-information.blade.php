@@ -78,9 +78,9 @@
             <div class="col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <label class="form-control-label">
-                    Expense Account
+                    Expense Account @include('label::required')
                 </label>
-                <select name="coaacumulated" class="form-control _accountcode">
+                <select name="coaexpense" class="form-control _accountcode">
                   @if (@$asset->coaexpense)
 
                     <option selected="selected" value="{{@$asset->coaexpense}}">
