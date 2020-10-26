@@ -70,7 +70,7 @@
                 @component('input::text')
                     @slot('text', 'Asset Value')
                     @slot('id', 'asset-account')
-                    @slot('value', $asset->type->coa->code)
+                    @slot('value', $asset->type->coa->name . ' (' . $asset->type->coa->code . ')')
                     @slot('disabled', 'disabled')
                 @endcomponent
               </div>
