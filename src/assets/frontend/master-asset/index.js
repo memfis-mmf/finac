@@ -128,7 +128,7 @@ let MasterAsset = {
         data: data,
         success: function (response) {
           if (response.status) {
-            toastr.success('Generated', 'Success', {
+            toastr.success(response.message, 'Success', {
               timeOut: 2000
             });
 

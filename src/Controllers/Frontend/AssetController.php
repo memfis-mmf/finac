@@ -352,10 +352,15 @@ class AssetController extends Controller
                 ->toDateTimeString();
 
             // set depreciation start (depreciation start sama dengan tanggal approve)
-            $depreciationStart = new Carbon($date_approve);
+            $depreciationStart = Carbon::createFromFormat('Y-m-d H:i:s' ,$date_approve);
             
-            // set depreciation end (deprection end sama dengan depreciation start ditambah bulan useful life)
-			$depreciationEnd = $depreciationStart->addMonths($asset_row->usefullife);
+            /**
+             * set depreciation end (deprection end sama dengan depreciation start ditambah bulan useful life)
+             * disini inisialisasi carbon lagi karena jika menggunakan @var $depreciationStart
+             * @var $deepreciationStart ikut burubah
+             */
+            $depreciationEnd = Carbon::createFromFormat('Y-m-d H:i:s' ,$date_approve)
+                ->addMonths($asset_row->usefullife);
 
             // mecari total hari dari depreciation start sampai depreciation end
 			$day = $depreciationEnd->diffInDays($depreciationStart);
@@ -364,38 +369,26 @@ class AssetController extends Controller
 			$value_per_day = ($asset_row->povalue - $asset_row->salvagevalue) / $day;
             
             // jika tanggal generate lebih besar dari tanggal akhir depreciation
-            if ($asset->date_generate > $depreciationEnd) {
-                // return response([
-                //     'status' => false,
-                //     'message' => 'Date cannot more than depreciation end date '
-                //         . $depreciationEnd->format('Y-m-d')
-                // ], 422);
-
+            if ($asset_row->date_generate > $depreciationEnd) {
                 continue;
             }
 
             // mengambil journal terakhir atas asset
-            $journal = TrxJournal::where('ref_no', $asset->transaction_number)
+            $journal = TrxJournal::where('ref_no', $asset_row->transaction_number)
                 ->orderBy('id', 'desc')
                 ->first();
 
             // set tanggal awal
-            $start_date = Carbon::createFromFormat('Y-m-d', $journal->transaction_date);
+            $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $journal->transaction_date);
 
             // set tanggal akhir
-            $end_date = $asset->date_generate;
+            $end_date = $asset_row->date_generate;
 
             /**
              * pengecekan apakah end_date (date generate) 
              * lebih kecil sama dengan dari tanggal laporan journal terakhir atas asset tersebut
              */
             if ($end_date <= $start_date) {
-                // return response([
-                //     'status' => false,
-                //     'message' => 'Date cannot less than last report ' 
-                //         . $start_date->format('Y-m-d')
-                // ], 422);
-
                 continue;
             }
 
@@ -409,7 +402,12 @@ class AssetController extends Controller
             $this->scheduledJournal($asset_row, $value);
         }
 
-		DB::commit();
+        DB::commit();
+        
+        return response([
+            'status' => true,
+            'message' => 'Depreciation Success'
+        ]);
 	}
 
     /**
@@ -436,7 +434,7 @@ class AssetController extends Controller
         $total_credit = 0;
 
         $detail[] = (object) [
-            'coa_detail' => $asset->coaacumulated->coa->id,
+            'coa_detail' => $asset->coa_accumulate->id,
             'credit' => $value,
             'debit' => 0,
             '_desc' => 'Accm Depr Asset : '
@@ -451,7 +449,7 @@ class AssetController extends Controller
         array_unshift(
             $detail,
             (object) [
-                'coa_detail' => $header->coadepreciation->coa->id,
+                'coa_detail' => $asset->coa_depreciation->id,
                 'credit' => 0,
                 'debit' => $total_credit,
                 '_desc' => 'Asset Depreciation : '
