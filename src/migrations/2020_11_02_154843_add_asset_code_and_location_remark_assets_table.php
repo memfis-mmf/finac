@@ -16,6 +16,10 @@ class AddAssetCodeAndLocationRemarkAssetsTable extends Migration
         Schema::table('assets', function (Blueprint $table) {
             $table->string('asset_code')->nullable();
             $table->string('location_remark')->nullable();
+            $table->string('brandname')
+                ->nullable()
+                ->comment('ini berisi asset location')
+                ->change();
         });
     }
 
