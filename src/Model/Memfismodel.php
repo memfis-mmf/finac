@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MemfisModel extends Model implements Auditable
 {
+    
     use UuidKey;
     use SoftDeletes;
     use Timestampable;
