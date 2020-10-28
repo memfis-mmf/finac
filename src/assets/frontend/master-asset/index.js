@@ -34,7 +34,7 @@ let MasterAsset = {
           return `<a href="${_url}/asset/${row.uuid}">${row.transaction_number}</a>`
         }},
         { data: 'name', defaultContent: '-' },
-        { data: '', defaultContent: '-' }, //refdoc
+        { data: '', defaultContent: '-', searchable: false}, //refdoc
         {
           data: 'povalue', defaultContent: '-', render: function (data, type, row) {
             if (!row.povalue) {
@@ -72,8 +72,8 @@ let MasterAsset = {
         }},
         { data: 'depreciationstart_format', name: 'depreciationstart', defaultContent: '-' },
         { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-' },
-        { data: 'created_by', defaultContent: '-' },
-        { data: 'approved_by', defaultContent: '-' },
+        { data: 'created_by', defaultContent: '-', searchable: false },
+        { data: 'approved_by', defaultContent: '-', searchable: false },
         { data: 'action' }
       ]
     });
