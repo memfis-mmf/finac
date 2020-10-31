@@ -312,7 +312,7 @@
                 } else {
                     //$('#modal_coa').modal('hide');
                     console.log(data.uuid);
-                    toastr.success('Data berhasil disimpan.', 'Sukses', {
+                    toastr.success('Data saved.', 'Sukses', {
                         timeOut: 5000
                     });
                     window.location.replace("/ar/{{$uuid}}/edit");

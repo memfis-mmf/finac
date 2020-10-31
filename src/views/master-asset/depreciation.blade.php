@@ -95,7 +95,7 @@
         <div class="form-group m-form__group row ">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                  Accumulate Depreciation Account
+                  Accumulate Depreciation Account @include('label::required')
                 </label>
                   {{-- @component('input::select2')
                       @slot('class', '_accountcode')
@@ -125,20 +125,20 @@
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                  Depreciation Account
+                  Depreciation Account @include('label::required')
                 </label>
                   {{-- @component('input::select2')
                       @slot('class', '_accountcode')
                       @slot('text', 'Account Code')
-                      @slot('name', 'coaexpense')
-                      @slot('value', @$asset->coa_expense->name.'('.@$asset->coaexpense.')')
+                      @slot('name', 'coadepreciation')
+                      @slot('value', @$asset->coa_depreciation->name.'('.@$asset->coadepreciation.')')
                       @slot('id_error', 'accountcode')
                   @endcomponent --}}
-                  <select name="coaexpense" class="form-control _accountcode">
-                    @if (@$asset->coaexpense)
+                  <select name="coadepreciation" class="form-control _accountcode">
+                    @if (@$asset->coadepreciation)
 
-                      <option selected="selected" value="{{@$asset->coaexpense}}">
-                        {{@$asset->coa_expense->name.' ('.@$asset->coaexpense.')'}}
+                      <option selected="selected" value="{{@$asset->coadepreciation}}">
+                        {{@$asset->coa_depreciation->name.' ('.@$asset->coadepreciation.')'}}
                       </option>
 
                     @endif
@@ -146,8 +146,8 @@
                 {{-- @component('input::inputrightbutton')
                     @slot('id', 'coa_a')
                     @slot('text', 'coa')
-                    @slot('name', 'coaexpense')
-                    @slot('value', @$asset->coaexpense)
+                    @slot('name', 'coadepreciation')
+                    @slot('value', @$asset->coadepreciation)
                     @slot('type', 'text')
                     @slot('style', 'width:100%')
                     @slot('data_target', '#coa_modal_depreciation')
@@ -185,6 +185,7 @@
 
       // select 2 aja for coa
 			$('._accountcode').select2({
+        placeholder: '--Select--',
 			  ajax: {
 			    url: _url+'/journal/get-account-code-select2',
           dataType: 'json',

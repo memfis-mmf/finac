@@ -871,12 +871,15 @@ Route::group(['middleware' => ['web','auth']], function () {
 		);
 	});
 
-	Route::resource(
-		'asset',
-		'memfisfa\Finac\Controllers\Frontend\AssetController',
-		['except' => 'show']
-	);
     Route::prefix('asset')->group(function () {
+		Route::get(
+			'/generate-depreciation',
+			'memfisfa\Finac\Controllers\Frontend\AssetController@autoJournalDepreciation'
+		)->name('asset.depreciation');
+		Route::get(
+			'/history-depreciation',
+			'memfisfa\Finac\Controllers\Frontend\AssetController@historyDepreciation'
+		)->name('asset.history.depreciation');
 		Route::get(
 			'/datatables',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@datatables'
@@ -889,7 +892,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@approve'
 		);
-	});
+    });
+	Route::resource('asset', 'memfisfa\Finac\Controllers\Frontend\AssetController');
 
 	Route::resource(
 		'typeasset',
@@ -1020,6 +1024,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/ar-history-export',
 			'memfisfa\Finac\Controllers\Frontend\FAReportController@arHistoryExport'
 		)->name('fa-report.ar-history-export');
-	});
+    });
+    
+	Route::resource('fixed-asset-disposition', 'memfisfa\Finac\Controllers\Frontend\FixedAssetDispositionController');
 
 });

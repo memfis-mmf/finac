@@ -296,7 +296,7 @@ class TrxJournal extends MemfisModel
 
 			$x = $detail[$i];
 
-			if ($x->debit != 0 || $x->credit != 0) {
+			// if ($x->debit != 0 || $x->credit != 0) {
 
 				TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
@@ -307,7 +307,7 @@ class TrxJournal extends MemfisModel
 					'description' => $x->_desc
 				]);
 
-			}
+			// }
 
 			$total_credit += $x->credit;
 			$total_debit += $x->debit;

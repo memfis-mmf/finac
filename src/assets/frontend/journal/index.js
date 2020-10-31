@@ -367,7 +367,7 @@ let Journal = {
                     } else {
                         $('#modal_coa').modal('hide');
 
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                        toastr.success('Data saved.', 'Sukses', {
                             timeOut: 5000
                         });
 
@@ -470,7 +470,7 @@ let Journal = {
                         save_button();
                         $('#modal_coa').modal('hide');
 
-                        toastr.success('Data berhasil disimpan.', 'Sukses', {
+                        toastr.success('Data saved.', 'Sukses', {
                             timeOut: 5000
                         });
 
@@ -513,7 +513,7 @@ let Journal = {
                         type: 'DELETE',
                         url: '/journal/' + triggerid + '',
                         success: function (data) {
-                            toastr.success('AR has been deleted.', 'Deleted', {
+                            toastr.success('Data has been deleted.', 'Deleted', {
                                     timeOut: 5000
                                 }
                             );

@@ -9,6 +9,7 @@
     placeholder="{{ $placeholder or '' }}"
     {{$editable or ''}}
     {{$readonly or ''}}
+    {{ (@$disabled)? 'disabled="disabled"': '' }}
 >
 
 <div class="form-control-feedback text-danger" id="{{ $id_error or '' }}-error"></div>

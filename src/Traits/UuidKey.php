@@ -2,7 +2,7 @@
 namespace memfisfa\Finac\Traits;
 use Ramsey\Uuid\Uuid;
 
-trait Uuidkey
+trait UuidKey
 {
     /**
      * Boot the Uuid trait for the model.

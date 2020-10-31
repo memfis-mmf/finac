@@ -109,7 +109,7 @@
                     <div class="form-group m-form__group row ">
                       <div class="col-sm-6 col-md-6 col-lg-6">
                         <label class="form-control-label">
-                          Term Of Payment
+                          Term Of Payment @include('label::required')
                         </label>
 
                         @component('input::number')
@@ -131,6 +131,7 @@
                         @slot('name', 'valid_until')
                         @slot('id_error', 'valid_until')
                         @slot('value', $data->due_date)
+                        @slot('disabled', 'disabled')
                         @endcomponent
                       </div>
                     </div>
@@ -284,5 +285,33 @@
 
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/supplier-invoice/grn/edit.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('body').on('input', '#term_of_payment', function() {
+			let date = new Date($('[name=transaction_date]').val());
+
+			console.log([
+				date,
+				$(this).val()
+			]);
+
+			if (parseInt($(this).val())) {
+				date.setDate(date.getDate() + parseInt($(this).val()));
+
+	      $('#valid_until').val(date.toInputFormat());
+			}else{
+	      $('#valid_until').val('');
+			}
+
+		});
+
+		Date.prototype.toInputFormat = function() {
+       var yyyy = this.getFullYear().toString();
+       var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+       var dd  = this.getDate().toString();
+       return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
+    };
+	})
+</script>
 
 @endpush

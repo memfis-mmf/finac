@@ -75,7 +75,7 @@ let Bond = {
             type: 'DELETE',
             url: '/bond/' + triggerid + '',
             success: function (data) {
-              toastr.success('AR has been deleted.', 'Deleted', {
+              toastr.success('Data has been deleted.', 'Deleted', {
                 timeOut: 5000
               }
               );
@@ -124,7 +124,7 @@ let Bond = {
 
 
           } else {
-            toastr.success('Data berhasil disimpan.', 'Sukses', {
+            toastr.success('Data saved.', 'Sukses', {
               timeOut: 5000
             });
 

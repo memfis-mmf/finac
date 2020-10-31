@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use DB;
 use Auth;
 use DataTables;
+use memfisfa\Finac\Model\Coa;
 
 class AssetController extends Controller
 {
@@ -49,32 +50,69 @@ class AssetController extends Controller
     public function store(Request $request)
     {
 		$request->request->add([
-			'transaction_number' => Asset::generateCode()
+            'transaction_number' => Asset::generateCode(),
+            'povalue' => 0,
+            'coaexpense' => Coa::find(214)->code
 		]);
 
         $asset = Asset::create($request->all());
         return response()->json($asset);
     }
 
+    public function show($uuid)
+    {
+        $asset = Asset::where('uuid', $uuid)->firstOrFail();
+        $data = [
+            'asset' => $asset,
+            'type_asset' => TypeAsset::all(),
+            'company' => Department::with(['type', 'parent'])->get(),
+            'page' => 'show'
+        ];
+
+        return view('masterassetview::edit', $data);
+    }
+
     public function edit(Request $request)
     {
-		$data['asset'] = Asset::where('uuid', $request->asset)->with([
+		$asset = Asset::where('uuid', $request->asset)->with([
 			'type',
-		])->first();
+        ])->first();
 
-		$data['type_asset'] = TypeAsset::all();
+        if (!$asset->coaexpense) {
+            Asset::where('id', $asset->id)
+                ->update([
+                    'coaexpense' => Coa::find(214)->code
+                ]);
+        }
 
-        $collection = collect();
-        $departments = Department::with('type','parent')->get();
-        $data['company'] = $departments;
+        $data = [
+            'asset' => $asset,
+            'type_asset' => TypeAsset::all(),
+            'company' => Department::with('type','parent')->get()
+        ];
 
         return view('masterassetview::edit', $data);
     }
 
     public function update(Request $request)
     {
+        $request->validate(
+            [
+                'name' => 'required',
+                'usefullife' => 'required|numeric|min:1',
+                'povalue' => 'required|numeric|min:1',
+                'coaexpense' => 'required|numeric',
+                'coaacumulated' => 'required|numeric',
+                'coadepreciation' => 'required|numeric',
+            ],
+            [
+                'povalue.min' => 'Asset value must be at least 1',
+                'coaacumulated.required' => 'Accumulate Depreciation Account cannot be empty',
+                'coadepreciation.required' => 'Depreciation Account cannot be empty',
+            ]
+        );
+
 		$asset_tmp = Asset::where('uuid', $request->asset);
-		$asset = $asset_tmp->first();
 
 		$request->request->add([
 			'warrantystart' => $this->convertDate(
@@ -101,15 +139,19 @@ class AssetController extends Controller
 			'povalue',
 			'salvagevalue',
 			'usefullife',
-			'coaacumulated',
 			'coaexpense',
+			'coaacumulated',
+			'coadepreciation',
 			'warrantystart',
 			'warrantyend',
 		];
 
         $asset_tmp->update($request->only($list));
 
-        return response()->json($asset);
+        return [
+            'status' => true,
+            'message' => 'Data saved'
+        ];
     }
 
     public function destroy(Asset $asset)
@@ -134,13 +176,56 @@ class AssetController extends Controller
     public function datatables()
     {
 		$data = Asset::with([
-			'type',
-			'type.coa',
-			'coa_accumulate',
-			'coa_expense',
-		]);
+                'type',
+                'type.coa',
+                'coa_accumulate',
+                'coa_depreciation',
+                'coa_expense',
+            ])
+            ->select('assets.*');
 
         return DataTables::of($data)
+        ->addColumn('action', function($row) {
+            $html = '';
+            if (!$row->approve) {
+                $html .= 
+                    '<a 
+                        href="'.route('asset.edit', $row->uuid).'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                        title="Edit" 
+                        data-uuid="'.$row->uuid.'"> 
+                        <i class="la la-pencil"></i> 
+                    </a>
+                    <a 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                        href="#" 
+                        data-uuid="'.$row->uuid.'"
+                        title="Delete">
+                        <i class="la la-trash"></i> 
+                    </a>
+                    <a 
+                        href="javascript:;" 
+                        data-uuid="'.$row->uuid.'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                        title="Approve" 
+                        data-uuid="'.$row->uuid.'">
+                        <i class="la la-check"></i>
+                    </a>';
+            }
+
+            if ($row->approve) {
+                $html .= 
+                    '<button 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill history-depreciation"
+                        data-url="'.route('asset.history.depreciation').'?asset_uuid='.$row->uuid.'"
+                        data-uuid="'.$row->uuid.'"
+                        title="History Depreciation">
+                        <i class="fa fa-copy"></i> 
+                    </button>';
+            }
+
+            return $html;
+        })
 		->escapeColumns([])
 		->make(true);
 
@@ -172,7 +257,7 @@ class AssetController extends Controller
 			$total_credit = 0;
 
 			$detail[] = (object) [
-				'coa_detail' => 214, // coa : 31121001
+				'coa_detail' => $asset->coa_expense->id, // coa : 31121001
 				'credit' => $asset->povalue,
 				'debit' => 0,
 				'_desc' => 'Fixed Asset : '
@@ -197,7 +282,6 @@ class AssetController extends Controller
 
 			Asset::where('id', $asset->id)->update([
 				'approve' => 1,
-				'count_journal_report' => 1
 			]);
 
 			$depreciationStart = new Carbon($date_approve);
@@ -237,130 +321,169 @@ class AssetController extends Controller
 			$data['errors'] = $e;
 
 			return response()->json($data);
-		}
+        }
 
     }
 
+    /**
+     * fungsi untuk autojournal depreciation
+     * 
+     * @param  date $date_generate ini berisi tanggal kapan asset akan didepresiasikan
+     */
 	public function autoJournalDepreciation(Request $request)
 	{
+
+        $date_generate = $request->date_generate;
+
 		$asset = Asset::where('approve', 1)->get();
 
-		DB::beginTransaction();
+        DB::beginTransaction();
+        
+        // looping sebanyak asset yang sudah di approve
+        foreach ($asset as $asset_row) {
 
-		for ($index_asset=0; $index_asset < $asset; $index_asset++) {
-			$arr = $asset[$index_asset];
+            $asset_row->date_generate = Carbon::createFromFormat('Y-m-d', $date_generate);
 
-			$date_approve = $arr->approvals->first()
-			->created_at->toDateTimeString();
+            // mengambil tanggal approve
+            $date_approve = $asset_row
+                ->approvals
+                ->first()
+                ->created_at
+                ->toDateTimeString();
 
-			$depreciationStart = new Carbon($date_approve);
-			$depreciationEnd = $depreciationStart->addMonths($arr->usefullife);
+            // set depreciation start (depreciation start sama dengan tanggal approve)
+            $depreciationStart = Carbon::createFromFormat('Y-m-d H:i:s' ,$date_approve);
+            
+            /**
+             * set depreciation end (deprection end sama dengan depreciation start ditambah bulan useful life)
+             * disini inisialisasi carbon lagi karena jika menggunakan @var $depreciationStart
+             * @var $deepreciationStart ikut burubah
+             */
+            $depreciationEnd = Carbon::createFromFormat('Y-m-d H:i:s' ,$date_approve)
+                ->addMonths($asset_row->usefullife);
 
-			$day = $depreciationEnd->diff($depreciationStart)->days;
+            // mecari total hari dari depreciation start sampai depreciation end
+			$day = $depreciationEnd->diffInDays($depreciationStart);
 
-			$value_per_day = ($arr->povalue - $arr->salvagevalue) / $day;
+            // set value per hari
+			$value_per_day = ($asset_row->povalue - $asset_row->salvagevalue) / $day;
+            
+            // jika tanggal generate lebih besar dari tanggal akhir depreciation
+            if ($asset_row->date_generate > $depreciationEnd) {
+                continue;
+            }
 
-			$last_day_this_month = new Carbon('last day of this month');
-			$first_day_this_month = new Carbon('first day of this month');
+            // mengambil journal terakhir atas asset
+            $journal = TrxJournal::where('ref_no', $asset_row->transaction_number)
+                ->orderBy('id', 'desc')
+                ->first();
 
-			if (Carbon::now() != $depreciationEnd) {
-				if (Carbon::now() == $last_day_this_month) {
-					$this->scheduledJournal($arr, $value_per_day);
-				}
-			}else{
-				$value_last_count = $depreciationEnd
-				->diff($first_day_this_month)
-				->days * $value_per_day;
+            // set tanggal awal
+            $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $journal->transaction_date);
 
-				$this->scheduledJournal($arr, $value_last_count);
-			}
-		}
+            // set tanggal akhir
+            $end_date = $asset_row->date_generate;
 
-		DB::commit();
+            /**
+             * pengecekan apakah end_date (date generate) 
+             * lebih kecil sama dengan dari tanggal laporan journal terakhir atas asset tersebut
+             */
+            if ($end_date <= $start_date) {
+                continue;
+            }
+
+            // mencari seilish hari
+            $diff_date = $start_date->diffInDays($end_date);
+
+            // total nilai atas selisih hari
+            $value = $diff_date * $value_per_day;
+
+            // melakukan penjurnalan
+            $this->scheduledJournal($asset_row, $value);
+        }
+
+        DB::commit();
+        
+        return response([
+            'status' => true,
+            'message' => 'Depreciation Success'
+        ]);
 	}
 
+    /**
+     * fungsi untuk skeduling journal
+     * 
+     * @param collection $asset berisi collection dari asset
+     * @param bigInteger $value berisi value (harga)
+     */
 	public function scheduledJournal($asset, $value)
     {
-		DB::beginTransaction();
-		try {
+        DB::beginTransaction();
 
-	        $asset->approvals()->save(new Approval([
-	            'approvable_id' => $asset->id,
-	            'is_approved' => 0,
-	            'conducted_by' => Auth::id(),
-	        ]));
+        $asset->approvals()->save(new Approval([
+            'approvable_id' => $asset->id,
+            'conducted_by' => Auth::id(),
+        ]));
 
-			$date_approve = $asset->approvals->first()
-			->created_at->toDateTimeString();
+        $header = (object) [
+            'voucher_no' => $asset->transaction_number,
+            'transaction_date' => $asset->date_generate,
+            'coa' => $asset->category->coa->id,
+        ];
 
-			$header = (object) [
-				'voucher_no' => $asset->transaction_number,
-				'transaction_date' => $date_approve,
-				'coa' => $asset->category->coa->id,
-			];
+        $total_credit = 0;
 
-			$total_credit = 0;
+        $detail[] = (object) [
+            'coa_detail' => $asset->coa_accumulate->id,
+            'credit' => $value,
+            'debit' => 0,
+            '_desc' => 'Accm Depr Asset : '
+                .$asset->name
+                .($asset->count_journal_report+1).
+            'Month Depreciation',
+        ];
 
-			$detail[] = (object) [
-				'coa_detail' => $asset->coaacumulated->coa->id,
-				'credit' => $value,
-				'debit' => 0,
-				'_desc' => 'Accm Depr Asset : '
-				.$asset->name
-				.($asset->count_journal_report+1).
-				'Month Depreciation',
-			];
+        $total_credit += $detail[count($detail)-1]->credit;
 
-			$total_credit += $detail[count($detail)-1]->credit;
+        // add object in first array $detai
+        array_unshift(
+            $detail,
+            (object) [
+                'coa_detail' => $asset->coa_depreciation->id,
+                'credit' => 0,
+                'debit' => $total_credit,
+                '_desc' => 'Asset Depreciation : '
+                .$asset->name
+                .($asset->count_journal_report+1).
+                'Month Depreciation',
+            ]
+        );
 
-			// add object in first array $detai
-			array_unshift(
-				$detail,
-				(object) [
-					'coa_detail' => $header->coaexpense->coa->id,
-					'credit' => 0,
-					'debit' => $total_credit,
-					'_desc' => 'Asset Depreciation : '
-					.$asset->name
-					.($asset->count_journal_report+1).
-					'Month Depreciation',
-				]
-			);
+        Asset::where('id', $asset->id)->update([
+            'approve' => 1,
+            'count_journal_report' => $asset->count_journal_report+1
+        ]);
 
-			Asset::where('id', $asset->id)->update([
-				'approve' => 1,
-				'count_journal_report' => $asset->count_journal_report+1
-			]);
+        $autoJournal = TrxJournal::autoJournal(
+            $header,
+            $detail,
+            'PRJR',
+            'GJV'
+        );
 
-			$autoJournal = TrxJournal::autoJournal(
-				$header,
-				$detail,
-				'PRJR',
-				'GJV'
-			);
+        if (!$autoJournal['status']) {
+            return response([
+                'status' => false,
+                'message' => 'Something went wrong'
+            ], 422);
+        }
 
-			if ($autoJournal['status']) {
+        DB::commit();
 
-				DB::commit();
-
-			}else{
-
-				DB::rollBack();
-				return response()->json([
-					'errors' => $autoJournal['message']
-				]);
-			}
-
-	        return response()->json($asset);
-
-		} catch (\Exception $e) {
-
-			DB::rollBack();
-
-			$data['errors'] = $e->getMessage();
-
-			return response()->json($data);
-		}
+        return response([
+            'status' => true,
+            'message' => 'Generate success'
+        ]);
 
     }
 
@@ -378,5 +501,16 @@ class AssetController extends Controller
 			$startDate,
 			$endDate
 		];
+    }
+
+    public function historyDepreciation(Request $request)
+    {
+        $asset = Asset::where('uuid', $request->asset_uuid)->firstOrFail();
+
+        $data['journal'] = TrxJournal::where('ref_no', $asset->transaction_number)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('masterassetview::history-depreciation', $data);
     }
 }

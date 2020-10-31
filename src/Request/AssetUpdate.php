@@ -51,7 +51,7 @@ class AssetUpdate extends FormRequest
             'depreciationstart' => 'required',
             'depreciationend' => 'required',
             'coaacumulated' => 'required',
-            'coaexpense' => 'required',
+            'coadepreciation' => 'required',
             'usestatus' => 'required',
             'description' => 'required',
         ];
