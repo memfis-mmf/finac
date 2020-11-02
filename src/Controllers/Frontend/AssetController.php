@@ -13,6 +13,7 @@ use App\Models\Currency;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Approval;
+use App\Models\GoodsReceived;
 use Carbon\Carbon;
 use DB;
 use Auth;
@@ -516,5 +517,48 @@ class AssetController extends Controller
             ->get();
 
         return view('masterassetview::history-depreciation', $data);
+    }
+
+    public function select2GetGRN(Request $request)
+    {
+        $grn = GoodsReceived::whereHas('items.categories', function($categories) {
+                $categories->where('code', 'tool');
+            })
+            ->has('approvals')
+            ->where('number', 'like', "%$request->q%")
+            ->limit(100)
+            ->get();
+
+        $data['results'] = [];
+        foreach ($grn as $grn_row) {
+            $data['results'][] = [
+                'id' => $grn_row->number,
+                'text' => $grn_row->number,
+            ];
+        }
+
+        return $data;
+    }
+
+    public function getGRNInfo(Request $request)
+    {
+        $grn = GoodsReceived::with([
+                'purchase_order.vendor',
+            ])
+            ->where('number', $request->grnno)
+            ->first();
+
+        if (!$grn) {
+            return [
+                'status' => false,
+                'message' => 'GRN not found'
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => 'GRN found',
+            'data' => $grn
+        ];
     }
 }

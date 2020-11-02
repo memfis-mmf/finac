@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use memfisfa\Finac\Model\MemfisModel;
 use App\User;
 use App\Models\Approval;
+use App\Models\GoodsReceived;
 use Carbon\Carbon;
 
 class Asset extends MemfisModel
@@ -129,7 +130,12 @@ class Asset extends MemfisModel
 	public function category()
 	{
 		return $this->belongsTo(TypeAsset::class, 'asset_category_id');
-	}
+    }
+    
+    public function grn()
+    {
+        return $this->belongsTo(GoodsReceived::class, 'grnno', 'number');
+    }
 
 	static public function generateCode($code = "FAMS")
 	{

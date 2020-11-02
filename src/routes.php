@@ -891,7 +891,15 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@approve'
-		);
+        );
+        Route::get(
+            '/select2-grn',
+			'memfisfa\Finac\Controllers\Frontend\AssetController@select2GetGRN'
+        )->name('asset.select.grn');
+        Route::get(
+            '/get-grn-info',
+			'memfisfa\Finac\Controllers\Frontend\AssetController@getGRNInfo'
+        )->name('asset.grn.info');
     });
 	Route::resource('asset', 'memfisfa\Finac\Controllers\Frontend\AssetController');
 
