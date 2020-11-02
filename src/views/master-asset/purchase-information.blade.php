@@ -12,7 +12,7 @@
             @if (@$asset->grnno)
 
             <option selected="selected" value="{{@$asset->grnno}}">
-              {{@$asset->grn->number}}
+              {{@$asset->grnno}}
             </option>
 
             @endif
@@ -31,6 +31,9 @@
           @slot('name', 'pono')
           @slot('value', $asset->pono)
           @slot('id_error', 'purchase_order_number')
+          @if ($asset->grn)
+            @slot('readonly', 'readonly')
+          @endif
           @endcomponent
         </div>
       </div>
@@ -46,6 +49,9 @@
           @slot('name', 'supplier')
           @slot('value', $asset->supplier)
           @slot('id_error', 'supplier_name')
+          @if ($asset->grn)
+            @slot('readonly', 'readonly')
+          @endif
           @endcomponent
         </div>
       </div>
@@ -113,16 +119,24 @@
       $(document).on('change', '[name=grnno]', function () {
         let val = $(this).val();
 
+        $('[name=pono]').removeAttr('readonly')
+        $('[name=pono]').val('')
+
+        $('[name=supplier]').removeAttr('readonly')
+        $('[name=supplier]').val('')
+
         $.ajax({
           type: "get",
           url: "{{ route('asset.grn.info') }}/?grnno=" + val,
           dataType: "json",
           success: function (response) {
             if (response.status) {
-              $('[name=pono]').val(response.purchase_order.number)
+              data = response.data;
+
+              $('[name=pono]').val(data.purchase_order.number)
               $('[name=pono]').attr('readonly', 'readonly')
 
-              $('[name=supplier]').val(response.purchase_order.vendor.full_name)
+              $('[name=supplier]').val(data.purchase_order.vendor.name)
               $('[name=supplier]').attr('readonly', 'readonly')
             }
           }
