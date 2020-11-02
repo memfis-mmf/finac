@@ -30,13 +30,13 @@
         <div class="form-group m-form__group row ">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                    Brand Name
+                  Asset Location
                 </label>
 
                 @component('input::text')
                     @slot('id', 'brand_name')
                     @slot('text', 'Brand Name')
-                    @slot('name', 'brandname')
+                    @slot('name', 'brandname') // ini namanya aja brandname tapi isinya asset location
                     @slot('value', $asset->brandname)
                     @slot('id_error', 'brand_name')
                 @endcomponent
@@ -112,6 +112,32 @@
 									@endfor
 								</select>
             </div>
+        </div>
+        <div class="form-group m-form__group row ">
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <label class="form-control-label">
+              Asset Code
+            </label>
+            @component('input::text')
+              @slot('id', 'asset_code')
+              @slot('text', 'Asset Code')
+              @slot('name', 'asset_code') // ini namanya aja brandname tapi isinya asset location
+              @slot('value', $asset->asset_code)
+              @slot('id_error', 'asset_code')
+            @endcomponent
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <label class="form-control-label">
+              Location Remark
+            </label>
+            @component('input::text')
+              @slot('id', 'location_remark')
+              @slot('text', 'Location Remark')
+              @slot('name', 'location_remark') // ini namanya aja brandname tapi isinya asset location
+              @slot('value', $asset->location_remark)
+              @slot('id_error', 'location_remark')
+            @endcomponent
+          </div>
         </div>
     </div>
 </div>

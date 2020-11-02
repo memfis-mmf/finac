@@ -49,10 +49,12 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+        $typeasset = TypeAsset::find($request->asset_category_id);
 		$request->request->add([
             'transaction_number' => Asset::generateCode(),
             'povalue' => 0,
-            'coaexpense' => Coa::find(214)->code
+            'coaexpense' => Coa::find(214)->code,
+            'usefullife' => $typeasset->usefullife
 		]);
 
         $asset = Asset::create($request->all());
@@ -99,14 +101,14 @@ class AssetController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'usefullife' => 'required|numeric|min:1',
-                'povalue' => 'required|numeric|min:1',
+                'usefullife' => 'required|numeric',
+                'povalue' => 'required|numeric',
                 'coaexpense' => 'required|numeric',
                 'coaacumulated' => 'required|numeric',
                 'coadepreciation' => 'required|numeric',
             ],
             [
-                'povalue.min' => 'Asset value must be at least 1',
+                'povalue.required' => 'Asset Value cannot be empty',
                 'coaacumulated.required' => 'Accumulate Depreciation Account cannot be empty',
                 'coadepreciation.required' => 'Depreciation Account cannot be empty',
             ]
@@ -144,6 +146,8 @@ class AssetController extends Controller
 			'coadepreciation',
 			'warrantystart',
 			'warrantyend',
+            'asset_code',
+            'location_remark',
 		];
 
         $asset_tmp->update($request->only($list));
