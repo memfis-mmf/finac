@@ -109,9 +109,9 @@ class AssetController extends Controller
                 'coadepreciation' => 'required|numeric',
             ],
             [
-                'povalue.required' => 'Asset Value cannot be empty',
-                'coaacumulated.required' => 'Accumulate Depreciation Account cannot be empty',
-                'coadepreciation.required' => 'Depreciation Account cannot be empty',
+                'povalue.required' => 'Asset value field is required',
+                'coaacumulated.required' => 'Accumulate Depreciation Account field is required',
+                'coadepreciation.required' => 'Depreciation Account field is required',
             ]
         );
 
