@@ -1034,6 +1034,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 		)->name('fa-report.ar-history-export');
     });
     
-	Route::resource('fixed-asset-disposition', 'memfisfa\Finac\Controllers\Frontend\FixedAssetDispositionController');
+    Route::resource('fixed-asset-disposition', 'memfisfa\Finac\Controllers\Frontend\FixedAssetDispositionController');
+    
+    Route::resource('credit-note', 'memfisfa\Finac\Controllers\Frontend\CreditNoteController');
 
 });
