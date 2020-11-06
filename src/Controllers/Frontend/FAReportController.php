@@ -56,8 +56,25 @@ class FAReportController extends Controller
                         ->where('approve', true);
                 }
             ])
-            ->whereHas('invoice', function($invoice) {
+            ->whereHas('invoice', function($invoice) use($request) {
                 $invoice->where('approve', true);
+
+                if ($request->customer) {
+                    $invoice = $invoice->where('id_customer', $request->customer);
+                }
+
+                if ($request->department) {
+                    $department = Department::where('uuid', $request->department)->first();
+                    $invoice = $invoice->where('company_department', $department->name);
+                }
+                
+                if ($request->location) {
+                    $invoice = $invoice->where('location', $request->location);
+                }
+
+                if ($request->currency) {
+                    $invoice = $invoice->where('currency', $request->currency);
+                }
             })
             ->get();
 
