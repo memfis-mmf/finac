@@ -79,7 +79,7 @@
                     <tr>
                       <td width="12%" valign="top">MMF Department</td>
                       <td width="1%" valign="top">:</td>
-                      <td width="77%" valign="top">{{ $request->department ?? 'All' }}</td>
+                      <td width="77%" valign="top">{{ $department ?? 'All' }}</td>
                     </tr>
                     <tr>
                       <td>MMF Location</td>
@@ -89,7 +89,7 @@
                     <tr>
                       <td>Currency</td>
                       <td>:</td>
-                      <td>{{ $request->currency ?? 'All' }}</td>
+                      <td>{{ $currency ?? 'All' }}</td>
                     </tr>
                   </table>
                 </div>

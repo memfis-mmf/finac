@@ -47,6 +47,14 @@ class FAReportController extends Controller
     {
         $date = $this->convertDate($request->daterange);
 
+        if ($request->department) {
+            $department = Department::where('uuid', $request->department)->first();
+        }
+
+        if ($request->currency) {
+            $currency = Currency::find($request->currency);
+        }
+
         $customer = Customer::with([
                 'invoice' => function($invoice) {
                     $invoice
@@ -56,7 +64,7 @@ class FAReportController extends Controller
                         ->where('approve', true);
                 }
             ])
-            ->whereHas('invoice', function($invoice) use($request) {
+            ->whereHas('invoice', function($invoice) use($request, $department) {
                 $invoice->where('approve', true);
 
                 if ($request->customer) {
@@ -64,7 +72,6 @@ class FAReportController extends Controller
                 }
 
                 if ($request->department) {
-                    $department = Department::where('uuid', $request->department)->first();
                     $invoice = $invoice->where('company_department', $department->name);
                 }
                 
@@ -81,7 +88,9 @@ class FAReportController extends Controller
         $data = [
             'customer' => $customer,
             'date' => $date,
-            'request' => $request
+            'request' => $request,
+            'department' => $department->name ?? NULL,
+            'currency' => $currency->name ?? NULL
         ];
 
         return $data;
