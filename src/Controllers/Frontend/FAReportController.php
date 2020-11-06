@@ -61,8 +61,6 @@ class FAReportController extends Controller
             })
             ->get();
 
-        dd($customer->toArray()[3]['invoice'][0]['ar_amount']);
-
         $data = [
             'customer' => $customer,
             'date' => $date,

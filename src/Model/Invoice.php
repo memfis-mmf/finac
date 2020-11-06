@@ -19,6 +19,7 @@ class Invoice extends MemfisModel
 
 	protected $appends = [
         'ar_amount',
+        'ending_balance',
 		'date',
 		'approved_by',
 		'report_subtotal',
@@ -39,7 +40,8 @@ class Invoice extends MemfisModel
     {
         $ara = $this->ara()->whereHas('ar', function($ar) {
                 $ar->where('approve', true);
-            });
+            })
+            ->get();
 
         $debit = 0;
         $debit_idr = 0;
@@ -59,6 +61,16 @@ class Invoice extends MemfisModel
             'debit_idr' => $debit_idr,
             'credit' => $credit,
             'credit_idr' => $credit_idr,
+        ];
+
+        return $result;
+    }
+
+    public function getEndingBalanceAttribute()
+    {
+        $result = [
+            'amount' => $this->grandtotalforeign - $this->ar_amount['credit'],
+            'amount_idr' => $this->grandtotal - $this->ar_amount['credit_idr'],
         ];
 
         return $result;
