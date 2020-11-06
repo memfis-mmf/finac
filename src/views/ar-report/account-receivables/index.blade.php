@@ -140,7 +140,7 @@
                           <tr style="font-size:8.4pt;" class="nowrap">
                             <td width="" align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
                             <td width="" align="center" valign="top">{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
-                            <td width="" align="left" valign="top">{{ $invoice_row->quotations->number }}</td>
+                            <td width="" align="left" valign="top">{{ $invoice_row->quotations->number ?? '-' }}</td>
                             <td width="" align="left" valign="top">Rp {{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
                             {{-- <td width="" align="left" valign="top">{!! $invoice_row->description !!}</td> --}}
                             <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->subtotal, 2, ',', '.') }}</td>
