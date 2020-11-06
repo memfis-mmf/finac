@@ -22,7 +22,6 @@ use App\Models\HtCrr;
 use App\Models\ListUtil;
 use App\Models\WorkPackage;
 use App\Models\QuotationHtcrrItem;
-use App\Models\Pivots\ProjectWorkPackage;
 use App\Models\Pivots\QuotationWorkPackage;
 use App\Models\ProjectWorkPackageEOInstruction;
 use App\Models\ProjectWorkPackageFacility;
@@ -34,6 +33,7 @@ use App\Models\Type;
 use App\Models\Company;
 use App\Models\Department;
 use App\Helpers\CalculateQuoPrice;
+use App\Models\Pivots\ProjectWorkpackage;
 use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\Trxinvoice;
 use memfisfa\Finac\Model\TrxJournal;
@@ -155,6 +155,7 @@ class InvoiceController extends Controller
 
         // calculate
 
+        // total sebelum dihitung-hitung
         $subtotal_val = $request->subtotal_val;
         $discount_val = $request->discount_val;
         $discount_percent_val = 0;
@@ -169,6 +170,7 @@ class InvoiceController extends Controller
         if ($tax_total_val) {
             $tax_percent_val = ($tax_total_val / $total_val) * 100;
         }
+        // total setelah dihitung-hitung (vat, discount, dll)
         $grandtotal_val = $request->grandtotal_val;
         $grandtotal_rp_val = $request->grandtotalrp_val;
 
@@ -896,7 +898,7 @@ class InvoiceController extends Controller
         // looping sebanyak workpacke yang ada di invoice
         foreach ($workpackages as $workPackage) {
             // get project workpackage
-            $project_workpackage = ProjectWorkPackage::where('project_id', $quotation->quotationable->id)
+            $project_workpackage = ProjectWorkpackage::where('project_id', $quotation->quotationable->id)
                 ->where('workpackage_id', $workPackage->id)
                 ->first();
 
