@@ -217,6 +217,7 @@ class TrialBalanceController extends Controller
 		];
 
         $pdf = \PDF::loadView('formview::trial-balance', $data);
+		$pdf->setPaper('A4', 'landscape');
         return $pdf->stream();
 	}
 
