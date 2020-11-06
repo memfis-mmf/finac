@@ -102,13 +102,13 @@
 
                             @include('arreport-agingview::modal')
 
-                            {{-- Account Recivables History --}}
+                            {{-- Account Receivables History --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5 pt-5">
                                     <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_account_rh" data-toggle="modal">
                                         <span>
                                         <i class="la la-file-o btn-icon"></i>
-                                            <span><h3>Account Recivables History</h3></span>
+                                            <span><h3>Account Receivables History</h3></span>
                                             <span>Shows report of receivables customer</span>
                                         </span>
                                     </button>
@@ -126,7 +126,7 @@
                                         <span>
                                         <i class="la la-file-o btn-icon"></i>
                                             <span><h3>Invoice Paid</h3></span>
-                                            <span>Shows detailed transaction of account recivables</span>
+                                            <span>Shows detailed transaction of account receivables</span>
                                         </span>
                                     </button>
                                 </div>

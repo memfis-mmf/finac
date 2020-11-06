@@ -89,7 +89,7 @@
                     <tr>
                       <td>Currency</td>
                       <td>:</td>
-                      <td>{{ $currency ?? '-' }}</td>
+                      <td>{{ $currency ?? 'All' }}</td>
                     </tr>
                   </table>
                 </div>
