@@ -79,17 +79,17 @@
                     <tr>
                       <td width="12%" valign="top">MMF Department</td>
                       <td width="1%" valign="top">:</td>
-                      <td width="77%" valign="top">{{ $department ?? 'All' }}</td>
+                      <td width="77%" valign="top">{{ $department ?? '-' }}</td>
                     </tr>
                     <tr>
                       <td>MMF Location</td>
                       <td>:</td>
-                      <td style="text-transform: capitalize">{{ $request->location ?? 'All' }}</td>
+                      <td style="text-transform: capitalize">{{ $request->location ?? '-' }}</td>
                     </tr>
                     <tr>
                       <td>Currency</td>
                       <td>:</td>
-                      <td>{{ $currency ?? 'All' }}</td>
+                      <td>{{ $currency ?? '-' }}</td>
                     </tr>
                   </table>
                 </div>

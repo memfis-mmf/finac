@@ -47,13 +47,9 @@ class FAReportController extends Controller
     {
         $date = $this->convertDate($request->daterange);
 
-        if ($request->department) {
-            $department = Department::where('uuid', $request->department)->first();
-        }
+        $department = Department::where('uuid', $request->department)->first();
 
-        if ($request->currency) {
-            $currency = Currency::find($request->currency);
-        }
+        $currency = Currency::find($request->currency);
 
         $customer = Customer::with([
                 'invoice' => function($invoice) {
