@@ -60,8 +60,9 @@ class FAReportController extends Controller
                         ->where('approve', true);
                 }
             ])
-            ->whereHas('invoice', function($invoice) use($request, $department) {
-                $invoice->where('approve', true);
+            ->whereHas('invoice', function($invoice) use($request, $department, $date) {
+                $invoice->where('approve', true)
+                    ->whereBetween('transactiondate', $date);
 
                 if ($request->customer) {
                     $invoice = $invoice->where('id_customer', $request->customer);
