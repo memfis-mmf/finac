@@ -50,7 +50,9 @@ class FAReportController extends Controller
         $customer = Customer::with([
                 'invoice' => function($invoice) {
                     $invoice
-                        ->with(['ara'])
+                        ->with([
+                            'quotations:id,number'
+                        ])
                         ->where('approve', true);
                 }
             ])
@@ -59,8 +61,12 @@ class FAReportController extends Controller
             })
             ->get();
 
+        dd($customer->toArray()[3]['invoice'][0]['ar_amount']);
+
         $data = [
-            'customer' => $customer
+            'customer' => $customer,
+            'date' => $date,
+            'request' => $request
         ];
 
         return $data;

@@ -18,6 +18,7 @@ class Invoice extends MemfisModel
     protected $guarded = [];
 
 	protected $appends = [
+        'ar_amount',
 		'date',
 		'approved_by',
 		'report_subtotal',
@@ -32,6 +33,35 @@ class Invoice extends MemfisModel
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
+    }
+
+    public function getArAmountAttribute()
+    {
+        $ara = $this->ara()->whereHas('ar', function($ar) {
+                $ar->where('approve', true);
+            });
+
+        $debit = 0;
+        $debit_idr = 0;
+        $credit = 0;
+        $credit_idr = 0;
+
+        $result = [];
+        foreach ($ara as $ara_row) {
+            $debit += $ara_row->debit;
+            $debit_idr += $ara_row->debit_idr;
+            $credit += $ara_row->credit;
+            $credit_idr += $ara_row->credit_idr;
+        }
+        
+        $result = [
+            'debit' => $debit,
+            'debit_idr' => $debit_idr,
+            'credit' => $credit,
+            'credit_idr' => $credit_idr,
+        ];
+
+        return $result;
     }
 
     public function getDateAttribute()
@@ -124,7 +154,7 @@ class Invoice extends MemfisModel
 
         $result = '';
         if ($qn) {
-            if ($qn['parent_id'] == null) {
+            if (@$qn['parent_id'] == null) {
                 $result = "Quotation Project";
             } else {
                 $result = "Quotation Additional";
