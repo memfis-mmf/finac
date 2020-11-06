@@ -5,6 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use App\Models\Customer;
 use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -46,64 +47,20 @@ class FAReportController extends Controller
     {
         $date = $this->convertDate($request->daterange);
 
-        $ar = AReceive::where('approve', true)->get();
-
-        $data = [];
-
-        $department = 'All';
-
-        // 1 ar banyak invoice dengan customer yang sama
-        $data = [];
-        foreach ($ar as $arRow) {
-            $ara = $arRow->ara;
-
-            foreach ($ara as $araRow) {
-                $query_invoice = $araRow->invoice()
-                    ->with(['customer'])
-                    ->whereBetween('transactiondate', [$date[0], $date[1]]);
-
-                if ($request->currency) {
-                    $query_invoice = $query_invoice
-                        ->where('currency', $request->currency);
+        $customer = Customer::with([
+                'invoice' => function($invoice) {
+                    $invoice
+                        ->with(['ara'])
+                        ->where('approve', true);
                 }
-
-                if ($request->customer) {
-                    $query_invoice = $query_invoice
-                        ->where('id_customer', $request->customer);
-                }
-
-                if ($request->department) {
-                    $department = Department::where('uuid', $request->department)
-                        ->first()->name;
-                    $query_invoice = $query_invoice
-                        ->where('company_department', $department);
-                }
-
-                if ($request->customer) {
-                    $query_invoice = $query_invoice
-                        ->where('location', $request->location);
-                }
-                
-                $invoice = $query_invoice->get();
-                    
-
-                if (count($invoice) > 0) {
-                    $data[] = $invoice;
-                }
-            }
-
-        }
-
-        $currency_data = Currency::find($request->currency);
-        $currency = 
-            (@$currency_data)? strtoupper($currency_data->code): 'All';
+            ])
+            ->whereHas('invoice', function($invoice) {
+                $invoice->where('approve', true);
+            })
+            ->get();
 
         $data = [
-            'data' => $data,
-            'currency' => $currency,
-            'department' => $department,
-            'location' => ($request->location)? $request->location: 'All',
-            'date' => $date,
+            'customer' => $customer
         ];
 
         return $data;
