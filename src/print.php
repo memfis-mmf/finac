@@ -127,10 +127,7 @@ Route::get('/supplier-invoice-general', function () {
     return $pdf->stream();
 });
 
-Route::get('/profit-loss-project', function () {
-    $pdf = \PDF::loadView('formview::profit-loss-project');
-    return $pdf->stream();
-});
+Route::get('/profit-loss-project', 'memfisfa\Finac\Controllers\Frontend\ProfitLossProjectController@index');
 
 Route::get('/inventory-expense-details', function () {
     $pdf = \PDF::loadView('formview::inventory-expense-details');
