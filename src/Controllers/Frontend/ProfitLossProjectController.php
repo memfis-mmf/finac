@@ -22,11 +22,14 @@ class ProfitLossProjectController extends Controller
 
         $get_item = $this->getProjectItem($request->project_uuid);
 
-        if (!$get_item['stats']) {
-            # code...
+        if (!$get_item['status']) {
+            return response([
+                'status' => $get_item['status'],
+                'message' => $get_item['message']
+            ], 422);
         }
 
-        $project = $get_item['project'];
+        $project = $get_item['main_project'];
         $project_number = $project->number;
 
         $journal_number = TrxJournal::select('voucher_no')
@@ -96,22 +99,22 @@ class ProfitLossProjectController extends Controller
 
         $item_request = ItemRequest::whereIn('ref_uuid', $project_number)
             ->get();
+
+        return [
+            'main_project' => $project
+        ];
     }
 
     public function inventoryExpenseDetail(Request $request)
     {
-        $project = Project::where('uuid', $request->project_uuid)
-            ->withCount('approvals')
-            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
-            ->whereNull('parent_id') // mengambil project induk (bukan additional project)
-            ->firstOrFail();
+        $get_item = $this->getProjectItem($request->project_uuid);
 
-        $additional_project = Project::withCount('approvals')
-            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
-            ->where('parent_id', $project->id) // mengambil project additional berdasarkan project induk
-            ->get();
-
-        $project = $additional_project;
+        if (!$get_item['status']) {
+            return response([
+                'status' => $get_item['status'],
+                'message' => $get_item['message']
+            ], 422);
+        }
 
         array_unshift($project, $project);
     }
