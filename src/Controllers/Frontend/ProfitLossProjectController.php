@@ -4,6 +4,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\FefoIn;
 use App\Models\ItemRequest;
 use App\Models\Pivots\MaterialRequestItem;
 use App\Models\Project;
@@ -99,6 +100,20 @@ class ProfitLossProjectController extends Controller
 
         $item_request = ItemRequest::whereIn('ref_uuid', $project_number)
             ->get();
+
+        foreach ($item_request as $item_request_row) {
+            $item = $item_request_row->items;
+
+            $fefo_in = FefoIn::where('item_id', $item->id)
+                ->where('storage_id', $item_request_row->storage_id)
+                ->where('serial_number', $item->pivot->serial_number)
+                ->whereRaw('quantity - used_quantity - IFNULL(loaned_quantity, 0) > 0');
+
+            if ($item->pivot->reference) {
+                $query = $fefo_in
+                    ->where('reference', $item->pivot->reference);
+            }
+        }
 
         return [
             'main_project' => $project
