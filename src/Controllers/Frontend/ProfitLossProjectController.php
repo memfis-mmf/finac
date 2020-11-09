@@ -19,26 +19,15 @@ class ProfitLossProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $project = Project::where('uuid', $request->project_uuid)
-            ->withCount('approvals')
-            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
-            ->whereNull('parent_id') // mengambil project induk (bukan additional project)
-            ->firstOrFail();
 
-        // mengambil id project additionalnya
-        $project_number = Project::withCount('approvals')
-            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
-            ->where('parent_id', $project->id) // mengambil project additional berdasarkan project induk
-            ->pluck('uuid')
-            ->all();
-        
-        // menambahkan id project induk ke dalam array
-        array_unshift($project_number, $project->id);
+        $get_item = $this->getProjectItem($request->project_uuid);
 
-        $item = MaterialRequestItem::where();
+        if (!$get_item['stats']) {
+            # code...
+        }
 
-        $item_request = ItemRequest::whereIn('ref_uuid', $project_number)
-            ->get();
+        $project = $get_item['project'];
+        $project_number = $project->number;
 
         $journal_number = TrxJournal::select('voucher_no')
             ->where('ref_no', $project_number)
@@ -83,6 +72,30 @@ class ProfitLossProjectController extends Controller
 
         $pdf = \PDF::loadView('formview::profit-loss-project', $data);
         return $pdf->stream();
+    }
+
+    public function getProjectItem($project_uuid)
+    {
+        $project = Project::where('uuid', $project_uuid)
+            ->withCount('approvals')
+            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->whereNull('parent_id') // mengambil project induk (bukan additional project)
+            ->firstOrFail();
+
+        // mengambil id project additionalnya
+        $project_number = Project::withCount('approvals')
+            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->where('parent_id', $project->id) // mengambil project additional berdasarkan project induk
+            ->pluck('uuid')
+            ->all();
+        
+        // menambahkan id project induk ke dalam array
+        array_unshift($project_number, $project->id);
+
+        $item = MaterialRequestItem::where();
+
+        $item_request = ItemRequest::whereIn('ref_uuid', $project_number)
+            ->get();
     }
 
     public function inventoryExpenseDetail(Request $request)
