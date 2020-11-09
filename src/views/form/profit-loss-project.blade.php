@@ -91,6 +91,16 @@
             text-align: right;
         }
 
+        #additional-project{
+            margin-bottom: 15px;
+        }
+
+        #additional-project legend{
+            font-weight: bold; 
+            color:red; 
+            font-size: 14px;
+        }
+
         .page_break {
             page-break-before: always;
         }
@@ -194,6 +204,36 @@
                     </td>
                 </tr>
             </table>
+        </div>
+    </div>
+
+    <div id="additional-project">
+        <div class="container">
+            <fieldset style="padding:15px;">
+                <legend>Additional Project Information</legend>
+                    <table width="100%" cellpadding="4" page-break-inside: auto;>
+                        <thead style="background:#ededed;">
+                            <tr>
+                                <td align="center" width="25%">Additional Project No.</td>
+                                <td align="center" width="25%">Additional Quotation No.</td>
+                                <td align="center" width="20%">Invoice No.</td>
+                                <td align="center" width="15%">Start Date</td>
+                                <td align="center" width="15%">End Date</td>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 10px">
+                            @for ($i = 0; $i < 6; $i++)
+                                <tr>
+                                    <td valign="top">PAID-YYYY/MM/000001</td>
+                                    <td valign="top">QADD-YYYY/MM/000001</td>
+                                    <td valign="top">INVC-YYYY/MM/000001</td>
+                                    <td valign="top" align="center">2020/01/02</td>
+                                    <td valign="top" align="center">2020/01/02</td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+            </fieldset>
         </div>
     </div>
 
