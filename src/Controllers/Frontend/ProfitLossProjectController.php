@@ -4,21 +4,41 @@ namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ItemRequest;
+use App\Models\Pivots\MaterialRequestItem;
 use App\Models\Project;
 use memfisfa\Finac\Model\TrxJournal;
 use memfisfa\Finac\Model\TrxJournalA;
 
 class ProfitLossProjectController extends Controller
 {
+    /**
+     * function ini berisi tentang PL Project HM dari journal (amount nya)
+     * @param object $request
+     * @return PDF
+     */
     public function index(Request $request)
     {
-        $project = Project::where('uuid', $request->project_uuid)->firstOrFail();
+        $project = Project::where('uuid', $request->project_uuid)
+            ->withCount('approvals')
+            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->whereNull('parent_id') // mengambil project induk (bukan additional project)
+            ->firstOrFail();
 
         // mengambil id project additionalnya
-        $project_number = $project->childs->pluck('number')->all();
+        $project_number = Project::withCount('approvals')
+            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->where('parent_id', $project->id) // mengambil project additional berdasarkan project induk
+            ->pluck('uuid')
+            ->all();
         
         // menambahkan id project induk ke dalam array
-        $project_number[] = $project->id;
+        array_unshift($project_number, $project->id);
+
+        $item = MaterialRequestItem::where();
+
+        $item_request = ItemRequest::whereIn('ref_uuid', $project_number)
+            ->get();
 
         $journal_number = TrxJournal::select('voucher_no')
             ->where('ref_no', $project_number)
@@ -30,7 +50,7 @@ class ProfitLossProjectController extends Controller
         $journal_value = TrxJournalA::select('debit', 'credit')
             ->whereHas('coa.type', function($type) {
                 $type->where('code', 'biaya')
-                    ->orWehere('code', 'pendapatan');
+                    ->orWhere('code', 'pendapatan');
             })
             ->whereIn('voucher_no', $journal_number)
             ->get();
@@ -59,7 +79,27 @@ class ProfitLossProjectController extends Controller
             'expense' => $expense,
         ];
 
+        dd($data);
+
         $pdf = \PDF::loadView('formview::profit-loss-project', $data);
         return $pdf->stream();
+    }
+
+    public function inventoryExpenseDetail(Request $request)
+    {
+        $project = Project::where('uuid', $request->project_uuid)
+            ->withCount('approvals')
+            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->whereNull('parent_id') // mengambil project induk (bukan additional project)
+            ->firstOrFail();
+
+        $additional_project = Project::withCount('approvals')
+            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->where('parent_id', $project->id) // mengambil project additional berdasarkan project induk
+            ->get();
+
+        $project = $additional_project;
+
+        array_unshift($project, $project);
     }
 }
