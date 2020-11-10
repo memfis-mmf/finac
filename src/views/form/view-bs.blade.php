@@ -95,7 +95,7 @@
                     </td>
                     <td width="45%" valign="top" align="center">
                         <h1 style="font-size:26px;">BALANCE SHEET<br> 
-                        <span style="font-size:12px;font-weight: none;">Period : 01 January 2020 - 28 January 2020</span></h1>
+                        <span style="font-size:12px;font-weight: none;">Period : {{date('d M Y', strtotime($beginDate))}} - {{date('d M Y', strtotime($endingDate))}} </span></h1>
                     </td>
                 </tr>
             </table>
@@ -105,7 +105,7 @@
     <footer>
         <table width="100%">
             <tr>
-                <td> <span style="margin-left:6px;">Printed By : generated ;</span> </td>
+                <td> <span style="margin-left:6px;">Printed By : {{ Auth::user()->name }} ;</span> </td>
             </tr>
         </table>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="">
@@ -114,203 +114,111 @@
     <div id="content">
         <div class="container">
             <table width="100%" cellpadding="8">
-                {{-- ACTIVA --}}
-                <tr style="color:#244c8a;font-weight: bold;">
-                    <td width="18%" colspan="3"style="font-weight: bold; font-size: 18px;">ACTIVA</td>
-                </tr>
-                    {{-- Current Asset --}}
-                <tr style="font-weight: bold; border-bottom:1px solid black">
-                    <td width="18%" colspan="3" style="font-size: 14px;">Current Asset
-                    </td>
-                </tr>
-                <tr style="background:#5f6b5e; color:white;font-weight: bold;">
-                    <td width="18%">Account Code</td>
-                    <td width="52%" align="center">Account Name</td>
-                    <td width="30%" align="center">Total Balance</td>
+                <tr>
+                    <td width="18%" colspan="3"></td>
                 </tr>
                 <tr>
-                    <td width="18%">11110000</td>
-                    <td width="52%">Cash & Bank</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
+                    <td width="18%" colspan="3"></td>
                 </tr>
-                <tr>
-                    <td width="18%">11120000</td>
-                    <td width="52%">Deposit</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
+                {{-- Activa --}}
+                <tr style="color:blue;font-weight: bold;">
+                    <td width="18%" colspan="3"><h3>ACTIVA</h3></td>
                 </tr>
-                <tr>
-                    <td width="18%">11130000</td>
-                    <td width="52%">Temporary Investment</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11140000</td>
-                    <td width="52%">Account Receivables</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11150000</td>
-                    <td width="52%">Account Receivables Other</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11160000</td>
-                    <td width="52%">Inventories</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11170000</td>
-                    <td width="52%">Advance Payment</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11180000</td>
-                    <td width="52%">Prepaid Tax</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11190000</td>
-                    <td width="52%">Prepaid Expense</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11200000</td>
-                    <td width="52%">Accurued Revenue</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11180000</td>
-                    <td width="52%">Other Current Assets</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr style="background:#cfcfcf;font-weight: bold;">
-                    <td colspan="2">Current Asset Total</td>
-                    <td width="30%" align="right" style="padding-right:20px ">9.002,000,000</td>
-                </tr>
+                @for ($index_activa=0; $index_activa < count($data['activa']); $index_activa++)
+                    <tr style="background:#5f6b5e; color:white;font-weight: bold;">
+                        <td width="18%">Account Code</td>
+                        <td width="52%" align="center">Account Name</td>
+                        <td width="30%" align="center">Total Balance</td>
+                    </tr>
+                    {{-- spasi --}}
+                    @php
+                        $arr = $data['activa'][$index_activa];
+                    @endphp
+                    <tr style="font-weight: bold; border-bottom:1px solid black">
+                        <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+                    </tr>
+                    @for ($index_child=0; $index_child < count($arr->child); $index_child++)
+                        @php
+                            $arr2 = $arr->child[$index_child];
+                        @endphp
+                        <tr>
+                            <td width="18%">{{$arr2->code}}</td>
+                            <td width="52%">{{$arr2->name}}</td>
+                            <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+                        </tr>
+                                                        @endfor
+                        <tr style="background:#cfcfcf;font-weight: bold;">
+                            <td width="38%"><h5>Total {{$arr->name}}</h5></td>
+                            <td width="32%" align="center"></td>
+                            <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+                        </tr>
+                    @endfor
+                    {{-- spasi --}}
+                    <tr>
+                        <td width="18%" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td width="18%" colspan="3"></td>
+                    </tr>
+                    {{-- total Activa --}}
+                    <tr style="background:#add8f7;font-weight: bold;">
+                        <td width="18%"><h5>Total Assets</h5></td>
+                        <td width="52%" align="center"></td>
+                        <td width="30%" align="center">{{number_format($totalActiva, 0, 0, '.')}}</td>
+                    </tr>
+
+                    {{-- spasi --}}
+                    <tr>
+                        <td width="18%" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td width="18%" colspan="3"></td>
+                    </tr>
+
+                    {{-- Pasiva --}}
+                    <tr style="color:blue;font-weight: bold;">
+                        <td width="18%" colspan="3"><h3>PASIVA & EQUITY</h3></td>
+                    </tr>
+                    @for ($index_activa=0; $index_activa < count($data['pasiva']); $index_activa++)
+                        <tr style="background:#5f6b5e; color:white;font-weight: bold;">
+                            <td width="18%">Account Code</td>
+                            <td width="52%" align="center">Account Name</td>
+                            <td width="30%" align="center">Total Balance</td>
+                        </tr>
+                        @php
+                            $arr = $data['pasiva'][$index_activa];
+                        @endphp
+                        <tr style="font-weight: bold; border-bottom:1px solid black">
+                            <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+                        </tr>
+                        @for ($index_child=0; $index_child < count($arr->child); $index_child++)
+                            @php
+                                $arr2 = $arr->child[$index_child];
+                            @endphp
+                            <tr>
+                                <td width="18%">{{$arr2->code}}</td>
+                                <td width="52%">{{$arr2->name}}</td>
+                                <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+                            </tr>
+                    @endfor
+                    <tr style="background:#cfcfcf;font-weight: bold;">
+                        <td width="18%"><h5>Total {{$arr->name}}</h5></td>
+                        <td width="52%" align="center"></td>
+                        <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+                    </tr>
+                @endfor
                 {{-- spasi --}}
                 <tr>
                     <td width="18%" colspan="3"></td>
                 </tr>
-                {{-- Non Current Asset --}}
-                <tr style="font-weight: bold; border-bottom:1px solid black">
-                    <td width="18%" colspan="3"  style="font-size: 14px;">Non Current Asset</td>
-                </tr>
-                <tr style="background:#5f6b5e; color:white;font-weight: bold;">
-                    <td width="18%">Account Code</td>
-                    <td width="52%" align="center">Account Name</td>
-                    <td width="30%" align="center">Total Balance</td>
-                </tr>
-                <tr>
-                    <td width="18%">11810000</td>
-                    <td width="52%">Fixed Asset</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11820000</td>
-                    <td width="52%">Long Term Invesment</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">11830000</td>
-                    <td width="52%">Other Asset</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr style="background:#cfcfcf;font-weight: bold;">
-                    <td colspan="2">Non Current Asset Total</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                {{-- spasi --}}
                 <tr>
                     <td width="18%" colspan="3"></td>
                 </tr>
                 {{-- total Activa --}}
                 <tr style="background:#add8f7;font-weight: bold;">
-                    <td colspan="2">ASSETS TOTAL</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000,000</td>
-                </tr>
-
-                {{-- spasi --}}
-                <tr>
-                    <td width="18%" colspan="3"></td>
-                </tr>
-
-                {{-- PASIVA --}}
-                <tr style="color:#244c8a;font-weight: bold;">
-                    <td width="18%" colspan="3"style="font-weight: bold; font-size: 18px;">PASIVA</td>
-                </tr>
-                {{-- Liabilities --}}
-                <tr style="font-weight: bold; border-bottom:1px solid black">
-                    <td width="18%" colspan="3"  style="font-size: 14px;">Liabilities</td>
-                </tr>
-                <tr style="background:#5f6b5e; color:white;font-weight: bold;">
-                    <td width="18%">Account Code</td>
-                    <td width="52%" align="center">Account Name</td>
-                    <td width="30%" align="center">Total Balance</td>
-                </tr>
-                <tr>
-                    <td width="18%">18110000</td>
-                    <td width="52%">Current Liabilies</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">18120000</td>
-                    <td width="52%">Other Current Liabilities</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">18130000</td>
-                    <td width="52%">Long Term Liabilies</td>
-                    <td width="30%" align="right"style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr style="background:#cfcfcf;font-weight: bold;">
-                    <td colspan="2">Liabilities Total</td>
-                    <td width="30%" align="right"style="padding-right:20px">3.000,000</td>
-                </tr>
-                {{-- spasi --}}
-                <tr>
-                    <td width="18%" colspan="3"></td>
-                </tr>
-                {{-- Equities --}}
-                <tr style="font-weight: bold; border-bottom:1px solid black">
-                    <td width="18%" colspan="3"  style="font-size: 14px;">Equities</td>
-                </tr>
-                <tr style="background:#5f6b5e; color:white;font-weight: bold;">
-                    <td width="18%">Account Code</td>
-                    <td width="52%" align="center">Account Name</td>
-                    <td width="30%" align="center">Total Balance</td>
-                </tr>
-                <tr>
-                    <td width="18%">31110000</td>
-                    <td width="52%">Capital</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">31120000</td>
-                    <td width="52%">Retained Earning</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">31130000</td>
-                    <td width="52%">Profit and Loss</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr>
-                    <td width="18%">31140000</td>
-                    <td width="52%">Devident</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000</td>
-                </tr>
-                <tr style="background:#cfcfcf;font-weight: bold;">
-                    <td colspan="2">Equities Total</td>
-                    <td width="30%" align="right"style="padding-right:20px">1.003,000,000</td>
-                </tr>
-                {{-- spasi --}}
-                <tr>
-                    <td width="18%" colspan="3"></td>
-                </tr>
-                {{-- total Pasiva --}}
-                <tr style="background:#add8f7;font-weight: bold;">
-                    <td colspan="2">LIABILITIES & EQUITIES TOTAL</td>
-                    <td width="30%" align="right" style="padding-right:20px">1.000,000,000,000</td>
+                    <td width="18%"><h5>Total Liabilitie & Equities</h5></td>
+                    <td width="52%" align="center"></td>
+                    <td width="30%" align="center">{{number_format($totalPasiva, 0, 0, '.')}}</td>
                 </tr>
             </table>
         </div>
