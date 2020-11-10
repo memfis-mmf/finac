@@ -5,6 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\FefoIn;
+use App\Models\InventoryOut;
 use App\Models\ItemRequest;
 use App\Models\Pivots\MaterialRequestItem;
 use App\Models\Project;
@@ -47,32 +48,6 @@ class ProfitLossProjectController extends Controller
             })
             ->whereIn('voucher_no', $journal_number)
             ->get();
-        
-        $revenue = [];
-        $expense = [];
-
-        foreach ($journal_value as $value_row) {
-            if ($value_row->coa->type->code == 'pendapatan') {
-                $revenue[] = [
-                    'debit' => $value_row->debit,
-                    'credit' => $value_row->credit,
-                ];
-            }
-
-            if ($value_row->coa->type->code == 'biaya') {
-                $expense[] = [
-                    'debit' => $value_row->debit,
-                    'credit' => $value_row->credit,
-                ];
-            }
-        }
-
-        $data = [
-            'revenue' => $revenue,
-            'expense' => $expense,
-        ];
-
-        dd($data);
 
         $pdf = \PDF::loadView('formview::profit-loss-project', $data);
         return $pdf->stream();
@@ -80,44 +55,104 @@ class ProfitLossProjectController extends Controller
 
     public function getProjectItem($project_uuid)
     {
-        $project = Project::where('uuid', $project_uuid)
+        $selected_column = [
+            'id',
+            'uuid',
+            'code',
+            'parent_id',
+            'title',
+            'customer_id',
+            'aircraft_id',
+            'no_wo',
+            'aircraft_register',
+            'aircraft_sn',
+            'data_defectcard',
+            'data_htcrr',
+            'station',
+            'csn',
+            'cso',
+            'tsn',
+            'tso',
+        ];
+
+        // mengambil project utama/project induk (bukan additional project)
+        $project = Project::select($selected_column)
+            ->where('uuid', $project_uuid)
             ->withCount('approvals')
             ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
             ->whereNull('parent_id') // mengambil project induk (bukan additional project)
             ->firstOrFail();
 
-        // mengambil id project additionalnya
-        $project_number = Project::withCount('approvals')
+        // mengambil uid project additionalnya
+        $project_uuid = Project::select($selected_column)
+            ->withCount('approvals')
             ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
             ->where('parent_id', $project->id) // mengambil project additional berdasarkan project induk
             ->pluck('uuid')
             ->all();
         
-        // menambahkan id project induk ke dalam array
-        array_unshift($project_number, $project->id);
+        // menambahkan id project induk ke dalam array index pertama
+        array_unshift($project_uuid, $project->uuid);
 
-        $item = MaterialRequestItem::where();
+        // menganmbil material request atas project yang sudah diambil sebelumnya
+        $item_request_id = ItemRequest::whereIn('ref_uuid', $project_uuid)
+            ->has('approvals')
+            ->pluck('id')
+            ->all();
 
-        $item_request = ItemRequest::whereIn('ref_uuid', $project_number)
+        $iv_out_number = InventoryOut::where('inventoryoutable_type', 'App\Models\ItemRequest')
+            ->where('inventoryoutable_id', $item_request_id)
+            ->pluck('number')
+            ->all();
+
+        // mengambil data journal atas referensi iv out dari item request
+        $journal_number = TrxJournal::whereIn('ref_no', $iv_out_number)
+            ->where('approve', 1)
+            ->pluck('voucher_no')
+            ->all();
+
+        $detail_journal = TrxJournalA::whereIn('voucher_no', $journal_number)
             ->get();
 
-        foreach ($item_request as $item_request_row) {
-            $item = $item_request_row->items;
+        $revenue = [];
+        $expense = [];
 
-            $fefo_in = FefoIn::where('item_id', $item->id)
-                ->where('storage_id', $item_request_row->storage_id)
-                ->where('serial_number', $item->pivot->serial_number)
-                ->whereRaw('quantity - used_quantity - IFNULL(loaned_quantity, 0) > 0');
+        foreach ($detail_journal as $detail_journal_row) {
+            if ($detail_journal_row->coa->type->code == 'pendapatan') {
+                $value = $detail_journal_row->debit + $detail_journal_row->credit;
+                if (@$revenue[$detail_journal_row->coa->code]) {
+                    $value = $revenue[$detail_journal_row->coa->code] + $value;
+                }
 
-            if ($item->pivot->reference) {
-                $query = $fefo_in
-                    ->where('reference', $item->pivot->reference);
+                $revenue[$detail_journal_row->coa->code] = [
+                    'name' => $detail_journal_row->coa->name,
+                    'value' => $value
+                ];
             }
+
+            if ($detail_journal_row->coa->type->code == 'biaya') {
+                $value = $detail_journal_row->debit + $detail_journal_row->credit;
+                if (@$expense[$detail_journal_row->coa->code]) {
+                    $value = $expense[$detail_journal_row->coa->code] + $value;
+                }
+
+                $expense[$detail_journal_row->coa->code] = [
+                    'name' => $detail_journal_row->coa->name,
+                    'value' => $value
+                ];
+            }
+
         }
 
-        return [
-            'main_project' => $project
+        $data = [
+            'main_project' => $project,
+            'revenue' => $revenue,
+            'expense' => $expense,
         ];
+
+        dd($data);
+
+        return $data;
     }
 
     public function inventoryExpenseDetail(Request $request)
