@@ -4,11 +4,12 @@ namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\FefoIn;
 use App\Models\InventoryOut;
 use App\Models\ItemRequest;
-use App\Models\Pivots\MaterialRequestItem;
 use App\Models\Project;
+use App\Models\Quotation;
+use Carbon\Carbon;
+use memfisfa\Finac\Model\Invoice;
 use memfisfa\Finac\Model\TrxJournal;
 use memfisfa\Finac\Model\TrxJournalA;
 
@@ -21,39 +22,59 @@ class ProfitLossProjectController extends Controller
      */
     public function index(Request $request)
     {
+        $start_date = Carbon::createFromFormat('Y-m-d', $request->start_date);
+        $end_date = Carbon::createFromFormat('Y-m-d', $request->end_date);
 
-        $get_item = $this->getProjectItem($request->project_uuid);
+        $get_data = $this->getAllProject($request->project_uuid);
 
-        if (!$get_item['status']) {
+        if (!$get_data['status']) {
             return response([
-                'status' => $get_item['status'],
-                'message' => $get_item['message']
+                'status' => $get_data['status'],
+                'message' => $get_data['message']
             ], 422);
         }
 
-        $project = $get_item['main_project'];
-        $project_number = $project->number;
+        $data = $get_data['data'];
 
-        $journal_number = TrxJournal::select('voucher_no')
-            ->where('ref_no', $project_number)
-            ->where('approve', true)
-            ->pluck('voucher_no')
-            ->all();
+        $quotation = Quotation::select([
+                'id',
+                'uuid',
+                'number',
+                'parent_id',
+                'quotationable_type',
+                'quotationable_id',
+                'attention',
+                'requested_at',
+                'valid_until',
+                'currency_id',
+                'exchange_rate',
+                'subtotal',
+                'charge',
+                'grandtotal',
+                'title',
+                'no_wo',
+                'scheduled_payment_type',
+                'scheduled_payment_amount',
+                'term_of_payment',
+                'term_of_condition',
+                'description',
+                'data_defectcard',
+                'data_htcrr',
+                'additionals',
+            ])
+            ->where('quotationable_type', 'App\Models\Project')
+            ->where('quotationable_id', $data['main_project']->id)
+            ->first();
 
-        // mengambil debit dan credit journal
-        $journal_value = TrxJournalA::select('debit', 'credit')
-            ->whereHas('coa.type', function($type) {
-                $type->where('code', 'biaya')
-                    ->orWhere('code', 'pendapatan');
-            })
-            ->whereIn('voucher_no', $journal_number)
-            ->get();
+        $data['quotation'] = $quotation;
+        $data['invoice'] = Invoice::where('id_quotation', $quotation->id)->first();
+        $data['main_project']->aircraft = json_decode($data['main_project']->origin_aircraft);
 
         $pdf = \PDF::loadView('formview::profit-loss-project', $data);
         return $pdf->stream();
     }
 
-    public function getProjectItem($project_uuid)
+    public function getAllProject($project_uuid)
     {
         $selected_column = [
             'id',
@@ -73,6 +94,7 @@ class ProfitLossProjectController extends Controller
             'cso',
             'tsn',
             'tso',
+            'origin_aircraft'
         ];
 
         // mengambil project utama/project induk (bukan additional project)
@@ -90,6 +112,11 @@ class ProfitLossProjectController extends Controller
             ->where('parent_id', $project->id) // mengambil project additional berdasarkan project induk
             ->pluck('uuid')
             ->all();
+
+        $additional_project = $project
+            ->childs()
+            ->select($selected_column)
+            ->get();
         
         // menambahkan id project induk ke dalam array index pertama
         array_unshift($project_uuid, $project->uuid);
@@ -146,26 +173,31 @@ class ProfitLossProjectController extends Controller
 
         $data = [
             'main_project' => $project,
+            'additional_project' => $additional_project,
             'revenue' => $revenue,
-            'expense' => $expense,
+            'expense' => $expense
         ];
 
-        dd($data);
-
-        return $data;
+        return [
+            'status' => true,
+            'data' => $data
+        ];
     }
 
     public function inventoryExpenseDetail(Request $request)
     {
-        $get_item = $this->getProjectItem($request->project_uuid);
+        $all_project = $this->getAllProject($request->project_uuid);
 
-        if (!$get_item['status']) {
+        if (!$all_project['status']) {
             return response([
-                'status' => $get_item['status'],
-                'message' => $get_item['message']
+                'status' => $all_project['status'],
+                'message' => $all_project['message']
             ], 422);
         }
 
-        array_unshift($project, $project);
+        $data = $all_project['data'];
+
+        $pdf = \PDF::loadView('formview::inventory-expense-details', $data);
+        return $pdf->stream();
     }
 }

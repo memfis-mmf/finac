@@ -149,27 +149,27 @@
                             <tr>
                                 <td valign="top" width="30%">Project Title</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->title }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Project No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->code }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Quotation No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $quotation->number }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Work Order No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->no_wo }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Invoice No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $invoice->transactionnumber ?? '-' }}</td>
                             </tr>
                         </table>
                     </td>
@@ -178,17 +178,17 @@
                             <tr>
                                 <td valign="top" width="30%">A/C Type</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">Lorem </td>
+                                <td valign="top" width="69%">{{ $main_project->aircraft->code }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">A/C Reg</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->aircraft_register }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">A/C Serial No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->aircraft_sn }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Start Date</td>
