@@ -217,10 +217,8 @@
     </div>
 
     @if (count($additional_project) > 0)
-    @foreach ($additional_project as $item)
-        
-    @endforeach
-    <div id="content" style="margin-top: 20px">
+    @foreach ($additional_project as $additional_project_row)
+     <div id="content" style="margin-top: 20px">
         <div class="container">
             <table width="100%">
                 <tr>
@@ -229,7 +227,7 @@
                             <tr>
                                 <td valign="top" width="30%">Project No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">{{ $main_project->code }}</td>
+                                <td valign="top" width="69%">{{ $additional_project_row->code }}</td>
                             </tr>
                         </table>
                     </td>
@@ -238,7 +236,7 @@
                             <tr>
                                 <td valign="top" width="30%">Quotation No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">{{ $quotation->number }}</td>
+                                <td valign="top" width="69%">{{ $additional_project_row->number }}</td>
                             </tr>
                         </table>
                     </td>
@@ -246,6 +244,38 @@
             </table>
         </div>
     </div>
+    <div id="content2">
+        <div class="container">
+            <table cellpadding="4" width="100%" page-break-inside: auto;>
+                <thead>
+                    <tr>
+                        <td align="center" width="1%">No.</td>
+                        <td align="center">Transaction No.</td>
+                        <td align="center">Part Number</td>
+                        <td align="center" width="20%">Items Name</td>
+                        <td align="center" width="8%">Qty</td>
+                        <td align="center" width="8%">Unit</td>
+                        <td align="center">Amount</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($additional_project_row->items as $item_index => $item_row)
+                        <tr>
+                            <td align="center" valign="top">{{ $item_index + 1 }}</td>
+                            <td valign="top">{{ $item_row->transaction_number }}</td>
+                            <td align="center" valign="top">{{ $item_row->code }}</td>
+                            <td valign="top">{{ $item_row->name }}</td>
+                            <td align="center" valign="top">{{ $item_row->quantity }}</td>
+                            <td align="center" valign="top">{{ $item_row->unit->name }}</td>
+                            <td align="right" valign="top">Rp {{ number_format($item_row->price, 2, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>   
+    @endforeach
+    
     @endif
 
 </body>
