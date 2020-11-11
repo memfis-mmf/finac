@@ -190,7 +190,7 @@
                                 <td valign="top" width="1%">:</td>
                                 <td valign="top" width="69%">{{ $main_project->aircraft_sn }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td valign="top" width="30%">Start Date</td>
                                 <td valign="top" width="1%">:</td>
                                 <td valign="top" width="69%">generated</td>
@@ -199,7 +199,7 @@
                                 <td valign="top" width="30%">End Date</td>
                                 <td valign="top" width="1%">:</td>
                                 <td valign="top" width="69%">generated</td>
-                            </tr>
+                            </tr> --}}
                         </table>
                     </td>
                 </tr>
@@ -207,6 +207,7 @@
         </div>
     </div>
 
+    @if (count($additional_project) > 0)
     <div id="additional-project">
         <div class="container">
             <fieldset style="padding:15px;">
@@ -217,25 +218,26 @@
                                 <td align="center" width="25%">Additional Project No.</td>
                                 <td align="center" width="25%">Additional Quotation No.</td>
                                 <td align="center" width="20%">Invoice No.</td>
-                                <td align="center" width="15%">Start Date</td>
-                                <td align="center" width="15%">End Date</td>
+                                {{-- <td align="center" width="15%">Start Date</td>
+                                <td align="center" width="15%">End Date</td> --}}
                             </tr>
                         </thead>
                         <tbody style="font-size: 10px">
-                            @for ($i = 0; $i < 6; $i++)
+                            @foreach ($additional_project as $additional_project_row)
                                 <tr>
-                                    <td valign="top">PAID-YYYY/MM/000001</td>
-                                    <td valign="top">QADD-YYYY/MM/000001</td>
-                                    <td valign="top">INVC-YYYY/MM/000001</td>
-                                    <td valign="top" align="center">2020/01/02</td>
-                                    <td valign="top" align="center">2020/01/02</td>
+                                    <td valign="top">{{ $additional_project_row->number }}</td>
+                                    <td valign="top">{{ $additional_project_row->quotation->number }}</td>
+                                    <td valign="top">{{ $additional_project_row->invoice->transactionnumber }}</td>
+                                    {{-- <td valign="top" align="center">2020/01/02</td>
+                                    <td valign="top" align="center">2020/01/02</td> --}}
                                 </tr>
-                            @endfor
+                            @endforeach
                         </tbody>
                     </table>
             </fieldset>
         </div>
     </div>
+    @endif
 
     <div id="content2">
         <div class="container">
@@ -249,28 +251,28 @@
                 <tbody>
 
                     {{-- REVENUE --}}
-                    @for ($i = 0; $i < 5; $i++)
+                    @foreach ($revenue as $revenue_row)
                         <tr>
-                            <td style="padding-left:30px">MMF - Heavy Maintance Reveneu</td>
-                            <td align="right" style="padding-right:30px">971.000.000.000</td>
+                            <td style="padding-left:30px">{{ $revenue_row->name }}</td>
+                            <td align="right" style="padding-right:30px">Rp {{ number_format($revenue_row->value, 2, ',', '.') }}</td>
                         </tr>
-                    @endfor
+                    @endforeach
                     <tr style="background:#7ee1f7;">
                         <td height="14" valign="middle" class="total-left">Total Revenue</td>
-                        <td height="14" valign="middle" align="right" class="total-right">20.971.000.000.000</td>
+                        <td height="14" valign="middle" align="right" class="total-right">Rp {{ number_format($total_revenue, 2, ',', '.') }}</td>
                     </tr>
 
 
                     {{-- EXPENSE --}}
-                    @for ($i = 0; $i < 8; $i++)
+                    @foreach ($expense as $expense_row)
                         <tr>
-                            <td style="padding-left:30px">Manhour COGS</td>
-                            <td align="right" style="padding-right:30px">971.000.000.000</td>
+                            <td style="padding-left:30px">{{ $expense_row->name }}</td>
+                            <td align="right" style="padding-right:30px">Rp {{ number_format($expense_row->value, 2, ',', '.') }}</td>
                         </tr>
-                    @endfor
+                    @endforeach
                     <tr style="background:#7ee1f7;">
                         <td height="14" valign="middle" class="total-left">Total Expense</td>
-                        <td height="14" valign="middle" align="right" class="total-right">20.971.000.000.000</td>
+                        <td height="14" valign="middle" align="right" class="total-right">Rp {{ number_format($total_expense, 2, ',', '.') }}</td>
                     </tr>
 
                 </tbody>
@@ -283,7 +285,7 @@
             <table width="100%">
                 <tr>
                     <td width="70%">TOTAL NET PROFIT</td>
-                    <td width="30%" style="padding-right:30px;">1.333.3333.333</td>
+                    <td width="30%" style="padding-right:30px;">Rp {{ number_format($total_revenue - $total_expense, 2, ',', '.') }}</td>
                 </tr>
             </table>
         </div>
