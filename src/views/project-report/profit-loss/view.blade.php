@@ -35,14 +35,14 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <span class="m-badge m-badge--primary m-badge--wide" style="padding: 6px 10px 1px 10px;">
-                                <b><h4>Cakrawala Balliem, PT</h4></b>
+                                <b><h4>{{ $main_project->customer->name }}</h4></b>
                             </span>
                             <hr>
                             <h6 class="m-portlet__head-text">
                                 Project Information : <br>
-                                <span style="font-size:11px; color:#454545">
+                                {{-- <span style="font-size:11px; color:#454545">
                                     Perform Loan hangar space for support replace drag here brace & inspection C-Check
-                                </span>
+                                </span> --}}
                             </h6>
                         </div>
                     </div>
@@ -50,39 +50,39 @@
                         <tr valign="top">
                             <td width="30%">Project No</td>
                             <td width="1%">:</td>
-                            <td><b>PROJ-2020/03/00001</b></td>
+                            <td><b>{{ $main_project->code }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">Quotaion No</td>
                             <td width="1%">:</td>
-                            <td><b>QPRO-2020/03/00001</b></td>
+                            <td><b>{{ $main_project->quotation->number }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">Work Order No</td>
                             <td width="1%">:</td>
-                            <td><b>12/TSP/I/20/B723-200</b></td>
+                            <td><b>{{ $main_project->no_wo }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">A/C Type</td>
                             <td width="1%">:</td>
-                            <td><b>B737-500</b></td>
+                            <td><b>{{ $main_project->aircraft->code }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">A/C Reg</td>
                             <td width="1%">:</td>
-                            <td><b>PK-CNY</b></td>
+                            <td><b>{{ $main_project->aircraft_register }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">A/C SN</td>
                             <td width="1%">:</td>
-                            <td><b>544323</b></td>
+                            <td><b>{{ $main_project->aircraft_sn }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">Status</td>
                             <td width="1%">:</td>
-                            <td><b>Closed</b></td>
+                            <td><b>{{ $main_project->status }}</b></td>
                         </tr>
-                        <tr valign="top">
+                        {{-- <tr valign="top">
                             <td width="30%">Project Start</td>
                             <td width="1%">:</td>
                             <td><b>2020/03/01</b></td>
@@ -91,17 +91,17 @@
                             <td width="30%">Project End</td>
                             <td width="1%">:</td>
                             <td><b>2020/03/23</b></td>
-                        </tr>
+                        </tr> --}}
                         <tr valign="top">
                             <td width="30%">Quotation Approval</td>
                             <td width="1%">:</td>
-                            <td><b>Elly Sugigi</b></td>
+                            <td><b>{{ $main_project->quotation->approvals->first()->conductedBy->full_name }}</b></td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col">
             <div class="m-portlet  m-portlet--full-height">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
@@ -129,13 +129,13 @@
                 <div class="m-portlet__body">
                     <div class="row  align-items-center mt-2">
                         <div class="col">
-                            <div id="m_chart_profit_share" class="m-widget14__chart" style="height: 160px"></div>
+                            <div id="pie_chart" class="m-widget14__chart" style="height: 160px"></div>
                         </div>
                         <div class="col">
                             <div class="m-widget14__legends">
                                 <div class="m-widget14__legend text-danger">
                                     <span style="font-size:16px">Total Net Profit : <br></span>
-                                    <span class="font-weight-bold" style="font-size:18px;">IDR 190.363.323.231</span>
+                                    <span class="font-weight-bold" style="font-size:18px;">IDR {{ number_format($total_revenue - $total_expense, 2, ',', '.') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -145,25 +145,25 @@
                             <div class="m-widget__legends">
                                 <div class="m-widget__legend">
                                     <span class="m-widget__legend-bullet" style="background: rgb(113, 106, 202)"></span>
-                                    <span class="m-widget__legend-text text-primary">87%</span>
+                                    <span class="m-widget__legend-text text-primary">{{ $total_revenue_percent }}%</span>
                                 </div>
                             </div>
-                            <p>Income Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR 112.232.123.123</span></p> 
+                            <p>Income Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR {{ number_format($total_revenue, 2, ',', '.') }}</span></p> 
                         </div>
                         <div class="col-6 text-primary" style="border-left:1px solid black;">
                             <div class="m-widget__legends">
                                 <div class="m-widget__legend">
                                     <span class="m-widget__legend-bullet m--bg-warning"></span>
-                                    <span class="m-widget__legend-text text-primary">13%</span>
+                                    <span class="m-widget__legend-text text-primary">{{ $total_expense_percent }}%</span>
                                 </div>
                             </div>
-                            <p>Expense Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR 90.232.123.123</span></p> 
+                            <p>Expense Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR {{ number_format($total_expense, 2, ',', '.') }}</span></p> 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="m-portlet">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
@@ -271,34 +271,35 @@
                     <div class="table-wrapper-scroll-y my-custom-scrollbar">
                         <table class="table table-bordered table-striped mb-0" style="font-size:12px">
                             <tbody>
-                                @for ($i = 0; $i < 5; $i++)
+                                {{-- REVENUE --}}
+                                @foreach ($revenue as $revenue_row)
                                     <tr>
-                                        <th scope="row" valign="top" width="55%">MMF - Maintenance Revenue</th>
+                                        <th scope="row" valign="top" width="55%">{{ $revenue_row->name }}</th>
                                         <td valign="top"  width="1%">:</td>
-                                        <td valign="top" align="right">1.000.000.000.000</td>
+                                        <td valign="top" align="right">{{ number_format($revenue_row->value, 2, ',', '.') }}</td>
                                     </tr>
-                                @endfor
+                                @endforeach
                                 <tr class="text-danger">
                                     <th scope="row" valign="top" width="55%">Total Revenue</th>
                                     <td valign="top"  width="1%">:</td>
-                                    <td valign="top" align="right">1.000.000.000.000</td>
+                                    <td valign="top" align="right">{{ number_format($total_revenue, 2, ',', '.') }}</td>
                                 </tr>
-                                @for ($i = 0; $i < 3; $i++)
+                                @foreach ($expense as $expense_row)
                                     <tr>
-                                        <th scope="row" valign="top" width="55%">MMF - Maintenance Revenue</th>
+                                        <th scope="row" valign="top" width="55%">{{ $expense_row->name }}</th>
                                         <td valign="top"  width="1%">:</td>
-                                        <td valign="top" align="right">1.000.000.000.000</td>
+                                        <td valign="top" align="right">{{ number_format($expense_row->value, 2, ',', '.') }}</td>
                                     </tr>
-                                @endfor
+                                @endforeach
                                 <tr class="text-warning">
                                     <th scope="row" valign="top" width="55%">Total Expense</th>
                                     <td valign="top"  width="1%">:</td>
-                                    <td valign="top" align="right">1.000.000.000.000</td>
+                                    <td valign="top" align="right">{{ number_format($total_expense, 2, ',', '.') }}</td>
                                 </tr>
                                 <tr class="text-success" style="font-size:16px">
                                     <th scope="row" valign="top" width="55%">Net Profit</th>
                                     <td valign="top"  width="1%">:</td>
-                                    <td valign="top" align="right">1.000.000.000.000</td>
+                                    <td valign="top" align="right">{{ number_format($total_revenue - $total_expense, 2, ',', '.') }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -375,16 +376,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for ($i = 0; $i < 20; $i++)
+                                @foreach ($main_project->items as $item_index => $item_row)
                                     <tr>
-                                        <th vallign="top" scope="row">MTRQ-YYYY/MM/00001</th>
-                                        <td vallign="top">61123123</td>
-                                        <td vallign="top">3M RADIAL BRISTAL DISC 2-231</td>
-                                        <td vallign="top" align="center">10</td>
-                                        <td vallign="top" align="center">Each</td>
-                                        <td vallign="top" align="right">500.000.000.000</td>
+                                        <th vallign="top" scope="row">{{ $item_row->transaction_number }}</th>
+                                        <td vallign="top">{{ $item_row->code }}</td>
+                                        <td vallign="top">{{ $item_row->name }}</td>
+                                        <td vallign="top" align="center">{{ $item_row->quantity }}</td>
+                                        <td vallign="top" align="center">{{ $item_row->unit->name }}</td>
+                                        <td vallign="top" align="right">{{ number_format($item_row->price, 2, ',', '.') }}</td>
                                     </tr>
-                                @endfor
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -409,6 +410,7 @@
                     @slot('color', 'success')
                     @slot('icon', 'fa-redo')
                     @slot('text', 'Update')
+                    @slot('id', 'update')
                 @endcomponent
 
                 @include('buttons::back')
@@ -449,24 +451,80 @@
     <script>
     var MorrisCharts = {
         init: function() {
+            _data = '{!! $bar_chart !!}';
+
+            _data = _data.split('<>');
+
+            data_morris_bar = [];
+
+            for (var i in _data) {
+                var obj = JSON.parse(_data[i]);
+                data_morris_bar.push(obj);
+            }
+
+            console.log(data_morris_bar);
+
             new Morris.Bar({
                 element: "m_morris_3",
-                data: [
-                    { y: "411101", a: 100, b: 90 },
-                    { y: "411101", a: 75, b: 65 },
-                    { y: "411101", a: 50, b: 40 },
-                    { y: "411101", a: 75, b: 65 },
-                    { y: "411101", a: 50, b: 40 },
-                    { y: "411101", a: 100, b: 90 }
-                ],
+                data: data_morris_bar,
                 xkey: "y",
                 ykeys: ["a", "b"],
-                labels: ["Series A", "Series B"]
+                labels: ["Revenue", "Expense"]
             });
+
+            new Chartist.Pie(
+                "#pie_chart",
+                {
+                    series: [
+                        {
+                            value: '{{ $total_revenue }}',
+                            className: "custom",
+                            meta: { color: mApp.getColor("accent") }
+                        },
+                        {
+                            value: '{{ $total_expense }}',
+                            className: "custom",
+                            meta: { color: mApp.getColor("warning") }
+                        }
+                    ],
+                    labels: [1, 2]
+                },
+                { donut: !0, donutWidth: 17, showLabel: !1 }
+            ).on("draw", function(e) {
+                if ("slice" === e.type) {
+                    var t = e.element._node.getTotalLength();
+                    e.element.attr({
+                        "stroke-dasharray": t + "px " + t + "px"
+                    });
+                    var a = {
+                        "stroke-dashoffset": {
+                            id: "anim" + e.index,
+                            dur: 1e3,
+                            from: -t + "px",
+                            to: "0px",
+                            easing: Chartist.Svg.Easing.easeOutQuint,
+                            fill: "freeze",
+                            stroke: e.meta.color
+                        }
+                    };
+                    0 !== e.index &&
+                        (a["stroke-dashoffset"].begin =
+                            "anim" + (e.index - 1) + ".end"),
+                        e.element.attr({
+                            "stroke-dashoffset": -t + "px",
+                            stroke: e.meta.color
+                        }),
+                        e.element.animate(a, !1);
+                }
+            })
         }
     };
     jQuery(document).ready(function() {
         MorrisCharts.init();
+
+        $(document).on('click', '#update', function () {
+            location.reload();
+        });
     });
     </script>
 @endpush

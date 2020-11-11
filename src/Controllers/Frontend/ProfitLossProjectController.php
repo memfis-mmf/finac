@@ -14,7 +14,6 @@ use App\Models\Pivots\MaterialRequestItem;
 use App\Models\Project;
 use App\Models\Quotation;
 use App\Models\Unit;
-use Carbon\Carbon;
 use memfisfa\Finac\Model\Invoice;
 use memfisfa\Finac\Model\TrxJournal;
 use memfisfa\Finac\Model\TrxJournalA;
@@ -77,19 +76,24 @@ class ProfitLossProjectController extends Controller
             'cso',
             'tsn',
             'tso',
-            'origin_aircraft'
+            'origin_aircraft',
+            'origin_customer',
         ];
 
         // mengambil project utama/project induk (bukan additional project)
         $project = Project::select($selected_column)
+            ->without('quotations')
             ->where('uuid', $project_uuid)
             ->withCount('approvals')
             ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
             ->whereNull('parent_id') // mengambil project induk (bukan additional project)
             ->firstOrFail();
 
+        $project->customer = json_decode($project->origin_customer);
+
         // mengambil uid project additionalnya
         $project_tmp = Project::select($selected_column)
+            ->without('quotations')
             ->withCount('approvals')
             ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
             ->where('parent_id', $project->id);
@@ -106,7 +110,10 @@ class ProfitLossProjectController extends Controller
         array_unshift($project_uuid, $project->uuid);
         array_unshift($project_number, $project->number);
 
-        $all_project = Project::select($selected_column)->whereIn('uuid', $project_uuid)->get();
+        $all_project = Project::select($selected_column)
+            ->without('quotations')
+            ->whereIn('uuid', $project_uuid)
+            ->get();
 
         $invoice_number = [];
         $quotation_number = [];
@@ -119,6 +126,7 @@ class ProfitLossProjectController extends Controller
             $all_project_row->quotation = Quotation::select([
                     'id',
                     'uuid',
+                    'number'
                 ])
                 ->where('quotationable_type', 'App\Models\Project')
                 ->where('quotationable_id', $all_project_row->id)
@@ -141,6 +149,11 @@ class ProfitLossProjectController extends Controller
             // memasukan semua nomer quotation dari project ke dalam 1 array
             $quotation_number[] = $all_project_row->quotation;
 
+            // jika project utama
+            if (!$all_project_row->parent_id) {
+                $main_project = $all_project_row;
+            }
+
             // jika ini additional
             if ($all_project_row->parent_id) {
                 $additional_project[] = $all_project_row;
@@ -154,7 +167,7 @@ class ProfitLossProjectController extends Controller
             ->all();
 
         $iv_out_number = InventoryOut::where('inventoryoutable_type', 'App\Models\ItemRequest')
-            ->where('inventoryoutable_id', $item_request_id)
+            ->whereIn('inventoryoutable_id', $item_request_id)
             ->has('approvals')
             ->pluck('number')
             ->all();
@@ -221,7 +234,7 @@ class ProfitLossProjectController extends Controller
         }
 
         $data = [
-            'main_project' => $project,
+            'main_project' => $main_project,
             'additional_project' => $additional_project,
             'revenue' => $revenue,
             'expense' => $expense,

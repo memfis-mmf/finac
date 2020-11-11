@@ -15,9 +15,25 @@ class ProjectReportController extends Controller
 
     public function view(Request $request)
     {
-        $data = [
-            'project' => Project::where('uuid', $request->project)->firstOrFail()
-        ];
+        $data = app('memfisfa\Finac\Controllers\Frontend\ProfitLossProjectController')
+            ->getAllProject($request->project)['data'];
+
+        $total = $data['total_revenue'] + $data['total_expense'];
+
+        $data['total_revenue_percent'] = $data['total_revenue'] * 100 / $total;
+        $data['total_expense_percent'] = $data['total_expense'] * 100 / $total;
+
+        // build bar chart data
+        $bar_chart = [];
+        foreach ($data['revenue'] as $revenue_index => $revenue_row) {
+            $bar_chart[] = "{\"y\": \"$revenue_index\", \"a\": $revenue_row->value, \"b\": 0}";
+        }
+
+        foreach ($data['expense'] as $expense_index => $expense_row) {
+            $bar_chart[] = "{\"y\": \"$expense_index\", \"a\": 0, \"b\": $expense_row->value}";
+        }
+
+        $data['bar_chart'] = implode('<>', $bar_chart);
 
         return view('projectreport-profitlossview::view', $data);
     }
