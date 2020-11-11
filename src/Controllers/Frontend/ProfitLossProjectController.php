@@ -4,10 +4,16 @@ namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DefectCard;
+use App\Models\FefoIn;
 use App\Models\InventoryOut;
+use App\Models\Item;
 use App\Models\ItemRequest;
+use App\Models\JobCard;
+use App\Models\Pivots\MaterialRequestItem;
 use App\Models\Project;
 use App\Models\Quotation;
+use App\Models\Unit;
 use Carbon\Carbon;
 use memfisfa\Finac\Model\Invoice;
 use memfisfa\Finac\Model\TrxJournal;
@@ -40,6 +46,7 @@ class ProfitLossProjectController extends Controller
             ])
             ->where('quotationable_type', 'App\Models\Project')
             ->where('quotationable_id', $data['main_project']->id)
+            ->has('approvals')
             ->first();
 
         $data['quotation'] = $quotation;
@@ -99,15 +106,12 @@ class ProfitLossProjectController extends Controller
         array_unshift($project_uuid, $project->uuid);
         array_unshift($project_number, $project->number);
 
-        $additional_project = $project
-            ->childs()
-            ->select($selected_column)
-            ->get();
-
-        $all_project = Project::whereIn('uuid', $project_uuid)->get();
+        $all_project = Project::select($selected_column)->whereIn('uuid', $project_uuid)->get();
 
         $invoice_number = [];
         $quotation_number = [];
+
+        $additional_project = [];
 
         foreach ($all_project as $all_project_row) {
 
@@ -118,11 +122,15 @@ class ProfitLossProjectController extends Controller
                 ])
                 ->where('quotationable_type', 'App\Models\Project')
                 ->where('quotationable_id', $all_project_row->id)
+                ->has('approvals')
                 ->first();
+
+            $all_project_row->items = $this->getProjectItem($all_project_row, $all_project_row->quotation); 
 
             // mengambil nomer invoice dari quotation
             $all_project_row->invoice = Invoice::select(['id', 'transactionnumber'])
                 ->where('id_quotation', $all_project_row->quotation->id)
+                ->where('approve', true)
                 ->first();
             
             // memasukan semua nomer invoice dari quotation ke dalam 1 array
@@ -132,6 +140,11 @@ class ProfitLossProjectController extends Controller
             
             // memasukan semua nomer quotation dari project ke dalam 1 array
             $quotation_number[] = $all_project_row->quotation;
+
+            // jika ini additional
+            if ($all_project_row->parent_id) {
+                $additional_project[] = $all_project_row;
+            }
         }
 
         // menganmbil material request atas project yang sudah diambil sebelumnya
@@ -142,6 +155,7 @@ class ProfitLossProjectController extends Controller
 
         $iv_out_number = InventoryOut::where('inventoryoutable_type', 'App\Models\ItemRequest')
             ->where('inventoryoutable_id', $item_request_id)
+            ->has('approvals')
             ->pluck('number')
             ->all();
 
@@ -159,7 +173,7 @@ class ProfitLossProjectController extends Controller
                     ->orWhereIn('ref_no', $invoice_number)
                     ->orWhereIn('ref_no', $quotation_number);
             })
-            ->where('approve', 1)
+            ->where('approve', true)
             ->pluck('voucher_no')
             ->all();
 
@@ -223,18 +237,127 @@ class ProfitLossProjectController extends Controller
 
     public function inventoryExpenseDetail(Request $request)
     {
-        $all_project = $this->getAllProject($request->project_uuid);
+        $get_data = $this->getAllProject($request->project_uuid);
 
-        if (!$all_project['status']) {
+        if (!$get_data['status']) {
             return response([
-                'status' => $all_project['status'],
-                'message' => $all_project['message']
+                'status' => $get_data['status'],
+                'message' => $get_data['message']
             ], 422);
         }
 
-        $data = $all_project['data'];
+        $data = $get_data['data'];
+
+        $quotation = Quotation::select([
+                'id',
+                'uuid',
+                'number',
+            ])
+            ->where('quotationable_type', 'App\Models\Project')
+            ->where('quotationable_id', $data['main_project']->id)
+            ->has('approvals')
+            ->first();
+
+        $data['quotation'] = $quotation;
+        $data['invoice'] = Invoice::where('id_quotation', $quotation->id)->first();
+        $data['main_project']->aircraft = json_decode($data['main_project']->origin_aircraft);
+        $data['main_project']->items = $this->getProjectItem($data['main_project'], $data['quotation']);
 
         $pdf = \PDF::loadView('formview::inventory-expense-details', $data);
         return $pdf->stream();
+    }
+
+    public function getProjectItem($project, $quotation)
+    {
+        $items = [];
+        if ($project->parent_id == null) {
+            $quotation_id = $project->quotations->first()->id;
+            $jobcards = JobCard::where('quotation_id', $quotation_id)->get();
+            foreach ($jobcards as $jobcard) {
+                foreach ($jobcard->materials as $item_jobcard_row) {
+                    $item_jobcard_row = (object) $item_jobcard_row;
+
+                    $unit = Unit::where('symbol', $item_jobcard_row->unit)
+                        ->first();
+                    $item_jobcard_row->unit_id = $unit->id;
+
+                    $item = Item::where('code', $item_jobcard_row->code)
+                        ->first();
+
+                    $request_item = MaterialRequestItem::where('item_id', $item->id)
+                        ->whereHas('request', function($request) use ($project) {
+                            $request->where('ref_uuid', $project->uuid);
+                        })
+                        ->first();
+
+                    if (!$request_item) {
+                        continue;
+                    }
+
+                    $actual_item = FefoIn::where('item_id', $item->id)
+                        ->where('storage_id', $request_item->request->storage_id)
+                        ->where('serial_number', $request_item->serial_number)
+                        ->where('reference', $quotation->number)
+                        ->first();
+
+                    if (!$actual_item) {
+                        continue;
+                    }
+
+                    $item->pivot = $item_jobcard_row;
+                    $item->transaction_number = $request_item->request->number;
+                    $item->quantity = $request_item->quantity;
+                    $item->unit = $request_item->unit;
+                    $item->price = $actual_item->price * $request_item->quantity_in_primary_unit;
+
+                    $items[] = $item;
+                }
+            }
+        } else {
+            $defectcards = DefectCard::where('project_additional_id', $project->id)
+                ->get();
+
+            foreach ($defectcards as $defectcard) {
+                $dc_items = $defectcard->items()
+                    ->whereHas('categories', function($categories) {
+                        $categories->where('code', 'raw')
+                            ->orWhere('code', 'cons')
+                            ->orWhere('code', 'comp');
+                    })
+                    ->get();
+
+                foreach ($dc_items as $item) {
+
+                    $request_item = MaterialRequestItem::where('item_id', $item->id)
+                        ->whereHas('request', function($request) use ($project) {
+                            $request->where('ref_uuid', $project->uuid);
+                        })
+                        ->first();
+
+                    if (!$request_item) {
+                        continue;
+                    }
+
+                    $actual_item = FefoIn::where('item_id', $item->id)
+                        ->where('storage_id', $request_item->request->storage_id)
+                        ->where('serial_number', $request_item->serial_number)
+                        ->where('reference', $quotation->number)
+                        ->first();
+
+                    if (!$actual_item) {
+                        continue;
+                    }
+
+                    $item->transaction_number = $request_item->request->number;
+                    $item->quantity = $request_item->quantity;
+                    $item->unit = $request_item->unit;
+                    $item->price = $actual_item->price * $request_item->quantity_in_primary_unit;
+
+                    $items[] = $item;
+                }
+            }
+        }
+
+        return $items;
     }
 }

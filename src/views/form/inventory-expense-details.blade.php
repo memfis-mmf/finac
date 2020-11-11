@@ -127,27 +127,27 @@
                             <tr>
                                 <td valign="top" width="30%">Project Title</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->title }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Project No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->code }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Quotation No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $quotation->number }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Work Order No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->no_wo }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">Invoice No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $invoice->transactionnumber ?? '-' }}</td>
                             </tr>
                         </table>
                     </td>
@@ -156,19 +156,19 @@
                             <tr>
                                 <td valign="top" width="30%">A/C Type</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">Lorem </td>
+                                <td valign="top" width="69%">{{ $main_project->aircraft->code }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">A/C Reg</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->aircraft_register }}</td>
                             </tr>
                             <tr>
                                 <td valign="top" width="30%">A/C Serial No.</td>
                                 <td valign="top" width="1%">:</td>
-                                <td valign="top" width="69%">generated</td>
+                                <td valign="top" width="69%">{{ $main_project->aircraft_sn }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td valign="top" width="30%">Start Date</td>
                                 <td valign="top" width="1%">:</td>
                                 <td valign="top" width="69%">generated</td>
@@ -177,7 +177,7 @@
                                 <td valign="top" width="30%">End Date</td>
                                 <td valign="top" width="1%">:</td>
                                 <td valign="top" width="69%">generated</td>
-                            </tr>
+                            </tr> --}}
                         </table>
                     </td>
                 </tr>
@@ -200,20 +200,53 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 40; $i++)    
+                    @foreach ($main_project->items as $item_index => $item_row)
                         <tr>
-                            <td align="center" valign="top">1</td>
-                            <td valign="top">MTRQ-YYYY/MM/00001</td>
-                            <td align="center" valign="top">123232123</td>
-                            <td valign="top">3M RADIAL BRISTAL DISC 2-P120</td>
-                            <td align="center" valign="top">100</td>
-                            <td align="center" valign="top">Centimeter</td>
-                            <td align="right" valign="top">1.000.000.000</td>
+                            <td align="center" valign="top">{{ $item_index + 1 }}</td>
+                            <td valign="top">{{ $item_row->transaction_number }}</td>
+                            <td align="center" valign="top">{{ $item_row->code }}</td>
+                            <td valign="top">{{ $item_row->name }}</td>
+                            <td align="center" valign="top">{{ $item_row->quantity }}</td>
+                            <td align="center" valign="top">{{ $item_row->unit->name }}</td>
+                            <td align="right" valign="top">Rp {{ number_format($item_row->price, 2, ',', '.') }}</td>
                         </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+
+    @if (count($additional_project) > 0)
+    @foreach ($additional_project as $item)
+        
+    @endforeach
+    <div id="content" style="margin-top: 20px">
+        <div class="container">
+            <table width="100%">
+                <tr>
+                    <td width="50%" valign="top">
+                        <table width="100%" cellpadding="4">
+                            <tr>
+                                <td valign="top" width="30%">Project No.</td>
+                                <td valign="top" width="1%">:</td>
+                                <td valign="top" width="69%">{{ $main_project->code }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="50%" valign="top">
+                        <table width="100%" cellpadding="4">
+                            <tr>
+                                <td valign="top" width="30%">Quotation No.</td>
+                                <td valign="top" width="1%">:</td>
+                                <td valign="top" width="69%">{{ $quotation->number }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    @endif
+
 </body>
 </html>
