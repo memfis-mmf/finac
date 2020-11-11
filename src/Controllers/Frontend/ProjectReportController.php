@@ -13,6 +13,15 @@ class ProjectReportController extends Controller
         return view('projectreport-profitlossview::index');
     }
 
+    public function view(Request $request)
+    {
+        $data = [
+            'project' => Project::where('uuid', $request->project)->firstOrFail()
+        ];
+
+        return view('projectreport-profitlossview::view', $data);
+    }
+
     public function select2Project(Request $request)
     {
         $q = $request->q;

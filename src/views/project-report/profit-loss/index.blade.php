@@ -50,7 +50,7 @@
                 </div>
                 <div class="m-portlet m-portlet--mobile">
                     <div class="m-portlet__body">
-                        <form id="MasterAssetForm">
+                        <form id="MasterAssetForm" action="{{ route('project-report.profit-loss.view') }}">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -131,7 +131,7 @@
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
                                             @component('buttons::submit')
-                                                @slot('type', 'button')
+                                                @slot('type', 'submit')
                                                 @slot('color', 'primary')
                                                 @slot('icon', 'fa-search')
                                                 @slot('text', 'View Profit & Loss')
@@ -151,4 +151,14 @@
 @endsection
 
 @push('footer-scripts')
+<script>
+    $(document).ready(function () {
+        $('#project').select2({
+            placeholder: '--Select--',
+            ajax: {
+                url: '{{ route("project-report.profit-loss.select2") }}'
+            }
+        });
+    });
+</script>
 @endpush

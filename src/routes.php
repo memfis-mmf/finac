@@ -1044,7 +1044,9 @@ Route::group(['middleware' => ['web','auth']], function () {
 			->name('profit-loss.index');
 
 		Route::get('/profit-loss/select2-main-project', 'memfisfa\Finac\Controllers\Frontend\ProjectReportController@select2Project')
-			->name('profit-loss.index');
+			->name('profit-loss.select2');
+
+		Route::get('/profit-loss/view', 'memfisfa\Finac\Controllers\Frontend\ProjectReportController@view')->name('profit-loss.view');
 	});
 
 });

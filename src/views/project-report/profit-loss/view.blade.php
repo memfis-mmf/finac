@@ -29,7 +29,7 @@
 </div>
 <div class="m-content">    
     <div class="row">
-        <div class="col-xl-4">
+        <div class="col-md-4">
             <div class="m-portlet m-portlet--full-height ">
                 <div class="m-portlet__body">
                     <div class="m-portlet__head-caption">
@@ -101,9 +101,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-4">
+        <div class="col-md-4">
             <div class="m-portlet  m-portlet--full-height">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
@@ -165,7 +163,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-8">
+        <div class="col-md-4">
             <div class="m-portlet">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
@@ -207,6 +205,7 @@
                 </div>
             </div>
         </div>
+    
     </div>
     <div class="row">
         <div class="col-xl-5">
