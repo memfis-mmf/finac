@@ -1032,10 +1032,19 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/ar-history-export',
 			'memfisfa\Finac\Controllers\Frontend\FAReportController@arHistoryExport'
 		)->name('fa-report.ar-history-export');
-    });
+	});
+
     
     Route::resource('fixed-asset-disposition', 'memfisfa\Finac\Controllers\Frontend\FixedAssetDispositionController');
     
-    Route::resource('credit-note', 'memfisfa\Finac\Controllers\Frontend\CreditNoteController');
+	Route::resource('credit-note', 'memfisfa\Finac\Controllers\Frontend\CreditNoteController');
+	
+	Route::prefix('project-report')->name('project-report.')->group(function() {
+		Route::get('/profit-loss', 'memfisfa\Finac\Controllers\Frontend\ProjectReportController@index')
+			->name('profit-loss.index');
+
+		Route::get('/profit-loss/select2-main-project', 'memfisfa\Finac\Controllers\Frontend\ProjectReportController@select2Project')
+			->name('profit-loss.index');
+	});
 
 });
