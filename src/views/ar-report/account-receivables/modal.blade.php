@@ -35,7 +35,7 @@
                                 </label>
                             
                                 @component('input::select2')
-                                    @slot('id', 'department')
+                                    @slot('class', 'department')
                                     @slot('name', 'department')
                                     @slot('id_error', 'department')
                                 @endcomponent

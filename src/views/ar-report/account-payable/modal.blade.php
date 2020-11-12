@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-              <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm" action="{{route('fa-report.ar-history')}}">
+              <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm" action="{{route('fa-report.ap-history')}}">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -35,7 +35,7 @@
                                 </label>
                             
                                 @component('input::select2')
-                                    @slot('id', 'department')
+                                    @slot('class', 'department')
                                     @slot('name', 'department')
                                     @slot('id_error', 'department')
                                 @endcomponent
@@ -131,13 +131,13 @@
             placeholder : '-- Select --'
         });
 
-        // $('#_vendor').select2({
-        //   ajax: {
-        //     url: ``,
-        //     dataType: 'json'
-        //   },
-        //   width: '100%'
-        // });
+        $('#_vendor').select2({
+          ajax: {
+            url: `{{route('frontend.supplier.select2')}}`,
+            dataType: 'json'
+          },
+          width: '100%'
+        });
 
         $("#daterange").daterangepicker({
             buttonClasses: "m-btn btn",

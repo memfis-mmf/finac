@@ -1023,6 +1023,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\FAReportController@index'
         )->name('fa-report.index');
 
+        // AR history
 		Route::get(
 			'/ar-history',
 			'memfisfa\Finac\Controllers\Frontend\ARHistoryController@arHistory'
@@ -1031,7 +1032,20 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/ar-history-export',
 			'memfisfa\Finac\Controllers\Frontend\ARHistoryController@arHistoryExport'
-		)->name('fa-report.ar-history-export');
+        )->name('fa-report.ar-history-export');
+        // END AR history
+
+        // AP history
+		Route::get(
+			'/ap-history',
+			'memfisfa\Finac\Controllers\Frontend\APHistoryController@apHistory'
+        )->name('fa-report.ap-history');
+
+		Route::get(
+			'/ap-history-export',
+			'memfisfa\Finac\Controllers\Frontend\APHistoryController@apHistoryExport'
+        )->name('fa-report.ap-history-export');
+        // END AP history
 	});
 
     
