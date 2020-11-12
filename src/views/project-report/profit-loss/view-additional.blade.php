@@ -101,6 +101,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col">
             <div class="m-portlet  m-portlet--full-height">
                 <div class="m-portlet__head">
@@ -163,6 +164,94 @@
                 </div>
             </div>
         </div>
+
+        {{-- additional project --}}
+
+        <div class="col-md-12">
+            <div class="m-portlet m-portlet--full-height">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                                Additional Project
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="m-portlet__head-tools">
+                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
+                            <li class="nav-item m-tabs__item">
+                                @component('buttons::create-new')
+                                    @slot('type', 'button')
+                                    @slot('size', 'sm')
+                                    @slot('color', 'success')
+                                    @slot('icon', 'rotate-left')
+                                    @slot('text', 'Update')
+                                    @slot('id','update')
+                                @endcomponent
+                            </li>
+                            <li class="pl-4 mt-2 m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
+                                <a href="#" class="m-portlet__nav-link m-portlet__nav-link--icon m-portlet__nav-link--icon-xl m-dropdown__toggle">
+                                    <i class="la la-ellipsis-h m--font-brand"></i>
+                                </a>
+                                <div class="m-dropdown__wrapper">
+                                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                    <div class="m-dropdown__inner">
+                                        <div class="m-dropdown__body">
+                                            <div class="m-dropdown__content">
+                                                <ul class="m-nav">
+                                                    <li class="m-nav__item">
+                                                        <a href="" class="m-nav__link">
+                                                        <i class="m-nav__link-icon la la-file-excel-o"></i>
+                                                        <span class="m-nav__link-text">Export to Excel</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-nav__item">
+                                                        <a href="" class="m-nav__link">
+                                                        <i class="m-nav__link-icon la la-print"></i>
+                                                        <span class="m-nav__link-text">Print Document</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-bordered table-striped mb-0"  style="font-size:12px">
+                            <thead class="bg-primary text-white text-center">
+                                <tr>
+                                    <td align="center" width="25%">Additional Project No.</td>
+                                    <td align="center" width="25%">Additional Quotation No.</td>
+                                    <td align="center" width="20%">Invoice No.</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (count($additional_project) == 0)
+                                    <tr>
+                                        <td colspan="3" valign="top" style="text-align: center">Data Empty</td>
+                                    </tr>
+                                @endif
+                                @foreach ($additional_project as $additional_project_row)
+                                    <tr>
+                                        <td valign="top">{{ $additional_project_row->number }}</td>
+                                        <td valign="top">{{ $additional_project_row->quotation->number }}</td>
+                                        <td valign="top">{{ $additional_project_row->invoice->transactionnumber }}</td>
+                                        {{-- <td valign="top" align="center">2020/01/02</td>
+                                        <td valign="top" align="center">2020/01/02</td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12">
             <div class="m-portlet">
                 <div class="m-portlet__head">
@@ -376,15 +465,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($main_project->items as $item_index => $item_row)
+                                @if (count($additional_project) == 0)
                                     <tr>
-                                        <th vallign="top" scope="row">{{ $item_row->transaction_number }}</th>
-                                        <td vallign="top">{{ $item_row->code }}</td>
-                                        <td vallign="top">{{ $item_row->name }}</td>
-                                        <td vallign="top" align="center">{{ $item_row->quantity }}</td>
-                                        <td vallign="top" align="center">{{ $item_row->unit->name }}</td>
-                                        <td vallign="top" align="right">{{ number_format($item_row->price, 2, ',', '.') }}</td>
+                                        <td colspan="6" style="text-align: center">Data Empty</td>
                                     </tr>
+                                @endif
+                                @foreach ($additional_project as $additional_project_row)
+                                    @foreach ($additional_project_row->items as $item_index => $item_row)
+                                        <tr>
+                                            <th vallign="top" scope="row">{{ $item_row->transaction_number }}</th>
+                                            <td vallign="top">{{ $item_row->code }}</td>
+                                            <td vallign="top">{{ $item_row->name }}</td>
+                                            <td vallign="top" align="center">{{ $item_row->quantity }}</td>
+                                            <td vallign="top" align="center">{{ $item_row->unit->name }}</td>
+                                            <td vallign="top" align="right">{{ number_format($item_row->price, 2, ',', '.') }}</td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>
@@ -398,12 +494,12 @@
     <div class="form-group m-form__group row ">
         <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
             <div class="action-buttons">
-              <a href="{{ route('project-report.profit-loss.view.additional', $request) }}" class="btn btn-primary btn-md add" style="" target="" data-uuid="">
+              <a href="{{ route('project-report.profit-loss.view', $request) }}" class="btn btn-primary btn-md add" style="" target="" data-uuid="">
 
                 <span>
                     <i class="fa fa-search"></i>
 
-                    <span>Additional Project</span>
+                    <span>Project</span>
                 </span>
               </a>
 
@@ -415,7 +511,13 @@
                     @slot('id', 'update')
                 @endcomponent
 
-                @include('buttons::back')
+                <a href="{{ route('project-report.profit-loss.index') }}" class="btn btn-secondary btn-md" style="">
+                    <span>
+                        <i class="la la-undo"></i>
+                    </span>
+
+                    Back
+                </a>
             </div>
         </div>
     </div>

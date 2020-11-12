@@ -415,7 +415,13 @@
                     @slot('id', 'update')
                 @endcomponent
 
-                @include('buttons::back')
+                <a href="{{ route('project-report.profit-loss.index') }}" class="btn btn-secondary btn-md" style="">
+                    <span>
+                        <i class="la la-undo"></i>
+                    </span>
+
+                    Back
+                </a>
             </div>
         </div>
     </div>

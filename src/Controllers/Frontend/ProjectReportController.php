@@ -108,6 +108,45 @@ class ProjectReportController extends Controller
         }
 
         $data['bar_chart'] = implode('<>', $bar_chart);
+        $data['request'] = $request->all();
+
+        // manhour=2000&hangar_space=20000&parking_area=10000&other_expense=9000
+
+        if ($request->manhour > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Manhour COGS',
+                'value' => $request->manhour
+            ];
+
+            $data['total_expense'] += $request->manhour;
+        }
+
+        if ($request->hangar_space > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Hangar Space COGS',
+                'value' => $request->hangar_space
+            ];
+
+            $data['total_expense'] += $request->hangar_space;
+        }
+
+        if ($request->parking_area > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Parking Area COGS',
+                'value' => $request->parking_area
+            ];
+
+            $data['total_expense'] += $request->parking_area;
+        }
+
+        if ($request->other_expense > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Other',
+                'value' => $request->other_expense
+            ];
+
+            $data['total_expense'] += $request->other_expense;
+        }
 
         return view('projectreport-profitlossview::view-additional', $data);
     }

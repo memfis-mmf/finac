@@ -294,8 +294,7 @@ class ProfitLossProjectController extends Controller
                         ->first();
                     $item_jobcard_row->unit_id = $unit->id;
 
-                    $item = Item::where('code', $item_jobcard_row->code)
-                        ->first();
+                    $item = Item::where('code', $item_jobcard_row->code)->first();
 
                     $request_item = MaterialRequestItem::where('item_id', $item->id)
                         ->whereHas('request', function($request) use ($project) {
@@ -322,6 +321,9 @@ class ProfitLossProjectController extends Controller
                     $item->quantity = $request_item->quantity;
                     $item->unit = $request_item->unit;
                     $item->price = $actual_item->price * $request_item->quantity_in_primary_unit;
+                    $item->ref_no = $jobcard->number;
+                    $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at;
+                    $item->category = $item->categories()->select('name')->first();
 
                     $items[] = $item;
                 }
@@ -365,6 +367,9 @@ class ProfitLossProjectController extends Controller
                     $item->quantity = $request_item->quantity;
                     $item->unit = $request_item->unit;
                     $item->price = $actual_item->price * $request_item->quantity_in_primary_unit;
+                    $item->ref_no = $defectcard->code;
+                    $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at;
+                    $item->category = $item->categories()->select('name')->first();
 
                     $items[] = $item;
                 }
