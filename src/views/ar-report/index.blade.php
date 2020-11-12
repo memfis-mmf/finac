@@ -134,6 +134,32 @@
 
                             @include('invoicepview::modal')
 
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="pl-5 pr-5 pt-5">
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_ap" data-toggle="modal">
+                                        <span>
+                                        <i class="la la-file-o btn-icon"></i>
+                                            <span><h3>Account Payable History</h3></span>
+                                            <span>Shows report of payable customer</span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            @include('apreport-accountrhview::modal')
+
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="pl-5 pr-5 pt-5">
+                                    <a href="{{ route('project-report.profit-loss.index') }}" type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large">
+                                        <span>
+                                            <i class="la la-file-o btn-icon"></i>
+                                            <span><h3>Project Profit & Loss</h3></span>
+                                            <span>Shows report profit & loss of project</span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

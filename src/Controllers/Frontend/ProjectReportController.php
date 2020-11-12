@@ -110,8 +110,6 @@ class ProjectReportController extends Controller
         $data['bar_chart'] = implode('<>', $bar_chart);
         $data['request'] = $request->all();
 
-        // manhour=2000&hangar_space=20000&parking_area=10000&other_expense=9000
-
         if ($request->manhour > 0) {
             $data['expense'][] = (object) [
                 'name' => 'Manhour COGS',
