@@ -20,8 +20,82 @@ class ProjectReportController extends Controller
 
         $total = $data['total_revenue'] + $data['total_expense'];
 
-        $data['total_revenue_percent'] = $data['total_revenue'] * 100 / $total;
-        $data['total_expense_percent'] = $data['total_expense'] * 100 / $total;
+        $data['total_revenue_percent'] = 0;
+        $data['total_expense_percent'] = 0;
+
+        if ($total > 1) {
+            $data['total_revenue_percent'] = $data['total_revenue'] * 100 / $total;
+            $data['total_expense_percent'] = $data['total_expense'] * 100 / $total;
+        }
+
+        // build bar chart data
+        $bar_chart = [];
+        foreach ($data['revenue'] as $revenue_index => $revenue_row) {
+            $bar_chart[] = "{\"y\": \"$revenue_index\", \"a\": $revenue_row->value, \"b\": 0}";
+        }
+
+        foreach ($data['expense'] as $expense_index => $expense_row) {
+            $bar_chart[] = "{\"y\": \"$expense_index\", \"a\": 0, \"b\": $expense_row->value}";
+        }
+
+        $data['bar_chart'] = implode('<>', $bar_chart);
+        $data['request'] = $request->all();
+
+        // manhour=2000&hangar_space=20000&parking_area=10000&other_expense=9000
+
+        if ($request->manhour > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Manhour COGS',
+                'value' => $request->manhour
+            ];
+
+            $data['total_expense'] += $request->manhour;
+        }
+
+        if ($request->hangar_space > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Hangar Space COGS',
+                'value' => $request->hangar_space
+            ];
+
+            $data['total_expense'] += $request->hangar_space;
+        }
+
+        if ($request->parking_area > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Parking Area COGS',
+                'value' => $request->parking_area
+            ];
+
+            $data['total_expense'] += $request->parking_area;
+        }
+
+        if ($request->other_expense > 0) {
+            $data['expense'][] = (object) [
+                'name' => 'Other',
+                'value' => $request->other_expense
+            ];
+
+            $data['total_expense'] += $request->other_expense;
+        }
+
+        return view('projectreport-profitlossview::view', $data);
+    }
+
+    public function viewAdditional(Request $request)
+    {
+        $data = app('memfisfa\Finac\Controllers\Frontend\ProfitLossProjectController')
+            ->getAllProject($request->project)['data'];
+
+        $total = $data['total_revenue'] + $data['total_expense'];
+
+        $data['total_revenue_percent'] = 0;
+        $data['total_expense_percent'] = 0;
+
+        if ($total > 1) {
+            $data['total_revenue_percent'] = $data['total_revenue'] * 100 / $total;
+            $data['total_expense_percent'] = $data['total_expense'] * 100 / $total;
+        }
 
         // build bar chart data
         $bar_chart = [];
@@ -35,7 +109,7 @@ class ProjectReportController extends Controller
 
         $data['bar_chart'] = implode('<>', $bar_chart);
 
-        return view('projectreport-profitlossview::view', $data);
+        return view('projectreport-profitlossview::view-additional', $data);
     }
 
     public function select2Project(Request $request)
