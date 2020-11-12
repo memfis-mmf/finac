@@ -1025,12 +1025,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 
 		Route::get(
 			'/ar-history',
-			'memfisfa\Finac\Controllers\Frontend\FAReportController@arHistory'
+			'memfisfa\Finac\Controllers\Frontend\ARHistoryController@arHistory'
         )->name('fa-report.ar-history');
 
 		Route::get(
 			'/ar-history-export',
-			'memfisfa\Finac\Controllers\Frontend\FAReportController@arHistoryExport'
+			'memfisfa\Finac\Controllers\Frontend\ARHistoryController@arHistoryExport'
 		)->name('fa-report.ar-history-export');
 	});
 
