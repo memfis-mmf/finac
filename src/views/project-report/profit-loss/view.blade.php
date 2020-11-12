@@ -241,23 +241,12 @@
                                             <div class="m-dropdown__content">
                                                 <ul class="m-nav">
                                                     <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
-                                                        <i class="m-nav__link-icon la la-file-excel-o"></i>
-                                                        <span class="m-nav__link-text">Export to Excel</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
+                                                        <a href="{{ route('profit-loss-project') }}/?project_uuid={{ Request::get('project') }}" target="_blank" class="m-nav__link">
                                                         <i class="m-nav__link-icon la la-print"></i>
                                                         <span class="m-nav__link-text">Print Document</span>
                                                         </a>
                                                     </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
-                                                        <i class="m-nav__link-icon la la-search"></i>
-                                                        <span class="m-nav__link-text">View Details</span>
-                                                        </a>
-                                                    </li>
+                                                    
                                                 </ul>
                                             </div>
                                         </div>
@@ -342,13 +331,7 @@
                                             <div class="m-dropdown__content">
                                                 <ul class="m-nav">
                                                     <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
-                                                        <i class="m-nav__link-icon la la-file-excel-o"></i>
-                                                        <span class="m-nav__link-text">Export to Excel</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
+                                                        <a href="{{ route('inventory-expense-details') }}/?project_uuid={{ Request::get('project') }}" target="_blank" class="m-nav__link">
                                                         <i class="m-nav__link-icon la la-print"></i>
                                                         <span class="m-nav__link-text">Print Document</span>
                                                         </a>

@@ -5,6 +5,7 @@
                {{ $class or '' }}"
         style="{{ $style or '' }}"
         {{ $multiple or '' }}
+        {{ $required or '' }}
 >
 
     <option value="">

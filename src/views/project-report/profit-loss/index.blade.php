@@ -62,6 +62,7 @@
                                             @slot('id', 'project')
                                             @slot('text', 'Project')
                                             @slot('name', 'project')
+                                            @slot('required', 'required')
                                         @endcomponent
                                     </div>
                                 </div>
@@ -72,7 +73,7 @@
                                             <div class="form-group m-form__group row ">
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     <label class="form-control-label">
-                                                        Manhour COGS @include('label::required')
+                                                        Manhour COGS
                                                     </label>
         
                                                     @component('input::number')
@@ -85,7 +86,7 @@
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     <label class="form-control-label">
-                                                        Hangar Space COGS @include('label::required')
+                                                        Hangar Space COGS
                                                     </label>
         
                                                     @component('input::number')
@@ -99,7 +100,7 @@
                                             <div class="form-group m-form__group row ">
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     <label class="form-control-label">
-                                                        Parking Area COGS @include('label::required')
+                                                        Parking Area COGS
                                                     </label>
         
                                                     @component('input::number')
@@ -111,7 +112,7 @@
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     <label class="form-control-label">
-                                                        Other Expense @include('label::required')
+                                                        Other Expense
                                                     </label>
         
                                                     @component('input::number')
