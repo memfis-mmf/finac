@@ -207,10 +207,10 @@
                         <h3>PROFIT & LOSS</h3>
                     </td>
                     <td width="20%" align="right">
-                        <h4>{{number_format($total_accumulated, 0, 0, '.')}}</h4>
+                        <h4>{{number_format($pendapatan_accumulated - $biaya_accumulated, 0, 0, '.')}}</h4>
                     </td>
                     <td width="20%" align="right">
-                        <h4>{{number_format($total_period, 0, 0, '.')}}</h4>
+                        <h4>{{number_format($pendapatan_period - $biaya_period, 0, 0, '.')}}</h4>
                     </td>
                 </tr>
             </table>
