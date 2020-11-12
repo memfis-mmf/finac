@@ -43,7 +43,25 @@ class TrxPaymentController extends Controller
 		try {
 
 			$si_tmp = TrxPayment::where('uuid', $request->uuid);
-			$si = $si_tmp->first();
+            $si = $si_tmp->first();
+
+            $total = TrxPaymentB::where(
+                'transaction_number',
+                $si->transaction_number
+            )->sum('total');
+
+            if ($si->currencies->code == 'idr') {
+                $grandtotal_foreign = $total;
+                $grandtotal = $total;
+            }else{
+                $grandtotal_foreign = $total;
+                $grandtotal = ($total*$si->exchange_rate);
+            }
+
+            $si_tmp->update([
+                'grandtotal_foreign' => $grandtotal_foreign,
+                'grandtotal' => $grandtotal,
+            ]);
 
 	        $si->approvals()->save(new Approval([
 	            'approvable_id' => $si->id,
@@ -55,9 +73,6 @@ class TrxPaymentController extends Controller
 				'transaction_number',
 				$si->transaction_number
 			)->get();
-
-			$date_approve = $si->approvals->first()
-			->created_at->toDateTimeString();
 
 			$header = (object) [
 				'voucher_no' => $si->transaction_number,
@@ -613,10 +628,30 @@ class TrxPaymentController extends Controller
 
     public function grnApprove(Request $request)
     {
-		$data = TrxPayment::where('uuid', $request->uuid);
+        $data = TrxPayment::where('uuid', $request->uuid);
+        $si = $data->first();
+
+        $total = TrxPaymentA::where(
+                'transaction_number',
+                $si->transaction_number
+            )
+            ->get()
+            ->sum(function($row) {
+                return $row->total + ($row->total * ($row->tax_percent / 100));
+            });
+
+		if ($si->currencies->code == 'idr') {
+            $grandtotal_foreign = $total;
+            $grandtotal = $total;
+		}else{
+            $grandtotal_foreign = $total;
+            $grandtotal = ($total*$si->exchange_rate);
+		}
 
 		$data->update([
-			'approve' => 1
+			'approve' => 1,
+			'grandtotal_foreign' => $grandtotal_foreign,
+			'grandtotal' => $grandtotal,
 		]);
 
         return response()->json($data->first());

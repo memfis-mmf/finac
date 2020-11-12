@@ -302,10 +302,7 @@ let Journal = {
                                 }
                             );
 
-                            let table = $('.supplier_invoice_datatable').mDatatable();
-
-                            table.originalDataSet = [];
-                            table.reload();
+                          supplier_invoice_datatable.ajax.reload();
                         },
                         error: function (jqXhr, json, errorThrown) {
                             let errorsHtml = '';

@@ -18,6 +18,7 @@
                             
                                 @component('input::datepicker')
                                     @slot('id', 'daterange')
+                                    @slot('class', 'daterange')
                                     @slot('name', 'daterange')
                                     @slot('id_error', 'daterange_account_receivables_history')
                                 @endcomponent
@@ -139,7 +140,7 @@
           width: '100%'
         });
 
-        $("#daterange").daterangepicker({
+        $(".daterange").daterangepicker({
             buttonClasses: "m-btn btn",
             applyClass: "btn-primary",
             cancelClass: "btn-secondary",

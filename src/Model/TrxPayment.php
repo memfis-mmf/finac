@@ -39,6 +39,8 @@ class TrxPayment extends MemfisModel
     ];
 
 	protected $appends = [
+        'ap_amount',
+        'ending_balance',
 		'exchange_rate_fix',
 		'total',
 		'created_by',
@@ -53,6 +55,46 @@ class TrxPayment extends MemfisModel
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
+    }
+
+    public function getApAmountAttribute()
+    {
+        $apa = $this->apa()->whereHas('ap', function($ap) {
+                $ap->where('approve', true);
+            })
+            ->get();
+
+        $debit = 0;
+        $debit_idr = 0;
+        $credit = 0;
+        $credit_idr = 0;
+
+        $result = [];
+        foreach ($apa as $apa_row) {
+            $debit += $apa_row->debit;
+            $debit_idr += $apa_row->debit_idr;
+            $credit += $apa_row->credit;
+            $credit_idr += $apa_row->credit_idr;
+        }
+        
+        $result = [
+            'debit' => $debit,
+            'debit_idr' => $debit_idr,
+            'credit' => $credit,
+            'credit_idr' => $credit_idr,
+        ];
+
+        return $result;
+    }
+
+    public function getEndingBalanceAttribute()
+    {
+        $result = [
+            'amount' => $this->grandtotal_foreign - $this->ap_amount['debit'],
+            'amount_idr' => $this->grandtotal - $this->ap_amount['debit_idr'],
+        ];
+
+        return $result;
     }
 
 	public function getApprovedByAttribute()

@@ -73,7 +73,7 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/asset-category', 'assetcategoryview');
         $this->loadViewsFrom(__DIR__.'/views/ar-report', 'arreportview');
         $this->loadViewsFrom(__DIR__.'/views/ar-report/account-receivables', 'arreport-accountrhview');
-        $this->loadViewsFrom(__DIR__.'/views/ar-report/account-payable', 'apreport-accountrhview');
+        $this->loadViewsFrom(__DIR__.'/views/ap-report/account-payable', 'apreport-accountrhview');
         $this->loadViewsFrom(__DIR__.'/views/ar-report/aging-receivables-detail', 'arreport-agingview');
         $this->loadViewsFrom(__DIR__.'/views/ar-report/customer-tb', 'arreport-customertbview');
         $this->loadViewsFrom(__DIR__.'/views/ar-report/invoice-paid', 'invoicepview');
