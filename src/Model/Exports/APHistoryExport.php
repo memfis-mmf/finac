@@ -11,7 +11,7 @@ use \Maatwebsite\Excel\Sheet;
 
 use DB;
 
-class ARHistoryExport implements FromView
+class APHistoryExport implements FromView
 {
     protected $data;
 

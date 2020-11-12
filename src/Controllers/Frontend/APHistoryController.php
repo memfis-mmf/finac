@@ -5,7 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
-use App\Models\Customer;
+use App\Models\Vendor;
 use App\Models\Department;
 use Illuminate\Support\Carbon;
 
@@ -39,39 +39,27 @@ class APHistoryController extends Controller
 
         $currency = Currency::find($request->currency);
 
-        $customer = Customer::with([
-                'invoice' => function($invoice) {
-                    $invoice
-                        ->with([
-                            'quotations:id,number'
-                        ])
-                        ->where('approve', true);
+        $vendor = Vendor::with([
+                'supplier_invoice' => function($supplier_invoice) {
+                    $supplier_invoice->where('approve', true);
                 }
             ])
-            ->whereHas('invoice', function($invoice) use($request, $department, $date) {
-                $invoice->where('approve', true)
-                    ->whereBetween('transactiondate', $date);
+            ->whereHas('supplier_invoice', function($supplier_invoice) use($request, $department, $date) {
+                $supplier_invoice->where('approve', true)
+                    ->whereBetween('transaction_date', $date);
 
-                if ($request->customer) {
-                    $invoice = $invoice->where('id_customer', $request->customer);
-                }
-
-                if ($request->department) {
-                    $invoice = $invoice->where('company_department', $department->name);
-                }
-                
-                if ($request->location) {
-                    $invoice = $invoice->where('location', $request->location);
+                if ($request->vendor) {
+                    $supplier_invoice = $supplier_invoice->where('id_supplier', $request->vendor);
                 }
 
                 if ($request->currency) {
-                    $invoice = $invoice->where('currency', $request->currency);
+                    $supplier_invoice = $supplier_invoice->where('currency', $request->currency);
                 }
             })
             ->get();
 
         $data = [
-            'customer' => $customer,
+            'vendor' => $vendor,
             'date' => $date,
             'request' => $request,
             'department' => $department->name ?? NULL,
@@ -92,7 +80,7 @@ class APHistoryController extends Controller
         $data = $this->getArHistory($request);
         $data['export'] = route('fa-report.ap-history-export', $request->all());
         
-        return view('arreport-accountrhview::index', $data);
+        return view('apreport-accountrhview::index', $data);
     }
 
     public function apHistoryExport(Request $request)
@@ -102,7 +90,7 @@ class APHistoryController extends Controller
         $startDate = Carbon::parse($data['date'][0])->format('d F Y');
         $endDate = Carbon::parse($data['date'][1])->format('d F Y');
 
-        // return view('arreport-accountrhview::export', $data);
+        // return view('apreport-accountrhview::export', $data);
 		return Excel::download(new APHistoryExport($data), "AP History $startDate - $endDate.xlsx");
     }
 
