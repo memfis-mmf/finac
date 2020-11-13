@@ -98,6 +98,7 @@
                                   <th>Benefit Name</th>
                                   <th>Desciption</th>
                                   <th>COA</th>
+                                  <th>Action</th>
                                 </tr>
                               </thead>
                             </table>
@@ -118,10 +119,14 @@
       scrollX: true,
       processing: true,
       serverSide: true,
-      ajax: _url+'/invoice/datatables',
+      ajax: '{{ route("benefit-coa-master.datatables") }}',
       order: [[ 0, "desc" ]],
       columns: [
-        {data: 'code', searchable: false, visible: false},
+        {data: 'code_show', name: 'code', defaultContent: '-'},
+        {data: 'name', defaultContent: '-'},
+        {data: 'description_show', name: 'description', defaultContent: '-'},
+        {data: 'coa', defaultContent: '-'},
+        {data: 'action'}
       ]
     });
 

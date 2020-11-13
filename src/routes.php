@@ -1066,6 +1066,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 			->name('profit-loss.view.additional');
     });
     
+    Route::get('benefit-coa-master/datatables', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController@datatables')
+        ->name('benefit-coa-master.datatables');
     Route::resource('benefit-coa-master', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController');
 
 });
