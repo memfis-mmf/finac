@@ -176,6 +176,9 @@ class ARController extends Controller
         ]);
 
         return DataTables::of($data)
+            ->addColumn('status', function($row) {
+                return $row->status;
+            })
             ->escapeColumns([])
             ->make(true);
     }
