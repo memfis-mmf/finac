@@ -1064,6 +1064,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 			->name('profit-loss.view');
 		Route::get('/profit-loss/view/additional', 'memfisfa\Finac\Controllers\Frontend\ProjectReportController@viewAdditional')
 			->name('profit-loss.view.additional');
-	});
+    });
+    
+    Route::resource('benefit-coa-master', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController');
 
 });
