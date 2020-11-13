@@ -301,8 +301,8 @@ class TrxJournal extends MemfisModel
 				TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
 					'account_code' => $x->coa_detail,
-					'credit' => $x->credit,
-					'debit' => $x->debit,
+					'credit' => $x->credit ?? 0,
+					'debit' => $x->debit ?? 0,
 					// 'description' => 'Generate from auto journal, '.$header->voucher_no,
 					'description' => $x->_desc
 				]);

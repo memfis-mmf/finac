@@ -418,8 +418,10 @@ class ARController extends Controller
                 $code = 'CBPJ';
             }
 
+            $transaction_number = AReceive::generateCode($code);
+
             $ar_tmp->update([
-                'transactionnumber' => AReceive::generateCode($code)
+                'transactionnumber' => $transaction_number
             ]);
 
             $ar->approvals()->save(new Approval([
@@ -436,7 +438,7 @@ class ARController extends Controller
                 ->created_at->toDateTimeString();
 
             $header = (object) [
-                'voucher_no' => $ar->transactionnumber,
+                'voucher_no' => $transaction_number,
                 // 'transaction_date' => $date_approve,
                 'transaction_date' => $ar->transactiondate,
                 'coa' => $ar->coa->id,
@@ -451,9 +453,20 @@ class ARController extends Controller
             for ($a = 0; $a < count($ara); $a++) {
                 $x = $ara[$a];
 
+                if ($x->credit < 1 and $x->debit < 1) {
+                    continue;
+                }
+
+                // jika invoice nya foreign
+                if ($x->invoice->currencies->code != 'idr') {
+                    $credit = $x->credit * $x->invoice->exchangerate;
+                } else {
+                    $credit = $x->credit_idr;
+                }
+
                 $detail[] = (object) [
                     'coa_detail' => $x->coa->id,
-                    'credit' => $x->credit * $ar->exchangerate,
+                    'credit' => $credit,
                     'debit' => 0,
                     '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
                         . $x->ar->customer->name,
@@ -466,6 +479,10 @@ class ARController extends Controller
             // looping sebanyak adjustment
             for ($a = 0; $a < count($arb); $a++) {
                 $y = $arb[$a];
+
+                if ($y->credit < 1 and $y->debit < 1) {
+                    continue;
+                }
 
                 $detail[] = (object) [
                     'coa_detail' => $y->coa->id,
@@ -482,6 +499,10 @@ class ARController extends Controller
             // looping sebanyak gap
             for ($a = 0; $a < count($arc); $a++) {
                 $z = $arc[$a];
+
+                if ($z->credit < 1 and $z->debit < 1) {
+                    continue;
+                }
 
                 $side = 'credit';
                 $x_side = 'debit';
