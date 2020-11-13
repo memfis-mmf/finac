@@ -59,7 +59,19 @@ class BenefitCoaMasterController extends Controller
 
     public function update(Request $request, $uuid_benefit)
     {
-        $benefit = Benefit::where('uuid', $uuid_benefit)->firstOrFail();
+        // check apakah benefit ada
+        Benefit::where('uuid', $uuid_benefit)->firstOrFail();
+
+        // mengambil coa
+        $check_coa = Coa::find($request->id_coa);
+
+        // jika coa tidak ada
+        if (!$check_coa) {
+            return response([
+                'status' => false,
+                'message' => 'Coa Not found'
+            ], 422);
+        }
 
         Benefit::where('uuid', $uuid_benefit)
             ->update([

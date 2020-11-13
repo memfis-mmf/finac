@@ -114,6 +114,32 @@
 @push('footer-scripts')
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script>
+
+  let errorHandler = (response) => {
+
+    let message = '';
+
+    if (!('errors' in response)) {
+      message = response.message;
+    } else {
+      errors = response.errors;
+
+      loop = 0;
+      $.each(errors, function (index, value) {
+
+        if (!loop) {
+          message = value[0]
+        }
+
+        loop++;
+      })
+    }
+
+    toastr.error(message, 'Invalid', {
+      timeOut: 2000
+    });
+  }
+
   $(document).ready(function () {
 
     // handle active menu
@@ -187,7 +213,13 @@
             });
 
             benefit_coa_datatable.ajax.reload();
+
+          } else {
+            errorHandler(response);
           }
+        },
+        error: function(xhr) {
+          errorHandler(xhr.responseJSON);
         }
       });
 
