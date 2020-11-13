@@ -5,7 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class BenefitCoaMasterConrtoller extends Controller
+class BenefitCoaMasterController extends Controller
 {
     public function index()
     {
