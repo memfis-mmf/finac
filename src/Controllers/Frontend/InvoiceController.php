@@ -803,7 +803,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::with([
             'customer',
             'currencies',
-            'quotations',
+            'quotations:id,uuid,number',
         ])
             ->orderBy('transactiondate', 'desc')
             ->orderBy('id', 'asc')
