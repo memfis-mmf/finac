@@ -1068,6 +1068,10 @@ Route::group(['middleware' => ['web','auth']], function () {
     
     Route::get('benefit-coa-master/datatables', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController@datatables')
         ->name('benefit-coa-master.datatables');
+
+    Route::get('benefit-coa-master/select2-coa', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController@select2Coa')
+        ->name('benefit-coa-master.select2.coa');
+
     Route::resource('benefit-coa-master', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController');
 
 });

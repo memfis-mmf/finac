@@ -23,10 +23,19 @@ class BenefitCoaMasterController extends Controller
                 $coa = Coa::find($row->coa_id);
 
                 if (!$coa) {
-                    return '-';
+                    $val = '';
+                    $result = '-';
+                } else {                        
+                    $val = $coa->id;
+                    $result = $coa->name." ($coa->code)";
                 }
 
-                return $coa->name." ($coa->code)";
+                $html = 
+                    '<select class="form-control select2">
+                        <option selected value="'.$val.'">'.$result.'</option>
+                    </select>';
+
+                return $html;
             })
             ->addColumn('code_show', function(Benefit $benefit){
                 return '<a href="/benefit/'.$benefit->uuid.'">' . $benefit->code . '</a>';
@@ -37,9 +46,9 @@ class BenefitCoaMasterController extends Controller
             ->addColumn('action', function($row) {
                     $html = 
                     '<button 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill update-coa-benefit" 
                         title="Edit" data-uuid="'.$row->uuid.'"> 
-                        <i class="la la-pencil"></i> 
+                        <i class="la la-check"></i> 
                     </button>';
 
                     return $html;
@@ -48,9 +57,28 @@ class BenefitCoaMasterController extends Controller
             ->make();
     }
 
-    public function select2Coa()
+    public function update(Request $request, $uuid_benefit)
+    {
+        $benefit = Benefit::where('uuid', $uuid_benefit)->firstOrFail();
+
+        Benefit::where('uuid', $uuid_benefit)
+            ->update([
+                'coa_id' => $request->id_coa
+            ]);
+
+        return response([
+            'status' => true,
+            'message' => 'Coa updated'
+        ]);
+    }
+
+    public function select2Coa(Request $request)
     {
         $coa = Coa::where('description', 'Detail')
+            ->where(function($coa_query) use ($request) {
+                $coa_query->where('code', 'like', "%$request->q%")
+                    ->orWhere('name', 'like', "%$request->q%");
+            })
             ->limit(50)
             ->get();
 
@@ -58,8 +86,10 @@ class BenefitCoaMasterController extends Controller
         foreach ($coa as $coa_row) {
             $data['results'][] = [
                 'id' => $coa_row->id,
-                'text' => $coa_row->name,
+                'text' => $coa_row->name . " ($coa_row->code)",
             ];
         }
+
+        return $data;
     }
 }

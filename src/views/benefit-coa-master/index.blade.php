@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faBenefitCoaMaster', 'm-menu__item--active')
 @section('content')
 <style>
   .dataTables_paginate a{
@@ -72,7 +73,7 @@
                         </div>
                     </div>
                     <div class="m-portlet m-portlet--mobile">
-                        <div class="m-portlet__body">
+                        <div class="m-portlet__body pb-5">
                             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                                 <div class="row align-items-center">
                                     <div class="col-xl-8 order-2 order-xl-1">
@@ -97,7 +98,7 @@
                                   <th>Code</th>
                                   <th>Benefit Name</th>
                                   <th>Desciption</th>
-                                  <th>COA</th>
+                                  <th style="width: 500px">COA</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>
@@ -114,6 +115,17 @@
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script>
   $(document).ready(function () {
+
+    // handle active menu
+    let currentUrl = window.location.href;
+    let _hash = currentUrl.split('#');
+    if (_hash.length < 2) {
+        window.location.href=currentUrl+"#faBenefitCoaMaster";
+    } else {
+        window.location.href=currentUrl;
+    }
+    // end handle active menu
+
     let benefit_coa_datatable = $('.benefit_coa_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
       scrollX: true,
@@ -127,7 +139,17 @@
         {data: 'description_show', name: 'description', defaultContent: '-'},
         {data: 'coa', defaultContent: '-'},
         {data: 'action'}
-      ]
+      ],
+      drawCallback: function(setting) {
+
+        $('.select2').select2({
+          placeholder: '--Select--',
+          ajax: {
+            url: '{{ route("benefit-coa-master.select2.coa") }}'
+          }
+        });
+
+      }
     });
 
     $(".dataTables_length select").addClass("form-control m-input");
@@ -137,6 +159,39 @@
     $(".dataTables_info").addClass("pull-right");
     $(".dataTables_info").addClass("margin-info");
     $(".paging_simple_numbers").addClass("padding-datatable");
+
+    $(document).on('click', '.update-coa-benefit', function () {
+      let uuid = $(this).data('uuid');
+
+      let tr = $(this).parents('tr');
+
+      let id_coa = tr.find('select').val();
+
+      let url = '{{ route("benefit-coa-master.update", ":uuid") }}'
+      url = url.replace(':uuid', uuid);
+
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "put",
+        url: url,
+        data: {
+          'id_coa': id_coa
+        },
+        dataType: "json",
+        success: function (response) {
+          if (response.status) {
+            toastr.success(response.message, 'Success', {
+              timeOut: 2000
+            });
+
+            benefit_coa_datatable.ajax.reload();
+          }
+        }
+      });
+
+    });
   });
 </script>
 @endpush
