@@ -1,6 +1,30 @@
 @extends('frontend.master')
 
 @section('content')
+<style>
+  .dataTables_paginate a{
+      padding: 0 10px;
+  }
+  .dataTables_info{
+      margin-top:-10px;
+      margin-left:10px;
+  }
+  .dataTables_length{
+      margin-top:-30px;
+      visibility: hidden;
+  }
+  .dataTables_length select{
+      visibility: visible;
+  }
+
+  table td {
+    white-space: nowrap !important;
+  }
+
+  table {
+    min-width: 100%;
+  }
+</style>
     <div class="m-subheader hidden">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
@@ -42,7 +66,7 @@
                                 @include('label::datalist')
 
                                 <h3 class="m-portlet__head-text">
-                                    COA (Chart Of Accounts)
+                                    Benefit COA Master
                                 </h3>
                             </div>
                         </div>
@@ -52,28 +76,11 @@
                             <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                                 <div class="row align-items-center">
                                     <div class="col-xl-8 order-2 order-xl-1">
-                                        <div class="form-group m-form__group row align-items-center">
-                                            <div class="col-md-4">
-                                                <div class="m-input-icon m-input-icon--left">
-                                                    <input type="text" class="form-control m-input" placeholder="Search..."
-                                                        id="generalSearch">
-                                                    <span class="m-input-icon__icon m-input-icon__icon--left">
-                                                        <span><i class="la la-search"></i></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <button class="btn m-btn--pill m-btn--air btn-success btn-sm">
-                                                Export to Excel
-                                            </button>
-                                            <button class="btn m-btn--pill m-btn--air btn-outline-info btn-sm ml-3">
-                                                Print
-                                            </button>
-                                        </div>
                                     </div>
                                     <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                                         @component('buttons::create-new')
-                                            @slot('text', 'Add COA')
-                                            @slot('data_target', '#modal_coa')
+                                            @slot('text', 'Add Benefit COA')
+                                            @slot('data_target', '#modal_benefit_coa')
                                         @endcomponent
 
                                         <div class="m-separator m-separator--dashed d-xl-none"></div>
@@ -81,9 +88,19 @@
                                 </div>
                             </div>
 
-                            @include('coaview::modal')
+                            @include('benefit-coa-master::modal')
 
-                            <div class="coa_datatable" id="scrolling_both"></div>
+                            {{-- <div class="benefit_coa_datatable" id="scrolling_both"></div> --}}
+                            <table class="table table-striped table-bordered table-hover table-checkable benefit_coa_datatable">
+                              <thead>
+                                <tr>
+                                  <th>Code</th>
+                                  <th>Benefit Name</th>
+                                  <th>Desciption</th>
+                                  <th>COA</th>
+                                </tr>
+                              </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -93,13 +110,28 @@
 @endsection
 
 @push('footer-scripts')
-    <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
-    <script src="{{ asset('vendor/courier/frontend/functions/select2/type.js')}}"></script>
-    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/type.js')}}"></script>
-    <script src="{{ asset('vendor/courier/frontend/functions/select2/description.js')}}"></script>
-    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/description.js')}}"></script>
-    
+<script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
+<script>
+  $(document).ready(function () {
+    let benefit_coa_datatable = $('.benefit_coa_datatable').DataTable({
+      dom: '<"top"f>rt<"bottom">pil',
+      scrollX: true,
+      processing: true,
+      serverSide: true,
+      ajax: _url+'/invoice/datatables',
+      order: [[ 0, "desc" ]],
+      columns: [
+        {data: 'code', searchable: false, visible: false},
+      ]
+    });
 
-
-    <script src="{{ asset('vendor/courier/frontend/coa.js')}}"></script>
+    $(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_filter").addClass("pull-left");
+    $(".paging_simple_numbers").addClass("pull-left");
+    $(".dataTables_length").addClass("pull-right");
+    $(".dataTables_info").addClass("pull-right");
+    $(".dataTables_info").addClass("margin-info");
+    $(".paging_simple_numbers").addClass("padding-datatable");
+  });
+</script>
 @endpush
