@@ -453,7 +453,7 @@ class ARController extends Controller
             for ($a = 0; $a < count($ara); $a++) {
                 $x = $ara[$a];
 
-                if ($x->credit < 1 and $x->debit < 1) {
+                if ($x->credit == 0 and $x->debit == 0) {
                     continue;
                 }
 
@@ -480,7 +480,7 @@ class ARController extends Controller
             for ($a = 0; $a < count($arb); $a++) {
                 $y = $arb[$a];
 
-                if ($y->credit < 1 and $y->debit < 1) {
+                if ($y->credit == 0 and $y->debit == 0) {
                     continue;
                 }
 
@@ -500,7 +500,7 @@ class ARController extends Controller
             for ($a = 0; $a < count($arc); $a++) {
                 $z = $arc[$a];
 
-                if ($z->credit < 1 and $z->debit < 1) {
+                if ($z->credit == 0 and $z->debit == 0) {
                     continue;
                 }
 

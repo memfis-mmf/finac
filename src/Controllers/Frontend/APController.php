@@ -560,8 +560,10 @@ class APController extends Controller
                 $code = 'CBPJ';
             }
 
+            $transaction_number = APayment::generateCode($code);
+
             $ar_tmp->update([
-                'transactionnumber' => APayment::generateCode($code)
+                'transactionnumber' => $transaction_number
             ]);
 
             $ap->approvals()->save(new Approval([
@@ -593,9 +595,20 @@ class APController extends Controller
             for ($a = 0; $a < count($apa); $a++) {
                 $x = $apa[$a];
 
+                if ($x->credit == 0 and $x->debit == 0) {
+                    continue;
+                }
+
+                // jika invoice nya foreign
+                if ($x->invoice->currencies->code != 'idr') {
+                    $credit = $x->credit * $x->invoice->exchangerate;
+                } else {
+                    $credit = $x->credit_idr;
+                }
+
                 $detail[] = (object) [
                     'coa_detail' => $x->coa->id,
-                    'credit' => $x->credit * $ap->exchangerate,
+                    'credit' => $credit,
                     'debit' => 0,
                     '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
                         . $x->ap->vendor->name,
@@ -608,6 +621,10 @@ class APController extends Controller
             // looping sebanyak adjustment
             for ($a = 0; $a < count($apb); $a++) {
                 $y = $apb[$a];
+
+                if ($y->credit == 0 and $y->debit == 0) {
+                    continue;
+                }
 
                 $detail[] = (object) [
                     'coa_detail' => $y->coa->id,
@@ -624,6 +641,10 @@ class APController extends Controller
             // looping sebanyak gap
             for ($a = 0; $a < count($apc); $a++) {
                 $z = $apc[$a];
+
+                if ($z->credit == 0 and $z->debit == 0) {
+                    continue;
+                }
 
                 $side = 'credit';
                 $x_side = 'debit';
