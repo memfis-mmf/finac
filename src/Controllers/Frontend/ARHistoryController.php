@@ -40,12 +40,29 @@ class ARHistoryController extends Controller
         $currency = Currency::find($request->currency);
 
         $customer = Customer::with([
-                'invoice' => function($invoice) {
+                'invoice' => function($invoice) use ($request, $department, $date) {
                     $invoice
                         ->with([
                             'quotations:id,number'
                         ])
-                        ->where('approve', true);
+                        ->where('approve', true)
+                        ->whereBetween('transactiondate', $date);
+
+                    if ($request->customer) {
+                        $invoice = $invoice->where('id_customer', $request->customer);
+                    }
+
+                    if ($request->department) {
+                        $invoice = $invoice->where('company_department', $department->name);
+                    }
+                    
+                    if ($request->location) {
+                        $invoice = $invoice->where('location', $request->location);
+                    }
+
+                    if ($request->currency) {
+                        $invoice = $invoice->where('currency', $request->currency);
+                    }
                 }
             ])
             ->whereHas('invoice', function($invoice) use($request, $department, $date) {

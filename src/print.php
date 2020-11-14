@@ -79,11 +79,8 @@ Route::get('/cashbook-docs', function () {
     return $pdf->stream();
 });
 
-Route::get('/customer-trial-balance-docs', function () {
-    $pdf = \PDF::loadView('formview::customer-tb');
-    return $pdf->stream();
-});
-
+Route::get('/customer-trial-balance-docs', 'memfisfa\Finac\Controllers\Frontend\CustomerTrialBalanceController@print')
+    ->name('customer-trial-balance-docs');
 
 Route::get('/ap-docs', function () {
     $pdf = \PDF::loadView('formview::ap');
