@@ -317,13 +317,15 @@ class ProfitLossProjectController extends Controller
                     }
 
                     $item->pivot = $item_jobcard_row;
-                    $item->transaction_number = $request_item->request->number;
+                    $item->transaction_number = $request_item->request->number ?? null;
                     $item->quantity = $request_item->quantity;
-                    $item->unit = $request_item->unit;
+                    $item->unit = $request_item->unit ?? null;
                     $item->price = $actual_item->price * $request_item->quantity_in_primary_unit;
-                    $item->ref_no = $jobcard->number;
-                    $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at;
-                    $item->category = $item->categories()->select('name')->first();
+                    $item->ref_no = $jobcard->number ?? null;
+                    $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at ?? null;
+                    $item->category_name = $item->categories()->select('name')->first()->name ?? null;
+                    $item->ref_status = $jobcard->progress ?? null; // ini di tiap object sudah punya field progress atau return 
+                    $item->ref_type = json_decode($jobcard->origin_jobcardable)->type->code ?? json_decode($jobcard->origin_jobcardable)->eo_header->type->code ?? null; // kalau dari defect card valuenya "additional" kalau htcrr "HT/CRR"
 
                     $items[] = $item;
                 }
