@@ -533,6 +533,21 @@ let Journal = {
             });
         });
 
+        $("#daterange").daterangepicker({
+          buttonClasses: "m-btn btn",
+          applyClass: "btn-primary",
+          cancelClass: "btn-secondary",
+          locale: {
+            format: 'YYYY-MM-DD'
+          }
+        });
+
+        $(document).on('change', '#daterange', function () {
+          let date = $(this).val();
+
+          journal_datatable.ajax.url(_url+'/journal/datatables?daterange='+date).load();
+        });
+
     }
 };
 

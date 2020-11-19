@@ -17,6 +17,7 @@ use App\Models\Currency;
 use App\Models\Approval;
 use DataTables;
 use App\Models\Project;
+use Carbon\Carbon;
 
 class JournalController extends Controller
 {
@@ -182,10 +183,22 @@ class JournalController extends Controller
 
     public function datatables(Request $request)
     {
+        if ($request->daterange) {
+            $date = explode(' - ', $request->daterange);
+            $start_date = Carbon::createFromFormat('Y-m-d', $date[0]);
+            $end_date = Carbon::createFromFormat('Y-m-d', $date[1]);
+        }
+
 		$data = Journal::with([
-			'type_jurnal',
-			'currency',
-		])->orderBy('transaction_date', 'desc')->orderBy('id', 'asc')->get();
+                'type_jurnal',
+                'currency',
+            ])
+            ->orderBy('transaction_date', 'desc')
+            ->orderBy('id', 'asc');
+
+        if ($request->daterange) {
+            $data = $data->whereBetween('transaction_date', [$start_date, $end_date]);
+        }
 
         return DataTables::of($data)
 		->addColumn('unapproved', function(Journal $journal) use ($request) {
