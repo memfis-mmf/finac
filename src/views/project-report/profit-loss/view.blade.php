@@ -275,7 +275,7 @@
                                 </tr>
                                 @foreach ($expense as $expense_row)
                                     <tr>
-                                        <th scope="row" valign="top" width="55%">{{ $expense_row->name }}</th>
+                                        <th scope="row" valign="top" width="55%">{!! $expense_row->name !!}</th>
                                         <td valign="top"  width="1%">:</td>
                                         <td valign="top" align="right">{{ number_format($expense_row->value, 2, ',', '.') }}</td>
                                     </tr>

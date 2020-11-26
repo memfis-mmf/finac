@@ -103,7 +103,7 @@ class ProfitLossProjectController extends Controller
             ->all();
         
         $project_number = $project_tmp
-            ->pluck('number')
+            ->pluck('code')
             ->all();
 
         // menambahkan id project induk ke dalam array index pertama
