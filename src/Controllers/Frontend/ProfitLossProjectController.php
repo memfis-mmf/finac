@@ -207,7 +207,7 @@ class ProfitLossProjectController extends Controller
 
             if ($detail_journal_row->coa->type->code == 'pendapatan') {
                 if (@$revenue[$detail_journal_row->coa->code]) {
-                    $value = $revenue[$detail_journal_row->coa->code] + $value;
+                    $value = $revenue[$detail_journal_row->coa->code]->value + $value;
                 }
 
                 $revenue[$detail_journal_row->coa->code] = (object) [
@@ -220,7 +220,7 @@ class ProfitLossProjectController extends Controller
 
             if ($detail_journal_row->coa->type->code == 'biaya') {
                 if (@$expense[$detail_journal_row->coa->code]) {
-                    $value = $expense[$detail_journal_row->coa->code] + $value;
+                    $value = $expense[$detail_journal_row->coa->code]->value + $value;
                 }
 
                 $expense[$detail_journal_row->coa->code] = (object) [
