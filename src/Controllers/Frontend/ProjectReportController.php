@@ -217,9 +217,34 @@ class ProjectReportController extends Controller
     {
         $q = $request->q;
 
-        $project = Project::has('approvals')
-            ->where('parent_id', NULL)
+        $selected_column = [
+            'id',
+            'uuid',
+            'code',
+            'parent_id',
+            'title',
+            'customer_id',
+            'aircraft_id',
+            'no_wo',
+            'aircraft_register',
+            'aircraft_sn',
+            'data_defectcard',
+            'data_htcrr',
+            'station',
+            'csn',
+            'cso',
+            'tsn',
+            'tso',
+            'origin_aircraft',
+            'origin_customer',
+        ];
+
+        $project = Project::select($selected_column)
             ->where('code', 'like', "%$q%")
+            ->without('quotations')
+            ->withCount('approvals')
+            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->whereNull('parent_id')
             ->limit(50)
             ->get();
 
