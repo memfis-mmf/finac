@@ -1074,4 +1074,17 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::resource('benefit-coa-master', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController');
 
+    Route::namespace('App\Http\Controllers\Frontend\MaterialTransactionHistory')->group(function () {
+
+        Route::get('material-transaction-history-finance/datatables/{source?}', 'MaterialTransactionHistoryController@datatables')
+            ->name('material-transaction-history-finance.datatables');
+
+        Route::get('material-transaction-history-finance/select2-item', 'MaterialTransactionHistoryController@select2Item')
+            ->name('material-transaction-history-finance.select2.item');
+
+        Route::get('material-transaction-history-finance', 'MaterialTransactionHistoryController@index')
+            ->name('material-transaction-history-finance.index');
+
+    });
+
 });
