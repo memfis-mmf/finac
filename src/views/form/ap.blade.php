@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>{{$data->transactionnumber}}</title>
     <style>
         @page {
             margin: 0cm 0cm;
@@ -244,7 +244,7 @@
                         @endif
                     </tr>
                     <tr>
-                        <td align="center" width="10%">Received By <br><span style="font-size: 8px;"><b><i>Accounting</i></b> </span></td>
+                        <td align="center" width="10%">Recorded By <br><span style="font-size: 8px;"><b><i>Accounting</i></b> </span></td>
                         <td align="center" width="10%">Acknowledge By <br><span style="font-size: 8px;"><b><i>Finance Manager</i></b> </span></td>
                         <td align="center" width="10%">Processed By<br><span style="font-size: 8px;"><b><i>Cashier</i></b></span> </td>
                     </tr>
