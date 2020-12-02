@@ -402,8 +402,6 @@ class APController extends Controller
 
     public function SIModalDatatables(Request $request)
     {
-        $ap = APayment::where('uuid', $request->ap_uuid)->first();
-
         $trxpayment_grn = TrxPayment::where('id_supplier', $request->id_vendor)
             ->where('x_type', 'GRN')
             ->where('approve', 1)
@@ -603,8 +601,8 @@ class APController extends Controller
                 }
 
                 // jika invoice nya foreign
-                if ($x->invoice->currencies->code != 'idr') {
-                    $credit = $x->credit * $x->invoice->exchangerate;
+                if ($x->si->currencies->code != 'idr') {
+                    $credit = $x->credit * $x->si->exchange_rate;
                 } else {
                     $credit = $x->credit_idr;
                 }
@@ -749,21 +747,21 @@ class APController extends Controller
         $detail = [];
 
         // looping sebenayak invoice
-        foreach ($apa as $ara_row) {
+        foreach ($apa as $apa_row) {
 
             // jika invoice nya foreign
-            if ($ara_row->invoice->currencies->code != 'idr') {
-                $credit = $ara_row->credit * $ara_row->invoice->exchangerate;
+            if ($apa_row->si->currencies->code != 'idr') {
+                $credit = $apa_row->credit * $apa_row->si->exchange_rate;
             } else {
-                $credit = $ara_row->credit_idr;
+                $credit = $apa_row->credit_idr;
             }
 
             $detail[] = (object) [
-                'coa_code' => $ara_row->coa->code,
-                'coa_name' => $ara_row->coa->name,
+                'coa_code' => $apa_row->coa->code,
+                'coa_name' => $apa_row->coa->name,
                 'credit' => $credit,
                 'debit' => 0,
-                '_desc' => $ara_row->description,
+                '_desc' => $apa_row->description,
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
