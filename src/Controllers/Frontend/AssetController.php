@@ -81,6 +81,10 @@ class AssetController extends Controller
 			'type',
         ])->first();
 
+        if ($asset->approve) {
+            return abort(404);
+        }
+
         if (!$asset->coaexpense) {
             Asset::where('id', $asset->id)
                 ->update([
@@ -115,7 +119,13 @@ class AssetController extends Controller
             ]
         );
 
-		$asset_tmp = Asset::where('uuid', $request->asset);
+        $asset_tmp = Asset::where('uuid', $request->asset);
+
+        $asset = $asset_tmp->first();
+
+        if ($asset->approve) {
+            return abort(404);
+        }
 
 		$request->request->add([
 			'warrantystart' => $this->convertDate(
