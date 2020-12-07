@@ -755,9 +755,11 @@ class APController extends Controller
         // looping sebenayak invoice
         foreach ($apa as $apa_row) {
 
+            $si = $apa_row->getSI();
+
             // jika invoice nya foreign
-            if ($apa_row->si->currencies->code != 'idr') {
-                $credit = $apa_row->credit * $apa_row->si->exchange_rate;
+            if ($si->currencies->code != 'idr') {
+                $credit = $apa_row->credit * $si->exchange_rate;
             } else {
                 $credit = $apa_row->credit_idr;
             }
