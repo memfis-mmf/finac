@@ -102,7 +102,7 @@ class APAController extends Controller
     public function calculateAmount($apa, $request)
     {
         $amount_to_pay = $request->debit;
-        $si = $apa->si;
+        $si = $apa->getSI();
         $ap = $apa->ap;
 
         if ($apa->type == 'GRN') {
@@ -158,10 +158,16 @@ class APAController extends Controller
                     $all_si = APaymentA::select(
                         'sum(debit) as total_debit',
                         'sum(debit_idr) as total_debit_idr',
-                    )
-                        ->where('id_payment', $si->id)
-                        ->where('type', $apa->type)
-                        ->first();
+                    );
+
+                    if (strtolower($apa->type) == 'grn') {
+                        $grn_id = $si->trxpaymenta()->pluck('id_grn')->all();
+                        $all_si = $all_si->whereIn('id_payment', $grn_id);
+                    } else {
+                        $all_si = $all_si->where('id_payment', $si->id);
+                    }
+
+                    $all_si = $all_si->where('type', $apa->type)->first();
 
                     $total_debit_idr =
                         $all_si->total_debit_idr + $idr_amount_to_pay;

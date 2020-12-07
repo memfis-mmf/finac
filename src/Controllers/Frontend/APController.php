@@ -600,8 +600,14 @@ class APController extends Controller
                     continue;
                 }
 
+                if (strtolower($x->type) == 'grn') {
+                    $currency_code = $x->grn->currencies->code;
+                } else {
+                    $currency_code = $x->si->currencies->code;
+                }
+
                 // jika invoice nya foreign
-                if ($x->si->currencies->code != 'idr') {
+                if ($currency_code != 'idr') {
                     $credit = $x->credit * $x->si->exchange_rate;
                 } else {
                     $credit = $x->credit_idr;
