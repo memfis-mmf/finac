@@ -378,8 +378,12 @@ class AssetController extends Controller
                 ->addMonths($asset_row->usefullife);
 
             // mecari total hari dari depreciation start sampai depreciation end
-			$day = $depreciationEnd->diffInDays($depreciationStart);
+            $day = $depreciationEnd->diffInDays($depreciationStart);
 
+            if ($day < 1) {
+                continue;
+            }
+            
             // set value per hari
 			$value_per_day = ($asset_row->povalue - $asset_row->salvagevalue) / $day;
             
@@ -459,6 +463,13 @@ class AssetController extends Controller
         ];
 
         $total_credit += $detail[count($detail)-1]->credit;
+
+        if (!$asset->coa_depreciation) {
+            return response([
+                'status' => false,
+                'message' => $asset->transaction_number . ' Account Depreciation not selected yet'
+            ], 422);
+        }
 
         // add object in first array $detai
         array_unshift(
