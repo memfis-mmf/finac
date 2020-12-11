@@ -15,7 +15,7 @@ use App\Models\Department;
 use App\Models\Approval;
 use App\Models\GoodsReceived;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Auth;
 use DataTables;
 use memfisfa\Finac\Model\Coa;
@@ -418,7 +418,14 @@ class AssetController extends Controller
             $value = $diff_date * $value_per_day;
 
             // melakukan penjurnalan
-            $this->scheduledJournal($asset_row, $value);
+            $scheduled_journal = $this->scheduledJournal($asset_row, $value);
+
+            if ($scheduled_journal['status'] != true) {
+                return response([
+                    'status' => false,
+                    'message' => $scheduled_journal['message']
+                ], 422);
+            }
         }
 
         DB::commit();
@@ -465,10 +472,10 @@ class AssetController extends Controller
         $total_credit += $detail[count($detail)-1]->credit;
 
         if (!$asset->coa_depreciation) {
-            return response([
+            return [
                 'status' => false,
                 'message' => $asset->transaction_number . ' Account Depreciation not selected yet'
-            ], 422);
+            ];
         }
 
         // add object in first array $detai
@@ -498,18 +505,18 @@ class AssetController extends Controller
         );
 
         if (!$autoJournal['status']) {
-            return response([
+            return [
                 'status' => false,
                 'message' => 'Something went wrong'
-            ], 422);
+            ];
         }
 
         DB::commit();
 
-        return response([
+        return [
             'status' => true,
             'message' => 'Generate success'
-        ]);
+        ];
 
     }
 
