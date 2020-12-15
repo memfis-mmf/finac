@@ -79,10 +79,10 @@
                                     <div class="col-xl-8 order-2 order-xl-1">
                                     </div>
                                     <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                        @component('buttons::create-new')
+                                        {{-- @component('buttons::create-new')
                                             @slot('text', 'Add Benefit COA')
                                             @slot('data_target', '#modal_benefit_coa')
-                                        @endcomponent
+                                        @endcomponent --}}
 
                                         <div class="m-separator m-separator--dashed d-xl-none"></div>
                                     </div>
