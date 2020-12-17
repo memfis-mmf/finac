@@ -26,32 +26,6 @@
     min-width: 100%;
   }
 </style>
-<div class="m-subheader hidden">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title m-subheader__title--separator">
-                Fixed Asset Disposition
-            </h3>
-            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                <li class="m-nav__item m-nav__item--home">
-                    <a href="" class="m-nav__link m-nav__link--icon">
-                        <i class="m-nav__link-icon la la-home"></i>
-                    </a>
-                </li>
-                <li class="m-nav__separator">
-                    -
-                </li>
-                <li class="m-nav__item">
-                    <a href="#" class="m-nav__link">
-                        <span class="m-nav__link-text">
-                            Fixed Asset Disposition
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
 
 <div class="m-content">
     <div class="row">
@@ -87,22 +61,27 @@
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-striped table-bordered table-hover table-checkable fixed_asset_disposition_datatable">
-                          <thead>
-                            <tr>
-                              <th>Transaction No.</th>
-                              <th>Date</th>
-                              <th>Asset Category</th>
-                              <th>Asset Name</th>
-                              <th>Selling Price</th>
-                              <th>Bank Acc</th>
-                              <th>P/L Acc</th>
-                              <th>Created By</th>
-                              <th>Approved By</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                        </table>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-striped table-bordered table-hover table-checkable fixed_asset_disposition_datatable">
+                                <thead>
+                                    <tr>
+                                    <th>Transaction No.</th>
+                                    <th>Date</th>
+                                    <th>Asset Category</th>
+                                    <th>Asset Name</th>
+                                    <th>Selling Price</th>
+                                    <th>Bank Acc</th>
+                                    <th>P/L Acc</th>
+                                    <th>Created By</th>
+                                    <th>Approved By</th>
+                                    <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
