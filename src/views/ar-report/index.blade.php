@@ -30,7 +30,8 @@
                             {{-- Outstanding --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_outstanding" data-toggle="modal">
+                                    {{-- <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_outstanding" data-toggle="modal"> --}}
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal-maintenance" data-toggle="modal">
                                         <span>
                                         <i class="la la-file-o btn-icon"></i>
                                             <span><h3>Outstanding Invoice</h3></span>
@@ -59,9 +60,10 @@
                             @include('arreport-customertbview::modal')
 
                             {{-- Aging Receivable Detail --}}
-                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5 pt-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_aging_rd" data-toggle="modal">
+                                    {{-- <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_aging_rd" data-toggle="modal"> --}}
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal-maintenance" data-toggle="modal">
                                         <span>
                                         <i class="la la-file-o btn-icon"></i>
                                             <span><h3>Aging Receivable Detail</h3></span>
@@ -72,7 +74,7 @@
                                 </div>
                             </div>
 
-                            @include('arreport-agingview::modal') --}}
+                            @include('arreport-agingview::modal')
 
                             {{-- Account Receivables History --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -90,9 +92,10 @@
                             @include('arreport-accountrhview::modal')
 
                             {{-- Invoice Paid --}}
-                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5 pt-5">
-                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_invoice_paid" data-toggle="modal">
+                                    {{-- <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_invoice_paid" data-toggle="modal"> --}}
+                                    <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal-maintenance" data-toggle="modal">
                                         <span>
                                         <i class="la la-file-o btn-icon"></i>
                                             <span><h3>Invoice Paid</h3></span>
@@ -102,7 +105,7 @@
                                 </div>
                             </div>
 
-                            @include('invoicepview::modal') --}}
+                            @include('invoicepview::modal')
 
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5 pt-5">
@@ -135,6 +138,25 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modal-maintenance" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <h2>This Menu is under <b class="text-danger">Maintenance</b></h2>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 
