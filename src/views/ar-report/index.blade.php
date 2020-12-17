@@ -84,10 +84,8 @@
 
                             @include('arreport-customertbview::modal')
 
-                        </div>
-                        <div class="form-group m-form__group row ">
                             {{-- Aging Receivable Detail --}}
-                            <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5 pt-5">
                                     <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_aging_rd" data-toggle="modal">
                                         <span>
@@ -100,7 +98,7 @@
                                 </div>
                             </div>
 
-                            @include('arreport-agingview::modal')
+                            @include('arreport-agingview::modal') --}}
 
                             {{-- Account Receivables History --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -117,10 +115,8 @@
 
                             @include('arreport-accountrhview::modal')
 
-                        </div>
-                        <div class="form-group m-form__group row ">
                             {{-- Invoice Paid --}}
-                            <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5 pt-5">
                                     <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_invoice_paid" data-toggle="modal">
                                         <span>
@@ -132,7 +128,7 @@
                                 </div>
                             </div>
 
-                            @include('invoicepview::modal')
+                            @include('invoicepview::modal') --}}
 
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5 pt-5">
@@ -159,7 +155,6 @@
                                     </a>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
