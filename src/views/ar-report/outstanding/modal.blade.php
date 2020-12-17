@@ -55,17 +55,6 @@
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Department
-                                </label>
-                            
-                                @component('input::select2')
-                                    @slot('id', 'dep')
-                                    @slot('name', 'dep')
-                                    @slot('id_error', 'dep')
-                                @endcomponent
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <label class="form-control-label">
                                     Currency
                                 </label>
                             
