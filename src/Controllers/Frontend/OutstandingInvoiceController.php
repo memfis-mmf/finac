@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 //use for export
 use memfisfa\Finac\Model\Exports\OutstandingInvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
+use memfisfa\Finac\Model\Invoice;
 
 class OutstandingInvoiceController extends Controller
 {
@@ -20,9 +21,7 @@ class OutstandingInvoiceController extends Controller
 		$tmp_date = new Carbon($param);
 		$date = $tmp_date->format('Y-m-d');
 
-		return [
-            $date
-		];
+		return $date;
     }
 
     public function getOutstandingInvoice($request)
@@ -40,7 +39,10 @@ class OutstandingInvoiceController extends Controller
                             'quotations:id,number'
                         ])
                         ->where('approve', true)
-                        ->whereDate('transactiondate', '<=', $date);
+                        ->whereDate('transactiondate', '<=', $date)
+                        ->whereHas('ara.ar', function($ar) {
+                            $ar->where('approve', true);
+                        });
 
                     if ($request->customer) {
                         $invoice = $invoice->where('id_customer', $request->customer);
@@ -61,7 +63,10 @@ class OutstandingInvoiceController extends Controller
             ])
             ->whereHas('invoice', function($invoice) use($request, $department, $date) {
                 $invoice->where('approve', true)
-                    ->whereBetween('transactiondate', $date);
+                    ->whereDate('transactiondate', '<=', $date)
+                    ->whereHas('ara.ar', function($ar) {
+                        $ar->where('approve', true);
+                    });
 
                 if ($request->customer) {
                     $invoice = $invoice->where('id_customer', $request->customer);

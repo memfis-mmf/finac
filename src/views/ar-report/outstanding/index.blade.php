@@ -2,6 +2,9 @@
 
 @section('faReport', 'm-menu__item--active')
 @section('content')
+@php
+  use Illuminate\Support\Carbon;
+@endphp
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -55,7 +58,7 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                  <h1>OUTSTANDING INVOICE</h1>
-                                 <h4>As of Date. 28 January 2020</h4>
+                                 <h4>As of Date. {{ Carbon::parse($date)->format('d F Y')  }}</h4>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
@@ -69,18 +72,19 @@
                                         <tr>
                                             <td>MMF Location</td>
                                             <td>:</td>
-                                            <td>Sidoarjo</td>
+                                            <td>{{ $request->location ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Currency</td>
                                             <td>:</td>
-                                            <td>All</td>
+                                            <td>{{ $currency ?? 'All' }}</td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12">   
+                                  @foreach ($customer as $customer_row)
                                     <table width="100%" cellpadding="3" class="table-head">
                                         <tr>
                                             <td width="12%" valign="top"><b>Customer Name</b></td>
@@ -103,23 +107,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @for ($i = 0; $i <6; $i++)
-                                                <tr>
-                                                    <td width="19%" align="left" valign="top" style="padding-left:8px;">INVC-YYYY/MM/00001</td>
-                                                    <td width="8%"align="center" valign="top">10/01/2020</td>
-                                                    <td width="8%"align="center" valign="top">17/01/2020</td>
-                                                    <td width="17%"align="left" valign="top">QPRO-YYYY/MM/00001</td>
-                                                    <td width="4%"align="center" valign="top">USD</td>
-                                                    <td width="1%" align="right" valign="top">Rp.</td>
-                                                    <td width="5%"align="left" valign="top">14.000</td>
-                                                    <td width="1%" align="right" valign="top">$</td>
-                                                    <td width="8%"align="right" valign="top" >89.000,00</td>
-                                                    <td width="1%" align="right" valign="top">Rp.</td>
-                                                    <td width="12%"align="right" valign="top">1.142.680.000,00</td>
-                                                    <td width="1%" align="right" valign="top">Rp.</td>
-                                                    <td width="12%"align="right" valign="top">114.268.000,00</td>
-                                                </tr>
-                                            @endfor
+                                            <tr>
+                                                <td width="19%" align="left" valign="top" style="padding-left:8px;">INVC-YYYY/MM/00001</td>
+                                                <td width="8%"align="center" valign="top">10/01/2020</td>
+                                                <td width="8%"align="center" valign="top">17/01/2020</td>
+                                                <td width="17%"align="left" valign="top">QPRO-YYYY/MM/00001</td>
+                                                <td width="4%"align="center" valign="top">USD</td>
+                                                <td width="1%" align="right" valign="top">Rp.</td>
+                                                <td width="5%"align="left" valign="top">14.000</td>
+                                                <td width="1%" align="right" valign="top">$</td>
+                                                <td width="8%"align="right" valign="top" >89.000,00</td>
+                                                <td width="1%" align="right" valign="top">Rp.</td>
+                                                <td width="12%"align="right" valign="top">1.142.680.000,00</td>
+                                                <td width="1%" align="right" valign="top">Rp.</td>
+                                                <td width="12%"align="right" valign="top">114.268.000,00</td>
+                                            </tr>
                                             {{-- Total IDR --}}
                                             <tr style="border-top:2px solid black;" >
                                                 <td colspan="5"></td>
@@ -144,6 +146,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                  @endforeach
                                 </div>
                             </div>
                             <hr>
