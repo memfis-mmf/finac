@@ -13,13 +13,13 @@
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Date Period
+                                    Date
                                 </label>
                             
                                 @component('input::datepicker')
-                                    @slot('id', 'daterange_outstanding')
-                                    @slot('name', 'daterange_outstanding')
-                                    @slot('id_error', 'daterange_outstanding')
+                                    @slot('id', 'date')
+                                    @slot('name', 'date')
+                                    @slot('id_error', 'date')
                                 @endcomponent
                             </div>
                         </div>
@@ -35,9 +35,10 @@
                                 </label>
                             
                                 @component('input::select2')
-                                    @slot('id', 'department')
-                                    @slot('name', 'department')
-                                    @slot('id_error', 'department')
+                                    @slot('id', 'department_id')
+                                    @slot('name', 'department_id')
+                                    @slot('class', 'department')
+                                    @slot('id_error', 'department_id')
                                 @endcomponent
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -45,11 +46,13 @@
                                     Location
                                 </label>
                             
-                                @component('input::select2')
-                                    @slot('id', 'location')
-                                    @slot('name', 'location')
-                                    @slot('id_error', 'location')
-                                @endcomponent
+                                <select class="_select2 form-control" name="location" style="width:100%">
+                                    <option value=""></option>
+                                    <option value="Sidoarjo">Sidoarjo</option>
+                                    <option value="Surabaya">Surabaya</option>
+                                    <option value="Jakarta">Jakarta</option>
+                                    <option value="Biak">Biak</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
@@ -93,25 +96,38 @@
 
 
 @push('footer-scripts')
-    <script>
-        $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faReport";
-            } else {
-                window.location.href=currentUrl;
-            }
-        });
-    </script>
-    <script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
+<script>
+  $(document).ready(function() {
+    let currentUrl = window.location.href;
+    let _hash = currentUrl.split('#');
+    if (_hash.length < 2) {
+        window.location.href=currentUrl+"#faReport";
+    } else {
+        window.location.href=currentUrl;
+    }
 
-    <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
+    let modal = $('#modal_outstanding');
 
-    <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-    <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
+    modal.find('[name=date]').daterangepicker({
+      buttonClasses: "m-btn btn",
+      applyClass: "btn-primary",
+      cancelClass: "btn-secondary",
+      singleDatePicker: true,
+      showDropdown: true,
+      locale: {
+        format: 'YYYY/MM/DD'
+      }    
+    });
+  });
+</script>
+<script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
 
-    <script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
+
+<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
 @endpush
 

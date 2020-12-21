@@ -1,6 +1,6 @@
 let LocationSelect2 = {
     init: function () {
-        $('#location, #location_validate').select2({
+        $('#location, #location_validate, select.location').select2({
             placeholder: 'Select a Location',
             tags: true
         });
