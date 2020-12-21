@@ -15,25 +15,19 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class OutstandingInvoiceController extends Controller
 {
-	public function convertDate($date)
+	public function convertDate($param)
 	{
-		$tmp_date = explode('-', $date);
-
-		$start = new Carbon(str_replace('/', "-", trim($tmp_date[0])));
-		$startDate = $start->format('Y-m-d');
-
-		$end = new Carbon(str_replace('/', "-", trim($tmp_date[1])));
-		$endDate = $end->format('Y-m-d');
+		$tmp_date = new Carbon($param);
+		$date = $tmp_date->format('Y-m-d');
 
 		return [
-			$startDate,
-			$endDate
+            $date
 		];
     }
 
     public function getOutstandingInvoice($request)
     {
-        $date = $this->convertDate($request->daterange);
+        $date = $this->convertDate($request->date);
 
         $department = Department::where('uuid', $request->department)->first();
 
@@ -46,7 +40,7 @@ class OutstandingInvoiceController extends Controller
                             'quotations:id,number'
                         ])
                         ->where('approve', true)
-                        ->whereBetween('transactiondate', $date);
+                        ->whereDate('transactiondate', '<=', $date);
 
                     if ($request->customer) {
                         $invoice = $invoice->where('id_customer', $request->customer);
@@ -98,21 +92,21 @@ class OutstandingInvoiceController extends Controller
         return $data;
     }
 
-    public function arHistory(Request $request)
+    public function outstandingInvoice(Request $request)
     {
         if (
-            !$request->daterange 
+            !$request->date
         ) {
             return redirect()->back();
         }
 
         $data = $this->getOutstandingInvoice($request);
-        $data['export'] = route('fa-report.ar-history-export', $request->all());
+        $data['export'] = route('fa-report.outstanding-invoice-export', $request->all());
         
-        return view('arreport-accountrhview::index', $data);
+        return view('arreport-outstandingview::index', $data);
     }
 
-    public function arHistoryExport(Request $request)
+    public function outStandingInvoiceExport(Request $request)
     {
         $data = $this->getOutstandingInvoice($request);
 

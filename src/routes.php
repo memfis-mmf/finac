@@ -1023,6 +1023,18 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\FAReportController@index'
         )->name('fa-report.index');
 
+        // Outstanding Invoice
+		Route::get(
+			'/outstanding-invoice',
+			'memfisfa\Finac\Controllers\Frontend\OutstandingInvoiceController@outstandingInvoice'
+        )->name('fa-report.outstanding-invoice');
+
+		Route::get(
+			'/outstanding-invoice-export',
+			'memfisfa\Finac\Controllers\Frontend\OutstandingInvoiceController@outstandingInvoiceExport'
+        )->name('fa-report.outstanding-invoice-export');
+        // END Outstanding Invoice
+
         // AR history
 		Route::get(
 			'/ar-history',

@@ -8,7 +8,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm">
+                <form 
+                  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" 
+                  id="AdjustmentForm" 
+                  action="{{route('fa-report.outstanding-invoice')}}">
+
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -62,9 +66,10 @@
                                 </label>
                             
                                 @component('input::select')
-                                    @slot('id', 'currency')
+                                    @slot('id', 'currency_id')
                                     @slot('name', 'currency')
-                                    @slot('id_error', 'currency')
+                                    @slot('class', 'currency')
+                                    @slot('id_error', 'currency_id')
                                 @endcomponent
                             </div>
                         </div>
@@ -75,8 +80,8 @@
                                 <div class="flex">
                                     <div class="action-buttons">
                                         @component('buttons::submit')
-                                            @slot('id', 'update_adjustment')
-                                            @slot('type', 'button')
+                                            @slot('id', 'view_outstanding_invoice')
+                                            @slot('type', 'submit')
                                             @slot('color','primary')
                                             @slot('text','view')
                                             @slot('icon','fa-search')
