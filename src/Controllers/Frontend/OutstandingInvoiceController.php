@@ -36,7 +36,7 @@ class OutstandingInvoiceController extends Controller
                 'invoice' => function($invoice) use ($request, $department, $date) {
                     $invoice
                         ->with([
-                            'quotations:id,number'
+                            'quotations:id,number,term_of_payment'
                         ])
                         ->where('approve', true)
                         ->whereDate('transactiondate', '<=', $date)

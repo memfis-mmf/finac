@@ -5,6 +5,16 @@
 @php
   use Illuminate\Support\Carbon;
 @endphp
+<style>
+  tr.nowrap td, 
+  td.nowrap {
+    white-space: nowrap;
+  }
+
+  thead td {
+    white-space: nowrap !important;
+  }
+</style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -83,13 +93,19 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
-                                <div class="col-sm-12 col-md-12 col-lg-12">   
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">   
                                   @foreach ($customer as $customer_row)
+                                  @php
+                                    $subtotal_total = 0;
+                                    $vat_total = 0;
+                                    $ending_balance_total = 0;
+                                    $ending_balance_idr_total = 0;
+                                  @endphp
                                     <table width="100%" cellpadding="3" class="table-head">
                                         <tr>
                                             <td width="12%" valign="top"><b>Customer Name</b></td>
                                             <td width="1%" valign="top"><b>:</b></td>
-                                            <td width="77%" valign="top"><b>Sriwijaya Air, PT</b></td>
+                                            <td width="77%" valign="top"><b>{{ $customer_row->name }}</b></td>
                                         </tr>
                                     </table>
                                     <table width="100%"  cellpadding="4" class="table-body" page-break-inside: auto;>  
@@ -107,27 +123,37 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td width="19%" align="left" valign="top" style="padding-left:8px;">INVC-YYYY/MM/00001</td>
-                                                <td width="8%"align="center" valign="top">10/01/2020</td>
-                                                <td width="8%"align="center" valign="top">17/01/2020</td>
-                                                <td width="17%"align="left" valign="top">QPRO-YYYY/MM/00001</td>
-                                                <td width="4%"align="center" valign="top">USD</td>
-                                                <td width="1%" align="right" valign="top">Rp.</td>
-                                                <td width="5%"align="left" valign="top">14.000</td>
-                                                <td width="1%" align="right" valign="top">$</td>
-                                                <td width="8%"align="right" valign="top" >89.000,00</td>
-                                                <td width="1%" align="right" valign="top">Rp.</td>
-                                                <td width="12%"align="right" valign="top">1.142.680.000,00</td>
-                                                <td width="1%" align="right" valign="top">Rp.</td>
-                                                <td width="12%"align="right" valign="top">114.268.000,00</td>
+                                          @foreach ($customer_row->invoice as $invoice_row)
+                                            <tr class="nowrap">
+                                                <td width="19%" align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
+                                                <td width="8%"align="center" valign="top">{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
+                                                <td width="8%"align="center" valign="top">{{  Carbon::parse($invoice_row->due_date)->format('d F Y') }}</td>
+                                                <td width="17%"align="left" valign="top">{{ $invoice_row->quotations->number ?? '-' }}</td>
+                                                <td width="4%"align="center" valign="top">{{ $invoice_row->currencies->code }}</td>
+                                                <td width="1%" align="right" valign="top">Rp </td>
+                                                <td width="5%"align="left" valign="top">{{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
+                                                <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
+                                                <td width="8%"align="right" valign="top" >{{ number_format($invoice_row->subtotal, 2, ',', '.') }}</td>
+                                                <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
+                                                <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ppnvalue, 2, ',', '.') }}</td>
+                                                <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
+                                                <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
                                             </tr>
+                                            @php
+                                              $subtotal_total += $invoice_row->subtotal;
+                                              $vat_total += $invoice_row->ppnvalue;
+                                              $ending_balance_total += $invoice_row->ending_balance['amount'];
+                                              $ending_balance_idr_total += $invoice_row->ending_balance['amount_idr'];
+                                            @endphp
+                                            @endforeach
                                             {{-- Total IDR --}}
                                             <tr style="border-top:2px solid black;" >
                                                 <td colspan="5"></td>
                                                 <td align="left" valign="top" colspan="2"><b>Total IDR</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer"><b>1.142.680.000,00</b></td>
+                                                <td width="12%"align="right" valign="top" class="table-footer">
+                                                  <b>{{ number_format($invoice_row->subtotal * $invoice_row->exchangerate, 2, ',', '.') }}</b>
+                                                </td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
                                                 <td width="12%" align="right" valign="top" class="table-footer"><b>114.268.000,00</b></td>
                                                 <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>

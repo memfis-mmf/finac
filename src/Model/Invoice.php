@@ -29,6 +29,7 @@ class Invoice extends MemfisModel
         'created_by',
         'status',
         'xstatus',
+        'due_date'
 	];
 
     public function approvals()
@@ -174,6 +175,12 @@ class Invoice extends MemfisModel
         }
 
         return $result;
+    }
+
+    public function getDueDateAttribute()
+    {
+        $approval_date = Carbon::parse($this->approvals->first()->created_at);
+        return $approval_date->addDays($this->quotations->term_of_payment);
     }
 
 	public function countPaidAmount($arTransactionnumber)
