@@ -163,9 +163,9 @@
                             <td width="17%"align="center" valign="top"><b>Ref No.</b></td>
                             <td width="4%"align="center" valign="top"><b>Currency</b></td>
                             <td width="6%"align="center" valign="top" colspan="2"><b>Rate</b></td>
-                            <td width="9%"align="center" valign="top"  colspan="2"><b>Sub Total Invoice</b></td>
-                            <td width="13%"align="center" valign="top"  colspan="2"><b>VAT</b></td>
-                            <td width="13%"align="center" valign="top"  colspan="2"><b>Ending Balance</b></td>
+                            <td width="9%"align="center" valign="top"  colspan="2"><b>Total Invoice</b></td>
+                            {{-- <td width="13%"align="center" valign="top"  colspan="2"><b>VAT</b></td> --}}
+                            <td width="13%"align="center" valign="top"  colspan="2"><b>Outstanding Balance</b></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,15 +173,15 @@
                         <tr>
                           <td width="19%" align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
                           <td width="8%"align="center" valign="top">{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
-                          <td width="8%"align="center" valign="top">{{  Carbon::parse($invoice_row->due_date)->format('d F Y') }}</td>
+                          <td width="8%"align="center" valign="top">{!! $invoice_row->due_date_formated !!}</td>
                           <td width="17%"align="left" valign="top">{{ $invoice_row->quotations->number ?? '-' }}</td>
                           <td width="4%"align="center" valign="top">{{ $invoice_row->currencies->code }}</td>
                           <td width="1%" align="right" valign="top">Rp </td>
                           <td width="5%"align="left" valign="top">{{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
                           <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
-                          <td width="8%"align="right" valign="top" >{{ number_format($invoice_row->subtotal, 2, ',', '.') }}</td>
-                          <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
-                          <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ppnvalue, 2, ',', '.') }}</td>
+                          <td width="8%"align="right" valign="top" >{{ number_format($invoice_row->grandtotalforeign, 2, ',', '.') }}</td>
+                          {{-- <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
+                          <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ppnvalue, 2, ',', '.') }}</td> --}}
                           <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
                           <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
                         </tr>
@@ -191,9 +191,9 @@
                             <td colspan="5"></td>
                             <td align="left" valign="top" colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
                             <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
-                            <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['subtotal'], 2, ',', '.') }}</b></td>
-                            <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
-                            <td width="12%" align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ppnvalue'], 2, ',', '.') }}</b></td>
+                            <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['grandtotalforeign'], 2, ',', '.') }}</b></td>
+                            {{-- <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
+                            <td width="12%" align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ppnvalue'], 2, ',', '.') }}</b></td> --}}
                             <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
                             <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ending_value'], 2, ',', '.') }}</b></td>
                         </tr>   

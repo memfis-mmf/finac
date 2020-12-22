@@ -17,9 +17,9 @@
     <td><b>Ref No.</b></td>
     <td><b>Currency</b></td>
     <td colspan="2"><b>Rate</b></td>
-    <td colspan="2"><b>Sub Total Invoice</b></td>
-    <td colspan="2"><b>VAT</b></td>
-    <td colspan="2"><b>Ending Balance</b></td>
+    <td colspan="2"><b>Total Invoice</b></td>
+    {{-- <td colspan="2"><b>VAT</b></td> --}}
+    <td colspan="2"><b>Outstanding Balance</b></td>
   </tr>
   @foreach ($customer_row->invoice as $invoice_row)
   <tr>
@@ -31,9 +31,9 @@
     <td>Rp </td>
     <td>{{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
     <td>{{ $invoice_row->currencies->symbol }}</td>
-    <td>{{ number_format($invoice_row->subtotal, 2, ',', '.') }}</td>
-    <td>{{ $invoice_row->currencies->symbol }}</td>
-    <td>{{ number_format($invoice_row->ppnvalue, 2, ',', '.') }}</td>
+    <td>{{ number_format($invoice_row->grandtotalforeign, 2, ',', '.') }}</td>
+    {{-- <td>{{ $invoice_row->currencies->symbol }}</td>
+    <td>{{ number_format($invoice_row->ppnvalue, 2, ',', '.') }}</td> --}}
     <td>{{ $invoice_row->currencies->symbol }}</td>
     <td>{{ number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
   </tr>
@@ -44,11 +44,11 @@
     <td colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
     <td class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
     <td class="table-footer">
-      <b>{{ number_format($sum_total_row['subtotal'], 2, ',', '.') }}</b></td>
+      <b>{{ number_format($sum_total_row['grandtotalforeign'], 2, ',', '.') }}</b></td>
     <td class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
-    <td class="table-footer">
+    {{-- <td class="table-footer">
       <b>{{ number_format($sum_total_row['ppnvalue'], 2, ',', '.') }}</b></td>
-    <td class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
+    <td class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td> --}}
     <td class="table-footer">
       <b>{{ number_format($sum_total_row['ending_value'], 2, ',', '.') }}</b></td>
   </tr>

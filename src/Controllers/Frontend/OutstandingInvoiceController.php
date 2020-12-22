@@ -91,11 +91,21 @@ class OutstandingInvoiceController extends Controller
             foreach ($customer_row->invoice as $invoice_row) {
                 $currency_code = $invoice_row->currencies->code;
 
+                $due_date = Carbon::parse($invoice_row->due_date);
+                $now = Carbon::now();
+
+                $style = '';
+                if ($now > $due_date) {
+                    $style = 'color:red';
+                }
+
+                $invoice_row->due_date_formated = '<span style="'.$style.'">'.Carbon::parse($invoice_row->due_date)->format('d F Y').'</span>';
+
                 // jika currency belum masuk arr
                 if (@count($customer_row->sum_total[$currency_code]) < 1) {
                     $arr[$currency_code] = [
                         'symbol' => $invoice_row->currencies->symbol,
-                        'subtotal' => $invoice_row->subtotal,
+                        'grandtotalforeign' => $invoice_row->grandtotalforeign,
                         'ppnvalue' => $invoice_row->ppnvalue,
                         'ending_value' => $invoice_row->ending_balance['amount_idr'],
                     ];
@@ -103,7 +113,7 @@ class OutstandingInvoiceController extends Controller
                     $current = $arr[$currency_code];
 
                     $arr[$currency_code] = [
-                        'subtotal' => $current['subtotal'] + $invoice_row->subtotal,
+                        'grandtotalforeign' => $current['grandtotalforeign'] + $invoice_row->grandtotalforeign,
                         'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
                         'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
                     ];
