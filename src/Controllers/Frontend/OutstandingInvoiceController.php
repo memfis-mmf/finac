@@ -86,6 +86,35 @@ class OutstandingInvoiceController extends Controller
             })
             ->get();
 
+        foreach ($customer as $customer_row) {
+            foreach ($customer_row->invoice as $invoice_row) {
+                $currency_code = $invoice_row->currencies->code;
+
+                if (@count($customer_row->sum_total[$currency_code]) < 1) {
+                    $customer_row->sum_total = [
+                        $currency_code => [
+                            'subtotal' => $invoice_row->subtotal,
+                            'ppnvalue' => $invoice_row->ppnvalue,
+                            'ending_value' => $invoice_row->ending_balance['amount_idr'],
+                        ]
+                    ];
+                } else {
+                    $current = $customer_row->sum_total[$currency_code];
+
+                    $customer_row->sum_total = [
+                        $currency_code => [
+                            'subtotal' => $current['subtotal'] + $invoice_row->subtotal,
+                            'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
+                            'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
+                        ]
+                    ];
+                }
+
+            }
+        }
+
+        dd($customer);
+
         $data = [
             'customer' => $customer,
             'date' => $date,
