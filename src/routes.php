@@ -1030,6 +1030,11 @@ Route::group(['middleware' => ['web','auth']], function () {
         )->name('fa-report.outstanding-invoice');
 
 		Route::get(
+			'/outstanding-invoice-print',
+			'memfisfa\Finac\Controllers\Frontend\OutstandingInvoiceController@outstandingInvoicePrint'
+        )->name('fa-report.outstanding-invoice-print');
+
+		Route::get(
 			'/outstanding-invoice-export',
 			'memfisfa\Finac\Controllers\Frontend\OutstandingInvoiceController@outstandingInvoiceExport'
         )->name('fa-report.outstanding-invoice-export');

@@ -164,10 +164,13 @@
                                         @slot('icon', 'fa-filter')
                                         @endcomponent
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Print')
-                                        @slot('icon', 'fa-print')
-                                        @endcomponent
+                                        <a href="{{ $print }}" 
+                                          target="_blank" class="btn btn-success btn-md add text-white"> 
+                                          <span>
+                                              <i class="fa fa-print"></i>
+                                              <span>Print</span>
+                                          </span>
+                                        </a>
 
                                         @component('buttons::submit')
                                         @slot('text', 'Export to Excel')

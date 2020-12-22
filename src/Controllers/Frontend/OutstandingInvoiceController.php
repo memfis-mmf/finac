@@ -135,6 +135,7 @@ class OutstandingInvoiceController extends Controller
 
         $data = $this->getOutstandingInvoice($request);
         $data['export'] = route('fa-report.outstanding-invoice-export', $request->all());
+        $data['print'] = route('fa-report.outstanding-invoice-print', $request->all());
         
         return view('arreport-outstandingview::index', $data);
     }
@@ -148,6 +149,14 @@ class OutstandingInvoiceController extends Controller
 
         // return view('arreport-accountrhview::export', $data);
 		return Excel::download(new OutstandingInvoiceExport($data), "Invoice Outstanding $startDate - $endDate.xlsx");
+    }
+
+    public function outstandingInvoicePrint(Request $request)
+    {
+        $data = $this->getOutstandingInvoice($request);
+
+        $pdf = \PDF::loadView('formview::outstanding-invoices', $data);
+        return $pdf->stream();
     }
 
 }
