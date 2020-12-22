@@ -10,6 +10,8 @@
     style="{{ $style or '' }}"
     target="{{ $target or '' }}"
     data-uuid="{{ $data_uuid or '' }}"
+    data-toggle="{{ $data_toggle or '' }}"
+    data-target="{{ $data_target or '' }}"
 >
 
     <span>

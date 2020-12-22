@@ -156,6 +156,9 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
                                     <div class="action-buttons">
                                         @component('buttons::submit')
+                                        @slot('data_toggle', 'modal')
+                                        @slot('data_target', '#modal_outstanding')
+                                        @slot('type', 'button')
                                         @slot('text', 'Change Filter')
                                         @slot('color', 'primary')
                                         @slot('icon', 'fa-filter')
@@ -183,5 +186,6 @@
     </div>
 </div>
 <input hidden id="coaid">
+@include('arreport-outstandingview::modal')
 
 @endsection
