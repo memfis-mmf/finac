@@ -87,33 +87,32 @@ class OutstandingInvoiceController extends Controller
             ->get();
 
         foreach ($customer as $customer_row) {
+            $arr = [];
             foreach ($customer_row->invoice as $invoice_row) {
                 $currency_code = $invoice_row->currencies->code;
 
+                // jika currency belum masuk arr
                 if (@count($customer_row->sum_total[$currency_code]) < 1) {
-                    $customer_row->sum_total = [
-                        $currency_code => [
-                            'subtotal' => $invoice_row->subtotal,
-                            'ppnvalue' => $invoice_row->ppnvalue,
-                            'ending_value' => $invoice_row->ending_balance['amount_idr'],
-                        ]
+                    $arr[$currency_code] = [
+                        'symbol' => $invoice_row->currencies->symbol,
+                        'subtotal' => $invoice_row->subtotal,
+                        'ppnvalue' => $invoice_row->ppnvalue,
+                        'ending_value' => $invoice_row->ending_balance['amount_idr'],
                     ];
                 } else {
-                    $current = $customer_row->sum_total[$currency_code];
+                    $current = $arr[$currency_code];
 
-                    $customer_row->sum_total = [
-                        $currency_code => [
-                            'subtotal' => $current['subtotal'] + $invoice_row->subtotal,
-                            'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
-                            'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
-                        ]
+                    $arr[$currency_code] = [
+                        'subtotal' => $current['subtotal'] + $invoice_row->subtotal,
+                        'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
+                        'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
                     ];
                 }
 
             }
-        }
 
-        dd($customer);
+            $customer_row->sum_total = $arr;
+        }
 
         $data = [
             'customer' => $customer,

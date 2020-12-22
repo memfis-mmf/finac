@@ -95,12 +95,6 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">   
                                   @foreach ($customer as $customer_row)
-                                  @php
-                                    $subtotal_total = 0;
-                                    $vat_total = 0;
-                                    $ending_balance_total = 0;
-                                    $ending_balance_idr_total = 0;
-                                  @endphp
                                     <table width="100%" cellpadding="3" class="table-head">
                                         <tr>
                                             <td width="12%" valign="top"><b>Customer Name</b></td>
@@ -139,37 +133,19 @@
                                                 <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
                                                 <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
                                             </tr>
-                                            @php
-                                              $subtotal_total += $invoice_row->subtotal;
-                                              $vat_total += $invoice_row->ppnvalue;
-                                              $ending_balance_total += $invoice_row->ending_balance['amount'];
-                                              $ending_balance_idr_total += $invoice_row->ending_balance['amount_idr'];
-                                            @endphp
                                             @endforeach
-                                            {{-- Total IDR --}}
-                                            <tr style="border-top:2px solid black;" >
-                                                <td colspan="5"></td>
-                                                <td align="left" valign="top" colspan="2"><b>Total IDR</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer">
-                                                  <b>{{ number_format($invoice_row->subtotal * $invoice_row->exchangerate, 2, ',', '.') }}</b>
-                                                </td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%" align="right" valign="top" class="table-footer"><b>114.268.000,00</b></td>
-                                                <td width="1%" align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer"><b>114.268.000,00</b></td>
-                                            </tr>
-                                            {{-- Total USD --}}
-                                            <tr>
-                                                <td colspan="5"></td>
-                                                <td align="left" valign="top" colspan="2"><b>Total USD</b></td>
-                                                <td width="1%" align="right" valign="top"><b>$</b></td>
-                                                <td width="12%"align="right" valign="top"><b>1.142.680.000,00</b></td>
-                                                <td width="1%" align="right" valign="top"><b>$.</b></td>
-                                                <td width="12%" align="right" valign="top"><b>114.268.000,00</b></td>
-                                                <td width="1%" align="right" valign="top"><b>$.</b></td>
-                                                <td width="12%"align="right" valign="top"><b>114.268.000,00</b></td>
-                                            </tr>
+                                            @foreach ($customer_row->sum_total as $sum_total_index => $sum_total_row)
+                                              <tr style="border-top:2px solid black;" >
+                                                  <td colspan="5"></td>
+                                                  <td align="left" valign="top" colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
+                                                  <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['subtotal'], 2, ',', '.') }}</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
+                                                  <td width="12%" align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ppnvalue'], 2, ',', '.') }}</b></td>
+                                                  <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
+                                                  <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ending_value'], 2, ',', '.') }}</b></td>
+                                              </tr>   
+                                            @endforeach
                                         </tbody>
                                     </table>
                                   @endforeach
