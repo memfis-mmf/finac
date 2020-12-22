@@ -172,12 +172,20 @@
                                           </span>
                                         </a>
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Export to Excel')
-                                        @slot('icon', 'fa-file-excel')
-                                        @endcomponent
+                                        <a href="{{ $export }}" 
+                                          target="_blank" class="btn btn-success btn-md add text-white"> 
+                                          <span>
+                                              <i class="fa fa-file-excel"></i>
+                                              <span>Export to Excel</span>
+                                          </span>
+                                        </a>
 
-                                        @include('buttons::back')
+                                        <a href="{{ route('fa-report.index') }}" class="btn btn-secondary btn-md" style="">
+                                          <span>
+                                            <i class="la la-undo"></i>
+                                          </span>
+                                          Back
+                                        </a>
                                     </div>
                                 </div>
                             </div>

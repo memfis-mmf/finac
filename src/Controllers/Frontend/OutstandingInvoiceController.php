@@ -143,12 +143,10 @@ class OutstandingInvoiceController extends Controller
     public function outStandingInvoiceExport(Request $request)
     {
         $data = $this->getOutstandingInvoice($request);
-
-        $startDate = Carbon::parse($data['date'][0])->format('d F Y');
-        $endDate = Carbon::parse($data['date'][1])->format('d F Y');
+        $date = str_replace('/', '-', $request->date);
 
         // return view('arreport-accountrhview::export', $data);
-		return Excel::download(new OutstandingInvoiceExport($data), "Invoice Outstanding $startDate - $endDate.xlsx");
+		return Excel::download(new OutstandingInvoiceExport($data), "Outstanding Invoice $date.xlsx");
     }
 
     public function outstandingInvoicePrint(Request $request)

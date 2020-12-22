@@ -22,7 +22,7 @@ class OutstandingInvoiceExport implements FromView
 
     public function view(): View
     {
-        return view('arreport-accountrhview::export', $this->data);
+        return view('arreport-outstandingview::export', $this->data);
     }
 
     public static function afterSheet(AfterSheet $event)
