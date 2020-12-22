@@ -801,10 +801,10 @@ class InvoiceController extends Controller
     public function datatables()
     {
         $invoices = Invoice::with([
-            'customer',
-            'currencies',
-            'quotations:id,uuid,number',
-        ])
+                'customer',
+                'currencies',
+                'quotations:id,uuid,number',
+            ])
             ->orderBy('transactiondate', 'desc')
             ->orderBy('id', 'asc')
             ->select('invoices.*');
