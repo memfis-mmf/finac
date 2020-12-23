@@ -62,6 +62,7 @@
                                             @slot('id', 'cateory_code')
                                             @slot('text', 'Category Code')
                                             @slot('name', 'code')
+                                            @slot('disabled', 'disabled')
                                             @slot('value', @$typeasset->code)
                                             @slot('id_error', 'cateory_code')
                                         @endcomponent
@@ -75,6 +76,7 @@
                                             @slot('id', 'cateory_name')
                                             @slot('text', 'Category Name')
                                             @slot('name', 'name')
+                                            @slot('disabled', 'disabled')
                                             @slot('value', @$typeasset->name)
                                             @slot('id_error', 'cateory_name')
                                         @endcomponent
@@ -110,6 +112,7 @@
                                             @slot('id', 'coa')
                                             @slot('text', 'coa')
                                             @slot('name', 'accountcode')
+                                            @slot('disabled', 'disabled')
                                             @slot('value', @$typeasset->accountcode)
                                             @slot('type', 'text')
                                             @slot('style', 'width:100%')
@@ -125,6 +128,7 @@
                                         @slot('id', 'acd')
                                         @slot('text', 'acd')
                                         @slot('name', 'acd')
+                                        @slot('disabled', 'disabled')
                                         @slot('value', @$typeasset->coa->name)
                                         @endcomponent
                                     </div>

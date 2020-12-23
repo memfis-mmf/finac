@@ -27,9 +27,9 @@ class TypeAssetUpdate extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required',
-            'name' => 'required',
-            'accountcode' => 'required',
+            // 'code' => 'required',
+            // 'name' => 'required',
+            // 'accountcode' => 'required',
             'usefullife' => 'required|numeric|min:1',
         ];
     }

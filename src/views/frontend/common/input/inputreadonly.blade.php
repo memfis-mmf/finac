@@ -7,6 +7,7 @@
     style="{{$style or ''}}"
     value="{{$value or ''}}"
     placeholder="{{ $placeholder or '' }}"
+    {{ $disabled or '' }}
     readonly
 >
 

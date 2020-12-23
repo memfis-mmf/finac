@@ -39,17 +39,18 @@ class TypeAssetController extends Controller
 
     public function update(TypeAssetUpdate $request, TypeAsset $typeasset)
     {
-
-        $typeasset->update($request->all());
+        $typeasset->update([
+            'usefullife' => $request->usefullife
+        ]);
 
         return response()->json($typeasset);
     }
 
     public function destroy(TypeAsset $typeasset)
     {
-        $typeasset->delete();
+        // $typeasset->delete();
 
-        return response()->json($typeasset);
+        // return response()->json($typeasset);
     }
 
     public function api()
