@@ -84,14 +84,14 @@
                                 {{-- <div class="master_asset_datatable" id="scrolling_both"></div> --}}
                                 <table class="table table-striped table-bordered table-hover table-checkable master_asset_datatable">
                                     <thead>
-                                        <th>Code Asset</th>
+                                        <th>Asset Code</th>
                                         <th>Asset Name</th>
                                         <th>Ref. Doc</th>
                                         <th>Asset Value</th>
                                         <th>Useful Life</th>
-                                        <th>COA Accumulate</th>
-                                        <th>COA Expense</th>
-                                        <th>COA Depreciation</th>
+                                        <th>Accumulate COA</th>
+                                        <th>Asset COA</th>
+                                        <th>Depreciation COA</th>
                                         <th>Depreciation Start</th>
                                         <th>Depreciation End</th>
                                         <th>Created By</th>
