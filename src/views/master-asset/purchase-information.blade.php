@@ -87,7 +87,7 @@
       <div class="col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
           <label class="form-control-label">
-            Expense Account @include('label::required')
+            Account Credited @include('label::required')
           </label>
           <select name="coaexpense" class="form-control _accountcode">
             @if (@$asset->coaexpense)
