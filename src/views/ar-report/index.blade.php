@@ -15,7 +15,7 @@
                             </span>
 
                             @component('label::datalist')
-                            @slot('text','Ar Reports')
+                            @slot('text','Report')
                             @endcomponent
 
                             <h3 class="m-portlet__head-text">
