@@ -1,6 +1,7 @@
 @extends('frontend.master')
 
-@section('faReport', 'm-menu__item--active')
+@section('faReport', 'm-menu__item--open m-menu__item--active')
+@section('faReportTransactional', 'm-menu__item--active')
 @section('content')
 
 <div class="m-content">
@@ -11,7 +12,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Finance and Accounting Reports
+                                Transactional Report
                             </h3>
                         </div>
                     </div>
@@ -224,7 +225,76 @@
                         </div>
 
                         <div class="tab-pane" id="content_tab_5">
-                            -
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                                <div class="d-flex flex-column mr-5">
+                                                <a href="{{ route('frontend.material-transaction-history-finance.index') }}" class="h4 text-dark text-hover-primary mb-5">
+                                                Material Transaction History
+                                                </a>
+                                                <p class="text-dark-50">
+                                                <i class="fa fa-info-circle fa-4x"></i>
+                                                Shows all material transactional data
+                                                </p>
+                                                </div>
+                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                <a href="{{ route('frontend.material-transaction-history-finance.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                                <div class="d-flex flex-column mr-5">
+                                                <a href="{{ route('frontend.stock-monitoring-amount.index') }}" class="h4 text-dark text-hover-primary mb-5">
+                                                Stock Monitoring
+                                                </a>
+                                                <p class="text-dark-50">
+                                                <i class="fa fa-info-circle fa-4x"></i>
+                                                Shows material realtime stock data
+                                                </p>
+                                                </div>
+                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                <a href="{{ route('frontend.stock-monitoring-amount.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                                <div class="d-flex flex-column mr-5">
+                                                <a href="/stock-movement-value" class="h4 text-dark text-hover-primary mb-5">
+                                                Stock Movement
+                                                </a>
+                                                <p class="text-dark-50">
+                                                <i class="fa fa-info-circle fa-4x"></i>
+                                                Shows material realtime movement with value
+                                                </p>
+                                                </div>
+                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                <a href="/stock-movement-value" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tab-pane" id="content_tab_6">
