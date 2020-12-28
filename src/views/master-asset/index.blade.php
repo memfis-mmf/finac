@@ -89,9 +89,9 @@
                                         <th>Ref. Doc</th>
                                         <th>Asset Value</th>
                                         <th>Useful Life</th>
-                                        <th>Accumulate COA</th>
-                                        <th>Asset COA</th>
-                                        <th>Depreciation COA</th>
+                                        <th>Accumulate Account</th>
+                                        <th>Account Credited</th>
+                                        <th>Depreciation Account</th>
                                         <th>Depreciation Start</th>
                                         <th>Depreciation End</th>
                                         <th>Created By</th>
