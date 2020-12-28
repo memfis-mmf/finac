@@ -19,7 +19,7 @@
                             @endcomponent
 
                             <h3 class="m-portlet__head-text">
-                                Account Receivable Reports
+                                Finance and Accounting Reports
                             </h3>
                         </div>
                     </div>
@@ -28,10 +28,9 @@
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">
                             {{-- Outstanding --}}
-                            <div class="col-sm-6 col-md-6 col-lg-6">
+                            {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="pl-5 pr-5">
                                     <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal_outstanding" data-toggle="modal">
-                                    {{-- <button type="button" class="btn btn-primary m-btn m-btn--pill-last w-100 btn-large" data-target="#modal-maintenance" data-toggle="modal"> --}}
                                         <span>
                                         <i class="la la-file-o btn-icon"></i>
                                             <span><h3>Outstanding Invoice</h3></span>
@@ -39,6 +38,29 @@
 
                                         </span>
                                     </button>
+                                </div>
+                            </div> --}}
+
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                     <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                      <div class="d-flex flex-column mr-5">
+                                       <a href="#" data-target="#modal_outstanding" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                        Outstanding Invoice
+                                       </a>
+                                       <p class="text-dark-50">
+                                        <i class="fa fa-info-circle fa-4x"></i>
+                                        Shows Outstanding Invoice
+                                       </p>
+                                      </div>
+                                      <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                       <a href="#" data-target="#modal_outstanding" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                       Check
+                                       </a>
+                                      </div>
+                                     </div>
+                                    </div>
                                 </div>
                             </div>
 
