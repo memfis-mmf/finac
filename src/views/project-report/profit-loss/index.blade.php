@@ -1,11 +1,13 @@
 @extends('frontend.master')
 
+@section('faReport', 'm-menu__item--open m-menu__item--active')
+@section('faReportTransactional', 'm-menu__item--active')
 @section('content')
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                Profit & Loss Project
+                Project Profit & Loss
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -19,7 +21,7 @@
                 <li class="m-nav__item">
                     <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Profit & Loss Project
+                            Project Profit & Loss
                         </span>
                     </a>
                 </li>
@@ -43,7 +45,7 @@
                             @endcomponent
 
                             <h3 class="m-portlet__head-text">
-                                Profit & Loss Project
+                                Project Profit & Loss
                             </h3>
                         </div>
                     </div>
