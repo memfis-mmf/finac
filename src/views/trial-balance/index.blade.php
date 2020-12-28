@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('faReport', 'm-menu__item--open m-menu__item--active')
 @section('faTB', 'm-menu__item--active')
 @section('content')
 
