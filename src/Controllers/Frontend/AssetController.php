@@ -498,11 +498,18 @@ class AssetController extends Controller
                 ->orderBy('id', 'desc')
                 ->first();
 
-            $last_journal_date = Carbon::parse($last_journal_asset->transaction_date)->format('Y-m');
-            $month_before_generate = Carbon::parse($request->month_generate)->subMonth()->format('Y-m');
+            if ($last_journal_asset) {
+                $last_journal_date = Carbon::parse($last_journal_asset->transaction_date)->format('Y-m');
+                $month_before_generate = Carbon::parse($request->month_generate)->subMonth()->format('Y-m');
 
-            if ($last_journal_date != $month_before_generate) {
-                continue;
+                /**
+                 * pengecekan journal tidak boleh loncat bulan
+                 * contoh: jika journal terakhir nya january
+                 * maka tidak bisa membuat depr journal maret
+                 */
+                if ($last_journal_date != $month_before_generate) {
+                    continue;
+                }
             }
 
             /**
