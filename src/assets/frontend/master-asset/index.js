@@ -35,7 +35,7 @@ let MasterAsset = {
         }},
         { data: 'asset_code', defaultContent: '-'},
         { data: 'name', defaultContent: '-' },
-        { data: '', defaultContent: '-', searchable: false}, //refdoc
+        { data: 'grnno', defaultContent: '-'},
         {
           data: 'povalue', defaultContent: '-', render: function (data, type, row) {
             if (!row.povalue) {
