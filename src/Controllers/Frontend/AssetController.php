@@ -270,6 +270,13 @@ class AssetController extends Controller
                 ];
             }
 
+            if ($asset->approve) {
+                return [
+                    'status' => false,
+                    'message' => 'Asset Already approved'
+                ];
+            }
+
 	        $asset->approvals()->save(new Approval([
 	            'approvable_id' => $asset->id,
 	            'is_approved' => 1,
