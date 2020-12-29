@@ -273,7 +273,7 @@ class MasterCoaController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-	public function autoJournalDepreciation(Request $request)
+	public function DepreciationPerDay(Request $request)
 	{
 		$coa = Coa::where('approve', 1)->get();
 

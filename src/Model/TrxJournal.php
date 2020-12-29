@@ -209,7 +209,7 @@ class TrxJournal extends MemfisModel
 
 	// approve journal
 
-	static public function approve($journal, $auto = false)
+	static public function approve($journal)
 	{
 
 		try {
@@ -217,7 +217,6 @@ class TrxJournal extends MemfisModel
 	        $journal->first()->approvals()->save(new Approval([
 	            'approvable_id' => $journal->first()->id,
 	            'conducted_by' => Auth::id(),
-	            'note' => @$request->note,
 	            'is_approved' => 1
 	        ]));
 
@@ -263,7 +262,8 @@ class TrxJournal extends MemfisModel
 		$header,
 		$detail,
 		$journal_prefix_number,
-		$journal_type
+        $journal_type,
+        $auto_approve = false
 	)
 	{
 
@@ -320,7 +320,9 @@ class TrxJournal extends MemfisModel
 			'total_transaction' => $total_credit
 		]);
 
-		// TrxJournal::approve($tmp_journal);
+        if ($auto_approve) {
+            TrxJournal::approve($tmp_journal);
+        }
 
 		if ($total_debit != $total_credit) {
 			return [

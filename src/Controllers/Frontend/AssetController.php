@@ -312,7 +312,8 @@ class AssetController extends Controller
 				$header,
 				$detail,
 				'PRJR',
-				'GJV'
+                'GJV',
+                true //auto approve
 			);
 
 			if ($autoJournal['status']) {
@@ -341,11 +342,11 @@ class AssetController extends Controller
     }
 
     /**
-     * fungsi untuk autojournal depreciation
+     * fungsi untuk autojournal depreciation per hari
      * 
      * @param  date $date_generate ini berisi tanggal kapan asset akan didepresiasikan
      */
-	public function autoJournalDepreciation(Request $request)
+	public function DepreciationPerDay(Request $request)
 	{
 
         $date_generate = $request->date_generate;
@@ -434,8 +435,45 @@ class AssetController extends Controller
             'status' => true,
             'message' => 'Depreciation Success'
         ]);
-	}
+    }
 
+    public function DepreciationPerMonth(Request $request)
+    {
+        /**
+         * @var date $request->month_generate ini data berisi bulan (June 2020)
+         */
+        $date = Carbon::parse($request->month_generate)->addDays(15);
+
+        /**
+         * mengambil asset yang mana 
+         * tanggal approve nya kurang dari tanggal generate
+         */
+        $asset = Asset::whereHas('approvals', function($approvals) use($date) {
+                $approvals->whereDate('created_at', '<=', $date);
+            })
+            ->get();
+
+        foreach ($asset as $asset_row) {
+
+            /**
+             * mengambil journal pada akhir bulan generate
+             */
+            $journal = TrxJournal::where('ref_no', $asset_row->transaction_number)
+                ->orderBy('id', 'desc')
+                ->whereDate('created_at', Carbon::parse($request->month_generate)->endOfMonth())
+                ->first();
+
+            /**
+             * jika journal di akhir bulan (journal depr) ada
+             * maka loopingannya di skip
+             */
+            if ($journal) {
+                continue;
+            }
+        }
+
+    }
+    
     /**
      * fungsi untuk skeduling journal
      * 
@@ -501,7 +539,8 @@ class AssetController extends Controller
             $header,
             $detail,
             'PRJR',
-            'GJV'
+            'GJV',
+            true // auto approve
         );
 
         if (!$autoJournal['status']) {
