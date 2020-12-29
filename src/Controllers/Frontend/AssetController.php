@@ -324,12 +324,11 @@ class AssetController extends Controller
 			]);
 
 			$depreciationStart = new Carbon($date_approve);
-			$depreciationEnd = new Carbon($date_approve);
-			$depreciationEnd->addMonths(10);
+			$depreciationEnd = Carbon::parse($date_approve)->addMonths($asset->usefullife);
 
 			Asset::where('id', $asset->id)->update([
-				'depreciationstart' => $depreciationStart->format('Y-m-d'),
-				'depreciationend' => $depreciationEnd->format('Y-m-d'),
+				'depreciationstart' => $depreciationStart,
+				'depreciationend' => $depreciationEnd,
 			]);
 
 			$autoJournal = TrxJournal::autoJournal(
