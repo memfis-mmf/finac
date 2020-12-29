@@ -197,60 +197,61 @@ class AssetController extends Controller
     public function datatables()
     {
 		$data = Asset::with([
-                'type',
-                'type.coa',
-                'coa_accumulate',
-                'coa_depreciation',
-                'coa_expense',
+                'coa_accumulate:code,name',
+                'coa_depreciation:code,name',
+                'coa_expense:code,name',
             ])
             ->select('assets.*');
 
         return DataTables::of($data)
-        ->addColumn('action', function($row) {
-            $html = '';
-            if (!$row->approve) {
-                $html .= 
-                    '<a 
-                        href="'.route('asset.edit', $row->uuid).'" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
-                        title="Edit" 
-                        data-uuid="'.$row->uuid.'"> 
-                        <i class="la la-pencil"></i> 
-                    </a>';
-                // $html .=
-                //     '<a 
-                //         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
-                //         href="#" 
-                //         data-uuid="'.$row->uuid.'"
-                //         title="Delete">
-                //         <i class="la la-trash"></i> 
-                //     </a>';
-                $html .=
-                    '<a 
-                        href="javascript:;" 
-                        data-uuid="'.$row->uuid.'" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
-                        title="Approve" 
-                        data-uuid="'.$row->uuid.'">
-                        <i class="la la-check"></i>
-                    </a>';
-            }
+            ->addColumn('account_asset', function($row) {
+                return $row->type->coa->name.' ('.$row->type->coa->code.')';
+            })
+            ->addColumn('action', function($row) {
+                $html = '';
+                if (!$row->approve) {
+                    $html .= 
+                        '<a 
+                            href="'.route('asset.edit', $row->uuid).'" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                            title="Edit" 
+                            data-uuid="'.$row->uuid.'"> 
+                            <i class="la la-pencil"></i> 
+                        </a>';
+                    // $html .=
+                    //     '<a 
+                    //         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                    //         href="#" 
+                    //         data-uuid="'.$row->uuid.'"
+                    //         title="Delete">
+                    //         <i class="la la-trash"></i> 
+                    //     </a>';
+                    $html .=
+                        '<a 
+                            href="javascript:;" 
+                            data-uuid="'.$row->uuid.'" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                            title="Approve" 
+                            data-uuid="'.$row->uuid.'">
+                            <i class="la la-check"></i>
+                        </a>';
+                }
 
-            if ($row->approve) {
-                $html .= 
-                    '<button 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill history-depreciation"
-                        data-url="'.route('asset.history.depreciation').'?asset_uuid='.$row->uuid.'"
-                        data-uuid="'.$row->uuid.'"
-                        title="History Depreciation">
-                        <i class="fa fa-copy"></i> 
-                    </button>';
-            }
+                if ($row->approve) {
+                    $html .= 
+                        '<button 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill history-depreciation"
+                            data-url="'.route('asset.history.depreciation').'?asset_uuid='.$row->uuid.'"
+                            data-uuid="'.$row->uuid.'"
+                            title="History Depreciation">
+                            <i class="fa fa-copy"></i> 
+                        </button>';
+                }
 
-            return $html;
-        })
-		->escapeColumns([])
-		->make(true);
+                return $html;
+            })
+            ->escapeColumns([])
+            ->make(true);
 
     }
 

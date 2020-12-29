@@ -96,6 +96,7 @@
                                         <th>Ref. Doc</th>
                                         <th>Asset Value</th>
                                         <th>Useful Life</th>
+                                        <th>Asset Account</th>
                                         <th>Accumulate Account</th>
                                         <th>Account Credited</th>
                                         <th>Depreciation Account</th>

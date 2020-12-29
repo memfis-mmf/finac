@@ -50,6 +50,7 @@ let MasterAsset = {
             return addCommas(parseFloat(row.usefullife)) + ' Month';
           }
         },
+        { data: 'account_asset', defaultContent: '-', searchable: false, orderable: false },
         { data: 'coa_accumulate.name', defaultContent: '-', render: (data, type, row) => {
           if (row.coa_accumulate) {
             return row.coa_accumulate.name + ' (' + row.coa_accumulate.code + ')';
