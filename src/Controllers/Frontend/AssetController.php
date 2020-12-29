@@ -216,15 +216,17 @@ class AssetController extends Controller
                         title="Edit" 
                         data-uuid="'.$row->uuid.'"> 
                         <i class="la la-pencil"></i> 
-                    </a>
-                    <a 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
-                        href="#" 
-                        data-uuid="'.$row->uuid.'"
-                        title="Delete">
-                        <i class="la la-trash"></i> 
-                    </a>
-                    <a 
+                    </a>';
+                // $html .=
+                //     '<a 
+                //         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                //         href="#" 
+                //         data-uuid="'.$row->uuid.'"
+                //         title="Delete">
+                //         <i class="la la-trash"></i> 
+                //     </a>';
+                $html .=
+                    '<a 
                         href="javascript:;" 
                         data-uuid="'.$row->uuid.'" 
                         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
