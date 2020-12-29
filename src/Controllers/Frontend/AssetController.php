@@ -261,7 +261,14 @@ class AssetController extends Controller
 		try {
 
 			$asset_tmp = Asset::where('uuid', $request->uuid);
-			$asset = $asset_tmp->first();
+            $asset = $asset_tmp->first();
+            
+            if (!$asset->asset_code) {
+                return [
+                    'status' => false,
+                    'message' => 'Asset Code Empty'
+                ];
+            }
 
 	        $asset->approvals()->save(new Approval([
 	            'approvable_id' => $asset->id,

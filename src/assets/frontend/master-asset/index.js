@@ -101,8 +101,10 @@ let MasterAsset = {
           uuid: _uuid
         },
         success: function (data) {
-          if (data.errors) {
-            toastr.error(data.errors, 'Invalid', {
+          if (data.errors || data.status) {
+            error = (data.errors)? data.errors: data.message;
+
+            toastr.error(error, 'Invalid', {
               timeOut: 3000
             });
           } else {
