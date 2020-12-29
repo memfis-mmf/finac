@@ -69,7 +69,7 @@
                                         <th>Transaction No</th> 
                                         <th>Total Transaction</th> 
                                         <th>Payment/Received By</th> 
-                                        <th>Description</th> 
+                                        <th>Remark</th> 
                                         <th>Status</th> 
                                         <th>Created By</th> 
                                         <th>Approved By</th> 
