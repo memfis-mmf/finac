@@ -33,6 +33,7 @@ let MasterAsset = {
         { data: 'transaction_number', defaultContent: '-', render: (data, type, row) => {
           return `<a href="${_url}/asset/${row.uuid}">${row.transaction_number}</a>`
         }},
+        { data: 'asset_code', defaultContent: '-'},
         { data: 'name', defaultContent: '-' },
         { data: '', defaultContent: '-', searchable: false}, //refdoc
         {
