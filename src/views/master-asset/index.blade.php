@@ -62,12 +62,18 @@
                                         <span>Master Asset</span>
                                       </span>
                                     </a>
-                                    <a 
-                                      href="#modal_form_depreciation" data-toggle="modal" 
+                                    {{-- <a href="#modal_form_depreciation" data-toggle="modal" 
                                       class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md btn-depreciation">
                                       <span>
                                         <i class="fa fa-copy"></i>
                                         <span>Generate Depreciation</span>
+                                      </span>
+                                    </a> --}}
+                                    <a href="#modal_form_depreciation_month" data-toggle="modal" 
+                                      class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md btn-depreciation">
+                                      <span>
+                                        <i class="fa fa-copy"></i>
+                                        <span>Generate Depreciation Month</span>
                                       </span>
                                     </a>
 
@@ -108,7 +114,37 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_form_depreciation">
+<div class="modal fade" id="modal_form_depreciation_month">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="TitleModalInstruction" style="margin-top:-5px">
+          Depreciation <small id="instruction" class="m--font-focus"></small>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('asset.depreciation-per-month') }}" id="form-depreciation">
+          <div class="form-group">
+            <label for="">Month</label>
+            <input type="month" class="form-control" name="month_generate">
+          </div>
+
+          <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md">
+            <span>
+              <i class="la la-plus-circle"></i>
+              <span>Generate</span>
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- <div class="modal fade" id="modal_form_depreciation">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -136,7 +172,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 
 <div class="modal fade" id="modal_history_depreciation">
   <div class="modal-dialog modal-lg" role="document">

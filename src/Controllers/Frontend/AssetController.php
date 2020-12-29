@@ -256,7 +256,7 @@ class AssetController extends Controller
 
 	        $asset->approvals()->save(new Approval([
 	            'approvable_id' => $asset->id,
-	            'is_approved' => 0,
+	            'is_approved' => 1,
 	            'conducted_by' => Auth::id(),
 	        ]));
 
@@ -296,7 +296,8 @@ class AssetController extends Controller
 			);
 
 			Asset::where('id', $asset->id)->update([
-				'approve' => 1,
+                'approve' => 1,
+                'status' => 2
 			]);
 
 			$depreciationStart = new Carbon($date_approve);
@@ -439,28 +440,34 @@ class AssetController extends Controller
 
     public function DepreciationPerMonth(Request $request)
     {
+        $request->validate([
+            'month_generate' => 'required|date'
+        ]);
+
         /**
          * @var date $request->month_generate ini data berisi bulan (June 2020)
          */
-        $date = Carbon::parse($request->month_generate)->addDays(15);
+        $date_limit = Carbon::parse($request->month_generate)->addDays(15);
+        $end_date_of_month = Carbon::parse($request->month_generate)->endOfMonth();
 
         /**
          * mengambil asset yang mana 
          * tanggal approve nya kurang dari tanggal generate
          */
-        $asset = Asset::whereHas('approvals', function($approvals) use($date) {
-                $approvals->whereDate('created_at', '<=', $date);
+        $asset = Asset::whereHas('approvals', function($approvals) use($date_limit) {
+                $approvals->whereDate('created_at', '<=', $date_limit);
             })
+            ->where('status', 2) //mengambil asset dengan status approve
             ->get();
 
         foreach ($asset as $asset_row) {
+            $asset_row->date_generate = $end_date_of_month;
 
             /**
              * mengambil journal pada akhir bulan generate
              */
             $journal = TrxJournal::where('ref_no', $asset_row->transaction_number)
-                ->orderBy('id', 'desc')
-                ->whereDate('created_at', Carbon::parse($request->month_generate)->endOfMonth())
+                ->where('transaction_date', $end_date_of_month)
                 ->first();
 
             /**
@@ -470,8 +477,51 @@ class AssetController extends Controller
             if ($journal) {
                 continue;
             }
+
+            $last_journal_asset = TrxJournal::where('ref_no', $asset_row->transaction_number)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $last_journal_date = Carbon::parse($last_journal_asset->transaction_date)->format('Y-m');
+            $month_before_generate = Carbon::parse($request->month_generate)->subMonth()->format('Y-m');
+
+            if ($last_journal_date != $month_before_generate) {
+                continue;
+            }
+
+            /**
+             * get total journal atas asset
+             */
+            $total_journal = TrxJournal::where('ref_no', $asset_row->transaction_number)
+                ->count();
+
+            /**
+             * jika total journal lebih dari usefullife + 1 (journal pengakuan asset)
+             */
+            if ($total_journal > ($asset_row->usefullife + 1)) {
+                continue;
+            }
+
+            if ($asset_row->usefullife < 1) {
+                continue;
+            }
+
+            $value_per_month = ($asset_row->povalue - $asset_row->salvagevalue) / $asset_row->usefullife;
+
+            $scheduled_journal = $this->scheduledJournal($asset_row, $value_per_month);
+
+            if ($scheduled_journal['status'] != true) {
+                return response([
+                    'status' => false,
+                    'message' => $scheduled_journal['message']
+                ], 422);
+            }
         }
 
+        return response([
+            'status' => true,
+            'message' => 'Depreciation Success'
+        ]);
     }
     
     /**
@@ -532,6 +582,7 @@ class AssetController extends Controller
 
         Asset::where('id', $asset->id)->update([
             'approve' => 1,
+            'status' => 2,
             'count_journal_report' => $asset->count_journal_report+1
         ]);
 
