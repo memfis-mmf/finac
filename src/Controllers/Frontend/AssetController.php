@@ -50,6 +50,11 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'asset_category_id' => 'required|numeric',
+            'name' => 'required',
+        ]);
+
         $typeasset = TypeAsset::find($request->asset_category_id);
 		$request->request->add([
             'transaction_number' => Asset::generateCode(),
@@ -105,6 +110,7 @@ class AssetController extends Controller
     {
         $request->validate(
             [
+                'asset_code' => 'required',
                 'name' => 'required',
                 'usefullife' => 'required|numeric',
                 'povalue' => 'required|numeric',
