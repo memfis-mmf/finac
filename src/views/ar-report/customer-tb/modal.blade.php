@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="TitleModaladjustment">Report Filter</h5>
+        <h5 class="modal-title" id="TitleModaladjustment">Customer Trial Balance</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -80,6 +80,8 @@
                     @component('buttons::submit')
                     @slot('id', 'update_adjustment')
                     @slot('type', 'submit')
+                    @slot('text', 'View')
+                    @slot('icon','fa-search')
                     @endcomponent
 
                     @include('buttons::reset')
