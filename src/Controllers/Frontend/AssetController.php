@@ -50,6 +50,11 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'asset_category_id' => 'required|numeric',
+            'name' => 'required',
+        ]);
+
         $typeasset = TypeAsset::find($request->asset_category_id);
 		$request->request->add([
             'transaction_number' => Asset::generateCode(),
@@ -105,6 +110,7 @@ class AssetController extends Controller
     {
         $request->validate(
             [
+                'asset_code' => 'required',
                 'name' => 'required',
                 'usefullife' => 'required|numeric',
                 'povalue' => 'required|numeric',
@@ -191,58 +197,61 @@ class AssetController extends Controller
     public function datatables()
     {
 		$data = Asset::with([
-                'type',
-                'type.coa',
-                'coa_accumulate',
-                'coa_depreciation',
-                'coa_expense',
+                'coa_accumulate:code,name',
+                'coa_depreciation:code,name',
+                'coa_expense:code,name',
             ])
             ->select('assets.*');
 
         return DataTables::of($data)
-        ->addColumn('action', function($row) {
-            $html = '';
-            if (!$row->approve) {
-                $html .= 
-                    '<a 
-                        href="'.route('asset.edit', $row->uuid).'" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
-                        title="Edit" 
-                        data-uuid="'.$row->uuid.'"> 
-                        <i class="la la-pencil"></i> 
-                    </a>
-                    <a 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
-                        href="#" 
-                        data-uuid="'.$row->uuid.'"
-                        title="Delete">
-                        <i class="la la-trash"></i> 
-                    </a>
-                    <a 
-                        href="javascript:;" 
-                        data-uuid="'.$row->uuid.'" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
-                        title="Approve" 
-                        data-uuid="'.$row->uuid.'">
-                        <i class="la la-check"></i>
-                    </a>';
-            }
+            ->addColumn('account_asset', function($row) {
+                return $row->type->coa->name.' ('.$row->type->coa->code.')';
+            })
+            ->addColumn('action', function($row) {
+                $html = '';
+                if (!$row->approve) {
+                    $html .= 
+                        '<a 
+                            href="'.route('asset.edit', $row->uuid).'" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                            title="Edit" 
+                            data-uuid="'.$row->uuid.'"> 
+                            <i class="la la-pencil"></i> 
+                        </a>';
+                    // $html .=
+                    //     '<a 
+                    //         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                    //         href="#" 
+                    //         data-uuid="'.$row->uuid.'"
+                    //         title="Delete">
+                    //         <i class="la la-trash"></i> 
+                    //     </a>';
+                    $html .=
+                        '<a 
+                            href="javascript:;" 
+                            data-uuid="'.$row->uuid.'" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                            title="Approve" 
+                            data-uuid="'.$row->uuid.'">
+                            <i class="la la-check"></i>
+                        </a>';
+                }
 
-            if ($row->approve) {
-                $html .= 
-                    '<button 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill history-depreciation"
-                        data-url="'.route('asset.history.depreciation').'?asset_uuid='.$row->uuid.'"
-                        data-uuid="'.$row->uuid.'"
-                        title="History Depreciation">
-                        <i class="fa fa-copy"></i> 
-                    </button>';
-            }
+                if ($row->approve) {
+                    $html .= 
+                        '<button 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill history-depreciation"
+                            data-url="'.route('asset.history.depreciation').'?asset_uuid='.$row->uuid.'"
+                            data-uuid="'.$row->uuid.'"
+                            title="History Depreciation">
+                            <i class="fa fa-copy"></i> 
+                        </button>';
+                }
 
-            return $html;
-        })
-		->escapeColumns([])
-		->make(true);
+                return $html;
+            })
+            ->escapeColumns([])
+            ->make(true);
 
     }
 
@@ -252,7 +261,21 @@ class AssetController extends Controller
 		try {
 
 			$asset_tmp = Asset::where('uuid', $request->uuid);
-			$asset = $asset_tmp->first();
+            $asset = $asset_tmp->first();
+            
+            if (!$asset->asset_code) {
+                return [
+                    'status' => false,
+                    'message' => 'Asset Code Empty'
+                ];
+            }
+
+            if ($asset->approve) {
+                return [
+                    'status' => false,
+                    'message' => 'Asset Already approved'
+                ];
+            }
 
 	        $asset->approvals()->save(new Approval([
 	            'approvable_id' => $asset->id,
@@ -301,12 +324,11 @@ class AssetController extends Controller
 			]);
 
 			$depreciationStart = new Carbon($date_approve);
-			$depreciationEnd = new Carbon($date_approve);
-			$depreciationEnd->addMonths(10);
+			$depreciationEnd = Carbon::parse($date_approve)->addMonths($asset->usefullife);
 
 			Asset::where('id', $asset->id)->update([
-				'depreciationstart' => $depreciationStart->format('Y-m-d'),
-				'depreciationend' => $depreciationEnd->format('Y-m-d'),
+				'depreciationstart' => $depreciationStart,
+				'depreciationend' => $depreciationEnd,
 			]);
 
 			$autoJournal = TrxJournal::autoJournal(
@@ -482,11 +504,18 @@ class AssetController extends Controller
                 ->orderBy('id', 'desc')
                 ->first();
 
-            $last_journal_date = Carbon::parse($last_journal_asset->transaction_date)->format('Y-m');
-            $month_before_generate = Carbon::parse($request->month_generate)->subMonth()->format('Y-m');
+            if ($last_journal_asset) {
+                $last_journal_date = Carbon::parse($last_journal_asset->transaction_date)->format('Y-m');
+                $month_before_generate = Carbon::parse($request->month_generate)->subMonth()->format('Y-m');
 
-            if ($last_journal_date != $month_before_generate) {
-                continue;
+                /**
+                 * pengecekan journal tidak boleh loncat bulan
+                 * contoh: jika journal terakhir nya january
+                 * maka tidak bisa membuat depr journal maret
+                 */
+                if ($last_journal_date != $month_before_generate) {
+                    continue;
+                }
             }
 
             /**

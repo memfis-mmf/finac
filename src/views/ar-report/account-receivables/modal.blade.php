@@ -89,7 +89,7 @@
                                             @slot('id', 'view')
                                             @slot('type', 'submit')
                                             @slot('color','primary')
-                                            @slot('text','view')
+                                            @slot('text','View')
                                             @slot('icon','fa-search')
                                         @endcomponent
 

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="TitleModaladjustment">Report Filter</h5>
+                <h5 class="modal-title" id="TitleModaladjustment">Outstanding Invoice</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -83,7 +83,7 @@
                                             @slot('id', 'view_outstanding_invoice')
                                             @slot('type', 'submit')
                                             @slot('color','primary')
-                                            @slot('text','view')
+                                            @slot('text','View')
                                             @slot('icon','fa-search')
                                         @endcomponent
 

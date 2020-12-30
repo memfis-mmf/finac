@@ -90,11 +90,13 @@
                                 {{-- <div class="master_asset_datatable" id="scrolling_both"></div> --}}
                                 <table class="table table-striped table-bordered table-hover table-checkable master_asset_datatable">
                                     <thead>
+                                        <th>Asset Number</th>
                                         <th>Asset Code</th>
                                         <th>Asset Name</th>
                                         <th>Ref. Doc</th>
                                         <th>Asset Value</th>
                                         <th>Useful Life</th>
+                                        <th>Asset Account</th>
                                         <th>Accumulate Account</th>
                                         <th>Account Credited</th>
                                         <th>Depreciation Account</th>

@@ -33,8 +33,9 @@ let MasterAsset = {
         { data: 'transaction_number', defaultContent: '-', render: (data, type, row) => {
           return `<a href="${_url}/asset/${row.uuid}">${row.transaction_number}</a>`
         }},
+        { data: 'asset_code', defaultContent: '-'},
         { data: 'name', defaultContent: '-' },
-        { data: '', defaultContent: '-', searchable: false}, //refdoc
+        { data: 'grnno', defaultContent: '-'},
         {
           data: 'povalue', defaultContent: '-', render: function (data, type, row) {
             if (!row.povalue) {
@@ -49,6 +50,7 @@ let MasterAsset = {
             return addCommas(parseFloat(row.usefullife)) + ' Month';
           }
         },
+        { data: 'account_asset', defaultContent: '-', searchable: false, orderable: false },
         { data: 'coa_accumulate.name', defaultContent: '-', render: (data, type, row) => {
           if (row.coa_accumulate) {
             return row.coa_accumulate.name + ' (' + row.coa_accumulate.code + ')';
@@ -99,8 +101,10 @@ let MasterAsset = {
           uuid: _uuid
         },
         success: function (data) {
-          if (data.errors) {
-            toastr.error(data.errors, 'Invalid', {
+          if (data.errors || data.status) {
+            error = (data.errors)? data.errors: data.message;
+
+            toastr.error(error, 'Invalid', {
               timeOut: 3000
             });
           } else {

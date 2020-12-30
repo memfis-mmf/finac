@@ -118,6 +118,7 @@
             <label class="form-control-label">
               Asset Code
             </label>
+            <span class="text-danger">*</span>
             @component('input::text')
               @slot('id', 'asset_code')
               @slot('text', 'Asset Code')
