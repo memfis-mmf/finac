@@ -169,15 +169,24 @@ class ARController extends Controller
 
     public function datatables()
     {
-        $data = AReceive::orderBy('id', 'desc')->with([
-            'customer',
-            'ara',
-            'coa',
-        ]);
+        $data = AReceive::orderBy('id', 'desc')
+            ->with([
+                'customer',
+                'ara',
+                'coa',
+            ])
+            ->select('a_receives.*');
 
         return DataTables::of($data)
             ->addColumn('status', function($row) {
                 return $row->status;
+            })
+            ->addColumn('url_edit', function($row) {
+                if ($row->from_module == 'HM') {
+                    return route('areceive.edit', $row->uuid);
+                }
+
+                return route('frontend.account-receivable-workshop.edit', $row->uuid);
             })
             ->escapeColumns([])
             ->make(true);
