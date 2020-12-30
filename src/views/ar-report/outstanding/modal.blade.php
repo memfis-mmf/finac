@@ -102,15 +102,6 @@
 
 @push('footer-scripts')
 <script>
-  $(document).ready(function() {
-    let currentUrl = window.location.href;
-    let _hash = currentUrl.split('#');
-    if (_hash.length < 2) {
-        window.location.href=currentUrl+"#faReport";
-    } else {
-        window.location.href=currentUrl;
-    }
-
     let modal = $('#modal_outstanding');
 
     modal.find('[name=date]').daterangepicker({
@@ -127,12 +118,12 @@
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
+{{-- <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script>
+<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script> --}}
 @endpush
 
