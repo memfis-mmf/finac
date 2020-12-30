@@ -261,6 +261,7 @@ class Invoice extends MemfisModel
 	static public function generateCode($code = "INVC")
 	{
 		$invoice = Invoice::orderBy('id', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
 			->where('transactionnumber', 'like', $code.'%');
 
 		if (!$invoice->count()) {

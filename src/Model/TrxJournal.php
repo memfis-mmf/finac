@@ -13,6 +13,7 @@ use App\User;
 use App\Models\Approval;
 use Illuminate\Validation\ValidationException;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class TrxJournal extends MemfisModel
@@ -98,6 +99,7 @@ class TrxJournal extends MemfisModel
 	static public function generateCode($code = "JADJ")
 	{
 		$journal = TrxJournal::orderBy('id', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
 			->where('voucher_no', 'like', $code.'%');
 
 		if (!$journal->count()) {

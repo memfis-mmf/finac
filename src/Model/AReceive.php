@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\User;
 use App\Models\Approval;
 use App\Models\Project;
+use Carbon\Carbon;
 
 class AReceive extends MemfisModel
 {
@@ -81,6 +82,7 @@ class AReceive extends MemfisModel
     static public function generateCode($code)
     {
         $data = AReceive::orderBy('id', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
             ->where('transactionnumber', 'like', $code . '%');
 
         if (!$data->count()) {

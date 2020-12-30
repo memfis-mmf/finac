@@ -8,6 +8,7 @@ use App\Models\Currency;
 use App\User;
 use App\Models\Project;
 use Auth;
+use Carbon\Carbon;
 use DB;
 
 class Cashbook extends MemfisModel
@@ -114,6 +115,7 @@ class Cashbook extends MemfisModel
 	static public function generateCode($code = "SITR")
 	{
 		$data = Cashbook::orderBy('id', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
 			->where('transactionnumber', 'like', $code.'%');
 
 		if (!$data->count()) {

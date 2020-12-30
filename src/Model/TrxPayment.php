@@ -234,6 +234,7 @@ class TrxPayment extends MemfisModel
 	static public function generateCode($code = "SITR")
 	{
 		$data = TrxPayment::orderBy('id', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
 			->where('transaction_number', 'like', $code.'%');
 
 		if (!$data->count()) {

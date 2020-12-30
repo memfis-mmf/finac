@@ -9,6 +9,7 @@ use App\Models\Vendor;
 use App\User;
 use App\Models\Approval;
 use App\Models\Project;
+use Carbon\Carbon;
 
 class APayment extends MemfisModel
 {
@@ -86,7 +87,8 @@ class APayment extends MemfisModel
 
 	static public function generateCode($code)
 	{
-		$data = APayment::orderBy('id', 'desc')
+        $data = APayment::orderBy('id', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
 			->where('transactionnumber', 'like', $code.'%');
 
 		if (!$data->count()) {

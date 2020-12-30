@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Models\Approval;
 use App\Models\Employee;
+use Carbon\Carbon;
 
 class TrxBS extends MemfisModel
 {
@@ -79,6 +80,7 @@ class TrxBS extends MemfisModel
 	static public function generateCode($code = "BSTR")
 	{
 		$bs = TrxBS::orderBy('id', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
 			->where('transaction_number', 'like', $code.'%');
 
 		if (!$bs->count()) {
