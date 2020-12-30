@@ -712,7 +712,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/{areceive}/edit',
 			'memfisfa\Finac\Controllers\Frontend\ARController@edit'
-		);
+		)->name('areceive.edit');
 		Route::get(
 			'/data',
 			'memfisfa\Finac\Controllers\Frontend\ARController@api'
