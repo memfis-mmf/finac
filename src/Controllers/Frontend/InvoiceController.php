@@ -868,24 +868,86 @@ class InvoiceController extends Controller
 
     public function table(Quotation $quotation)
     {
-        $workpackages = $quotation->workpackages()->with([
+        $workpackages = $quotation->workpackages()
+            ->select([
+                'workpackages.id',
+                'workpackages.uuid',
+                'workpackages.code',
+                'workpackages.title',
+                'workpackages.is_template',
+                'workpackages.aircraft_id',
+                'workpackages.description',
+            ])
+            ->with([
             'quotations' => function ($q) use ($quotation) {
-                $q->with([
-                    'promos',
-                    'currency',
-                    'taxes',
-                    'taxes.TaxPaymentMethod',
-                ])
+                $q
+                    ->select([
+                        'quotations.id',
+                        'quotations.number',
+                        'quotations.parent_id',
+                        'quotations.quotationable_type',
+                        'quotations.quotationable_id',
+                        'quotations.attention',
+                        'quotations.requested_at',
+                        'quotations.valid_until',
+                        'quotations.currency_id',
+                        'quotations.term_of_payment',
+                        'quotations.exchange_rate',
+                        'quotations.subtotal',
+                        'quotations.charge',
+                        'quotations.grandtotal',
+                        'quotations.title',
+                        'quotations.no_wo',
+                        'quotations.scheduled_payment_type',
+                        'quotations.scheduled_payment_amount',
+                        'quotations.term_of_payment',
+                        'quotations.description',
+                        'quotations.data_defectcard',
+                        'quotations.data_htcrr',
+                        'quotations.additionals',
+                    ])
+                    ->with([
+                        'promos',
+                        'currency',
+                        'taxes',
+                        'taxes.TaxPaymentMethod',
+                    ])
                     ->where('uuid', $quotation->uuid);
             },
         ])->get();
 
-        $quo = Quotation::where('uuid', $quotation->uuid)->with([
-            'promos',
-            'currency',
-            'taxes',
-            'taxes.TaxPaymentMethod',
-        ])->get();
+        $quo = Quotation::where('uuid', $quotation->uuid)
+            ->select([
+                'quotations.id',
+                'quotations.number',
+                'quotations.parent_id',
+                'quotations.quotationable_type',
+                'quotations.quotationable_id',
+                'quotations.attention',
+                'quotations.requested_at',
+                'quotations.valid_until',
+                'quotations.currency_id',
+                'quotations.term_of_payment',
+                'quotations.exchange_rate',
+                'quotations.subtotal',
+                'quotations.charge',
+                'quotations.grandtotal',
+                'quotations.title',
+                'quotations.no_wo',
+                'quotations.scheduled_payment_type',
+                'quotations.scheduled_payment_amount',
+                'quotations.term_of_payment',
+                'quotations.description',
+                'quotations.data_defectcard',
+                'quotations.data_htcrr',
+                'quotations.additionals',
+            ])
+            ->with([
+                'promos',
+                'currency',
+                'taxes',
+                'taxes.TaxPaymentMethod',
+            ])->get();
 
         @$taxes =  $quotation->taxes[0];
         if (@$taxes) {
