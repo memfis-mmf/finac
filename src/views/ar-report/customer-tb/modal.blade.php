@@ -99,8 +99,6 @@
 </div>
 
 @push('footer-script')
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
 <script>
   $(".daterange").daterangepicker({
     buttonClasses: "m-btn btn",
