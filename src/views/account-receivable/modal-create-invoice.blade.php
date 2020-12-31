@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <table class="table table-striped table-bordered table-hover _invoice_modal_datatable">
+        <table class="table table-striped table-bordered table-hover invoice_modal_datatable">
           <thead>
             <tr>
               <th>Transaction No.</th>
