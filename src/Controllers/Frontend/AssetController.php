@@ -283,8 +283,7 @@ class AssetController extends Controller
 	            'conducted_by' => Auth::id(),
 	        ]));
 
-			$date_approve = $asset->approvals->first()
-			->created_at->toDateTimeString();
+			$date_approve = now();
 
 			$header = (object) [
 				'voucher_no' => $asset->transaction_number,
@@ -351,7 +350,10 @@ class AssetController extends Controller
 				]);
 			}
 
-	        return response()->json($asset);
+	        return [
+                'status'=> true,
+                'message' => 'Data Approved'
+            ];
 
 		} catch (\Exception $e) {
 
@@ -359,7 +361,10 @@ class AssetController extends Controller
 
 			$data['errors'] = $e;
 
-			return response()->json($data);
+	        return [
+                'status'=> false,
+                'message' => $e
+            ];
         }
 
     }
@@ -476,7 +481,7 @@ class AssetController extends Controller
          * mengambil asset yang mana 
          * tanggal approve nya kurang dari tanggal generate
          */
-        $asset = Asset::where('approve', true)
+        $asset = Asset::where('approve', 1)
             ->where('status', 2) //mengambil asset dengan status approve
             ->where('updated_at', '<=', $date_limit)
             ->get();

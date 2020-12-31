@@ -100,20 +100,19 @@ let MasterAsset = {
           _token: $('input[name=_token]').val(),
           uuid: _uuid
         },
-        success: function (data) {
-          if (data.errors || data.status) {
-            error = (data.errors)? data.errors: data.message;
-
-            toastr.error(error, 'Invalid', {
-              timeOut: 3000
-            });
-          } else {
-            toastr.success('Data saved.', 'Sukses', {
-              timeOut: 3000
+        success: function (response) {
+          if (response.status) {
+            toastr.success(response.message, 'Success', {
+              timeOut: 2000
             });
 
             master_asset_datatable.ajax.reload();
+          } else {
+            errorHandler(response);
           }
+        },
+        error: function(xhr) {
+          errorHandler(xhr.responseJSON);
         }
       });
     })
