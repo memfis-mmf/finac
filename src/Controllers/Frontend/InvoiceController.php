@@ -870,12 +870,17 @@ class InvoiceController extends Controller
     {
         $workpackages = $quotation->workpackages()->with([
             'quotations' => function ($q) use ($quotation) {
-                $q->with([
-                    'promos',
-                    'currency',
-                    'taxes',
-                    'taxes.TaxPaymentMethod',
-                ])
+                $q->select([
+                        'quotations.id',
+                        'quotations.uuid',
+                        'quotations.number'
+                    ])
+                    ->with([
+                        'promos',
+                        'currency',
+                        'taxes',
+                        'taxes.TaxPaymentMethod',
+                    ])
                     ->where('uuid', $quotation->uuid);
             },
         ])->get();
