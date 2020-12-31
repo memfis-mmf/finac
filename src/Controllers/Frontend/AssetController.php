@@ -476,10 +476,9 @@ class AssetController extends Controller
          * mengambil asset yang mana 
          * tanggal approve nya kurang dari tanggal generate
          */
-        $asset = Asset::whereHas('approvals', function($approvals) use($date_limit) {
-                $approvals->whereDate('created_at', '<=', $date_limit);
-            })
+        $asset = Asset::where('approve', true)
             ->where('status', 2) //mengambil asset dengan status approve
+            ->where('updated_at', '<=', $date_limit)
             ->get();
 
         foreach ($asset as $asset_row) {
