@@ -181,6 +181,15 @@ class ARController extends Controller
             ->addColumn('status', function($row) {
                 return $row->status;
             })
+            ->addColumn('from', function($row) {
+                $class = 'success';
+
+                if ($row->from_module == 'HM') {
+                    $class = 'info';
+                }
+
+                return '<span class="badge badge-'.$class.'">'.$row->from_module.'</soan>';
+            })
             ->addColumn('url_edit', function($row) {
                 if ($row->from_module == 'HM') {
                     return route('areceive.edit', $row->uuid);
