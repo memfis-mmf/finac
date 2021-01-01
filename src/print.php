@@ -140,3 +140,19 @@ Route::get('/invoice-workshop-doc', function () {
     return $pdf->stream();
 });
 
+
+Route::get('/bank-statement-doc', function () {
+    $pdf = \PDF::loadView('formview::bank-statement');
+    return $pdf->stream();
+});
+
+Route::get('/cash-statement-doc', function () {
+    $pdf = \PDF::loadView('formview::cash-statement');
+    return $pdf->stream();
+});
+
+
+Route::get('/cashflow-doc', function () {
+    $pdf = \PDF::loadView('formview::cashflow');
+    return $pdf->stream();
+});
