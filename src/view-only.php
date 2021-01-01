@@ -141,4 +141,13 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::view('/invoice-workshop/create', 'invoice-workshopview::create')->name('invoice-workshop.create');
     Route::view('/invoice-workshop/edit', 'invoice-workshopview::edit')->name('invoice-workshop.edit');
 
+
+    /** CASH STATEMENT*/
+
+    Route::view('/fa-report/cash-statement', 'arreport-cashstatementview::index')->name('cash-statement.index');
+
+    /** BANK STATEMENT*/
+
+    Route::view('/fa-report/bank-statement', 'arreport-bankstatementview::index')->name('bank-statement.index');
+
 });
