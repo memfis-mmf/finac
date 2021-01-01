@@ -113,29 +113,29 @@
 
     <div id="content">
         <div class="container">
-            <table width="100%" cellpadding="8">
-                <tr>
-                    <td width="18%" colspan="3"></td>
-                </tr>
-                <tr>
-                    <td width="18%" colspan="3"></td>
-                </tr>
+            <table width="100%" cellpadding="5">
                 {{-- Activa --}}
-                <tr style="color:blue;font-weight: bold;">
-                    <td width="18%" colspan="3"><h3>ACTIVA</h3></td>
+                <tr style="color:blue;font-weight: bold;font-size:16px;">
+                    <td width="18%" colspan="3">ACTIVA</td>
                 </tr>
                 @for ($index_activa=0; $index_activa < count($data['activa']); $index_activa++)
-                    <tr style="background:#5f6b5e; color:white;font-weight: bold;">
+                    <tr>
+                        <td width="18%" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td width="18%" colspan="3"></td>
+                    </tr>
+                    <tr style="background:#5f6b5e; color:white;font-weight: bold; font-size:16px">
                         <td width="18%">Account Code</td>
-                        <td width="52%" align="center">Account Name</td>
-                        <td width="30%" align="center">Total Balance</td>
+                        <td width="52%">Account Name</td>
+                        <td width="30%" align="right">Total Balance</td>
                     </tr>
                     {{-- spasi --}}
                     @php
                         $arr = $data['activa'][$index_activa];
                     @endphp
                     <tr style="font-weight: bold; border-bottom:1px solid black">
-                        <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+                        <td width="18%" colspan="3" style="font-weight: bold; border-bottom:1px solid black; font-size:18px">{{$arr->name}}</td>
                     </tr>
                     @for ($index_child=0; $index_child < count($arr->child); $index_child++)
                         @php
@@ -144,13 +144,13 @@
                         <tr>
                             <td width="18%">{{$arr2->code}}</td>
                             <td width="52%">{{$arr2->name}}</td>
-                            <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+                            <td width="30%" align="right">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
                         </tr>
                                                         @endfor
-                        <tr style="background:#cfcfcf;font-weight: bold;">
-                            <td width="38%"><h5>Total {{$arr->name}}</h5></td>
+                        <tr style="background:#cfcfcf;font-weight: bold; font-size:14px">
+                            <td width="38%">Total {{$arr->name}}</td>
                             <td width="32%" align="center"></td>
-                            <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+                            <td width="30%" align="right">{{number_format($arr->total, '0', '0', '.')}}</td>
                         </tr>
                     @endfor
                     {{-- spasi --}}
@@ -161,10 +161,10 @@
                         <td width="18%" colspan="3"></td>
                     </tr>
                     {{-- total Activa --}}
-                    <tr style="background:#add8f7;font-weight: bold;">
-                        <td width="18%"><h5>Total Assets</h5></td>
+                    <tr style="background:#add8f7;font-weight: bold; font-size:14px">
+                        <td width="18%">Total Assets</td>
                         <td width="52%" align="center"></td>
-                        <td width="30%" align="center">{{number_format($totalActiva, 0, 0, '.')}}</td>
+                        <td width="30%" align="right">{{number_format($totalActiva, 0, 0, '.')}}</td>
                     </tr>
 
                     {{-- spasi --}}
@@ -176,20 +176,20 @@
                     </tr>
 
                     {{-- Pasiva --}}
-                    <tr style="color:blue;font-weight: bold;">
-                        <td width="18%" colspan="3"><h3>PASIVA & EQUITY</h3></td>
+                    <tr style="color:blue;font-weight: bold;font-size:16px;">
+                        <td width="18%" colspan="3">PASIVA & EQUITY</td>
                     </tr>
                     @for ($index_activa=0; $index_activa < count($data['pasiva']); $index_activa++)
-                        <tr style="background:#5f6b5e; color:white;font-weight: bold;">
+                        <tr style="background:#5f6b5e; color:white;font-weight: bold; font-size:16px">
                             <td width="18%">Account Code</td>
-                            <td width="52%" align="center">Account Name</td>
-                            <td width="30%" align="center">Total Balance</td>
+                            <td width="52%">Account Name</td>
+                            <td width="30%" align="right">Total Balance</td>
                         </tr>
                         @php
                             $arr = $data['pasiva'][$index_activa];
                         @endphp
                         <tr style="font-weight: bold; border-bottom:1px solid black">
-                            <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+                            <td width="18%" colspan="3" style="font-weight: bold; border-bottom:1px solid black; font-size:18px">{{$arr->name}}</td>
                         </tr>
                         @for ($index_child=0; $index_child < count($arr->child); $index_child++)
                             @php
@@ -198,13 +198,13 @@
                             <tr>
                                 <td width="18%">{{$arr2->code}}</td>
                                 <td width="52%">{{$arr2->name}}</td>
-                                <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+                                <td width="30%" align="right">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
                             </tr>
                     @endfor
-                    <tr style="background:#cfcfcf;font-weight: bold;">
-                        <td width="18%"><h5>Total {{$arr->name}}</h5></td>
+                    <tr style="background:#cfcfcf;font-weight: bold; font-size:14px">
+                        <td width="18%">Total {{$arr->name}}</td>
                         <td width="52%" align="center"></td>
-                        <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+                        <td width="30%" align="right">{{number_format($arr->total, '0', '0', '.')}}</td>
                     </tr>
                 @endfor
                 {{-- spasi --}}
@@ -215,10 +215,10 @@
                     <td width="18%" colspan="3"></td>
                 </tr>
                 {{-- total Activa --}}
-                <tr style="background:#add8f7;font-weight: bold;">
-                    <td width="18%"><h5>Total Liabilitie & Equities</h5></td>
+                <tr style="background:#add8f7;font-weight: bold; font-size:14px">
+                    <td width="18%">Total Liabilitie & Equities</td>
                     <td width="52%" align="center"></td>
-                    <td width="30%" align="center">{{number_format($totalPasiva, 0, 0, '.')}}</td>
+                    <td width="30%" align="right">{{number_format($totalPasiva, 0, 0, '.')}}</td>
                 </tr>
             </table>
         </div>
