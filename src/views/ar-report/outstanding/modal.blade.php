@@ -114,7 +114,6 @@
         format: 'YYYY/MM/DD'
       }    
     });
-  });
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
 
