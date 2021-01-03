@@ -149,7 +149,7 @@ class Invoice extends MemfisModel
     public function getStatusAttribute()
     {
         $result = 'open';
-        if ($this->approved_by != '-') {
+        if ($this->approve) {
             $result = 'Approved';
         }
 
