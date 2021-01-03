@@ -91,18 +91,15 @@ class OutstandingInvoiceController extends Controller
             foreach ($customer_row->invoice as $invoice_row) {
                 $currency_code = $invoice_row->currencies->code;
 
-                $due_date = ($invoice_row->due_date != '-')? Carbon::parse($invoice_row->due_date): '-';
+                $due_date = ($invoice_row->due_date != '-')? Carbon::parse($invoice_row->due_date): Carbon::parse($invoice_row->transactiondate);
                 $now = Carbon::now();
 
-                $due_date_formated = '-';
                 $style = '';
-                if ($due_date != '-') {
-                    if ($now > $due_date) {
-                        $style = 'color:red';
-                    }
-
-                    $due_date_formated = Carbon::parse($invoice_row->due_date)->format('d F Y');
+                if ($now > $due_date) {
+                    $style = 'color:red';
                 }
+
+                $due_date_formated = $due_date->format('d F Y');
 
                 $invoice_row->due_date_formated = '<span style="'.$style.'">'.$due_date_formated.'</span>';
 
