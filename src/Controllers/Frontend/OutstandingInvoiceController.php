@@ -39,10 +39,10 @@ class OutstandingInvoiceController extends Controller
                             'quotations:id,number,term_of_payment'
                         ])
                         ->where('approve', true)
-                        ->whereDate('transactiondate', '<=', $date)
-                        ->whereHas('ara.ar', function($ar) {
-                            $ar->where('approve', true);
-                        });
+                        ->whereDate('transactiondate', '<=', $date);
+                        // ->whereHas('ara.ar', function($ar) {
+                        //     $ar->where('approve', true);
+                        // });
 
                     if ($request->customer) {
                         $invoice = $invoice->where('id_customer', $request->customer);
@@ -63,10 +63,10 @@ class OutstandingInvoiceController extends Controller
             ])
             ->whereHas('invoice', function($invoice) use($request, $department, $date) {
                 $invoice->where('approve', true)
-                    ->whereDate('transactiondate', '<=', $date)
-                    ->whereHas('ara.ar', function($ar) {
-                        $ar->where('approve', true);
-                    });
+                    ->whereDate('transactiondate', '<=', $date);
+                    // ->whereHas('ara.ar', function($ar) {
+                    //     $ar->where('approve', true);
+                    // });
 
                 if ($request->customer) {
                     $invoice = $invoice->where('id_customer', $request->customer);
@@ -91,15 +91,20 @@ class OutstandingInvoiceController extends Controller
             foreach ($customer_row->invoice as $invoice_row) {
                 $currency_code = $invoice_row->currencies->code;
 
-                $due_date = Carbon::parse($invoice_row->due_date);
+                $due_date = ($invoice_row->due_date != '-')? Carbon::parse($invoice_row->due_date): '-';
                 $now = Carbon::now();
 
+                $due_date_formated = '-';
                 $style = '';
-                if ($now > $due_date) {
-                    $style = 'color:red';
+                if ($due_date != '-') {
+                    if ($now > $due_date) {
+                        $style = 'color:red';
+                    }
+
+                    $due_date_formated = Carbon::parse($invoice_row->due_date)->format('d F Y');
                 }
 
-                $invoice_row->due_date_formated = '<span style="'.$style.'">'.Carbon::parse($invoice_row->due_date)->format('d F Y').'</span>';
+                $invoice_row->due_date_formated = '<span style="'.$style.'">'.$due_date_formated.'</span>';
 
                 // jika currency belum masuk arr
                 if (@count($customer_row->sum_total[$currency_code]) < 1) {
