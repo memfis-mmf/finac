@@ -373,7 +373,12 @@ class ARController extends Controller
 
     public function countPaidAmount($id_invoice)
     {
-        $ara = AReceiveA::where('id_invoice', $id_invoice)->get();
+        $ara = AReceiveA::where('id_invoice', $id_invoice)
+            ->whereHas('ar', function($ar) {
+                $ar->where('from_module', '!=', 'Workshop'); // ambil AR yang bukan workshop
+            })
+            ->get();
+
         if (!count($ara)) {
             return 0;
         }
