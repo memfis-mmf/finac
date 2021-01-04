@@ -1,8 +1,8 @@
-<div class="modal fade" id="modal_outstanding" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_bank_statement" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="TitleModaladjustment">Outstanding Invoice</h5>
+                <h5 class="modal-title" id="TitleModaladjustment">Bank Statement</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,7 +11,7 @@
                 <form 
                   class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" 
                   id="AdjustmentForm" 
-                  action="{{route('fa-report.outstanding-invoice')}}">
+                  action="{{url('/fa-report/bank-statement')}}">
 
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row">
@@ -21,56 +21,30 @@
                                 </label>
                             
                                 @component('input::datepicker')
-                                    @slot('id', 'date')
-                                    @slot('name', 'date')
-                                    @slot('id_error', 'date')
+                                    @slot('id', 'daterange_cash_statement')
+                                    @slot('name', 'daterange_cash_statement')
+                                    @slot('id_error', 'daterange_cash_statement')
                                 @endcomponent
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 pl-5">
-                                <h2 class="text-primary">Additional Filter</h2>
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Department
+                                    COA
                                 </label>
                             
-                                @component('input::select2')
-                                    @slot('id', 'department_id')
-                                    @slot('name', 'department_id')
-                                    @slot('class', 'department')
-                                    @slot('id_error', 'department_id')
-                                @endcomponent
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <label class="form-control-label">
-                                    Location
-                                </label>
-                            
-                                <select class="_select2 form-control" name="location" style="width:100%">
+                                <select class="_select2 form-control" name="coa" style="width:100%">
                                     <option value=""></option>
-                                    <option value="Sidoarjo">Sidoarjo</option>
-                                    <option value="Surabaya">Surabaya</option>
-                                    <option value="Jakarta">Jakarta</option>
-                                    <option value="Biak">Biak</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Currency
+                                    Bank Account
                                 </label>
                             
-                                @component('input::select')
-                                    @slot('id', 'currency_id')
-                                    @slot('name', 'currency')
-                                    @slot('class', 'currency')
-                                    @slot('id_error', 'currency_id')
-                                @endcomponent
+                                <select class="_select2 form-control" name="bank_account" style="width:100%">
+                                    <option value=""></option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -101,10 +75,11 @@
 
 
 @push('footer-scripts')
+<script src="{{ asset('vendor/courier/frontend/functions/daterange/bank-statement.js')}}"></script>
 <script>
-    let modal = $('#modal_outstanding');
+    let modal = $('#modal_bank_statement');
 
-    modal.find('[name=date]').daterangepicker({
+    modal.find('[name=daterange_bank_statement]').daterangepicker({
       buttonClasses: "m-btn btn",
       applyClass: "btn-primary",
       cancelClass: "btn-secondary",
@@ -114,15 +89,7 @@
         format: 'YYYY/MM/DD'
       }    
     });
+  });
 </script>
-<script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
-
-{{-- <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script> --}}
 @endpush
 
