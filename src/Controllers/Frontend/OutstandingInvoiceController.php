@@ -102,6 +102,7 @@ class OutstandingInvoiceController extends Controller
                 $due_date_formated = $due_date->format('d F Y');
 
                 $invoice_row->due_date_formated = '<span style="'.$style.'">'.$due_date_formated.'</span>';
+                $invoice_row->due_date = $due_date;
 
                 // jika currency belum masuk arr
                 if (@count($customer_row->sum_total[$currency_code]) < 1) {
