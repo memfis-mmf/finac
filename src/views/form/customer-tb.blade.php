@@ -108,7 +108,7 @@
     <div id="body">
       <div class="container" style="margin-top:12px;">
         <table width="100%" cellpadding="3">
-          <tr>
+          <!-- <tr>
             <td width="20%" valign="top">MMF Department</td>
             <td width="1%" valign="top">:</td>
             <td width="79%" valign="top">{{ $department ?? '-' }}</td>
@@ -118,8 +118,8 @@
             <td>:</td>
             <td>{{ $request->location ?? '-' }}</td>
           </tr>
-          <tr>
-            <td colspan="3"><i>All Currency in IDR</i></td>
+          <tr> -->
+            <td colspan="3"><i>All Amount in IDR</i></td>
           </tr>
         </table>
         <table width="100%" cellpadding="3" style="margin-top:12px;" id="header-content">
