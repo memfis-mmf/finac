@@ -5,6 +5,7 @@ namespace memfisfa\Finac\Model;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Currency;
+use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
 class AReceiveA extends MemfisModel
 {
@@ -41,6 +42,14 @@ class AReceiveA extends MemfisModel
     {
         return $this->belongsTo(
             Invoice::class,
+            'id_invoice'
+        );
+    }
+
+    public function invoice_workshop()
+    {
+        return $this->belongsTo(
+            InvoiceWorkshop::class,
             'id_invoice'
         );
     }
