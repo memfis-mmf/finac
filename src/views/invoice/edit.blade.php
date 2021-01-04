@@ -1334,7 +1334,7 @@
                 template += si;
               }
               return (
-                "<b>" + t.description + "</b><br/>"
+                "<b>" + t.pivot.description + "</b><br/>"
                 + "Facility <br/>"
                 + "Material Need " + t.materialitem + " item(s)<br/>"
                 + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
