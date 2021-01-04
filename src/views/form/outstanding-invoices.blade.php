@@ -39,6 +39,7 @@
             left: 0cm;
             right: 0cm;
             height: 1.3cm;
+            font-size: 9px;
         }
         ul li{
             display: inline-block;
@@ -49,12 +50,10 @@
         }
 
         #head{
-            top: 4px;
+            top: 12px;
             left: 220px;
             position: absolute;
-            text-align: center;
         }
-
         .container{
             width: 100%;
             margin: 0 36px;
@@ -87,11 +86,11 @@
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Landscape.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt="" width="100%">
         <div id="head">
             <table width="95%">
                 <tr>
-                    <td width="55%" valign="middle" style="font-size:14px;line-height:20px;">
+                    <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
                         Juanda International Airport, Surabaya Indonesia
                         <br>
                         Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
@@ -101,8 +100,8 @@
                         Website : www.ptmmf.co.id
                     </td>
                     <td width="45%" valign="top" align="center">
-                        <h1 style="font-size:26px;">OUTSTANDING INVOICES<br> 
-                        <span style="font-size:15px;font-weight: none;">Period : {{ Carbon::parse($date)->format('d F Y') }}</span></h1>
+                        <h1 style="font-size:19px;">OUTSTANDING INVOICES<br> 
+                        <span style="font-size:12px;font-weight: none;">Period : {{ Carbon::parse($date)->format('d F Y') }}</span></h1>
                     </td>
                 </tr>
             </table>
@@ -111,9 +110,9 @@
             <div class="container" style="margin-top:12px;">
                 <table width="100%" cellpadding="3">
                     <tr>
-                        <td width="12%" valign="top">MMF Department</td>
+                        <td width="18%" valign="top">MMF Department</td>
                         <td width="1%" valign="top">:</td>
-                        <td width="77%" valign="top">MMF Department</td>
+                        <td width="71%" valign="top">MMF Department</td>
                     </tr>
                     <tr>
                         <td>MMF Location</td>
@@ -149,53 +148,43 @@
             <div style="margin-bottom:10px;">
                 <table width="100%" cellpadding="3" class="table-head">
                     <tr>
-                        <td width="12%" valign="top"><b>Customer Name</b></td>
+                        <td width="18%" valign="top"><b>Customer Name</b></td>
                         <td width="1%" valign="top"><b>:</b></td>
-                        <td width="77%" valign="top"><b>{{ $customer_row->name }}</b></td>
+                        <td width="71%" valign="top"><b>{{ $customer_row->name }}</b></td>
                     </tr>
                 </table>
                 <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
-                    <thead>     
+                    <thead style="font-size:10px;">     
                         <tr>
-                            <td width="19%" align="left" valign="top" style="padding-left:8px;"><b>Invoice No.</b></td>
-                            <td width="8%"align="center" valign="top"><b>Date</b></td>
-                            <td width="8%"align="center" valign="top"><b>Due Date</b></td>
-                            <td width="17%"align="center" valign="top"><b>Ref No.</b></td>
+                            <td width="15%" align="left" valign="top" style="padding-left:8px;"><b>Invoice No.</b></td>
+                            <td width="11%"align="center" valign="top"><b>Date</b></td>
+                            <td width="11%"align="center" valign="top"><b>Due Date</b></td>
+                            <td width="10%"align="center" valign="top"><b>Ref No.</b></td>
                             <td width="4%"align="center" valign="top"><b>Currency</b></td>
-                            <td width="6%"align="center" valign="top" colspan="2"><b>Rate</b></td>
-                            <td width="9%"align="center" valign="top"  colspan="2"><b>Total Invoice</b></td>
-                            {{-- <td width="13%"align="center" valign="top"  colspan="2"><b>VAT</b></td> --}}
-                            <td width="13%"align="center" valign="top"  colspan="2"><b>Outstanding Balance</b></td>
+                            <td width="8%"align="center" valign="top"><b>Rate</b></td>
+                            <td width="16%"align="center" valign="top"><b>Total Invoice</b></td>
+                            <td width="25%"align="center" valign="top"><b>Outstanding Balance</b></td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="font-size:10px;">
                       @foreach ($customer_row->invoice as $invoice_row)
                         <tr>
-                          <td width="19%" align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
-                          <td width="8%"align="center" valign="top">{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
-                          <td width="8%"align="center" valign="top">{!! $invoice_row->due_date_formated !!}</td>
-                          <td width="17%"align="left" valign="top">{{ $invoice_row->quotations->number ?? '-' }}</td>
-                          <td width="4%"align="center" valign="top">{{ $invoice_row->currencies->code }}</td>
-                          <td width="1%" align="right" valign="top">Rp </td>
-                          <td width="5%"align="left" valign="top">{{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
-                          <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
-                          <td width="8%"align="right" valign="top" >{{ number_format($invoice_row->grandtotalforeign, 2, ',', '.') }}</td>
-                          {{-- <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
-                          <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ppnvalue, 2, ',', '.') }}</td> --}}
-                          <td width="1%" align="right" valign="top">{{ $invoice_row->currencies->symbol }}</td>
-                          <td width="12%"align="right" valign="top">{{ number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
+                          <td align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
+                          <td align="center" valign="top">{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
+                          <td align="center" valign="top">{!! $invoice_row->due_date_formated !!}</td>
+                          <td align="left" valign="top">{{ $invoice_row->quotations->number ?? '-' }}</td>
+                          <td align="center" valign="top">{{ $invoice_row->currencies->code }}</td>
+                          <td align="center" valign="top">{{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
+                          <td align="right" valign="top" >{{ number_format($invoice_row->grandtotalforeign, 2, ',', '.') }}</td>
+                          <td align="right" valign="top">{{ number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
                         </tr>
                       @endforeach
                       @foreach ($customer_row->sum_total as $sum_total_index => $sum_total_row)
                         <tr style="border-top:2px solid black;" >
-                            <td colspan="5"></td>
-                            <td align="left" valign="top" colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
-                            <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
-                            <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['grandtotalforeign'], 2, ',', '.') }}</b></td>
-                            {{-- <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
-                            <td width="12%" align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ppnvalue'], 2, ',', '.') }}</b></td> --}}
-                            <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
-                            <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ending_value'], 2, ',', '.') }}</b></td>
+                            <td colspan="4"></td>
+                            <td align="right" valign="top" colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
+                            <td align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['grandtotalforeign'], 2, ',', '.') }}</b></td>
+                            <td align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ending_value'], 2, ',', '.') }}</b></td>
                         </tr>   
                       @endforeach
                     </tbody>
