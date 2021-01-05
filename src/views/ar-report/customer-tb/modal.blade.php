@@ -77,6 +77,14 @@
               <div class="action-buttons">
                 <div class="flex">
                   <div class="action-buttons">
+
+                    <button data-href="{{ route('customer-trial-balance-export') }}" type="button" class="btn btn-info btn-md export-to-excel">
+                      <span>
+                        <i class="fa fa-file-download"></i>
+                        <span>Export</span>
+                      </span>
+                    </button>
+
                     @component('buttons::submit')
                     @slot('id', 'update_adjustment')
                     @slot('type', 'submit')
@@ -108,5 +116,6 @@
       format: 'DD/MM/YYYY'
     }
   });
+
 </script>
 @endpush

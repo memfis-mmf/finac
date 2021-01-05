@@ -8,7 +8,10 @@ use App\Models\Customer;
 use App\Models\Department;
 use Carbon\Carbon;
 use memfisfa\Finac\Model\AReceiveA;
-use memfisfa\Finac\Model\TrxJournalA;
+
+//use for export
+use App\Models\Export\CustomerTBExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerTrialBalanceController extends Controller
 {
@@ -22,6 +25,15 @@ class CustomerTrialBalanceController extends Controller
         $request->validate([
             'daterange'=> 'required'
         ]);
+
+        $date = explode(' - ', $request->daterange);
+
+        $start_date = Carbon::createFromFormat('d/m/Y', $date[0])->endOfDay();
+        $end_date = Carbon::createFromFormat('d/m/Y', $date[1])->endOfDay();
+
+        if ($start_date > $end_date) {
+            return redirect()->back();
+        }
 
         $data = $this->getData($request);
 
@@ -106,6 +118,7 @@ class CustomerTrialBalanceController extends Controller
             $customer_row->debit = $debit = $customer_row->invoice()
                 ->where('approve', true)
                 ->where('updated_at', '>', $start_date)
+                ->where('updated_at', '<', $end_date)
                 ->sum('grandtotal');
 
             $customer_row->credit = $credit = AReceiveA::whereHas('ar', function($ar) use($customer_row) {
@@ -126,6 +139,30 @@ class CustomerTrialBalanceController extends Controller
             'customer' => $customer,
             'total' => (object) $total
         ];
+    }
+
+    public function export(Request $request)
+    {
+        $request->validate([
+            'daterange'=> 'required'
+        ]);
+
+        $date = explode(' - ', $request->daterange);
+
+        $start_date = Carbon::createFromFormat('d/m/Y', $date[0])->endOfDay();
+        $end_date = Carbon::createFromFormat('d/m/Y', $date[1])->endOfDay();
+
+        if ($start_date > $end_date) {
+            return redirect()->back();
+        }
+
+        $data = $this->getData($request);
+
+        $name = 'Customer Trial Balance';
+        
+        $name .= ' '.str_replace('/', '-', $request->daterange);
+
+        return Excel::download(new CustomerTBExport($data), $name.'.xlsx');
     }
 
 }

@@ -77,7 +77,7 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/bank-statement.js')}}"></script>
 <script>
-    let modal = $('#modal_bank_statement');
+    modal = $('#modal_bank_statement');
 
     modal.find('[name=daterange_bank_statement]').daterangepicker({
       buttonClasses: "m-btn btn",
@@ -89,7 +89,6 @@
         format: 'YYYY/MM/DD'
       }    
     });
-  });
 </script>
 @endpush
 

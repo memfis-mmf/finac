@@ -83,7 +83,7 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/cash-statement.js')}}"></script>
 <script>
-    let modal = $('#modal_cash_statement');
+    modal = $('#modal_cash_statement');
 
     modal.find('[name=daterange_cash_statement]').daterangepicker({
       buttonClasses: "m-btn btn",
@@ -95,7 +95,6 @@
         format: 'YYYY/MM/DD'
       }    
     });
-  });
 </script>
 @endpush
 

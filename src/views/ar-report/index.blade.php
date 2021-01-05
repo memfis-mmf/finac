@@ -426,6 +426,17 @@
             } else {
                 window.location.href=currentUrl;
             }
+
+          $(document).on('click', '.export-to-excel', function () {
+            console.log('wew');
+            let href = $(this).data('href');
+            let daterange = $('[name=daterange]').val();
+
+            href = href + '?daterange=' + daterange;
+
+            window.open(href, '_blank');
+          
+          });
         });
     </script>
 @endpush
