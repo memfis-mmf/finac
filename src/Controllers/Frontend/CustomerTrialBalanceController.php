@@ -109,6 +109,7 @@ class CustomerTrialBalanceController extends Controller
             $customer_row->debit = $debit = $customer_row->invoice()
                 ->where('approve', true)
                 ->where('updated_at', '>', $start_date)
+                ->where('updated_at', '<', $end_date)
                 ->sum('grandtotal');
 
             $customer_row->credit = $credit = AReceiveA::whereHas('ar', function($ar) use($customer_row) {
