@@ -467,6 +467,8 @@ class AssetController extends Controller
 
     public function DepreciationPerMonth(Request $request)
     {
+        DB::beginTransaction();
+
         ini_set('max_execution_time', '0');
 
         $request->validate([
@@ -552,6 +554,8 @@ class AssetController extends Controller
                 ], 422);
             }
         }
+
+        DB::commit();
 
         return response([
             'status' => true,
