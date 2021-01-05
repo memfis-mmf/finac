@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Department;
 use Carbon\Carbon;
+use memfisfa\Finac\Model\AReceiveA;
 use memfisfa\Finac\Model\TrxJournalA;
 
 class CustomerTrialBalanceController extends Controller
@@ -32,8 +33,8 @@ class CustomerTrialBalanceController extends Controller
     {
         $date = explode(' - ', $request->daterange);
 
-        $start_date = Carbon::createFromFormat('d/m/Y', $date[0])->addDay();
-        $end_date = Carbon::createFromFormat('d/m/Y', $date[1]);
+        $start_date = Carbon::createFromFormat('d/m/Y', $date[0])->endOfDay();
+        $end_date = Carbon::createFromFormat('d/m/Y', $date[1])->endOfDay();
 
         $department = Department::where('uuid', $request->department)->first();
 
@@ -71,7 +72,7 @@ class CustomerTrialBalanceController extends Controller
             })
             ->get();
 
-        $get_amount = $this->getAmount($customer, [$start_date, $end_date]);
+        $get_amount = $this->getAmount($customer, $start_date, $end_date);
 
         $data['customer'] = $get_amount['customer'];
         $data['total'] = $get_amount['total'];
@@ -84,84 +85,47 @@ class CustomerTrialBalanceController extends Controller
         return $data;
     }
 
-    public function getAmount($customer, $date)
+    public function getAmount($customer, $start_date, $end_date)
     {
-        $begining_balance_total = 0;
-        $journal_debit_total = 0;
-        $journal_credit_total = 0;
-        $ending_balance_total = 0;
+        $total = [
+            'begining_balance' => 0,
+            'debit' => 0,
+            'credit' => 0,
+            'ending_balance' => 0,
+        ];
 
         foreach ($customer as $customer_row) {
-            $invoice_number = $customer_row
-                ->invoice
-                ->pluck('transactionnumber')
-                ->all();
+            /**
+             * mengambil grandtotal IDR dari invoice
+             */
+            $customer_row->begining_balance = $begining_balance = $customer_row->invoice()
+                ->where('approve', true)
+                ->where('updated_at', '<=', $start_date)
+                ->sum('grandtotal');
 
-            // get begining balance
-            $begining_debit = TrxJournalA::whereHas('journal', function($journal) use($invoice_number, $date) {
-                    $journal->whereIn('ref_no', $invoice_number)
-                        ->where('approve', 1)
-                        ->where('transaction_date', '<', $date[0]);
+            $customer_row->debit = $debit = $customer_row->invoice()
+                ->where('approve', true)
+                ->where('updated_at', '>', $start_date)
+                ->sum('grandtotal');
+
+            $customer_row->credit = $credit = AReceiveA::whereHas('ar', function($ar) use($customer_row) {
+                    $ar->where('id_customer', $customer_row->id);
                 })
-                ->get()
-                ->sum(function($row) {
-                    return $row->debit * $row->journal->exchange_rate;
-                });
+                ->sum('credit_idr');
 
-            $begining_credit = TrxJournalA::whereHas('journal', function($journal) use($invoice_number, $date) {
-                    $journal->whereIn('ref_no', $invoice_number)
-                        ->where('approve', 1)
-                        ->where('transaction_date', '<', $date[0]);
-                })
-                ->get()
-                ->sum(function($row) {
-                    return $row->credit * $row->journal->exchange_rate;
-                });
+            $customer_row->ending_balance = $ending_balance = $begining_balance + $debit - $credit;
 
-            $customer_row->begining_balance = $begining_debit - $begining_credit;
+            $total['begining_balance'] += $begining_balance;
+            $total['debit'] += $debit;
+            $total['credit'] += $credit;
+            $total['ending_balance'] += $ending_balance;
 
-            $begining_balance_total += $customer_row->begining_balance;
-
-            // get debit and credit in journal
-            $customer_row->journal_debit = TrxJournalA::whereHas('journal', function($journal) use($invoice_number, $date) {
-                    $journal->whereIn('ref_no', $invoice_number)
-                        ->where('approve', 1)
-                        ->whereBetween('transaction_date', $date);
-                })
-                ->get()
-                ->sum(function($row) {
-                    return $row->debit * $row->journal->exchange_rate;
-                });
-
-            $journal_debit_total += $customer_row->journal_debit;
-
-            $customer_row->journal_credit = TrxJournalA::whereHas('journal', function($journal) use($invoice_number, $date) {
-                    $journal->whereIn('ref_no', $invoice_number)
-                        ->where('approve', 1)
-                        ->whereBetween('transaction_date', $date);
-                })
-                ->get()
-                ->sum(function($row) {
-                    return $row->credit * $row->journal->exchange_rate;
-                });
-
-            $journal_credit_total += $customer_row->journal_credit;
-
-            $customer_row->ending_balance = $customer_row->begining_balance - ($customer_row->journal_debit - $customer_row->journal_credit);
-
-            $ending_balance_total += $customer_row->ending_balance;
         }
 
         return [
             'customer' => $customer,
-            'total' => (object) [
-                'begining_balance_total' => $begining_balance_total,
-                'journal_debit_total' => $journal_debit_total,
-                'journal_credit_total' => $journal_credit_total,
-                'ending_balance_total' => $ending_balance_total,
-            ]
+            'total' => (object) $total
         ];
-
     }
 
 }

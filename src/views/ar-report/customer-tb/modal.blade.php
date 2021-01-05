@@ -46,7 +46,7 @@
           </div>
           <div class="m-portlet__body">
             <div class="form-group m-form__group row">
-              <div class="col-sm-6 col-md-6 col-lg-6">
+              <!-- <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
                   Department
                 </label>
@@ -56,8 +56,8 @@
                   @slot('name', 'department')
                   @slot('id_error', 'department')
                 @endcomponent
-              </div>
-              <div class="col-sm-6 col-md-6 col-lg-6">
+              </div> -->
+              <!-- <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
                   Location
                 </label>
@@ -69,7 +69,7 @@
                   <option value="Jakarta">Jakarta</option>
                   <option value="Biak">Biak</option>
                 </select>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="modal-footer">

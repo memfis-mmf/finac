@@ -162,7 +162,7 @@ class Invoice extends MemfisModel
 
     public function getXstatusAttribute()
     {
-        $quotation = $this->quotations;
+        $quotation = $this->quotations()->select(['parent_id'])->first();
         $qn = ($quotation)? $quotation->toArray(): null;
 
         $result = '';
@@ -179,9 +179,11 @@ class Invoice extends MemfisModel
 
     public function getDueDateAttribute()
     {
-        if ($this->approve and $this->quotations) {
+        $qn = $this->quotations()->select(['term_of_payment'])->first();
+
+        if ($this->approve and $qn) {
             $approval_date = Carbon::parse($this->updated_at);
-            return $approval_date->addDays($this->quotations->term_of_payment);
+            return $approval_date->addDays($qn->term_of_payment);
         }
 
         return '-';

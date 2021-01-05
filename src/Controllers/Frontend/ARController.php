@@ -398,34 +398,25 @@ class ARController extends Controller
     {
         $ar = AReceive::where('uuid', $request->ar_uuid)->first();
 
+        $invoice = Invoice::where('id_customer', $request->id_customer)
+            ->with('coas')
+            ->where('approve', 1);
+
         if (count($ar->ara)) {
-            $invoice = Invoice::where('id_customer', $request->id_customer)
-                ->with('coas')
-                ->where(
+            $invoice = $invoice->where(
                     'currency',
                     Currency::where('code', $ar->ara[0]->currency)->first()->id
-                )
-                ->where('approve', 1)
-                ->get();
-        } else {
-            $invoice = Invoice::where('id_customer', $request->id_customer)
-                ->with('coas')
-                ->where('approve', 1)
-                ->get();
-        }
-
-        for (
-            $invoice_index = 0;
-            $invoice_index < count($invoice);
-            $invoice_index++
-        ) {
-            $invoice[$invoice_index]->paid_amount = $this
-                ->countPaidAmount($invoice[$invoice_index]->id);
+                );
         }
 
         $data = $invoice;
 
-        return DataTables::of($data)->escapeColumns([])->make(true);
+        return DataTables::of($data)
+            ->addColumn('paid_amount', function($row) {
+                return $this->countPaidAmount($row->id);
+            })
+            ->escapeColumns([])
+            ->make();
     }
 
     public function approve(Request $request)

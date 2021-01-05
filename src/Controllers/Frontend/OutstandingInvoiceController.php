@@ -105,7 +105,7 @@ class OutstandingInvoiceController extends Controller
                 $invoice_row->due_date = $due_date;
 
                 // jika currency belum masuk arr
-                if (@count($customer_row->sum_total[$currency_code]) < 1) {
+                if (@count($arr[$currency_code]) < 1) {
                     $arr[$currency_code] = [
                         'symbol' => $invoice_row->currencies->symbol,
                         'grandtotalforeign' => $invoice_row->grandtotalforeign,
@@ -116,6 +116,7 @@ class OutstandingInvoiceController extends Controller
                     $current = $arr[$currency_code];
 
                     $arr[$currency_code] = [
+                        'symbol' => $invoice_row->currencies->symbol,
                         'grandtotalforeign' => $current['grandtotalforeign'] + $invoice_row->grandtotalforeign,
                         'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
                         'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
@@ -149,6 +150,8 @@ class OutstandingInvoiceController extends Controller
         $data = $this->getOutstandingInvoice($request);
         $data['export'] = route('fa-report.outstanding-invoice-export', $request->all());
         $data['print'] = route('fa-report.outstanding-invoice-print', $request->all());
+
+        // dd($data);
         
         return view('arreport-outstandingview::index', $data);
     }
