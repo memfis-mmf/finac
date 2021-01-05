@@ -26,6 +26,15 @@ class CustomerTrialBalanceController extends Controller
             'daterange'=> 'required'
         ]);
 
+        $date = explode(' - ', $request->daterange);
+
+        $start_date = Carbon::createFromFormat('d/m/Y', $date[0])->endOfDay();
+        $end_date = Carbon::createFromFormat('d/m/Y', $date[1])->endOfDay();
+
+        if ($start_date > $end_date) {
+            return redirect()->back();
+        }
+
         $data = $this->getData($request);
 
         $pdf = \PDF::loadView('formview::customer-tb', $data);
@@ -138,13 +147,20 @@ class CustomerTrialBalanceController extends Controller
             'daterange'=> 'required'
         ]);
 
+        $date = explode(' - ', $request->daterange);
+
+        $start_date = Carbon::createFromFormat('d/m/Y', $date[0])->endOfDay();
+        $end_date = Carbon::createFromFormat('d/m/Y', $date[1])->endOfDay();
+
+        if ($start_date > $end_date) {
+            return redirect()->back();
+        }
+
         $data = $this->getData($request);
 
         $name = 'Customer Trial Balance';
         
-        if ($request->uuid) {
-            $name .= ' '.str_replace('/', '-', $request->daterange);
-        }
+        $name .= ' '.str_replace('/', '-', $request->daterange);
 
         return Excel::download(new CustomerTBExport($data), $name.'.xlsx');
     }

@@ -78,7 +78,7 @@
                 <div class="flex">
                   <div class="action-buttons">
 
-                    <button data-href="{{ route('customer-trial-balance-export') }}" type="button" id="export" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill export"> 
+                    <button data-href="{{ route('customer-trial-balance-export') }}" type="button" class="btn btn-info btn-md export-to-excel">
                       <span>
                         <i class="fa fa-file-download"></i>
                         <span>Export</span>
@@ -117,9 +117,5 @@
     }
   });
 
-  $(document).on('click', function () {
-    let href = $(this).data('href');
-    let daterange = $('[name=daterange]').val();
-  });
 </script>
 @endpush
