@@ -77,6 +77,14 @@
               <div class="action-buttons">
                 <div class="flex">
                   <div class="action-buttons">
+
+                    <button data-href="{{ route('customer-trial-balance-export') }}" type="button" id="export" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill export"> 
+                      <span>
+                        <i class="fa fa-file-download"></i>
+                        <span>Export</span>
+                      </span>
+                    </button>
+
                     @component('buttons::submit')
                     @slot('id', 'update_adjustment')
                     @slot('type', 'submit')
@@ -107,6 +115,11 @@
     locale: {
       format: 'DD/MM/YYYY'
     }
+  });
+
+  $(document).on('click', function () {
+    let href = $(this).data('href');
+    let daterange = $('[name=daterange]').val();
   });
 </script>
 @endpush

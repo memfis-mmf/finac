@@ -8,7 +8,10 @@ use App\Models\Customer;
 use App\Models\Department;
 use Carbon\Carbon;
 use memfisfa\Finac\Model\AReceiveA;
-use memfisfa\Finac\Model\TrxJournalA;
+
+//use for export
+use App\Models\Export\CustomerTBExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerTrialBalanceController extends Controller
 {
@@ -126,6 +129,23 @@ class CustomerTrialBalanceController extends Controller
             'customer' => $customer,
             'total' => (object) $total
         ];
+    }
+
+    public function export(Request $request)
+    {
+        $request->validate([
+            'daterange'=> 'required'
+        ]);
+
+        $data = $this->getData($request);
+
+        $name = 'Customer Trial Balance';
+        
+        if ($request->uuid) {
+            $name .= ' '.str_replace('/', '-', $request->daterange);
+        }
+
+        return Excel::download(new CustomerTBExport($data), $name.'.xlsx');
     }
 
 }
