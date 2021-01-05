@@ -155,17 +155,17 @@
           <tr>
             <td width="20%" align="left" valign="top">{{ $customer_row->name }}</td>
             <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->begining_balance, 2, ',', '.') }}</td>
-            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->journal_debit, 2, ',', '.') }}</td>
-            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->journal_credit, 2, ',', '.') }}</td>
+            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->debit, 2, ',', '.') }}</td>
+            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->credit, 2, ',', '.') }}</td>
             <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->ending_balance, 2, ',', '.') }}</td>
           </tr>
         @endforeach
         <tr>
           <td width="20%" align="right" valign="top"><b>TOTAL</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->begining_balance_total, 2, ',', '.') }}</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->journal_debit_total, 2, ',', '.') }}</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->journal_credit_total, 2, ',', '.') }}</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->ending_balance_total, 2, ',', '.') }}</b></td>
+          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->begining_balance, 2, ',', '.') }}</b></td>
+          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->debit, 2, ',', '.') }}</b></td>
+          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->credit, 2, ',', '.') }}</b></td>
+          <td width="20%" align="right" valign="top" class="amount"><b>Rp {{ number_format($total->ending_balance, 2, ',', '.') }}</b></td>
         </tr>
       </table>
     </div>

@@ -33,8 +33,8 @@ class CustomerTrialBalanceController extends Controller
     {
         $date = explode(' - ', $request->daterange);
 
-        $start_date = Carbon::createFromFormat('d/m/Y', $date[0]);
-        $end_date = Carbon::createFromFormat('d/m/Y', $date[1]);
+        $start_date = Carbon::createFromFormat('d/m/Y', $date[0])->endOfDay();
+        $end_date = Carbon::createFromFormat('d/m/Y', $date[1])->endOfDay();
 
         $department = Department::where('uuid', $request->department)->first();
 
@@ -87,6 +87,13 @@ class CustomerTrialBalanceController extends Controller
 
     public function getAmount($customer, $start_date, $end_date)
     {
+        $total = [
+            'begining_balance' => 0,
+            'debit' => 0,
+            'credit' => 0,
+            'ending_balance' => 0,
+        ];
+
         foreach ($customer as $customer_row) {
             /**
              * mengambil grandtotal IDR dari invoice
@@ -106,8 +113,19 @@ class CustomerTrialBalanceController extends Controller
                 })
                 ->sum('credit_idr');
 
-            $customer_row->ending_balance = $begining_balance + $debit - $credit;
+            $customer_row->ending_balance = $ending_balance = $begining_balance + $debit - $credit;
+
+            $total['begining_balance'] += $begining_balance;
+            $total['debit'] += $debit;
+            $total['credit'] += $credit;
+            $total['ending_balance'] += $ending_balance;
+
         }
+
+        return [
+            'customer' => $customer,
+            'total' => (object) $total
+        ];
     }
 
 }
