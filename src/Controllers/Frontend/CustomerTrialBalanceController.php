@@ -91,20 +91,22 @@ class CustomerTrialBalanceController extends Controller
             /**
              * mengambil grandtotal IDR dari invoice
              */
-            $customer->begining_balance = $customer_row->invoice()
+            $customer_row->begining_balance = $begining_balance = $customer_row->invoice()
                 ->where('approve', true)
                 ->where('updated_at', '<=', $start_date)
                 ->sum('grandtotal');
 
-            $customer->debit = $customer_row->invoice()
+            $customer_row->debit = $debit = $customer_row->invoice()
                 ->where('approve', true)
                 ->where('updated_at', '>', $start_date)
                 ->sum('grandtotal');
 
-            $customer->credit = AReceiveA::whereHas('ar', function($ar) use($customer_row) {
+            $customer_row->credit = $credit = AReceiveA::whereHas('ar', function($ar) use($customer_row) {
                     $ar->where('id_customer', $customer_row->id);
                 })
                 ->sum('credit_idr');
+
+            $customer_row->ending_balance = $begining_balance + $debit - $credit;
         }
     }
 
