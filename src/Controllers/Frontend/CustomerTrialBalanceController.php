@@ -67,6 +67,17 @@ class CustomerTrialBalanceController extends Controller
                     if ($request->location) {
                         $invoice = $invoice->where('location', $request->location);
                     }
+                },
+                'invoice_workshop' => function($invoice_workshop) use ($request) {
+                    $invoice_workshop->where('status_inv', 'Approve');
+
+                    if ($request->customer) {
+                        $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                    }
+
+                    if ($request->location) {
+                        $invoice_workshop = $invoice_workshop->where('location', $request->location);
+                    }
                 }
             ])
             ->whereHas('invoice', function($invoice) use ($request, $department) {
@@ -82,6 +93,17 @@ class CustomerTrialBalanceController extends Controller
                 
                 if ($request->location) {
                     $invoice = $invoice->where('location', $request->location);
+                }
+            })
+            ->orWhereHas('invoice_workshop', function($invoice_workshop) use ($request) {
+                $invoice_workshop->where('status_inv', 'Approve');
+
+                if ($request->customer) {
+                    $invoice_workshop = $invoice_workshop->where('customer_id', $request->customer);
+                }
+
+                if ($request->location) {
+                    $invoice_workshop = $invoice_workshop->where('location', $request->location);
                 }
             })
             ->get();
