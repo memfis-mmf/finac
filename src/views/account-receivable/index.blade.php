@@ -65,28 +65,12 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                  <div class="m-btn-group btn-group" role="group">
-                                      <button id="btnGroupDrop1" type="button" class="btn btn-primary m-btn m-btn--pill-last dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:20px;">
-                                          <span>
-                                              <i class="la la-plus-circle"></i>
-                                              <span>Account Receivable</span>
-                                          </span>
-                                      </button>
-                                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                          <a class="dropdown-item" href="{{url('account-receivable/create')}}">
-                                              <span>
-                                                  <i class="la la-plus-circle"></i>
-                                                  <span>HM</span>
-                                              </span>
-                                          </a>
-                                          <a class="dropdown-item" href="{{ route('frontend.account-receivable-workshop.create') }}">
-                                              <span>
-                                                  <i class="la la-plus-circle"></i>
-                                                  <span>Workshop</span>
-                                              </span>
-                                          </a>
-                                      </div>
-                                  </div>
+                                    <a href="{{url('account-receivable/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                                        <i class="la la-plus-circle"></i>
+                                        <span>Account Receivable</span>
+                                    </span></a>
+
+                                    <div class="m-separator m-separator--dashed d-xl-none"></div>
                                 </div>
                             </div>
                         </div>
