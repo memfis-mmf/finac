@@ -170,7 +170,7 @@
                       @foreach ($customer_row->invoice as $invoice_row)
                         <tr>
                           <td align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
-                          <td align="center" valign="top">{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
+                          <td align="center" valign="top">{{ Carbon::parse($invoice_row->updated_at)->format('d F Y') }}</td>
                           <td align="center" valign="top">{!! $invoice_row->due_date_formated !!}</td>
                           <td align="left" valign="top">{{ $invoice_row->quotations->number ?? '-' }}</td>
                           <td align="center" valign="top">{{ $invoice_row->currencies->code }}</td>
