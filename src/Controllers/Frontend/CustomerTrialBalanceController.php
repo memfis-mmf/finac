@@ -12,6 +12,8 @@ use memfisfa\Finac\Model\AReceiveA;
 //use for export
 use App\Models\Export\CustomerTBExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
+use Modules\Workshop\Http\Controllers\InvoiceWorkshop\InvoiceWorkshopController;
 
 class CustomerTrialBalanceController extends Controller
 {
@@ -97,6 +99,13 @@ class CustomerTrialBalanceController extends Controller
         return $data;
     }
 
+    /**
+     * @param collection $customer
+     * @param date $start_date
+     * @param date $end_date
+     * 
+     * @return array [customer, total (in IDR)]
+     */
     public function getAmount($customer, $start_date, $end_date)
     {
         $total = [
@@ -110,16 +119,60 @@ class CustomerTrialBalanceController extends Controller
             /**
              * mengambil grandtotal IDR dari invoice
              */
-            $customer_row->begining_balance = $begining_balance = $customer_row->invoice()
+            $begining_balance = $customer_row->invoice()
                 ->where('approve', true)
                 ->where('updated_at', '<=', $start_date)
                 ->sum('grandtotal');
 
-            $customer_row->debit = $debit = $customer_row->invoice()
+            $invoice_workshop = $customer_row->invoice_workshop()
+                ->where('status_inv', 'Approved')
+                ->where('updated_at', '<=', $start_date)
+                ->get();
+
+            foreach ($invoice_workshop as $invoice_workshop_row) {
+                $invoice_workshop_controller = new InvoiceWorkshopController();
+                $qn_workshop = QuotationWorkshop::where('quotation_no', $invoice_workshop_row->ref_quo)->first();
+
+                if ($qn_workshop->type === "Service") {
+                    $summary = $invoice_workshop_controller->summaryService($invoice_workshop_row)['value_cost'];
+                } else {
+                    $summary = $invoice_workshop_controller->summarySale($invoice_workshop_row)['value_cost'];
+                }
+
+                $begining_balance += $summary->grand_total_rupiah;
+            }
+
+            $customer_row->begining_balance = $begining_balance;
+
+            /**
+             * set debit
+             */
+            $debit = $customer_row->invoice()
                 ->where('approve', true)
                 ->where('updated_at', '>', $start_date)
                 ->where('updated_at', '<', $end_date)
                 ->sum('grandtotal');
+
+            $invoice_workshop = $customer_row->invoice_workshop()
+                ->where('status_inv', 'Approved')
+                ->where('updated_at', '>', $start_date)
+                ->where('updated_at', '<', $end_date)
+                ->get();
+
+            foreach ($invoice_workshop as $invoice_workshop_row) {
+                $invoice_workshop_controller = new InvoiceWorkshopController();
+                $qn_workshop = QuotationWorkshop::where('quotation_no', $invoice_workshop_row->ref_quo)->first();
+
+                if ($qn_workshop->type === "Service") {
+                    $summary = $invoice_workshop_controller->summaryService($invoice_workshop_row)['value_cost'];
+                } else {
+                    $summary = $invoice_workshop_controller->summarySale($invoice_workshop_row)['value_cost'];
+                }
+
+                $debit += $summary->grand_total_rupiah;
+            }
+
+            $customer_row->debit = $debit;
 
             $customer_row->credit = $credit = AReceiveA::whereHas('ar', function($ar) use($customer_row) {
                     $ar->where('id_customer', $customer_row->id);
