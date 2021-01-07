@@ -171,8 +171,7 @@ class TrxPaymentController extends Controller
 		]);
 
 		$request->merge([
-			'account_code' =>
-			$request->account_code
+			'account_code' => Vendor::findOrFail($request->id_supplier)->coa->first()->code
 		]);
 
 		$request->request->add([
