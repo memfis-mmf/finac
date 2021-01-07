@@ -315,7 +315,7 @@ let AccountReceivableEdit = {
       ]
     });
 
-    let invoice_modal_table = $('._invoice_modal_datatable').DataTable({
+    let invoice_modal_table = $('.invoice_modal_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
       scrollX: true,
       processing: true,
