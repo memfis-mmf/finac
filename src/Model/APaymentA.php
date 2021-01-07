@@ -61,6 +61,8 @@ class APaymentA extends MemfisModel
         if (strtolower($this->type) == 'grn') {
             $si_detail = TrxPaymentA::where('id_grn', $this->id_payment)->first();
             $si = $si_detail->si;
+        } else {
+            $si = TrxPayment::find($this->id_payment);
         }
 
         return $si;

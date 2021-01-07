@@ -758,7 +758,7 @@ class APController extends Controller
             $si = $apa_row->getSI();
 
             // jika invoice nya foreign
-            if (@$si->currencies->code != 'idr') {
+            if ($si->currencies->code != 'idr') {
                 $credit = $apa_row->credit * $si->exchange_rate;
             } else {
                 $credit = $apa_row->credit_idr;
