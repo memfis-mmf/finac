@@ -515,9 +515,15 @@ class TrxPaymentController extends Controller
 
     public function grnDatatables(Request $request)
     {
+        $si = TrxPayment::where('uuid', $request->si_uuid)->firstOrFail();
+
 		$data = GRN::with([
-            'purchase_order.purchase_request',
-        ])->select('goods_received.*');
+                'purchase_order.purchase_request',
+            ])
+            ->whereHas('purchase_order', function($po) use($si) {
+                $po->where('vendor_id', $si->id_supplier);
+            })
+            ->select('goods_received.*');
 
         return datatables()->of($data)->escapeColumns([])->make();
     }
@@ -568,7 +574,13 @@ class TrxPaymentController extends Controller
 					'errors' => 'GRN already used in other SI',
 				];
 			}
-		}
+        }
+        
+        if ($grn->purchase_order->vendor_id != $trxpayment->id_supplier) {
+            return [
+                'errors' => 'Invalid Supplier',
+            ];
+        }
 
 		$calculate = $this->sumGrnItem($grn->id);
 
