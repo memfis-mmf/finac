@@ -37,7 +37,7 @@ class JournalController extends Controller
 			$credit += $x->credit;
 		}
 
-		return ($debit != $credit);
+		return (round($debit, 5) != round($credit, 5));
 	}
 
     public function approve(Request $request)

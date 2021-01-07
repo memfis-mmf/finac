@@ -506,12 +506,13 @@ class InvoiceController extends Controller
         $vat_type = $invoice->quotations->taxes[0]->TaxPaymentMethod->code;
 
         $divider = 1;
-        if ($vat_type == 'include') {
-            $divider = 1.1;
-        }
 
         $total_credit = 0;
         foreach ($data_detail as $detail_row) {
+
+            if ($vat_type == 'include') {
+                $divider = 1.1;
+            }
 
             $amount = $detail_row->amount;
             if ($detail_row->type == 'discount') {
@@ -520,8 +521,7 @@ class InvoiceController extends Controller
 
             if (
                 $detail_row->type == 'ppn'
-                || $detail_row->type == 'other' 
-                || $detail_row->type == 'htcrr'
+                || $detail_row->type == 'others' 
             ) {
                 $divider = 1;
             }
@@ -563,7 +563,7 @@ class InvoiceController extends Controller
             $detail[] = (object) [
                 'coa_detail' => $coa_diff->id,
                 'credit' => 0,
-                'debit' => $invoice->grandtotal - $total_credit,
+                'debit' => ($invoice->grandtotal - $total_credit) * -1,
                 '_desc' => 'Differential : '
                     . $invoice->transactionnumber . ' '
                     . $invoice->customer->name,
@@ -1118,6 +1118,8 @@ class InvoiceController extends Controller
         $parseHtccr = json_decode($quotation->data_htcrr);
         // dd($quotation->workpackages[0]->pivot->manhour_rate_amount);
         @$pricehtccr = $parseHtccr->manhour_rate_amount * $parseHtccr->total_manhours_with_performance_factor;
+        @$pricehtccr += QuotationHtcrrItem::where('quotation_id', $quotation->id)->sum('subtotal'); //mat tool htcrr
+
         if (sizeof($htcrrs) > 0) {
             $htcrr_workpackage = new WorkPackage();
             $htcrr_workpackage->code = "Workpackage HT CRR";
