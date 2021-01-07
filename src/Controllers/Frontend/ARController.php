@@ -182,11 +182,7 @@ class ARController extends Controller
                 return $row->status;
             })
             ->addColumn('url_edit', function($row) {
-                if ($row->from_module == 'HM') {
-                    return route('areceive.edit', $row->uuid);
-                }
-
-                return route('frontend.account-receivable-workshop.edit', $row->uuid);
+                return route('areceive.edit', $row->uuid);
             })
             ->escapeColumns([])
             ->make(true);
@@ -364,11 +360,7 @@ class ARController extends Controller
 
     public function countPaidAmount($id_invoice)
     {
-        $ara = AReceiveA::where('id_invoice', $id_invoice)
-            ->whereHas('ar', function($ar) {
-                $ar->where('from_module', '!=', 'Workshop'); // ambil AR yang bukan workshop
-            })
-            ->get();
+        $ara = AReceiveA::where('id_invoice', $id_invoice)->get();
 
         if (!count($ara)) {
             return 0;

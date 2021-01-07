@@ -27,7 +27,6 @@ class AReceive extends MemfisModel
         'totaltransaction',
         'description',
         'id_project',
-        'from_module',
     ];
 
     protected $appends = [
