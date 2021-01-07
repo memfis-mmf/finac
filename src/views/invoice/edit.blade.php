@@ -697,12 +697,12 @@
                                         <br />
 
                                         <center>
-                                            <h3 id="subjectquo">Subject</h3>
+                                            <h3 id="subjectquo">Quotation Subject</h3>
                                         </center>
                                         {{-- <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
                                         <thead>
                                             <th>No</th> 
-                                            <th>Detail</th> 
+                                            <th>Workpackage Detail</th> 
                                             <th>Total</th>
                                         </thead>
                                         </table> --}}
