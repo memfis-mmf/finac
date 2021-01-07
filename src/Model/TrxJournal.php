@@ -394,7 +394,7 @@ class TrxJournal extends MemfisModel
 
             $sumDetail[] = $newSumDetail;
 
-			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'PRJ');
+			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'PRJ', true);
 
 			return [
 				'status' => true,
