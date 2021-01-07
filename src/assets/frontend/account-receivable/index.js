@@ -32,7 +32,7 @@ let Journal = {
             {data: 'exchangerate', render: function(data, type, row) {
                 return addCommas(parseInt(row.exchangerate));
             }},
-            {data: 'ara.debit', searchabale: false,  render: function(data, type, row) {
+            {data: 'ara.credit', searchabale: false,  render: function(data, type, row) {
 
                 t = row;
 
