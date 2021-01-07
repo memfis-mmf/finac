@@ -81,7 +81,8 @@ class TrxPaymentController extends Controller
 				'coa' => $si->vendor->coa()->first()->id,
 			];
 
-			$total_debit = 0;
+            $total_debit = 0;
+            $detail = [];
 
 			for ($a=0; $a < count($data_detail); $a++) {
 				$x = $data_detail[$a];
@@ -97,7 +98,13 @@ class TrxPaymentController extends Controller
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;
-			}
+            }
+            
+            if (count($detail) < 1) {
+                return [
+                    'errors' => 'Please fill detail first'
+                ];
+            }
 
 			// add object in first array $detai
 			array_unshift(
