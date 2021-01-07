@@ -94,7 +94,6 @@
                                             <th>Account Code</th>
                                             <th>Description</th>
                                             <th>Status</th>
-                                            <th>From</th>
                                             <th>Created By</th>
                                             <th>Approved By</th>
                                             <th>Actions</th>
