@@ -818,9 +818,28 @@ class InvoiceController extends Controller
 
     public function apidetail(Quotation $quotation)
     {
-        $project = $quotation->quotationable()->first();
+        $project = $quotation->quotationable_type::where('id', $quotation->quotationable_id)
+            ->select([
+                'code',
+                'parent_id',
+                'title',
+                'customer_id',
+                'aircraft_id',
+                'no_wo',
+                'aircraft_register',
+                'aircraft_sn',
+                'data_defectcard',
+                'data_htcrr',
+                'station',
+                'csn',
+                'cso',
+                'tsn',
+                'tso',
+                'status',
+            ])
+            ->first();
+
         $currency = $quotation->currency()->first();
-        $project_init = Project::find($project->id)->workpackages()->get();
         $invoicecount = Invoice::where('id_quotation', $quotation->id)->count();
         $schedule_payment = json_decode($quotation->scheduled_payment_amount);
         //dd($schedule_payment);
@@ -828,8 +847,7 @@ class InvoiceController extends Controller
         $last_sp = $end_sp + 1;
         //$workpackages =
         //dd($project->customer_id);
-        $attn_quo =
-            $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
+        $customer = Customer::with(['levels', 'addresses'])->where('id', '=', $project->customer_id)->first();
         //dd($customer);
         $quotation->project .= $project;
         $quotation->customer .= $customer;
