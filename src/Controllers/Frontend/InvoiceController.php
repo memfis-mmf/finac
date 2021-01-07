@@ -11,7 +11,6 @@ use App\Models\BankAccount;
 use App\Models\Currency;
 use memfisfa\Finac\Model\Coa;
 use App\Models\Customer;
-use Auth;
 use App\Models\EOInstruction;
 use App\Models\Project;
 use App\Models\Quotation;
@@ -38,8 +37,9 @@ use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\Trxinvoice;
 use memfisfa\Finac\Model\TrxJournal;
 use stdClass;
-use DB;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -479,121 +479,121 @@ class InvoiceController extends Controller
     public function approve(Invoice $invoice)
     {
         DB::beginTransaction();
-        try {
 
-            $invoice->approvals()->save(new Approval([
-                'approvable_id' => $invoice->id,
-                'is_approved' => 0,
-                'conducted_by' => Auth::id(),
-            ]));
-
-            $data_detail = Invoicetotalprofit::where('invoice_id', $invoice->id)
-                ->get();
-
-            $date_approve = $invoice->approvals->first()
-                ->created_at->toDateTimeString();
-
-            $header = (object) [
-                'voucher_no' => $invoice->transactionnumber,
-                // 'transaction_date' => $date_approve,
-                'transaction_date' => $invoice->transactiondate,
-                'coa' => $invoice->customer->coa()->first()->id,
+        if ($invoice->approve) {
+            return [
+                'status' => false,
+                'message' => 'Invoice Already Approved'
             ];
+        }
 
-            $vat_type = $invoice->quotations->taxes[0]->TaxPaymentMethod->code;
+        $invoice->approvals()->save(new Approval([
+            'approvable_id' => $invoice->id,
+            'is_approved' => 0,
+            'conducted_by' => Auth::id(),
+        ]));
 
-            $divider = 1;
+        $data_detail = Invoicetotalprofit::where('invoice_id', $invoice->id)
+            ->get();
+
+        $header = (object) [
+            'voucher_no' => $invoice->transactionnumber,
+            // 'transaction_date' => $date_approve,
+            'transaction_date' => $invoice->transactiondate,
+            'coa' => $invoice->customer->coa()->first()->id,
+        ];
+
+        $vat_type = $invoice->quotations->taxes[0]->TaxPaymentMethod->code;
+
+        $divider = 1;
+
+        $total_credit = 0;
+        foreach ($data_detail as $detail_row) {
+
             if ($vat_type == 'include') {
                 $divider = 1.1;
             }
 
-            $total_credit = 0;
-            foreach ($data_detail as $detail_row) {
-
-                $amount = $detail_row->amount;
-                if ($detail_row->type == 'discount') {
-                    $amount = abs($detail_row->amount) * -1;
-                }
-
-                if (
-                    $detail_row->type == 'ppn'
-                    || $detail_row->type == 'other' 
-                    || $detail_row->type == 'htcrr'
-                ) {
-                    $divider = 1;
-                }
-
-                $detail[] = (object) [
-                    'coa_detail' => $detail_row->accountcode,
-                    'credit' => ($amount / $divider) * $invoice->exchangerate,
-                    'debit' => 0,
-                    '_desc' => 'Income : '
-                        . $detail_row->invoice->transactionnumber . ' '
-                        . $detail_row->invoice->customer->name,
-                ];
-
-                $total_credit += $detail[count($detail) - 1]->credit;
+            $amount = $detail_row->amount;
+            if ($detail_row->type == 'discount') {
+                $amount = abs($detail_row->amount) * -1;
             }
 
-            // detail piutang
+            if (
+                $detail_row->type == 'ppn'
+                || $detail_row->type == 'others' 
+            ) {
+                $divider = 1;
+            }
+
+            if ($amount > 0) {
+                $uhuyw = 'wew';
+            }
+
             $detail[] = (object) [
-                'coa_detail' => $header->coa,
+                'coa_detail' => $detail_row->accountcode,
+                'credit' => ($amount / $divider) * $invoice->exchangerate,
+                'debit' => 0,
+                '_desc' => 'Income : '
+                    . $detail_row->invoice->transactionnumber . ' '
+                    . $detail_row->invoice->customer->name,
+            ];
+
+            $total_credit += $detail[count($detail) - 1]->credit;
+        }
+
+        // detail piutang
+        $detail[] = (object) [
+            'coa_detail' => $header->coa,
+            'credit' => 0,
+            'debit' => $invoice->grandtotal,
+            '_desc' => 'Account Receivable : '
+                . $invoice->transactionnumber . ' '
+                . $invoice->customer->name,
+        ];
+
+        if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
+            $coa_diff = Coa::where('code', '81112003')->first();
+            if (!$coa_diff) {
+                return [
+                    'errors' => 'Coa (Cash Balances Differential) not found'
+                ];
+            }
+
+            $detail[] = (object) [
+                'coa_detail' => $coa_diff->id,
                 'credit' => 0,
-                'debit' => $invoice->grandtotal,
-                '_desc' => 'Account Receivable : '
+                'debit' => ($invoice->grandtotal - $total_credit) * -1,
+                '_desc' => 'Differential : '
                     . $invoice->transactionnumber . ' '
                     . $invoice->customer->name,
             ];
-
-            if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
-                $coa_diff = Coa::where('code', '81112003')->first();
-                if (!$coa_diff) {
-                    return [
-                        'errors' => 'Coa (Cash Balances Differential) not found'
-                    ];
-                }
-
-                $detail[] = (object) [
-                    'coa_detail' => $coa_diff->id,
-                    'credit' => 0,
-                    'debit' => $invoice->grandtotal - $total_credit,
-                    '_desc' => 'Differential : '
-                        . $invoice->transactionnumber . ' '
-                        . $invoice->customer->name,
-                ];
-            }
-
-            $autoJournal = TrxJournal::autoJournal(
-                $header,
-                $detail,
-                'IVJR',
-                'SRJ'
-            );
-
-            Invoice::where('id', $invoice->id)->update([
-                'approve' => 1
-            ]);
-
-            if ($autoJournal['status']) {
-
-                DB::commit();
-            } else {
-
-                DB::rollBack();
-                return response()->json([
-                    'errors' => $autoJournal['message']
-                ]);
-            }
-
-            return response()->json($invoice);
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            $data['errors'] = $e->getMessage();
-
-            return response()->json($data);
         }
+
+        $autoJournal = TrxJournal::autoJournal(
+            $header,
+            $detail,
+            'IVJR',
+            'SRJ'
+        );
+
+        Invoice::where('id', $invoice->id)->update([
+            'approve' => 1
+        ]);
+
+        if (!$autoJournal['status']) {
+            return [
+                'status' => false,
+                'message' => $autoJournal['message']
+            ];
+        }
+
+        DB::commit();
+
+        return [
+            'status' => true,
+            'message' => 'Data Approved'
+        ];
     }
 
 
@@ -1118,6 +1118,8 @@ class InvoiceController extends Controller
         $parseHtccr = json_decode($quotation->data_htcrr);
         // dd($quotation->workpackages[0]->pivot->manhour_rate_amount);
         @$pricehtccr = $parseHtccr->manhour_rate_amount * $parseHtccr->total_manhours_with_performance_factor;
+        @$pricehtccr += QuotationHtcrrItem::where('quotation_id', $quotation->id)->sum('subtotal'); //mat tool htcrr
+
         if (sizeof($htcrrs) > 0) {
             $htcrr_workpackage = new WorkPackage();
             $htcrr_workpackage->code = "Workpackage HT CRR";

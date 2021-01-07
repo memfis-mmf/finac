@@ -129,8 +129,8 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <!-- {{-- <td><b>Form No : F02-1234</b></td> --}} -->
-                    <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by }} ; </span> </td>
+                    <!-- {{-- <td><b>Form No : F02-1234</b></td> --}} --> created by hanya muncul di print yg copy
+                    <!-- <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by }} ; </span> </td> -->
                     <td style="text-align:right">
                         <i>
                             Original

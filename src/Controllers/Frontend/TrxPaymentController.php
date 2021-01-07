@@ -81,7 +81,8 @@ class TrxPaymentController extends Controller
 				'coa' => $si->vendor->coa()->first()->id,
 			];
 
-			$total_debit = 0;
+            $total_debit = 0;
+            $detail = [];
 
 			for ($a=0; $a < count($data_detail); $a++) {
 				$x = $data_detail[$a];
@@ -97,7 +98,13 @@ class TrxPaymentController extends Controller
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;
-			}
+            }
+            
+            if (count($detail) < 1) {
+                return [
+                    'errors' => 'Please fill detail first'
+                ];
+            }
 
 			// add object in first array $detai
 			array_unshift(
@@ -164,8 +171,7 @@ class TrxPaymentController extends Controller
 		]);
 
 		$request->merge([
-			'account_code' =>
-			$request->account_code
+			'account_code' => Vendor::findOrFail($request->id_supplier)->coa->first()->code
 		]);
 
 		$request->request->add([
@@ -509,9 +515,15 @@ class TrxPaymentController extends Controller
 
     public function grnDatatables(Request $request)
     {
+        $si = TrxPayment::where('uuid', $request->si_uuid)->firstOrFail();
+
 		$data = GRN::with([
-            'purchase_order.purchase_request',
-        ])->select('goods_received.*');
+                'purchase_order.purchase_request',
+            ])
+            ->whereHas('purchase_order', function($po) use($si) {
+                $po->where('vendor_id', $si->id_supplier);
+            })
+            ->select('goods_received.*');
 
         return datatables()->of($data)->escapeColumns([])->make();
     }
@@ -562,7 +574,13 @@ class TrxPaymentController extends Controller
 					'errors' => 'GRN already used in other SI',
 				];
 			}
-		}
+        }
+        
+        if ($grn->purchase_order->vendor_id != $trxpayment->id_supplier) {
+            return [
+                'errors' => 'Invalid Supplier',
+            ];
+        }
 
 		$calculate = $this->sumGrnItem($grn->id);
 
@@ -646,7 +664,13 @@ class TrxPaymentController extends Controller
 		}else{
             $grandtotal_foreign = $total;
             $grandtotal = ($total*$si->exchange_rate);
-		}
+        }
+
+        $si->approvals()->save(new Approval([
+            'approvable_id' => $si->id,
+            'is_approved' => 0,
+            'conducted_by' => Auth::id(),
+        ]));
 
 		$data->update([
 			'approve' => 1,

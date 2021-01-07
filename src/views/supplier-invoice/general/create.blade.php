@@ -86,6 +86,7 @@
                         <label class="form-control-label">
                           Term Of Payment
                         </label>
+                        <span class="text-danger">*</span>
 
                         @component('input::number')
                         @slot('id', 'term_of_payment')

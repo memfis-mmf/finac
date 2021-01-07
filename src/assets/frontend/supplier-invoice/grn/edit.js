@@ -134,7 +134,7 @@ let SupplierInvoice = {
         {data: 'number'},
         {data: 'purchase_order.number'},
         {data: 'total_amount', searchable: false, orderable: false, render: (data, type, row) => {
-          return 'Rp ' + number_format.format(row.total_amount);
+          return row.purchase_order.currency.symbol + ' ' + number_format.format(row.total_amount);
         }},
         {data: '', searchable: false, orderable: false, render: (data, type, row) => {
           return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-uuid="' + row.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'

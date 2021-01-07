@@ -110,7 +110,7 @@ let Journal = {
         }
 
         let simpan = $('.modal-footer').on('click', '.add', function () {
-            $('#simpan').text('Simpan');
+            $('#simpan').text('Save');
 
             let type = $('#type').val();
             let level = $('#level').val();

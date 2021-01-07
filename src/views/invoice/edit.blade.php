@@ -697,12 +697,12 @@
                                         <br />
 
                                         <center>
-                                            <h3 id="subjectquo">Subject</h3>
+                                            <h3 id="subjectquo">Quotation Subject</h3>
                                         </center>
                                         {{-- <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
                                         <thead>
                                             <th>No</th> 
-                                            <th>Detail</th> 
+                                            <th>Workpackage Detail</th> 
                                             <th>Total</th>
                                         </thead>
                                         </table> --}}
@@ -803,7 +803,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                            Total Discount
+                                                            Discount Total
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9 col-md-9">
@@ -819,7 +819,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                            Total
+                                                            Total Before Tax
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9 col-md-9">
@@ -851,7 +851,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                          Other
+                                                          Other Cost Total
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9 col-md-9">
@@ -882,7 +882,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                            Grand Total Rupiah
+                                                            Grand Total IDR
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9 col-md-9">

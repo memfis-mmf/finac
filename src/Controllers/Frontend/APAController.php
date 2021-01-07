@@ -202,7 +202,7 @@ class APAController extends Controller
     {
         $amount_to_pay = $request->debit;
 
-        $si = $apa->si;
+        $si = $apa->getSI();
         if ($apa->type == 'GRN') {
             $grn = GRN::where('id', $apa->id_payment)->first();
             $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
