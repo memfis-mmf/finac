@@ -803,7 +803,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                            Total Discount
+                                                            Discount Total
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9 col-md-9">
