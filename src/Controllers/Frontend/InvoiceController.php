@@ -816,8 +816,37 @@ class InvoiceController extends Controller
             ->make(true);
     }
 
-    public function apidetail(Quotation $quotation)
+    public function apidetail($uuid_quotation)
     {
+        $quotation = Quotation::where('uuid', $uuid_quotation)
+            ->select([
+                'number',
+                'parent_id',
+                'quotationable_type',
+                'quotationable_id',
+                'attention',
+                'requested_at',
+                'valid_until',
+                'currency_id',
+                'term_and_condition',
+                'term_of_payment',
+                'exchange_rate',
+                'subtotal',
+                'charge',
+                'grandtotal',
+                'title',
+                'no_wo',
+                'scheduled_payment_type',
+                'scheduled_payment_amount',
+                'term_of_payment',
+                'term_of_condition',
+                'description',
+                'data_defectcard',
+                'data_htcrr',
+                'additionals',
+                'status',
+            ])
+            ->firstOrFail();
         $project = $quotation->quotationable_type::where('id', $quotation->quotationable_id)
             ->select([
                 'code',
