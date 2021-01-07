@@ -652,7 +652,13 @@ class TrxPaymentController extends Controller
 		}else{
             $grandtotal_foreign = $total;
             $grandtotal = ($total*$si->exchange_rate);
-		}
+        }
+
+        $si->approvals()->save(new Approval([
+            'approvable_id' => $si->id,
+            'is_approved' => 0,
+            'conducted_by' => Auth::id(),
+        ]));
 
 		$data->update([
 			'approve' => 1,
