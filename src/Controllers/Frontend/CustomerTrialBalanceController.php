@@ -69,7 +69,7 @@ class CustomerTrialBalanceController extends Controller
                     }
                 },
                 'invoice_workshop' => function($invoice_workshop) use ($request) {
-                    $invoice_workshop->where('status_inv', 'Approve');
+                    $invoice_workshop->where('status_inv', 'Approved');
 
                     if ($request->customer) {
                         $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
@@ -96,7 +96,7 @@ class CustomerTrialBalanceController extends Controller
                 }
             })
             ->orWhereHas('invoice_workshop', function($invoice_workshop) use ($request) {
-                $invoice_workshop->where('status_inv', 'Approve');
+                $invoice_workshop->where('status_inv', 'Approved');
 
                 if ($request->customer) {
                     $invoice_workshop = $invoice_workshop->where('customer_id', $request->customer);
