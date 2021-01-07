@@ -9,9 +9,13 @@ use App\Http\Controllers\Controller;
 class CurrencyController extends Controller
 {
     public function index(){
-        $currencies = Currency::selectRaw('code, CONCAT(name, " (", symbol ,")") as full_name')->whereIn('code',['idr','usd'])
-        ->pluck('full_name', 'code');
+        $currencies = Currency::whereIn('code',['idr','usd'])
+            ->get();
 
-        return json_encode($currencies);
+        foreach ($currencies as $currencies_row) {
+            $data[$currencies_row->code] = $currencies_row->full_name;
+        }
+
+        return json_encode($data);
     }
 }
