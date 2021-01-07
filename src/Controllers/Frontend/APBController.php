@@ -25,7 +25,7 @@ class APBController extends Controller
     public function store(APaymentBStore $request)
     {
         $coa = Coa::where('uuid', $request->coa_uuid)->first();
-        $ap = APayment::where('uuid', $request->ap_uuid)->first();
+        $ap = APayment::where('uuid', $request->ap_uuid)->firstOrFail();
         if ($ap->approve) {
             return abort(404);
         }
@@ -50,9 +50,9 @@ class APBController extends Controller
         return response()->json($APaymentB);
     }
 
-    public function update(APaymentBUpdate $request, APaymentB $APaymentB)
+    public function update(APaymentBUpdate $request, $apb_uuid)
     {
-        $apb_tmp = APaymentB::where('uuid', $request->apeceiveb);
+        $apb_tmp = APaymentB::where('uuid', $apb_uuid);
         $apb = $apb_tmp->first();
         $ap = $apb->ap;
         if ($ap->approve) {
@@ -78,7 +78,7 @@ class APBController extends Controller
             'description',
         ]));
 
-        return response()->json($APaymentB);
+        return response()->json($apb);
     }
 
     public function destroy(Request $request)
