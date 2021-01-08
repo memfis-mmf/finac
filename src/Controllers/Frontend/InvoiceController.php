@@ -40,6 +40,7 @@ use stdClass;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class InvoiceController extends Controller
 {
@@ -629,6 +630,7 @@ class InvoiceController extends Controller
                     }
                 } else {
                     // general filter
+                    $filter = str_replace('/', '\/', $filter);
                     $data = array_filter($data, function ($a) use ($filter) {
                         return (bool) preg_grep("/$filter/i", (array) $a);
                     });
