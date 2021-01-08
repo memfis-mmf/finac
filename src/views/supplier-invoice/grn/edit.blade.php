@@ -216,18 +216,22 @@
                   <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="m-portlet m-portlet--mobile">
                       <div class="m-portlet__body pb-5">
-                        {{-- <div class="grn_datatable" id="scrolling_both"></div> --}}
-                        <table class="table table-striped table-bordered table-hover table-checkable grn_datatable">
-                          <thead>
-                            <tr>
-                              <th>GRN No.</th>
-                              <th>Total Amount</th>
-                              <th>Invoice No.</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                        </table>
-                        @include('supplierinvoicegrnview::modal-edit')
+                        <div class="form-group m-form__group row">
+                          <div class="col-sm-12 col-md-12 col-lg-12">
+                            {{-- <div class="grn_datatable" id="scrolling_both"></div> --}}
+                            <table class="table table-striped table-bordered table-hover table-checkable grn_datatable">
+                              <thead>
+                                <tr>
+                                  <th>GRN No.</th>
+                                  <th>Total Amount</th>
+                                  <th>Invoice No.</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                            </table>
+                            @include('supplierinvoicegrnview::modal-edit')
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
