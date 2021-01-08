@@ -332,7 +332,7 @@ class JournalController extends Controller
 
 		if ($this->checkBalance($journala)) {
 			return redirect()->route('journal.index')->with([
-				'errors' => 'Debit and Credit not balance'
+				'error' => 'Debit and Credit not balance'
 			]);
 		}
 
