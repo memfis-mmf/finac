@@ -59,7 +59,7 @@ class GeneralLedgerController extends Controller
         $coa = Coa::whereIn('code', $code)->get();
 
         if (count($coa) < 1) {
-            return redirect()->back()->withErrors(['msg' => 'Coa not found']);
+            return redirect()->back()->with(['errors' => 'Coa not found']);
         }
 
         $date = $this->convertDate($request->date);
