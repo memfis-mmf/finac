@@ -99,7 +99,7 @@
                                             @slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
-                                    <div class="col-md-12 mt-3">
+                                    {{-- <div class="col-md-12 mt-3">
                                         <label class="form-control-label">
                                             Project
                                         </label>
@@ -111,7 +111,7 @@
                                             <option value="">-- Select --</option>
                                           @endif
                                         </select>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
