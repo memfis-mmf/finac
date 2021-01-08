@@ -53,7 +53,7 @@
                         <form id="SupplierInvoiceGRNForm">
                             <div class="m-portlet__body">
                                 <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Cashbook Reference
                                         </label>
@@ -66,7 +66,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Cashbook Type @include('label::required')
