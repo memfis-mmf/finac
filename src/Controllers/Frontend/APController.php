@@ -865,7 +865,7 @@ class APController extends Controller
             'header' => $header,
         ];
 
-        $pdf = \PDF::loadView('formview::ar', $data);
+        $pdf = \PDF::loadView('formview::ap', $data);
         return $pdf->stream();
     }
 }
