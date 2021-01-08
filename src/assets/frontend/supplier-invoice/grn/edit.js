@@ -157,8 +157,10 @@ let SupplierInvoice = {
       let tr = $(this).parents('tr');
       let data = grn_table.row(tr).data();
 
+      console.log(data);
+
       _modal.find('input#grn_no').val(data.grn.number);
-      _modal.find('input#total_amount').val(number_format.format(parseInt(data.total)));
+      _modal.find('input#total_amount').val(number_format.format(parseInt(data.total_after_tax)));
       _modal.find('#invoice_no').val(data.description);
       _modal.find('input[name=uuid]').val(uuid);
       _modal.modal('show');
