@@ -228,7 +228,7 @@
                   @foreach ($detail as $item)
                     <tr>
                       <td valign="top" align="center" width="20%">{{$item->grn->purchase_order->number}}</td>
-                      <td valign="top" align="center" width="20%">{{$item->grn->serial_number}}</td>
+                      <td valign="top" align="center" width="20%">{{$item->grn->number}}</td>
                       <td valign="top" align="center" width="20%">{{json_decode($item->grn->additionals)->SupplierRefNo}} </td>
                       <td valign="top" align="center" width="20%">{{$item->description}}</td>
                       <td valign="top" align="right" width="20%">{{number_format($item->total, 0, 0, '.')}} </td>
