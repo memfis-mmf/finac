@@ -600,6 +600,7 @@ class InvoiceController extends Controller
 
     public function quodatatables()
     {
+        ini_set('memory_limit', '-1');
         function filterArray($array, $allowed = [])
         {
             return array_filter(
