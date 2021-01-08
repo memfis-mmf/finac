@@ -111,13 +111,4 @@
 <script src="{{ asset('vendor/courier/frontend/general-ledger/index.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/coa.js')}}"></script>
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
-@if (Session::get('errors'))
-<script type="text/javascript">
-	$(document).ready(function () {
-		toastr.error(`{{Session::get('errors')}}`, 'Invalid', {
-				timeOut: 3000
-		});
-	});
-</script>
-@endif
 @endpush

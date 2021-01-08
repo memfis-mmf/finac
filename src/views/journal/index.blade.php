@@ -112,13 +112,4 @@
     </script>
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/journal/index.js')}}"></script>
-@if (Session::get('errors'))
-<script type="text/javascript">
-	$(document).ready(function () {
-		toastr.error(`{{Session::get('errors')}}`, 'Invalid', {
-				timeOut: 3000
-		});
-	});
-</script>
-@endif
 @endpush
