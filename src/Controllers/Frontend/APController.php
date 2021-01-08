@@ -176,9 +176,9 @@ class APController extends Controller
 
     public function api()
     {
-        $apeceivedata = APayment::all();
+        $areceivedata = APayment::all();
 
-        return json_encode($apeceivedata);
+        return json_encode($areceivedata);
     }
 
     public function apidetail(APayment $apayment)
@@ -204,10 +204,10 @@ class APController extends Controller
 
     public function coaDatatables()
     {
-        function filterArray($apray, $allowed = [])
+        function filterArray($array, $allowed = [])
         {
             return array_filter(
-                $apray,
+                $array,
                 function ($val, $key) use ($allowed) { // N.b. $val, $key not $key, $val
                     return isset($allowed[$key]) && ($allowed[$key] === true || $allowed[$key] === $val);
                 },
@@ -407,7 +407,7 @@ class APController extends Controller
             ->where('approve', 1)
             ->get();
 
-        $apr = [];
+        $arr = [];
         $index_arr = 0;
 
         // looping sebanyak supplier invoice
@@ -418,12 +418,12 @@ class APController extends Controller
             for ($j = 0; $j < count($x->trxpaymenta); $j++) {
                 $z = $x->trxpaymenta[$j];
 
-                $apr[$index_arr] = json_decode($x);
-                $apr[$index_arr]->transaction_number = $z->grn->number;
-                $apr[$index_arr]->uuid = $z->grn->uuid;
-                $apr[$index_arr]->grandtotal_foreign = $z->total;
-                $apr[$index_arr]->grandtotal = $z->total_idr;
-                $apr[$index_arr]->currencies = $x->currencies;
+                $arr[$index_arr] = json_decode($x);
+                $arr[$index_arr]->transaction_number = $z->grn->number;
+                $arr[$index_arr]->uuid = $z->grn->uuid;
+                $arr[$index_arr]->grandtotal_foreign = $z->total;
+                $arr[$index_arr]->grandtotal = $z->total_idr;
+                $arr[$index_arr]->currencies = $x->currencies;
                 $index_arr++;
             }
         }
@@ -434,7 +434,7 @@ class APController extends Controller
             ->with(['currencies'])
             ->get();
 
-        $si = array_merge($apr, json_decode($trxpayment_non_grn));
+        $si = array_merge($arr, json_decode($trxpayment_non_grn));
 
         for (
             $si_index = 0;
@@ -550,8 +550,8 @@ class APController extends Controller
         DB::beginTransaction();
         try {
 
-            $ap_tmp = APayment::where('uuid', $request->uuid);
-            $ap = $ap_tmp->first();
+            $ar_tmp = APayment::where('uuid', $request->uuid);
+            $ap = $ar_tmp->first();
 
             $coa = Coa::where('code', $ap->accountcode)->first();
 
@@ -563,7 +563,7 @@ class APController extends Controller
 
             $transaction_number = APayment::generateCode($code);
 
-            $ap_tmp->update([
+            $ar_tmp->update([
                 'transactionnumber' => $transaction_number
             ]);
 
@@ -690,7 +690,7 @@ class APController extends Controller
             $total_credit += $detail[0]->credit;
             $total_debit += $detail[0]->debit;
 
-            $ap_tmp->update([
+            $ar_tmp->update([
                 'approve' => 1
             ]);
 
@@ -725,16 +725,17 @@ class APController extends Controller
 
     function print(Request $request)
     {
-        $ap = APayment::where('uuid', $request->uuid)->first();
+        $ar_tmp = APayment::where('uuid', $request->uuid);
+        $ap = $ar_tmp->first();
 
         $apa = $ap->apa;
         $apb = $ap->apb;
         $apc = $ap->apc;
 
-        $ap_approval = $ap->approvals->first();
+        $ar_approval = $ap->approvals->first();
 
-        if ($ap_approval) {
-            $date_approve = $ap_approval->created_at->toDateTimeString();
+        if ($ar_approval) {
+            $date_approve = $ar_approval->created_at->toDateTimeString();
         } else {
             $date_approve = '-';
         }
@@ -758,7 +759,7 @@ class APController extends Controller
 
             // jika invoice nya foreign
             if ($si->currencies->code != 'idr') {
-                $credit = $apa_row->credit * $apa_row->invoice->exchangerate;
+                $credit = $apa_row->credit * $si->exchange_rate;
             } else {
                 $credit = $apa_row->credit_idr;
             }
@@ -854,7 +855,7 @@ class APController extends Controller
             $header_title = 'Bank';
         }
 
-        $to = $ap->customer;
+        $to = $ap->vendor;
 
         $data = [
             'data' => $ap,
