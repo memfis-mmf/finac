@@ -759,16 +759,16 @@ class APController extends Controller
 
             // jika invoice nya foreign
             if ($si->currencies->code != 'idr') {
-                $credit = $apa_row->credit * $si->exchange_rate;
+                $debit = $apa_row->debit * $si->exchange_rate;
             } else {
-                $credit = $apa_row->credit_idr;
+                $debit = $apa_row->debit_idr;
             }
 
             $detail[] = (object) [
                 'coa_code' => $apa_row->coa->code,
                 'coa_name' => $apa_row->coa->name,
-                'credit' => $credit,
-                'debit' => 0,
+                'credit' => 0,
+                'debit' => $debit,
                 '_desc' => $apa_row->description,
             ];
 
