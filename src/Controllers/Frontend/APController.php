@@ -825,8 +825,8 @@ class APController extends Controller
             (object) [
                 'coa_code' => $header->coa_code,
                 'coa_name' => $header->coa_name,
-                'credit' => 0,
-                'debit' => $total_credit - $total_debit,
+                'credit' => $total_credit - $total_debit,
+                'debit' => 0,
                 '_desc' => $header->description,
             ]
         );
