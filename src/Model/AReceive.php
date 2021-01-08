@@ -118,8 +118,7 @@ class AReceive extends MemfisModel
     {
         return $this->hasMany(
             AReceiveB::class,
-            'transactionnumber',
-            'transactionnumber'
+            'ar_id'
         );
     }
 
@@ -127,8 +126,7 @@ class AReceive extends MemfisModel
     {
         return $this->hasMany(
             AReceiveC::class,
-            'transactionnumber',
-            'transactionnumber'
+            'ar_id'
         );
     }
 
