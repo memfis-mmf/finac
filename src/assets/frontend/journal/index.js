@@ -37,7 +37,7 @@ let Journal = {
 
               return val;
             }},
-            {data: 'type_jurnal.name', searchable: false},
+            {data: 'type_jurnal_name', searchable: false},
             {data: 'total_transaction', render: function(data, type, row) {
               let val = '';
 

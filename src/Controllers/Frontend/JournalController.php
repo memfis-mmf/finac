@@ -204,6 +204,36 @@ class JournalController extends Controller
         }
 
         return DataTables::of($data)
+        ->addColumn('transaction_date', function($row) {
+            return $row->transaction_date ?? '-';
+        })
+        ->addColumn('voucher_no', function($row) {
+            return $row->voucher_no ?? '-';
+        })
+        ->addColumn('ref_no', function($row) {
+            return $row->ref_no ?? '-';
+        })
+        ->addColumn('currency_code', function($row) {
+            return $row->currency_code ?? '-';
+        })
+        ->addColumn('exchange_rate', function($row) {
+            return $row->exchange_rate ?? '-';
+        })
+        ->addColumn('type_jurnal_name', function($row) {
+            return $row->type_jurnal->name ?? '-';
+        })
+        ->addColumn('total_transaction', function($row) {
+            return $row->total_transaction ?? '-';
+        })
+        ->addColumn('created_by', function($row) {
+            return $row->created_by ?? '-';
+        })
+        ->addColumn('updated_by', function($row) {
+            return $row->updated_by ?? '-';
+        })
+        ->addColumn('approved_by', function($row) {
+            return $row->approved_by ?? '-';
+        })
 		->addColumn('unapproved', function(Journal $journal) use ($request) {
 			$html = '';
 
