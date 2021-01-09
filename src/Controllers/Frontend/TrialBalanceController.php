@@ -63,7 +63,7 @@ class TrialBalanceController extends Controller
 			IFNULL(sum(Query.LastBalance),0) as LastBalance,
 			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
 			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
-			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca_without_approve as Query
+			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
 			group by Query.AccountCode
 			) a on a.AccountCode = m_journal.Code and m_journal.Description = 'Detail'
 			left join
@@ -75,7 +75,7 @@ class TrialBalanceController extends Controller
 			IFNULL(sum(Query.LastBalance),0) as LastBalance,
 			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
 			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
-			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca_without_approve as Query
+			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
 			left join m_journal on
 			substring(Query.AccountCode,1,LENGTH(m_journal.COA)) = m_journal.COA
 			GROUP BY
