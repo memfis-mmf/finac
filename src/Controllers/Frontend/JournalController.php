@@ -183,6 +183,9 @@ class JournalController extends Controller
 
     public function datatables(Request $request)
     {
+        ini_set('max_execution_time', -1); 
+        ini_set("memory_limit",-1);
+
         if ($request->daterange) {
             $date = explode(' - ', $request->daterange);
             $start_date = Carbon::createFromFormat('Y-m-d', $date[0]);
@@ -190,7 +193,7 @@ class JournalController extends Controller
         }
 
 		$data = Journal::with([
-                'type_jurnal',
+                'type_jurnal:id,name',
                 'currency',
             ])
             ->orderBy('transaction_date', 'desc')
