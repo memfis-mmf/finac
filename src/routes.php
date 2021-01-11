@@ -254,7 +254,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@print'
-		);
+		)->name('journal.print');
 	});
 
     Route::prefix('bond')->group(function () {
