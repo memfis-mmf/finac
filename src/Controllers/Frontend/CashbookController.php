@@ -544,8 +544,8 @@ class CashbookController extends Controller
 			$detail[] = (object) [
 				'coa_detail' => $arr->coa->code,
 				'coa_name' => $arr->coa->name,
-				'credit' => $arr->credit * $cashbook->exchangerate,
-				'debit' => $arr->debit * $cashbook->exchangerate,
+				'credit' => $arr->credit,
+				'debit' => $arr->debit,
 				'symbol' => $cashbook->currencies->symbol,
 				'_desc' => $arr->description,
 			];
