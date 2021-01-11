@@ -437,8 +437,6 @@ let Coa = {
 		    url: _url+'/journal/get-account-code-select2',
 		    dataType: 'json'
 		  },
-			minimumInputLength: 3,
-			// templateSelection: formatSelected
 		});
 
 		$('body').on('click', '#button_cushbook_transaction', function() {

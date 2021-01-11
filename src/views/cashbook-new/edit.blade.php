@@ -86,7 +86,7 @@
                                             <option value="cr" {{ (strpos($cashbook->transactionnumber, 'CCRJ') !== false)? 'selected': '' }}>Cash Receive</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-md-6 mt-3">
                                         <label class="form-control-label">
                                             Date Transaction @include('label::required')
                                         </label>
@@ -99,7 +99,7 @@
                                             @slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
-                                    {{-- <div class="col-md-12 mt-3">
+                                    <div class="col-md-6 mt-3">
                                         <label class="form-control-label">
                                             Project
                                         </label>
@@ -111,7 +111,7 @@
                                             <option value="">-- Select --</option>
                                           @endif
                                         </select>
-                                    </div> --}}
+                                    </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -750,7 +750,6 @@
         url: _url+'/journal/get-project-select2',
         dataType: 'json'
       },
-      minimumInputLength: 3,
     });
   });
 </script>
