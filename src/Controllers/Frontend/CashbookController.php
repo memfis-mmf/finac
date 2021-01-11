@@ -95,6 +95,10 @@ class CashbookController extends Controller
 
     public function edit(Cashbook $cashbook)
     {
+        if ($cashbook->approve) {
+            return abort(404);
+        }
+
 		$data['cashbook'] = $cashbook;
 		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
 		$data['department'] = Department::all();
@@ -108,6 +112,10 @@ class CashbookController extends Controller
 
     public function update(Request $request, Cashbook $cashbook)
     {
+        if ($cashbook->approve) {
+            return abort(404);
+        }
+
         $request->validate([
             'transactiondate' => 'required',
             'personal' => 'required',
@@ -124,6 +132,10 @@ class CashbookController extends Controller
 
     public function destroy(Cashbook $cashbook)
     {
+        if ($cashbook->approve) {
+            return abort(404);
+        }
+
         $cashbook->delete();
 
         return response()->json($cashbook);
@@ -176,6 +188,22 @@ class CashbookController extends Controller
         return response()->json($cashbook);
     }
 
+    public function show($uuid_cashbook)
+    {
+        $cashbook = Cashbook::where('uuid', $uuid_cashbook)->firstOrFail();
+
+		$data['cashbook'] = $cashbook;
+		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
+		$data['department'] = Department::all();
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full_name'
+		)->whereIn('code',['idr','usd'])
+        ->get();
+        $data['page_type'] = 'show';
+
+		return view('cashbooknewview::edit', $data);
+    }
+
     public function datatables()
     {
 		$data  = Cashbook::with([
@@ -183,7 +211,10 @@ class CashbookController extends Controller
             'currencies',
         ])->orderBy('id', 'desc');
 
-        return DataTables::of($data)
+        return datatables()->of($data)
+        ->addColumn('transactionnumber_link', function($row) {
+            return "<a href='".route('cashbook.show', $row->uuid)."'>$row->transactionnumber</a>";
+        })
 		->escapeColumns([])
 		->make(true);
     }
