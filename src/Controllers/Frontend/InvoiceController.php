@@ -202,7 +202,7 @@ class InvoiceController extends Controller
             'ppnvalue' => $tax_total_val,
             'other_price' => $other_price_val,
             'grandtotalforeign' => $grandtotal_val,
-            'grandtotal' => $grandtotal_rp_val,
+            'grandtotal' => $grandtotal_val * $exchange_rate,
         ]);
 
         $list = [
@@ -527,10 +527,6 @@ class InvoiceController extends Controller
                 $divider = 1;
             }
 
-            if ($amount > 0) {
-                $uhuyw = 'wew';
-            }
-
             $detail[] = (object) [
                 'coa_detail' => $detail_row->accountcode,
                 'credit' => ($amount / $divider) * $invoice->exchangerate,
@@ -552,6 +548,11 @@ class InvoiceController extends Controller
                 . $invoice->transactionnumber . ' '
                 . $invoice->customer->name,
         ];
+
+        dd([
+            $detail,
+            $total_credit
+        ]);
 
         if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
             $coa_diff = Coa::where('code', '81112003')->first();
