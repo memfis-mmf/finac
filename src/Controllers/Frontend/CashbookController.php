@@ -595,12 +595,12 @@ class CashbookController extends Controller
 				'_desc' => $cashbook->description,
 				'symbol' => $cashbook->currencies->symbol,
 			]
-		);
+        );
 
 		$data = [
 			'cashbook' => $cashbook,
-			'detail' => $detail,
-			// 'total' => $total_all,
+            'detail' => $detail,
+			'total_debit' => $total_debit,
 			'type' => $type,
 			'type_header' => $type_header,
         ];
