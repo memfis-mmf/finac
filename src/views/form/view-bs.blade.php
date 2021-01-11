@@ -164,7 +164,7 @@
                     <tr style="background:#add8f7;font-weight: bold; font-size:14px">
                         <td width="18%">Total Assets</td>
                         <td width="52%" align="center"></td>
-                        <td width="30%" align="right">{{number_format($totalActiva, 0, 0, '.')}}</td>
+                        <td width="30%" align="right">{{number_format($totalActiva, 0, ',', '.')}}</td>
                     </tr>
 
                     {{-- spasi --}}
@@ -218,7 +218,7 @@
                 <tr style="background:#add8f7;font-weight: bold; font-size:14px">
                     <td width="18%">Total Liabilitie & Equities</td>
                     <td width="52%" align="center"></td>
-                    <td width="30%" align="right">{{number_format($totalPasiva, 0, 0, '.')}}</td>
+                    <td width="30%" align="right">{{number_format($totalPasiva, 0, ',', '.')}}</td>
                 </tr>
             </table>
         </div>

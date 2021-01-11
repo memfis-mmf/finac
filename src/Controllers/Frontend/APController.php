@@ -136,7 +136,7 @@ class APController extends Controller
             $class = 'success';
         }
 
-        $data['debt_balance'] = "<span class='text-$class'>Rp " . number_format($debt_balance, 0, 0, '.') . "</span>";
+        $data['debt_balance'] = "<span class='text-$class'>Rp " . number_format($debt_balance, 0, ',', '.') . "</span>";
 
         return view('accountpayableview::edit', $data);
     }
@@ -759,16 +759,16 @@ class APController extends Controller
 
             // jika invoice nya foreign
             if ($si->currencies->code != 'idr') {
-                $credit = $apa_row->credit * $si->exchange_rate;
+                $debit = $apa_row->debit * $si->exchange_rate;
             } else {
-                $credit = $apa_row->credit_idr;
+                $debit = $apa_row->debit_idr;
             }
 
             $detail[] = (object) [
                 'coa_code' => $apa_row->coa->code,
                 'coa_name' => $apa_row->coa->name,
-                'credit' => $credit,
-                'debit' => 0,
+                'credit' => 0,
+                'debit' => $debit,
                 '_desc' => $apa_row->description,
             ];
 
@@ -825,8 +825,8 @@ class APController extends Controller
             (object) [
                 'coa_code' => $header->coa_code,
                 'coa_name' => $header->coa_name,
-                'credit' => 0,
-                'debit' => $total_credit - $total_debit,
+                'credit' => $total_debit - $total_credit,
+                'debit' => 0,
                 '_desc' => $header->description,
             ]
         );

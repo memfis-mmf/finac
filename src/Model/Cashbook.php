@@ -135,7 +135,12 @@ class Cashbook extends MemfisModel
 		$code = $code."-".date('Y')."/".$number;
 
 		return $code;
-	}
+    }
+    
+    public function journal()
+    {
+        return $this->belongsTo(TrxJournal::class, 'transactionnumber', 'ref_no');
+    }
 
 	public function coa()
 	{

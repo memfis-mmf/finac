@@ -40,6 +40,7 @@ use stdClass;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class InvoiceController extends Controller
 {
@@ -90,9 +91,15 @@ class InvoiceController extends Controller
         DB::beginTransaction();
         $quotation = Quotation::where('number', $request->quotation)->first();
 
+        if ($quotation->status != 'Approved') {
+            return [
+                'error' => 'Quotation status is not Approved'
+            ];
+        }
+
         if (Invoice::where('id_quotation', $quotation->id)->first()) {
             return [
-                'error' => 'quotation alredy in use'
+                'error' => 'Quotation alredy in use'
             ];
         }
 
@@ -201,7 +208,7 @@ class InvoiceController extends Controller
             'ppnvalue' => $tax_total_val,
             'other_price' => $other_price_val,
             'grandtotalforeign' => $grandtotal_val,
-            'grandtotal' => $grandtotal_rp_val,
+            'grandtotal' => $grandtotal_val * $exchange_rate,
         ]);
 
         $list = [
@@ -526,10 +533,6 @@ class InvoiceController extends Controller
                 $divider = 1;
             }
 
-            if ($amount > 0) {
-                $uhuyw = 'wew';
-            }
-
             $detail[] = (object) [
                 'coa_detail' => $detail_row->accountcode,
                 'credit' => ($amount / $divider) * $invoice->exchangerate,
@@ -599,6 +602,7 @@ class InvoiceController extends Controller
 
     public function quodatatables()
     {
+        ini_set('memory_limit', '-1');
         function filterArray($array, $allowed = [])
         {
             return array_filter(
@@ -629,6 +633,7 @@ class InvoiceController extends Controller
                     }
                 } else {
                     // general filter
+                    $filter = str_replace('/', '\/', $filter);
                     $data = array_filter($data, function ($a) use ($filter) {
                         return (bool) preg_grep("/$filter/i", (array) $a);
                     });
@@ -686,6 +691,7 @@ class InvoiceController extends Controller
         }
 
         $quotations = Quotation::whereHas('approvals')
+            ->where('status', 'Approved')
             ->whereDoesntHave('invoice', function ($invoice) {
                 $invoice->where('approve', true);
             })

@@ -523,6 +523,7 @@ class TrxPaymentController extends Controller
             ->whereHas('purchase_order', function($po) use($si) {
                 $po->where('vendor_id', $si->id_supplier);
             })
+            ->has('approvals')
             ->select('goods_received.*');
 
         return datatables()->of($data)->escapeColumns([])->make();

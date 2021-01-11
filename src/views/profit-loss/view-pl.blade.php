@@ -70,9 +70,9 @@
                                             <td width="25%">{{$x->name}}</td>
                                             <td width="55%"></td>
                                             <td width="10%" align="right">
-                                                {{number_format($x->CurrentBalance, 0, 0, '.')}}</td>
+                                                {{number_format($x->CurrentBalance, 0, ',', '.')}}</td>
                                             <td width="10%" align="right">
-                                                {{number_format($x->EndingBalance, 0, 0, '.')}}</td>
+                                                {{number_format($x->EndingBalance, 0, ',', '.')}}</td>
                                             </tr>
                                             @for ($b=0; $b < count($x->child); $b++)
                                                 @php
@@ -82,9 +82,9 @@
                                                 <td width="25%">{{$y->code}}</td>
                                                     <td width="55%">{{$y->name}}</td>
                                                     <td width="10%" align="right">
-                                                        {{number_format($y->CurrentBalance, 0, 0, '.')}}</td>
+                                                        {{number_format($y->CurrentBalance, 0, ',', '.')}}</td>
                                                     <td width="10%" align="right">
-                                                        {{number_format($y->EndingBalance, 0, 0, '.')}}</td>
+                                                        {{number_format($y->EndingBalance, 0, ',', '.')}}</td>
                                                 </tr>
                                                 @endfor
                                                 @endfor
@@ -102,9 +102,9 @@
                                                     </td>
                                                     <td width="55%"></td>
                                                     <td width="10%" align="right">
-                                                        {{number_format($pendapatan_accumulated, 0, 0, '.')}}</td>
+                                                        {{number_format($pendapatan_accumulated, 0, ',', '.')}}</td>
                                                     <td width="10%" align="right">
-                                                        {{number_format($pendapatan_period, 0, 0, '.')}}</td>
+                                                        {{number_format($pendapatan_period, 0, ',', '.')}}</td>
                                                 </tr>
 
                                                 <tr>
@@ -121,9 +121,9 @@
                                                     <td width="25%">{{$x->name}}</td>
                                                     <td width="55%"></td>
                                                     <td width="10%" align="right">
-                                                        {{number_format($x->CurrentBalance, 0, 0, '.')}}</td>
+                                                        {{number_format($x->CurrentBalance, 0, ',', '.')}}</td>
                                                     <td width="10%" align="right">
-                                                        {{number_format($x->EndingBalance, 0, 0, '.')}}</td>
+                                                        {{number_format($x->EndingBalance, 0, ',', '.')}}</td>
                                                     </tr>
                                                     @for ($b=0; $b < count($x->child); $b++)
                                                         @php
@@ -133,9 +133,9 @@
                                                         <td width="25%">{{$y->code}}</td>
                                                             <td width="55%">{{$y->name}}</td>
                                                             <td width="10%" align="right">
-                                                                {{number_format($y->CurrentBalance, 0, 0, '.')}}</td>
+                                                                {{number_format($y->CurrentBalance, 0, ',', '.')}}</td>
                                                             <td width="10%" align="right">
-                                                                {{number_format($y->EndingBalance, 0, 0, '.')}}</td>
+                                                                {{number_format($y->EndingBalance, 0, ',', '.')}}</td>
                                                         </tr>
                                                         @endfor
                                                         @endfor
@@ -152,9 +152,9 @@
                                                             </td>
                                                             <td width="55%"></td>
                                                             <td width="10%" align="right">
-                                                                {{number_format($biaya_accumulated, 0, 0, '.')}}</td>
+                                                                {{number_format($biaya_accumulated, 0, ',', '.')}}</td>
                                                             <td width="10%" align="right">
-                                                                {{number_format($biaya_period, 0, 0, '.')}}</td>
+                                                                {{number_format($biaya_period, 0, ',', '.')}}</td>
                                                         </tr>
                                                                                                             
                                     </table>
@@ -169,9 +169,9 @@
                                                             </td>
                                                             <td width="55%" align="center"> PROFIT & LOSS</td>
                                                             <td width="10%" align="right">
-                                                                {{number_format($pendapatan_accumulated - $biaya_accumulated, 0, 0, '.')}}</td>
+                                                                {{number_format($pendapatan_accumulated - $biaya_accumulated, 0, ',', '.')}}</td>
                                                             <td width="10%" align="right">
-                                                                {{number_format($pendapatan_period - $biaya_period, 0, 0, '.')}}</td>
+                                                                {{number_format($pendapatan_period - $biaya_period, 0, ',', '.')}}</td>
 
                                                   
                                                 </tr>

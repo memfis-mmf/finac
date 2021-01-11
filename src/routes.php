@@ -115,7 +115,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@print'
-		);
+        );
+		Route::get(
+			'/{cashbook}',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@show'
+		)->name('cashbook.show');
 	});
 
     Route::prefix('cashbooka')->group(function () {
@@ -250,7 +254,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@print'
-		);
+		)->name('journal.print');
 	});
 
     Route::prefix('bond')->group(function () {

@@ -1,6 +1,13 @@
 let Coa = {
   init: function () {
 
+    if (page_type == 'show') {
+      $('input').attr('disabled', 'disabled');
+      $('select').attr('disabled', 'disabled');
+      $('textarea').attr('disabled', 'disabled');
+      $('button').attr('disabled', 'disabled');
+    }
+
 		let _url = window.location.origin;
 		let cashbook_uuid = $('input[name=cashbook_uuid]').val();
 		let number_format = new Intl.NumberFormat('de-DE');
@@ -151,6 +158,10 @@ let Coa = {
                     '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                     t.uuid +
                     ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+
+                  if (page_type == 'show') {
+                    _html = '';
+                  }
 
                   return _html;
                 }
@@ -430,8 +441,6 @@ let Coa = {
 		    url: _url+'/journal/get-account-code-select2',
 		    dataType: 'json'
 		  },
-			minimumInputLength: 3,
-			// templateSelection: formatSelected
 		});
 
 		$('#_accountcode_adj').select2({
@@ -439,8 +448,6 @@ let Coa = {
 		    url: _url+'/journal/get-account-code-select2',
 		    dataType: 'json'
 		  },
-			minimumInputLength: 3,
-			// templateSelection: formatSelected
 		});
 
 		$('body').on('click', '#button_cushbook_transaction', function() {

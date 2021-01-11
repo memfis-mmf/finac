@@ -287,7 +287,7 @@
                       </label>
 
                       @component('label::data-info')
-                      @slot('text', 'Rp '.number_format($credit_total_amount, 0, 0, '.'))
+                      @slot('text', 'Rp '.number_format($credit_total_amount, 0, ',', '.'))
                       @endcomponent
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -296,7 +296,7 @@
                       </label>
 
                       @component('label::data-info')
-                      @slot('text', 'Rp '.number_format($payment_total_amount, 0, 0, '.'))
+                      @slot('text', 'Rp '.number_format($payment_total_amount, 0, ',', '.'))
                       @endcomponent
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">

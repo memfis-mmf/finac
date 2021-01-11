@@ -152,7 +152,7 @@
                     <td valign="top" width="31%">{{$cashbook->refno}}</td>
                     <td valign="top" width="18%">Exchange Rate</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">{{number_format($cashbook->exchangerate, 0, 0, '.')}}</td>
+                    <td valign="top" width="31%">{{number_format($cashbook->exchangerate, 2, ',', '.')}}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Cashbook Ref.</td>
@@ -190,12 +190,12 @@
                                 <td width="31%" align="left">{{$arr->_desc}}</td>
                                 <td width="17%" align="right">
 																	@if ($arr->debit > 0)
-																		{{$arr->symbol.' '.number_format($arr->debit, 0, 0, '.')}}
+																		{{$arr->symbol.' '.number_format($arr->debit, 2, ',', '.')}}
 																	@endif
 																</td>
                                 <td width="17%" align="right">
 																	@if ($arr->credit > 0)
-																		{{$arr->symbol.' '.number_format($arr->credit, 0, 0, '.')}}
+																		{{$arr->symbol.' '.number_format($arr->credit, 2, ',', '.')}}
 																	@endif
 																</td>
                             </tr>
@@ -203,7 +203,7 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
-                        <td colspan="2" style="background:#e6eef2" align="right"><b>Total : {{$detail[0]->symbol}}. {{number_format($cashbook->totaltransaction, 0, 0, '.')}}</b></td>
+                        <td colspan="2" style="background:#e6eef2" align="right"><b>Total : {{$detail[0]->symbol}}. {{number_format($total_debit, 2, ',', '.')}}</b></td>
                     </tr>
                 </table>
             </div>

@@ -183,14 +183,17 @@ class JournalController extends Controller
 
     public function datatables(Request $request)
     {
+        ini_set('max_execution_time', -1); 
+        ini_set("memory_limit",-1);
+
         if ($request->daterange) {
             $date = explode(' - ', $request->daterange);
-            $start_date = Carbon::createFromFormat('Y-m-d', $date[0]);
-            $end_date = Carbon::createFromFormat('Y-m-d', $date[1]);
+            $start_date = Carbon::createFromFormat('Y-m-d', $date[0])->startOfDay();
+            $end_date = Carbon::createFromFormat('Y-m-d', $date[1])->endOfDay();
         }
 
 		$data = Journal::with([
-                'type_jurnal',
+                'type_jurnal:id,name',
                 'currency',
             ])
             ->orderBy('transaction_date', 'desc')
@@ -199,8 +202,48 @@ class JournalController extends Controller
         if ($request->daterange) {
             $data = $data->whereBetween('transaction_date', [$start_date, $end_date]);
         }
+        
+        $search = $request->search['value'];
+
+        if ($search) {
+            $data = $data->where(function($row) use($search) {
+                $row->where('transaction_date', 'like', "%$search%")
+                    ->orWhere('voucher_no', 'like', "%$search%")
+                    ->orWhere('ref_no', 'like', "%$search%");
+            });
+        }
 
         return DataTables::of($data)
+        ->addColumn('transaction_date', function($row) {
+            return $row->transaction_date ?? '-';
+        })
+        ->addColumn('voucher_no', function($row) {
+            return $row->voucher_no ?? '-';
+        })
+        ->addColumn('ref_no', function($row) {
+            return $row->ref_no ?? '-';
+        })
+        ->addColumn('currency_code', function($row) {
+            return $row->currency_code ?? '-';
+        })
+        ->addColumn('exchange_rate', function($row) {
+            return $row->exchange_rate ?? '-';
+        })
+        ->addColumn('type_jurnal_name', function($row) {
+            return $row->type_jurnal->name ?? '-';
+        })
+        ->addColumn('total_transaction', function($row) {
+            return $row->total_transaction ?? '-';
+        })
+        ->addColumn('created_by', function($row) {
+            return $row->created_by ?? '-';
+        })
+        ->addColumn('updated_by', function($row) {
+            return $row->updated_by ?? '-';
+        })
+        ->addColumn('approved_by', function($row) {
+            return $row->approved_by ?? '-';
+        })
 		->addColumn('unapproved', function(Journal $journal) use ($request) {
 			$html = '';
 
@@ -331,9 +374,7 @@ class JournalController extends Controller
 		$journala = $journal->journala;
 
 		if ($this->checkBalance($journala)) {
-			return redirect()->route('journal.index')->with([
-				'errors' => 'Debit and Credit not balance'
-			]);
+            return redirect()->route('journal.index')->with(['errors' => 'Debit and Credit not balance']);
 		}
 
 		$debit = 0;
@@ -368,7 +409,8 @@ class JournalController extends Controller
 		}
 
 		$coa = Coa::where($param, 'like', '%'.$q.'%')
-		->where('description', 'detail')
+        ->where('description', 'detail')
+        ->limit(50)
 		->get();
 
 		$data['results'] = [];
@@ -389,19 +431,24 @@ class JournalController extends Controller
 	{
         $q = $request->q;
 
-        $projects = Project::with('aircraft', 'customer', 'approvals', 'audits')
+        $projects = Project::with([
+                'aircraft', 
+                'customer', 
+                'approvals', 
+            ])
             ->where('code', 'like', "%$q%")
-            ->has('approvals', 2)
-            ->latest()
+            ->whereIn('status', ['Quotation Approved', 'Project Approved'])
+            // ->has('approvals', 2)
+            ->orderBy('id', 'desc')
             ->limit(50)
             ->get();
 
         $data['results'] = [];
         
-        foreach ($projects as $x) {
+        foreach ($projects as $project_row) {
             $data['results'][] = [
-                'id' => $x->id,
-                'text' => $x->code
+                'id' => $project_row->id,
+                'text' => $project_row->code
             ];
         }
 

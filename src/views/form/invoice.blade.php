@@ -186,7 +186,7 @@
                     <td valign="top" width="18%">Rate</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-                        Rp. {{number_format($invoice->exchangerate, 0, 0, '.')}}
+                        Rp. {{number_format($invoice->exchangerate, 0, ',', '.')}}
                     </td>
                 </tr>
             </table>
@@ -248,7 +248,7 @@
                     @endif
                     <tr>
                         <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
-                            Material Need {{number_format($workpackage_row->material_item, 0, 0, '.')}} Item(s)
+                            Material Need {{number_format($workpackage_row->material_item, 0, ',', '.')}} Item(s)
                         </td>
 
                         <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
@@ -266,7 +266,7 @@
                     </tr>
                     <tr>
                         <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
-                            Total {{number_format(count($workpackage_row->taskcards), 0, 0, '.')}} Taskcard(s) - {{
+                            Total {{number_format(count($workpackage_row->taskcards), 0, ',', '.')}} Taskcard(s) - {{
                                 ($workpackage_row->is_template == 'htcrr')
                                 ? @$workpackage_row->data_htcrr['total_manhours_with_performance_factor']
                                 : @$workpackage_row->pivot->manhour_total

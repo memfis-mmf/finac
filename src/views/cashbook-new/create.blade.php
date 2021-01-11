@@ -280,7 +280,6 @@
             url: _url+'/journal/get-project-select2',
             dataType: 'json'
           },
-          minimumInputLength: 3,
         });
 
         $.ajax({
@@ -371,12 +370,12 @@
 
                 $.each( data, function( key, value ) {
                   $(`[name=${key}]`).val(value).trigger('change');
-                  $(`[name=${key}]`).attr('disabled', '');
+                  // $(`[name=${key}]`).attr('disabled', '');
                 });
 
                 $(`[name=location]`).val(data.location.toLowerCase()).trigger('change');
                 $(`[name=exchangerate]`).val(parseInt(data.exchangerate)).trigger('change');
-                $(`button.checkprofit`).attr('disabled', '');
+                // $(`button.checkprofit`).attr('disabled', '');
               }
             }
           });

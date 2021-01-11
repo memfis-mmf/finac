@@ -121,13 +121,25 @@ class CashbookAController extends Controller
     {
 		$coa = Coa::where('code', $request->code_b)->first();
 
-		$request->request->add([
+		$request->merge([
 			'code' => $coa->code,
 			'name' => $coa->name,
 			'description' => $request->description_b,
-			'debit' => $request->debit_b,
-			'credit' => $request->credit_b,
-		]);
+			'debit' => $request->debit_b ?? 0,
+			'credit' => $request->credit_b ?? 0,
+        ]);
+        
+        if ($request->debit_b != 0 and $request->credit_b != 0) {
+            return [
+                'errors' => 'Debit and Credit cannot be filled in at the same time'
+            ];
+        }
+
+        if ($request->debit_b == 0 and $request->credit_b == 0) {
+            return [
+                'errors' => 'Please fill in either a Debit or a Credit'
+            ];
+        }
 
 		DB::beginTransaction();
 

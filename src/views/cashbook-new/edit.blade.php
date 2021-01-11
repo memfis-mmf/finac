@@ -86,7 +86,7 @@
                                             <option value="cr" {{ (strpos($cashbook->transactionnumber, 'CCRJ') !== false)? 'selected': '' }}>Cash Receive</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-md-6 mt-3">
                                         <label class="form-control-label">
                                             Date Transaction @include('label::required')
                                         </label>
@@ -99,7 +99,7 @@
                                             @slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
-                                    <div class="col-md-12 mt-3">
+                                    <div class="col-md-6 mt-3">
                                         <label class="form-control-label">
                                             Project
                                         </label>
@@ -407,6 +407,7 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
+                                          @if (@$page_type != 'show')
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
                                                 @slot('id','cashbook_save')
@@ -415,6 +416,7 @@
                                             @include('buttons::reset')
 
                                             @include('buttons::back')
+                                          @endif
                                         </div>
                                     </div>
                                 </div>
@@ -726,8 +728,6 @@
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/cashbook/edit.js')}}"></script>
-
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
@@ -741,6 +741,12 @@
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 
 <script>
+  let page_type = '{{ @$page_type ?? "" }}';
+</script>
+
+<script src="{{ asset('vendor/courier/frontend/cashbook/edit.js')}}"></script>
+
+<script>
   $(document).ready(function () {
 
     let _url = window.location.origin;
@@ -750,7 +756,6 @@
         url: _url+'/journal/get-project-select2',
         dataType: 'json'
       },
-      minimumInputLength: 3,
     });
   });
 </script>

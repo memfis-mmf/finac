@@ -63,7 +63,7 @@ class TrialBalanceController extends Controller
 			IFNULL(sum(Query.LastBalance),0) as LastBalance,
 			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
 			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
-			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca_without_approve as Query
+			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
 			group by Query.AccountCode
 			) a on a.AccountCode = m_journal.Code and m_journal.Description = 'Detail'
 			left join
@@ -75,7 +75,7 @@ class TrialBalanceController extends Controller
 			IFNULL(sum(Query.LastBalance),0) as LastBalance,
 			IFNULL(sum(Query.CurrentBalance),0) as CurrentBalance,
 			IFNULL(sum(Query.EndingBalance),0) as EndingBalance
-			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca_without_approve as Query
+			from (select @StartDate:=@BeginDate a) start,(select @EndDate:=@EndingDate b) end , neraca as Query
 			left join m_journal on
 			substring(Query.AccountCode,1,LENGTH(m_journal.COA)) = m_journal.COA
 			GROUP BY
@@ -200,14 +200,17 @@ class TrialBalanceController extends Controller
 
 	public function print(Request $request)
 	{
+        ini_set('max_excecution_time', -1);
+        ini_set('memory_limit', -1);
+        set_time_limit(-1);
+
 		$date = $this->convertDate($request->daterange);
 
 		$beginDate = $date[0];
 		$endingDate = $date[1];
 
-		$tmp_data = $this->getData($beginDate, $endingDate);
-		$total_data = count($tmp_data);
-		$data_final = array_chunk($tmp_data, 19);
+		$data_final = $this->getData($beginDate, $endingDate);
+		$total_data = count($data_final);
 
 		$data = [
 			'data' => $data_final,
@@ -228,16 +231,15 @@ class TrialBalanceController extends Controller
 		$beginDate = $date[0];
 		$endingDate = $date[1];
 
-		$tmp_data = $this->getData($beginDate, $endingDate);
-		$total_data = count($tmp_data);
-		$data_final = array_chunk($tmp_data, 19);
+		$data_final = $this->getData($beginDate, $endingDate);
+		$total_data = count($data_final);
 
 		$data = [
 			'data' => $data_final,
 			'total_data' => $total_data,
 			'startDate' => $beginDate,
 			'finishDate' => $endingDate,
-		];
+        ];
 
 		return Excel::download(new TBExport($data), 'TB.xlsx');
 	}

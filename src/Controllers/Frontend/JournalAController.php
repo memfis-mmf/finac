@@ -120,7 +120,7 @@ class JournalAController extends Controller
         if ($journal->approve) {
             return abort(404);
         }
-        $journala->delete();
+        $journala->forceDelete();
 
 		$this->updateJournalTotalTransaction($journala->voucher_no);
 

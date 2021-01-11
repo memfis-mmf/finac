@@ -59,9 +59,7 @@ class GeneralLedgerController extends Controller
         $coa = Coa::whereIn('code', $code)->get();
 
         if (count($coa) < 1) {
-            return redirect()->back()->with([
-                'errors' => 'Coa not found'
-            ]);
+            return redirect()->back()->with(['errors' => 'Coa not found']);
         }
 
         $date = $this->convertDate($request->date);
@@ -89,16 +87,9 @@ class GeneralLedgerController extends Controller
         return view('generalledgerview::show', $data);
     }
 
-    public function getData($beginDate, $endingDate, $coa)
+    private function queryGetData($coa, $journal_approve = true)
     {
-
-        $queryStatement ='
-            SET @startDate = "'.$beginDate.'";
-            SET @endDate = "'.$endingDate.'";
-            SET @Coa = "'.$coa.'";
-        ';
-
-        $query = "
+        $query =  "
             SELECT
             DATE_ADD(@startDate, INTERVAL -1 DAY) as TransactionDate,
             ' ' as CreatedAt,
@@ -142,10 +133,32 @@ class GeneralLedgerController extends Controller
             on trxjournals.voucher_no = trxjournala.voucher_no
             left join m_journal
             on trxjournala.account_code = m_journal.id
-            where cast(trxjournals.transaction_date as date) between @startDate and @endDate
+            where cast(trxjournals.transaction_date as date) between @startDate and @endDate";
+
+        if ($journal_approve) {
+            $query .= "
+                and trxjournals.approve = true
+            ";
+        }
+
+        $query .= "
             and m_journal.code in (".$coa."))
             order by AccountCode,TransactionDate, CreatedAt asc
         ";
+
+        return $query;
+    }
+
+    public function getData($beginDate, $endingDate, $coa)
+    {
+
+        $queryStatement ='
+            SET @startDate = "'.$beginDate.'";
+            SET @endDate = "'.$endingDate.'";
+            SET @Coa = "'.$coa.'";
+        ';
+
+        $query = $this->queryGetData($coa);
 
         DB::connection()->getpdo()->exec($queryStatement);
         $data = DB::select($query);

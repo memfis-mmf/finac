@@ -95,6 +95,10 @@ class CashbookController extends Controller
 
     public function edit(Cashbook $cashbook)
     {
+        if ($cashbook->approve) {
+            return abort(404);
+        }
+
 		$data['cashbook'] = $cashbook;
 		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
 		$data['department'] = Department::all();
@@ -108,6 +112,10 @@ class CashbookController extends Controller
 
     public function update(Request $request, Cashbook $cashbook)
     {
+        if ($cashbook->approve) {
+            return abort(404);
+        }
+
         $request->validate([
             'transactiondate' => 'required',
             'personal' => 'required',
@@ -124,6 +132,10 @@ class CashbookController extends Controller
 
     public function destroy(Cashbook $cashbook)
     {
+        if ($cashbook->approve) {
+            return abort(404);
+        }
+
         $cashbook->delete();
 
         return response()->json($cashbook);
@@ -176,14 +188,43 @@ class CashbookController extends Controller
         return response()->json($cashbook);
     }
 
+    public function show($uuid_cashbook)
+    {
+        $cashbook = Cashbook::where('uuid', $uuid_cashbook)->firstOrFail();
+
+		$data['cashbook'] = $cashbook;
+		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
+		$data['department'] = Department::all();
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full_name'
+		)->whereIn('code',['idr','usd'])
+        ->get();
+        $data['page_type'] = 'show';
+
+		return view('cashbooknewview::edit', $data);
+    }
+
     public function datatables()
     {
 		$data  = Cashbook::with([
             'cashbook_a',
             'currencies',
+            'journal',
         ])->orderBy('id', 'desc');
 
-        return DataTables::of($data)
+        return datatables()->of($data)
+        ->addColumn('transactionnumber_link', function($row) {
+            return "<a href='".route('cashbook.show', $row->uuid)."'>$row->transactionnumber</a>";
+        })
+        ->addColumn('journal_number', function($row) {
+            $journal = $row->journal;
+
+            if ($journal) {
+                return "<a href='".route('journal.print')."?uuid=$journal->uuid'>$journal->voucher_no</a>";
+            }
+
+            return '-';
+        })
 		->escapeColumns([])
 		->make(true);
     }
@@ -503,8 +544,8 @@ class CashbookController extends Controller
 			$detail[] = (object) [
 				'coa_detail' => $arr->coa->code,
 				'coa_name' => $arr->coa->name,
-				'credit' => $arr->credit * $cashbook->exchangerate,
-				'debit' => $arr->debit * $cashbook->exchangerate,
+				'credit' => $arr->credit,
+				'debit' => $arr->debit,
 				'symbol' => $cashbook->currencies->symbol,
 				'_desc' => $arr->description,
 			];
@@ -554,12 +595,12 @@ class CashbookController extends Controller
 				'_desc' => $cashbook->description,
 				'symbol' => $cashbook->currencies->symbol,
 			]
-		);
+        );
 
 		$data = [
 			'cashbook' => $cashbook,
-			'detail' => $detail,
-			// 'total' => $total_all,
+            'detail' => $detail,
+			'total_debit' => $total_debit,
 			'type' => $type,
 			'type_header' => $type_header,
         ];

@@ -120,7 +120,7 @@ class ARController extends Controller
             $class = 'success';
         }
 
-        $data['credit_balance'] = "<span class='text-$class'>Rp " . number_format($credit_balance, 0, 0, '.') . "</span>";
+        $data['credit_balance'] = "<span class='text-$class'>Rp " . number_format($credit_balance, 0, ',', '.') . "</span>";
 
         return view('accountreceivableview::edit', $data);
     }
@@ -576,8 +576,7 @@ class ARController extends Controller
 
     function print(Request $request)
     {
-        $ar_tmp = AReceive::where('uuid', $request->uuid);
-        $ar = $ar_tmp->first();
+        $ar = AReceive::where('uuid', $request->uuid)->first();
 
         $ara = $ar->ara;
         $arb = $ar->arb;

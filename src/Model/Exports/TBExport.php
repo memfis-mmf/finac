@@ -17,7 +17,8 @@ class TBExport implements FromView
 
     public function view(): View
     {
-        return view('trialbalanceview::export', $this->data);
+        // return view('trialbalanceview::export', $this->data);
+        return view('trialbalanceview::export-tree', $this->data);
     }
 
     public static function afterSheet(AfterSheet $event)

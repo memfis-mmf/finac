@@ -68,8 +68,8 @@
 																					@endphp
 	                                        <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h3>{{$x->name}}</h3></td>
-                                            <td width="20%" align="center">{{number_format($x->CurrentBalance, 0, 0, '.')}}</td>
-                                            <td width="20%" align="center">{{number_format($x->EndingBalance, 0, 0, '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($x->CurrentBalance, 0, ',', '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($x->EndingBalance, 0, ',', '.')}}</td>
 	                                        </tr>
 																					@for ($b=0; $b < count($x->child); $b++)
 																						@php
@@ -77,8 +77,8 @@
 																						@endphp
 		                                        <tr>
 	                                            <td width="60%"><h4>{{$y->name}}</h4></td>
-	                                            <td width="20%" align="center">{{number_format($y->CurrentBalance, 0, 0, '.')}}</td>
-	                                            <td width="20%" align="center">{{number_format($y->EndingBalance, 0, 0, '.')}}</td>
+	                                            <td width="20%" align="center">{{number_format($y->CurrentBalance, 0, ',', '.')}}</td>
+	                                            <td width="20%" align="center">{{number_format($y->EndingBalance, 0, ',', '.')}}</td>
 		                                        </tr>
 																						@for ($c=0; $c < count($y->grandchild); $c++)
 																							@php
@@ -86,8 +86,8 @@
 																							@endphp
 			                                        <tr>
 		                                            <td width="60%">{{$z->name}}</td>
-		                                            <td width="20%" align="center">{{number_format($z->CurrentBalance, 0, 0, '.')}}</td>
-		                                            <td width="20%" align="center">{{number_format($z->EndingBalance, 0, 0, '.')}}</td>
+		                                            <td width="20%" align="center">{{number_format($z->CurrentBalance, 0, ',', '.')}}</td>
+		                                            <td width="20%" align="center">{{number_format($z->EndingBalance, 0, ',', '.')}}</td>
 			                                        </tr>
 																						@endfor
 																					@endfor
@@ -95,8 +95,8 @@
 
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="60%"><h5>Total Revenue</h5></td>
-                                            <td width="20%" align="center">{{number_format($pendapatan_accumulated, 0, 0, '.')}}</td>
-                                            <td width="20%" align="center">{{number_format($pendapatan_period, 0, 0, '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($pendapatan_accumulated, 0, ',', '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($pendapatan_period, 0, ',', '.')}}</td>
                                         </tr>
 
 																				@for ($a=0; $a < count($data['biaya']); $a++)
@@ -105,8 +105,8 @@
 																					@endphp
 	                                        <tr style="font-weight: bold; border-bottom:1px solid black">
                                             <td width="60%"><h3>{{$x->name}}</h3></td>
-                                            <td width="20%" align="center">{{number_format($x->CurrentBalance, 0, 0, '.')}}</td>
-                                            <td width="20%" align="center">{{number_format($x->EndingBalance, 0, 0, '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($x->CurrentBalance, 0, ',', '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($x->EndingBalance, 0, ',', '.')}}</td>
 	                                        </tr>
 																					@for ($b=0; $b < count($data['biaya'][0]->child); $b++)
 																						@php
@@ -114,8 +114,8 @@
 																						@endphp
 		                                        <tr>
 	                                            <td width="60%"><h4>{{$y->name}}</h4></td>
-	                                            <td width="20%" align="center">{{number_format($y->CurrentBalance, 0, 0, '.')}}</td>
-	                                            <td width="20%" align="center">{{number_format($y->EndingBalance, 0, 0, '.')}}</td>
+	                                            <td width="20%" align="center">{{number_format($y->CurrentBalance, 0, ',', '.')}}</td>
+	                                            <td width="20%" align="center">{{number_format($y->EndingBalance, 0, ',', '.')}}</td>
 		                                        </tr>
 																						@for ($c=0; $c < count($y->grandchild); $c++)
 																							@php
@@ -123,16 +123,16 @@
 																							@endphp
 			                                        <tr>
 		                                            <td width="60%">{{$z->name}}</td>
-		                                            <td width="20%" align="center">{{number_format($z->CurrentBalance, 0, 0, '.')}}</td>
-		                                            <td width="20%" align="center">{{number_format($z->EndingBalance, 0, 0, '.')}}</td>
+		                                            <td width="20%" align="center">{{number_format($z->CurrentBalance, 0, ',', '.')}}</td>
+		                                            <td width="20%" align="center">{{number_format($z->EndingBalance, 0, ',', '.')}}</td>
 			                                        </tr>
 																						@endfor
 																					@endfor
 																				@endfor
                                         <tr style="background:#add8f7;font-weight: bold;">
                                             <td width="60%"><h5>Total Revenue</h5></td>
-                                            <td width="20%" align="center">{{number_format($biaya_accumulated, 0, 0, '.')}}</td>
-                                            <td width="20%" align="center">{{number_format($biaya_period, 0, 0, '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($biaya_accumulated, 0, ',', '.')}}</td>
+                                            <td width="20%" align="center">{{number_format($biaya_period, 0, ',', '.')}}</td>
                                         </tr>
                                     </table>
 
@@ -144,10 +144,10 @@
                                             <table width="100%">
                                                 <tr>
                                                     <td align="center" width="50%">
-                                                        <h4>{{number_format($total_accumulated, 0, 0, '.')}}</h4>
+                                                        <h4>{{number_format($total_accumulated, 0, ',', '.')}}</h4>
                                                     </td>
                                                     <td align="center" width="50%">
-                                                        <h4>{{number_format($total_period, 0, 0, '.')}}</h4>
+                                                        <h4>{{number_format($total_period, 0, ',', '.')}}</h4>
                                                     </td>
                                                 </tr>
                                             </table>
