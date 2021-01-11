@@ -200,14 +200,17 @@ class TrialBalanceController extends Controller
 
 	public function print(Request $request)
 	{
+        ini_set('max_excecution_time', -1);
+        ini_set('memory_limit', -1);
+        set_time_limit(-1);
+
 		$date = $this->convertDate($request->daterange);
 
 		$beginDate = $date[0];
 		$endingDate = $date[1];
 
-		$tmp_data = $this->getData($beginDate, $endingDate);
-		$total_data = count($tmp_data);
-		$data_final = array_chunk($tmp_data, 19);
+		$data_final = $this->getData($beginDate, $endingDate);
+		$total_data = count($data_final);
 
 		$data = [
 			'data' => $data_final,
