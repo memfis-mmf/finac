@@ -548,7 +548,7 @@ class ARController extends Controller
             $autoJournal = TrxJournal::autoJournal(
                 $header,
                 $detail,
-                'CBRJ',
+                ($ar->payment_type == 'bank')? 'BARJ': 'CARJ',
                 'BRJ'
             );
 
