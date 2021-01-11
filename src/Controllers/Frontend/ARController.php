@@ -412,10 +412,10 @@ class ARController extends Controller
 
             $coa = Coa::where('code', $ar->accountcode)->first();
 
-            $code = 'CCPJ';
+            $code = 'CRCJ';
 
             if (strpos($coa->name, 'Bank') !== false) {
-                $code = 'CBPJ';
+                $code = 'BRCJ';
             }
 
             $transaction_number = AReceive::generateCode($code);
