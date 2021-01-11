@@ -407,6 +407,7 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
+                                          @if (@$page_type != 'show')
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
                                                 @slot('id','cashbook_save')
@@ -415,6 +416,7 @@
                                             @include('buttons::reset')
 
                                             @include('buttons::back')
+                                          @endif
                                         </div>
                                     </div>
                                 </div>
@@ -726,8 +728,6 @@
 
 <script src="{{ asset('vendor/courier/frontend/coamodal.js')}}"></script>
 
-<script src="{{ asset('vendor/courier/frontend/cashbook/edit.js')}}"></script>
-
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
@@ -739,6 +739,12 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/cashbook-type.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
+
+<script>
+  let page_type = '{{ @$page_type ?? "" }}';
+</script>
+
+<script src="{{ asset('vendor/courier/frontend/cashbook/edit.js')}}"></script>
 
 <script>
   $(document).ready(function () {
