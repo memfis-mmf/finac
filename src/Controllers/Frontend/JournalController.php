@@ -137,10 +137,8 @@ class JournalController extends Controller
         }
 
         $data['journal_type'] = TypeJurnal::all();
-        $data['currency'] = Currency::selectRaw(
-            'code, CONCAT(name, " (", symbol ,")") as full_name'
-        )->whereIn('code',['idr','usd'])
-        ->get();
+        $data['currency'] = Currency::whereIn('code', ['usd', 'idr'])
+            ->get();
 
         return view('journalview::edit', $data);
     }

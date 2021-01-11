@@ -154,10 +154,10 @@
                                         </label>
 
 																				<select id="currency" name="currency_code" class="form-control m-select2">
-																						@foreach ($currency as $x)
-																								<option value="{{ $x->code }}"
-																										@if ($x->code == $journal->currency_code) selected @endif>
-																										{{ $x->full_name }}
+																						@foreach ($currency as $currency_row)
+																								<option value="{{ $currency_row->code }}"
+																										@if ($currency_row->code == $journal->currency_code) selected @endif>
+																										{{ $currency_row->full_name }}
 																								</option>
 																						@endforeach
 																				</select>
