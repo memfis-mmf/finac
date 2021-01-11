@@ -555,10 +555,10 @@ class APController extends Controller
 
             $coa = Coa::where('code', $ap->accountcode)->first();
 
-            $code = 'CCPJ';
+            $code = 'CPYJ';
 
             if (strpos($coa->name, 'Bank') !== false) {
-                $code = 'CBPJ';
+                $code = 'BPYJ';
             }
 
             $transaction_number = APayment::generateCode($code);
