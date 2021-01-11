@@ -697,7 +697,7 @@ class APController extends Controller
             $autoJournal = TrxJournal::autoJournal(
                 $header,
                 $detail,
-                'CBRJ',
+                ($ap->payment_type == 'bank')? 'BAPJ': 'CAPJ',
                 'BRJ'
             );
 
