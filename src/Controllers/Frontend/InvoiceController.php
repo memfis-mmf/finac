@@ -91,9 +91,15 @@ class InvoiceController extends Controller
         DB::beginTransaction();
         $quotation = Quotation::where('number', $request->quotation)->first();
 
+        if ($quotation->status != 'Approved') {
+            return [
+                'error' => 'Quotation status is not Approved'
+            ];
+        }
+
         if (Invoice::where('id_quotation', $quotation->id)->first()) {
             return [
-                'error' => 'quotation alredy in use'
+                'error' => 'Quotation alredy in use'
             ];
         }
 
@@ -685,6 +691,7 @@ class InvoiceController extends Controller
         }
 
         $quotations = Quotation::whereHas('approvals')
+            ->where('status', 'Approved')
             ->whereDoesntHave('invoice', function ($invoice) {
                 $invoice->where('approve', true);
             })
