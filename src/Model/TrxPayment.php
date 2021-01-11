@@ -152,7 +152,7 @@ class TrxPayment extends MemfisModel
 
 	public function getExchangeRateFixAttribute()
 	{
-		return number_format($this->exchange_rate, 0, 0, '.');
+		return number_format($this->exchange_rate, 0, ',', '.');
 	}
 
 	public function getTotalAttribute()

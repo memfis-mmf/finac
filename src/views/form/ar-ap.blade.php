@@ -192,8 +192,8 @@
 										<td valign="top" width="12%">{{ @$x->coa->code }}</td>
 										<td valign="top" width="17%">{{ @$x->coa->name }}</td>
 										<td valign="top" width="31%">{{ @$x->coa->description }}</td>
-										<td valign="top" width="20%">{{ $data->currencies->symbol.' '.number_format(@$x->debit, 0, 0, '.') }}</td>
-										<td valign="top" width="20%">{{ $data->currencies->symbol.' '.number_format(@$x->credit, 0, 0, '.') }}</td>
+										<td valign="top" width="20%">{{ $data->currencies->symbol.' '.number_format(@$x->debit, 0, ',', '.') }}</td>
+										<td valign="top" width="20%">{{ $data->currencies->symbol.' '.number_format(@$x->credit, 0, ',', '.') }}</td>
 									</tr>
 								@endfor
 
@@ -281,8 +281,8 @@
 															<td valign="top" width="12%">{{ @$x->coa->code }}</td>
 															<td valign="top" width="17%">{{ @$x->coa->name }}</td>
 															<td valign="top" width="31%">{{ @$x->coa->description }}</td>
-															<td valign="top" width="20%">{{ number_format(@$x->debit, 0, 0, '.') }}</td>
-															<td valign="top" width="20%">{{ number_format(@$x->credit, 0, 0, '.') }}</td>
+															<td valign="top" width="20%">{{ number_format(@$x->debit, 0, ',', '.') }}</td>
+															<td valign="top" width="20%">{{ number_format(@$x->credit, 0, ',', '.') }}</td>
 														</tr>
 													@endfor
                         </table>

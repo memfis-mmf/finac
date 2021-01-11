@@ -166,7 +166,7 @@
                     <td valign="top" width="31%">{{$data->refno}}</td>
                     <td valign="top" width="18%">Exchange Rate</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">{{number_format($data->exchangerate, 0, 0, '.')}}</td>
+                    <td valign="top" width="31%">{{number_format($data->exchangerate, 0, ',', '.')}}</td>
                 </tr>
             </table>
         </div>
@@ -198,7 +198,7 @@
 																@php
 																	if ($arr->debit != 0) {
 																		echo $data->currencies->symbol.' '.
-																		number_format($arr->debit, 0, 0, '.');
+																		number_format($arr->debit, 0, ',', '.');
 																	}
 																@endphp
                               </td>
@@ -206,7 +206,7 @@
 																@php
 																	if ($arr->credit != 0) {
 																		echo $data->currencies->symbol.' '.
-																		number_format($arr->credit, 0, 0, '.');
+																		number_format($arr->credit, 0, ',', '.');
 																	}
 																@endphp
                               </td>
@@ -216,7 +216,7 @@
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
                         <td colspan="2" style="background:#e6eef2">
-													<b>Total : <span>{{$data->currencies->symbol}} {{number_format($total, 0, 0, '.')}}<span></b>
+													<b>Total : <span>{{$data->currencies->symbol}} {{number_format($total, 0, ',', '.')}}<span></b>
 												</td>
                     </tr>
                 </table>

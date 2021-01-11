@@ -136,7 +136,7 @@ class APController extends Controller
             $class = 'success';
         }
 
-        $data['debt_balance'] = "<span class='text-$class'>Rp " . number_format($debt_balance, 0, 0, '.') . "</span>";
+        $data['debt_balance'] = "<span class='text-$class'>Rp " . number_format($debt_balance, 0, ',', '.') . "</span>";
 
         return view('accountpayableview::edit', $data);
     }

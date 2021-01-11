@@ -203,7 +203,7 @@
                             <tr>
                                 <td width="40%" valign="top"><b>Rate</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">{{number_format($header->exchange_rate, 0, 0, '.')}}</td>
+                                <td width="59%" valign="top">{{number_format($header->exchange_rate, 0, ',', '.')}}</td>
                             </tr>
                         </table>
                     </td>
@@ -229,7 +229,7 @@
                       <td valign="top" align="center" width="20%">{{$item->coa->code}}</td>
                       <td valign="top" align="center" width="20%">{{$item->coa->name}}</td>
                       <td valign="top" align="center" width="30%">{{$item->description}}</td>
-                      <td valign="top" align="right" width="30%">{{number_format($item->total, 0, 0, '.')}} </td>
+                      <td valign="top" align="right" width="30%">{{number_format($item->total, 0, ',', '.')}} </td>
                     </tr>
                     @php
                         $total += $item->total
@@ -259,7 +259,7 @@
                         <table width="100%">
                             <tr>
                                 <td width="40%" valign="top"><b>GRAND TOTAL</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format($total, 0, 0, '.')}}</b></td>
+                                <td width="60%" valign="top" align="right"><b>{{number_format($total, 0, ',', '.')}}</b></td>
                             </tr>
                         </table>
                     </td>

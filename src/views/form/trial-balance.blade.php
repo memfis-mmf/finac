@@ -154,10 +154,10 @@
                     <tr>
                         <td valign="top" width="14%" style="border-left:  1px solid  #d4d7db;">{{ $data_row->code }}</td>
                         <td valign="top" width="16%">{{ $data_row->name }}</td>
-                        <td valign="top" align="center" width="16%">{{ number_format($data_row->LastBalance, 0, 0, '.') }}</td>
-                        <td valign="top" align="center" width="18%">{{ number_format($data_row->Debit, 0, 0, '.') }}</td>
-                        <td valign="top" align="center" width="18%">{{ number_format($data_row->Credit, 0, 0, '.') }}</td>
-                        <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($data_row->EndingBalance, 0, 0, '.') }}</td>
+                        <td valign="top" align="center" width="16%">{{ number_format($data_row->LastBalance, 0, ',', '.') }}</td>
+                        <td valign="top" align="center" width="18%">{{ number_format($data_row->Debit, 0, ',', '.') }}</td>
+                        <td valign="top" align="center" width="18%">{{ number_format($data_row->Credit, 0, ',', '.') }}</td>
+                        <td valign="top" align="center" width="18%" style="border-right:  1px solid  #d4d7db;">{{ number_format($data_row->EndingBalance, 0, ',', '.') }}</td>
                     </tr>
                   @endforeach
                 </tbody>
