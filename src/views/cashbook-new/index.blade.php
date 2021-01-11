@@ -67,6 +67,7 @@
                                     <thead>
                                         <th>Date</th> 
                                         <th>Transaction No</th> 
+                                        <th>Journal No</th> 
                                         <th>Total Transaction</th> 
                                         <th>Payment/Received By</th> 
                                         <th>Remark</th> 
