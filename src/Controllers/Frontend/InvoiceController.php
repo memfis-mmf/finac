@@ -549,11 +549,6 @@ class InvoiceController extends Controller
                 . $invoice->customer->name,
         ];
 
-        dd([
-            $detail,
-            $total_credit
-        ]);
-
         if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
             $coa_diff = Coa::where('code', '81112003')->first();
             if (!$coa_diff) {
