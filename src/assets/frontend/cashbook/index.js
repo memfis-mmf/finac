@@ -26,6 +26,7 @@ let Cashbook = {
           columns: [
             {data: 'transactiondate'},
             {data: 'transactionnumber_link', name: 'transactionnumber'},
+            {data: 'journal_number', name: 'journal.voucher_no'},
             {data: 'totaltransaction', render: function(data, type, row) {
                 return row.currencies.symbol+' '+addCommas(parseInt(row.totaltransaction));
             }},

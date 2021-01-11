@@ -209,11 +209,21 @@ class CashbookController extends Controller
 		$data  = Cashbook::with([
             'cashbook_a',
             'currencies',
+            'journal',
         ])->orderBy('id', 'desc');
 
         return datatables()->of($data)
         ->addColumn('transactionnumber_link', function($row) {
             return "<a href='".route('cashbook.show', $row->uuid)."'>$row->transactionnumber</a>";
+        })
+        ->addColumn('journal_number', function($row) {
+            $journal = $row->journal;
+
+            if ($journal) {
+                return "<a href='".route('journal.print')."?uuid=$journal->uuid'>$journal->voucher_no</a>";
+            }
+
+            return '-';
         })
 		->escapeColumns([])
 		->make(true);
