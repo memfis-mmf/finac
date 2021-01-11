@@ -412,9 +412,6 @@ class CashbookController extends Controller
 
 			$cashbook_a = $cashbook->cashbook_a;
 
-			$date_approve = $cashbook->approvals->first()
-			->created_at->toDateTimeString();
-
 			$header = (object) [
 				'voucher_no' => $cashbook->transactionnumber,
 				// 'transaction_date' => $date_approve,
@@ -423,7 +420,9 @@ class CashbookController extends Controller
 			];
 
 			$total_debit = 0;
-			$total_credit = 0;
+            $total_credit = 0;
+            
+            $detail = [];
 
 			for (
 				$index_cashbook_a=0;
@@ -455,7 +454,13 @@ class CashbookController extends Controller
 				$total = $total_credit - $total_debit;
 				$positiion = 'debit';
 				$x_positiion = 'credit';
-			}
+            }
+            
+            if (count($detail) < 1) {
+				return response()->json([
+					'errors' => 'Cashbook is empty'
+				]);
+            }
 
 			// add object in first array $detai
 			array_unshift(
@@ -473,12 +478,9 @@ class CashbookController extends Controller
 
 			$cashbook_tmp->update([
 				'approve' => 1
-			]);
+            ]);
 
-			$journal_number_prefix = explode(
-				'-',
-				$cashbook->transactionnumber
-			)[0];
+			$journal_number_prefix = 'J'.substr($cashbook->transactionnumber, 1, 3);
 
 			$autoJournal = TrxJournal::autoJournal(
 				$header,
