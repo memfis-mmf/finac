@@ -202,6 +202,16 @@ class JournalController extends Controller
         if ($request->daterange) {
             $data = $data->whereBetween('transaction_date', [$start_date, $end_date]);
         }
+        
+        $search = $request->search['value'];
+
+        if ($search) {
+            $data = $data->where(function($row) use($search) {
+                $row->where('transaction_date', 'like', "%$search%")
+                    ->orWhere('voucher_no', 'like', "%$search%")
+                    ->orWhere('ref_no', 'like', "%$search%");
+            });
+        }
 
         return DataTables::of($data)
         ->addColumn('transaction_date', function($row) {
