@@ -399,7 +399,8 @@ class JournalController extends Controller
 		}
 
 		$coa = Coa::where($param, 'like', '%'.$q.'%')
-		->where('description', 'detail')
+        ->where('description', 'detail')
+        ->limit(50)
 		->get();
 
 		$data['results'] = [];
@@ -420,19 +421,24 @@ class JournalController extends Controller
 	{
         $q = $request->q;
 
-        $projects = Project::with('aircraft', 'customer', 'approvals', 'audits')
+        $projects = Project::with([
+                'aircraft', 
+                'customer', 
+                'approvals', 
+            ])
             ->where('code', 'like', "%$q%")
-            ->has('approvals', 2)
-            ->latest()
+            ->whereIn('status', ['Quotation Approved', 'Project Approved'])
+            // ->has('approvals', 2)
+            ->orderBy('id', 'desc')
             ->limit(50)
             ->get();
 
         $data['results'] = [];
         
-        foreach ($projects as $x) {
+        foreach ($projects as $project_row) {
             $data['results'][] = [
-                'id' => $x->id,
-                'text' => $x->code
+                'id' => $project_row->id,
+                'text' => $project_row->code
             ];
         }
 

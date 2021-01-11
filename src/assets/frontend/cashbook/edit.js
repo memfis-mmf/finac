@@ -430,8 +430,6 @@ let Coa = {
 		    url: _url+'/journal/get-account-code-select2',
 		    dataType: 'json'
 		  },
-			minimumInputLength: 3,
-			// templateSelection: formatSelected
 		});
 
 		$('#_accountcode_adj').select2({
