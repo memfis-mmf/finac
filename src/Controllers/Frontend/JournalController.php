@@ -188,8 +188,8 @@ class JournalController extends Controller
 
         if ($request->daterange) {
             $date = explode(' - ', $request->daterange);
-            $start_date = Carbon::createFromFormat('Y-m-d', $date[0]);
-            $end_date = Carbon::createFromFormat('Y-m-d', $date[1]);
+            $start_date = Carbon::createFromFormat('Y-m-d', $date[0])->startOfMonth();
+            $end_date = Carbon::createFromFormat('Y-m-d', $date[1])->endOfMonth();
         }
 
 		$data = Journal::with([
