@@ -191,7 +191,7 @@
                                             Exchange Rate
                                         <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                         </label>
-                                        @component('input::numberreadonly')
+                                        @component('input::number')
                                             @slot('id', 'exchange')
                                             @slot('text', 'exchange')
                                             @slot('name', 'exchangerate')
