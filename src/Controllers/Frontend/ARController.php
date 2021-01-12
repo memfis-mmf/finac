@@ -53,14 +53,6 @@ class ARController extends Controller
             'id_customer' => $customer->id
         ]);
 
-        $coa = Coa::where('code', $request->accountcode)->first();
-
-        $code = 'CCPJ';
-
-        if (strpos($coa->name, 'Bank') !== false) {
-            $code = 'CBPJ';
-        }
-
         $request->request->add([
             'approve' => 0,
             'transactionnumber' => '-',
@@ -412,11 +404,9 @@ class ARController extends Controller
             $ar_tmp = AReceive::where('uuid', $request->uuid);
             $ar = $ar_tmp->first();
 
-            $coa = Coa::where('code', $ar->accountcode)->first();
-
             $code = 'CRCJ';
 
-            if (strpos($coa->name, 'Bank') !== false) {
+            if ($ar->payment_type == 'bank') {
                 $code = 'BRCJ';
             }
 
