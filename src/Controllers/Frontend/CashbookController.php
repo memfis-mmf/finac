@@ -82,6 +82,12 @@ class CashbookController extends Controller
             'exchangerate' => 'required'
         ]);
 
+        if ($request->currency == 'idr') {
+            $request->merge([
+                'exchangerate' => 1
+            ]);
+        }
+
 		$request->request->add([
 			'transactionnumber' => Cashbook::generateCode(
 				$this->transactionnumber($request->cashbook_type)
@@ -123,6 +129,12 @@ class CashbookController extends Controller
             'accountcode' => 'required',
             'exchangerate' => 'required'
         ]);
+
+        if ($request->currency == 'idr') {
+            $request->merge([
+                'exchangerate' => 1
+            ]);
+        }
 
         $cashbook->update($request->except([
             'cashbook_type',
