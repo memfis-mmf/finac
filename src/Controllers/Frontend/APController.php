@@ -52,14 +52,6 @@ class APController extends Controller
             'id_supplier' => $vendor->id
         ]);
 
-        $coa = Coa::where('code', $request->accountcode)->first();
-
-        $code = 'CCPJ';
-
-        if (strpos($coa->name, 'Bank') !== false) {
-            $code = 'CBPJ';
-        }
-
         $request->request->add([
             'approve' => 0,
             'transactionnumber' => '-',
@@ -555,11 +547,9 @@ class APController extends Controller
             $ar_tmp = APayment::where('uuid', $request->uuid);
             $ap = $ar_tmp->first();
 
-            $coa = Coa::where('code', $ap->accountcode)->first();
-
             $code = 'CPYJ';
 
-            if (strpos($coa->name, 'Bank') !== false) {
+            if ($ap->payment_type == 'bank') {
                 $code = 'BPYJ';
             }
 
@@ -578,9 +568,6 @@ class APController extends Controller
             $apa = $ap->apa;
             $apb = $ap->apb;
             $apc = $ap->apc;
-
-            $date_approve = $ap->approvals->first()
-                ->created_at->toDateTimeString();
 
             $header = (object) [
                 'voucher_no' => $ap->transactionnumber,
@@ -602,11 +589,9 @@ class APController extends Controller
                     continue;
                 }
 
-                if (strtolower($x->type) == 'grn') {
-                    $currency_code = $x->grn->currencies->code;
-                } else {
-                    $currency_code = $x->si->currencies->code;
-                }
+                $si = $x->getSI();
+
+                $currency_code = $si->currencies->code;
 
                 // jika invoice nya foreign
                 if ($currency_code != 'idr') {
