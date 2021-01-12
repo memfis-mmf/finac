@@ -692,9 +692,7 @@ class InvoiceController extends Controller
 
         $quotations = Quotation::whereHas('approvals')
             ->where('status', 'Approved')
-            ->whereDoesntHave('invoice', function ($invoice) {
-                $invoice->where('approve', true);
-            })
+            ->whereDoesntHave('invoice')
             ->get();
 
         //dd($quotations);
