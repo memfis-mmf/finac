@@ -181,7 +181,7 @@
                                             @foreach ($currency as $x)
                                                 <option value="{{ $x->code }}"
                                                     @if ($x->code == $cashbook->currency) selected @endif>
-                                                    {{ $x->full_name }}
+                                                    {{ $x->full }}
                                                 </option>
                                             @endforeach
                                         </select>
