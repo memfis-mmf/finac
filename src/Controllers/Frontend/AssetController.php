@@ -487,7 +487,10 @@ class AssetController extends Controller
          */
         $asset = Asset::where('approve', 1)
             ->where('status', 2) //mengambil asset dengan status approve
-            ->where('updated_at', '<=', $date_limit)
+            // ->where('updated_at', '<=', $date_limit)
+            ->whereHas('journal', function($journal) use($date_limit) {
+                $journal->where('updated_at', '<=', $date_limit);
+            })
             ->get();
 
         foreach ($asset as $asset_row) {
