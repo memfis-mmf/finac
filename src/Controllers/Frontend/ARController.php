@@ -34,6 +34,7 @@ class ARController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'payment_type' => 'required|in:bank,cash',
             'transactiondate' => 'required',
             'id_customer' => 'required',
             'accountcode' => 'required',
@@ -132,6 +133,7 @@ class ARController extends Controller
         }
 
         $request->validate([
+            'payment_type' => 'required|in:bank,cash',
             'transactiondate' => 'required',
             'id_customer' => 'required',
             'accountcode' => 'required',
