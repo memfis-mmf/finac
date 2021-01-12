@@ -137,6 +137,11 @@ class Asset extends MemfisModel
         return $this->belongsTo(GoodsReceived::class, 'grnno', 'number');
     }
 
+    public function journal()
+    {
+        return $this->hasMany(TrxJournal::class, 'ref_no', 'transaction_number');
+    }
+
 	static public function generateCode($code = "FAMS")
 	{
 		$asset = Asset::orderBy('id', 'desc')
