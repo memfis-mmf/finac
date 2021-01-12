@@ -78,7 +78,7 @@
                       @endforeach
                     </select>
                   </div>
-                  <div class="col-md-12 mt-3">
+                  <div class="col-md-6 mt-3">
                     <label class="form-control-label">
                       Project
                     </label>
@@ -89,7 +89,20 @@
                     @slot('text', 'Project')
                     @endcomponent
                   </div>
+                  <div class="col-md-6 mt-3">
+                    <label class="form-control-label">
+                      Payment Type @include('label::required')
+                    </label>
+
+                    <select id="payment_type" name="payment_type" class="form-control m-input" style="">
+                        <option value=""> — Select  —</option>
+                        <option value="bank">Bank</option>
+                        <option value="cash">Cash</option>
+                    </select>
+
+                  </div>
                 </div>
+                
                 <div class="form-group m-form__group row ">
                   <div class="col-sm-6 col-md-6 col-lg-6">
                     <label class="form-control-label">
