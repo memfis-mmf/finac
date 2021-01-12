@@ -208,9 +208,9 @@ class CashbookAController extends Controller
         $total_debit = 0;
         $total_credit = 0;
 
-        foreach ($cashbook->cashbook_a as $key => $item) {
-            $total_debit += $item->debit * $cashbook->exchangerate;
-            $total_credit += $item->credit * $cashbook->exchangerate;
+        foreach ($cashbook->cashbook_a as $item) {
+            $total_debit += $item->debit;
+            $total_credit += $item->credit;
         }
 
         if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
