@@ -203,7 +203,8 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3"><i>Terbilang total amount</i></td>
-                        <td colspan="2" style="background:#e6eef2" align="right"><b>Total : {{$detail[0]->symbol}}. {{number_format($total_debit, 2, ',', '.')}}</b></td>
+                        <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{number_format($total_debit, 2, ',', '.')}}</b></td>
+                        <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{number_format($total_credit, 2, ',', '.')}}</b></td>
                     </tr>
                 </table>
             </div>
