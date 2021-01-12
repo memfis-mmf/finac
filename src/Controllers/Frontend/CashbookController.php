@@ -100,7 +100,6 @@ class CashbookController extends Controller
         }
 
 		$data['cashbook'] = $cashbook;
-		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
 		$data['department'] = Department::all();
 		$data['currency'] = Currency::selectRaw(
 			'code, CONCAT(name, " (", symbol ,")") as full'
@@ -528,9 +527,11 @@ class CashbookController extends Controller
 	public function getRef(Request $request)
 	{
 		$cashbook = Cashbook::where(
-			'transactionnumber',
-			$request->transactionnumber
-		)->first();
+                'transactionnumber',
+                $request->transactionnumber
+            )
+            ->where('approve', true)
+            ->first();
 
 		if (!$cashbook) {
 			return [
@@ -628,5 +629,25 @@ class CashbookController extends Controller
 
         $pdf = \PDF::loadView('formview::cashbook', $data);
         return $pdf->stream();
-	}
+    }
+    
+    public function select2Ref(Request $request)
+    {
+        $cashbook = Cashbook::where('approve', true)
+            ->where('transactionnumber', 'like', "%$request->q%")
+            ->orderBy('id', 'desc')
+            ->limit(50)
+            ->get();
+
+        $data['results'] = [];
+
+        foreach ($cashbook as $cashbook_row) {
+            $data['results'][] = [
+                'id' => $cashbook_row->transactionnumber,
+                'text' => $cashbook_row->transactionnumber,
+            ];
+        }
+
+        return $data;
+    }
 }

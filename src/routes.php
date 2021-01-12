@@ -67,7 +67,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@index'
-		)->name('cashbook.index');
+        )->name('cashbook.index');
+		Route::get(
+			'/select2-cashbook-ref',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@select2Ref'
+		)->name('cashbook.select.ref');
 		Route::get(
 			'/get-ref',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@getRef'
@@ -119,7 +123,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/{cashbook}',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@show'
-		)->name('cashbook.show');
+        )->name('cashbook.show');
 	});
 
     Route::prefix('cashbooka')->group(function () {

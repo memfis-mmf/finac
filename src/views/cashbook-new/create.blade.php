@@ -60,11 +60,6 @@
 
                                         <select class="form-control m-input _select2" name="cashbook_ref" id="cashbook_ref">
                                             <option value=""></option>
-                                            @foreach ($cashbook_ref as $arr)
-                                                <option value="{{$arr->transactionnumber}}">
-                                                    {{$arr->transactionnumber}}
-                                                </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -276,8 +271,17 @@
         });
 
         $('#project').select2({
+          placeholder : '-- Select --',
           ajax: {
             url: _url+'/journal/get-project-select2',
+            dataType: 'json'
+          },
+        });
+
+        $('[name=cashbook_ref]').select2({
+          placeholder : '-- Select --',
+          ajax: {
+            url: '{{ route("cashbook.select.ref") }}',
             dataType: 'json'
           },
         });
@@ -369,6 +373,10 @@
                 console.table(data);
 
                 $.each( data, function( key, value ) {
+                  if (key == 'cashbook_type' || key == 'transactiondate') {
+                    return;
+                  }
+
                   $(`[name=${key}]`).val(value).trigger('change');
                   // $(`[name=${key}]`).attr('disabled', '');
                 });
