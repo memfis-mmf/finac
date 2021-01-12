@@ -225,6 +225,21 @@ class CashbookController extends Controller
 
             return '-';
         })
+        ->addColumn('approved_by', function($row) {
+            return $row->approved_by;
+        })
+        ->addColumn('created_by', function($row) {
+            return $row->created_by;
+        })
+        ->addColumn('cashbook_type', function($row) {
+            return $row->cashbook_type;
+        })
+        ->addColumn('account_name', function($row) {
+            return $row->account_name;
+        })
+        ->addColumn('status', function($row) {
+            return $row->status;
+        })
 		->escapeColumns([])
 		->make(true);
     }
