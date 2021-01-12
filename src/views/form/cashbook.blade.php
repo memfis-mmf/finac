@@ -189,12 +189,12 @@
                                 <td width="20%" align="left">{{$arr->coa_name}}</td>
                                 <td width="31%" align="left">{{$arr->_desc}}</td>
                                 <td width="17%" align="right">
-																	@if ($arr->debit > 0)
+																	@if ($arr->debit != 0)
 																		{{$arr->symbol.' '.number_format($arr->debit, 2, ',', '.')}}
 																	@endif
 																</td>
                                 <td width="17%" align="right">
-																	@if ($arr->credit > 0)
+																	@if ($arr->credit != 0)
 																		{{$arr->symbol.' '.number_format($arr->credit, 2, ',', '.')}}
 																	@endif
 																</td>
