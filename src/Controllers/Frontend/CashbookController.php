@@ -103,7 +103,7 @@ class CashbookController extends Controller
 		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
 		$data['department'] = Department::all();
 		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
+			'code, CONCAT(name, " (", symbol ,")") as full'
 		)->whereIn('code',['idr','usd'])
 		->get();
 
@@ -196,7 +196,7 @@ class CashbookController extends Controller
 		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
 		$data['department'] = Department::all();
 		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
+			'code, CONCAT(name, " (", symbol ,")") as full'
 		)->whereIn('code',['idr','usd'])
         ->get();
         $data['page_type'] = 'show';

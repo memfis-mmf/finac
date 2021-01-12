@@ -200,7 +200,7 @@ class TrxPaymentController extends Controller
 
 		$data['vendor'] = Vendor::all();
 		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
+			'code, CONCAT(name, " (", symbol ,")") as full'
 		)->whereIn('code',['idr','usd'])
 		->get();
 
@@ -475,7 +475,7 @@ class TrxPaymentController extends Controller
 
 		$data['vendor'] = Vendor::all();
 		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
+			'code, CONCAT(name, " (", symbol ,")") as full'
 		)->whereIn('code',['idr','usd'])
 		->get();
 

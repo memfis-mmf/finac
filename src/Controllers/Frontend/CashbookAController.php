@@ -185,7 +185,7 @@ class CashbookAController extends Controller
 		$data['cashbook'] = $cashbook;
 		$data['department'] = Department::all();
 		$data['currency'] = Currency::selectRaw(
-			'code, CONCAT(name, " (", symbol ,")") as full_name'
+			'code, CONCAT(name, " (", symbol ,")") as full'
 		)->whereIn('code',['idr','usd'])
 		->get();
 

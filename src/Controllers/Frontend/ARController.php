@@ -87,7 +87,7 @@ class ARController extends Controller
 
         $data['customer'] = Customer::all();
         $data['currency'] = Currency::selectRaw(
-            'code, CONCAT(name, " (", symbol ,")") as full_name'
+            'code, CONCAT(name, " (", symbol ,")") as full'
         )->whereIn('code', ['idr', 'usd'])
             ->get();
 
