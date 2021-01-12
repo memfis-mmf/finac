@@ -38,8 +38,7 @@ class CashbookController extends Controller
 
     public function create()
     {
-		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
-        return view('cashbooknewview::create', $data);
+        return view('cashbooknewview::create');
     }
 
 	public function transactionNumber($value)
@@ -101,6 +100,7 @@ class CashbookController extends Controller
 
 		$data['cashbook'] = $cashbook;
 		$data['department'] = Department::all();
+		$data['cashbook_ref'] = Cashbook::where('approve', 1)->get();
 		$data['currency'] = Currency::selectRaw(
 			'code, CONCAT(name, " (", symbol ,")") as full'
 		)->whereIn('code',['idr','usd'])
@@ -124,7 +124,10 @@ class CashbookController extends Controller
             'exchangerate' => 'required'
         ]);
 
-        $cashbook->update($request->all());
+        $cashbook->update($request->except([
+            'cashbook_type',
+            'cashbook_ref'
+        ]));
 
         return response()->json($cashbook);
     }
