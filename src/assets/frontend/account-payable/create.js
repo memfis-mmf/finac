@@ -8,7 +8,6 @@ let AccountPayable = {
         url: _url+'/journal/get-project-select2',
         dataType: 'json'
       },
-      minimumInputLength: 3,
     });
 
     $.ajax({
