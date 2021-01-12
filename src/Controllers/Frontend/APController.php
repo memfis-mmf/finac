@@ -33,6 +33,7 @@ class APController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'payment_type' => 'required|in:bank,cash',
             'transactiondate' => 'required',
             'id_supplier' => 'required',
             'accountcode' => 'required',
@@ -148,6 +149,7 @@ class APController extends Controller
         }
 
         $request->validate([
+            'payment_type' => 'required|in:bank,cash',
             'transactiondate' => 'required',
             'id_supplier' => 'required',
             'accountcode' => 'required',
