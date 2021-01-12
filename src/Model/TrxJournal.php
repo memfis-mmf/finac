@@ -103,6 +103,14 @@ class TrxJournal extends MemfisModel
             ->where('voucher_no', 'like', $code.'%')
             ->first();
 
+        if (!$journal) {
+            $count = 1;
+        } else {
+            $explode = explode('/', $journal->voucher_no);
+            $number = end($explode);
+            $count = ltrim($number) + 1;
+        }
+
 		$number = str_pad($count, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y')."/".$number;

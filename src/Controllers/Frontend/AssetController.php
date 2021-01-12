@@ -489,7 +489,7 @@ class AssetController extends Controller
             ->where('status', 2) //mengambil asset dengan status approve
             // ->where('updated_at', '<=', $date_limit)
             ->whereHas('journal', function($journal) use($date_limit) {
-                $journal->where('updated_at', '<=', $date_limit);
+                $journal->where('transaction_date', '<=', $date_limit);
             })
             ->get();
 
