@@ -742,6 +742,7 @@
 
 <script>
   let page_type = '{{ @$page_type ?? "" }}';
+  let cashbook_type = '{{ substr($cashbook->transactionnumber, 2, 1) }}' // P: payment, R: receive;
 </script>
 
 <script src="{{ asset('vendor/courier/frontend/cashbook/edit.js')}}"></script>

@@ -128,18 +128,21 @@ let Coa = {
                 overflow: 'visible',
                 template: function (t, e, i) {
 
+                  if (cashbook_type == 'P') {
+                    total = total_debit
+                  }
+
+                  if (cashbook_type == 'R') {
+                    total = total_credit
+                  }
+
 									$('#total_debit').val(
-										number_format.format(total_debit)
+										number_format.format(total)
 									)
 
 									$('#total_credit').val(
-										number_format.format(total_credit)
-									)
-
-									console.log([
-										total_debit,
-										total_credit,
-									]);
+										number_format.format(total)
+                  )
 
 									$('#button_cushbook_adjustment').show();
 
