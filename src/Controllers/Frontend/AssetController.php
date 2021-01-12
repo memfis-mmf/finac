@@ -493,7 +493,15 @@ class AssetController extends Controller
             })
             ->get();
 
-        foreach ($asset as $asset_row) {
+        $asset_no_journal = Asset::where('approve', 1)
+            ->where('status', 2) //mengambil asset dengan status approve
+            ->where('created_at',  '2020-10-27 07:00:00')
+            ->whereDoesntHave('journal')
+            ->get();
+
+        $merge = $asset->merge($asset_no_journal);
+
+        foreach ($merge as $asset_row) {
             $asset_row->date_generate = $end_date_of_month;
 
             /**

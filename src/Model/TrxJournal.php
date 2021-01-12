@@ -98,7 +98,7 @@ class TrxJournal extends MemfisModel
 
 	static public function generateCode($code = "JADJ")
 	{
-		$journal = TrxJournal::orderBy('id', 'desc')
+		$journal = TrxJournal::orderBy('voucher_no', 'desc')
             ->whereYear('created_at', Carbon::now()->format('Y'))
             ->where('voucher_no', 'like', $code.'%')
             ->first();
@@ -108,7 +108,7 @@ class TrxJournal extends MemfisModel
         } else {
             $explode = explode('/', $journal->voucher_no);
             $number = end($explode);
-            $count = ltrim($number) + 1;
+            $count = ltrim($number, '0') + 1;
         }
 
 		$number = str_pad($count, 5, '0', STR_PAD_LEFT);
