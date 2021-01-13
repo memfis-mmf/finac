@@ -75,6 +75,16 @@ class APAController extends Controller
             }
         }
 
+        $duplicate_check = $AP->apa()->where('type', $request->type)
+            ->where('id_payment', $id)
+            ->first();
+
+        if ($duplicate_check) {
+            return [
+                'errors' => 'Data Already exist'
+            ];
+        }
+
         $request->request->add([
             'description' => '',
             'transactionnumber' => $AP->transactionnumber,
