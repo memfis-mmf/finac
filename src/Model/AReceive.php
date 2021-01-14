@@ -8,6 +8,7 @@ use App\Models\Currency;
 use App\Models\Customer;
 use App\User;
 use App\Models\Approval;
+use App\Models\ARWorkshop;
 use App\Models\Project;
 use Carbon\Carbon;
 
@@ -82,26 +83,37 @@ class AReceive extends MemfisModel
 
     static public function generateCode($code)
     {
-        $data = AReceive::orderBy('id', 'desc')
+		$ar_workshop = ARWorkshop::orderBy('transactionnumber', 'desc')
             ->whereYear('created_at', Carbon::now()->format('Y'))
-            ->where('transactionnumber', 'like', $code . '%');
+            ->where('transactionnumber', 'like', $code.'%')
+            ->first();
 
-        if (!$data->count()) {
+		$ar_hm = AReceive::orderBy('transactionnumber', 'desc')
+            ->whereYear('created_at', Carbon::now()->format('Y'))
+            ->where('transactionnumber', 'like', $code.'%')
+            ->first();
 
-            if ($data->withTrashed()->count()) {
-                $order = $data->withTrashed()->count() + 1;
-            } else {
-                $order = 1;
-            }
+        $explode_workshop = explode('/', $ar_workshop->transactionnumber ?? '/');
+        $number_workshop = ltrim(end($explode_workshop), '0');
+
+        $explode_hm = explode('/', $ar_hm->transactionnumber ?? '/');
+        $number_hm = ltrim(end($explode_hm), '0');
+
+        $data = ($number_workshop > $number_hm)? $ar_workshop: $ar_hm;
+
+        if (!$data) {
+            $count = 1;
         } else {
-            $order = $data->withTrashed()->count() + 1;
+            $explode = explode('/', $data->transactionnumber);
+            $number = end($explode);
+            $count = ltrim($number, '0') + 1;
         }
 
-        $number = str_pad($order, 5, '0', STR_PAD_LEFT);
+		$number = str_pad($count, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y')."/".$number;
 
-        return $code;
+		return $code;
     }
 
     public function customer()
