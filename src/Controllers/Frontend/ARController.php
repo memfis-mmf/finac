@@ -144,6 +144,10 @@ class ARController extends Controller
 
     public function destroy(AReceive $areceive)
     {
+        if ($areceive->approve) {
+            return abort(404);
+        }
+
         $areceive->delete();
 
         return response()->json($areceive);
@@ -403,6 +407,16 @@ class ARController extends Controller
 
             $ar_tmp = AReceive::where('uuid', $request->uuid);
             $ar = $ar_tmp->first();
+
+            if ($ar->approve) {
+                return abort(404);
+            }
+
+            if (count($ar->ara) < 1) {
+                return response()->json([
+                    'errors' => 'Invoice not selected yet'
+                ]);
+            }
 
             $code = 'CRCJ';
 
