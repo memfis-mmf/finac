@@ -439,11 +439,14 @@ class APController extends Controller
             // jika sudah lunas
             if ($si_row->paid_amount == $si_row->grandtotal) {
                 unset($si[$si_index]);
+                continue;
             }
 
             $si_row->due_date = Carbon::parse($si_row->updated_at)
                 ->addDays($si_row->closed)
                 ->format('d/m/Y');
+
+            $si_row->amount_to_pay = $si_row->grandtotal - $si_row->paid_amount;
         }
 
         $si = array_values($si);
