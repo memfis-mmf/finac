@@ -55,8 +55,21 @@ class APBController extends Controller
         $apb_tmp = APaymentB::where('uuid', $apb_uuid);
         $apb = $apb_tmp->first();
         $ap = $apb->ap;
+
         if ($ap->approve) {
             return abort(404);
+        }
+
+        if ($request->debit_b != 0 and $request->credit_b != 0) {
+            return [
+                'errors' => 'Cannot fill debit and credit at once'
+            ];
+        }
+
+        if ($request->debit_b == 0 and $request->credit_b == 0) {
+            return [
+                'errors' => 'Fill at least one debit or credit'
+            ];
         }
 
         $request->merge([
