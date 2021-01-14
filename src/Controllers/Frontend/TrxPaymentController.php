@@ -593,6 +593,32 @@ class TrxPaymentController extends Controller
             'tax_percent' => $po_tax,
 			'id_grn' => $grn->id,
         ]);
+
+        $total = TrxPaymentA::where(
+                'transaction_number',
+                $trxpayment->transaction_number
+            )
+            ->get()
+            ->sum(function($row) {
+                return $row->total + ($row->total * ($row->tax_percent / 100));
+            });
+
+		if ($trxpayment->currency == 'idr') {
+			$request->merge([
+				'grandtotal_foreign' => $total,
+				'grandtotal' => $total
+			]);
+		}else{
+			$request->merge([
+				'grandtotal_foreign' => $total,
+				'grandtotal' => ($total*$trxpayment->exchange_rate)
+			]);
+        }
+
+        $trxpayment->update($request->only([
+            'grandtotal_foreign',
+            'grandtotal',
+        ]));
         
         DB::commit();
 	}

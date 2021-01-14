@@ -61,7 +61,31 @@ class TrxPaymentAController extends Controller
         if ($si->approve) {
             return abort(404);
         }
+
         $trxpaymenta->forceDelete();
+
+        $total = TrxPaymentA::where(
+                'transaction_number',
+                $si->transaction_number
+            )
+            ->get()
+            ->sum(function($row) {
+                return $row->total + ($row->total * ($row->tax_percent / 100));
+            });
+
+		if ($si->currency == 'idr') {
+			$amount = [
+				'grandtotal_foreign' => $total,
+				'grandtotal' => $total
+			];
+		}else{
+			$amount = [
+				'grandtotal_foreign' => $total,
+				'grandtotal' => ($total*$si->exchange_rate)
+			];
+        }
+
+        $si->update($amount);
 
         return response()->json($trxpaymenta);
     }
