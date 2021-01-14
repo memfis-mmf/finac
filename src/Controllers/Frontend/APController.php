@@ -430,14 +430,16 @@ class APController extends Controller
 
         $si = array_merge($arr, json_decode($trxpayment_non_grn));
 
-        for (
-            $si_index = 0;
-            $si_index < count($si);
-            $si_index++
-        ) {
-            $si[$si_index]->paid_amount = 
-                $this->countPaidAmount($si[$si_index]->uuid, $si[$si_index]->x_type);
+        foreach ($si as $si_index => $si_row) {
+            $si_row->paid_amount = 
+                $this->countPaidAmount($si_row->uuid, $si_row->x_type); // return idr
+
+            if ($si_row->paid_amount == $si_row->grandtotal) {
+                unset($si[$si_index]);
+            }
         }
+
+        $si = array_values($si);
 
         $data = $alldata = $si;
 
