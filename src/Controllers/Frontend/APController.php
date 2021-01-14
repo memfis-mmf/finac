@@ -14,6 +14,7 @@ use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 use App\Models\GoodsReceived;
+use Carbon\Carbon;
 use DataTables;
 use DB;
 
@@ -396,7 +397,8 @@ class APController extends Controller
 
     public function SIModalDatatables(Request $request)
     {
-        $trxpayment_grn = TrxPayment::where('id_supplier', $request->id_vendor)
+        $trxpayment_grn = TrxPayment::with(['coa'])
+            ->where('id_supplier', $request->id_vendor)
             ->where('x_type', 'GRN')
             ->where('approve', 1)
             ->get();
@@ -434,9 +436,14 @@ class APController extends Controller
             $si_row->paid_amount = 
                 $this->countPaidAmount($si_row->uuid, $si_row->x_type); // return idr
 
+            // jika sudah lunas
             if ($si_row->paid_amount == $si_row->grandtotal) {
                 unset($si[$si_index]);
             }
+
+            $si_row->due_date = Carbon::parse($si_row->updated_at)
+                ->addDays($si_row->closed)
+                ->format('d/m/Y');
         }
 
         $si = array_values($si);

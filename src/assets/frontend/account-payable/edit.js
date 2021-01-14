@@ -375,7 +375,7 @@ let AccountPayable = {
           filterable: !1,
         },
         {
-          field: '',
+          field: 'due_date',
           title: 'Due Date',
           sortable: 'asc',
           filterable: !1,
@@ -408,7 +408,7 @@ let AccountPayable = {
           }
         },
         {
-          field: 'coas.code',
+          field: 'coa.code',
           title: 'Account Code',
           sortable: 'asc',
           filterable: !1,
