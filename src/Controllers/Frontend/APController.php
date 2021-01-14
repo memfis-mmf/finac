@@ -151,7 +151,7 @@ class APController extends Controller
         ]);
 
         $request->merge([
-            'description' => $request->ar_description
+            'description' => $request->ap_description
         ]);
 
         $apayment->update($request->all());
@@ -556,8 +556,8 @@ class APController extends Controller
         DB::beginTransaction();
         try {
 
-            $ar_tmp = APayment::where('uuid', $request->uuid);
-            $ap = $ar_tmp->first();
+            $ap_tmp = APayment::where('uuid', $request->uuid);
+            $ap = $ap_tmp->first();
 
             $code = 'CPYJ';
 
@@ -567,7 +567,7 @@ class APController extends Controller
 
             $transaction_number = APayment::generateCode($code);
 
-            $ar_tmp->update([
+            $ap_tmp->update([
                 'transactionnumber' => $transaction_number
             ]);
 
@@ -689,7 +689,7 @@ class APController extends Controller
             $total_credit += $detail[0]->credit;
             $total_debit += $detail[0]->debit;
 
-            $ar_tmp->update([
+            $ap_tmp->update([
                 'approve' => 1
             ]);
 
@@ -724,17 +724,17 @@ class APController extends Controller
 
     function print(Request $request)
     {
-        $ar_tmp = APayment::where('uuid', $request->uuid);
-        $ap = $ar_tmp->first();
+        $ap_tmp = APayment::where('uuid', $request->uuid);
+        $ap = $ap_tmp->first();
 
         $apa = $ap->apa;
         $apb = $ap->apb;
         $apc = $ap->apc;
 
-        $ar_approval = $ap->approvals->first();
+        $ap_approval = $ap->approvals->first();
 
-        if ($ar_approval) {
-            $date_approve = $ar_approval->created_at->toDateTimeString();
+        if ($ap_approval) {
+            $date_approve = $ap_approval->created_at->toDateTimeString();
         } else {
             $date_approve = '-';
         }
