@@ -14,6 +14,7 @@ class TrxPaymentA extends MemfisModel
 
     protected $fillable = [
 		'transaction_number',
+		'transaction_status',
 		'id_grn',
 		'total',
 		'total_idr',

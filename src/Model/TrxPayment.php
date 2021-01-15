@@ -22,6 +22,7 @@ class TrxPayment extends MemfisModel
 		'approve',
 		'closed',
 		'transaction_number',
+		'transaction_status',
 		'transaction_date',
 		'x_type',
 		'id_supplier',
