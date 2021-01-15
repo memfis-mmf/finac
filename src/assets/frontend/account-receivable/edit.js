@@ -118,10 +118,11 @@ let AccountReceivableEdit = {
       },
       columns: [
         {
-          field: 'transactionnumber',
+          field: 'invoice.transactionnumber',
           title: 'Transaction No.',
           sortable: 'asc',
           filterable: !1,
+          width: '130px',
         },
         {
           field: 'ar.transactiondate',
