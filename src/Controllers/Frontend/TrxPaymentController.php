@@ -45,6 +45,12 @@ class TrxPaymentController extends Controller
 			$si_tmp = TrxPayment::where('uuid', $request->uuid);
             $si = $si_tmp->first();
 
+            if ($si->approve) {
+                return [
+					'errors' => 'Data Already Approved'
+                ];
+            }
+
             $total = TrxPaymentB::where(
                 'transaction_number',
                 $si->transaction_number
@@ -120,7 +126,8 @@ class TrxPaymentController extends Controller
 			);
 
 			$si_tmp->update([
-				'approve' => 1
+				'approve' => 1,
+                'transaction_status' => 2,
 			]);
 
 			$autoJournal = TrxJournal::autoJournal($header, $detail, 'PRJR', 'BPJ');
@@ -676,6 +683,12 @@ class TrxPaymentController extends Controller
         $data = TrxPayment::where('uuid', $request->uuid);
         $si = $data->first();
 
+        if ($si->approve) {
+            return [
+                'errors' => 'Data Already Approved'
+            ];
+        }
+
         $total = TrxPaymentA::where(
                 'transaction_number',
                 $si->transaction_number
@@ -701,9 +714,15 @@ class TrxPaymentController extends Controller
 
 		$data->update([
 			'approve' => 1,
+			'transaction_status' => 2,
 			'grandtotal_foreign' => $grandtotal_foreign,
 			'grandtotal' => $grandtotal,
-		]);
+        ]);
+        
+        TrxPaymentA::where('transaction_number', $si->transaction_number)
+            ->update([
+                'transaction_status' => 2,
+            ]);
 
         return response()->json($data->first());
     }
