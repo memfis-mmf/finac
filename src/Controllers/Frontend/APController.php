@@ -16,7 +16,7 @@ use App\Models\Approval;
 use App\Models\GoodsReceived;
 use Carbon\Carbon;
 use DataTables;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class APController extends Controller
 {
