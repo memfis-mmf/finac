@@ -381,7 +381,8 @@ class ARController extends Controller
 
         $invoice = Invoice::where('id_customer', $request->id_customer)
             ->with('coas')
-            ->where('approve', 1);
+            ->where('approve', 1)
+            ->where('transaction_status', 2); //mengambil invoice yang statusnya approve
 
         if (count($ar->ara)) {
             $invoice = $invoice->where(
@@ -559,6 +560,14 @@ class ARController extends Controller
             );
 
             if ($autoJournal['status']) {
+
+                $update_invoice_status = $this->ARUpdateInvoiceStatus($ar);
+
+                if (!$update_invoice_status['status']) {
+                    return [
+                        'errors' => $update_invoice_status['message'] ?? 'Failed Update Invoice Status'
+                    ];
+                }
 
                 DB::commit();
             } else {
