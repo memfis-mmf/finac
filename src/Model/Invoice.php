@@ -153,8 +153,8 @@ class Invoice extends MemfisModel
             $result = 'Approved';
         }
 
-        if ($this->closed == 2) {
-            $result = 'Void';
+        if ($this->transaction_status == 0) {
+            $result = 'Closed';
         }
 
         return $result;
