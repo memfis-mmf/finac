@@ -581,7 +581,8 @@ class InvoiceController extends Controller
         );
 
         Invoice::where('id', $invoice->id)->update([
-            'approve' => 1
+            'approve' => 1,
+            'transaction_status' => 2
         ]);
 
         if (!$autoJournal['status']) {
