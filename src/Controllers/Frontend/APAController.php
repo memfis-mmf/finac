@@ -134,7 +134,7 @@ class APAController extends Controller
                 // mencari nilai rupiah dengan rate si 
                 // dari nilai usd ap yang sudah dihitung sblmnya
                 $idr_amount_to_pay_si_rate =
-                    $foreign_amount_to_pay * $si->exchangerate;
+                    $foreign_amount_to_pay * $si->exchange_rate;
 
                 $result = [
                     // amount to pay idr dari ap dikurangi hasil rupiah
@@ -196,7 +196,7 @@ class APAController extends Controller
                     'debit_idr' => $debit_idr,
                 ];
             } else { //jika ap Foreign dan si Foreign
-                $new_rate = $ap->exchangerate - $si->exchangerate;
+                $new_rate = $ap->exchangerate - $si->exchange_rate;
 
                 $result = [
                     'gap' => ($new_rate * $amount_to_pay),
