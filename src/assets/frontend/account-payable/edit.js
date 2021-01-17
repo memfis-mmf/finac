@@ -178,7 +178,7 @@ let AccountPayable = {
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return t.ap.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit));
+            return t.si.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit));
           }
         },
         {
