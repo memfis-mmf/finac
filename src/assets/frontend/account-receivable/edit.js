@@ -571,11 +571,18 @@ let AccountReceivableEdit = {
       let tr = $(this).parents('tr');
       let tr_index = tr.index();
       let data = invoice_table.row(tr).data().mDatatable.dataSet[tr_index];
+      let currency = $('[name=currency]').val();
+
+      if (currency == 'idr') {
+        amount = data.credit_idr;
+      } else {
+        amount = data.credit;
+      }
 
       $(target).find('input[name=invoice_uuid]').val(uuid);
       $(target).find('[name=description]').val(data.description);
       $(target).find('input[name=credit]').val(
-        parseFloat(data.credit)
+        parseFloat(amount)
       );
 
       $(target).find('.iv_date').val(data.ar.transactiondate);
