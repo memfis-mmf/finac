@@ -536,10 +536,9 @@ class TrxPaymentController extends Controller
         return datatables()->of($data)->escapeColumns([])->make();
     }
 
-	public function sumGrnItem($grn_id)
+	public function sumGrnItem($grn_id, $si)
 	{
         $grn = GRN::find($grn_id);
-        $po = $grn->purchase_order;
 
 		$items = $grn->items;
 
@@ -554,7 +553,7 @@ class TrxPaymentController extends Controller
 
 		return (object)[
             'total' => $sum,
-            'total_idr' => $sum * $po->exchange_rate,
+            'total_idr' => $sum * $si->exchange_rate,
         ];
 	}
 
@@ -590,7 +589,7 @@ class TrxPaymentController extends Controller
             ];
         }
 
-		$calculate = $this->sumGrnItem($grn->id);
+		$calculate = $this->sumGrnItem($grn->id, $trxpayment);
 
         $po_tax = $grn->purchase_order->taxes->first()->percent;
 		TrxPaymentA::create([
