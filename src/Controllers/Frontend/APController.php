@@ -417,7 +417,7 @@ class APController extends Controller
                 $arr[$index_arr] = json_decode($x);
                 $arr[$index_arr]->transaction_number = $z->grn->number;
                 $arr[$index_arr]->uuid = $z->grn->uuid;
-                $arr[$index_arr]->grandtotal_foreign = $z->total;
+                $arr[$index_arr]->grandtotal_foreign = $z->total + ($z->total * $z->tax_percent / 100);
                 $arr[$index_arr]->grandtotal = $z->total_idr;
                 $arr[$index_arr]->currencies = $x->currencies;
                 $index_arr++;
