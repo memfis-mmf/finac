@@ -660,11 +660,18 @@ let AccountPayable = {
       let tr = $(this).parents('tr');
       let tr_index = tr.index();
       let data = supplier_invoice_table.row(tr).data().mDatatable.dataSet[tr_index];
+      let currency = $('[name=currency]').val();
+
+      if (currency == 'idr') {
+        amount = data.debit_idr;
+      } else {
+        amount = data.debit;
+      }
 
       $(target).find('input[name=si_uuid]').val(uuid);
       $(target).find('[name=description]').val(data.description);
       $(target).find('input[name=debit]').val(
-        parseInt(data.debit)
+        parseFloat(amount)
       );
 
       $(target).find('.iv_date').val(data.ap.transactiondate);
