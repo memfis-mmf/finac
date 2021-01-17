@@ -391,9 +391,9 @@ class APAController extends Controller
             $apa_row = $APA[$apa_index];
 
             if ($apa_row->type == 'GRN') {
-                $transaction_number = GoodsReceived::findOrFail($apa_row->id)->number;
+                $transaction_number = GoodsReceived::findOrFail($apa_row->id_payment)->number;
             } else {
-                $transaction_number = TrxPayment::findOrFail($apa_row->id)->transaction_number;
+                $transaction_number = TrxPayment::findOrFail($apa_row->id_payment)->transaction_number;
             }
 
             $APA[$apa_index]->_transaction_number = $transaction_number;
