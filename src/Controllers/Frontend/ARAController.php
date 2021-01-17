@@ -176,6 +176,16 @@ class ARAController extends Controller
 
         $invoice = $ara->invoice;
         $invoice_amount = $invoice->grandtotalforeign;
+        $ar = $ara->ar;
+
+        // jika ar IDR dan invoice foreign
+        if ($ar->currency == 'idr' and $invoice->currencies->code != 'idr') {
+            $amount_to_pay = $amount_to_pay / $ar->exchangerate;
+        }
+
+        if ($ar->currency != 'idr' and $invoice->currencies->code == 'idr') {
+            $amount_to_pay = $amount_to_pay * $ar->exchangerate;
+        }
 
         // get all receive amount invoice
         $query = AReceiveA::where('id_invoice', $invoice->id)
@@ -191,13 +201,11 @@ class ARAController extends Controller
         $total_invoice_receive_amount += $amount_to_pay;
 
         // jika currency ar dan invoice sama
-        if ($ara->ar->currencies->code == $invoice->currencies->code) {
-            if ($total_invoice_receive_amount > $invoice_amount) {
-                return (object)[
-                    'status' => false,
-                    'message' => 'Total amount receive is more than invoice amount',
-                ];
-            }
+        if ($total_invoice_receive_amount > $invoice_amount) {
+            return (object)[
+                'status' => false,
+                'message' => 'Total amount receive is more than invoice amount',
+            ];
         }
 
         return (object)[
