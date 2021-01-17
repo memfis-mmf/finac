@@ -120,8 +120,8 @@ class APAController extends Controller
             $grn = GRN::where('id', $apa->id_payment)->first();
             $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
-            $si->grandtotal_foreign = $trxpaymenta->total;
-            $si->grandtotal = $trxpaymenta->total_idr;
+            $si->grandtotal_foreign = $trxpaymenta->total + ($trxpaymenta->total * $trxpaymenta->tax_percent / 100 );
+            $si->grandtotal = $trxpaymenta->total_idr + ($trxpaymenta->total_idr * $trxpaymenta->tax_percent / 100 );
         }
 
         // jika header ap currency nya idr
@@ -212,18 +212,32 @@ class APAController extends Controller
     public function checkAmount($apa, $request)
     {
         $amount_to_pay = $request->debit;
-
         $si = $apa->getSI();
+        $ap = $apa->ap;
+
+        // jika ap IDR dan SI foreign
+        if ($ap->currency == 'idr' and $si->currencies->code != 'idr') {
+            $amount_to_pay = $amount_to_pay / $ap->exchangerate;
+        }
+
+        if ($ap->currency != 'idr' and $si->currencies->code == 'idr') {
+            $amount_to_pay = $amount_to_pay * $ap->exchangerate;
+        }
+
+        $id_payment = $si->id;
+        $grandtotal_foreign = $si->grandtotal_foreign;
         if ($apa->type == 'GRN') {
             $grn = GRN::where('id', $apa->id_payment)->first();
             $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
-            $si->grandtotal_foreign = $trxpaymenta->total;
-            $si->grandtotal = $trxpaymenta->total_idr;
+            $grandtotal_foreign = $trxpaymenta->total + ($trxpaymenta->total * $trxpaymenta->tax_percent / 100 );
+            $grandtotal = $trxpaymenta->total_idr + ($trxpaymenta->total_idr * $trxpaymenta->tax_percent / 100 );
+
+            $id_payment = $grn->id;
         }
 
-        // get all payment amount si
-        $query = APaymentA::where('id_payment', $si->id)
+        // get all payment amount si/grn
+        $query = APaymentA::where('id_payment', $id_payment)
             ->where('id', '!=', $apa->id);
 
         // jika si foreign
@@ -236,13 +250,11 @@ class APAController extends Controller
         $total_si_payment_amount += $amount_to_pay;
 
         // jika currency ap dan si sama
-        if ($apa->ap->currencies->code == $si->currencies->code) {
-            if ($total_si_payment_amount > $si->grandtotal_foreign) {
-                return (object)[
-                    'status' => false,
-                    'message' => 'Total amount payment is more than si amount',
-                ];
-            }
+        if ($total_si_payment_amount > $grandtotal_foreign) {
+            return (object)[
+                'status' => false,
+                'message' => 'Total amount payment is more than si amount',
+            ];
         }
 
         return (object)[
@@ -343,8 +355,8 @@ class APAController extends Controller
             $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
             $si = $trxpaymenta->si()->with(['currencies'])->first();
-            $si->grandtotal_foreign = $trxpaymenta->total;
-            $si->grandtotal = $trxpaymenta->total_idr;
+            $si->grandtotal_foreign = $trxpaymenta->total + ($trxpaymenta->total * $trxpaymenta->tax_percent / 100);
+            $si->grandtotal = $trxpaymenta->total_idr + ($trxpaymenta->total_idr * $trxpaymenta->tax_percent / 100);
             $result = $si;
         } else {
             $result = TrxPayment::where('id', $apa->id_payment)
