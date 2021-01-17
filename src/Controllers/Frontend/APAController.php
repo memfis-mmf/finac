@@ -13,6 +13,7 @@ use memfisfa\Finac\Request\APaymentAUpdate;
 use memfisfa\Finac\Request\APaymentAStore;
 use App\Http\Controllers\Controller;
 use App\Models\GoodsReceived as GRN;
+use App\Models\GoodsReceived;
 use Illuminate\Support\Str;
 use DB;
 
@@ -389,7 +390,13 @@ class APAController extends Controller
         for ($apa_index = 0; $apa_index < count($APA); $apa_index++) {
             $apa_row = $APA[$apa_index];
 
-            $APA[$apa_index]->_transaction_number = $apa_row->transactionnumber;
+            if ($apa_row->type == 'GRN') {
+                $transaction_number = GoodsReceived::findOrFail($apa_row->id)->number;
+            } else {
+                $transaction_number = TrxPayment::findOrFail($apa_row->id)->transaction_number;
+            }
+
+            $APA[$apa_index]->_transaction_number = $transaction_number;
             $APA[$apa_index]->si = $this->getDataSI($apa_row);
             $APA[$apa_index]->paid_amount = $this->countPaidAmount($apa_row);
             if ($AP->currencies->code == 'idr') {
