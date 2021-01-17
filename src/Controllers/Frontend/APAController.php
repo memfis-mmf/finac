@@ -140,7 +140,7 @@ class APAController extends Controller
                     // amount to pay idr dari ap dikurangi hasil rupiah
                     // dari usd ap dikali dengan rate si
                     'gap' => round(
-                        $amount_to_pay - $idr_amount_to_pay_si_rate,
+                        $idr_amount_to_pay_si_rate - $amount_to_pay,
                         2
                     ),
                     'debit' => round($foreign_amount_to_pay, 2),
@@ -184,7 +184,7 @@ class APAController extends Controller
                         $all_si->total_debit_idr + $idr_amount_to_pay;
 
                     $gap = $idr_amount_to_pay -
-                        ($si->grandtotal - $total_debit_idr);
+                        ($total_debit_idr - $si->grandtotal);
                 }
 
                 $debit = $amount_to_pay;
