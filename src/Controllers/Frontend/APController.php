@@ -549,6 +549,18 @@ class APController extends Controller
             $ap_tmp = APayment::where('uuid', $request->uuid);
             $ap = $ap_tmp->first();
 
+            if ($ap->approve) {
+                return [
+                    'errors' => 'Data already approved'
+                ];
+            }
+
+            if (count($ap->apa) < 1) {
+                return [
+                    'errors' => 'please select Supplier Invoice'
+                ];
+            }
+
             $code = 'CPYJ';
 
             if ($ap->payment_type == 'bank') {
@@ -572,7 +584,7 @@ class APController extends Controller
             $apc = $ap->apc;
 
             $header = (object) [
-                'voucher_no' => $ap->transactionnumber,
+                'voucher_no' => $transaction_number,
                 // 'transaction_date' => $date_approve,
                 'transaction_date' => $ap->transactiondate,
                 'coa' => $ap->coa->id,
@@ -584,30 +596,23 @@ class APController extends Controller
             $detail = [];
 
             // looping sebenayak invoice
-            for ($a = 0; $a < count($apa); $a++) {
-                $x = $apa[$a];
+            foreach ($apa as $apa_row) {
 
-                if ($x->credit == 0 and $x->debit == 0) {
-                    continue;
-                }
-
-                $si = $x->getSI();
-
-                $currency_code = $si->currencies->code;
+                $si = $apa_row->getSI();
 
                 // jika invoice nya foreign
-                if ($currency_code != 'idr') {
-                    $credit = $x->debit * $x->si->exchange_rate;
+                if ($si->currencies->code != 'idr') {
+                    $debit = $apa_row->debit * $si->exchange_rate;
                 } else {
-                    $credit = $x->debit_idr;
+                    $debit = $apa_row->debit_idr;
                 }
 
                 $detail[] = (object) [
-                    'coa_detail' => $x->coa->id,
-                    'credit' => $credit,
-                    'debit' => 0,
-                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
-                        . $x->ap->vendor->name,
+                    'coa_detail' => $apa_row->coa->id,
+                    'credit' => 0,
+                    'debit' => $debit,
+                    '_desc' => 'Payment From : ' . $apa_row->transactionnumber . ' '
+                        . $apa_row->ap->vendor->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -618,16 +623,12 @@ class APController extends Controller
             for ($a = 0; $a < count($apb); $a++) {
                 $y = $apb[$a];
 
-                if ($y->credit == 0 and $y->debit == 0) {
-                    continue;
-                }
-
                 $detail[] = (object) [
                     'coa_detail' => $y->coa->id,
                     'credit' => $y->credit,
                     'debit' => $y->debit,
-                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
-                        . $x->ap->vendor->name,
+                    '_desc' => 'Payment From : ' . $y->transactionnumber . ' '
+                        . $y->ap->vendor->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -638,27 +639,23 @@ class APController extends Controller
             for ($a = 0; $a < count($apc); $a++) {
                 $z = $apc[$a];
 
-                if ($z->credit == 0 and $z->debit == 0) {
-                    continue;
-                }
-
                 $side = 'credit';
                 $x_side = 'debit';
-                $val = $z->difference;
+                $val = $z->gap;
 
-                // jika difference bernilai minus
-                if ($z->difference < 0) {
+                // jika gap bernilai minus
+                if ($z->gap < 0) {
                     $side = 'debit';
                     $x_side = 'credit';
-                    $val = $z->difference * (-1);
+                    $val = $z->gap * (-1);
                 }
 
                 $detail[] = (object) [
                     'coa_detail' => $z->coa->id,
                     $side => $val,
                     $x_side => 0,
-                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
-                        . $x->ap->vendor->name,
+                    '_desc' => 'Payment From : ' . $z->transactionnumber . ' '
+                        . $z->ap->vendor->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -670,8 +667,8 @@ class APController extends Controller
                 $detail,
                 (object) [
                     'coa_detail' => $header->coa,
-                    'credit' => 0,
-                    'debit' => $total_credit - $total_debit,
+                    'credit' => $total_debit - $total_credit,
+                    'debit' => 0,
                     '_desc' => 'Receive From : ' . $header->voucher_no
                 ]
             );
