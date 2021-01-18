@@ -83,12 +83,14 @@ class AReceive extends MemfisModel
 
     static public function generateCode($code)
     {
-		$ar_workshop = ARWorkshop::orderBy('transactionnumber', 'desc')
+        $ar_workshop = ARWorkshop::orderBy('transactionnumber', 'desc')
+            ->withTrashed()
             ->whereYear('created_at', Carbon::now()->format('Y'))
             ->where('transactionnumber', 'like', $code.'%')
             ->first();
 
 		$ar_hm = AReceive::orderBy('transactionnumber', 'desc')
+            ->withTrashed()
             ->whereYear('created_at', Carbon::now()->format('Y'))
             ->where('transactionnumber', 'like', $code.'%')
             ->first();
