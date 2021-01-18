@@ -399,6 +399,15 @@ let AccountPayable = {
           }
         },
         {
+          field: 'grnadtotal',
+          title: 'Total Amount (IDR)',
+          sortable: 'asc',
+          filterable: !1,
+          template: function (t, e, i) {
+            return 'Rp '+number_format.format(parseFloat(t.grandtotal));
+          }
+        },
+        {
           field: 'paid_amount',
           title: 'Paid Amount',
           sortable: 'asc',
@@ -412,15 +421,6 @@ let AccountPayable = {
           title: 'Account Code',
           sortable: 'asc',
           filterable: !1,
-        },
-        {
-          field: 'amount_to_pay',
-          title: 'Amount to Pay',
-          sortable: 'asc',
-          filterable: !1,
-          template: function (t, e, i) {
-            return 'Rp '+number_format.format(parseFloat(t.amount_to_pay));
-          }
         },
         {
           field: '',
