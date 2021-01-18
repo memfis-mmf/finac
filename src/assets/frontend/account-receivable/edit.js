@@ -325,25 +325,33 @@ let AccountReceivableEdit = {
       columns: [
         { data: 'transactionnumber' },
         { data: 'transactiondate' },
-        { data: 'empty', searchable: false, orderable: false, defaultContent: '-' },
+        { data: 'due_date' },
         {
           data: 'exchangerate', render: (data, type, row) => {
-            return number_format.format(parseFloat(row.exchangerate));
+            return 'Rp '+number_format.format(parseFloat(row.exchangerate));
           }
         },
         {
           data: 'grandtotalforeign', render: (data, type, row) => {
-            return number_format.format(parseFloat(row.grandtotalforeign));
+            return row.currencies.symbol+' '+number_format.format(parseFloat(row.grandtotalforeign));
+          }
+        },
+        {
+          data: 'grandtotal', render: (data, type, row) => {
+            return 'Rp '+number_format.format(parseFloat(row.grandtotal));
           }
         },
         {
           data: 'paid_amount', render: (data, type, row) => {
-            return number_format.format(parseFloat(row.paid_amount));
+            return 'Rp '+number_format.format(parseFloat(row.paid_amount));
           }
         },
         { data: 'coas.code' },
-        { data: 'empty', searchable: false, orderable: false, defaultContent: '-' },
-        { data: 'empty', searchable: false, orderable: false, defaultContent: '-' },
+        { 
+          data: 'exchange_rate_gap', render: (data, type, row) => {
+            return 'Rp '+number_format.format(parseFloat(row.exchange_rate_gap));
+          }
+        },
         { data: 'description' },
         {
           data: '', searchable: false, render: function (data, type, row) {

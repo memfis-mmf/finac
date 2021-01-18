@@ -380,7 +380,10 @@ class ARController extends Controller
         $ar = AReceive::where('uuid', $request->ar_uuid)->first();
 
         $invoice = Invoice::where('id_customer', $request->id_customer)
-            ->with('coas')
+            ->with([
+                'coas',
+                'currencies'
+            ])
             ->where('approve', 1)
             ->where('transaction_status', 2); //mengambil invoice yang statusnya approve
 
@@ -394,8 +397,17 @@ class ARController extends Controller
         $data = $invoice;
 
         return DataTables::of($data)
+            ->addColumn('total_amount_idr', function($row) {
+                return $this->countPaidAmount($row->id);
+            })
             ->addColumn('paid_amount', function($row) {
                 return $this->countPaidAmount($row->id);
+            })
+            ->addColumn('exchange_rate_gap', function($row) use($ar) {
+                return $ar->exchangerate - $row->exchangerate;
+            })
+            ->addColumn('due_date', function($row) {
+                return $row->due_date;
             })
             ->escapeColumns([])
             ->make();

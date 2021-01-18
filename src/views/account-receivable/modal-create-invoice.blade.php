@@ -16,9 +16,9 @@
               <th>Due Date</th>
               <th>Exchange Rate</th>
               <th>Total Amount</th>
+              <th>Total Amount (IDR)</th>
               <th>Paid Amount</th>
               <th>Account Code</th>
-              <th>Ammount to pay</th>
               <th>Exchange rate Gap</th>
               <th>Description</th>
               <th>Actions</th>
