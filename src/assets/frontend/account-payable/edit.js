@@ -427,6 +427,9 @@ let AccountPayable = {
           title: 'Exchange Rate Gap',
           sortable: 'asc',
           filterable: !1,
+          template: function (t, e, i) {
+            return 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap));
+          }
         },
         {
           field: 'description',

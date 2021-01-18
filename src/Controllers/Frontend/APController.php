@@ -387,6 +387,9 @@ class APController extends Controller
 
     public function SIModalDatatables(Request $request)
     {
+        $ap = APayment::where('uuid', $request->ap_uuid)
+            ->firstOrFail();
+
         $trxpayment_grn = TrxPayment::with(['coa'])
             ->where('id_supplier', $request->id_vendor)
             ->where('x_type', 'GRN')
@@ -442,6 +445,7 @@ class APController extends Controller
                 ->format('d/m/Y');
 
             $si_row->amount_to_pay = $si_row->grandtotal - $si_row->paid_amount;
+            $si_row->exchange_rate_gap = $si_row->exchange_rate - $ap->exchangerate;
         }
 
         $si = array_values($si);
