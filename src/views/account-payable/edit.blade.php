@@ -265,7 +265,7 @@
                     </div>
                   </div>
                 </div>
-                <fieldset class="border p-2">
+                {{-- <fieldset class="border p-2">
                   <legend class="w-auto">Debt Information</legend>
                   <div class="form-group m-form__group row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -296,7 +296,7 @@
                       @endcomponent
                     </div>
                   </div>
-                </fieldset>
+                </fieldset> --}}
                 <div class="form-group m-form__group row">
                   <div class="col-sm-12 col-md-12 col-lg-12 footer">
                     <div class="row align-items-center">
