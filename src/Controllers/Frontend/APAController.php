@@ -238,6 +238,7 @@ class APAController extends Controller
 
         // get all payment amount si/grn
         $query = APaymentA::where('id_payment', $id_payment)
+            ->where('type', $apa->type)
             ->where('id', '!=', $apa->id);
 
         // jika si foreign
@@ -369,9 +370,9 @@ class APAController extends Controller
 
     public function countPaidAmount($apa_tmp)
     {
-        $si = $apa_tmp->si;
+        $si = $apa_tmp->getSI();
         // ambil semua data pembayaran invoice ini
-        $apa = APaymentA::where('id_payment', $si->id)
+        $apa = APaymentA::where('id_payment', $apa_tmp->id_payment)
             ->where('type', $apa_tmp->type)
             ->get();
 
