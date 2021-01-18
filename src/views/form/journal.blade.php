@@ -193,7 +193,8 @@
             <table width="100%" cellpadding="6">
                 <tr>
                     <td valign="top" align="right" width="60%"><b>Total</b></td>
-                    <td valign="top" align="right" width="" colspan="2" class="kredit-debet">Rp. {{ number_format($debit * $journal->exchange_rate, 0, ',', '.') }},-</td>
+                    <td valign="top" align="right" width="" class="kredit-debet">Rp. {{ number_format($debit * $journal->exchange_rate, 0, ',', '.') }},-</td>
+                    <td valign="top" align="right" width="" class="kredit-debet">Rp. {{ number_format($credit * $journal->exchange_rate, 0, ',', '.') }},-</td>
                 </tr>
             </table>
         </div>
