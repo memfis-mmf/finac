@@ -43,6 +43,12 @@ class APAController extends Controller
             $grn = GRN::where('uuid', $request->data_uuid)->first();
             $trxpaymenta = TrxPaymentA::where('id_grn', $grn->id)->first();
 
+            if ($trxpaymenta->transaction_status != 2) {
+                return [
+                    'errors' => "GRN $grn->number already closed"
+                ];
+            }
+
             // jika data yang sudah terinput itu GRN
             if ($APA) {
                 if ($APA->type != 'GRN') {
@@ -55,6 +61,13 @@ class APAController extends Controller
             $id = $grn->id;
         } else {
             $si = TrxPayment::where('uuid', $request->data_uuid)->first();
+
+            if ($si->transaction_status != 2) {
+                return [
+                    'errors' => "Supplier Invoice $si->transaction_number already closed"
+                ];
+            }
+
             $id = $si->id;
             // jika data yang sudah terinput itu GRN
             if ($APA) {
@@ -358,6 +371,8 @@ class APAController extends Controller
             $si = $trxpaymenta->si()->with(['currencies'])->first();
             $si->grandtotal_foreign = $trxpaymenta->total + ($trxpaymenta->total * $trxpaymenta->tax_percent / 100);
             $si->grandtotal = $trxpaymenta->total_idr + ($trxpaymenta->total_idr * $trxpaymenta->tax_percent / 100);
+            $si->transaction_status = $trxpaymenta->transaction_status;
+            $si->grn_number = $trxpaymenta->grn->number;
             $result = $si;
         } else {
             $result = TrxPayment::where('id', $apa->id_payment)
