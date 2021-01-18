@@ -396,13 +396,17 @@ class APController extends Controller
         $arr = [];
         $index_arr = 0;
 
-        // looping sebanyak supplier invoice
+        // looping sebanyak supplier invoice GRN
         for ($i = 0; $i < count($trxpayment_grn); $i++) {
             $x = $trxpayment_grn[$i];
 
             // looping sebanyak GRN
             for ($j = 0; $j < count($x->trxpaymenta); $j++) {
                 $z = $x->trxpaymenta[$j];
+
+                if ($z->transaction_status != 2) { // jika bukan approved (open atau closed) maka diloncati
+                    continue;
+                }
 
                 $arr[$index_arr] = json_decode($x);
                 $arr[$index_arr]->transaction_number = $z->grn->number;
@@ -418,6 +422,7 @@ class APController extends Controller
             ->where('x_type', 'NON GRN')
             ->where('approve', 1)
             ->with(['currencies'])
+            ->where('transaction_status', 2) //mengambil invoice yang statusnya approve
             ->get();
 
         $si = array_merge($arr, json_decode($trxpayment_non_grn));
@@ -688,6 +693,14 @@ class APController extends Controller
             );
 
             if ($autoJournal['status']) {
+
+                $update_si_status = $this->APUpdateSIStatus($ap);
+
+                if (!$update_si_status['status']) {
+                    return [
+                        'errors' => $update_si_status['message'] ?? 'Failed Update Invoice Status'
+                    ];
+                }
 
                 DB::commit();
             } else {
