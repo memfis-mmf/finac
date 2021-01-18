@@ -99,6 +99,7 @@ class TrxJournal extends MemfisModel
 	static public function generateCode($code = "JADJ")
 	{
 		$journal = TrxJournal::orderBy('voucher_no', 'desc')
+            ->withTrashed()
             ->whereYear('created_at', Carbon::now()->format('Y'))
             ->where('voucher_no', 'like', $code.'%')
             ->first();
