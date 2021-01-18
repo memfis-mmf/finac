@@ -90,8 +90,6 @@ class APController extends Controller
             ->where('x_type', 'NON GRN')
             ->where('approve', true)
             ->sum('grandtotal');
-        
-        $x = $data['debt_total_amount'];
 
         $si_grn = TrxPayment::where(
             'id_supplier',
@@ -103,30 +101,22 @@ class APController extends Controller
 
         if ($si_grn) {
             foreach ($si_grn->trxpaymenta as $tpa_row) {
-                $data['debt_total_amount'] += $tpa_row->total_idr;
+                $data['debt_total_amount'] += $tpa_row->total_idr + ($tpa_row->total_idr * $tpa_row->tax_percent / 100);
             }
         }
 
-        $apayment = APayment::where('id_supplier', $data['data']->id_supplier)
+        $apayment_id = APayment::where('id_supplier', $data['data']->id_supplier)
             ->where('approve', true)
-            ->get();
+            ->pluck('id');
 
-        $payment_total_amount = 0;
-        for ($i = 0; $i < count($apayment); $i++) {
-            $x = $apayment[$i];
-
-            for ($j = 0; $j < count($x->apa); $j++) {
-                $y = $x->apa[$j];
-
-                $payment_total_amount += $y->credit_idr;
-            }
-        }
+        $payment_total_amount = APaymentA::whereIn('ap_id', $apayment_id)
+            ->sum('debit_idr');
 
         $data['payment_total_amount'] = $payment_total_amount;
         $debt_balance = abs(($data['debt_total_amount'] - $data['payment_total_amount']));
 
         $class = 'danger';
-        if ($debt_balance > $data['debt_total_amount']) {
+        if ($debt_balance < $data['debt_total_amount']) {
             $class = 'success';
         }
 
@@ -607,9 +597,9 @@ class APController extends Controller
 
                 // jika invoice nya foreign
                 if ($currency_code != 'idr') {
-                    $credit = $x->credit * $x->si->exchange_rate;
+                    $credit = $x->debit * $x->si->exchange_rate;
                 } else {
-                    $credit = $x->credit_idr;
+                    $credit = $x->debit_idr;
                 }
 
                 $detail[] = (object) [
