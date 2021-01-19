@@ -7,7 +7,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title m-subheader__title--separator">
-                Account Receivable
+                Payment Receive
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -21,7 +21,7 @@
                 <li class="m-nav__item">
                     <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Account Receivable
+                            Payment Receive
                         </span>
                     </a>
                 </li>
@@ -44,7 +44,7 @@
                             @include('label::show')
 
                             <h3 class="m-portlet__head-text">
-                                Account Receivable
+                                Payment Receive
                             </h3>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Vendor
+                                            Customer
                                         </label>
 
                                         @component('label::data-info')

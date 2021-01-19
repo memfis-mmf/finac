@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-invoice" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="TitleModalSupplierInvoice">Invoice - Customer</h5>
+        <h5 class="modal-title" id="TitleModalSupplierInvoice">Invoice</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -11,7 +11,7 @@
         <table class="table table-striped table-bordered table-hover invoice_modal_datatable">
           <thead>
             <tr>
-              <th>Transaction No.</th>
+              <th>Invoice No.</th>
               <th>Date</th>
               <th>Due Date</th>
               <th>Exchange Rate</th>

@@ -85,7 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Payment Receipt No</th>
+                                            <th>Transaction No.</th>
                                             <th>Customer Name</th>
                                             <th>Ref No</th>
                                             <th>Currency</th>
