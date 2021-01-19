@@ -33,6 +33,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Helpers\CalculateQuoPrice;
 use App\Models\Pivots\ProjectWorkpackage;
+use App\Models\QuotationDefectCardItem;
 use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\Trxinvoice;
 use memfisfa\Finac\Model\TrxJournal;
@@ -44,6 +45,32 @@ use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class InvoiceController extends Controller
 {
+    private $qn_select_column = [
+        'quotations.id',
+        'quotations.number',
+        'quotations.parent_id',
+        'quotations.quotationable_type',
+        'quotations.quotationable_id',
+        'quotations.attention',
+        'quotations.requested_at',
+        'quotations.valid_until',
+        'quotations.currency_id',
+        'quotations.term_of_payment',
+        'quotations.exchange_rate',
+        'quotations.subtotal',
+        'quotations.charge',
+        'quotations.grandtotal',
+        'quotations.title',
+        'quotations.no_wo',
+        'quotations.scheduled_payment_type',
+        'quotations.scheduled_payment_amount',
+        'quotations.term_of_payment',
+        'quotations.description',
+        'quotations.data_defectcard',
+        'quotations.data_htcrr',
+        'quotations.additionals',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -931,32 +958,7 @@ class InvoiceController extends Controller
             ])
             ->with([
             'quotations' => function ($q) use ($quotation) {
-                $q
-                    ->select([
-                        'quotations.id',
-                        'quotations.number',
-                        'quotations.parent_id',
-                        'quotations.quotationable_type',
-                        'quotations.quotationable_id',
-                        'quotations.attention',
-                        'quotations.requested_at',
-                        'quotations.valid_until',
-                        'quotations.currency_id',
-                        'quotations.term_of_payment',
-                        'quotations.exchange_rate',
-                        'quotations.subtotal',
-                        'quotations.charge',
-                        'quotations.grandtotal',
-                        'quotations.title',
-                        'quotations.no_wo',
-                        'quotations.scheduled_payment_type',
-                        'quotations.scheduled_payment_amount',
-                        'quotations.term_of_payment',
-                        'quotations.description',
-                        'quotations.data_defectcard',
-                        'quotations.data_htcrr',
-                        'quotations.additionals',
-                    ])
+                $q->select($this->qn_select_column)
                     ->with([
                         'promos',
                         'currency',
@@ -968,31 +970,7 @@ class InvoiceController extends Controller
         ])->get();
 
         $quo = Quotation::where('uuid', $quotation->uuid)
-            ->select([
-                'quotations.id',
-                'quotations.number',
-                'quotations.parent_id',
-                'quotations.quotationable_type',
-                'quotations.quotationable_id',
-                'quotations.attention',
-                'quotations.requested_at',
-                'quotations.valid_until',
-                'quotations.currency_id',
-                'quotations.term_of_payment',
-                'quotations.exchange_rate',
-                'quotations.subtotal',
-                'quotations.charge',
-                'quotations.grandtotal',
-                'quotations.title',
-                'quotations.no_wo',
-                'quotations.scheduled_payment_type',
-                'quotations.scheduled_payment_amount',
-                'quotations.term_of_payment',
-                'quotations.description',
-                'quotations.data_defectcard',
-                'quotations.data_htcrr',
-                'quotations.additionals',
-            ])
+            ->select($this->qn_select_column)
             ->with([
                 'promos',
                 'currency',
@@ -1145,6 +1123,32 @@ class InvoiceController extends Controller
             }
 
             $workpackages[sizeof($workpackages)] = $htcrr_workpackage;
+        }
+
+        /**
+         * handle QN additional
+         */
+        $total_item_price = QuotationDefectCardItem::selectRaw('(quantity * price_amount) AS subtotal')
+            ->where('quotation_id', $quotation->id)
+            ->get();
+
+        if (count($total_item_price) > 0) {
+            $workPackage = new WorkPackage();
+            $workPackage->description = "Workpackage Additional";
+            $workPackage->quotations[0] = $quotation;
+            $workPackage->facilities_price_amount = 0;
+            $workPackage->mat_tool_price = $total_item_price->sum('subtotal');
+
+            $json_data = json_decode($quotation->data_defectcard);
+
+            if ($json_data) {
+                $workPackage->total_manhours_with_performance_factor = $json_data->total_manhour;
+                $workPackage->pivot = (object) [
+                    'manhour_rate_amount' => $json_data->manhour_rate
+                ];
+            }
+
+            $workpackages[sizeof($workpackages)] = $workPackage;
         }
 
         if ($quotation->charge != null) {
