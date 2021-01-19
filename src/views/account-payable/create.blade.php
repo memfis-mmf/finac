@@ -21,7 +21,7 @@
                 <li class="m-nav__item">
                     <a href="#" class="m-nav__link">
                         <span class="m-nav__link-text">
-                            Account Payable
+                            Payment 
                         </span>
                     </a>
                 </li>
@@ -44,7 +44,7 @@
                             @include('label::create-new')
 
                             <h3 class="m-portlet__head-text">
-                                Account Payable
+                                Payment
                             </h3>
                         </div>
                     </div>

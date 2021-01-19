@@ -23,7 +23,7 @@
               </div>
               <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
-                  Transaction No.
+                  Supplier Invoice No.
                 </label>
 
                 <input type="text" class="form-control iv_transactionnumber" disabled>
@@ -108,7 +108,7 @@
             <div class="form-group m-form__group row ">
               <div class="col-sm-12 col-md-12 col-lg-12">
                 <label class="form-control-label">
-                  Description
+                  Remark
                 </label>
 
                 @component('input::textarea')

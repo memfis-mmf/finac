@@ -34,7 +34,7 @@
                             @include('label::datalist')
 
                             <h3 class="m-portlet__head-text">
-                                Account Payable
+                                Payment (Account Payable)
                             </h3>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>AP NO</th>
+                                            <th>Transaction NO</th>
                                             <th>Supplier Name</th>
                                             <th>Ref No</th>
                                             <th>Currency</th>
