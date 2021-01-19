@@ -33,7 +33,7 @@
   <div class="d-flex align-items-center">
     <div class="mr-auto">
       <h3 class="m-subheader__title m-subheader__title--separator">
-        Account Receivable
+        Payment Receive
       </h3>
       <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
         <li class="m-nav__item m-nav__item--home">
@@ -47,7 +47,7 @@
         <li class="m-nav__item">
           <a href="#" class="m-nav__link">
             <span class="m-nav__link-text">
-              Account Receivable
+              Payment Receive
             </span>
           </a>
         </li>
@@ -71,8 +71,8 @@
         <table class="table table-striped table-bordered table-hover table-checkable" id="coa_datatables_adj">
           <thead>
             <tr>
-              <th>Code</th>
-              <th>Name</th>
+              <th>Account Code</th>
+              <th>Account Name</th>
               <th></th>
             </tr>
           </thead>
@@ -109,7 +109,7 @@
               @include('label::edit')
 
               <h3 class="m-portlet__head-text">
-                Account Receivable
+                Payment Receive
               </h3>
             </div>
           </div>
@@ -160,7 +160,7 @@
                   </div>
                   <div class="col-md-6 mt-3">
                     <label class="form-control-label">
-                      Payment Type @include('label::required')
+                      Payment Receive Type @include('label::required')
                     </label>
 
                     <select id="payment_type" name="payment_type" class="form-control m-input" style="">
