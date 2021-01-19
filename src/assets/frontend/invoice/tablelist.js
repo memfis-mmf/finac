@@ -191,34 +191,40 @@ var DatatableAutoColumnHideDemo = function () {
               var eo = "&nbsp;&nbsp;&nbsp;&nbsp;EO TaskCard " + t.eo + " item(s)<br/>";
               var ea = "&nbsp;&nbsp;&nbsp;&nbsp;EA TaskCard " + t.ea + " item(s)<br/>";
               var si = "&nbsp;&nbsp;&nbsp;&nbsp;SI TaskCard " + t.si + " item(s)";
-              if (t.basic != 0) {
+              if (t.basic != 0 && 'basic' in t) {
                 template += basic;
               }
-              if (t.sip != 0) {
+              if (t.sip != 0 && 'sip' in t) {
                 template += sip;
               }
-              if (t.cpcp != 0) {
+              if (t.cpcp != 0 && 'cpcp' in t) {
                 template += cpcp;
               }
-              if (t.adsb != 0) {
+              if (t.adsb != 0 && 'adsb' in t) {
                 template += adsb;
               }
-              if (t.cmrawl != 0) {
+              if (t.cmrawl != 0 && 'cmrawl' in t) {
                 template += cmrwl;
               }
-              if (t.eo != 0) {
+              if (t.eo != 0 && 'eo' in t) {
                 template += eo;
               }
-              if (t.ea != 0) {
+              if (t.ea != 0 && 'ea' in t) {
                 template += ea;
               }
-              if (t.si != 0) {
+              if (t.si != 0 && 'si' in t) {
                 template += si;
               }
+
+              materialitem = '';
+              if ('materialitem' in t) {
+                materialitem = t.materialitem;
+              }
+
               return (
                 "<b>" + t.description + "</b><br/>"
                 + "Facility <br/>"
-                + "Material Need " + t.materialitem + " item(s)<br/>"
+                + "Material Need " + materialitem + " item(s)<br/>"
                 + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
                 + template
 
