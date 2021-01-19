@@ -67,7 +67,7 @@
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                                     <a href="{{url('account-receivable/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                         <i class="la la-plus-circle"></i>
-                                        <span>Account Receivable</span>
+                                        <span>Payment Receive</span>
                                     </span></a>
 
                                     <div class="m-separator m-separator--dashed d-xl-none"></div>
@@ -85,7 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>AR NO</th>
+                                            <th>Payment Receipt No</th>
                                             <th>Customer Name</th>
                                             <th>Ref No</th>
                                             <th>Currency</th>
