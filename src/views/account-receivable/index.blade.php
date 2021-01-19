@@ -42,7 +42,7 @@
                             @include('label::datalist')
 
                             <h3 class="m-portlet__head-text">
-                                Account Receivable
+                                Payment Receive (Invoice HM)
                             </h3>
                         </div>
                     </div>
