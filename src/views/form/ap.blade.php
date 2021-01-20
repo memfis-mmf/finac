@@ -130,7 +130,7 @@
             <div id="footer">
                 <table width="100%">
                     <tr>
-                        <td>  <span style="margin-left:6px;">Created By : Name ; Timestamp  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : Name ; Timestamp &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By :  Name ; Timestamp </font></span> </td>
+                        <td>  <span style="margin-left:6px;">Created By : {{ $data->created_by ?? '-' }} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : {{ $data->approved_by }} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By : {{ auth()->user()->name." ".date('Y-m-d H:i:s') }} </font></span> </td>
                         <td align="right">Page <span class="num"></span></td>
                     </tr>
                 </table>
