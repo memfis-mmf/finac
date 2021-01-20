@@ -62,6 +62,18 @@ class ARBController extends Controller
             return abort(404);
         }
 
+        if ($request->debit_b != 0 and $request->credit_b != 0) {
+            return [
+                'errors' => 'Cannot fill debit and credit at once'
+            ];
+        }
+
+        if ($request->debit_b == 0 and $request->credit_b == 0) {
+            return [
+                'errors' => 'Fill at least one debit or credit'
+            ];
+        }
+        
         $request->merge([
             'description' => $request->description_b,
             'debit' => $request->debit_b,
@@ -91,7 +103,8 @@ class ARBController extends Controller
         if ($ar->approve) {
             return abort(404);
         }
-        AReceiveB::where('uuid', $request->areceiveb)->delete();
+
+        AReceiveB::where('uuid', $request->areceiveb)->forceDelete();
     }
 
     public function api()
