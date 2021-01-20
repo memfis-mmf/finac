@@ -614,16 +614,11 @@ class APController extends Controller
                 $si = $apa_row->getSI();
 
                 // jika invoice nya foreign
-                if ($si->currencies->code != 'idr') {
-                    $debit = $apa_row->debit * $si->exchange_rate;
-                } else {
-                    $debit = $apa_row->debit_idr;
-                }
 
                 $detail[] = (object) [
                     'coa_detail' => $apa_row->coa->id,
                     'credit' => 0,
-                    'debit' => $debit,
+                    'debit' => $apa_row->debit_idr,
                     '_desc' => 'Payment From : ' . $apa_row->transactionnumber . ' '
                         . $apa_row->ap->vendor->name,
                 ];
@@ -639,7 +634,7 @@ class APController extends Controller
                 $detail[] = (object) [
                     'coa_detail' => $y->coa->id,
                     'credit' => $y->credit,
-                    'debit' => $y->debit,
+                    'debit' => $y->debit_idr,
                     '_desc' => 'Payment From : ' . $y->transactionnumber . ' '
                         . $y->ap->vendor->name,
                 ];
@@ -755,7 +750,7 @@ class APController extends Controller
             'description' => $ap->description,
         ];
 
-        $si_sample = $apa->first()->getSI();
+        $si_sample = ($apa->first())? $apa->first()->getSI(): null;
         $ap_rate = ($ap->currency == 'idr')? 1: $ap->exchangerate;
 
         $total_credit = 0;
