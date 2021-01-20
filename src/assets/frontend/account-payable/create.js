@@ -3,6 +3,10 @@ let AccountPayable = {
 
     let _url = window.location.origin;
 
+    $('._select2').select2({
+      placeholder: '-- Select --'
+    });
+
     $('#project').select2({
       ajax: {
         url: _url+'/journal/get-project-select2',
