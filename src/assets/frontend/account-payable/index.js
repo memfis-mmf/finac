@@ -26,7 +26,7 @@ let Journal = {
         { data: 'transactiondate' },
         { data: 'transactionnumber' },
         { data: 'vendor.name' },
-        { data: 'refno' },
+        // { data: 'refno' },
         { data: 'currency' },
         {
           data: 'exchangerate', render: function (data, type, row) {
