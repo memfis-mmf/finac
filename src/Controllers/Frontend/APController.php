@@ -824,7 +824,7 @@ class APController extends Controller
                 'coa_code' => $z->coa->code,
                 'coa_name' => $z->coa->name,
                 $side => $val,
-                $side.'_foreign' => $val_foreign,
+                $side.'_foreign' => 0,
                 $x_side => 0,
                 $x_side.'_foreign' => 0,
                 '_desc' => $z->description,

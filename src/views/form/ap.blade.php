@@ -200,7 +200,7 @@
 																		echo 'Rp '.
                                     number_format($arr->debit, 0, ',', '.');
                                     
-                                    if ($si_sample->currency != 'idr' or $data->currency != 'idr') {
+                                    if (($si_sample->currency != 'idr' or $data->currency != 'idr') and $arr->debit_foreign != 0) {
                                       echo "<br>($ ".number_format($arr->debit_foreign, 2, ',', '.').' )';
                                     }
 																	}
@@ -212,7 +212,7 @@
 																		echo 'Rp '.
                                     number_format($arr->credit, 0, ',', '.');
 
-                                    if ($si_sample->currency != 'idr' or $data->currency != 'idr') {
+                                    if (($si_sample->currency != 'idr' or $data->currency != 'idr') and $arr->credit_foreign != 0) {
                                       echo "<br>($ ".number_format($arr->credit_foreign, 2, ',', '.').' )';
                                     }
 																	}
