@@ -817,8 +817,6 @@ class APController extends Controller
                 $x_side = 'credit';
                 $val = $z->gap * (-1);
             }
-            
-            $val_foreign = $val / $ap_rate;
 
             $detail[] = (object) [
                 'coa_code' => $z->coa->code,
@@ -827,7 +825,7 @@ class APController extends Controller
                 $side.'_foreign' => 0,
                 $x_side => 0,
                 $x_side.'_foreign' => 0,
-                '_desc' => $z->description,
+                '_desc' => 'Selisih kurs',
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
