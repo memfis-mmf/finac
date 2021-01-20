@@ -611,8 +611,6 @@ class APController extends Controller
             // looping sebenayak invoice
             foreach ($apa as $apa_row) {
 
-                $si = $apa_row->getSI();
-
                 // jika invoice nya foreign
 
                 $detail[] = (object) [
@@ -633,7 +631,7 @@ class APController extends Controller
 
                 $detail[] = (object) [
                     'coa_detail' => $y->coa->id,
-                    'credit' => $y->credit,
+                    'credit' => $y->credit_idr,
                     'debit' => $y->debit_idr,
                     '_desc' => 'Payment From : ' . $y->transactionnumber . ' '
                         . $y->ap->vendor->name,
