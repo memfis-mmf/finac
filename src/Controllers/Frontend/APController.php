@@ -13,6 +13,7 @@ use App\Models\Vendor;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use App\Models\Department;
 use App\Models\GoodsReceived;
 use Carbon\Carbon;
 use DataTables;
@@ -28,6 +29,7 @@ class APController extends Controller
     public function create()
     {
         $data['vendor'] = Vendor::all();
+        $data['department'] = Department::with('type', 'parent')->get();
         return view('accountpayableview::create', $data);
     }
 
@@ -71,6 +73,8 @@ class APController extends Controller
             'currencies',
             'project',
         ])->first();
+
+        $data['department'] = Department::with('type', 'parent')->get();
 
         //if data already approved
         if ($data['data']->approve) {
