@@ -22,6 +22,8 @@ class APayment extends MemfisModel
 		'id_supplier',
 		'accountcode',
 		'refno',
+		'location',
+		'department',
 		'currency',
 		'exchangerate',
 		'totaltransaction',
