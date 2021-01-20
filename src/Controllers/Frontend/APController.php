@@ -884,6 +884,7 @@ class APController extends Controller
             'data_child' => $data_detail,
             'to' => $to,
             'total' => $_total_debit,
+            'total_foreign' => $total_debit_foreign,
             'header_title' => $header_title,
             'header' => $header,
         ];

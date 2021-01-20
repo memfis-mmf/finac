@@ -223,7 +223,7 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3">
-                          @if (@$total_foreign)
+                          @if ($total_foreign != 0)
                             <b>Total USD : $ {{ $total_foreign }}</b>
                           @endif
                         </td>
