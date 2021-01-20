@@ -24,7 +24,7 @@ let Invoice = {
           order: [[ 0, "desc" ]],
           columns: [
             {data: 'created_at', searchable: false, visible: false},
-            {data: 'date', name: 'transactionnumber'},
+            {data: 'date', name: 'transactiondate'},
             {data: 'transactionnumber'},
             {data: 'xstatus', searchable: false, orderable: false},
             {data: 'customer.name'},
