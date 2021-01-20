@@ -262,23 +262,21 @@ class Invoice extends MemfisModel
 
 	static public function generateCode($code = "INVC")
 	{
-		$invoice = Invoice::orderBy('id', 'desc')
+		$data = Invoice::orderBy('transactionnumber', 'desc')
+            ->withTrashed()
             ->whereYear('created_at', Carbon::now()->format('Y'))
-			->where('transactionnumber', 'like', $code.'%');
+            ->where('transactionnumber', 'like', $code.'%')
+            ->first();
 
-		if (!$invoice->count()) {
+        if (!$data) {
+            $count = 1;
+        } else {
+            $explode = explode('/', $data->transactionnumber);
+            $number = end($explode);
+            $count = ltrim($number, '0') + 1;
+        }
 
-			if ($invoice->withTrashed()->count()) {
-				$order = $invoice->withTrashed()->count() + 1;
-			}else{
-				$order = 1;
-			}
-
-		}else{
-			$order = $invoice->withTrashed()->count() + 1;
-		}
-
-		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
+		$number = str_pad($count, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y')."/".$number;
 
