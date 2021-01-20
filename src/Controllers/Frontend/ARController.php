@@ -469,20 +469,11 @@ class ARController extends Controller
             for ($a = 0; $a < count($ara); $a++) {
                 $x = $ara[$a];
 
-                if ($x->credit == 0 and $x->debit == 0) {
-                    continue;
-                }
-
                 // jika invoice nya foreign
-                if ($x->invoice->currencies->code != 'idr') {
-                    $credit = $x->credit * $x->invoice->exchangerate;
-                } else {
-                    $credit = $x->credit_idr;
-                }
 
                 $detail[] = (object) [
                     'coa_detail' => $x->coa->id,
-                    'credit' => $credit,
+                    'credit' => $x->credit_idr,
                     'debit' => 0,
                     '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
                         . $x->ar->customer->name,
@@ -496,14 +487,10 @@ class ARController extends Controller
             for ($a = 0; $a < count($arb); $a++) {
                 $y = $arb[$a];
 
-                if ($y->credit == 0 and $y->debit == 0) {
-                    continue;
-                }
-
                 $detail[] = (object) [
                     'coa_detail' => $y->coa->id,
-                    'credit' => $y->credit,
-                    'debit' => $y->debit,
+                    'credit' => $y->credit_idr,
+                    'debit' => $y->debit_idr,
                     '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
                         . $x->ar->customer->name,
                 ];
@@ -516,19 +503,15 @@ class ARController extends Controller
             for ($a = 0; $a < count($arc); $a++) {
                 $z = $arc[$a];
 
-                if ($z->credit == 0 and $z->debit == 0) {
-                    continue;
-                }
+                $side = 'debit';
+                $x_side = 'credit';
+                $val = $z->gap;
 
-                $side = 'credit';
-                $x_side = 'debit';
-                $val = $z->difference;
-
-                // jika difference bernilai minus
-                if ($z->difference < 0) {
-                    $side = 'debit';
-                    $x_side = 'credit';
-                    $val = $z->difference * (-1);
+                // jika gap bernilai minus
+                if ($z->gap < 0) {
+                    $side = 'credit';
+                    $x_side = 'debit';
+                    $val = $z->gap * (-1);
                 }
 
                 $detail[] = (object) [
