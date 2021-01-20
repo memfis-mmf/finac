@@ -751,48 +751,56 @@ class APController extends Controller
             'description' => $ap->description,
         ];
 
+        $si_sample = $apa->first()->getSI();
+        $ap_rate = ($ap->currency == 'idr')? 1: $ap->exchangerate;
+
         $total_credit = 0;
         $total_debit = 0;
+        $total_credit_foreign = 0;
+        $total_debit_foreign = 0;
         $detail = [];
 
         // looping sebenayak invoice
         foreach ($apa as $apa_row) {
 
-            $si = $apa_row->getSI();
-
             // jika invoice nya foreign
-            if ($si->currencies->code != 'idr') {
-                $debit = $apa_row->debit * $si->exchange_rate;
-            } else {
-                $debit = $apa_row->debit_idr;
-            }
 
             $detail[] = (object) [
                 'coa_code' => $apa_row->coa->code,
                 'coa_name' => $apa_row->coa->name,
                 'credit' => 0,
-                'debit' => $debit,
+                'credit_foreign' => 0,
+                'debit' => $apa_row->debit_idr,
+                'debit_foreign' => $apa_row->debit_idr / $ap_rate,
                 '_desc' => $apa_row->description,
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
             $total_debit += $detail[count($detail) - 1]->debit;
+
+            $total_credit_foreign += $detail[count($detail) - 1]->credit_foreign;
+            $total_debit_foreign += $detail[count($detail) - 1]->debit_foreign;
         }
 
         // looping sebanyak adjustment
         for ($a = 0; $a < count($apb); $a++) {
             $y = $apb[$a];
-
+            
             $detail[] = (object) [
                 'coa_code' => $y->coa->code,
                 'coa_name' => $y->coa->name,
-                'credit' => $y->credit,
-                'debit' => $y->debit,
+                'credit' => $y->credit_idr,
+                'credit_foreign' => $y->credit_idr / $ap_rate,
+                'debit' => $y->debit_idr,
+                'debit_foreign' => $y->debit_idr / $ap_rate,
                 '_desc' => $y->description,
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
             $total_debit += $detail[count($detail) - 1]->debit;
+
+            $total_credit_foreign += $detail[count($detail) - 1]->credit_foreign;
+            $total_debit_foreign += $detail[count($detail) - 1]->debit_foreign;
         }
 
         // looping sebanyak gap
@@ -809,17 +817,24 @@ class APController extends Controller
                 $x_side = 'credit';
                 $val = $z->gap * (-1);
             }
+            
+            $val_foreign = $val / $ap_rate;
 
             $detail[] = (object) [
                 'coa_code' => $z->coa->code,
                 'coa_name' => $z->coa->name,
                 $side => $val,
+                $side.'_foreign' => $val_foreign,
                 $x_side => 0,
+                $x_side.'_foreign' => 0,
                 '_desc' => $z->description,
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
             $total_debit += $detail[count($detail) - 1]->debit;
+
+            $total_credit_foreign += $detail[count($detail) - 1]->credit_foreign;
+            $total_debit_foreign += $detail[count($detail) - 1]->debit_foreign;
         }
 
         // add object in first array $detai
@@ -829,13 +844,18 @@ class APController extends Controller
                 'coa_code' => $header->coa_code,
                 'coa_name' => $header->coa_name,
                 'credit' => $total_debit - $total_credit,
+                'credit_foreign' => $total_debit_foreign - $total_credit_foreign,
                 'debit' => 0,
+                'debit_foreign' => 0,
                 '_desc' => $header->description,
             ]
         );
 
-        $total_credit += $detail[count($detail) - 1]->credit;
-        $total_debit += $detail[count($detail) - 1]->debit;
+        $total_credit += $detail[0]->credit;
+        $total_debit += $detail[0]->debit;
+
+        $total_credit_foreign += $detail[0]->credit_foreign;
+        $total_debit_foreign += $detail[0]->debit_foreign;
 
         $data_detail = [];
         $_total_debit = 0;
@@ -862,6 +882,7 @@ class APController extends Controller
 
         $data = [
             'data' => $ap,
+            'si_sample' => $si_sample,
             'data_child' => $data_detail,
             'to' => $to,
             'total' => $_total_debit,

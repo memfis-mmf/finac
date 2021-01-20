@@ -197,16 +197,24 @@
                               <td width="17%" align="center">
 																@php
 																	if ($arr->debit != 0) {
-																		echo $data->currencies->symbol.' '.
-																		number_format($arr->debit, 0, ',', '.');
+																		echo 'Rp '.
+                                    number_format($arr->debit, 0, ',', '.');
+                                    
+                                    if ($si_sample->currency != 'idr' or $data->currency != 'idr') {
+                                      echo "<br>($ ".number_format($arr->debit_foreign, 2, ',', '.').' )';
+                                    }
 																	}
 																@endphp
                               </td>
                               <td width="17%" align="center">
 																@php
 																	if ($arr->credit != 0) {
-																		echo $data->currencies->symbol.' '.
-																		number_format($arr->credit, 0, ',', '.');
+																		echo 'Rp '.
+                                    number_format($arr->credit, 0, ',', '.');
+
+                                    if ($si_sample->currency != 'idr' or $data->currency != 'idr') {
+                                      echo "<br>($ ".number_format($arr->credit_foreign, 2, ',', '.').' )';
+                                    }
 																	}
 																@endphp
                               </td>
@@ -214,9 +222,13 @@
                         @endfor
                     </tbody>
                     <tr style="background:#d3e9f5;">
-                        <td colspan="3"><i>Terbilang total amount</i></td>
+                        <td colspan="3">
+                          @if (@$total_foreign)
+                            <b>Total USD : $ {{ $total_foreign }}</b>
+                          @endif
+                        </td>
                         <td colspan="2" style="background:#e6eef2">
-													<b>Total : <span>{{$data->currencies->symbol}} {{number_format($total, 0, ',', '.')}}<span></b>
+													<b>Total : <span>Rp {{number_format($total, 0, ',', '.')}}<span></b>
 												</td>
                     </tr>
                 </table>

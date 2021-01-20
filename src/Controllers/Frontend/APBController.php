@@ -102,7 +102,7 @@ class APBController extends Controller
             return abort(404);
         }
 
-        APaymentB::where('uuid', $request->apaymentb)->delete();
+        APaymentB::where('uuid', $request->apaymentb)->forceDelete();
     }
 
     public function api()
