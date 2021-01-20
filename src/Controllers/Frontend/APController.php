@@ -825,7 +825,7 @@ class APController extends Controller
                 $side.'_foreign' => 0,
                 $x_side => 0,
                 $x_side.'_foreign' => 0,
-                '_desc' => 'Selisih kurs',
+                '_desc' => 'Exchange rate gap from <br><b>'.$z->apa->getSI()->transaction_number.'</b>',
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
