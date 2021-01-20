@@ -872,7 +872,7 @@ class APController extends Controller
 
         $header_title = 'Cash';
 
-        if (strpos(strtolower($ap->coa->name), 'bank') !== false) {
+        if ($ap->payment_type == 'bank') {
             $header_title = 'Bank';
         }
 
