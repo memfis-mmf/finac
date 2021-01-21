@@ -15,6 +15,7 @@ use App\Models\Customer;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use App\Models\Department;
 use DataTables;
 use DB;
 
@@ -28,6 +29,7 @@ class ARController extends Controller
     public function create()
     {
         $data['customer'] = Customer::all();
+        $data['department'] = Department::with('type', 'parent')->get();
         return view('accountreceivableview::create', $data);
     }
 
@@ -71,6 +73,8 @@ class ARController extends Controller
             'currencies',
             'project',
         ])->first();
+
+        $data['department'] = Department::with('type', 'parent')->get();
 
         //if data already approved
         if ($data['data']->approve) {
@@ -595,6 +599,10 @@ class ARController extends Controller
             $date_approve = $ar_approval->created_at->toDateTimeString();
         } else {
             $date_approve = '-';
+        }
+
+        if (count($ar->ara) < 1) {
+            return redirect()->route('areceive.index')->with(['errors' => 'Invoice not selected yet']);
         }
 
         $header = (object) [

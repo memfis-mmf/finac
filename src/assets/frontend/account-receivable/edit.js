@@ -6,6 +6,10 @@ let AccountReceivableEdit = {
     let id_customer = $('select[name=id_customer]').val();
     let number_format = new Intl.NumberFormat('de-DE');
 
+    $('._select2').select2({
+      placeholder: '-- Select --'
+    });
+
     $('#project').select2({
       ajax: {
         url: _url + '/journal/get-project-select2',
