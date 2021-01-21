@@ -244,7 +244,7 @@ class TrialBalanceController extends Controller
 			'finishDate' => $endingDate,
         ];
 
-        return view('trialbalanceview::export', $data);
-		// return Excel::download(new TBExport($data), 'TB.xlsx');
+        // return view('trialbalanceview::export', $data);
+		return Excel::download(new TBExport($data), 'TB.xlsx');
 	}
 }
