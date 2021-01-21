@@ -224,7 +224,7 @@
                     <tr style="background:#d3e9f5;">
                         <td colspan="3">
                           @if ($total_foreign != 0)
-                            <b>Total USD : $ {{ $total_foreign }}</b>
+                            <b>Total USD : $ {{ number_format($total_foreign, 2, ',', '.') }}</b>
                           @endif
                         </td>
                         <td colspan="2" style="background:#e6eef2">
