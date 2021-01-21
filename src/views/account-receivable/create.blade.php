@@ -152,6 +152,32 @@
                   </div>
                 </div>
                 <div class="form-group m-form__group row ">
+                  <div class="col-sm-6 col-md-6 col-lg-6">
+                      <label class="form-control-label">
+                          Location 
+                      </label>
+
+                      <select class="_select2 form-control" name="location" style="width:100%">
+                        <option value=""></option>
+                        <option value="sidoarjo">Sidoarjo</option>
+                        <option value="surabaya">Surabaya</option>
+                        <option value="jakarta">Jakarta</option>
+                        <option value="biak">Biak</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-6">
+                      <label class="form-control-label">
+                          Department
+                      </label>
+                      <select class="_select2 form-control" name="department" style="width:100%">
+                          <option value=""></option>
+                          @foreach ($department as $department_row)
+                              <option value="{{$department_row->name}}">{{$department_row->name}}</option>
+                          @endforeach
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row ">
                   <div class="col-sm-12 col-md-12 col-lg-12">
                     <label class="form-control-label">
                       Remark
