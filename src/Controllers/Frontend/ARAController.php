@@ -27,17 +27,13 @@ class ARAController extends Controller
     public function store(Request $request)
     {
         $AR = AReceive::where('uuid', $request->ar_uuid)->first();
-
         if ($AR->approve) {
             return abort(404);
         }
 
-        $invoice = Invoice::where('uuid', $request->data_uuid)->first();
+        $ARA = $AR->ara->first();
 
-        $ARA = AReceiveA::where(
-            'ar_id',
-            $AR->id
-        )->first();
+        $invoice = Invoice::where('uuid', $request->data_uuid)->first();
 
         $currency = Currency::find($invoice->currency)->code;
 
@@ -49,11 +45,11 @@ class ARAController extends Controller
             }
         }
 
-        $cek = AReceiveA::where('id_invoice', $invoice->id)
+        $duplicate_check = AReceiveA::where('id_invoice', $invoice->id)
             ->where('ar_id', $AR->id)
             ->first();
 
-        if ($cek) {
+        if ($duplicate_check) {
             return response()->json([
                 'errors' => 'Invoice already exist'
             ]);
@@ -79,7 +75,6 @@ class ARAController extends Controller
         if ($ar->approve) {
             return abort(404);
         }
-
         return response()->json($areceivea);
     }
 
@@ -170,7 +165,6 @@ class ARAController extends Controller
     public function checkAmount($ara, $request)
     {
         $amount_to_pay = $request->credit;
-
         $invoice = $ara->invoice;
         $invoice_amount = $invoice->grandtotalforeign;
         $ar = $ara->ar;
@@ -214,6 +208,7 @@ class ARAController extends Controller
 
     public function update(AReceiveAUpdate $request, AReceiveA $areceivea)
     {
+
         $ar = $areceivea->ar;
         if ($ar->approve) {
             return abort(404);
@@ -348,7 +343,9 @@ class ARAController extends Controller
         for ($ara_index = 0; $ara_index < count($ARA); $ara_index++) {
             $ara_row = $ARA[$ara_index];
 
-            $ARA[$ara_index]->_transaction_number = $ara_row->id_invoice;
+            $transaction_number = $ara_row->invoice->transactionnumber;
+
+            $ARA[$ara_index]->_transaction_number = $transaction_number;
             $ARA[$ara_index]->invoice = $this->getDataInvoice($ara_row);
             $ARA[$ara_index]->paid_amount = $this->countPaidAmount($ara_row);
             if ($AR->currencies->code == 'idr') {
