@@ -5,9 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Currency;
 use Illuminate\Support\Carbon;
-use Auth;
 
 //use for export
 use memfisfa\Finac\Model\Exports\TBExport;
@@ -232,7 +230,12 @@ class TrialBalanceController extends Controller
 		$endingDate = $date[1];
 
 		$data_final = $this->getData($beginDate, $endingDate);
-		$total_data = count($data_final);
+        $total_data = count($data_final);
+        
+        foreach ($data_final as $data_final_row) {
+            $data_final_row->period_balance = 
+                $data_final_row->Debit - $data_final_row->Credit;
+        }
 
 		$data = [
 			'data' => $data_final,
@@ -241,6 +244,7 @@ class TrialBalanceController extends Controller
 			'finishDate' => $endingDate,
         ];
 
+        // return view('trialbalanceview::export', $data);
 		return Excel::download(new TBExport($data), 'TB.xlsx');
 	}
 }

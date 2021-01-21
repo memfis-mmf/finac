@@ -3,23 +3,32 @@
     <th valign="top" align="left">Account Code</th>
     <th valign="top" align="left">Account Name</th>
     <th valign="top" align="center">Beginning Balance</th>
-    <th valign="top" align="center">Debit</th>
-    <th valign="top" align="center">Credit</th>
+    <th valign="top" align="center">Period Balance</th>
+    {{-- <th valign="top" align="center">Debit</th>
+    <th valign="top" align="center">Credit</th> --}}
     <th valign="top" align="center">Ending Balance</th>
   </tr>
-  @for ($i = 0; $i < count($data); $i++)
-    @for ($j=0; $j < count($data[$i]); $j++)
-      @php
-        $x = $data[$i][$j];
-      @endphp
-      <tr>
-        <td valign="top">{{ $x->code }}</td>
-        <td valign="top">{{ $x->name }}</td>
-        <td valign="top" align="center">{{$x->LastBalance}}</td>
-        <td valign="top" align="center">{{$x->Debit}}</td>
-        <td valign="top" align="center">{{$x->Credit}}</td>
-        <td valign="top" align="center">{{$x->EndingBalance}}</td>
-      </tr>
-    @endfor
-  @endfor
+  @foreach ($data as $data_row)
+    @php
+      $substract = 2;
+      $loop = strlen($data_row->COA) - $substract;
+      if ($loop == 6) {
+        $loop -= 1;
+      }
+
+      $space = '';
+      for ($i=0; $i < $loop; $i++) { 
+        $space .= '. ';
+      }
+    @endphp
+    <tr>
+      <td valign="top">{!! $space.$data_row->code !!}</td>
+      <td valign="top">{{ $data_row->name }}</td>
+      <td valign="top" align="center">{{$data_row->LastBalance}}</td>
+      <td valign="top" align="center" {{ ($data_row->period_balance < 0)? "style=background:#ff9b9b;": '' }}>{{$data_row->period_balance}}</td>
+      {{-- <td valign="top" align="center">{{$data_row->Debit}}</td>
+      <td valign="top" align="center">{{$data_row->Credit}}</td> --}}
+      <td valign="top" align="center">{{$data_row->EndingBalance}}</td>
+    </tr> 
+  @endforeach
 </table>
