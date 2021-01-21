@@ -725,8 +725,7 @@ class APController extends Controller
 
     function print(Request $request)
     {
-        $ap_tmp = APayment::where('uuid', $request->uuid);
-        $ap = $ap_tmp->first();
+        $ap = APayment::where('uuid', $request->uuid)->first();
 
         $apa = $ap->apa;
         $apb = $ap->apb;
@@ -738,6 +737,10 @@ class APController extends Controller
             $date_approve = $ap_approval->created_at->toDateTimeString();
         } else {
             $date_approve = '-';
+        }
+
+        if (count($ap->apa) < 1) {
+            return redirect()->route('apayment.index')->with(['errors' => 'Supplier Invoice not selected yet']);
         }
 
         $header = (object) [
