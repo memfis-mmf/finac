@@ -23,6 +23,8 @@ class AReceive extends MemfisModel
         'id_customer',
         'accountcode',
         'refno',
+        'location',
+        'department',
         'currency',
         'exchangerate',
         'totaltransaction',
@@ -43,20 +45,6 @@ class AReceive extends MemfisModel
         return $this->morphMany(Approval::class, 'approvable');
     }
 
-    public function getApprovedByAttribute()
-    {
-        $approval = $this->approvals->first();
-        $conducted_by = @User::find($approval->conducted_by)->name;
-
-        $result = '-';
-
-        if ($conducted_by) {
-            $result = $conducted_by . ' ' . $approval->created_at;
-        }
-
-        return $result;
-    }
-
     public function getCreatedByAttribute()
     {
         $audit = $this->audits->first();
@@ -65,20 +53,40 @@ class AReceive extends MemfisModel
         $result = '-';
 
         if ($conducted_by) {
-            $result = $conducted_by . ' ' . $this->created_at;
+            $result = $conducted_by.' '.$this->created_at;
         }
 
         return $result;
     }
 
-    public function getDateAttribute()
+    public function getApprovedByAttribute()
     {
-        return date('Y-m-d', strtotime($this->transactiondate));
+        $approval = $this->approvals->first();
+        $conducted_by = @User::find($approval->conducted_by)->name;
+
+        $result = '-';
+
+        if ($conducted_by) {
+            $result = $conducted_by.' '.$approval->created_at;
+        }
+
+        return $result;
     }
 
     public function getStatusAttribute()
     {
-        return ($this->approve) ? 'Approved' : 'Open';
+
+        $status = 'Open';
+        if ($this->approve) {
+            $status = 'Approved';
+        }
+
+		return $status;
+    }
+
+    public function getDateAttribute()
+    {
+        return date('Y-m-d', strtotime($this->transactiondate));
     }
 
     static public function generateCode($code)
