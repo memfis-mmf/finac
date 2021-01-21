@@ -605,30 +605,35 @@ class ARController extends Controller
             'description' => $ar->description,
         ];
 
+        $invoice_sample = ($ara->first())? $ara->first()->invoice: null;
+        $ar_rate = ($ar->currency == 'idr')? 1: $ar->exchangerate;
+
         $total_credit = 0;
         $total_debit = 0;
+        $total_credit_foreign = 0;
+        $total_debit_foreign = 0;
         $detail = [];
 
         // looping sebenayak invoice
         foreach ($ara as $ara_row) {
 
             // jika invoice nya foreign
-            if ($ara_row->invoice->currencies->code != 'idr') {
-                $credit = $ara_row->credit * $ara_row->invoice->exchangerate;
-            } else {
-                $credit = $ara_row->credit_idr;
-            }
 
             $detail[] = (object) [
                 'coa_code' => $ara_row->coa->code,
                 'coa_name' => $ara_row->coa->name,
-                'credit' => $credit,
+                'credit' => $ara_row->credit_idr,
+                'credit_foreign' => $ara_row->credit_idr / $ar_rate,
                 'debit' => 0,
+                'debit_foreign' => 0,
                 '_desc' => $ara_row->description,
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
             $total_debit += $detail[count($detail) - 1]->debit;
+
+            $total_credit_foreign += $detail[count($detail) - 1]->credit_foreign;
+            $total_debit_foreign += $detail[count($detail) - 1]->debit_foreign;
         }
 
         // looping sebanyak adjustment
@@ -638,13 +643,18 @@ class ARController extends Controller
             $detail[] = (object) [
                 'coa_code' => $y->coa->code,
                 'coa_name' => $y->coa->name,
-                'credit' => $y->credit,
-                'debit' => $y->debit,
+                'credit' => $y->credit_idr,
+                'credit_foreign' => $y->credit_idr / $ar_rate,
+                'debit' => $y->debit_idr,
+                'debit_foreign' => $y->debit_idr / $ar_rate,
                 '_desc' => $y->description,
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
             $total_debit += $detail[count($detail) - 1]->debit;
+
+            $total_credit_foreign += $detail[count($detail) - 1]->credit_foreign;
+            $total_debit_foreign += $detail[count($detail) - 1]->debit_foreign;
         }
 
         // looping sebanyak gap
@@ -666,12 +676,17 @@ class ARController extends Controller
                 'coa_code' => $z->coa->code,
                 'coa_name' => $z->coa->name,
                 $side => $val,
+                $side.'_foreign' => 0,
                 $x_side => 0,
-                '_desc' => $z->description,
+                $x_side.'_foreign' => 0,
+                '_desc' => 'Exchange rate gap from <br><b>'.$z->ara->invoice->transactionnumber.'</b>',
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
             $total_debit += $detail[count($detail) - 1]->debit;
+
+            $total_credit_foreign += $detail[count($detail) - 1]->credit_foreign;
+            $total_debit_foreign += $detail[count($detail) - 1]->debit_foreign;
         }
 
         // add object in first array $detai
@@ -681,13 +696,18 @@ class ARController extends Controller
                 'coa_code' => $header->coa_code,
                 'coa_name' => $header->coa_name,
                 'credit' => 0,
+                'credit_foreign' => 0,
                 'debit' => $total_credit - $total_debit,
+                'debit_foreign' => $total_credit_foreign - $total_debit_foreign,
                 '_desc' => $header->description,
             ]
         );
 
-        $total_credit += $detail[count($detail) - 1]->credit;
-        $total_debit += $detail[count($detail) - 1]->debit;
+        $total_credit += $detail[0]->credit;
+        $total_debit += $detail[0]->debit;
+
+        $total_credit_foreign += $detail[0]->credit_foreign;
+        $total_debit_foreign += $detail[0]->debit_foreign;
 
         $data_detail = [];
         $_total_debit = 0;
@@ -706,7 +726,7 @@ class ARController extends Controller
 
         $header_title = 'Cash';
 
-        if (strpos(strtolower($ar->coa->name), 'bank') !== false) {
+        if ($ar->payment_type == 'bank') {
             $header_title = 'Bank';
         }
 
@@ -714,9 +734,11 @@ class ARController extends Controller
 
         $data = [
             'data' => $ar,
+            'invoice_sample' => $invoice_sample,
             'data_child' => $data_detail,
             'to' => $to,
             'total' => $_total_debit,
+            'total_foreign' => $total_credit_foreign,
             'header_title' => $header_title,
             'header' => $header,
         ];

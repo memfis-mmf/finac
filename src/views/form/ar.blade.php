@@ -94,7 +94,6 @@
         footer .num:after { 
             content: counter(page); 
         }
-
     </style>
 </head>
 <body>
@@ -113,6 +112,7 @@
                         Website : www.ptmmf.co.id
                     </td>
                     <td width="50%" valign="top" align="center" style="padding-top:-16px">
+                        {{-- jika if didalam h1 akan broken --}}
                         <h1 style="font-size:24px;">
                             {{$header_title}} Received Journal
                         <br>
@@ -130,13 +130,14 @@
             <div id="footer">
                 <table width="100%">
                     <tr>
-                        <td>  <span style="margin-left:6px;">Created By : {{$data->created_by}}  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : {{$data->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By : {{Auth::user()->name.' '.Auth::user()->last_name.date('Y-m-d H:i:s')}} </font></span> </td>
+                        <td>  <span style="margin-left:6px;">Created By : {{$data->created_by ?? '-'}}  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;Approved By : {{$data->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; Printed By : {{auth()->user()->name." ".date('Y-m-d H:i:s')}} </font></span> </td>
                         <td align="right">Page <span class="num"></span></td>
                     </tr>
                 </table>
             </div>
         </div>
     </footer>
+
 
     <div id="content">
         <div class="container">
@@ -192,20 +193,28 @@
                           <tr>
                               <td width="15%" align="center">{{$arr->coa_code}}</td>
                               <td width="20%" align="left">{{$arr->coa_name}}</td>
-                              <td width="31%" align="left">{{$arr->_desc}}</td>
+                              <td width="31%" align="left">{!!$arr->_desc!!}</td>
                               <td width="17%" align="right">
                                 @php
                                     if ($arr->debit != 0) {
-                                        echo $data->currencies->symbol.' '.
+                                        echo 'Rp '.
                                         number_format($arr->debit, 0, ',', '.');
+
+                                      if (($invoice_sample->currencies->code != 'idr' or $data->currency != 'idr') and $arr->debit_foreign != 0) {
+                                        echo "<br>($ ".number_format($arr->debit_foreign, 2, ',', '.').' )';
+                                      }
                                     }
                                 @endphp
                               </td>
                               <td width="17%" align="right">
                                 @php
                                     if ($arr->credit != 0) {
-                                        echo $data->currencies->symbol.' '.
-                                        number_format($arr->credit, 0, ',', '.');
+                                      echo 'Rp '.
+                                      number_format($arr->credit, 0, ',', '.');
+
+                                      if (($invoice_sample->currencies->code != 'idr' or $data->currency != 'idr') and $arr->credit_foreign != 0) {
+                                        echo "<br>($ ".number_format($arr->credit_foreign, 2, ',', '.').' )';
+                                      }
                                     }
                                 @endphp
                               </td>
@@ -213,9 +222,13 @@
                         @endfor
                     </tbody>
                     <tr style="background:#d3e9f5;">
-                        <td colspan="3"><i>Terbilang total amount</i></td>
+                        <td colspan="3">
+                          @if ($total_foreign != 0)
+                            <b>Total USD : $ {{ number_format($total_foreign, 2, ',', '.') }}</b>
+                          @endif
+                        </td>
                         <td colspan="2" style="background:#e6eef2" align="right">
-                            <b>Total : <span>{{$data->currencies->symbol}} {{number_format($total, 0, ',', '.')}}<span></b>
+                            <b>Total : <span>Rp {{number_format($total, 0, ',', '.')}}<span></b>
                         </td>
                     </tr>
                 </table>
