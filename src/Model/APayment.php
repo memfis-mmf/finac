@@ -90,23 +90,21 @@ class APayment extends MemfisModel
 
 	static public function generateCode($code)
 	{
-        $data = APayment::orderBy('id', 'desc')
+		$data = APayment::orderBy('transactionnumber', 'desc')
+            ->withTrashed()
             ->whereYear('created_at', Carbon::now()->format('Y'))
-			->where('transactionnumber', 'like', $code.'%');
+            ->where('transactionnumber', 'like', $code.'%')
+            ->first();
 
-		if (!$data->count()) {
+        if (!$data) {
+            $count = 1;
+        } else {
+            $explode = explode('/', $data->transactionnumber);
+            $number = end($explode);
+            $count = ltrim($number, '0') + 1;
+        }
 
-			if ($data->withTrashed()->count()) {
-				$order = $data->withTrashed()->count() + 1;
-			}else{
-				$order = 1;
-			}
-
-		}else{
-			$order = $data->withTrashed()->count() + 1;
-		}
-
-		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
+		$number = str_pad($count, 5, '0', STR_PAD_LEFT);
 
 		$code = $code."-".date('Y')."/".$number;
 
@@ -132,7 +130,8 @@ class APayment extends MemfisModel
 			APaymentB::class,
 			'ap_id'
 		);
-	}
+    }
+
 	public function apc()
 	{
 		return $this->hasMany(
