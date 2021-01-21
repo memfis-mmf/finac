@@ -537,6 +537,10 @@ class ARController extends Controller
                 ]
             );
 
+            return [
+                'errors' => $detail
+            ];
+
             $total_credit += $detail[0]->credit;
             $total_debit += $detail[0]->debit;
 
@@ -661,14 +665,14 @@ class ARController extends Controller
         for ($a = 0; $a < count($arc); $a++) {
             $z = $arc[$a];
 
-            $side = 'credit';
-            $x_side = 'debit';
+            $side = 'debit';
+            $x_side = 'credit';
             $val = $z->gap;
 
             // jika gap bernilai minus
             if ($z->gap < 0) {
-                $side = 'debit';
-                $x_side = 'credit';
+                $side = 'credit';
+                $x_side = 'debit';
                 $val = $z->gap * (-1);
             }
 
