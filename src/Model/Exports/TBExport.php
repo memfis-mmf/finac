@@ -4,9 +4,11 @@ namespace memfisfa\Finac\Model\Exports;
 
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class TBExport implements FromView
+class TBExport implements FromView, ShouldAutoSize, WithColumnFormatting
 {
     protected $data;
 
@@ -15,19 +17,18 @@ class TBExport implements FromView
         $this->data = $data;
     }
 
-    public function view(): View
+
+    public function columnFormats(): array
     {
-        // return view('trialbalanceview::export', $this->data);
-        return view('trialbalanceview::export-tree', $this->data);
+        return [
+            'A' => NumberFormat::FORMAT_TEXT,
+        ];
     }
 
-    public static function afterSheet(AfterSheet $event)
+    public function view(): View
     {
-        $columns = ['A', 'B', 'C'];
-
-        foreach ($columns as $column) {
-            $event->sheet->getDelegate()->getColumnDimension($column)->setWidth(9999);
-        }
+        return view('trialbalanceview::export', $this->data);
+        // return view('trialbalanceview::export-tree', $this->data);
     }
 }
 

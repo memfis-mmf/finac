@@ -4,9 +4,10 @@ namespace memfisfa\Finac\Model\Exports;
 
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class GLExport implements FromView
+class GLExport implements FromView, ShouldAutoSize
 {
     protected $data;
 
