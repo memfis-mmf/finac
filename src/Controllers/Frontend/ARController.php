@@ -537,10 +537,6 @@ class ARController extends Controller
                 ]
             );
 
-            return [
-                'errors' => $detail
-            ];
-
             $total_credit += $detail[0]->credit;
             $total_debit += $detail[0]->debit;
 
