@@ -536,7 +536,7 @@ class ARController extends Controller
                 (object) [
                     'coa_detail' => $header->coa,
                     'credit' => 0,
-                    'debit' => $total_debit - $total_credit,
+                    'debit' => $total_credit - $total_debit,
                     '_desc' => 'Receive From : ' . $header->voucher_no
                 ]
             );
@@ -710,8 +710,8 @@ class ARController extends Controller
                 'coa_name' => $header->coa_name,
                 'credit' => 0,
                 'credit_foreign' => 0,
-                'debit' => $total_debit - $total_credit,
-                'debit_foreign' => $total_debit_foreign - $total_credit_foreign,
+                'debit' => $total_credit - $total_debit,
+                'debit_foreign' => $total_credit_foreign - $total_debit_foreign,
                 '_desc' => $header->description,
             ]
         );
