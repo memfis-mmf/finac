@@ -752,7 +752,13 @@ class APController extends Controller
         ];
 
         $si_sample = ($apa->first())? $apa->first()->getSI(): null;
-        $ap_rate = ($ap->currency == 'idr')? 1: $ap->exchangerate;
+
+        //jika sama" idr
+        if ($ap->currencies->code == 'idr' and $ap->currencies->code == $si_sample->currencies->code) {
+            $ap_rate = ($ap->currency == 'idr')? 1: $ap->exchangerate;
+        } else {
+            $ap_rate = $ap->exchangerate;
+        }
 
         $total_credit = 0;
         $total_debit = 0;
@@ -877,6 +883,10 @@ class APController extends Controller
         }
 
         $to = $ap->vendor;
+
+        if ($ap->currencies->code == 'idr' and $ap->currencies->code == $si_sample->currencies->code) {
+            $total_debit_foreign = 0;
+        }
 
         $data = [
             'data' => $ap,
