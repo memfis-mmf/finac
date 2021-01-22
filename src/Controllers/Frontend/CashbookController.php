@@ -464,7 +464,7 @@ class CashbookController extends Controller
 					'coa_detail' => $arr->coa->id,
 					'credit' => $arr->credit * $cashbook->exchangerate,
 					'debit' => $arr->debit * $cashbook->exchangerate,
-					'_desc' => 'invoice',
+                    '_desc' => $arr->description,
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;
@@ -498,7 +498,7 @@ class CashbookController extends Controller
 					'coa_detail' => $header->coa,
 					$x_positiion => 0,
 					$positiion => $total,
-					'_desc' => 'coa header',
+                    '_desc' => $cashbook->description,
 				]
 			);
 
