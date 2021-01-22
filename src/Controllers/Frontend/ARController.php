@@ -507,14 +507,14 @@ class ARController extends Controller
             for ($a = 0; $a < count($arc); $a++) {
                 $z = $arc[$a];
 
-                $side = 'debit';
-                $x_side = 'credit';
+                $side = 'credit';
+                $x_side = 'debit';
                 $val = $z->gap;
 
                 // jika gap bernilai minus
                 if ($z->gap < 0) {
-                    $side = 'credit';
-                    $x_side = 'debit';
+                    $side = 'debit';
+                    $x_side = 'credit';
                     $val = $z->gap * (-1);
                 }
 
@@ -674,14 +674,14 @@ class ARController extends Controller
         for ($a = 0; $a < count($arc); $a++) {
             $z = $arc[$a];
 
-            $side = 'debit';
-            $x_side = 'credit';
+            $side = 'credit';
+            $x_side = 'debit';
             $val = $z->gap;
 
             // jika gap bernilai minus
             if ($z->gap < 0) {
-                $side = 'credit';
-                $x_side = 'debit';
+                $side = 'debit';
+                $x_side = 'credit';
                 $val = $z->gap * (-1);
             }
 
