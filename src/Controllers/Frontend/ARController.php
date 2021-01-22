@@ -614,7 +614,12 @@ class ARController extends Controller
         ];
 
         $invoice_sample = ($ara->first())? $ara->first()->invoice: null;
-        $ar_rate = ($ar->currency == 'idr')? 1: $ar->exchangerate;
+        //jika sama" idr
+        if ($ar->currencies->code == 'idr' and $ar->currencies->code == $invoice_sample->currencies->code) {
+            $ar_rate = ($ar->currency == 'idr')? 1: $ar->exchangerate;
+        } else {
+            $ar_rate = $ar->exchangerate;
+        }
 
         $total_credit = 0;
         $total_debit = 0;
@@ -739,6 +744,10 @@ class ARController extends Controller
         }
 
         $to = $ar->customer;
+
+        if ($ar->currencies->code == 'idr' and $ar->currencies->code == $invoice_sample->currencies->code) {
+            $total_credit_foreign = 0;
+        }
 
         $data = [
             'data' => $ar,
