@@ -10,7 +10,14 @@ let Coa = {
 
 		let _url = window.location.origin;
 		let cashbook_uuid = $('input[name=cashbook_uuid]').val();
-		let number_format = new Intl.NumberFormat('de-DE');
+    let number_format = new Intl.NumberFormat('de-DE');
+
+    $('#modal_cashbook_adjustment').on('hidden.bs.modal', function (e) {
+      modal = $('#modal_cashbook_adjustment');
+      modal.find('input').val('');
+      modal.find('select').val('');
+      modal.find('textarea').val('');
+    })
 
 		function addCommas(nStr)
 		{
