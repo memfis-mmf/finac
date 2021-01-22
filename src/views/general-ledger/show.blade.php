@@ -93,7 +93,7 @@
                                             @foreach ($items as $item)
                                                 <tr>
                                                     <td>{{$item->TransactionDate}}</td>
-                                                    <td>{{$item->VoucherNo}}</td>
+                                                    <td>{!!$item->voucher_linked!!}</td>
                                                     <td>{{$item->RefNo}}</td>
                                                     <td>{{$item->Description}}</td>
                                                     <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>

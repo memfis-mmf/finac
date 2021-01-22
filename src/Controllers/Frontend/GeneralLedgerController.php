@@ -95,6 +95,7 @@ class GeneralLedgerController extends Controller
             ' ' as CreatedAt,
             'Saldo Awal' as VoucherNo,
             ' ' as RefNo,
+            ' ' as journal_uuid,
             m_journal.code as AccountCode,
             m_journal.Name as Name,
             IFNULL(
@@ -121,6 +122,7 @@ class GeneralLedgerController extends Controller
             trxjournals.created_at as CreatedAt,
             trxjournals.voucher_no as VoucherNo,
             trxjournals.ref_no as RefNo,
+            trxjournals.uuid as journal_uuid,
             m_journal.code as AccountCode,
             m_journal.Name as Name,
             0 AS SaldoAwal ,
@@ -176,6 +178,13 @@ class GeneralLedgerController extends Controller
             $data[$index]->endingBalance = $this->getEndingBalance(
                 $balance, $coa_type, $item
             );
+
+            $link = 'javascript:;';
+            if ($item->journal_uuid and $item->journal_uuid != " ") {
+                $link = route('journal.print')."?uuid=$item->journal_uuid";
+            }
+
+            $data[$index]->voucher_linked = '<a href="'.$link.'">'.$item->VoucherNo.'</a>';
         }
 
         return $data;
