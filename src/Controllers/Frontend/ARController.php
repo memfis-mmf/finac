@@ -471,11 +471,11 @@ class ARController extends Controller
 
             foreach ($ara as $ara_row) {
 
-                $arc = $ara_row->arc;
+                $arc_first = $ara_row->arc;
 
                 $substract = 0;
-                if ($arc->gap > 0) {
-                    $substract = $arc->gap;
+                if ($arc_first->gap > 0) {
+                    $substract = $arc_first->gap;
                 }
 
                 $detail[] = (object) [
@@ -634,11 +634,11 @@ class ARController extends Controller
         // looping sebenayak invoice
         foreach ($ara as $ara_row) {
 
-            $arc = $ara_row->arc;
+            $arc_first = $ara_row->arc;
 
             $substract = 0;
-            if ($arc->gap > 0) {
-                $substract = $arc->gap;
+            if ($arc_first->gap > 0) {
+                $substract = $arc_first->gap;
             }
 
             $detail[] = (object) [
