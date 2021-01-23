@@ -611,12 +611,17 @@ class APController extends Controller
             // looping sebenayak invoice
             foreach ($apa as $apa_row) {
 
-                // jika invoice nya foreign
+                $apc_first = $apa_row->apc;
+
+                $substract = 0;
+                if ($apc_first->gap < 0) {
+                    $substract = $apc_first->gap;
+                }
 
                 $detail[] = (object) [
                     'coa_detail' => $apa_row->coa->id,
                     'credit' => 0,
-                    'debit' => $apa_row->debit_idr,
+                    'debit' => $apa_row->debit_idr - $substract,
                     '_desc' => 'Payment From : ' . $apa_row->transactionnumber . ' '
                         . $apa_row->ap->vendor->name,
                 ];
@@ -633,8 +638,9 @@ class APController extends Controller
                     'coa_detail' => $y->coa->id,
                     'credit' => $y->credit_idr,
                     'debit' => $y->debit_idr,
-                    '_desc' => 'Payment From : ' . $y->transactionnumber . ' '
-                        . $y->ap->vendor->name,
+                    '_desc' => 'Payment From : ' . $apa_row->transactionnumber 
+                    . ' '
+                    . $apa_row->ap->vendor->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -660,8 +666,8 @@ class APController extends Controller
                     'coa_detail' => $z->coa->id,
                     $side => $val,
                     $x_side => 0,
-                    '_desc' => 'Payment From : ' . $z->transactionnumber . ' '
-                        . $z->ap->vendor->name,
+                    '_desc' => 'Payment From : ' . $apa_row->transactionnumber . ' '
+                        . $apa_row->ap->vendor->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -769,15 +775,20 @@ class APController extends Controller
         // looping sebenayak invoice
         foreach ($apa as $apa_row) {
 
-            // jika invoice nya foreign
+            $apc_first = $apa_row->apc;
+
+            $substract = 0;
+            if ($apc_first->gap < 0) {
+                $substract = $apc_first->gap;
+            }
 
             $detail[] = (object) [
                 'coa_code' => $apa_row->coa->code,
                 'coa_name' => $apa_row->coa->name,
                 'credit' => 0,
                 'credit_foreign' => 0,
-                'debit' => $apa_row->debit_idr,
-                'debit_foreign' => $apa_row->debit_idr / $ap_rate,
+                'debit' => $apa_row->debit_idr - $substract,
+                'debit_foreign' => ($apa_row->debit_idr / $ap_rate) - ($substract / $ap_rate),
                 '_desc' => $apa_row->description,
             ];
 
