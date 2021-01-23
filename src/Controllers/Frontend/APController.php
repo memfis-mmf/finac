@@ -614,7 +614,7 @@ class APController extends Controller
                 $apc_first = $apa_row->apc;
 
                 $substract = 0;
-                if ($apc_first->gap < 0) {
+                if ($apc_first->gap ?? null < 0) {
                     $substract = $apc_first->gap;
                 }
 
@@ -778,7 +778,7 @@ class APController extends Controller
             $apc_first = $apa_row->apc;
 
             $substract = 0;
-            if ($apc_first->gap < 0) {
+            if ($apc_first->gap ?? null < 0) {
                 $substract = $apc_first->gap;
             }
 
