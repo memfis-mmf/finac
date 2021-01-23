@@ -645,7 +645,7 @@ class ARController extends Controller
                 'coa_code' => $ara_row->coa->code,
                 'coa_name' => $ara_row->coa->name,
                 'credit' => $ara_row->credit_idr - $substract,
-                'credit_foreign' => ($ara_row->credit_idr / $ar_rate) - ($substract / $ar_rate),
+                'credit_foreign' => ($ara_row->credit_idr / $ar_rate),
                 'debit' => 0,
                 'debit_foreign' => 0,
                 '_desc' => $ara_row->description,
