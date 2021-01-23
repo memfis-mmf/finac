@@ -2,7 +2,6 @@
 
 namespace memfisfa\Finac\Controllers\Frontend;
 
-use Auth;
 use Illuminate\Http\Request;
 use memfisfa\Finac\Model\AReceive;
 use memfisfa\Finac\Model\AReceiveA;
@@ -18,6 +17,7 @@ use App\Models\Approval;
 use App\Models\Department;
 use DataTables;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class ARController extends Controller
 {
@@ -499,8 +499,8 @@ class ARController extends Controller
                     'coa_detail' => $y->coa->id,
                     'credit' => $y->credit_idr,
                     'debit' => $y->debit_idr,
-                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
-                        . $x->ar->customer->name,
+                    '_desc' => 'Payment From : ' . $ara_row->transactionnumber . ' '
+                        . $ara_row->ar->customer->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -526,8 +526,8 @@ class ARController extends Controller
                     'coa_detail' => $z->coa->id,
                     $side => $val,
                     $x_side => 0,
-                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
-                        . $x->ar->customer->name,
+                    '_desc' => 'Payment From : ' . $ara_row->transactionnumber . ' '
+                        . $ara_row->ar->customer->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
