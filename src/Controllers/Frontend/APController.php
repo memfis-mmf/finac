@@ -618,6 +618,8 @@ class APController extends Controller
                     $substract = $apc_first->gap;
                 }
 
+                $substract = abs($substract);
+
                 $detail[] = (object) [
                     'coa_detail' => $apa_row->coa->id,
                     'credit' => 0,
@@ -781,6 +783,8 @@ class APController extends Controller
             if ($apc_first->gap ?? null < 0) {
                 $substract = $apc_first->gap;
             }
+
+            $substract = abs($substract);
 
             $detail[] = (object) [
                 'coa_code' => $apa_row->coa->code,
