@@ -792,7 +792,7 @@ class APController extends Controller
                 'credit' => 0,
                 'credit_foreign' => 0,
                 'debit' => $apa_row->debit_idr - $substract,
-                'debit_foreign' => ($apa_row->debit_idr / $ap_rate) - ($substract / $ap_rate),
+                'debit_foreign' => ($apa_row->debit_idr / $ap_rate),
                 '_desc' => $apa_row->description,
             ];
 
