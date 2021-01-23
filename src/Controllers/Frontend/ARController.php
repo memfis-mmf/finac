@@ -469,18 +469,22 @@ class ARController extends Controller
 
             $detail = [];
 
-            // looping sebenayak invoice
-            for ($a = 0; $a < count($ara); $a++) {
-                $x = $ara[$a];
+            foreach ($ara as $ara_row) {
 
-                // jika invoice nya foreign
+                $arc = $ara_row->arc;
+
+                $substract = 0;
+                if ($arc->gap > 0) {
+                    $substract = $arc->gap;
+                }
 
                 $detail[] = (object) [
-                    'coa_detail' => $x->coa->id,
-                    'credit' => $x->credit_idr,
+                    'coa_detail' => $ara_row->coa->id,
+                    'credit' => $ara_row->credit_idr - $substract,
                     'debit' => 0,
-                    '_desc' => 'Payment From : ' . $x->transactionnumber . ' '
-                        . $x->ar->customer->name,
+                    '_desc' => 'Payment From : ' . $ara_row->transactionnumber 
+                        . ' '
+                        . $ara_row->ar->customer->name,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -630,13 +634,18 @@ class ARController extends Controller
         // looping sebenayak invoice
         foreach ($ara as $ara_row) {
 
-            // jika invoice nya foreign
+            $arc = $ara_row->arc;
+
+            $substract = 0;
+            if ($arc->gap > 0) {
+                $substract = $arc->gap;
+            }
 
             $detail[] = (object) [
                 'coa_code' => $ara_row->coa->code,
                 'coa_name' => $ara_row->coa->name,
-                'credit' => $ara_row->credit_idr,
-                'credit_foreign' => $ara_row->credit_idr / $ar_rate,
+                'credit' => $ara_row->credit_idr - $substract,
+                'credit_foreign' => ($ara_row->credit_idr / $ar_rate) - ($substract / $ar_rate),
                 'debit' => 0,
                 'debit_foreign' => 0,
                 '_desc' => $ara_row->description,
