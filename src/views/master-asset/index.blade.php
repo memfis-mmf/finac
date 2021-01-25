@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     @component('frontend.common.buttons.read-help')
-                        @slot('href', '/asset.pdf/help')
+                        @slot('href', '/master-asset.pdf/help')
                     @endcomponent
                 </div>
                 <div class="m-portlet m-portlet--mobile">
