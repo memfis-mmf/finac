@@ -35,7 +35,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="m-portlet">
-        <div class="m-portlet__head">
+        <div class="m-portlet__head ribbon ribbon-top ribbon-ver">
           <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
               <span class="m-portlet__head-icon m--hide">
@@ -49,6 +49,9 @@
               </h3>
             </div>
           </div>
+          @component('frontend.common.buttons.read-help')
+              @slot('href', '/supplier-invoice.pdf/help')
+          @endcomponent
         </div>
         <div class="m-portlet m-portlet--mobile">
           <div class="m-portlet__body">
