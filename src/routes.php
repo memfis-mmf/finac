@@ -466,7 +466,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/check-vendor',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@checkVendor'
-		)->name('trxpayment.index');
+		)->name('trxpayment.check.vendor');
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@approve'
