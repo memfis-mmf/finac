@@ -474,7 +474,7 @@ class ARController extends Controller
                 $arc_first = $ara_row->arc;
 
                 $substract = 0;
-                if ($arc_first->gap > 0) {
+                if ($arc_first->gap ?? null > 0) {
                     $substract = $arc_first->gap;
                 }
 
@@ -637,7 +637,7 @@ class ARController extends Controller
             $arc_first = $ara_row->arc;
 
             $substract = 0;
-            if ($arc_first->gap > 0) {
+            if ($arc_first->gap ?? null > 0) {
                 $substract = $arc_first->gap;
             }
 
