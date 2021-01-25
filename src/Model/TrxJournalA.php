@@ -2,9 +2,8 @@
 
 namespace memfisfa\Finac\Model;
 
-
+use App\Models\Project;
 use memfisfa\Finac\Model\MemfisModel;
-use Illuminate\Database\Eloquent\Model;
 
 class TrxJournalA extends MemfisModel
 {
@@ -17,6 +16,7 @@ class TrxJournalA extends MemfisModel
 		'account_code',
 		'debit',
 		'credit',
+		'id_project',
     ];
 
 	protected $appends = [
@@ -50,6 +50,11 @@ class TrxJournalA extends MemfisModel
 			'voucher_no',
 			'voucher_no'
 		);
-	}
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project');
+    }
 
 }

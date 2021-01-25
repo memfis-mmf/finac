@@ -3,21 +3,17 @@ let JournalEdit = {
 
 			let _url = window.location.origin;
       let _voucher_no = $('input[name=voucher_no]').val();
-			let number_format = new Intl.NumberFormat('de-DE');
-      
-      function addCommas(nStr)
-      {
-          nStr += '';
-          x = nStr.split('.');
-          x1 = x[0];
-          x2 = x.length > 1 ? '.' + x[1] : '';
-          var rgx = /(\d+)(\d{3})/;
-          while (rgx.test(x1)) {
-              x1 = x1.replace(rgx, '$1' + '.' + '$2');
-          }
-          return x1 + x2;
-      }
+      let number_format = new Intl.NumberFormat('de-DE');
 
+      $('select.project').select2({
+        placeholder: '-- Select --',
+        width: '100%',
+        ajax: {
+          url: _url+'/journal/get-project-select2',
+          dataType: 'json'
+        },
+      });
+      
       let account_code_table = $('.accountcode_datatable').DataTable({
         dom: '<"top"f>rt<"bottom">pil',
         scrollX: true,
@@ -27,6 +23,7 @@ let JournalEdit = {
         columns: [
           {data: 'coa.code'},
           {data: 'coa.name'},
+          {data: 'project.code', defaultContent: '-'},
           {data: 'debit', render: (data, type, row) => {
             return row.journal.currency.symbol + ' ' + number_format.format(row.debit);
           }},
@@ -54,30 +51,38 @@ let JournalEdit = {
         ]
       });
 
+      $('.modal').on('hidden.bs.modal', function (e) {
+        modal = $('.modal');
+        modal.find('input:not([type=radio])').val('');
+        modal.find('select').empty();
+        modal.find('textarea').val('');
+      })
+
 			let dispay_modal = $('body').on('click', '#show_modal_journala', function() {
 				let _uuid = $(this).data('uuid');
-				let _description = $(this).data('description');
 				let _modal = $('#modal_coa_edit');
 				let form = _modal.find('form');
 				let tr = $(this).parents('tr');
 				let data = account_code_table.row(tr).data();
 				let amount = '';
 
-				console.table(data);
-
 				amount = parseInt(data.credit);
 
-				form.find('input[value=kredit]').prop('checked', true);
-
-				if (data.debit > 0) {
+				if (data.debit != 0) {
 					amount = parseInt(data.debit);
 					form.find('input[value=debet]').prop('checked', true);
-				}
+				} else {
+          form.find('input[value=kredit]').prop('checked', true);
+        }
 
 				form.find('input#account_code').val(data.coa.code);
 				form.find('input#account_description').val(data.coa.name);
 				form.find('input[name=amount]').val(amount);
-				form.find('textarea[name=remark]').val(data.description);
+        form.find('textarea[name=remark]').val(data.description);
+
+        if (data.project) {
+          form.find('[name=id_project]').append(new Option(data.project.code, data.id_project, false, true));
+        }
 
 				_modal.find('input[name=uuid]').val(_uuid);
 				_modal.modal('show');
@@ -130,7 +135,6 @@ let JournalEdit = {
 
 					let button = $(this);
 					let form = button.parents('form');
-					let uuid = form.find('input[name=uuid]').val();
 					let _data = form.serialize();
 
 					$.ajax({

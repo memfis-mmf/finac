@@ -2,6 +2,7 @@
 
 namespace memfisfa\Finac\Model;
 
+use App\Models\Project;
 use memfisfa\Finac\Model\MemfisModel;
 
 class CashbookA extends MemfisModel
@@ -14,7 +15,8 @@ class CashbookA extends MemfisModel
         'name',
         'debit',
         'credit',
-        'description'
+        'description',
+        'id_project'
     ];
 
     public function cashbook()
@@ -29,6 +31,11 @@ class CashbookA extends MemfisModel
         return $this->belongsTo(
 			Coa::class, 'code', 'code'
 		);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project');
     }
 
 }

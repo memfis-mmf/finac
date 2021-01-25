@@ -104,7 +104,8 @@ class JournalAController extends Controller
 		$journala->update(
 			$request->only([
 				$method,
-				$otherMethod,
+                $otherMethod,
+                'id_project',
 				'description',
 			])
 		);
@@ -142,9 +143,9 @@ class JournalAController extends Controller
     public function datatables(Request $request)
     {
         $data = JournalA::where('voucher_no', $request->voucher_no)->with([
-            'coa',
             'coa.type',
-            'journal.currency'
+            'journal.currency',
+            'project'
         ])->orderBy('trxjournala.id', 'DESC')->get();
 
         $total_debit = 0;
