@@ -240,10 +240,18 @@ class ProjectReportController extends Controller
         ];
 
         $project = Project::select($selected_column)
-            ->where('code', 'like', "%$q%")
+            ->where('code', 'like', "%$q%");
+
+        if ($q) {
+            $project = $project->whereHas('customer', function($customer) use($q) {
+                $customer->where('name', 'like', "%$q%");
+            });
+        }
+        
+        $project = $project
             ->without('quotations')
             ->withCount('approvals')
-            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->whereIn('status', ['Quotation Approved', 'Project Approved'])
             ->whereNull('parent_id')
             ->limit(50)
             ->get();
