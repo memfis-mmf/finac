@@ -298,7 +298,9 @@ class ProfitLossProjectController extends Controller
 
                     $request_item = MaterialRequestItem::where('item_id', $item->id)
                         ->whereHas('request', function($request) use ($project) {
-                            $request->where('ref_uuid', $project->uuid);
+                            $request
+                                ->has('approvals')
+                                ->where('ref_uuid', $project->uuid);
                         })
                         ->first();
 
@@ -347,7 +349,9 @@ class ProfitLossProjectController extends Controller
 
                     $request_item = MaterialRequestItem::where('item_id', $item->id)
                         ->whereHas('request', function($request) use ($project) {
-                            $request->where('ref_uuid', $project->uuid);
+                            $request
+                                ->has('approvals')
+                                ->where('ref_uuid', $project->uuid);
                         })
                         ->first();
 
