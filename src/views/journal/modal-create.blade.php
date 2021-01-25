@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="TitleModalJournal">Chart Of Account</h5>
+                <h5 class="modal-title" id="TitleModalJournal">Journal Form</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,7 +15,7 @@
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
-                                    Account
+                                    Account <span class="text-danger">*</span>
                                 </label>
                                 @component('input::select2')
                                     @slot('id', '_accountcode')
@@ -31,6 +31,19 @@
 
 																<input type="text" id="_account_description" class="form-control m-input" disabled>
                             </div> --}}
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Project
+                                </label>
+                                @component('input::select')
+                                    @slot('text', 'Project')
+                                    @slot('name', 'id_project')
+                                    @slot('class', 'project')
+                                    @slot('id_error', 'project')
+                                @endcomponent
+                            </div>
                         </div>
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-6 col-md-6 col-lg-6">

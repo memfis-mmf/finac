@@ -527,5 +527,5 @@ class TrxJournal extends MemfisModel
 			'voucher_no',
 			'voucher_no'
 		);
-	}
+    }    
 }

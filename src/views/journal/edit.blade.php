@@ -233,6 +233,7 @@
                                                       <thead>
                                                         <th>Account Code</th> 
                                                         <th>Account Name</th> 
+                                                        <th>Project</th> 
                                                         <th>Debit</th> 
                                                         <th>Credit</th> 
                                                         <th>Remark</th> 
