@@ -12,10 +12,19 @@ let Coa = {
 		let cashbook_uuid = $('input[name=cashbook_uuid]').val();
     let number_format = new Intl.NumberFormat('de-DE');
 
-    $('#modal_cashbook_adjustment').on('hidden.bs.modal', function (e) {
-      modal = $('#modal_cashbook_adjustment');
+    $('select.project').select2({
+      placeholder: '-- Select --',
+      width: '100%',
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+    });
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+      modal = $('.modal');
       modal.find('input').val('');
-      modal.find('select').val('');
+      modal.find('select').empty();
       modal.find('textarea').val('');
     })
 
@@ -88,6 +97,13 @@ let Coa = {
             {
                 field: 'name',
                 title: 'Account Name',
+                sortable: 'asc',
+                filterable: !1,
+                width: 150
+            },
+            {
+                field: 'project.code',
+                title: 'Project',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150
@@ -197,7 +213,19 @@ let Coa = {
 			_modal.find('[name=amount_a]').val(
 				(data.debit > 0)? parseFloat(data.debit): parseFloat(data.credit)
 			);
-			_modal.find('[name=description_a]').val(data._description);
+      _modal.find('[name=description_a]').val(data._description);
+      if (data.project) {
+        _modal.find('[name=id_project]').append(new Option(data.project.code, data.id_project, false, true));
+      }
+
+      _modal.find('[name=id_project]').select2({
+        placeholder: '-- Select --',
+        width: '100%',
+        ajax: {
+          url: _url+'/journal/get-project-select2',
+          dataType: 'json'
+        },
+      });
 
 			_modal.modal('show');
 		}
@@ -217,7 +245,6 @@ let Coa = {
 			}else{
 				if (transactionnumber.includes('RJ') && data.debit > 0) {
 					let _modal = $('#modal_cashbook_adjustment_edit');
-					console.log('adj');
 					display_modal_adj(_modal, data);
 				}else{
 					let _modal = $('#modal_coa_edit');

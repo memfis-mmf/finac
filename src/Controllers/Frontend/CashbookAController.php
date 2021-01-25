@@ -256,6 +256,7 @@ class CashbookAController extends Controller
 			'debit',
 			'credit',
 			'description',
+			'id_project',
 		]));
 
         $total = $this->sumTotal($cashbook_a_tmp->first()->transactionnumber);
@@ -359,7 +360,8 @@ class CashbookAController extends Controller
 		$cashbook = Cashbook::where('uuid', $request->cashbook_uuid)->first();
 
 		$data = $alldata = json_decode(
-			CashbookA::where('transactionnumber', $cashbook->transactionnumber)
+            CashbookA::where('transactionnumber', $cashbook->transactionnumber)
+            ->with(['project'])
 			->get()
 		);
 

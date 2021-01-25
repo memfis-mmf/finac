@@ -89,7 +89,7 @@
                                             @slot('id_error', 'date')
                                         @endcomponent
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
                                             Project
                                         </label>
@@ -99,7 +99,7 @@
                                             @slot('name', 'id_project')
                                             @slot('text', 'Project')
                                         @endcomponent
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
