@@ -18,17 +18,14 @@
                     </div>
 
                     <div class="m-portlet__head-tools">
-                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm"
-                            role="tablist">
+                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
                             <li class="nav-item m-tabs__item">
-                                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#content_tab_1"
-                                role="tab">
+                                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#content_tab_1" role="tab">
                                     Account Receivable
                                 </a>
                             </li>
                             <li class="nav-item m-tabs__item">
-                                <a class="nav-link m-tabs__link" data-toggle="tab" href="#content_tab_2"
-                                role="tab">
+                                <a class="nav-link m-tabs__link" data-toggle="tab" href="#content_tab_2" role="tab">
                                     Account Payable
                                 </a>
                             </li>
@@ -55,62 +52,76 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="m-portlet__body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="content_tab_1">
-                            <div class="row">    
+                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
                                         <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
-                                            <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal_outstanding" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                            Outstanding Invoice
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows Outstanding Invoice
-                                            </p>
+                                                <div class="d-flex flex-column mr-5">
+                                                    <a href="#" data-target="#modal_outstanding" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                        Outstanding Invoice
+                                                    </a>
+                                                    <p class="text-dark-50">
+                                                        <i class="fa fa-info-circle fa-4x"></i>
+                                                        Shows Outstanding Invoice
+                                                    </p>
+                                                    <p class="text-dark-50">
+                                                        <a href="/outstanding-invoice.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
+                                                    </p>
+                                                </div>
                                             </div>
                                             <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal_outstanding" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                            View
-                                            </a>
-                                            </div>
+                                                <a href="#" data-target="#modal_outstanding" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-    
-                                @include('arreport-outstandingview::modal')
-    
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                            </div>
+
+                            @include('arreport-outstandingview::modal')
+
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
                                             <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal_customer_tb" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                            Customer Trial Balance
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows the report due to customer receivables
-                                            </p>
+                                                <a href="#" data-target="#modal_customer_tb" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                    Customer Trial Balance
+                                                </a>
+                                                <p class="text-dark-50">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows the report due to customer receivables
+                                                </p>
+
+                                                <p class="text-dark-50">
+                                                    <a href="/customer-trial-balance.pdf/help" target="_blank">
+                                                        <i class="fa fa-question-circle fa-4x"></i>
+                                                        Help
+                                                    </a>
+                                                </p>
                                             </div>
                                             <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal_customer_tb" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                                View
-                                            </a>
-                                            </div>
+                                                <a href="#" data-target="#modal_customer_tb" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-    
-                                @include('arreport-customertbview::modal')
-    
-                                {{-- <div class="col-lg-4">
+                            </div>
+
+                            @include('arreport-customertbview::modal')
+
+                            {{-- <div class="col-lg-4">
                                     <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
                                         <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
@@ -134,33 +145,39 @@
                                 </div>
     
                                 @include('arreport-agingview::modal') --}}
-    
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
                                             <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal_account_rh" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                            Account Receivables History
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows report of receivables customer
-                                            </p>
+                                                <a href="#" data-target="#modal_account_rh" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                    Account Receivables History
+                                                </a>
+                                                <p class="text-dark-50">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows report of receivables customer
+                                                </p>
+                                                <!-- <p class="text-dark-50">
+                                                    <a href="/outstanding-invoice.pdf/help" target="_blank">
+                                                        <i class="fa fa-question-circle fa-4x"></i>
+                                                        Help
+                                                    </a>
+                                                </p> -->
                                             </div>
                                             <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal_account_rh" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                                View
-                                            </a>
-                                            </div>
+                                                <a href="#" data-target="#modal_account_rh" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-    
-                                @include('arreport-accountrhview::modal')    
-    
-                                {{-- <div class="col-lg-4">
+                            </div>
+
+                            @include('arreport-accountrhview::modal')
+
+                            {{-- <div class="col-lg-4">
                                     <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
                                         <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
@@ -184,250 +201,249 @@
                                 </div>
     
                                 @include('invoicepview::modal') --}}
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="tab-pane" id="content_tab_2">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                    <div class="tab-pane" id="content_tab_2">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
                                             <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal_ap" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                            Account Payable History 
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows report of payable vendor
-                                            </p>
-                                            </div>
-                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal_ap" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                                View
-                                            </a>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @include('apreport-accountrhview::modal')
-                            </div>
-                        </div>
-
-                        <div class="tab-pane" id="content_tab_3">
-                            <div class="row">    
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
-                                            <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal_cash_statement" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                            Cash Statement
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows the report due to cash statement
-                                            </p>
-                                            </div>
-                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal_cash_statement" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                            View
-                                            </a>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-    
-                                @include('arreport-cashstatementview::modal')
-    
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
-                                            <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal_bank_statement" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                            Bank Statement
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows the report due to bank statement
-                                            </p>
-                                            </div>
-                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal_bank_statement" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                                View
-                                            </a>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-    
-                                @include('arreport-bankstatementview::modal')
-                            </div>
-                        </div>
-
-                        <div class="tab-pane" id="content_tab_4">
-                            -
-                        </div>
-
-                        <div class="tab-pane" id="content_tab_5">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
-                                                <div class="d-flex flex-column mr-5">
-                                                <a href="{{ route('frontend.material-transaction-history-finance.index') }}" class="h4 text-dark text-hover-primary mb-5">
-                                                Material Transaction History
+                                                <a href="#" data-target="#modal_ap" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                    Account Payable History
                                                 </a>
                                                 <p class="text-dark-50">
-                                                <i class="fa fa-info-circle fa-4x"></i>
-                                                Shows all material transactional data
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows report of payable vendor
                                                 </p>
-                                                </div>
-                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                            </div>
+                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                <a href="#" data-target="#modal_ap" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @include('apreport-accountrhview::modal')
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="content_tab_3">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                            <div class="d-flex flex-column mr-5">
+                                                <a href="#" data-target="#modal_cash_statement" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                    Cash Statement
+                                                </a>
+                                                <p class="text-dark-50">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows the report due to cash statement
+                                                </p>
+                                            </div>
+                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                <a href="#" data-target="#modal_cash_statement" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @include('arreport-cashstatementview::modal')
+
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                            <div class="d-flex flex-column mr-5">
+                                                <a href="#" data-target="#modal_bank_statement" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                    Bank Statement
+                                                </a>
+                                                <p class="text-dark-50">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows the report due to bank statement
+                                                </p>
+                                            </div>
+                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                <a href="#" data-target="#modal_bank_statement" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @include('arreport-bankstatementview::modal')
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="content_tab_4">
+                        -
+                    </div>
+
+                    <div class="tab-pane" id="content_tab_5">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                            <div class="d-flex flex-column mr-5">
+                                                <a href="{{ route('frontend.material-transaction-history-finance.index') }}" class="h4 text-dark text-hover-primary mb-5">
+                                                    Material Transaction History
+                                                </a>
+                                                <p class="text-dark-50">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows all material transactional data
+                                                </p>
+                                            </div>
+                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
                                                 <a href="{{ route('frontend.material-transaction-history-finance.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
                                                     View
                                                 </a>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
-                                                <div class="d-flex flex-column mr-5">
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                            <div class="d-flex flex-column mr-5">
                                                 <a href="{{ route('frontend.stock-monitoring-amount.index') }}" class="h4 text-dark text-hover-primary mb-5">
-                                                Stock Monitoring
+                                                    Stock Monitoring
                                                 </a>
                                                 <p class="text-dark-50">
-                                                <i class="fa fa-info-circle fa-4x"></i>
-                                                Shows material realtime stock data
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows material realtime stock data
                                                 </p>
-                                                </div>
-                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                            </div>
+                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
                                                 <a href="{{ route('frontend.stock-monitoring-amount.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
                                                     View
                                                 </a>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
-                                                <div class="d-flex flex-column mr-5">
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                            <div class="d-flex flex-column mr-5">
                                                 <a href="/stock-movement-value" class="h4 text-dark text-hover-primary mb-5">
-                                                Stock Movement
+                                                    Stock Movement
                                                 </a>
                                                 <p class="text-dark-50">
-                                                <i class="fa fa-info-circle fa-4x"></i>
-                                                Shows material realtime movement with value
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows material realtime movement with value
                                                 </p>
-                                                </div>
-                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                            </div>
+                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
                                                 <a href="/stock-movement-value" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
                                                     View
                                                 </a>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="tab-pane" id="content_tab_6">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                    <div class="tab-pane" id="content_tab_6">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
                                             <div class="d-flex flex-column mr-5">
-                                            <a href="{{ route('project-report.profit-loss.index') }}" class="h4 text-dark text-hover-primary mb-5">
-                                            Project Profit & Loss 
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows report profit & loss of project
-                                            </p>
+                                                <a href="{{ route('project-report.profit-loss.index') }}" class="h4 text-dark text-hover-primary mb-5">
+                                                    Project Profit & Loss
+                                                </a>
+                                                <p class="text-dark-50">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    Shows report profit & loss of project
+                                                </p>
                                             </div>
                                             <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="{{ route('project-report.profit-loss.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                                View
-                                            </a>
-                                            </div>
+                                                <a href="{{ route('project-report.profit-loss.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                    View
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 <div class="modal fade" id="modal-maintenance" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Information</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <h2>This Menu is under <b class="text-danger">Maintenance</b></h2>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h2>This Menu is under <b class="text-danger">Maintenance</b></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 @endsection
 
 @push('header-scripts')
 <style>
-.btn-large{
-    height:100px;
-    width:100px;
-}
+    .btn-large {
+        height: 100px;
+        width: 100px;
+    }
 
-.btn-icon{
-    float:left;
-    font-size:50px;
+    .btn-icon {
+        float: left;
+        font-size: 50px;
 
-}
-
+    }
 </style>
 @endpush
 
 @push('footer-scripts')
-    <script>
-        $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faReport";
-            } else {
-                window.location.href=currentUrl;
-            }
+<script>
+    $(document).ready(function() {
+        let currentUrl = window.location.href;
+        let _hash = currentUrl.split('#');
+        if (_hash.length < 2) {
+            window.location.href = currentUrl + "#faReport";
+        } else {
+            window.location.href = currentUrl;
+        }
 
-          $(document).on('click', '.export-to-excel', function () {
+        $(document).on('click', '.export-to-excel', function() {
             console.log('wew');
             let href = $(this).data('href');
             let daterange = $('[name=daterange]').val();
@@ -435,8 +451,8 @@
             href = href + '?daterange=' + daterange;
 
             window.open(href, '_blank');
-          
-          });
+
         });
-    </script>
+    });
+</script>
 @endpush
