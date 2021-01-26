@@ -304,7 +304,8 @@ class TrxJournal extends MemfisModel
 					'credit' => $x->credit ?? 0,
 					'debit' => $x->debit ?? 0,
 					// 'description' => 'Generate from auto journal, '.$header->voucher_no,
-					'description' => $x->_desc
+                    'description' => $x->_desc,
+                    'id_project' => $x->id_project ?? null
 				]);
 
 			// }
