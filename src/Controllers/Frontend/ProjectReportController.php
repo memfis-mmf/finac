@@ -71,8 +71,8 @@ class ProjectReportController extends Controller
 
     public function view(Request $request)
     {
-        $data = app('memfisfa\Finac\Controllers\Frontend\ProfitLossProjectController')
-            ->getAllProject($request->project)['data'];
+        $pl_project_controller = new ProfitLossProjectController();
+        $data = $pl_project_controller->getAllProject($request->project)['data'];
 
         $total = $data['total_revenue'] + $data['total_expense'];
 

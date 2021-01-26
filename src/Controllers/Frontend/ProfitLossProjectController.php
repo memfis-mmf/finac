@@ -95,11 +95,16 @@ class ProfitLossProjectController extends Controller
         $project_tmp = Project::select($selected_column)
             ->without('quotations')
             ->withCount('approvals')
-            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            // ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
+            ->whereIn('status', ['Quotation Approved', 'Project Approved'])
             ->where('parent_id', $project->id);
 
         $project_uuid = $project_tmp // mengambil project additional berdasarkan project induk
             ->pluck('uuid')
+            ->all();
+
+        $project_id = $project_tmp
+            ->pluck('id')
             ->all();
         
         $project_number = $project_tmp
@@ -108,7 +113,8 @@ class ProfitLossProjectController extends Controller
 
         // menambahkan id project induk ke dalam array index pertama
         array_unshift($project_uuid, $project->uuid);
-        array_unshift($project_number, $project->number);
+        array_unshift($project_id, $project->id);
+        array_unshift($project_number, $project->code);
 
         $all_project = Project::select($selected_column)
             ->without('quotations')
@@ -191,6 +197,7 @@ class ProfitLossProjectController extends Controller
             ->all();
 
         $detail_journal = TrxJournalA::whereIn('voucher_no', $journal_number)
+            ->orWhereIn('id_project', $project_id)
             ->get();
 
         $revenue = [];
