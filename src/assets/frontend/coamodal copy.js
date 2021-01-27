@@ -39,7 +39,7 @@ let CoaDatatables = {
         $('.paging_simple_numbers').addClass('padding-datatable');
 
         $('.dataTables_filter').on('click', '.refresh', function () {
-            $('#coa_datatables').DataTable().ajax.reload();
+            $('#coa_datatables').DataTable().ajax.reload(null, false);
 
         });
 

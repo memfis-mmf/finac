@@ -167,7 +167,7 @@ let SupplierInvoice = {
     });
 
     $('#modal_create_grn').on('shown.bs.modal', function() {
-      grn_modal_table.ajax.reload();
+      grn_modal_table.ajax.reload(null, false);
     });
 
     $('.grn_modal_datatable').on('click', '.select-grn', function () {
@@ -199,7 +199,7 @@ let SupplierInvoice = {
 
             $('#modal_create_grn').modal('hide');
 
-            grn_table.ajax.reload();
+            grn_table.ajax.reload(null, false);
           }
         }
       });
@@ -238,7 +238,7 @@ let SupplierInvoice = {
             });
 
             $('#modal_edit_grn').modal('hide');
-            grn_table.ajax.reload();
+            grn_table.ajax.reload(null, false);
           }
         }
       });
@@ -328,7 +328,7 @@ let SupplierInvoice = {
               }
               );
 
-              grn_table.ajax.reload();
+              grn_table.ajax.reload(null, false);
             },
             error: function (jqXhr, json, errorThrown) {
               let errorsHtml = '';

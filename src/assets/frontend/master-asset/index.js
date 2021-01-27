@@ -106,7 +106,7 @@ let MasterAsset = {
               timeOut: 2000
             });
 
-            master_asset_datatable.ajax.reload();
+            master_asset_datatable.ajax.reload(null, false);
           } else {
             errorHandler(response);
           }

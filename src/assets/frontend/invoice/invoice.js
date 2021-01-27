@@ -132,7 +132,7 @@ let Invoice = {
 
                         $('#code-error').html('');
 
-                        invoice_datatable.ajax.reload();
+                        invoice_datatable.ajax.reload(null, false);
                     }
                 }
             });
@@ -271,7 +271,7 @@ let Invoice = {
                                 timeOut: 5000
                             });
 
-                            invoice_datatable.ajax.reload();
+                            invoice_datatable.ajax.reload(null, false);
                         },
                         error: function (jqXhr, json, errorThrown) {
                             let errorsHtml = '';

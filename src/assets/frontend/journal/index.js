@@ -291,7 +291,7 @@ let Journal = {
 													timeOut: 3000
 											});
 
-											journal_datatable.ajax.reload();
+											journal_datatable.ajax.reload(null, false);
 									}
 							}
 					});
@@ -319,7 +319,7 @@ let Journal = {
 													timeOut: 3000
 											});
 
-											journal_datatable.ajax.reload();
+											journal_datatable.ajax.reload(null, false);
 									}
 							}
 					});
@@ -518,7 +518,7 @@ let Journal = {
                                 }
                             );
 
-                            journal_datatable.ajax.reload();
+                            journal_datatable.ajax.reload(null, false);
                         },
                         error: function (jqXhr, json, errorThrown) {
                             let errorsHtml = '';

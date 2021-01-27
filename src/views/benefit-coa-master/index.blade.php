@@ -194,7 +194,7 @@
               timeOut: 2000
             });
 
-            benefit_coa_datatable.ajax.reload();
+            benefit_coa_datatable.ajax.reload(null, false);
 
           } else {
             errorHandler(response);

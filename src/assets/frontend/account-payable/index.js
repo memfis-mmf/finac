@@ -301,7 +301,7 @@ let Journal = {
                 timeOut: 5000
               });
 
-              account_payable_datatable.ajax.reload();
+              account_payable_datatable.ajax.reload(null, false);
             },
             error: function (jqXhr, json, errorThrown) {
               let errorsHtml = '';
@@ -339,7 +339,7 @@ let Journal = {
               timeOut: 3000
             });
 
-            account_payable_datatable.ajax.reload();
+            account_payable_datatable.ajax.reload(null, false);
           }
         }
       });

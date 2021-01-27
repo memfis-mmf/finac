@@ -125,7 +125,7 @@ let JournalEdit = {
 										});
 
 										$('#modal_coa_edit').modal('hide');
-										account_code_table.ajax.reload();
+										account_code_table.ajax.reload(null, false);
 									}
 							}
 					});
@@ -163,7 +163,7 @@ let JournalEdit = {
 										});
 
 										$('#modal_coa_create').modal('hide');
-										account_code_table.ajax.reload();
+										account_code_table.ajax.reload(null, false);
 
 										form.find('input#amount').val('');
 										form.find('input[type=radio]').prop('checked', false);
@@ -252,7 +252,7 @@ let JournalEdit = {
 			$('.paging_simple_numbers').addClass('padding-datatable');
 
 			$('.dataTables_filter').on('click', '.refresh', function () {
-					$('#coa_datatables').DataTable().ajax.reload();
+					$('#coa_datatables').DataTable().ajax.reload(null, false);
 
 			});
 
@@ -276,7 +276,7 @@ let JournalEdit = {
 
 							$('#coa_modal').modal('hide');
 
-							account_code_table.ajax.reload();
+							account_code_table.ajax.reload(null, false);
 
 							toastr.success('Data Saved Successfully', 'Success', {
 								timeOut: 2000
@@ -314,7 +314,7 @@ let JournalEdit = {
 														}
 												);
 
-												account_code_table.ajax.reload();
+												account_code_table.ajax.reload(null, false);
 										},
 										error: function (jqXhr, json, errorThrown) {
 												let errorsHtml = '';

@@ -302,7 +302,7 @@ let Journal = {
                                 }
                             );
 
-                          supplier_invoice_datatable.ajax.reload();
+                          supplier_invoice_datatable.ajax.reload(null, false);
                         },
                         error: function (jqXhr, json, errorThrown) {
                             let errorsHtml = '';

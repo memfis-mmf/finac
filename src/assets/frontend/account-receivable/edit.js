@@ -371,7 +371,7 @@ let AccountReceivableEdit = {
 
 
     $(document).on('click', '.btn-modal-create-invoice', function () {
-      invoice_modal_table.ajax.reload();
+      invoice_modal_table.ajax.reload(null, false);
     });
 
     $('body').on('click', '.select-invoice', function () {
@@ -406,7 +406,7 @@ let AccountReceivableEdit = {
             $('#modal_create_invoice').modal('hide');
 
             invoice_table.reload();
-            invoice_modal_table.ajax.reload();
+            invoice_modal_table.ajax.reload(null, false);
 
             toastr.success('Data tersimpan', 'Sukses', {
               timeOut: 2000

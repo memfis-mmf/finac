@@ -80,7 +80,7 @@ let Bond = {
               }
               );
 
-              bond_datatable.ajax.reload();
+              bond_datatable.ajax.reload(null, false);
             },
             error: function (jqXhr, json, errorThrown) {
               let errorsHtml = '';
@@ -128,7 +128,7 @@ let Bond = {
               timeOut: 5000
             });
 
-            bond_datatable.ajax.reload();
+            bond_datatable.ajax.reload(null, false);
           }
         }
       });

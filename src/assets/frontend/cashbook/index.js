@@ -109,7 +109,7 @@ let Cashbook = {
 													timeOut: 3000
 											});
 
-											cashbook_datatable.ajax.reload();
+											cashbook_datatable.ajax.reload(null, false);
 									}
 							}
 					});
