@@ -285,7 +285,7 @@ let RefQuoDatatables = {
                         $('#refquo_modal').modal('hide');
                     } else {
                         //console.log("gak bisa");
-                        toastr.error('Invoice already created', 'Error!', {
+                        toastr.error('Invoice already created', 'Failed', {
                             timeOut: 5000
                         }
                     );
