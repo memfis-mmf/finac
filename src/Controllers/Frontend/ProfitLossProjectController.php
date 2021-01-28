@@ -210,7 +210,7 @@ class ProfitLossProjectController extends Controller
             $debit = $detail_journal_row->debit * $detail_journal_row->journal->exchange_rate;
             $credit = $detail_journal_row->credit * $detail_journal_row->journal->exchange_rate;
 
-            $value = $debit + $credit;
+            $value = $debit - $credit;
 
             if ($detail_journal_row->coa->type->code == 'pendapatan') {
                 if (@$revenue[$detail_journal_row->coa->code]) {
