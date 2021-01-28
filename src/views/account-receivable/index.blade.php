@@ -87,7 +87,7 @@
                                             <th>Date</th>
                                             <th>Transaction No.</th>
                                             <th>Customer Name</th>
-                                            <th>Ref No</th>
+                                            {{-- <th>Ref No</th> --}}
                                             <th>Currency</th>
                                             <th>Exchange Rate</th>
                                             <th>Total Transaction</th>

@@ -27,7 +27,7 @@ let Journal = {
             {data: 'transactiondate'},
             {data: 'transactionnumber'},
             {data: 'customer.name'},
-            {data: 'refno'},
+            // {data: 'refno'},
             {data: 'currency'},
             {data: 'exchangerate', render: function(data, type, row) {
                 return addCommas(parseInt(row.exchangerate));
