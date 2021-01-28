@@ -852,6 +852,8 @@ class InvoiceController extends Controller
     {
         $quotation = Quotation::where('uuid', $uuid_quotation)
             ->select([
+                'id',
+                'uuid',
                 'number',
                 'parent_id',
                 'quotationable_type',
