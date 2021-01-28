@@ -55,9 +55,14 @@ class ARController extends Controller
             'id_customer' => $customer->id
         ]);
 
-        $request->request->add([
+        $code = 'CRCJ';
+        if ($request->payment_type == 'bank') {
+            $code = 'BRCJ';
+        }
+
+        $request->merge([
             'approve' => 0,
-            'transactionnumber' => '-',
+            'transactionnumber' => AReceive::generateCode($code),
         ]);
 
         $areceive = AReceive::create($request->all());
@@ -435,13 +440,14 @@ class ARController extends Controller
                 ]);
             }
 
-            $code = 'CRCJ';
+            // $code = 'CRCJ';
 
-            if ($ar->payment_type == 'bank') {
-                $code = 'BRCJ';
-            }
+            // if ($ar->payment_type == 'bank') {
+            //     $code = 'BRCJ';
+            // }
 
-            $transaction_number = AReceive::generateCode($code);
+            // $transaction_number = AReceive::generateCode($code);
+            $transaction_number = $ar->transactionnumber;
 
             $ar_tmp->update([
                 'transactionnumber' => $transaction_number
