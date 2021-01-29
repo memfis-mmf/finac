@@ -76,6 +76,7 @@ class APBController extends Controller
             'description' => $request->description_b,
             'debit' => $request->debit_b,
             'credit' => $request->credit_b,
+            'id_project' => $request->id_project_detail,
         ]);
 
         $request->request->add([
@@ -89,6 +90,7 @@ class APBController extends Controller
             'debit_idr',
             'credit_idr',
             'description',
+            'id_project',
         ]));
 
         return response()->json($apb);

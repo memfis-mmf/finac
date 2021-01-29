@@ -1,6 +1,14 @@
 let AccountReceivableEdit = {
   init: function () {
 
+    if (page_type == 'show') {
+      $('input').attr('disabled', 'disabled');
+      $('select').attr('disabled', 'disabled');
+      $('textarea').attr('disabled', 'disabled');
+      $('button').attr('disabled', 'disabled');
+      $('button').hide();
+    }
+
     let _url = window.location.origin;
     let ar_uuid = $('input[name=ar_uuid]').val();
     let id_customer = $('select[name=id_customer]').val();
@@ -16,6 +24,23 @@ let AccountReceivableEdit = {
         dataType: 'json'
       },
     });
+
+    $('select.project_detail').select2({
+      placeholder: '-- Select --',
+      width: '100%',
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+    });
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+      modal = $('.modal');
+
+      modal.find('input').val('');
+      modal.find('select').empty();
+      modal.find('textarea').val('');
+    })
 
     let coa_datatables = $("#coa_datatables").DataTable({
       "dom": '<"top"f>rt<"bottom">pl',
@@ -212,6 +237,11 @@ let AccountReceivableEdit = {
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
+
+            if (page_type == 'show') {
+              return '';
+            }
+
             return (
               '<button data-target="#modal_edit_invoice" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
               '\t\t\t\t\t\t\t<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -307,6 +337,11 @@ let AccountReceivableEdit = {
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
+
+            if (page_type == 'show') {
+              return '';
+            }
+
             return (
               '<button data-target="#modal_edit_adjustment" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
               '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -622,6 +657,11 @@ let AccountReceivableEdit = {
       $(target).find('[name=debit_b]').val(parseFloat(data.debit));
       $(target).find('[name=credit_b]').val(parseFloat(data.credit));
       $(target).find('[name=description_b]').val(data.description);
+
+      if (data.project) {
+        $(target).find('.project_detail')
+          .append(new Option(data.project.code, data.id_project, false, true));
+      }
 
       $(target).modal('show');
     })

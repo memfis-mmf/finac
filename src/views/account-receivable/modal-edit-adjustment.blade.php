@@ -58,6 +58,19 @@
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
+                                    Project
+                                </label>
+                                @component('input::select')
+                                    @slot('text', 'Project')
+                                    @slot('name', 'id_project_detail')
+                                    @slot('class', 'project_detail')
+                                    @slot('id_error', 'project')
+                                @endcomponent
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
                                     Remark
                                 </label>
 

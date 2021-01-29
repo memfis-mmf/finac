@@ -26,6 +26,60 @@ class ARController extends Controller
         return view('accountreceivableview::index');
     }
 
+    public function show($ar_uuid)
+    {
+        $data['data'] = AReceive::where(
+            'uuid',
+            $ar_uuid
+        )->with([
+            'currencies',
+            'project',
+        ])->first();
+
+        $data['department'] = Department::with('type', 'parent')->get();
+
+        $data['customer'] = Customer::all();
+        $data['currency'] = Currency::selectRaw(
+            'code, CONCAT(name, " (", symbol ,")") as full'
+        )->whereIn('code', ['idr', 'usd'])
+            ->get();
+
+        $data['credit_total_amount'] = Invoice::where(
+            'id_customer',
+            $data['data']->id_customer
+        )
+            ->where('approve', true)
+            ->sum('grandtotal');
+
+        $areceive = AReceive::where('id_customer', $data['data']->id_customer)
+            ->where('approve', true)
+            ->get();
+
+        $payment_total_amount = 0;
+        for ($i = 0; $i < count($areceive); $i++) {
+            $x = $areceive[$i];
+
+            for ($j = 0; $j < count($x->ara); $j++) {
+                $y = $x->ara[$j];
+
+                $payment_total_amount += $y->credit_idr;
+            }
+        }
+
+        $data['payment_total_amount'] = $payment_total_amount;
+        $credit_balance = abs(($data['credit_total_amount'] - $data['payment_total_amount']));
+
+        $class = 'danger';
+        if ($credit_balance > $data['credit_total_amount']) {
+            $class = 'success';
+        }
+
+        $data['credit_balance'] = "<span class='text-$class'>Rp " . number_format($credit_balance, 0, ',', '.') . "</span>";
+        $data['page_type'] = 'show';
+
+        return view('accountreceivableview::edit', $data);
+    }
+
     public function create()
     {
         $data['customer'] = Customer::all();
@@ -185,6 +239,11 @@ class ARController extends Controller
             ->select('a_receives.*');
 
         return DataTables::of($data)
+            ->addColumn('transactionnumber_link', function($row) {
+                $html = '<a href="'.route('areceive.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
+
+                return $html;
+            })
             ->addColumn('status', function($row) {
                 return $row->status;
             })

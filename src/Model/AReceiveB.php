@@ -2,6 +2,7 @@
 
 namespace memfisfa\Finac\Model;
 
+use App\Models\Project;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,7 @@ class AReceiveB extends MemfisModel
 	    'debit',
 	    'credit',
 	    'description',
+	    'id_project',
 	];
 
 	public function ar()
@@ -31,5 +33,10 @@ class AReceiveB extends MemfisModel
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'code', 'code');
-	}
+    }
+    
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'id_project');
+    }
 }

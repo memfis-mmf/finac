@@ -736,7 +736,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\ARController@approve'
-		);
+        );
+		Route::get(
+			'/{ar_uuid}',
+			'memfisfa\Finac\Controllers\Frontend\ARController@show'
+		)->name('areceive.show');
 	});
 
     Route::prefix('areceivea')->group(function () {

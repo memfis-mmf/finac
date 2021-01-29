@@ -76,6 +76,7 @@ class ARBController extends Controller
             'description' => $request->description_b,
             'debit' => $request->debit_b,
             'credit' => $request->credit_b,
+            'id_project' => $request->id_project_detail,
         ]);
 
         $request->request->add([
@@ -89,6 +90,7 @@ class ARBController extends Controller
             'debit_idr',
             'credit_idr',
             'description',
+            'id_project',
         ]));
 
         return response()->json($arb);
@@ -126,6 +128,7 @@ class ARBController extends Controller
                 ->with([
                     'ar',
                     'ar.currencies',
+                    'project',
                 ])
                 ->get()
         );
