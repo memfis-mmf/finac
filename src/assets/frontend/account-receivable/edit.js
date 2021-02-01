@@ -296,6 +296,13 @@ let AccountReceivableEdit = {
       },
       columns: [
         {
+          field: 'project.code',
+          title: 'Project',
+          sortable: 'asc',
+          filterable: !1,
+          width: '150px'
+        },
+        {
           field: 'code',
           title: 'Account Code',
           sortable: 'asc',
