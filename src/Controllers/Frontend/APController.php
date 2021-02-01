@@ -55,9 +55,15 @@ class APController extends Controller
             'id_supplier' => $vendor->id
         ]);
 
+        $code = 'CPYJ';
+
+        if ($request->payment_type == 'bank') {
+            $code = 'BPYJ';
+        }
+
         $request->request->add([
             'approve' => 0,
-            'transactionnumber' => '-',
+            'transactionnumber' => APayment::generateCode($code),
         ]);
 
         $apayment = APayment::create($request->all());
@@ -574,17 +580,7 @@ class APController extends Controller
                 ];
             }
 
-            $code = 'CPYJ';
-
-            if ($ap->payment_type == 'bank') {
-                $code = 'BPYJ';
-            }
-
-            $transaction_number = APayment::generateCode($code);
-
-            $ap_tmp->update([
-                'transactionnumber' => $transaction_number
-            ]);
+            $transaction_number = $ap->transactionnumber;
 
             $ap->approvals()->save(new Approval([
                 'approvable_id' => $ap->id,
