@@ -499,18 +499,7 @@ class ARController extends Controller
                 ]);
             }
 
-            // $code = 'CRCJ';
-
-            // if ($ar->payment_type == 'bank') {
-            //     $code = 'BRCJ';
-            // }
-
-            // $transaction_number = AReceive::generateCode($code);
             $transaction_number = $ar->transactionnumber;
-
-            $ar_tmp->update([
-                'transactionnumber' => $transaction_number
-            ]);
 
             $ar->approvals()->save(new Approval([
                 'approvable_id' => $ar->id,
