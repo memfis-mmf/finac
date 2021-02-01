@@ -764,6 +764,11 @@ class APController extends Controller
             $ap_rate = $ap->exchangerate;
         }
 
+        $foreign_to_foreign = false;
+        if ($ap->currencies->code != 'idr' and $ap->currencies->code == $si_sample->currencies->code) {
+            $foreign_to_foreign = true;
+        }
+
         $total_credit = 0;
         $total_debit = 0;
         $total_credit_foreign = 0;
@@ -900,6 +905,7 @@ class APController extends Controller
         }
 
         $data = [
+            'foreign_to_foreign' => $foreign_to_foreign,
             'data' => $ap,
             'si_sample' => $si_sample,
             'data_child' => $data_detail,
