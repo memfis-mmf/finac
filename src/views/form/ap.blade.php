@@ -114,7 +114,7 @@
                     <td width="50%" valign="top" align="center" style="padding-top:-16px">
                         {{-- jika if didalam h1 akan broken --}}
                         <h1 style="font-size:24px;">
-                            {{$header_title}} Payment Journal
+                            {{$header_title}} Payment
                         <br>
                         <span style="font-size:18px;">(Account Payable)</span></h1>
                     </td>
