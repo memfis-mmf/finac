@@ -2,6 +2,7 @@
 
 namespace memfisfa\Finac\Model;
 
+use App\Models\Project;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 

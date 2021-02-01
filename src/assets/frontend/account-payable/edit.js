@@ -21,6 +21,23 @@ let AccountPayable = {
       },
     });
 
+    $('select.project_detail').select2({
+      placeholder: '-- Select --',
+      width: '100%',
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+    });
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+      modal = $('.modal');
+
+      modal.find('input').val('');
+      modal.find('select').empty();
+      modal.find('textarea').val('');
+    })
+
     let coa_datatables = $("#coa_datatables").DataTable({
       "dom": '<"top"f>rt<"bottom">pl',
       responsive: !0,
@@ -269,6 +286,13 @@ let AccountPayable = {
         }
       },
       columns: [
+        {
+          field: 'project.code',
+          title: 'Project',
+          sortable: 'asc',
+          filterable: !1,
+          width: '150px'
+        },
         {
           field: 'code',
           title: 'Account Code',
@@ -706,6 +730,11 @@ let AccountPayable = {
       $(target).find('[name=debit_b]').val(parseInt(data.debit));
       $(target).find('[name=credit_b]').val(parseInt(data.credit));
       $(target).find('[name=description_b]').val(data.description);
+
+      if (data.project) {
+        $(target).find('.project_detail')
+          .append(new Option(data.project.code, data.id_project, false, true));
+      }
 
       $(target).modal('show');
     })

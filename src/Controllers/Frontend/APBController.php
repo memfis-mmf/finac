@@ -128,6 +128,7 @@ class APBController extends Controller
                 ->with([
                     'ap',
                     'ap.currencies',
+                    'project',
                 ])
                 ->get()
         );

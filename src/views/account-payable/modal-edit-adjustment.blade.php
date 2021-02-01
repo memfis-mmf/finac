@@ -18,7 +18,7 @@
                                 </label>
 
                                 @component('label::data-info')
-                                  @slot('text', number_format($debt_total_amount, 0, ',', '.'))
+                                  @slot('text', 'Rp '.number_format($debt_total_amount, 0, ',', '.'))
                                 @endcomponent
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -27,7 +27,7 @@
                                 </label>
 
                                 @component('label::data-info')
-                                  @slot('text', number_format($payment_total_amount, 0, ',', '.'))
+                                  @slot('text', 'Rp '.number_format($payment_total_amount, 0, ',', '.'))
                                 @endcomponent
                             </div>
                         </div>
@@ -58,7 +58,20 @@
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
-                                    Description
+                                    Project
+                                </label>
+                                @component('input::select')
+                                    @slot('text', 'Project')
+                                    @slot('name', 'id_project_detail')
+                                    @slot('class', 'project_detail')
+                                    @slot('id_error', 'project')
+                                @endcomponent
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Remark
                                 </label>
 
                                 @component('input::textarea')
