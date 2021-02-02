@@ -7,9 +7,8 @@ use App\Models\Approval;
 use App\Models\Currency;
 use App\User;
 use App\Models\Project;
-use Auth;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Str;
 
 class Cashbook extends MemfisModel
 {
@@ -79,16 +78,16 @@ class Cashbook extends MemfisModel
 
 	public function getCashbookTypeAttribute()
 	{
-		if (strpos($this->transactionnumber, 'BP')) {
+		if (Str::contains($this->transactionnumber, 'BP')) {
 			$result = 'bp';
 		}
-		if (strpos($this->transactionnumber, 'BR')) {
+		if (Str::contains($this->transactionnumber, 'BR')) {
 			$result = 'br';
 		}
-		if (strpos($this->transactionnumber, 'CP')) {
+		if (Str::contains($this->transactionnumber, 'CP')) {
 			$result = 'cp';
 		}
-		if (strpos($this->transactionnumber, 'CR')) {
+		if (Str::contains($this->transactionnumber, 'CR')) {
 			$result = 'cr';
 		}
 

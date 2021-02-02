@@ -62,7 +62,7 @@ class CashbookController extends Controller
 				break;
 
 			default:
-				'';
+				$result = '';
 				break;
 		}
 
@@ -81,6 +81,20 @@ class CashbookController extends Controller
             'accountcode' => 'required',
             'exchangerate' => 'required'
         ]);
+
+        // jika multi currency dicentang maka second currency nya required
+        if ($request->multy_currency) {
+            $request->validate([
+                'second_currency' => 'required',
+            ]);
+
+            if ($request->currency == $request->second_currency) {
+                return response([
+                    'status' => false,
+                    'message' => 'Currency and Second Currency cannot be the same'
+                ], 422);
+            }
+        }
 
         if ($request->currency == 'idr') {
             $request->merge([
