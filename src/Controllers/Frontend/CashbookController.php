@@ -90,16 +90,9 @@ class CashbookController extends Controller
 
             if ($request->currency == $request->second_currency) {
                 return response([
-                    'status' => false,
-                    'message' => 'Currency and Second Currency cannot be the same'
-                ], 422);
+                    'errors' => 'Currency and Second Currency cannot be the same'
+                ]);
             }
-        }
-
-        if ($request->currency == 'idr') {
-            $request->merge([
-                'exchangerate' => 1
-            ]);
         }
 
 		$request->request->add([
@@ -139,7 +132,6 @@ class CashbookController extends Controller
             'transactiondate' => 'required',
             'personal' => 'required',
             'refno' => 'required',
-            'currency' => 'required',
             'accountcode' => 'required',
             'exchangerate' => 'required'
         ]);
@@ -152,7 +144,9 @@ class CashbookController extends Controller
 
         $cashbook->update($request->except([
             'cashbook_type',
-            'cashbook_ref'
+            'cashbook_ref',
+            'currency',
+            'second_currency',
         ]));
 
         return response()->json($cashbook);

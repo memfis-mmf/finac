@@ -86,7 +86,7 @@
                                             <option value="cr" {{ (strpos($cashbook->transactionnumber, 'CCRJ') !== false)? 'selected': '' }}>Cash Receive</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6 mt-3">
+                                    <div class="col-md-6">
                                         <label class="form-control-label">
                                             Date Transaction @include('label::required')
                                         </label>
@@ -99,7 +99,7 @@
                                             @slot('value', $cashbook->transactiondate)
                                         @endcomponent
                                     </div>
-                                    <div class="col-md-6 mt-3">
+                                    <div class="col-md-6 mt-2">
                                         <label class="form-control-label">
                                             Project
                                         </label>
@@ -112,9 +112,7 @@
                                           @endif
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Department
                                         </label>
@@ -130,7 +128,7 @@
                                             @endfor
                                         </select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Location
                                         </label>
@@ -143,9 +141,7 @@
                                             <option value="biak" {{(strtolower($cashbook->location) == 'biak')? 'selected': ''}}>Biak</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Payment To @include('label::required')
                                         </label>
@@ -158,7 +154,7 @@
                                             @slot('value', $cashbook->personal)
                                         @endcomponent
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Ref No @include('label::required')
                                         </label>
@@ -171,24 +167,9 @@
                                             @slot('value', $cashbook->refno)
                                         @endcomponent
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
-                                            Currency @include('label::required')
-                                        </label>
-                                        <select id="currency" name="currency" class="form-control m-select2">
-                                            @foreach ($currency as $x)
-                                                <option value="{{ $x->code }}"
-                                                    @if ($x->code == $cashbook->currency) selected @endif>
-                                                    {{ $x->full }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            Exchange Rate
+                                            Exchange Rate @include('label::required')
                                         <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                         </label>
                                         @component('input::number')
@@ -198,9 +179,62 @@
                                             @slot('value', (int) $cashbook->exchangerate)
                                         @endcomponent
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
+                                  </div>
+                                  <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
+                                          Multy Currency
+                                        </label>
+                                        @component('input::checkbox')
+                                            @slot('id', 'multy_currency')
+                                            @slot('name', 'multy_currency')
+                                            @slot('value', '1')
+                                            @slot('disabled', 'disabled')
+                                            @if ($cashbook->second_currency)
+                                              @slot('checked', 'checked')
+                                            @endif
+                                        @endcomponent
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
+
+                                      <div class="form-group">
+                                        <label class="form-control-label">
+                                            Currency @include('label::required')
+                                        </label>
+                                        <select id="currency" name="currency" class="form-control m-select2" disabled>
+                                            @foreach ($currency as $x)
+                                                <option value="{{ $x->code }}"
+                                                    @if ($x->code == $cashbook->currency) selected @endif>
+                                                    {{ $x->full }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                      </div>
+
+                                      @if ($cashbook->second_currency)
+                                        <div class="form-group">
+                                          <label class="form-control-label">
+                                              Currency To @include('label::required')
+                                          </label>
+                                          <select id="double-currency" name="second_currency" class="double-currency form-control m-select2" disabled>
+                                              <option value="" class="d-none">-- Select --</option>
+                                              @foreach ($currency as $x)
+                                                  <option value="{{ $x->code }}"
+                                                      @if ($x->code == $cashbook->second_currency) selected @endif>
+                                                      {{ $x->full }}
+                                                  </option>
+                                              @endforeach
+                                          </select>
+                                        </div>
+                                      @endif
+
+                                    </div>
+                                  </div>
+                                    
+                                  </div>
+                                  
+                                  <div class="row">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Account Code @include('label::required')
                                         </label>
@@ -215,7 +249,7 @@
                                             @slot('value', $cashbook->coa->code)
                                         @endcomponent
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Account Code Name
                                         </label>
@@ -228,7 +262,6 @@
                                         @endcomponent
                                     </div>
                                 </div>
-
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <div class="form-group m-form__group row">
@@ -440,7 +473,7 @@
             </div>
             <div class="modal-body">
                 <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="CoaForm">
-                                        <input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
+                    <input type="hidden" name="transactionnumber" value="{{$cashbook->transactionnumber}}">
                     <input type="hidden" class="form-control form-control-danger m-input" name="uuid" id="uuid">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row ">

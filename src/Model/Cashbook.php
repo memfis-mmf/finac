@@ -22,6 +22,7 @@ class Cashbook extends MemfisModel
         'personal',
         'refno',
         'currency',
+        'second_currency',
         'exchangerate',
         'accountcode',
         'totaltransaction',
@@ -167,6 +168,11 @@ class Cashbook extends MemfisModel
 	public function currencies()
 	{
 		return $this->belongsTo(Currency::class, 'currency', 'code');
+    }
+
+	public function second_currencies()
+	{
+		return $this->belongsTo(Currency::class, 'second_currency', 'code');
     }
     
     public function project()

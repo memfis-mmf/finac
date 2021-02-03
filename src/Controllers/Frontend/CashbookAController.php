@@ -361,7 +361,11 @@ class CashbookAController extends Controller
 
 		$data = $alldata = json_decode(
             CashbookA::where('transactionnumber', $cashbook->transactionnumber)
-            ->with(['project'])
+            ->with([
+                'project',
+                'cashbook.currencies',
+                'cashbook.second_currencies'
+            ])
 			->get()
 		);
 

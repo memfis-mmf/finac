@@ -75,9 +75,7 @@
                                             <option value="cr">Cash Receive</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Date Transaction @include('label::required')
                                         </label>
@@ -89,20 +87,7 @@
                                             @slot('id_error', 'date')
                                         @endcomponent
                                     </div>
-                                    {{-- <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            Project
-                                        </label>
-
-                                        @component('input::select')
-                                            @slot('id', 'project')
-                                            @slot('name', 'id_project')
-                                            @slot('text', 'Project')
-                                        @endcomponent
-                                    </div> --}}
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Department
                                         </label>
@@ -113,7 +98,7 @@
                                             @slot('text', 'Department')
                                         @endcomponent
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Location
                                         </label>
@@ -126,9 +111,7 @@
                                             <option value="biak">Biak</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             <span class="payment_receive">Payment To</span> @include('label::required')
                                         </label>
@@ -140,7 +123,7 @@
                                             @slot('id_error', 'payment_to')
                                         @endcomponent
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Ref No @include('label::required')
                                         </label>
@@ -152,23 +135,9 @@
                                             @slot('id_error', 'ref_no')
                                         @endcomponent
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
-                                            Currency @include('label::required')
-                                        </label>
-
-                                        @component('input::select')
-                                            @slot('id', 'currency')
-                                            @slot('text', 'Currency')
-                                            @slot('name', 'currency')
-                                            @slot('id_error', 'currency')
-                                        @endcomponent
-                                    </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <label class="form-control-label">
-                                            Exchange Rate
+                                            Exchange Rate @include('label::required')
                                         <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                         </label>
                                         @component('input::numberreadonly')
@@ -177,9 +146,43 @@
                                             @slot('name', 'exchangerate')
                                         @endcomponent
                                     </div>
-                                </div>
-                                <div class="form-group m-form__group row ">
+                                  </div>
+
+                                  <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="form-control-label">
+                                          Multy Currency
+                                        </label>
+                                        @component('input::checkbox')
+                                            @slot('id', 'multy_currency')
+                                            @slot('name', 'multy_currency')
+                                            @slot('value', '1')
+                                        @endcomponent
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+
+                                      <div class="form-group common-currency">
+                                        <label class="form-control-label">
+                                            Currency @include('label::required')
+                                        </label>
+
+                                        <select class="currency w-100" id="currency" name="currency"></select>
+                                      </div>
+
+                                      <div class="form-group second-currency d-none">
+                                        <label class="form-control-label">
+                                            Currency to @include('label::required')
+                                        </label>
+
+                                        <select class="double-currency w-100" id="double-currency" name="second_currency"></select>
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                  <div class="row">
+
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Account Code @include('label::required')
                                         </label>
@@ -193,7 +196,7 @@
                                             @slot('data_target', '#coa_modal')
                                         @endcomponent
                                     </div>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Account Code Name
                                         </label>
@@ -204,6 +207,10 @@
                                         @slot('name', 'account_name')
                                         @endcomponent
                                     </div>
+                                </div>
+                                <div class="form-group m-form__group row ">
+                                    
+                                    
                                 </div>
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
@@ -401,6 +408,14 @@
           }
 
           $('.payment_receive').html(text);
+        });
+
+        $(document).on('change', '[name=multy_currency]', function () {
+          if ($(this).is(':checked')) {
+            $('.second-currency').removeClass('d-none');
+          } else {
+            $('.second-currency').addClass('d-none');
+          }
         });
 
     });

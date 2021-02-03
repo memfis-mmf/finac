@@ -23,7 +23,7 @@ let Coa = {
 
     $('.modal').on('hidden.bs.modal', function (e) {
       modal = $('.modal');
-      modal.find('input').val('');
+      modal.find('input').not('[type=hidden]').val('');
       modal.find('select').empty();
       modal.find('textarea').val('');
     })
@@ -119,7 +119,13 @@ let Coa = {
 										total_debit = 0;
 									}
 									total_debit = parseFloat(total_debit) + parseFloat(t.debit);
-									return number_format.format(parseFloat(t.debit));
+                  result = t.cashbook.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit));
+
+                  if (t.second_debit != 0) {
+                    result += ` (${t.cashbook.second_currencies.symbol} ${number_format.format(parseFloat(t.second_debit))})`;
+                  }
+
+                  return result;
 								}
             },
             {
@@ -133,7 +139,13 @@ let Coa = {
 										total_credit = 0;
 									}
 									total_credit = parseFloat(total_credit) + parseFloat(t.credit);
-									return number_format.format(parseFloat(t.credit));
+                  result = t.cashbook.currencies.symbol + ' ' + number_format.format(parseFloat(t.credit));
+
+                  if (t.second_credit != 0) {
+                    result += ` (${t.cashbook.second_currencies.symbol} ${number_format.format(parseFloat(t.second_credit))})`;
+                  }
+
+                  return result;
 								}
             },
             {

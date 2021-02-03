@@ -17,6 +17,10 @@ class CashbookA extends MemfisModel
         'credit',
         'description',
         'id_project'
+    ],
+    $appends = [
+        'second_debit',
+        'second_credit',
     ];
 
     public function cashbook()
@@ -36,6 +40,32 @@ class CashbookA extends MemfisModel
     public function project()
     {
         return $this->belongsTo(Project::class, 'id_project');
+    }
+
+    public function getSecondDebitAttribute()
+    {
+        if ($this->cashbook->second_currencies) {
+            if ($this->cashbook->currencies->code == 'idr') {
+                return $this->debit / $this->cashbook->exchangerate;
+            }
+
+            return $this->debit * $this->cashbook->exchangerate;
+        } else {
+            return 0;
+        }
+    }
+
+    public function getSecondCreditAttribute()
+    {
+        if ($this->cashbook->second_currencies) {
+            if ($this->cashbook->currencies->code == 'idr') {
+                return $this->credit / $this->cashbook->exchangerate;
+            }
+
+            return $this->credit * $this->cashbook->exchangerate;
+        } else {
+            return 0;
+        }
     }
 
 }

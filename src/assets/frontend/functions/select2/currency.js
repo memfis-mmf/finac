@@ -1,6 +1,7 @@
 let CurrencySelect2 = {
     init: function () {
-        $('#currency, #currency_validate, .currency').select2({
+        $('#currency, #currency_validate, .currency, select[class*="currency"]').select2({
+            width: '100%',
             placeholder: 'Select a Currency'
         });
     }
