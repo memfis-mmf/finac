@@ -202,10 +202,6 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\JournalController@create'
 		)->name('journal.index');
 		Route::get(
-			'/{journal_uuid}',
-			'memfisfa\Finac\Controllers\Frontend\JournalController@show'
-		)->name('journal.show');
-		Route::get(
 			'/get-account-code-select2',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@getAccountCodeSelect2'
 		)->name('journal.get-account-code-select2');
@@ -264,7 +260,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@print'
-		)->name('journal.print');
+        )->name('journal.print');
+
+		Route::get(
+			'/{journal_uuid}',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@show'
+		)->name('journal.show');
 	});
 
     Route::prefix('bond')->group(function () {
