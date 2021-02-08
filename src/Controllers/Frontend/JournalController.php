@@ -179,6 +179,21 @@ class JournalController extends Controller
         return response()->json($journal);
     }
 
+    public function show($uuid_journal)
+    {
+        $data['journal']= Journal::where('uuid', $uuid_journal)->with([
+            'type_jurnal',
+            'currency',
+        ])->firstOrFail();
+
+        $data['journal_type'] = TypeJurnal::all();
+        $data['currency'] = Currency::whereIn('code', ['usd', 'idr'])
+            ->get();
+        $data['page_type'] = 'show';
+
+        return view('journalview::edit', $data);
+    }
+
     public function datatables(Request $request)
     {
         ini_set('max_execution_time', -1); 
@@ -216,7 +231,9 @@ class JournalController extends Controller
             return $row->transaction_date ?? '-';
         })
         ->addColumn('voucher_no', function($row) {
-            return $row->voucher_no ?? '-';
+            return '<a href="'.route('journal.show', $row->uuid).'">'
+                        .$row->voucher_no
+                    .'</a>';
         })
         ->addColumn('ref_no', function($row) {
             return $row->ref_no ?? '-';

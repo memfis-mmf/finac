@@ -5,6 +5,13 @@ let JournalEdit = {
       let _voucher_no = $('input[name=voucher_no]').val();
       let number_format = new Intl.NumberFormat('de-DE');
 
+      if (page_type == 'show') {
+        $('input').attr('disabled', 'disabled');
+        $('select').attr('disabled', 'disabled');
+        $('textarea').attr('disabled', 'disabled');
+        $('button').attr('disabled', 'disabled');
+      }
+
       $('select.project').select2({
         placeholder: '-- Select --',
         width: '100%',
@@ -13,14 +20,10 @@ let JournalEdit = {
           dataType: 'json'
         },
       });
-      
-      let account_code_table = $('.accountcode_datatable').DataTable({
-        dom: '<"top"f>rt<"bottom">pil',
-        scrollX: true,
-        processing: true,
-        serverSide: true,
-        ajax: '/journala/datatables?voucher_no=' + _voucher_no,
-        columns: [
+
+      column_list = [];
+
+      column_list.push(
           {data: 'coa.code'},
           {data: 'coa.name'},
           {data: 'project.code', defaultContent: '-'},
@@ -28,16 +31,20 @@ let JournalEdit = {
             return row.journal.currency.symbol + ' ' + number_format.format(row.debit);
           }},
           {data: 'credit', render: (data, type, row) => {
-            return row.journal.currency.symbol + ' ' + number_format.format(row.credit);
-          }},
-          {data: 'description'},
-          {data: '', searchable: false, render: function (data, type, row) {
             $("#total_debit").val(
               number_format.format(parseFloat(row.total_debit))
             );
             $("#total_credit").val(
               number_format.format(parseFloat(row.total_credit))
             );
+            return row.journal.currency.symbol + ' ' + number_format.format(row.credit);
+          }},
+          {data: 'description'}
+      );
+
+      if (page_type != 'show') {
+        column_list.push(
+          {data: '', searchable: false, render: function (data, type, row) {
 
             let _html =
               '<button id="show_modal_journala" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + row.uuid + ' data-description='+row.coa.description+'>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
@@ -48,7 +55,22 @@ let JournalEdit = {
 
             return (_html);
           }}
-        ]
+        )
+      } else {
+        column_list.push(
+          {data: '', searchable: false, render: function (data, type, row) {
+            return '-';
+          }},
+        );
+      }
+      
+      let account_code_table = $('.accountcode_datatable').DataTable({
+        dom: '<"top"f>rt<"bottom">pil',
+        scrollX: true,
+        processing: true,
+        serverSide: true,
+        ajax: '/journala/datatables?voucher_no=' + _voucher_no,
+        columns: column_list
       });
 
       $('.modal').on('hidden.bs.modal', function (e) {

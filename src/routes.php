@@ -192,9 +192,17 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::prefix('journal')->group(function () {
 		Route::get(
+			'/datatables',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@datatables'
+		)->name('journal.datatables');
+		Route::get(
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@create'
 		)->name('journal.index');
+		Route::get(
+			'/{journal_uuid}',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@show'
+		)->name('journal.show');
 		Route::get(
 			'/get-account-code-select2',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@getAccountCodeSelect2'
@@ -239,10 +247,6 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/{journal}',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@destroy'
 		)->name('journal.delete');
-		Route::get(
-			'/datatables',
-			'memfisfa\Finac\Controllers\Frontend\JournalController@datatables'
-		)->name('journal.datatables');
 		Route::get(
 			'/{journal}/edit',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@edit'

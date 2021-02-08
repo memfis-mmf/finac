@@ -275,6 +275,7 @@
                                 <div class="form-group m-form__group row ">
                                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                         <div class="action-buttons">
+                                          @if (@$page_type != 'show')
                                             @component('buttons::submit')
                                                 @slot('type', 'button')
                                                 @slot('id','journalsave')
@@ -282,6 +283,7 @@
                                             @endcomponent
 
                                             @include('buttons::reset')
+                                          @endif
 
 																						<a href="{{route('journal.index')}}" class="btn btn-secondary btn-md" style="">
 																								<span>
@@ -304,17 +306,18 @@
 @endsection
 
 @push('footer-scripts')
-    <script>
-        $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faJournal";
-            } else {
-                window.location.href=currentUrl;
-            }
-        });
-    </script>
+<script>
+  $(document).ready(function() {
+      let currentUrl = window.location.href;
+      let _hash = currentUrl.split('#');
+      if (_hash.length < 2) {
+          window.location.href=currentUrl+"#faJournal";
+      } else {
+          window.location.href=currentUrl;
+      }
+  });
+  let page_type = '{{ $page_type ?? "" }}';
+</script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/datepicker/date.js')}}"></script>
