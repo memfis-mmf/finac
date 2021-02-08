@@ -749,13 +749,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-12">
-                                                        @component('frontend.common.input.summernote')
-                                                        @slot('id', 'desc')
-                                                        @slot('class', 'desc')
-                                                        @slot('name', 'description')
-                                                        @slot('text', '')
-                                                        @slot('value', "{$invoice->description}")
-                                                        @endcomponent
+                                                      @component('frontend.common.input.summernote')
+                                                      @slot('id', 'desc')
+                                                      @slot('class', 'desc')
+                                                      @slot('name', 'description')
+                                                      @slot('text', '')
+                                                      @slot('value', $invoice->description)
+                                                      @endcomponent
                                                     </div>
                                                     <div class="col-sm-1 col-md-1 col-lg-1">
                                                     </div>
@@ -770,13 +770,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-12">
-                                                        @component('frontend.common.input.summernote')
-                                                        @slot('id', 'term_and_condition')
-                                                        @slot('class', 'term_and_condition')
-                                                        @slot('name', 'term_and_condition')
-                                                        @slot('text', '')
-                                                        @slot('value', "{$invoice->term_and_condition}")
-                                                        @endcomponent
+                                                      @component('frontend.common.input.summernote')
+                                                      @slot('id', 'term_and_condition')
+                                                      @slot('class', 'term_and_condition')
+                                                      @slot('name', 'term_and_condition')
+                                                      @slot('text', '')
+                                                      @slot('value', $invoice->term_and_condition)
+                                                      @endcomponent
                                                     </div>
                                                     <div class="col-sm-1 col-md-1 col-lg-1">
                                                     </div>
@@ -917,6 +917,7 @@
                                                     <div id="saveheader" class="col-sm-12 col-md-12 col-lg-12 footer">
                                                         <div class="flex">
                                                             <div class="action-buttons">
+                                                              @if (@$page_type != 'show')
                                                                 @component('frontend.common.buttons.submit')
                                                                 @slot('type','submit')
                                                                 @slot('id', 'edit-invoice')
@@ -924,8 +925,9 @@
                                                                 @endcomponent
 
                                                                 @include('frontend.common.buttons.reset')
+                                                              @endif
 
-                                                                @include('frontend.common.buttons.back')
+                                                              @include('frontend.common.buttons.back')
                                                             </div>
                                                         </div>
                                                     </div>
@@ -968,15 +970,28 @@
 </style>
 @endpush
 @push('footer-scripts')
-    <script>
-        $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faAR";
-            }
-        });
-    </script>
+<script>
+  $(document).ready(function() {
+    let currentUrl = window.location.href;
+    let _hash = currentUrl.split('#');
+    if (_hash.length < 2) {
+      window.location.href=currentUrl+"#faAR";
+    }
+
+  });
+
+  if ('{{ @$page_type }}' == 'show') {
+    $('input').attr('disabled', 'disabled');
+    $('select').attr('disabled', 'disabled');
+    $('textarea').attr('disabled', 'disabled');
+    $('button').attr('disabled', 'disabled');
+    summernote_field = $('.summernote');
+
+    $.each(summernote_field, function( index, value ) {
+      $('.summernote').eq(index).summernote('disable');
+    });
+  }
+</script>
 
 <script type="text/javascript">
     $("#type_website").on('change', function() {});

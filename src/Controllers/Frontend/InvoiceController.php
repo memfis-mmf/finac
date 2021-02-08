@@ -11,37 +11,27 @@ use App\Models\BankAccount;
 use App\Models\Currency;
 use memfisfa\Finac\Model\Coa;
 use App\Models\Customer;
-use App\Models\EOInstruction;
-use App\Models\Project;
 use App\Models\Quotation;
 use Carbon\Carbon;
-use memfisfa\Finac\Helpers\CashbookGenerateNumber;
-use App\User;
 use App\Models\HtCrr;
-use App\Models\ListUtil;
 use App\Models\WorkPackage;
 use App\Models\QuotationHtcrrItem;
 use App\Models\Pivots\QuotationWorkPackage;
 use App\Models\ProjectWorkPackageEOInstruction;
 use App\Models\ProjectWorkPackageFacility;
 use App\Models\ProjectWorkPackageTaskCard;
-use App\Models\QuotationWorkPackageItem;
 use App\Models\QuotationWorkPackageTaskCardItem;
 use App\Models\TaskCard;
 use App\Models\Type;
-use App\Models\Company;
 use App\Models\Department;
 use App\Helpers\CalculateQuoPrice;
 use App\Models\Pivots\ProjectWorkpackage;
 use App\Models\QuotationDefectCardItem;
 use memfisfa\Finac\Model\Invoicetotalprofit;
-use memfisfa\Finac\Model\Trxinvoice;
 use memfisfa\Finac\Model\TrxJournal;
 use stdClass;
-use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class InvoiceController extends Controller
 {
@@ -323,9 +313,61 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($invoice_uuid)
     {
-        //
+        $invoice = Invoice::where('uuid', $invoice_uuid)->firstOrFail();
+
+        $quotation = Quotation::where('id', $invoice->id_quotation)->first();
+        $currency = $invoice->currencies;
+        $coa = $invoice->coas;
+        $material = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'material')->first();
+        $material_id = Coa::where('id', $material->accountcode)->first();
+        $manhours = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'manhours')->first();
+        $manhours_id = Coa::where('id', $manhours->accountcode)->first();
+        $facility = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'facility')->first();
+        $facility_id = Coa::where('id', $facility->accountcode)->first();
+        $discount = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'discount')->first();
+        $discount_id = Coa::where('id', $discount->accountcode)->first();
+        $ppn = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'ppn')->first();
+        $ppn_id = Coa::where('id', $ppn->accountcode)->first();
+
+        $others = Invoicetotalprofit::where('invoice_id', $invoice->id)->where('type', 'others')->first();
+        $others_id = Coa::where('id', $others->accountcode)->first();
+
+        $bankAccountget = BankAccount::where('id', $invoice->id_bank)->first();
+        $bankget = Bank::where('id', $bankAccountget->bank_id)->first();
+
+        $bankAccountget2 = BankAccount::where('id', $invoice->id_bank2)->first();
+        @$bankget2 = Bank::where('id', $bankAccountget2->bank_id)->first();
+
+        $bank = BankAccount::where('internal_account', 1)->selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
+
+        $departments = Department::with('type', 'parent')->get();
+
+        $company = $departments;
+
+        $data = [
+            'today' => $invoice->transactiondate,
+            'quotation' => $quotation,
+            'coa' => $coa,
+            'manhours' => $manhours_id,
+            'material' => $material_id,
+            'facility' => $facility_id,
+            'discount' => $discount_id,
+            'ppn' => $ppn_id,
+            'others' => $others_id,
+            'invoice' => $invoice,
+            'banks' => $bank,
+            'bankaccountget' => $bankAccountget,
+            'bankget' => $bankget,
+            'bankaccountget2' => $bankAccountget2,
+            'bankget2' => $bankget2,
+            'company' => $company,
+            'currencycode' => $currency,
+            'page_type' => 'show'
+        ];
+
+        return view('invoiceview::edit', $data);
     }
 
     /**
@@ -843,7 +885,10 @@ class InvoiceController extends Controller
 
         $data = $invoices;
 
-        return DataTables::of($data)
+        return datatables()::of($data)
+            ->addColumn('transaction_number_link', function($row) {
+                return '<a href="'.route('invoice.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
+            })
             ->escapeColumns([])
             ->make(true);
     }

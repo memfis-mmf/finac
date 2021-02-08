@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 require('view-only.php');
 require('print.php');
 
@@ -1012,6 +1014,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/get-customers',
 			'memfisfa\Finac\Controllers\Frontend\InvoiceController@getCustomer'
 		)->name('invoice.customer.get');
+        Route::get('/{invoice_uuid}', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@show')->name('invoice.show');
 	});
 
 	// Route::prefix('ar')->group(function () {
