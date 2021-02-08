@@ -679,6 +679,8 @@ class TrxPaymentController extends Controller
 
     public function grnApprove(Request $request)
     {
+        DB::beginTransaction();
+
         $data = TrxPayment::where('uuid', $request->uuid);
         $si = $data->first();
 
@@ -723,7 +725,57 @@ class TrxPaymentController extends Controller
                 'transaction_status' => 2,
             ]);
 
+        // $generate_journal = $this->grnGenerateJournal($si);
+
+        // if (!$generate_journal['status']) {
+        //     return [
+        //         'status' => false,
+        //         'message' => $generate_journal['message']
+        //     ];
+        // }
+
+        DB::commit();
+
         return response()->json($data->first());
+    }
+
+    private function grnGenerateJournal($si)
+    {
+        if ($si->currencies == 'idr') {
+            return [
+                'success' => true,
+                'message' => 'SI have no rate GAP'
+            ];
+        }
+
+        $gap = 0;
+
+        // looping
+        foreach ($si->trxpaymenta as $detail_row) {
+            $calculate_gap = $this->calculateRateGapGRN($detail_row);
+
+            if (!$calculate_gap['status']) {
+                return [
+                    'status' => false,
+                    'message' => $calculate_gap['message']
+                ];
+            }
+
+            $gap += $calculate_gap['data']['gap'];
+        }
+
+    }
+
+    private function calculateRateGapGRN($si_detail)
+    {
+        if ($si_detail->total == $si_detail->total_idr) {
+            return [
+                'success' => true,
+                'message' => 'SI have no rate GAP',
+                'data' => ['gap' => 0]
+            ];
+        }
+
     }
 
     public function grnPrint(Request $request)
