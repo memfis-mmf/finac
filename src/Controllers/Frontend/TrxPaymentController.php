@@ -549,11 +549,16 @@ class TrxPaymentController extends Controller
 			$total = $pivot->price * $pivot->quantity;
 
 			$sum += $total;
-		}
+        }
+        
+        $rate = $si->exchange_rate;
+        if ($grn->purchase_order->currency->code == 'idr') {
+            $rate = 1;
+        }
 
 		return (object)[
             'total' => $sum,
-            'total_idr' => $sum * $si->exchange_rate,
+            'total_idr' => $sum * $rate,
         ];
 	}
 
@@ -837,7 +842,7 @@ class TrxPaymentController extends Controller
         //jika PO nya IDR
         if ($si_detail->total == $si_detail->total_idr) {
             return [
-                'success' => true,
+                'status' => true,
                 'message' => 'SI have no rate GAP',
                 'data' => ['gap' => 0]
             ];
@@ -848,7 +853,7 @@ class TrxPaymentController extends Controller
         $si_detail_total_with_currency_po = $si_detail_total * $si_detail->grn->purchase_order->exchange_rate;
 
         return [
-            'success' => true,
+            'status' => true,
             'message' => 'Calculate Gap',
             'data' => ['gap' => $si_detail_total_with_currency_si - $si_detail_total_with_currency_po]
         ];
