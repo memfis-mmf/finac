@@ -563,11 +563,11 @@ class TrxPaymentController extends Controller
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 		$grn = GRN::where('uuid', $request->uuid)->first();
 
-		if ($trxpayment->currency != $grn->purchase_order->currency->code) {
-			return [
-				'errors' => 'currency differences',
-			];
-		}
+		// if ($trxpayment->currency != $grn->purchase_order->currency->code) {
+		// 	return [
+		// 		'errors' => 'currency differences',
+		// 	];
+		// }
 
         $trxpaymenta = TrxPaymentA::has('si')->get();
 
@@ -725,20 +725,26 @@ class TrxPaymentController extends Controller
                 'transaction_status' => 2,
             ]);
 
-        // $generate_journal = $this->grnGenerateJournal($si);
+        $generate_journal = $this->grnGenerateJournal($si);
 
-        // if (!$generate_journal['status']) {
-        //     return [
-        //         'status' => false,
-        //         'message' => $generate_journal['message']
-        //     ];
-        // }
+        if (!$generate_journal['status']) {
+            return [
+                'status' => false,
+                'message' => $generate_journal['message'],
+                'errors' => $generate_journal['message']
+            ];
+        }
 
         DB::commit();
 
         return response()->json($data->first());
     }
 
+    /**
+     * mengenerate journal
+     * @param collection $si
+     * @return array ['status', 'message']
+     */
     private function grnGenerateJournal($si)
     {
         if ($si->currencies == 'idr') {
@@ -764,10 +770,71 @@ class TrxPaymentController extends Controller
             $gap += $calculate_gap['data']['gap'];
         }
 
+        // jika gap nya 0 maka tidak timbul journal
+        if ($gap == 0) {
+            return [
+                'status' => true,
+                'message' => 'Gap 0'
+            ];
+        }
+
+        $side = 'credit';
+        $x_side = 'debit';
+
+        //jika minus maka coa vendor di debit
+        if ($gap < 0) {
+            $side = 'debit';
+            $x_side = 'credit';
+        }
+
+        $header = (object) [
+            'voucher_no' => $si->transaction_number,
+            'transaction_date' => $si->transaction_date,
+            'coa' => $si->vendor->coa()->first()->id,
+        ];
+
+        $detail[] = (object) [
+            'coa_detail' => $si->vendor->coa()->first()->id,
+            $side => $gap,
+            $x_side => 0,
+            '_desc' => 'Gap'
+        ];
+
+        $detail[] = (object) [
+            'coa_detail' => Coa::where('code', '71112001')->firstOrFail()->id,
+            $side => 0,
+            $x_side => $gap,
+            '_desc' => 'Gap'
+        ];
+
+        $autoJournal = TrxJournal::autoJournal(
+            $header,
+            $detail,
+            'IVJR',
+            'SRJ'
+        );
+
+        if (!$autoJournal['status']) {
+            return [
+                'status' => false,
+                'message' => $autoJournal['message']
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => 'Auto journal succed'
+        ];
     }
 
+    /**
+     * menghitung gap detial SI (data GRN) dengan dibandingkan dengan rate PO
+     * @param collection $si_detail
+     * @return array
+     */
     private function calculateRateGapGRN($si_detail)
     {
+        //jika PO nya IDR
         if ($si_detail->total == $si_detail->total_idr) {
             return [
                 'success' => true,
@@ -776,6 +843,15 @@ class TrxPaymentController extends Controller
             ];
         }
 
+        $si_detail_total = $si_detail->total + ($si_detail->total * ($si_detail->tax_percent / 100));
+        $si_detail_total_with_currency_si = $si_detail_total * $si_detail->si->exchange_rate;
+        $si_detail_total_with_currency_po = $si_detail_total * $si_detail->grn->purchase_order->exchange_rate;
+
+        return [
+            'success' => true,
+            'message' => 'Calculate Gap',
+            'data' => ['gap' => $si_detail_total_with_currency_si - $si_detail_total_with_currency_po]
+        ];
     }
 
     public function grnPrint(Request $request)
