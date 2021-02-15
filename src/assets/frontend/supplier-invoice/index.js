@@ -348,7 +348,7 @@ let Journal = {
                                                     timeOut: 5000
                                             });
 
-                                            supplier_invoice_datatable.reload();
+                                            supplier_invoice_datatable.ajax.reload();
                                     }
                             }
                     });
