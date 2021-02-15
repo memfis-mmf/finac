@@ -221,6 +221,8 @@
                         <th valign="top" align="center" width="20%">GRN No.</th>
                         <th valign="top" align="center" width="20%">Delivery Order No.</th>
                         <th valign="top" align="center" width="20%">Invoice No.</th>
+                        <th valign="top" align="center" width="20%">Vat percent</th>
+                        <th valign="top" align="center" width="20%">Vat Amount</th>
                         <th valign="top" align="center" width="20%">Total</th>
                     </tr>
                 </thead>
@@ -231,6 +233,8 @@
                       <td valign="top" align="center" width="20%">{{$item->grn->number}}</td>
                       <td valign="top" align="center" width="20%">{{json_decode($item->grn->additionals)->SupplierRefNo}} </td>
                       <td valign="top" align="center" width="20%">{{$item->description}}</td>
+                      <td valign="top" align="center" width="20%">{{number_format($item->tax_percent, 0, ',', '.')}}%</td>
+                      <td valign="top" align="center" width="20%">{{number_format($item->tax_amount, 0, ',', '.')}}</td>
                       <td valign="top" align="right" width="20%">{{number_format($item->total, 0, ',', '.')}} </td>
                     </tr>
                     @php
@@ -264,12 +268,12 @@
                                 <td width="60%" valign="top" align="right"><b>{{number_format($total, 0, ',', '.')}}</b></td>
                             </tr>
                             <tr>
-                                <td width="40%" valign="top"><b>VAT 10%</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format($header->vat_po_percent / 100 * $total, 0, ',', '.')}}</b></td>
+                                <td width="40%" valign="top"><b>VAT Total</b></td>
+                                <td width="60%" valign="top" align="right"><b>{{number_format($header->vat_total_amount, 0, ',', '.')}}</b></td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>GRAND TOTAL</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format(($header->vat_po_percent / 100 * $total) + $total, 0, ',', '.')}}</b></td>
+                                <td width="60%" valign="top" align="right"><b>{{number_format($header->grandtotal_foreign, 0, ',', '.')}}</b></td>
                             </tr>
                         </table>
                     </td>

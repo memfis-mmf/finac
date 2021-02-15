@@ -22,12 +22,20 @@ class TrxPaymentA extends MemfisModel
 		'description',
     ],
     $appends = [
+        'tax_amount',
         'total_after_tax'
     ];
 
+    public function getTaxAmountAttribute()
+    {
+        $result = ($this->total * ($this->tax_percent / 100));
+
+        return $result;
+    }
+
     public function getTotalAfterTaxAttribute()
     {
-        $result = $this->total + ($this->total * ($this->tax_percent / 100));
+        $result = $this->total + $this->getTaxAmountAttribute();
 
         return $result;
     }

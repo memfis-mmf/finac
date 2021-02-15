@@ -586,6 +586,15 @@ class TrxPaymentController extends Controller
 					'errors' => 'GRN already used in other SI',
 				];
 			}
+
+			if (
+				$x->id_grn == $grn->id &&
+				$x->transaction_number == $trxpayment->transaction_number
+			) {
+				return [
+					'errors' => 'GRN already used',
+				];
+			}
         }
         
         if ($grn->purchase_order->vendor_id != $trxpayment->id_supplier) {
@@ -872,8 +881,11 @@ class TrxPaymentController extends Controller
             'si',
         ])->get();
 
-        $po = $trxpaymenta[0]->grn->purchase_order;
-        $trxpayment->vat_po_percent = ($po->total_after_tax - $po->total_before_tax) / $po->total_before_tax * 100;
+        $trxpayment->vat_total_amount = 0;
+
+        foreach ($trxpaymenta as $detail_si_row) {
+            $trxpayment->vat_total_amount += $detail_si_row->tax_amount;
+        }
 
         $data = [
             'header' => $trxpayment,
