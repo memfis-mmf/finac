@@ -1087,6 +1087,18 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\APHistoryController@apHistoryExport'
         )->name('fa-report.ap-history-export');
         // END AP history
+
+        Route::namespace('App\Http\Controllers\Frontend')->group(function() {
+            Route::get(
+                '/bank-statement',
+                'CashBankReportController@bankStatement'
+            )->name('fa-report.bank-statement');
+
+            Route::get(
+                '/cash-statement',
+                'CashBankReportController@cashStatement'
+            )->name('fa-report.cash-statement');
+        });
 	});
 
     
