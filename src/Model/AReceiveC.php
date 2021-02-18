@@ -5,6 +5,9 @@ namespace memfisfa\Finac\Model;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * GAP
+ */
 class AReceiveC extends MemfisModel
 {
     protected $table = "a_receive_c";

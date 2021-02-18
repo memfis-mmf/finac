@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Currency;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
+/**
+ * Detail
+ */
 class AReceiveA extends MemfisModel
 {
     protected $table = "a_receive_a";

@@ -6,6 +6,9 @@ use App\Models\Project;
 use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Adjustment
+ */
 class AReceiveB extends MemfisModel
 {
     protected $table = "a_receive_b";
