@@ -69,7 +69,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                   <h1>CASH STATEMENT</h1>
                   <h4>Period :
-                    01 January 2020 - 31 January 2020</h4>
+                    {{ $start_date }} - {{ $end_date }}</h4>
                 </div>
               </div>
 
@@ -79,17 +79,17 @@
                     <tr>
                       <td width="12%" valign="top">Account Code</td>
                       <td width="1%" valign="top">:</td>
-                      <td width="77%" valign="top"></td>
+                      <td width="77%" valign="top">{{ $account_code }}</td>
                     </tr>
                     <tr>
                       <td>Account Name</td>
                       <td>:</td>
-                      <td style="text-transform: capitalize"></td>
+                      <td style="text-transform: capitalize">{{ $account_name }}</td>
                     </tr>
                     <tr>
                       <td>Currency</td>
                       <td>:</td>
-                      <td></td>
+                      <td>{{ $currency }}</td>
                     </tr>
                   </table>
                 </div>
@@ -104,20 +104,26 @@
                         <thead style="border-bottom:2px solid black;">
                           <tr>
                             <td width="" align="left" valign="top" style="padding-left:8px;"><b>Date</b></td>
-                            <td width="40%" align="center" valign="top"><b>Description</b></td>
+                            <td width="" align="center" valign="top"><b>Description</b></td>
+                            <td width="" align="center" valign="top"><b>Reference</b></td>
+                            <td width="" align="center" valign="top"><b>Transaction No</b></td>
                             <td width="" align="right" valign="top"><b>Debit</b></td>
                             <td width="" align="right" valign="top"><b>Credit</b></td>
                             <td width="" align="right" valign="top"><b>Balance</b></td>
                           </tr>
                         </thead>
                         <tbody>
-                            <tr valign="top">
-                                <td>ambil dari tanggal transaksi</td>
-                                <td>ambil dari transaksi remark/description</td>
-                                <td align="right">Rp. 999.999.999.999</td>
-                                <td align="right">Rp. 999.999.999.999</td>
-                                <td align="right">Rp. 999.999.999.999</td>
+                          @foreach ($data as $data_row)
+                            <tr>
+                              <td>{{ $data_row->date }}</td>
+                              <td>{{ $data_row->description }}</td>
+                              <td>{{ $data_row->ref }}</td>
+                              <td>{{ $data_row->number }}</td>
+                              <td>{{ $data_row->currency->symbol.' '.number_format($data_row->debit, 2, ',', '.') }}</td>
+                              <td>{{ $data_row->currency->symbol.' '.number_format($data_row->credit, 2, ',', '.') }}</td>
+                              <td>{{ $data_row->currency->symbol.' '.number_format($data_row->balance, 2, ',', '.') }}</td>
                             </tr>
+                          @endforeach
                         </tbody>
                       </table>
                     </div>
