@@ -106,12 +106,6 @@
                                                             Help
                                                         </a>
                                                     </p>
-                                                    <p class="text-dark-50">
-                                                        <a href="/account-receivables-history.pdf/help" target="_blank">
-                                                            <i class="fa fa-question-circle fa-4x"></i>
-                                                            Help
-                                                        </a>
-                                                    </p>
                                                 </div>
                                                 <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
                                                     <a href="#" data-target="#modal_customer_tb" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
@@ -161,6 +155,12 @@
                                                     <p class="text-dark-50">
                                                         <i class="fa fa-info-circle fa-4x"></i>
                                                         Shows report of receivables customer
+                                                    </p>
+                                                    <p class="text-dark-50">
+                                                        <a href="/account-receivables-history.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
                                                     </p>
                                                 </div>
                                                 <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
