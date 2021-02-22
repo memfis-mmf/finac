@@ -20,10 +20,10 @@
                                     Date
                                 </label>
                             
-                                @component('input::datepicker')
-                                    @slot('id', 'daterange_cash_statement')
+                                @component('input::text')
+                                    @slot('id', 'daterange')
                                     @slot('name', 'daterange')
-                                    @slot('id_error', 'daterange_cash_statement')
+                                    @slot('id_error', 'daterange')
                                 @endcomponent
                             </div>
                         </div>
@@ -86,6 +86,15 @@
     $(document).ready(function () {
       let _url = window.location.origin;
       modal = $('#modal_cash_statement');
+
+      modal.find("[name=daterange]").daterangepicker({
+        buttonClasses: "m-btn btn",
+        applyClass: "btn-primary",
+        cancelClass: "btn-secondary",
+        locale: {
+          format: 'DD-MM-YYYY'
+        }
+      });
 
       modal.find('[name=coa]').select2({
         placeholder: '-- Select --',
