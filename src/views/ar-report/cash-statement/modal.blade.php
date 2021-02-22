@@ -22,7 +22,7 @@
                             
                                 @component('input::datepicker')
                                     @slot('id', 'daterange_cash_statement')
-                                    @slot('name', 'daterange_cash_statement')
+                                    @slot('name', 'daterange')
                                     @slot('id_error', 'daterange_cash_statement')
                                 @endcomponent
                             </div>
@@ -46,7 +46,7 @@
                                     @slot('id', 'currency_id')
                                     @slot('name', 'currency')
                                     @slot('class', 'currency')
-                                    @slot('id_error', 'currency_id')
+                                    @slot('id_error', 'currency')
                                 @endcomponent
                             </div>
                         </div>
@@ -83,18 +83,19 @@
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/cash-statement.js')}}"></script>
 <script>
-    modal = $('#modal_cash_statement');
+    $(document).ready(function () {
+      let _url = window.location.origin;
+      modal = $('#modal_cash_statement');
 
-    modal.find('[name=daterange_cash_statement]').daterangepicker({
-      buttonClasses: "m-btn btn",
-      applyClass: "btn-primary",
-      cancelClass: "btn-secondary",
-      singleDatePicker: true,
-      showDropdown: true,
-      locale: {
-        format: 'YYYY/MM/DD'
-      }    
+      modal.find('[name=coa]').select2({
+        placeholder: '-- Select --',
+        ajax: {
+          url: _url+'/journal/get-account-code-select2',
+          dataType: 'json'
+        }    
+      });
     });
+
 </script>
 @endpush
 

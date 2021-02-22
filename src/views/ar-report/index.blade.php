@@ -438,25 +438,25 @@
 
 @push('footer-scripts')
 <script>
-    $(document).ready(function() {
-        let currentUrl = window.location.href;
-        let _hash = currentUrl.split('#');
-        if (_hash.length < 2) {
-            window.location.href = currentUrl + "#faReport";
-        } else {
-            window.location.href = currentUrl;
-        }
+  $(document).ready(function() {
+      let currentUrl = window.location.href;
+      let _hash = currentUrl.split('#');
+      if (_hash.length < 2) {
+        window.location.href = currentUrl + "#faReport";
+      } else {
+        window.location.href = currentUrl;
+      }
 
-        $(document).on('click', '.export-to-excel', function() {
-            console.log('wew');
-            let href = $(this).data('href');
-            let daterange = $('[name=daterange]').val();
+      $(document).on('click', '.export-to-excel', function() {
+        let href = $(this).data('href');
+        let daterange = $('[name=daterange]').val();
 
-            href = href + '?daterange=' + daterange;
+        href = href + '?daterange=' + daterange;
 
-            window.open(href, '_blank');
+        window.open(href, '_blank');
 
-        });
-    });
+      });
+
+  });
 </script>
 @endpush
