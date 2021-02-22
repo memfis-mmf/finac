@@ -19,6 +19,7 @@
                                 <label class="form-control-label">
                                     Date
                                 </label>
+                                <span class="text-danger">*</span>
                             
                                 @component('input::text')
                                     @slot('id', 'daterange')
@@ -32,6 +33,7 @@
                                 <label class="form-control-label">
                                     Cash Account
                                 </label>
+                                <span class="text-danger">*</span>
                             
                                 <select class="_select2 form-control" name="coa" style="width:100%">
                                     <option value=""></option>
@@ -41,6 +43,7 @@
                                 <label class="form-control-label">
                                     Currency
                                 </label>
+                                <span class="text-danger">*</span>
                             
                                 @component('input::select')
                                     @slot('id', 'currency_id')

@@ -119,9 +119,9 @@
                               <td>{{ $data_row->description }}</td>
                               <td>{{ $data_row->ref }}</td>
                               <td>{{ $data_row->number }}</td>
-                              <td>{{ $data_row->currency->symbol.' '.number_format($data_row->debit, 2, ',', '.') }}</td>
-                              <td>{{ $data_row->currency->symbol.' '.number_format($data_row->credit, 2, ',', '.') }}</td>
-                              <td>{{ $data_row->currency->symbol.' '.number_format($data_row->balance, 2, ',', '.') }}</td>
+                              <td>{{ $data_row->debit_formated }}</td>
+                              <td>{{ $data_row->credit_formated }}</td>
+                              <td>{{ $data_row->balance_formated }}</td>
                             </tr>
                           @endforeach
                         </tbody>
@@ -144,12 +144,14 @@
                       </span>
                     </button>
 
-                    @component('buttons::submit')
-                    @slot('text', 'Print')
-                    @slot('icon', 'fa-print')
-                    @endcomponent
+                    <a href="{{ route('fa-report.cash-statement.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md add">
+                        <span class="text-white">
+                            <i class="fa fa-print"></i>
+                            <span>Print</span>
+                        </span>
+                    </a>
 
-                    <a href="" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
+                    <a href="{{ route('fa-report.cash-statement.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
                       <span>
                         <i class="fa fa-file-excel"></i>
                         <span>Export to Excel</span>

@@ -1095,9 +1095,24 @@ Route::group(['middleware' => ['web','auth']], function () {
             )->name('fa-report.bank-statement');
 
             Route::get(
+                '/bank-statement/print',
+                'CashBankReportController@bankStatementPrint'
+            )->name('fa-report.bank-statement.print');
+
+            Route::get(
                 '/cash-statement',
                 'CashBankReportController@cashStatement'
             )->name('fa-report.cash-statement');
+
+            Route::get(
+                '/cash-statement/print',
+                'CashBankReportController@cashStatementPrint'
+            )->name('fa-report.cash-statement.print');
+
+            Route::get(
+                '/cash-statement/export',
+                'CashBankReportController@cashStatementExport'
+            )->name('fa-report.cash-statement.export');
         });
 	});
 
