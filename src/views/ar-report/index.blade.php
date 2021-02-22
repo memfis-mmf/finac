@@ -459,4 +459,15 @@
 
   });
 </script>
+
+@if (Session::get('errors'))
+<script type="text/javascript">
+	$(document).ready(function () {
+		toastr.error(`{{Session::get('errors')}}`, 'Invalid', {
+				timeOut: 3000
+		});
+	});
+</script>
+@endif
+
 @endpush
