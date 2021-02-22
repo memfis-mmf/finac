@@ -19,29 +19,20 @@
                                 <label class="form-control-label">
                                     Date
                                 </label>
+                                <span class="text-danger">*</span>
                             
                                 @component('input::datepicker')
-                                    @slot('id', 'daterange_cash_statement')
-                                    @slot('name', 'daterange_cash_statement')
-                                    @slot('id_error', 'daterange_cash_statement')
+                                    @slot('id', 'daterange')
+                                    @slot('name', 'daterange')
+                                    @slot('id_error', 'daterange')
                                 @endcomponent
-                            </div>
-                        </div>
-                        <div class="form-group m-form__group row">
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <label class="form-control-label">
-                                    COA
-                                </label>
-                            
-                                <select class="_select2 form-control" name="coa" style="width:100%">
-                                    <option value=""></option>
-                                </select>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Bank Account
                                 </label>
-                            
+                                <span class="text-danger">*</span>
+
                                 <select class="_select2 form-control" name="bank_account" style="width:100%">
                                     <option value=""></option>
                                 </select>
@@ -77,18 +68,28 @@
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/bank-statement.js')}}"></script>
 <script>
-    modal = $('#modal_bank_statement');
+    $(document).ready(function () {
+      let _url = window.location.origin;
+      modal = $('#modal_bank_statement');
 
-    modal.find('[name=daterange_bank_statement]').daterangepicker({
-      buttonClasses: "m-btn btn",
-      applyClass: "btn-primary",
-      cancelClass: "btn-secondary",
-      singleDatePicker: true,
-      showDropdown: true,
-      locale: {
-        format: 'YYYY/MM/DD'
-      }    
+      modal.find("[name=daterange]").daterangepicker({
+        buttonClasses: "m-btn btn",
+        applyClass: "btn-primary",
+        cancelClass: "btn-secondary",
+        locale: {
+          format: 'DD-MM-YYYY'
+        }
+      });
+
+      modal.find('[name=bank_account]').select2({
+        placeholder: '-- Select --',
+        ajax: {
+          url: _url+'/fa-report/cash-statement/select2-bank-account',
+          dataType: 'json'
+        }    
+      });
     });
+
 </script>
 @endpush
 

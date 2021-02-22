@@ -89,7 +89,7 @@
                     <tr>
                       <td>Currency</td>
                       <td>:</td>
-                      <td>{{ $currency }}</td>
+                      <td>{{ strtoupper($currency) }}</td>
                     </tr>
                   </table>
                 </div>
@@ -115,13 +115,13 @@
                         <tbody>
                           @foreach ($data as $data_row)
                             <tr>
-                              <td>{{ $data_row->date }}</td>
-                              <td>{{ $data_row->description }}</td>
-                              <td>{{ $data_row->ref }}</td>
-                              <td>{{ $data_row->number }}</td>
-                              <td>{{ $data_row->debit_formated }}</td>
-                              <td>{{ $data_row->credit_formated }}</td>
-                              <td>{{ $data_row->balance_formated }}</td>
+                              <td class="nowrap">{{ $data_row->date }}</td>
+                              <td class="nowrap">{{ $data_row->description }}</td>
+                              <td class="nowrap">{{ $data_row->ref }}</td>
+                              <td class="nowrap">{{ $data_row->number }}</td>
+                              <td class="nowrap" align="right">{{ $data_row->debit_formated }}</td>
+                              <td class="nowrap" align="right">{{ $data_row->credit_formated }}</td>
+                              <td class="nowrap" align="right">{{ $data_row->balance_formated }}</td>
                             </tr>
                           @endforeach
                         </tbody>

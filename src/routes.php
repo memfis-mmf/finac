@@ -1090,6 +1090,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 
         Route::namespace('App\Http\Controllers\Frontend')->group(function() {
             Route::get(
+                '/cash-statement/select2-bank-account',
+                'CashBankReportController@select2BankAccount'
+            )->name('fa-report.select2.bank-account');
+
+            Route::get(
                 '/bank-statement',
                 'CashBankReportController@bankStatement'
             )->name('fa-report.bank-statement');
@@ -1098,6 +1103,11 @@ Route::group(['middleware' => ['web','auth']], function () {
                 '/bank-statement/print',
                 'CashBankReportController@bankStatementPrint'
             )->name('fa-report.bank-statement.print');
+
+            Route::get(
+                '/bank-statement/export',
+                'CashBankReportController@bankStatementExport'
+            )->name('fa-report.bank-statement.export');
 
             Route::get(
                 '/cash-statement',

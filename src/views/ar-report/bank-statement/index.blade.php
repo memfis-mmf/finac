@@ -69,7 +69,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                   <h1>BANK STATEMENT</h1>
                   <h4>Period :
-                    01 January 2020 - 31 January 2020</h4>
+                    {{ $start_date }} - {{ $end_date }}</h4>
                 </div>
               </div>
 
@@ -79,17 +79,17 @@
                     <tr>
                       <td width="30%" valign="top">Bank Name</td>
                       <td width="1%" valign="top">:</td>
-                      <td width="69%" valign="top"></td>
+                      <td width="69%" valign="top">{{ $bank_account->bank->name }}</td>
                     </tr>
                     <tr>
                       <td>Bank Account Name</td>
                       <td>:</td>
-                      <td></td>
+                      <td>{{ $bank_account->name }}</td>
                     </tr>
                     <tr>
                       <td>Bank Account Number</td>
                       <td>:</td>
-                      <td></td>
+                      <td>{{ $bank_account->number }}</td>
                     </tr>
                   </table>
                 </div>
@@ -98,12 +98,17 @@
                     <tr>
                       <td width="30%" valign="top">Currency</td>
                       <td width="1%" valign="top">:</td>
-                      <td width="69%" valign="top"></td>
+                      <td width="69%" valign="top">{{ strtoupper($currency) }}</td>
                     </tr>
                     <tr>
                       <td>Account Code</td>
                       <td>:</td>
-                      <td></td>
+                      <td>{{ $account_code }}</td>
+                    </tr>
+                    <tr>
+                      <td>Account Name</td>
+                      <td>:</td>
+                      <td>{{ $account_name }}</td>
                     </tr>
                   </table>
                 </div>
@@ -118,20 +123,26 @@
                         <thead style="border-bottom:2px solid black;">
                           <tr>
                             <td width="" align="left" valign="top" style="padding-left:8px;"><b>Date</b></td>
-                            <td width="40%" align="center" valign="top"><b>Description</b></td>
+                            <td width="" align="center" valign="top"><b>Description</b></td>
+                            <td width="" align="center" valign="top"><b>Reference</b></td>
+                            <td width="" align="center" valign="top"><b>Transaction No</b></td>
                             <td width="" align="right" valign="top"><b>Debit</b></td>
                             <td width="" align="right" valign="top"><b>Credit</b></td>
                             <td width="" align="right" valign="top"><b>Balance</b></td>
                           </tr>
                         </thead>
                         <tbody>
-                            <tr valign="top">
-                                <td>ambil dari tanggal transaksi</td>
-                                <td>ambil dari transaksi remark/description</td>
-                                <td align="right">Rp. 999.999.999.999</td>
-                                <td align="right">Rp. 999.999.999.999</td>
-                                <td align="right">Rp. 999.999.999.999</td>
+                          @foreach ($data as $data_row)
+                            <tr>
+                              <td class="nowrap">{{ $data_row->date }}</td>
+                              <td class="nowrap">{{ $data_row->description }}</td>
+                              <td class="nowrap">{{ $data_row->ref }}</td>
+                              <td class="nowrap">{{ $data_row->number }}</td>
+                              <td class="nowrap" align="right">{{ $data_row->debit_formated }}</td>
+                              <td class="nowrap" align="right">{{ $data_row->credit_formated }}</td>
+                              <td class="nowrap" align="right">{{ $data_row->balance_formated }}</td>
                             </tr>
+                          @endforeach
                         </tbody>
                       </table>
                     </div>
@@ -152,12 +163,14 @@
                       </span>
                     </button>
 
-                    @component('buttons::submit')
-                    @slot('text', 'Print')
-                    @slot('icon', 'fa-print')
-                    @endcomponent
+                    <a href="{{ route('fa-report.bank-statement.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md add">
+                        <span class="text-white">
+                            <i class="fa fa-print"></i>
+                            <span>Print</span>
+                        </span>
+                    </a>
 
-                    <a href="" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
+                    <a href="{{ route('fa-report.bank-statement.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
                       <span>
                         <i class="fa fa-file-excel"></i>
                         <span>Export to Excel</span>
@@ -170,6 +183,7 @@
                       </span>
                       Back
                     </a>
+
                   </div>
                 </div>
               </div>

@@ -108,23 +108,26 @@
           <tr valign="top">
             <td width="20%">Bank Name</td>
             <td width="1%">:</td>
-            <td width="29%"></td>
+            <td width="29%">{{ $bank_account->bank->name }}</td>
             <td width="20%">Currency</td>
             <td width="1%">:</td>
-            <td width="29%"></td>
+            <td>{{ $currency }}</td>
           </tr>
           <tr valign="top">
             <td>Bank Account Name</td>
             <td>:</td>
-            <td></td>
+            <td>{{ $bank_account->name }}</td>
             <td>Account Code</td>
             <td>:</td>
-            <td></td>
+            <td>{{ $account_code }}</td>
+            <td>Account Name</td>
+            <td>:</td>
+            <td>{{ $account_name }}</td>
           </tr>
           <tr valign="top">
             <td>Bank Account Number</td>
             <td>:</td>
-            <td></td>
+            <td>{{ $bank_account->number }}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -138,7 +141,7 @@
     <div class="container">
       <table width="100%">
         <tr>
-          <td>Printed on 
+          <td>Printed on {{ date('d/m/Y H:i:s') }}
           </td>
           <td align="right" valign="bottom"> <span class="page-number">Page </span></td>
         </tr>
@@ -152,23 +155,27 @@
         <table width="100%" cellpadding="3" page-break-inside: auto;>
             <thead>
                 <tr>
-                    <td width="20%" align="center"><b>Date</b></td>
-                    <td width="20%" align="center"><b>Description</b></td>
-                    <td width="20%" align="right"><b>Debit</b></td>
-                    <td width="20%" align="right"><b>Credit</b></td>
-                    <td width="20%" align="right"><b>Balance</b></td>
+                  <td width="" align="left" valign="top"><b>Date</b></td>
+                  <td width="" align="center" valign="top"><b>Description</b></td>
+                  <td width="" align="center" valign="top"><b>Reference</b></td>
+                  <td width="" align="center" valign="top"><b>Transaction No</b></td>
+                  <td width="" align="right" valign="top"><b>Debit</b></td>
+                  <td width="" align="right" valign="top"><b>Credit</b></td>
+                  <td width="" align="right" valign="top"><b>Balance</b></td>
                 </tr>
             </thead>
             <tbody style="font-size:11px;">
-                @for ($i = 0; $i < 100; $i++)
-                    <tr valign="top">
-                        <td align="center">27 January 2020</td>
-                        <td align="center">ambil dari transaksi remark / description</td>
-                        <td align="right">200.000.000.000,00</td>
-                        <td align="right">200.000.000.000,00</td>
-                        <td align="right">200.000.000.000,00</td>
-                    </tr>
-                @endfor
+              @foreach ($data as $data_row)
+                <tr>
+                  <td>{{ $data_row->date }}</td>
+                  <td>{{ $data_row->description }}</td>
+                  <td>{{ $data_row->ref }}</td>
+                  <td>{{ $data_row->number }}</td>
+                  <td>{{ $data_row->debit_formated }}</td>
+                  <td>{{ $data_row->credit_formated }}</td>
+                  <td>{{ $data_row->balance_formated }}</td>
+                </tr>
+              @endforeach
             </tbody>
         </table>
     </div>
