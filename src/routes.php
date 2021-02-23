@@ -521,7 +521,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@print'
-		);
+		)->name('trxpayment.print');
 
 		//GRN
 		Route::post(
@@ -559,7 +559,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'grn/print',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@grnPrint'
-		);
+		)->name('trxpayment.grn.print');
 		Route::get(
 			'/get-vendors',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@getVendor'
