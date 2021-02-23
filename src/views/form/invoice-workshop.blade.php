@@ -256,7 +256,7 @@
                         <td colspan="3" valign="top">
                             <table width="100%" id="no-border">
                                 <tr>
-                                    <td valign="top" width="50%">Sub Total</td>
+                                    <td valign="top" width="50%">Subtotal</td>
                                     <td valign="top" width="4%">$</td>
                                     <td valign="top" align="right">000.000.000.000.000</td>
                                 </tr>

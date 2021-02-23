@@ -206,7 +206,7 @@
                         <td width="2%"><b>Qty</b></td>
                         <td width="2%"><b>Unit</b></td>
                         <td width="11%"><b>Price</b></td>
-                        <td width="15%"><b>Sub Total</b></td>
+                        <td width="15%"><b>Subtotal</b></td>
                         <td width="11%"><b>Disc</b></td>
                         <td width="20%"><b>Total</b></td>
                     </tr>
@@ -233,7 +233,7 @@
                         <td colspan="3" valign="top">
                             <table width="100%" id="no-border">
                                 <tr>
-                                    <td valign="top" width="50%">Sub Total</td>
+                                    <td valign="top" width="50%">Subtotal</td>
                                     <td valign="top" width="4%">$</td>
                                     <td valign="top" align="right">000.000.000.000.000</td>
                                 </tr>

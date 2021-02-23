@@ -9,7 +9,7 @@
                 <th>Unit</th>
                 <th>Price List</th>
                 <th>Unit Price</th>
-                <th>Sub Total</th>
+                <th>Subtotal</th>
                 <th>Discount</th>
                 <th>Total</th>
                 <th>Remark</th>
@@ -39,7 +39,7 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="form-control-label mt-3">
-            Total Discount
+            Discount Total
         </label>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -107,7 +107,7 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="form-control-label mt-3">
-            Grand Total IDR
+            Grand Total in IDR
         </label>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
