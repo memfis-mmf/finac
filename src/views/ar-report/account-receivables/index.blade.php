@@ -125,7 +125,7 @@
                             <td width="" align="center" valign="top"><b>Ref No.</b></td>
                             <td width="" align="center" valign="top"><b>Exchange Rate</b></td>
                             {{-- <td width="" align="center" valign="top"><b>Description</b></td> --}}
-                            <td width="" align="center" valign="top"><b>Sub Total</b></td>
+                            <td width="" align="center" valign="top"><b>Subtotal</b></td>
                             <td width="" align="center" valign="top"><b>Discount</b></td>
                             <td width="" align="center" valign="top"><b>VAT</b></td>
                             <td width="" align="center" valign="top"><b>Receivables Total</b></td>

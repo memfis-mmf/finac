@@ -788,7 +788,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                            Sub Total
+                                                            Subtotal
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9 col-md-9">
@@ -882,7 +882,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                            Grand Total IDR
+                                                            Grand Total in IDR
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9 col-md-9">

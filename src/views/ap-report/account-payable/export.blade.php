@@ -49,7 +49,7 @@
                 <td align="center" valign="top"><b>Exchange Rate</b></td>
               @endif
               <td align="center" valign="top"><b>Description</b></td>
-              <td align="center" valign="top"><b>Sub Total</b></td>
+              <td align="center" valign="top"><b>Subtotal</b></td>
               <td align="center" valign="top"><b>Discount</b></td>
               <td align="center" valign="top"><b>VAT</b></td>
               <td align="center" valign="top"><b>Receivables Total</b></td>

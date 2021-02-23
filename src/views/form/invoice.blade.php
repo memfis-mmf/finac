@@ -350,7 +350,7 @@
                     <td width="30%" valign="top" style="border-bottom:none;border-left:none;">
                         {{-- jika scheduled payment 1x --}}
                         @if(1==1)
-                            Sub Total
+                            Subtotal
                         @else
                             {{-- jika scheduled payment lebih dari 2x --}}
                             <span style="color:red;"><b>DUE PAYMENT AMOUNT</b></span>
