@@ -78,7 +78,8 @@
                                     <th>Code</th>
                                     <th>Benefit Name</th>
                                     <th>Desciption</th>
-                                    <th style="width: 500px">COA</th>
+                                    <th>COA</th>
+                                    <th>Approved By</th>
                                     <th>Action</th>
                                   </tr>
                                 </thead>
@@ -146,6 +147,7 @@
         {data: 'name', defaultContent: '-'},
         {data: 'description_show', name: 'description', defaultContent: '-'},
         {data: 'coa', defaultContent: '-'},
+        {data: 'approved_by', defaultContent: '-'},
         {data: 'action'}
       ],
       drawCallback: function(setting) {
