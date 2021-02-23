@@ -2,6 +2,16 @@
 
 @section('faReport', 'm-menu__item--active')
 @section('content')
+<style>
+  tr.nowrap,
+  td.nowrap {
+    white-space: nowrap;
+  }
+
+  thead td {
+    white-space: nowrap !important;
+  }
+</style>
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
@@ -62,78 +72,67 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <table width="100%" cellpadding="3">
                                         <tr>
-                                            <td width="12%" valign="top">MMF Department</td>
-                                            <td width="1%" valign="top">:</td>
-                                            <td width="77%" valign="top">MMF Department</td>
+                                            <td class="nowrap" valign="top" width="1px">MMF Department</td>
+                                            <td class="nowrap" valign="top" width="1px">:</td>
+                                            <td  valign="top">MMF Department</td>
                                         </tr>
                                         <tr>
                                             <td>MMF Location</td>
                                             <td>:</td>
                                             <td>Sidoarjo</td>
                                         </tr>
+                                        <tr>
+                                            <td>Currency</td>
+                                            <td>:</td>
+                                            <td>IDR</td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
-                                <div class="col-sm-12 col-md-12 col-lg-12">   
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">   
                                     <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
                                         <thead style="border-bottom:2px solid black;">     
                                             <tr>
-                                                <td width="15%" align="left" valign="top" style="padding-left:8px;"><b>Customer Name</b></td>
-                                                <td width="12%"align="center" valign="top"><b>ACC No.</b></td>
-                                                <td width="8%"align="center" valign="top"><b>Currency</b></td>
-                                                <td width="13%"align="center" valign="top" colspan="2" style="color:red;"><i><b>1-6 Months</b></i></td>
-                                                <td width="13%"align="center" valign="top"  colspan="2" style="color:red;"><i><b>7-12 Months</b></i></td>
-                                                <td width="13%"align="center" valign="top"  colspan="2" style="color:red;"><i><b>> 1 Year</b></i></td>
-                                                <td width="13%"align="center" valign="top"  colspan="2" style="color:red;"><i><b>> 2 Year</b></i></td>
-                                                <td width="13%"align="center" valign="top"  colspan="2"><i><b>Total Balance</b></i></td>
+                                                <td align="left" valign="top" style="padding-left:8px;"><b>Customer Name</b></td>
+                                                <td align="center" valign="top"><b>Account</b></td>
+                                                <td align="center" valign="top" colspan="2" style="color:red;"><i><b>1-6 Months</b></i></td>
+                                                <td align="center" valign="top"  colspan="2" style="color:red;"><i><b>7-12 Months</b></i></td>
+                                                <td align="center" valign="top"  colspan="2" style="color:red;"><i><b> 1 Year</b></i></td>
+                                                <td align="center" valign="top"  colspan="2" style="color:red;"><i><b> 2 Year</b></i></td>
+                                                <td align="center" valign="top"  colspan="2"><i><b>Total Balance</b></i></td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @for ($i = 0; $i < 50; $i++)
                                                 <tr>
-                                                    <td width="15%" align="left" valign="top" style="padding-left:8px;">Sriwijaya Air</td>
-                                                    <td width="12%"align="center" valign="top">111423</td>
-                                                    <td width="8%"align="center" valign="top">IDR</td>
-                                                    <td width="1%"align="right" valign="top" >Rp.</td>
-                                                    <td width="12%"align="right" valign="top">1.232.232,00</td>
-                                                    <td width="1%"align="right" valign="top" >Rp.</td>
-                                                    <td width="12%"align="right" valign="top">1.232.232,00</td>
-                                                    <td width="1%"align="right" valign="top" > Rp.</td>
-                                                    <td width="12%"align="right" valign="top"> 1.232.232,00</td>
-                                                    <td width="1%"align="right" valign="top" > Rp.</td>
-                                                    <td width="12%"align="right" valign="top"> 1.232.232,00</td>
-                                                    <td width="1%"align="right" valign="top" >Rp.</td>
-                                                    <td width="12%"align="right" valign="top">1.232.232,00</td>
+                                                    <td class="nowrap" align="left" valign="top" style="padding-left:8px;">Sriwijaya Air</td>
+                                                    <td class="nowrap" align="center" valign="top">Testing Account (111423)</td>
+                                                    <td class="nowrap" align="right" valign="top" >Rp </td>
+                                                    <td class="nowrap" align="right" valign="top">1.232.232,00</td>
+                                                    <td class="nowrap" align="right" valign="top" >Rp </td>
+                                                    <td class="nowrap" align="right" valign="top">1.232.232,00</td>
+                                                    <td class="nowrap" align="right" valign="top" > Rp </td>
+                                                    <td class="nowrap" align="right" valign="top"> 1.232.232,00</td>
+                                                    <td class="nowrap" align="right" valign="top" > Rp </td>
+                                                    <td class="nowrap" align="right" valign="top"> 1.232.232,00</td>
+                                                    <td class="nowrap" align="right" valign="top" >Rp </td>
+                                                    <td class="nowrap" align="right" valign="top">1.232.232,00</td>
                                                 </tr>
                                             @endfor
-                                            {{-- Total in IDR --}}
-                                            <tr style="border-top:2px solid black;">
-                                                <td align="center" valign="top" colspan="3"><b>Total IDR</b></td>
-                                                <td width="1%"align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer"><b>1.232.232,00</b></td>
-                                                <td width="1%"align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer"><b>1.232.232,00</b></td>
-                                                <td width="1%"align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer"><b>1.232.232,00</b></td>
-                                                <td width="1%"align="right" valign="top" class="table-footer"><b> Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer"><b>1.232.232,00</b></td>
-                                                <td width="1%"align="right" valign="top" class="table-footer"><b>Rp.</b></td>
-                                                <td width="12%"align="right" valign="top" class="table-footer"><b>1.232.232,00</b></td>
-                                            </tr>
-                                            {{-- Total in USD --}}
+
                                             <tr>
-                                                <td align="center" valign="top" colspan="3"><b>Total USD</b></td>
-                                                <td width="1%"align="right" valign="top"><b>$</b></td>
-                                                <td width="12%"align="right" valign="top"><b>1.232.232.000,00</b></td>
-                                                <td width="1%"align="right" valign="top"><b>$</b></td>
-                                                <td width="12%"align="right" valign="top"><b>1.232.232.000,00</b></td>
-                                                <td width="1%"align="right" valign="top"><b>$</b></td>
-                                                <td width="12%"align="right" valign="top"><b>1.232.232.000,00</b></td>
-                                                <td width="1%"align="right" valign="top"><b> $</b></td>
-                                                <td width="12%"align="right" valign="top"><b>1.232.232.000,00</b></td>
-                                                <td width="1%"align="right" valign="top"><b>$</b></td>
-                                                <td width="12%"align="right" valign="top"><b>1.232.232.000,00</b></td>
+                                                <td align="center" valign="top" colspan="2"><b>Total</b></td>
+                                                <td align="right" valign="top"><b>Rp </b></td>
+                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
+                                                <td align="right" valign="top"><b>Rp </b></td>
+                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
+                                                <td align="right" valign="top"><b>Rp </b></td>
+                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
+                                                <td align="right" valign="top"><b> Rp </b></td>
+                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
+                                                <td align="right" valign="top"><b>Rp </b></td>
+                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
                                             </tr>
                                         </tbody>
                                     </table>
