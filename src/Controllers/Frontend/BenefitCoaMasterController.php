@@ -5,6 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Benefit;
+use App\User;
 use memfisfa\Finac\Model\Coa;
 
 class BenefitCoaMasterController extends Controller
@@ -31,7 +32,7 @@ class BenefitCoaMasterController extends Controller
                 }
 
                 $html = 
-                    '<select class="form-control select2">
+                    '<select class="form-control select2" style="width:400px">
                         <option selected value="'.$val.'">'.$result.'</option>
                     </select>';
 
@@ -43,11 +44,23 @@ class BenefitCoaMasterController extends Controller
             ->addColumn('description_show', function(Benefit $benefit){
                 return substr($benefit->description, 0, 120);
             })
+            ->addColumn('approved_by', function(Benefit $benefit){
+                $audit = $benefit->audits;
+
+                $result = '-';
+
+                if (count($audit) > 1) {
+                    $result =  @User::find($audit[count($audit)-1]->user_id)->name
+                    .' '.$benefit->created_at;
+                }
+
+                return $result;
+            })
             ->addColumn('action', function($row) {
                     $html = 
                     '<button 
                         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill update-coa-benefit" 
-                        title="Edit" data-uuid="'.$row->uuid.'"> 
+                        title="Save" data-uuid="'.$row->uuid.'"> 
                         <i class="la la-check"></i> 
                     </button>';
 
@@ -74,6 +87,7 @@ class BenefitCoaMasterController extends Controller
         }
 
         Benefit::where('uuid', $uuid_benefit)
+            ->first()
             ->update([
                 'coa_id' => $request->id_coa
             ]);

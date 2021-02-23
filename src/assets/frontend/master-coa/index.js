@@ -13,6 +13,7 @@ let MasterCoa = {
         {data: 'code'},
         {data: 'name'},
         {data: 'description'},
+        {data: 'type.name'},
         // {data: 'sub_account'},
         // {data: 'created_by'},
         {data: 'status'},
