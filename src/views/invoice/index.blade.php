@@ -99,7 +99,6 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                        {{-- <div class="invoice_datatable" id="scrolling_both"></div> --}}
                                 <table class="table table-striped table-bordered table-hover table-checkable invoice_datatable">
                                     <thead>
                                         <th></th>
@@ -111,7 +110,6 @@
                                         <th>Currency</th>
                                         <th>Total</th>
                                         <th>Status</th>
-                                        <th>Created By</th>
                                         <th>Approved By</th>
                                         <th>Actions</th>
                                     </thead>
