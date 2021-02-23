@@ -251,6 +251,12 @@
                                                         <i class="fa fa-info-circle fa-4x"></i>
                                                         Shows the report due to cash statement
                                                     </p>
+                                                    <p class="text-dark-50">
+                                                        <a href="/cash-statement-report.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
+                                                    </p>
                                                 </div>
                                                 <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
                                                     <a href="#" data-target="#modal_cash_statement" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
