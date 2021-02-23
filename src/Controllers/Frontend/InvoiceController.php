@@ -889,9 +889,9 @@ class InvoiceController extends Controller
             ->addColumn('transaction_number_link', function($row) {
                 return '<a href="'.route('invoice.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
             })
-            ->addColumn('created', function($row) {
+            ->addColumn('created_by', function($row) {
                 $created_by = $row->audits()->where('event', 'created')->user->name ?? null;
-                return $created_by.' '.$row->created_at;
+                return $created_by;
             })
             ->escapeColumns([])
             ->make(true);
