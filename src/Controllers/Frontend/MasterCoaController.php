@@ -141,9 +141,9 @@ class MasterCoaController extends Controller
 	
 	public function coaDatatables(Request $request)
 	{
-		$data = Coa::withTrashed();
+		$data = Coa::withTrashed()->with(['type']);
 
-		return DataTables::of($data)
+		return datatables()->of($data)
 		->addColumn('status', function(Coa $coa) use ($request) {
 
 			$checked = 'checked';
