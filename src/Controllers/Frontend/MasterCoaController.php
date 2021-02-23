@@ -37,6 +37,17 @@ class MasterCoaController extends Controller
 			'account_name' => 'required',
 		]);
 
+        $check_coa_exist = Coa::where('code', $request->account_no)
+            ->first();
+
+        if ($check_coa_exist) {
+            return [
+                'status' => false,
+                'message' => 'Account Number Duplicate',
+                'errors' => 'Account Number Duplicate'
+            ];
+        }
+
 		$data = [
 			'code' => $request->account_no,
 			'name' => $request->account_name,
