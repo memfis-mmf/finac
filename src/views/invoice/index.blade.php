@@ -111,6 +111,7 @@
                                         <th>Currency</th>
                                         <th>Total</th>
                                         <th>Status</th>
+                                        <th>Created By</th>
                                         <th>Approved By</th>
                                         <th>Actions</th>
                                     </thead>

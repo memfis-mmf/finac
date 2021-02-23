@@ -244,6 +244,9 @@ class ARController extends Controller
 
                 return $html;
             })
+            ->addColumn('created_by', function($row) {
+                return $row->audits()->first()->user->name ?? null;
+            })
             ->addColumn('status', function($row) {
                 return $row->status;
             })
