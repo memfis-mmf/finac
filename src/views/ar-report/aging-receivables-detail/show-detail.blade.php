@@ -90,12 +90,16 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
-                                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">   
+
+                              @foreach ($data as $customer_row)
+                                <div class="col-sm-12 col-md-12 col-lg-12 pt-2 mt-5" style="overflow: auto">   
+                                  <h4>Customer Name : {{ $customer_row->name }}</h4>
                                     <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
                                         <thead style="border-bottom:2px solid black;">     
                                             <tr>
-                                                <td align="left" valign="top" style="padding-left:8px;"><b>Customer Name</b></td>
-                                                <td align="center" valign="top"><b>Account</b></td>
+                                                <td align="left" valign="top" style="padding-left:8px;"><b>Invoice Number</b></td>
+                                                <td align="center" valign="top"><b>Due Date</b></td>
+                                                <td align="center" valign="top" colspan="2" style="color:red;"><i><b>Current</b></i></td>
                                                 <td align="center" valign="top" colspan="2" style="color:red;"><i><b>1-6 Months</b></i></td>
                                                 <td align="center" valign="top"  colspan="2" style="color:red;"><i><b>7-12 Months</b></i></td>
                                                 <td align="center" valign="top"  colspan="2" style="color:red;"><i><b> 1 Year</b></i></td>
@@ -104,48 +108,45 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                          @foreach ($data as $customer_row)
+                                          @foreach ($customer_row->invoice as $invoice_row)
                                             <tr>
-                                              <td class="nowrap" align="left" valign="top" style="padding-left:8px;">{{ $customer_row->name }}</td>
-                                              <td class="nowrap" align="center" valign="top">{{ $customer_row->coa_formated }}</td>
-                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice1_6) }}</td>
-                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice7_12) }}</td>
-                                              <td class="nowrap" align="right" valign="top" > {{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice_1) }}</td>
-                                              <td class="nowrap" align="right" valign="top" > {{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice_2) }}</td>
-                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->balance) }}</td>
+                                              <td class="nowrap" align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->number }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $invoice_row->due_date }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $currency->symbol }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($invoice_row->amount_current) }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $currency->symbol }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($invoice_row->amount1_6) }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $currency->symbol }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($invoice_row->amount7_12) }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $currency->symbol }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($invoice_row->amount_1) }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $currency->symbol }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($invoice_row->amount_2) }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $currency->symbol }}</td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($invoice_row->balance) }}</td>
                                             </tr>
-                                            @php
-                                                $total1_6 += $customer_row->invoice1_6;
-                                                $total7_12 += $customer_row->invoice7_12;
-                                                $total_1 += $customer_row->invoice_1;
-                                                $total_2 += $customer_row->invoice_2;
-                                                $total_balance += $customer_row->balance;
-                                            @endphp
                                           @endforeach
-                                          <tr>
-                                            <td colspan="11" style="height: 30px"></td>
-                                          </tr>
+                                          
                                           <tr>
                                               <td align="center" valign="top" colspan="2"><b>Total</b></td>
-                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
-                                              <td align="right" valign="right"><b>{{ $class::currency_format($total1_6) }}</b></td>
-                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
-                                              <td align="right" valign="right"><b>{{ $class::currency_format($total7_12) }}</b></td>
-                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
-                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_1) }}</b></td>
-                                              <td align="right" valign="top"><b> {{ $currency->symbol }} </b></td>
-                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_2) }}</b></td>
-                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
-                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_balance) }}</b></td>
+                                              <td align="right" valign="top"><b></b></td>
+                                              <td align="right" valign="right"><b></b></td>
+                                              <td align="right" valign="top"><b></b></td>
+                                              <td align="right" valign="right"><b></b></td>
+                                              <td align="right" valign="top"><b></b></td>
+                                              <td align="right" valign="right"><b></b></td>
+                                              <td align="right" valign="top"><b></b></td>
+                                              <td align="right" valign="right"><b></b></td>
+                                              <td align="right" valign="top"><b></b></td>
+                                              <td align="right" valign="right"><b></b></td>
+                                              <td align="right" valign="top"><b></b></td>
+                                              <td align="right" valign="right"><b></b></td>
                                           </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                              @endforeach
+
                             </div>
                             <hr>
                             <div class="form-group m-form__group row ">

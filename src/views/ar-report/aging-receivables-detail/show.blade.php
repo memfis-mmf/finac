@@ -54,7 +54,7 @@
                             @endcomponent
 
                             <h3 class="m-portlet__head-text">
-                                Aging Receivable Detail
+                                Aging Receivable
                             </h3>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-                                 <h1>AGING RECEIVABLE DETAIL</h1>
+                                 <h1>AGING RECEIVABLE</h1>
                                  <h4>Date : {{ $date }}</h4>
                                 </div>
                             </div>
