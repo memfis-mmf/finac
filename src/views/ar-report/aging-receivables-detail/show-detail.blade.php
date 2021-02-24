@@ -65,7 +65,7 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                  <h1>AGING RECEIVABLE DETAIL</h1>
-                                 <h4>Period : 01 January 2018 - 28 January 2020</h4>
+                                 <h4>Date : {{ $date }}</h4>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
@@ -74,17 +74,17 @@
                                         <tr>
                                             <td class="nowrap" valign="top" width="1px">MMF Department</td>
                                             <td class="nowrap" valign="top" width="1px">:</td>
-                                            <td  valign="top">MMF Department</td>
+                                            <td  valign="top">{{ $department }}</td>
                                         </tr>
                                         <tr>
                                             <td>MMF Location</td>
                                             <td>:</td>
-                                            <td>Sidoarjo</td>
+                                            <td>{{ $location }}</td>
                                         </tr>
                                         <tr>
                                             <td>Currency</td>
                                             <td>:</td>
-                                            <td>IDR</td>
+                                            <td>{{ strtoupper($currency->code) }}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -104,36 +104,45 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @for ($i = 0; $i < 50; $i++)
-                                                <tr>
-                                                    <td class="nowrap" align="left" valign="top" style="padding-left:8px;">Sriwijaya Air</td>
-                                                    <td class="nowrap" align="center" valign="top">Testing Account (111423)</td>
-                                                    <td class="nowrap" align="right" valign="top" >Rp </td>
-                                                    <td class="nowrap" align="right" valign="top">1.232.232,00</td>
-                                                    <td class="nowrap" align="right" valign="top" >Rp </td>
-                                                    <td class="nowrap" align="right" valign="top">1.232.232,00</td>
-                                                    <td class="nowrap" align="right" valign="top" > Rp </td>
-                                                    <td class="nowrap" align="right" valign="top"> 1.232.232,00</td>
-                                                    <td class="nowrap" align="right" valign="top" > Rp </td>
-                                                    <td class="nowrap" align="right" valign="top"> 1.232.232,00</td>
-                                                    <td class="nowrap" align="right" valign="top" >Rp </td>
-                                                    <td class="nowrap" align="right" valign="top">1.232.232,00</td>
-                                                </tr>
-                                            @endfor
-
+                                          @foreach ($data as $customer_row)
                                             <tr>
-                                                <td align="center" valign="top" colspan="2"><b>Total</b></td>
-                                                <td align="right" valign="top"><b>Rp </b></td>
-                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
-                                                <td align="right" valign="top"><b>Rp </b></td>
-                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
-                                                <td align="right" valign="top"><b>Rp </b></td>
-                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
-                                                <td align="right" valign="top"><b> Rp </b></td>
-                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
-                                                <td align="right" valign="top"><b>Rp </b></td>
-                                                <td align="right" valign="right"><b>1.232.232.000,00</b></td>
+                                              <td class="nowrap" align="left" valign="top" style="padding-left:8px;">{{ $customer_row->name }}</td>
+                                              <td class="nowrap" align="center" valign="top">{{ $customer_row->coa_formated }}</td>
+                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice1_6) }}</td>
+                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice7_12) }}</td>
+                                              <td class="nowrap" align="right" valign="top" > {{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice_1) }}</td>
+                                              <td class="nowrap" align="right" valign="top" > {{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice_2) }}</td>
+                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->balance) }}</td>
                                             </tr>
+                                            @php
+                                                $total1_6 += $customer_row->invoice1_6;
+                                                $total7_12 += $customer_row->invoice7_12;
+                                                $total_1 += $customer_row->invoice_1;
+                                                $total_2 += $customer_row->invoice_2;
+                                                $total_balance += $customer_row->balance;
+                                            @endphp
+                                          @endforeach
+                                          <tr>
+                                            <td colspan="11" style="height: 30px"></td>
+                                          </tr>
+                                          <tr>
+                                              <td align="center" valign="top" colspan="2"><b>Total</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total1_6) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total7_12) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_1) }}</b></td>
+                                              <td align="right" valign="top"><b> {{ $currency->symbol }} </b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_2) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }} </b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_balance) }}</b></td>
+                                          </tr>
                                         </tbody>
                                     </table>
                                 </div>

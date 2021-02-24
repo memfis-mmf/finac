@@ -119,12 +119,12 @@
 
                                 @include('arreport-customertbview::modal')
 
-                                {{-- <div class="col-lg-4">
+                                <div class="col-lg-4">
                                     <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
                                         <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
                                             <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal-maintenance" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                            <a href="#" data-target="#modal_aging_rd" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
                                             Aging Receivable Detail
                                             </a>
                                             <p class="text-dark-50">
@@ -133,7 +133,7 @@
                                             </p>
                                             </div>
                                             <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal-maintenance" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                            <a href="#" data-target="#modal_aging_rd" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
                                                 View
                                             </a>
                                             </div>
@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
     
-                                @include('arreport-agingview::modal') --}}
+                                @include('arreport-agingview::modal')
 
                                 <div class="col-lg-4">
                                     <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">

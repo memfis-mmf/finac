@@ -13,13 +13,13 @@
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
-                                    Date Period
+                                    Date
                                 </label>
                             
-                                @component('input::datepicker')
-                                    @slot('id', 'daterange_aging')
-                                    @slot('name', 'daterange_aging')
-                                    @slot('id_error', 'daterange_aging')
+                                @component('input::text')
+                                    @slot('id', 'date')
+                                    @slot('name', 'date')
+                                    @slot('id_error', 'date')
                                 @endcomponent
                             </div>
                         </div>
@@ -110,6 +110,32 @@
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/aging-receivables.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+      let _url = window.location.origin;
+      modal = $('#modal_aging_rd');
+
+      modal.find("[name=date]").daterangepicker({
+        buttonClasses: "m-btn btn",
+        applyClass: "btn-primary",
+        cancelClass: "btn-secondary",
+        singleDatePicker: true,
+        locale: {
+          format: 'DD-MM-YYYY'
+        }
+      });
+
+      modal.find('[name=coa]').select2({
+        placeholder: '-- Select --',
+        ajax: {
+          url: _url+'/journal/get-account-code-select2',
+          dataType: 'json'
+        }    
+      });
+    });
+
+</script>
 
 {{-- <script src="{{ asset('vendor/courier/frontend/functions/select2/customer.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/customer.js')}}"></script>
