@@ -169,11 +169,13 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
                                     <div class="action-buttons">
-                                        @component('buttons::submit')
-                                        @slot('text', 'Change Filter')
-                                        @slot('color', 'primary')
-                                        @slot('icon', 'fa-filter')
-                                        @endcomponent
+                                        {{-- <button id="" type="button" name="submit" class="btn btn-primary btn-md add"
+                                          data-target="#modal_aging_rd" data-toggle="modal">
+                                          <span>
+                                            <i class="fa fa-filter"></i>
+                                            <span>Change Filter</span>
+                                          </span>
+                                        </button> --}}
 
                                         <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
                                             <span>
@@ -201,5 +203,6 @@
     </div>
 </div>
 <input hidden id="coaid">
+@include('arreport-agingview::modal')
 
 @endsection
