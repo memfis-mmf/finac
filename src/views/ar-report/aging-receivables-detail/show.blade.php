@@ -157,15 +157,19 @@
                                         @slot('icon', 'fa-filter')
                                         @endcomponent
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Print')
-                                        @slot('icon', 'fa-print')
-                                        @endcomponent
+                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                            <span>
+                                                <i class="fa fa-print"></i>
+                                                <span>Print</span>
+                                            </span>
+                                        </a>
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Export to Excel')
-                                        @slot('icon', 'fa-file-excel')
-                                        @endcomponent
+                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                            <span>
+                                                <i class="fa fa-file-excel"></i>
+                                                <span>Export to Excel</span>
+                                            </span>
+                                        </a>
 
                                         @include('buttons::back')
                                     </div>

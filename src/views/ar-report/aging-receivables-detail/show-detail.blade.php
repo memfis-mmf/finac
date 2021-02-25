@@ -92,6 +92,14 @@
                             <div class="form-group m-form__group row ">
 
                               @foreach ($data as $customer_row)
+                                @php
+                                  $total_amount_current = 0;
+                                  $total_amount1_6 = 0;
+                                  $total_amount7_12 = 0;
+                                  $total_amount_1 = 0;
+                                  $total_amount_2 = 0;
+                                  $total_balance = 0;
+                                @endphp
                                 <div class="col-sm-12 col-md-12 col-lg-12 pt-2 mt-5" style="overflow: auto">   
                                   <h4>Customer Name : {{ $customer_row->name }}</h4>
                                     <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
@@ -125,22 +133,31 @@
                                               <td class="nowrap" align="right" valign="top">{{ $currency->symbol }}</td>
                                               <td class="nowrap" align="right" valign="top">{{ $class::currency_format($invoice_row->balance) }}</td>
                                             </tr>
+
+                                            @php
+                                              $total_amount_current += $invoice_row->amount_current;
+                                              $total_amount1_6 += $invoice_row->amount1_6;
+                                              $total_amount7_12 += $invoice_row->amount7_12;
+                                              $total_amount_1 += $invoice_row->amount_1;
+                                              $total_amount_2 += $invoice_row->amount_2;
+                                              $total_balance += $invoice_row->balance;
+                                            @endphp
                                           @endforeach
                                           
                                           <tr>
                                               <td align="center" valign="top" colspan="2"><b>Total</b></td>
-                                              <td align="right" valign="top"><b></b></td>
-                                              <td align="right" valign="right"><b></b></td>
-                                              <td align="right" valign="top"><b></b></td>
-                                              <td align="right" valign="right"><b></b></td>
-                                              <td align="right" valign="top"><b></b></td>
-                                              <td align="right" valign="right"><b></b></td>
-                                              <td align="right" valign="top"><b></b></td>
-                                              <td align="right" valign="right"><b></b></td>
-                                              <td align="right" valign="top"><b></b></td>
-                                              <td align="right" valign="right"><b></b></td>
-                                              <td align="right" valign="top"><b></b></td>
-                                              <td align="right" valign="right"><b></b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }}</b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_amount_current) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }}</b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_amount1_6) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }}</b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_amount7_12) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }}</b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_amount_1) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }}</b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_amount_2) }}</b></td>
+                                              <td align="right" valign="top"><b>{{ $currency->symbol }}</b></td>
+                                              <td align="right" valign="right"><b>{{ $class::currency_format($total_balance) }}</b></td>
                                           </tr>
                                         </tbody>
                                     </table>
@@ -158,15 +175,19 @@
                                         @slot('icon', 'fa-filter')
                                         @endcomponent
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Print')
-                                        @slot('icon', 'fa-print')
-                                        @endcomponent
+                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                            <span>
+                                                <i class="fa fa-print"></i>
+                                                <span>Print</span>
+                                            </span>
+                                        </a>
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Export to Excel')
-                                        @slot('icon', 'fa-file-excel')
-                                        @endcomponent
+                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                            <span>
+                                                <i class="fa fa-file-excel"></i>
+                                                <span>Export to Excel</span>
+                                            </span>
+                                        </a>
 
                                         @include('buttons::back')
                                     </div>
