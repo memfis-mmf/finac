@@ -34,7 +34,7 @@
                                     Customer
                                 </label>
                             
-                                @component('input::select2')
+                                @component('input::select')
                                     @slot('id', 'customer')
                                     @slot('name', 'customer')
                                     @slot('multiple','multiple')
@@ -112,39 +112,39 @@
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/aging-receivables.js')}}"></script>
 
 <script>
-    $(document).ready(function () {
-      let _url = window.location.origin;
-      modal = $('#modal_aging_rd');
+  $(document).ready(function () {
+    let _url = window.location.origin;
+    modal = $('#modal_aging_rd');
 
-      modal.find("[name=date]").daterangepicker({
-        buttonClasses: "m-btn btn",
-        applyClass: "btn-primary",
-        cancelClass: "btn-secondary",
-        singleDatePicker: true,
-        locale: {
-          format: 'DD-MM-YYYY'
-        }
-      });
-
-      modal.find('[name=coa]').select2({
-        placeholder: '-- Select --',
-        ajax: {
-          url: _url+'/journal/get-account-code-select2',
-          dataType: 'json'
-        }    
-      });
+    modal.find("[name=date]").daterangepicker({
+      buttonClasses: "m-btn btn",
+      applyClass: "btn-primary",
+      cancelClass: "btn-secondary",
+      singleDatePicker: true,
+      locale: {
+        format: 'DD-MM-YYYY'
+      }
     });
+
+    modal.find('[name=coa]').select2({
+      placeholder: '-- Select --',
+      ajax: {
+        url: _url+'/journal/get-account-code-select2',
+        dataType: 'json'
+      }    
+    });
+
+    modal.find('[name=customer]').select2({
+      width: '100%',
+      placeholder: '-- Select --',
+      ajax: {
+        url: '{{ route("fa-report.ar.aging.select2.customer") }}',
+        dataType: 'json'
+      }    
+    });
+
+  });
 
 </script>
 
-{{-- <script src="{{ asset('vendor/courier/frontend/functions/select2/customer.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/customer.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script> --}}
 @endpush
