@@ -81,7 +81,10 @@ class SupplierTrialBalanceController extends Controller
                 }
 
                 if ($request->department) {
-                    $supplier_invoice = $supplier_invoice->where('company_department', $department->name);
+                    $supplier_invoice = $supplier_invoice
+                        ->whereHas('approvals.conductedBy.department', function($department_query) use($department) {
+                            $department_query->where('id', $department->id);
+                        });
                 }
                 
                 if ($request->location) {
