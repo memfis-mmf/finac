@@ -8,13 +8,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm">
+                <form action="{{ route('fa-report.ar.aging') }}" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Date
                                 </label>
+                                <span class="text-danger">*</span>
                             
                                 @component('input::text')
                                     @slot('id', 'date')
@@ -34,9 +35,9 @@
                                     Customer
                                 </label>
                             
-                                @component('input::select2')
+                                @component('input::select')
                                     @slot('id', 'customer')
-                                    @slot('name', 'customer')
+                                    @slot('name', 'customer[]')
                                     @slot('multiple','multiple')
                                     @slot('id_error', 'customer')
                                 @endcomponent
@@ -50,7 +51,7 @@
                             
                                 @component('input::select2')
                                     @slot('id', 'department')
-                                    @slot('name', 'department')
+                                    @slot('name', 'department[]')
                                     @slot('multiple','multiple')
                                     @slot('id_error', 'department')
                                 @endcomponent
@@ -60,12 +61,13 @@
                                     Location
                                 </label>
                             
-                                @component('input::select2')
-                                    @slot('id', 'location')
-                                    @slot('multiple','multiple')
-                                    @slot('name', 'location')
-                                    @slot('id_error', 'location')
-                                @endcomponent
+                                <select class="form-control" name="location" style="width:100%">
+                                  <option value=""></option>
+                                  <option value="sidoarjo">Sidoarjo</option>
+                                  <option value="surabaya">Surabaya</option>
+                                  <option value="jakarta">Jakarta</option>
+                                  <option value="biak">Biak</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
@@ -73,6 +75,7 @@
                                 <label class="form-control-label">
                                     Currency
                                 </label>
+                                <span class="text-danger">*</span>
                             
                                 @component('input::select')
                                     @slot('id', 'currency')
@@ -89,7 +92,7 @@
                                     <div class="action-buttons">
                                         @component('buttons::submit')
                                             @slot('id', 'update_adjustment')
-                                            @slot('type', 'button')
+                                            @slot('type', 'submit')
                                             @slot('color','primary')
                                             @slot('text','View')
                                             @slot('icon','fa-search')
@@ -112,39 +115,44 @@
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/aging-receivables.js')}}"></script>
 
 <script>
-    $(document).ready(function () {
-      let _url = window.location.origin;
-      modal = $('#modal_aging_rd');
+  $(document).ready(function () {
+    let _url = window.location.origin;
+    modal = $('#modal_aging_rd');
 
-      modal.find("[name=date]").daterangepicker({
-        buttonClasses: "m-btn btn",
-        applyClass: "btn-primary",
-        cancelClass: "btn-secondary",
-        singleDatePicker: true,
-        locale: {
-          format: 'DD-MM-YYYY'
-        }
-      });
-
-      modal.find('[name=coa]').select2({
-        placeholder: '-- Select --',
-        ajax: {
-          url: _url+'/journal/get-account-code-select2',
-          dataType: 'json'
-        }    
-      });
+    modal.find("[name=date]").daterangepicker({
+      buttonClasses: "m-btn btn",
+      applyClass: "btn-primary",
+      cancelClass: "btn-secondary",
+      singleDatePicker: true,
+      locale: {
+        format: 'DD-MM-YYYY'
+      }
     });
+
+    modal.find('[name=coa]').select2({
+      placeholder: '-- Select --',
+      ajax: {
+        url: _url+'/journal/get-account-code-select2',
+        dataType: 'json'
+      }    
+    });
+
+    modal.find('[name^=customer]').select2({
+      width: '100%',
+      placeholder: '-- Select --',
+      ajax: {
+        url: '{{ route("fa-report.ar.aging.select2.customer") }}',
+        dataType: 'json'
+      }    
+    });
+
+    modal.find('[name=location]').select2({
+      width: '100%',
+      placeholder: '-- Select --',
+    });
+
+  });
 
 </script>
 
-{{-- <script src="{{ asset('vendor/courier/frontend/functions/select2/customer.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/customer.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/department.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/department.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/currency.js')}}"></script>
-<script src="{{ asset('vendor/courier/frontend/functions/fill-combobox/currency.js')}}"></script>
-
-<script src="{{ asset('vendor/courier/frontend/functions/select2/location.js')}}"></script> --}}
 @endpush

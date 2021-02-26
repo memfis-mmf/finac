@@ -202,8 +202,37 @@
                             </div>
                         </div>
 
+                        {{-- TAB Account Payable --}}
                         <div class="tab-pane" id="content_tab_2">
                             <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+                                                <div class="d-flex flex-column mr-5">
+                                                    <a href="#" data-target="#modal_outstanding" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                        Outstanding Invoice
+                                                    </a>
+                                                    <p class="text-dark-50">
+                                                        <i class="fa fa-info-circle fa-4x"></i>
+                                                        Shows Outstanding Invoice
+                                                    </p>
+                                                    <p class="text-dark-50">
+                                                        <a href="/outstanding-invoice.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                    <a href="#" data-target="#modal_outstanding" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                        View
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
                                         <div class="card-body">

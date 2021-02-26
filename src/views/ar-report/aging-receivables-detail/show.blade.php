@@ -151,21 +151,27 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
                                     <div class="action-buttons">
-                                        @component('buttons::submit')
-                                        @slot('text', 'Change Filter')
-                                        @slot('color', 'primary')
-                                        @slot('icon', 'fa-filter')
-                                        @endcomponent
+                                        {{-- <button id="" type="button" name="submit" class="btn btn-primary btn-md add"
+                                          data-target="#modal_aging_rd" data-toggle="modal">
+                                          <span>
+                                            <i class="fa fa-filter"></i>
+                                            <span>Change Filter</span>
+                                          </span>
+                                        </button> --}}
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Print')
-                                        @slot('icon', 'fa-print')
-                                        @endcomponent
+                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                            <span>
+                                                <i class="fa fa-print"></i>
+                                                <span>Print</span>
+                                            </span>
+                                        </a>
 
-                                        @component('buttons::submit')
-                                        @slot('text', 'Export to Excel')
-                                        @slot('icon', 'fa-file-excel')
-                                        @endcomponent
+                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                            <span>
+                                                <i class="fa fa-file-excel"></i>
+                                                <span>Export to Excel</span>
+                                            </span>
+                                        </a>
 
                                         @include('buttons::back')
                                     </div>
