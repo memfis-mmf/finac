@@ -190,7 +190,22 @@
                                     </div> --}}
                 </div>
                 <div class="form-group m-form__group row ">
-                  <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div class="col-sm-6">
+                      <br />
+                      <label class="form-control-label">
+                          Location
+                      </label>
+
+                      <select class="_select2 form-control" name="location" style="width:100%">
+                          <option value=""></option>
+                          <option value="sidoarjo">Sidoarjo</option>
+                          <option value="surabaya">Surabaya</option>
+                          <option value="jakarta">Jakarta</option>
+                          <option value="biak">Biak</option>
+                      </select>
+                  </div>
+
+                  <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
                     <label class="form-control-label">
                       Remark
                     </label>
@@ -201,7 +216,7 @@
                     @slot('name', 'description')
                     @slot('rows','5')
                     @endcomponent
-                  </div>
+                  </div> 
                 </div>
                 {{-- <div class="form-group m-form__group row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 footer">
@@ -310,6 +325,11 @@
 <script type="text/javascript">
   $(document).ready(function() {
     let _url = window.location.origin;
+
+    $('._select2').select2({
+      allowClear: true,
+      placeholder: '-- Select --'
+    });
 
     // handle select2
     $('#_accountcode').select2({

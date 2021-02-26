@@ -175,6 +175,20 @@
                   </div>
                 </div>
                 <div class="form-group m-form__group row ">
+                  <div class="col-sm-6">
+                      <br />
+                      <label class="form-control-label">
+                          Location
+                      </label>
+
+                      <select class="_select2 form-control" name="location" style="width:100%">
+                          <option value=""></option>
+                          <option value="sidoarjo" {{ ($data->location == 'sidoarjo')? 'selected': '' }}>Sidoarjo</option>
+                          <option value="surabaya" {{ ($data->location == 'surabaya')? 'selected': '' }}>Surabaya</option>
+                          <option value="jakarta" {{ ($data->location == 'jakarta')? 'selected': '' }}>Jakarta</option>
+                          <option value="biak" {{ ($data->location == 'biak')? 'selected': '' }}>Biak</option>
+                      </select>
+                  </div>
                   <div class="col-sm-12 col-md-12 col-lg-12">
                     <label class="form-control-label">
                       Remark
@@ -291,13 +305,14 @@
 <script src="{{ asset('vendor/courier/frontend/supplier-invoice/grn/edit.js')}}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+
+    $('._select2').select2({
+      allowClear: true,
+      placeholder: '-- Select --'
+    });
+
 		$('body').on('input', '#term_of_payment', function() {
 			let date = new Date($('[name=transaction_date]').val());
-
-			console.log([
-				date,
-				$(this).val()
-			]);
 
 			if (parseInt($(this).val())) {
 				date.setDate(date.getDate() + parseInt($(this).val()));
