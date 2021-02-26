@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Models\Department;
 use Carbon\Carbon;
-use memfisfa\Finac\Model\AReceiveA;
+use memfisfa\Finac\Model\APaymentA;
 
 //use for export
 use App\Models\Export\VendorTBExport;
@@ -53,57 +53,39 @@ class SupplierTrialBalanceController extends Controller
         $department = Department::where('uuid', $request->department)->first();
 
         $vendor = Vendor::with([
-                'invoice' => function($invoice) use ($request, $department) {
-                    $invoice->where('approve', 1);
+                'supplier_invoice' => function($supplier_invoice) use ($request, $department) {
+                    $supplier_invoice->where('approve', 1);
 
                     if ($request->vendor) {
-                        $invoice = $invoice->where('id_vendor', $request->vendor);
+                        $supplier_invoice = $supplier_invoice->where('id_supplier', $request->vendor);
                     }
 
                     if ($request->department) {
-                        $invoice = $invoice->where('company_department', $department->name);
+                        // $supplier_invoice = $supplier_invoice->where('company_department', $department->name);
+                        $supplier_invoice = $supplier_invoice
+                            ->whereHas('approvals.conductedBy.department', function($department_query) use($department) {
+                                $department_query->where('id', $department->id);
+                            });
                     }
                     
                     if ($request->location) {
-                        $invoice = $invoice->where('location', $request->location);
-                    }
-                },
-                'invoice_workshop' => function($invoice_workshop) use ($request) {
-                    $invoice_workshop->where('status_inv', 'Approved');
-
-                    if ($request->vendor) {
-                        $invoice_workshop = $invoice_workshop->where('id_vendor', $request->vendor);
-                    }
-
-                    if ($request->location) {
-                        $invoice_workshop = $invoice_workshop->where('location', $request->location);
+                        $supplier_invoice = $supplier_invoice->where('location', $request->location);
                     }
                 }
             ])
-            ->whereHas('invoice', function($invoice) use ($request, $department) {
-                $invoice->where('approve', 1);
+            ->whereHas('supplier_invoice', function($supplier_invoice) use ($request, $department) {
+                $supplier_invoice->where('approve', 1);
 
                 if ($request->vendor) {
-                    $invoice = $invoice->where('id_vendor', $request->vendor);
+                    $supplier_invoice = $supplier_invoice->where('id_supplier', $request->vendor);
                 }
 
                 if ($request->department) {
-                    $invoice = $invoice->where('company_department', $department->name);
+                    $supplier_invoice = $supplier_invoice->where('company_department', $department->name);
                 }
                 
                 if ($request->location) {
-                    $invoice = $invoice->where('location', $request->location);
-                }
-            })
-            ->orWhereHas('invoice_workshop', function($invoice_workshop) use ($request) {
-                $invoice_workshop->where('status_inv', 'Approved');
-
-                if ($request->vendor) {
-                    $invoice_workshop = $invoice_workshop->where('vendor_id', $request->vendor);
-                }
-
-                if ($request->location) {
-                    $invoice_workshop = $invoice_workshop->where('location', $request->location);
+                    $supplier_invoice = $supplier_invoice->where('location', $request->location);
                 }
             })
             ->get();
@@ -139,26 +121,26 @@ class SupplierTrialBalanceController extends Controller
 
         foreach ($vendor as $vendor_row) {
             /**
-             * mengambil grandtotal IDR dari invoice
+             * mengambil grandtotal IDR dari supplier_invoice
              */
-            $begining_balance = $vendor_row->invoice()
+            $begining_balance = $vendor_row->supplier_invoice()
                 ->where('approve', true)
                 ->where('updated_at', '<=', $start_date)
                 ->sum('grandtotal');
 
-            $invoice_workshop = $vendor_row->invoice_workshop()
+            $supplier_invoice_workshop = $vendor_row->supplier_invoice_workshop()
                 ->where('status_inv', 'Approved')
                 ->where('updated_at', '<=', $start_date)
                 ->get();
 
-            foreach ($invoice_workshop as $invoice_workshop_row) {
-                $invoice_workshop_controller = new InvoiceWorkshopController();
-                $qn_workshop = QuotationWorkshop::where('quotation_no', $invoice_workshop_row->ref_quo)->first();
+            foreach ($supplier_invoice_workshop as $supplier_invoice_workshop_row) {
+                $supplier_invoice_workshop_controller = new InvoiceWorkshopController();
+                $qn_workshop = QuotationWorkshop::where('quotation_no', $supplier_invoice_workshop_row->ref_quo)->first();
 
                 if ($qn_workshop->type === "Service") {
-                    $summary = $invoice_workshop_controller->summaryService($invoice_workshop_row)['value_cost'];
+                    $summary = $supplier_invoice_workshop_controller->summaryService($supplier_invoice_workshop_row)['value_cost'];
                 } else {
-                    $summary = $invoice_workshop_controller->summarySale($invoice_workshop_row)['value_cost'];
+                    $summary = $supplier_invoice_workshop_controller->summarySale($supplier_invoice_workshop_row)['value_cost'];
                 }
 
                 $begining_balance += $summary->grand_total_rupiah;
@@ -169,26 +151,26 @@ class SupplierTrialBalanceController extends Controller
             /**
              * set debit
              */
-            $debit = $vendor_row->invoice()
+            $debit = $vendor_row->supplier_invoice()
                 ->where('approve', true)
                 ->where('updated_at', '>', $start_date)
                 ->where('updated_at', '<', $end_date)
                 ->sum('grandtotal');
 
-            $invoice_workshop = $vendor_row->invoice_workshop()
+            $supplier_invoice_workshop = $vendor_row->supplier_invoice_workshop()
                 ->where('status_inv', 'Approved')
                 ->where('updated_at', '>', $start_date)
                 ->where('updated_at', '<', $end_date)
                 ->get();
 
-            foreach ($invoice_workshop as $invoice_workshop_row) {
-                $invoice_workshop_controller = new InvoiceWorkshopController();
-                $qn_workshop = QuotationWorkshop::where('quotation_no', $invoice_workshop_row->ref_quo)->first();
+            foreach ($supplier_invoice_workshop as $supplier_invoice_workshop_row) {
+                $supplier_invoice_workshop_controller = new InvoiceWorkshopController();
+                $qn_workshop = QuotationWorkshop::where('quotation_no', $supplier_invoice_workshop_row->ref_quo)->first();
 
                 if ($qn_workshop->type === "Service") {
-                    $summary = $invoice_workshop_controller->summaryService($invoice_workshop_row)['value_cost'];
+                    $summary = $supplier_invoice_workshop_controller->summaryService($supplier_invoice_workshop_row)['value_cost'];
                 } else {
-                    $summary = $invoice_workshop_controller->summarySale($invoice_workshop_row)['value_cost'];
+                    $summary = $supplier_invoice_workshop_controller->summarySale($supplier_invoice_workshop_row)['value_cost'];
                 }
 
                 $debit += $summary->grand_total_rupiah;
@@ -196,8 +178,8 @@ class SupplierTrialBalanceController extends Controller
 
             $vendor_row->debit = $debit;
 
-            $vendor_row->credit = $credit = AReceiveA::whereHas('ar', function($ar) use($vendor_row) {
-                    $ar->where('id_vendor', $vendor_row->id);
+            $vendor_row->credit = $credit = APaymentA::whereHas('ar', function($ar) use($vendor_row) {
+                    $ar->where('id_supplier', $vendor_row->id);
                 })
                 ->sum('credit_idr');
 

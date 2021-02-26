@@ -37,6 +37,7 @@ class TrxPayment extends MemfisModel
 		'account_code',
 		'description',
 		'id_project',
+		'location',
     ];
 
 	protected $appends = [
