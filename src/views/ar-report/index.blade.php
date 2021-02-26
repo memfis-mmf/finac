@@ -281,6 +281,12 @@
                                                     <p class="text-dark-50">
                                                         <i class="fa fa-info-circle fa-4x"></i>
                                                         Shows the report due to bank statement
+                                                    </p>                                                    
+                                                    <p class="text-dark-50">
+                                                        <a href="/bank-statement-report.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
                                                     </p>
                                                 </div>
                                                 <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
