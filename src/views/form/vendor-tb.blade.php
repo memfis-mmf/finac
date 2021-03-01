@@ -151,13 +151,13 @@
   <div id="content">
     <div class="container">
       <table width="100%" cellpadding="6">
-        @foreach ($customer as $customer_row)
+        @foreach ($vendor as $vendor_row)
           <tr>
-            <td width="20%" align="left" valign="top">{{ $customer_row->name }}</td>
-            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->begining_balance, 2, ',', '.') }}</td>
-            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->debit, 2, ',', '.') }}</td>
-            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->credit, 2, ',', '.') }}</td>
-            <td width="20%" align="right" valign="top">Rp {{ number_format($customer_row->ending_balance, 2, ',', '.') }}</td>
+            <td width="20%" align="left" valign="top">{{ $vendor_row->name }}</td>
+            <td width="20%" align="right" valign="top">Rp {{ number_format($vendor_row->begining_balance, 2, ',', '.') }}</td>
+            <td width="20%" align="right" valign="top">Rp {{ number_format($vendor_row->debit, 2, ',', '.') }}</td>
+            <td width="20%" align="right" valign="top">Rp {{ number_format($vendor_row->credit, 2, ',', '.') }}</td>
+            <td width="20%" align="right" valign="top">Rp {{ number_format($vendor_row->ending_balance, 2, ',', '.') }}</td>
           </tr>
         @endforeach
         <tr>

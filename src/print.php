@@ -79,11 +79,23 @@ Route::get('/cashbook-docs', function () {
     return $pdf->stream();
 });
 
+/**
+ * Customer Trial Balance
+ */
 Route::get('/customer-trial-balance-docs', 'memfisfa\Finac\Controllers\Frontend\CustomerTrialBalanceController@print')
     ->name('customer-trial-balance-docs');
 
 Route::get('/customer-trial-balance-export', 'memfisfa\Finac\Controllers\Frontend\CustomerTrialBalanceController@export')
     ->name('customer-trial-balance-export');
+
+/**
+ * SUpplier Trial Balance
+ */
+Route::get('/supplier-trial-balance-docs', 'memfisfa\Finac\Controllers\Frontend\SupplierTrialBalanceController@print')
+    ->name('supplier-trial-balance-docs');
+
+Route::get('/supplier-trial-balance-export', 'memfisfa\Finac\Controllers\Frontend\SupplierTrialBalanceController@export')
+    ->name('supplier-trial-balance-export');
 
 Route::get('/ap-docs', function () {
     $pdf = \PDF::loadView('formview::ap');

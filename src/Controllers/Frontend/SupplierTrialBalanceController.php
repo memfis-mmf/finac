@@ -12,8 +12,6 @@ use memfisfa\Finac\Model\APaymentA;
 //use for export
 use App\Models\Export\VendorTBExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
-use Modules\Workshop\Http\Controllers\InvoiceWorkshop\InvoiceWorkshopController;
 
 class SupplierTrialBalanceController extends Controller
 {
@@ -131,60 +129,21 @@ class SupplierTrialBalanceController extends Controller
                 ->where('updated_at', '<=', $start_date)
                 ->sum('grandtotal');
 
-            $supplier_invoice_workshop = $vendor_row->supplier_invoice_workshop()
-                ->where('status_inv', 'Approved')
-                ->where('updated_at', '<=', $start_date)
-                ->get();
-
-            foreach ($supplier_invoice_workshop as $supplier_invoice_workshop_row) {
-                $supplier_invoice_workshop_controller = new InvoiceWorkshopController();
-                $qn_workshop = QuotationWorkshop::where('quotation_no', $supplier_invoice_workshop_row->ref_quo)->first();
-
-                if ($qn_workshop->type === "Service") {
-                    $summary = $supplier_invoice_workshop_controller->summaryService($supplier_invoice_workshop_row)['value_cost'];
-                } else {
-                    $summary = $supplier_invoice_workshop_controller->summarySale($supplier_invoice_workshop_row)['value_cost'];
-                }
-
-                $begining_balance += $summary->grand_total_rupiah;
-            }
-
-            $vendor_row->begining_balance = $begining_balance;
-
             /**
              * set debit
              */
-            $debit = $vendor_row->supplier_invoice()
+            $credit = $vendor_row->supplier_invoice()
                 ->where('approve', true)
                 ->where('updated_at', '>', $start_date)
                 ->where('updated_at', '<', $end_date)
                 ->sum('grandtotal');
 
-            $supplier_invoice_workshop = $vendor_row->supplier_invoice_workshop()
-                ->where('status_inv', 'Approved')
-                ->where('updated_at', '>', $start_date)
-                ->where('updated_at', '<', $end_date)
-                ->get();
+            $vendor_row->credit = $credit;
 
-            foreach ($supplier_invoice_workshop as $supplier_invoice_workshop_row) {
-                $supplier_invoice_workshop_controller = new InvoiceWorkshopController();
-                $qn_workshop = QuotationWorkshop::where('quotation_no', $supplier_invoice_workshop_row->ref_quo)->first();
-
-                if ($qn_workshop->type === "Service") {
-                    $summary = $supplier_invoice_workshop_controller->summaryService($supplier_invoice_workshop_row)['value_cost'];
-                } else {
-                    $summary = $supplier_invoice_workshop_controller->summarySale($supplier_invoice_workshop_row)['value_cost'];
-                }
-
-                $debit += $summary->grand_total_rupiah;
-            }
-
-            $vendor_row->debit = $debit;
-
-            $vendor_row->credit = $credit = APaymentA::whereHas('ar', function($ar) use($vendor_row) {
-                    $ar->where('id_supplier', $vendor_row->id);
+            $vendor_row->debit = $debit = APaymentA::whereHas('ap', function($ap) use($vendor_row) {
+                    $ap->where('id_supplier', $vendor_row->id);
                 })
-                ->sum('credit_idr');
+                ->sum('debit_idr');
 
             $vendor_row->ending_balance = $ending_balance = $begining_balance + $debit - $credit;
 
@@ -218,7 +177,7 @@ class SupplierTrialBalanceController extends Controller
 
         $data = $this->getData($request);
 
-        $name = 'Vendor Trial Balance';
+        $name = 'Supplier Trial Balance';
         
         $name .= ' '.str_replace('/', '-', $request->daterange);
 
