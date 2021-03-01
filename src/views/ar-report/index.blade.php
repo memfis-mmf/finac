@@ -351,7 +351,7 @@
                                                         Shows all material transactional data
                                                     </p>
                                                     <p class="text-dark-50">
-                                                        <a href="/outstanding-invoice.pdf/help" target="_blank">
+                                                        <a href="/fa-material-transaction-history-report.pdf/help" target="_blank">
                                                             <i class="fa fa-question-circle fa-4x"></i>
                                                             Help
                                                         </a>
@@ -380,7 +380,7 @@
                                                         Shows material realtime stock data
                                                     </p>
                                                     <p class="text-dark-50">
-                                                        <a href="/fa-material-transaction-history-report.pdf/help" target="_blank">
+                                                        <a href="/fa-stock-monitoring.pdf/help" target="_blank">
                                                             <i class="fa fa-question-circle fa-4x"></i>
                                                             Help
                                                         </a>
