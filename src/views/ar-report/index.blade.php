@@ -350,6 +350,12 @@
                                                         <i class="fa fa-info-circle fa-4x"></i>
                                                         Shows all material transactional data
                                                     </p>
+                                                    <p class="text-dark-50">
+                                                        <a href="/fa-material-transaction-history-report.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
+                                                    </p>
                                                 </div>
                                                 <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
                                                     <a href="{{ route('frontend.material-transaction-history-finance.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
@@ -372,6 +378,12 @@
                                                     <p class="text-dark-50">
                                                         <i class="fa fa-info-circle fa-4x"></i>
                                                         Shows material realtime stock data
+                                                    </p>
+                                                    <p class="text-dark-50">
+                                                        <a href="/fa-stock-monitoring.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
                                                     </p>
                                                 </div>
                                                 <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
