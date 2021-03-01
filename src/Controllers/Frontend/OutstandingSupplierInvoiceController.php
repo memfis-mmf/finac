@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 use memfisfa\Finac\Model\Exports\OutstandingInvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
 
-class OutstandingInvoiceController extends Controller
+class OutstandingSupplierInvoiceController extends Controller
 {
 	public function convertDate($param)
 	{
@@ -34,11 +34,8 @@ class OutstandingInvoiceController extends Controller
         $vendor = Vendor::with([
                 'supplier_invoice' => function($supplier_invoice) use ($request, $department, $date) {
                     $supplier_invoice
-                        ->with([
-                            'quotations:id,number,term_of_payment'
-                        ])
                         ->where('approve', true)
-                        ->whereDate('transactiondate', '<=', $date);
+                        ->whereDate('transaction_date', '<=', $date);
 
                     if ($request->vendor) {
                         $supplier_invoice = $supplier_invoice->where('id_vendor', $request->vendor);
@@ -57,9 +54,9 @@ class OutstandingInvoiceController extends Controller
                     }
                 },
             ])
-            ->whereHas('invoice', function($supplier_invoice) use($request, $department, $date) {
+            ->whereHas('supplier_invoice', function($supplier_invoice) use($request, $department, $date) {
                 $supplier_invoice->where('approve', true)
-                    ->whereDate('transactiondate', '<=', $date);
+                    ->whereDate('transaction_date', '<=', $date);
 
                 if ($request->vendor) {
                     $supplier_invoice = $supplier_invoice->where('id_vendor', $request->vendor);
@@ -103,7 +100,7 @@ class OutstandingInvoiceController extends Controller
                 if (@count($arr[$currency_code]) < 1) {
                     $arr[$currency_code] = [
                         'symbol' => $supplier_invoice_row->currencies->symbol,
-                        'grandtotalforeign' => $supplier_invoice_row->grandtotalforeign,
+                        'grandtotal_foreign' => $supplier_invoice_row->grandtotal_foreign,
                         'ppnvalue' => $supplier_invoice_row->ppnvalue,
                         'ending_value' => $supplier_invoice_row->ending_balance['amount_idr'],
                     ];
@@ -112,7 +109,7 @@ class OutstandingInvoiceController extends Controller
 
                     $arr[$currency_code] = [
                         'symbol' => $supplier_invoice_row->currencies->symbol,
-                        'grandtotalforeign' => $current['grandtotalforeign'] + $supplier_invoice_row->grandtotalforeign,
+                        'grandtotal_foreign' => $current['grandtotal_foreign'] + $supplier_invoice_row->grandtotal_foreign,
                         'ppnvalue' => $current['ppnvalue'] + $supplier_invoice_row->ppnvalue,
                         'ending_value' => $current['ending_value'] + $supplier_invoice_row->ending_balance['amount_idr'],
                     ];
@@ -146,9 +143,9 @@ class OutstandingInvoiceController extends Controller
         $data['export'] = route('fa-report.outstanding-invoice-export', $request->all());
         $data['print'] = route('fa-report.outstanding-invoice-print', $request->all());
 
-        // dd($data);
+        // dd($data['vendor'][0]->supplier_invoice[0]);
         
-        return view('arreport-outstandingview::index', $data);
+        return view('arreport-outstandingview::index-ap', $data);
     }
 
     public function outStandingInvoiceExport(Request $request)
