@@ -876,18 +876,19 @@ class TrxPaymentController extends Controller
 		$trxpaymenta = TrxPaymentA::where(
             'transaction_number', $trxpayment->transaction_number
         )->with([
-            'grn',
-            'grn.purchase_order',
             'si',
         ])->get();
 
         $trxpayment->vat_total_amount = 0;
+        $trxpayment->total = 0;
 
         foreach ($trxpaymenta as $detail_si_row) {
             $trxpayment->vat_total_amount += $detail_si_row->tax_amount;
+            $trxpayment->total_idr += $detail_si_row->total_idr;
         }
 
         $data = [
+            'class' => Controller::class,
             'header' => $trxpayment,
             'detail' => $trxpaymenta,
             'total' => 0,

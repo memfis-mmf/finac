@@ -217,25 +217,29 @@
             <table width="100%" cellpadding="4" page-break-inside: auto;>
                 <thead>
                     <tr>
-                        <th valign="top" align="center" width="20%">Purchase Order No.</th>
-                        <th valign="top" align="center" width="20%">GRN No.</th>
-                        <th valign="top" align="center" width="20%">Delivery Order No.</th>
-                        <th valign="top" align="center" width="20%">Invoice No.</th>
-                        <th valign="top" align="center" width="20%">Vat percent</th>
-                        <th valign="top" align="center" width="20%">Vat Amount</th>
-                        <th valign="top" align="center" width="20%">Total</th>
+                        <th valign="top" align="center">Purchase Order No.</th>
+                        <th valign="top" align="center">GRN No.</th>
+                        <th valign="top" align="center">Delivery Order No.</th>
+                        <th valign="top" align="center">Invoice No.</th>
+                        <th valign="top" align="center">Currency</th>
+                        <th valign="top" align="center">Rate</th>
+                        <th valign="top" align="center">Vat percent</th>
+                        <th valign="top" align="center">Vat Amount</th>
+                        <th valign="top" align="center">Total</th>
                     </tr>
                 </thead>
                 <tbody>
                   @foreach ($detail as $item)
                     <tr>
-                      <td valign="top" align="center" width="20%">{{$item->grn->purchase_order->number}}</td>
-                      <td valign="top" align="center" width="20%">{{$item->grn->number}}</td>
-                      <td valign="top" align="center" width="20%">{{json_decode($item->grn->additionals)->SupplierRefNo}} </td>
-                      <td valign="top" align="center" width="20%">{{$item->description}}</td>
-                      <td valign="top" align="center" width="20%">{{number_format($item->tax_percent, 0, ',', '.')}}%</td>
-                      <td valign="top" align="center" width="20%">{{number_format($item->tax_amount, 0, ',', '.')}}</td>
-                      <td valign="top" align="right" width="20%">{{number_format($item->total, 0, ',', '.')}} </td>
+                      <td valign="top" align="center">{{$item->grn->purchase_order->number}}</td>
+                      <td valign="top" align="center">{{$item->grn->number}}</td>
+                      <td valign="top" align="center">{{json_decode($item->grn->additionals)->SupplierRefNo}} </td>
+                      <td valign="top" align="center">{{$item->description}}</td>
+                      <td valign="top" align="center">{{strtoupper($item->grn->purchase_order->currency->code)}}</td>
+                      <td valign="top" align="center">Rp {{$class::currency_format($item->grn->purchase_order->exchange_rate, 0)}}</td>
+                      <td valign="top" align="center">{{$class::currency_format($item->tax_percent, 0)}}%</td>
+                      <td valign="top" align="center">{{$class::currency_format($item->tax_amount, 0)}}</td>
+                      <td valign="top" align="right">{{$class::currency_format($item->total, 0)}} </td>
                     </tr>
                     @php
                         $total += $item->total
@@ -272,7 +276,7 @@
                                 <td width="60%" valign="top" align="right"><b>{{number_format($header->vat_total_amount, 0, ',', '.')}}</b></td>
                             </tr>
                             <tr>
-                                <td width="40%" valign="top"><b>GRAND TOTAL</b></td>
+                                <td width="40%" valign="top"><b>GRAND TOTAL IDR</b></td>
                                 <td width="60%" valign="top" align="right"><b>{{number_format($header->grandtotal_foreign, 0, ',', '.')}}</b></td>
                             </tr>
                         </table>
