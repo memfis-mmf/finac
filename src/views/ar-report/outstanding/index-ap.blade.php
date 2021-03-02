@@ -160,7 +160,7 @@
                                     <div class="action-buttons">
                                         @component('buttons::submit')
                                         @slot('data_toggle', 'modal')
-                                        @slot('data_target', '#modal_outstanding')
+                                        @slot('data_target', '#modal_outstanding_ap')
                                         @slot('type', 'button')
                                         @slot('text', 'Change Filter')
                                         @slot('color', 'primary')
@@ -200,6 +200,6 @@
     </div>
 </div>
 <input hidden id="coaid">
-@include('arreport-outstandingview::modal')
+@include('arreport-outstandingview::modal-ap')
 
 @endsection

@@ -65,12 +65,12 @@
                                     Currency
                                 </label>
                             
-                                @component('input::select')
-                                    @slot('id', 'currency_id')
-                                    @slot('name', 'currency')
-                                    @slot('class', 'currency')
-                                    @slot('id_error', 'currency_id')
-                                @endcomponent
+                                <select class="_select2 form-control" name="currency" style="width:100%">
+                                    <option value=""></option>
+                                    @foreach ($data_currency as $data_currency_row)
+                                      <option value="{{ $data_currency_row->id }}">{{ $data_currency_row->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -102,18 +102,23 @@
 
 @push('footer-scripts')
 <script>
-    let modal = $('#modal_outstanding');
+  modal = $('#modal_outstanding_ap');
 
-    modal.find('[name=date]').daterangepicker({
-      buttonClasses: "m-btn btn",
-      applyClass: "btn-primary",
-      cancelClass: "btn-secondary",
-      singleDatePicker: true,
-      showDropdown: true,
-      locale: {
-        format: 'YYYY/MM/DD'
-      }    
-    });
+  modal.find("[name=date]").daterangepicker({
+    buttonClasses: "m-btn btn",
+    applyClass: "btn-primary",
+    cancelClass: "btn-secondary",
+    singleDatePicker: true,
+    locale: {
+      format: 'DD-MM-YYYY'
+    }
+  });
+
+  modal.find('._select2').select2({
+    width: '100%'
+    placeholder: '-- Select --'
+  });
+
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
 
