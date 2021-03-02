@@ -144,13 +144,13 @@
 
     <div id="content">
         <div class="container">
-          @foreach ($customer as $customer_row)
+          @foreach ($vendor as $vendor_row)
             <div style="margin-bottom:10px;">
                 <table width="100%" cellpadding="3" class="table-head">
                     <tr>
-                        <td width="18%" valign="top"><b>Customer Name</b></td>
+                        <td width="18%" valign="top"><b>Supplier Name</b></td>
                         <td width="1%" valign="top"><b>:</b></td>
-                        <td width="71%" valign="top"><b>{{ $customer_row->name }}</b></td>
+                        <td width="71%" valign="top"><b>{{ $vendor_row->name }}</b></td>
                     </tr>
                 </table>
                 <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
@@ -167,23 +167,23 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:10px;">
-                      @foreach ($customer_row->invoice as $invoice_row)
+                      @foreach ($vendor_row->supplier_invoice as $supplier_invoice_row)
                         <tr>
-                          <td align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
-                          <td align="center" valign="top">{{ Carbon::parse($invoice_row->updated_at)->format('d F Y') }}</td>
-                          <td align="center" valign="top">{!! $invoice_row->due_date_formated !!}</td>
-                          <td align="left" valign="top">{{ $invoice_row->project->code ?? '-' }}</td>
-                          <td align="center" valign="top">{{ $invoice_row->currencies->code }}</td>
-                          <td align="center" valign="top">{{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
-                          <td align="right" valign="top" >{{ number_format($invoice_row->grandtotalforeign, 2, ',', '.') }}</td>
-                          <td align="right" valign="top">{{ number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
+                          <td align="left" valign="top" style="padding-left:8px;">{{ $supplier_invoice_row->transaction_number }}</td>
+                          <td align="center" valign="top">{{ Carbon::parse($supplier_invoice_row->updated_at)->format('d F Y') }}</td>
+                          <td align="center" valign="top">{!! $supplier_invoice_row->due_date_formated !!}</td>
+                          <td align="left" valign="top">{{ $supplier_invoice_row->project->code ?? '-' }}</td>
+                          <td align="center" valign="top">{{ $supplier_invoice_row->currencies->code }}</td>
+                          <td align="center" valign="top">{{ number_format($supplier_invoice_row->exchange_rate, 2, ',', '.') }}</td>
+                          <td align="right" valign="top" >{{ number_format($supplier_invoice_row->grandtotal_foreign, 2, ',', '.') }}</td>
+                          <td align="right" valign="top">{{ number_format($supplier_invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
                         </tr>
                       @endforeach
-                      @foreach ($customer_row->sum_total as $sum_total_index => $sum_total_row)
+                      @foreach ($vendor_row->sum_total as $sum_total_index => $sum_total_row)
                         <tr style="border-top:2px solid black;" >
                             <td colspan="4"></td>
                             <td align="right" valign="top" colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
-                            <td align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['grandtotalforeign'], 2, ',', '.') }}</b></td>
+                            <td align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['grandtotal_foreign'], 2, ',', '.') }}</b></td>
                             <td align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['ending_value'], 2, ',', '.') }}</b></td>
                         </tr>   
                       @endforeach

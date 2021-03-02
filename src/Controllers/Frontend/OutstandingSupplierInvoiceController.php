@@ -10,7 +10,7 @@ use App\Models\Department;
 use Illuminate\Support\Carbon;
 
 //use for export
-use memfisfa\Finac\Model\Exports\OutstandingInvoiceExport;
+use memfisfa\Finac\Model\Exports\OutstandingSupplierInvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class OutstandingSupplierInvoiceController extends Controller
@@ -140,8 +140,8 @@ class OutstandingSupplierInvoiceController extends Controller
         }
 
         $data = $this->getOutstandingInvoice($request);
-        $data['export'] = route('fa-report.outstanding-invoice-export', $request->all());
-        $data['print'] = route('fa-report.outstanding-invoice-print', $request->all());
+        $data['export'] = route('fa-report.outstanding-supplier-invoice-export', $request->all());
+        $data['print'] = route('fa-report.outstanding-supplier-invoice-print', $request->all());
 
         // dd($data['vendor'][0]->supplier_invoice[0]);
         
@@ -154,14 +154,14 @@ class OutstandingSupplierInvoiceController extends Controller
         $date = str_replace('/', '-', $request->date);
 
         // return view('arreport-accountrhview::export', $data);
-		return Excel::download(new OutstandingInvoiceExport($data), "Outstanding Invoice $date.xlsx");
+		return Excel::download(new OutstandingSupplierInvoiceExport($data), "Outstanding Supplier Invoice $date.xlsx");
     }
 
     public function outstandingInvoicePrint(Request $request)
     {
         $data = $this->getOutstandingInvoice($request);
 
-        $pdf = \PDF::loadView('formview::outstanding-invoices', $data);
+        $pdf = \PDF::loadView('formview::outstanding-invoices-ap', $data);
         return $pdf->stream();
     }
 

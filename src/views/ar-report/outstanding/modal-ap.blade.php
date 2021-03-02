@@ -68,7 +68,7 @@
                                 <select class="_select2 form-control" name="currency" style="width:100%">
                                     <option value=""></option>
                                     @foreach ($data_currency as $data_currency_row)
-                                      <option value="{{ $data_currency_row->id }}">{{ $data_currency_row->name }}</option>
+                                      <option value="{{ $data_currency_row->id }}">{{ "($data_currency_row->symbol) $data_currency_row->name" }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -115,7 +115,7 @@
   });
 
   modal.find('._select2').select2({
-    width: '100%'
+    width: '100%',
     placeholder: '-- Select --'
   });
 
