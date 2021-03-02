@@ -640,7 +640,7 @@ let AccountReceivableEdit = {
       );
 
       $(target).find('.iv_date').val(data.ar.transactiondate);
-      $(target).find('.iv_transactionnumber').val(data.transactionnumber);
+      $(target).find('.iv_transactionnumber').val(data.invoice.transactionnumber);
       $(target).find('.iv_code').val(data.code);
       $(target).find('.iv_currency').val(data.currency);
       $(target).find('.iv_exchangerate').val('Rp ' + number_format.format(parseFloat(data.exchangerate)));
