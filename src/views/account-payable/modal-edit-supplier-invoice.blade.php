@@ -97,13 +97,13 @@
               </div>
             </div>
             <div class="form-group m-form__group row ">
-              <div class="col-md-12">
+              {{-- <div class="col-md-12">
                 <input type="checkbox" name="is_clearing">
 
                 <label class="form-control-label">
                   Clearing
                 </label>
-              </div>
+              </div> --}}
             </div>
             <div class="form-group m-form__group row ">
               <div class="col-sm-12 col-md-12 col-lg-12">
