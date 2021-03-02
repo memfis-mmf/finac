@@ -23,12 +23,20 @@ class TrxPaymentA extends MemfisModel
     ],
     $appends = [
         'tax_amount',
+        'tax_amount_idr',
         'total_after_tax'
     ];
 
     public function getTaxAmountAttribute()
     {
         $result = ($this->total * ($this->tax_percent / 100));
+
+        return $result;
+    }
+
+    public function getTaxAmountIdrAttribute()
+    {
+        $result = ($this->total_idr * ($this->tax_percent / 100));
 
         return $result;
     }

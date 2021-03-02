@@ -236,10 +236,10 @@
                       <td valign="top" align="center">{{json_decode($item->grn->additionals)->SupplierRefNo}} </td>
                       <td valign="top" align="center">{{$item->description}}</td>
                       <td valign="top" align="center">{{strtoupper($item->grn->purchase_order->currency->code)}}</td>
-                      <td valign="top" align="center">Rp {{$class::currency_format($item->grn->purchase_order->exchange_rate, 0)}}</td>
-                      <td valign="top" align="center">{{$class::currency_format($item->tax_percent, 0)}}%</td>
-                      <td valign="top" align="center">{{$class::currency_format($item->tax_amount, 0)}}</td>
-                      <td valign="top" align="right">{{$class::currency_format($item->total, 0)}} </td>
+                      <td valign="top" align="center">Rp {{$class::currency_format($item->grn->purchase_order->exchange_rate)}}</td>
+                      <td valign="top" align="center">{{$class::currency_format($item->tax_percent)}}%</td>
+                      <td valign="top" align="center">{{$class::currency_format($item->tax_amount)}}</td>
+                      <td valign="top" align="right">{{$class::currency_format($item->total)}} </td>
                     </tr>
                     @php
                         $total += $item->total
@@ -269,16 +269,22 @@
                         <table width="100%">
                             <tr>
                                 <td width="40%" valign="top"><b>Total</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format($total, 0, ',', '.')}}</b></td>
+                                <td width="60%" valign="top" align="right"><b>{{$class::currency_format($total)}}</b></td>
                             </tr>
-                            <tr>
-                                <td width="40%" valign="top"><b>VAT Total</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format($header->vat_total_amount, 0, ',', '.')}}</b></td>
-                            </tr>
-                            <tr>
-                                <td width="40%" valign="top"><b>GRAND TOTAL IDR</b></td>
-                                <td width="60%" valign="top" align="right"><b>{{number_format($header->grandtotal_foreign, 0, ',', '.')}}</b></td>
-                            </tr>
+                            @foreach ($vat as $vat_row)
+                              <tr>
+                                  <td width="40%" valign="top"><b>VAT Total {{ strtoupper($vat_row['currency']->code) }}</b></td>
+                                  <td width="60%" valign="top" align="right"><b>{{$class::currency_format($vat_row['amount'])}}</b></td>
+                              </tr>   
+                            @endforeach
+                            
+                            @foreach ($grandtotal as $grandtotal_row)
+                              <tr>
+                                  <td width="40%" valign="top"><b>GRANDTOTAL {{ strtoupper($grandtotal_row['currency']->code) }}</b></td>
+                                  <td width="60%" valign="top" align="right"><b>{{$class::currency_format($grandtotal_row['amount'])}}</b></td>
+                              </tr>   
+                            @endforeach
+
                         </table>
                     </td>
                 </tr>

@@ -951,19 +951,78 @@ class TrxPaymentController extends Controller
             'si',
         ])->get();
 
-        $trxpayment->vat_total_amount = 0;
-        $trxpayment->total = 0;
+        //set foreign vat dan grandtotal
+        $si =$trxpayment;
+        $all_currency_detail_si = PurchaseOrder::whereHas('goods_receiveds.trxpaymenta.si', function($si_query) use($si) {
+                $si_query->where('id', $si->id);
+            })
+            ->pluck('currency_id')
+            ->toArray();
+
+        $diversity_currency = array_unique($all_currency_detail_si);
+
+        $vat = [];
+        $grandtotal = [];
+        foreach ($diversity_currency as $diversity_currency_row) {
+            $currency_po = Currency::find($diversity_currency_row);
+
+            if ($currency_po->code == 'idr') {
+                continue;
+            }
+
+            $si_detail = TrxPaymentA::where(
+                    'transaction_number',
+                    $si->transaction_number
+                )
+                ->whereHas('grn.purchase_order', function($po) use($currency_po) {
+                    $po->where('currency_id', $currency_po->id);
+                })
+                ->get();
+
+            $tax_amount = $si_detail
+                ->sum(function($row) {
+                    return $row->total * ($row->tax_percent / 100);
+                });
+
+            $grandtotal_amount = $si_detail
+                ->sum('total');
+
+            $vat[] = [
+                'currency' => $currency_po,
+                'amount' => $tax_amount
+            ];
+
+            $grandtotal[] = [
+                'currency' => $currency_po,
+                'amount' => $grandtotal_amount
+            ];
+        }
+
+        $vat_total_amount_idr = 0;
+        $grandtotal_amount_idr = 0;
 
         foreach ($trxpaymenta as $detail_si_row) {
-            $trxpayment->vat_total_amount += $detail_si_row->tax_amount;
-            $trxpayment->total_idr += $detail_si_row->total_idr;
+            $vat_total_amount_idr += $detail_si_row->tax_amount_idr;
+            $grandtotal_amount_idr += $detail_si_row->total_idr;
         }
+
+        $vat[] = [
+            'currency' => Currency::where('code', 'idr')->first(),
+            'amount' => $vat_total_amount_idr
+        ];
+
+        $grandtotal[] = [
+            'currency' => Currency::where('code', 'idr')->first(),
+            'amount' => $grandtotal_amount_idr
+        ];
 
         $data = [
             'class' => Controller::class,
             'header' => $trxpayment,
             'detail' => $trxpaymenta,
             'total' => 0,
+            'vat' => $vat,
+            'grandtotal' => $grandtotal,
         ];
 
         $pdf = \PDF::loadView('formview::supplier-invoice-grn', $data);
