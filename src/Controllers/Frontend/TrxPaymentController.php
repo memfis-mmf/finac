@@ -17,6 +17,7 @@ use App\Models\Type;
 use App\Models\GoodsReceived as GRN;
 use App\Models\PurchaseOrder as PO;
 use App\Models\Approval;
+use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use DataTables;
@@ -603,37 +604,32 @@ class TrxPaymentController extends Controller
             ];
         }
 
-		$calculate = $this->sumGrnItem($grn->id, $trxpayment);
+		$sum_grn_item = $this->sumGrnItem($grn->id, $trxpayment);
 
         $po_tax = $grn->purchase_order->taxes->first()->percent;
 		TrxPaymentA::create([
 			'transaction_number' => $trxpayment->transaction_number,
-			'total' => $calculate->total,
-			'total_idr' => $calculate->total_idr,
+			'total' => $sum_grn_item->total,
+			'total_idr' => $sum_grn_item->total_idr,
             'tax_percent' => $po_tax,
 			'id_grn' => $grn->id,
         ]);
 
-        $total = TrxPaymentA::where(
-                'transaction_number',
-                $trxpayment->transaction_number
-            )
-            ->get()
-            ->sum(function($row) {
-                return $row->total + ($row->total * ($row->tax_percent / 100));
-            });
+        // $total = TrxPaymentA::where(
+        //         'transaction_number',
+        //         $trxpayment->transaction_number
+        //     )
+        //     ->get()
+        //     ->sum(function($row) {
+        //         return $row->total + ($row->total * ($row->tax_percent / 100));
+        //     });
 
-		if ($trxpayment->currency == 'idr') {
-			$request->merge([
-				'grandtotal_foreign' => $total,
-				'grandtotal' => $total
-			]);
-		}else{
-			$request->merge([
-				'grandtotal_foreign' => $total,
-				'grandtotal' => ($total*$trxpayment->exchange_rate)
-			]);
-        }
+        $total_si = $this->calculate_total_si_grn($trxpayment);
+
+        $request->merge([
+            'grandtotal_foreign' => $total_si['foreign'],
+            'grandtotal' => $total_si['idr']
+        ]);
 
         $trxpayment->update($request->only([
             'grandtotal_foreign',
@@ -642,6 +638,82 @@ class TrxPaymentController extends Controller
         
         DB::commit();
 	}
+
+    private function calculate_total_si_grn($si)
+    {
+        $all_currency_detail_si = PurchaseOrder::whereHas('goods_receiveds.trxpaymenta.si', function($si_query) use($si) {
+                $si_query->where('id', $si->id);
+            })
+            ->pluck('currency_id')
+            ->toArray();
+
+        $diversity_currency = array_unique($all_currency_detail_si);
+
+        $result = [
+            'foreign' => null,
+            'idr' => null,
+        ];
+
+        // jika semua mata uangnya (currency) sama
+        if (count($diversity_currency) == 1) {
+            $currency_po = Currency::find($diversity_currency[0]);
+
+            $total = TrxPaymentA::where(
+                    'transaction_number',
+                    $si->transaction_number
+                )
+                ->get()
+                ->sum(function($row) {
+                    return $row->total + ($row->total * ($row->tax_percent / 100));
+                });
+
+            if ($currency_po->code == 'idr') {
+                $result = [
+                    'foreign' => $total / $si->exchange_rate,
+                    'idr' => $total
+                ];
+            } else {
+                $result = [
+                    'foreign' => $total,
+                    'idr' => $total * $si->exchange_rate
+                ];
+            }
+        } else {
+            $total_foreign = 0;
+            $total_idr = 0;
+            foreach ($diversity_currency as $diversity_currency_row) {
+                $currency_po = Currency::find($diversity_currency_row);
+
+                $total = TrxPaymentA::where(
+                        'transaction_number',
+                        $si->transaction_number
+                    )
+                    ->whereHas('grn.purchase_order', function($po) use($currency_po) {
+                        $po->where('currency_id', $currency_po->id);
+                    })
+                    ->get()
+                    ->sum(function($row) {
+                        return $row->total + ($row->total * ($row->tax_percent / 100));
+                    });
+
+                //jika currency nya IDR
+                if ($currency_po->code == 'idr') {
+                    $total_foreign += $total / $si->exchange_rate;
+                    $total_idr += $total;
+                } else {
+                    $total_foreign += $total;
+                    $total_idr += $total * $si->exchange_rate;
+                }
+            }
+
+            $result = [
+                'foreign' => $total_foreign,
+                'idr' => $total_idr
+            ];
+        }
+
+        return $result;
+    }
 
     public function grnUpdate(Request $request, TrxPayment $trxpayment)
     {
