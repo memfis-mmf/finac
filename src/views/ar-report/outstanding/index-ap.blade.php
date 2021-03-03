@@ -57,7 +57,7 @@
                             @endcomponent
 
                             <h3 class="m-portlet__head-text">
-                                Outstanding Invoice
+                                Outstanding Supplier Invoice
                             </h3>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                   @foreach ($vendor as $vendor_row)
                                     <table width="100%" cellpadding="3" class="table-head">
                                         <tr>
-                                            <td width="12%" valign="top"><b>Customer Name</b></td>
+                                            <td width="12%" valign="top"><b>Supplier Name</b></td>
                                             <td width="1%" valign="top"><b>:</b></td>
                                             <td width="77%" valign="top"><b>{{ $vendor_row->name }}</b></td>
                                         </tr>
@@ -108,13 +108,13 @@
                                     <table width="100%"  cellpadding="4" class="table-body" page-break-inside: auto;>  
                                         <thead style="border-bottom:2px solid black;">     
                                             <tr>
-                                                <td width="19%" align="left" valign="top" style="padding-left:8px;"><b>Invoice No.</b></td>
+                                                <td width="19%" align="left" valign="top" style="padding-left:8px;"><b>Supplier Invoice No.</b></td>
                                                 <td width="8%"align="center" valign="top"><b>Date</b></td>
                                                 <td width="8%"align="center" valign="top"><b>Due Date</b></td>
                                                 <td width="17%"align="center" valign="top"><b>Ref No.</b></td>
                                                 <td width="4%"align="center" valign="top"><b>Currency</b></td>
                                                 <td width="6%"align="center" valign="top" colspan="2"><b>Rate</b></td>
-                                                <td width="9%"align="center" valign="top"  colspan="2"><b>Total Invoice</b></td>
+                                                <td width="9%"align="center" valign="top"  colspan="2"><b>Total Supplier Invoice</b></td>
                                                 {{-- <td width="13%"align="center" valign="top"  colspan="2"><b>VAT</b></td> --}}
                                                 <td width="13%"align="center" valign="top"  colspan="2"><b>Outstanding Balance</b></td>
                                             </tr>
