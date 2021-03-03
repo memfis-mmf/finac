@@ -24,7 +24,8 @@ class TrxPaymentA extends MemfisModel
     $appends = [
         'tax_amount',
         'tax_amount_idr',
-        'total_after_tax'
+        'total_after_tax',
+        'total_after_tax_idr'
     ];
 
     public function getTaxAmountAttribute()
@@ -44,6 +45,13 @@ class TrxPaymentA extends MemfisModel
     public function getTotalAfterTaxAttribute()
     {
         $result = $this->total + $this->getTaxAmountAttribute();
+
+        return $result;
+    }
+
+    public function getTotalAfterTaxIdrAttribute()
+    {
+        $result = $this->total_idr + $this->getTaxAmountIdrAttribute();
 
         return $result;
     }

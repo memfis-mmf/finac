@@ -226,6 +226,7 @@
                         <th valign="top" align="center">Vat percent</th>
                         <th valign="top" align="center">Vat Amount</th>
                         <th valign="top" align="center">Total</th>
+                        <th valign="top" align="center">Total IDR</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -240,6 +241,7 @@
                       <td valign="top" align="center">{{$class::currency_format($item->tax_percent)}}%</td>
                       <td valign="top" align="center">{{$class::currency_format($item->tax_amount)}}</td>
                       <td valign="top" align="right">{{$class::currency_format($item->total)}} </td>
+                      <td valign="top" align="right">{{$class::currency_format($item->total_idr)}} </td>
                     </tr>
                     @php
                         $total += $item->total
@@ -267,10 +269,10 @@
                     </td>
                     <td width="40%" valign="top">
                         <table width="100%">
-                            <tr>
+                            {{-- <tr>
                                 <td width="40%" valign="top"><b>Total</b></td>
                                 <td width="60%" valign="top" align="right"><b>{{$class::currency_format($total)}}</b></td>
-                            </tr>
+                            </tr> --}}
                             @foreach ($vat as $vat_row)
                               <tr>
                                   <td width="40%" valign="top"><b>VAT Total {{ strtoupper($vat_row['currency']->code) }}</b></td>
