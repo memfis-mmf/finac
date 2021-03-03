@@ -985,7 +985,9 @@ class TrxPaymentController extends Controller
                 });
 
             $grandtotal_amount = $si_detail
-                ->sum('total');
+                ->sum(function($row) {
+                    return $row->total + ($row->total * $row->tax_percent / 100);
+                });
 
             $vat[] = [
                 'currency' => $currency_po,
@@ -1003,7 +1005,7 @@ class TrxPaymentController extends Controller
 
         foreach ($trxpaymenta as $detail_si_row) {
             $vat_total_amount_idr += $detail_si_row->tax_amount_idr;
-            $grandtotal_amount_idr += $detail_si_row->total_idr;
+            $grandtotal_amount_idr += $detail_si_row->total_after_tax_idr;
         }
 
         $vat[] = [
