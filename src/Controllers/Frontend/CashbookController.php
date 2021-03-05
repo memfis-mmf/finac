@@ -611,19 +611,19 @@ class CashbookController extends Controller
         }
         
         if (Str::contains(strtolower($cashbook->transactionnumber), ['cp'])) {
-            $type_header = 'Cash Payment Journal';
+            $type_header = 'Cash Payment';
         }
 
         if (Str::contains(strtolower($cashbook->transactionnumber), ['cr'])) {
-            $type_header = 'Cash Receive Journal';
+            $type_header = 'Cash Received';
         }
 
         if (Str::contains(strtolower($cashbook->transactionnumber), ['br'])) {
-            $type_header = 'Bank Receive Journal';
+            $type_header = 'Bank Received';
         }
 
         if (Str::contains(strtolower($cashbook->transactionnumber), ['bp'])) {
-            $type_header = 'Bank Payment Journal';
+            $type_header = 'Bank Payment';
         }
 
 		// add object in first array $detai
