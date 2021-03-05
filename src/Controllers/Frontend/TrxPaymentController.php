@@ -282,7 +282,8 @@ class TrxPaymentController extends Controller
     {
 		$data = TrxPayment::with([
 			'vendor'
-		])->select('trxpayments.*');
+		])->select('trxpayments.*')
+        ->latest('updated_by');
 
         return DataTables::of($data)
 		->escapeColumns([])
