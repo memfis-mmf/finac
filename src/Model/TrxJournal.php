@@ -263,7 +263,7 @@ class TrxJournal extends MemfisModel
 		$detail,
 		$journal_prefix_number,
         $journal_type,
-        $auto_approve = false
+        $auto_approve = true
 	)
 	{
 
