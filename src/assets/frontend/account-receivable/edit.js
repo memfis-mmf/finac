@@ -450,7 +450,7 @@ let AccountReceivableEdit = {
             invoice_table.reload();
             invoice_modal_table.ajax.reload(null, false);
 
-            toastr.success('Data tersimpan', 'Sukses', {
+            toastr.success('Data saved', 'Success', {
               timeOut: 2000
             });
           }
@@ -491,7 +491,7 @@ let AccountReceivableEdit = {
 
           adjustment_datatable.reload();
 
-          toastr.success('Data tersimpan', 'Sukses', {
+          toastr.success('Data saved', 'Success', {
             timeOut: 2000
           });
 
@@ -722,7 +722,7 @@ let AccountReceivableEdit = {
               timeOut: 2000
             });
           } else {
-            toastr.success('Data saved', 'Sukses', {
+            toastr.success('Data saved', 'Success', {
               timeOut: 2000
             });
 

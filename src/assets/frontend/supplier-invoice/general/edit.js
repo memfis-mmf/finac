@@ -181,7 +181,7 @@ let SupplierInvoice = {
 
 						general_table.reload();
 
-						toastr.success('Data tersimpan', 'Success', {
+						toastr.success('Data saved', 'Success', {
 							timeOut: 2000
 						});
 

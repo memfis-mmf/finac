@@ -516,7 +516,7 @@ let AccountPayable = {
             supplier_invoice_table.reload();
             supplier_invoice_modal_table.reload();
 
-            toastr.success('Data tersimpan', 'Sukses', {
+            toastr.success('Data saved', 'Success', {
               timeOut: 2000
             });
           }
@@ -557,7 +557,7 @@ let AccountPayable = {
 
           adjustment_datatable.reload();
 
-          toastr.success('Data tersimpan', 'Sukses', {
+          toastr.success('Data saved', 'Success', {
             timeOut: 2000
           });
 
@@ -758,7 +758,7 @@ let AccountPayable = {
               timeOut: 2000
             });
           } else {
-            toastr.success('Data saved', 'Sukses', {
+            toastr.success('Data saved', 'Success', {
               timeOut: 2000
             });
 
@@ -788,7 +788,7 @@ let AccountPayable = {
               timeOut: 2000
             });
           } else {
-            toastr.success('Data saved', 'Sukses', {
+            toastr.success('Data saved', 'Success', {
               timeOut: 2000
             });
 
