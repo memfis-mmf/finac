@@ -151,7 +151,7 @@
                     <td valign="top" width="31%">{{$invoice->customer->name}}</td>
                     <td valign="top" width="18%">Invoice Date</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">{{date('d/m/Y', strtotime($invoice->transactiondate))}}</td>
+                    <td valign="top" width="31%">{{date('d-m-Y', strtotime($invoice->transactiondate))}}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="18%">Address</td>

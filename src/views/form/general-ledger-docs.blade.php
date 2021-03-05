@@ -152,7 +152,7 @@
                     @foreach ($items as $item)
                         
                         <tr>
-                            <td valign="top" width="10%">{{$item->TransactionDate}}</td>
+                            <td valign="top" width="10%">{{$item->TransactionDate->format('d-m-Y')}}</td>
                             <td valign="top" width="13%">{{$item->VoucherNo}}</td>
                             <td valign="top" width="12%">{{$item->RefNo}}</td>
                             <td valign="top" width="20%">{{$item->Description}}</td>

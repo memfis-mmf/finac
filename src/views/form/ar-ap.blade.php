@@ -134,7 +134,7 @@
                 <tr>
                     <td valign="top" width="16%"><b>Date</b></td>
                     <td valign="top" width="1%">:</td>
-										<td valign="top" width="44%">{{ $data->transactiondate }}</td>
+										<td valign="top" width="44%">{{ $data->transactiondate->format('d-m-Y') }}</td>
                     <td valign="top" width="13%"></td>
                     <td valign="top" width="1%"></td>
                     <td valign="top" width="25%"></td>
@@ -224,7 +224,7 @@
 													<tr>
 															<td valign="top" width="16%"><b>Date</b></td>
 															<td valign="top" width="1%">:</td>
-															<td valign="top" width="44%">{{ $data->transactiondate }}</td>
+															<td valign="top" width="44%">{{ $data->transactiondate->format('d-m-Y') }}</td>
 															<td valign="top" width="13%"></td>
 															<td valign="top" width="1%"></td>
 															<td valign="top" width="25%"></td>
