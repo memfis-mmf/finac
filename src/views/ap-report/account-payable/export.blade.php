@@ -65,7 +65,7 @@
         @foreach ($dataRow as $item)
           <tr style="font-size:8.4pt;" class="nowrap">
             <td align="left" valign="top" style="padding-left:8px;">{{$item->transactionnumber}}</td>
-            <td align="center" valign="top">{{Carbon::parse($item->transactiondate)->format('d/m/Y')}}</td>
+            <td align="center" valign="top">{{Carbon::parse($item->transactiondate)->format('d-m-Y')}}</td>
             <td align="left" valign="top">{{$item->quotations->number}}</td>
             @if ($invoice_currency != 'idr')
               <td align="left" valign="top">Rp {{number_format($item->ara[0]->ar->exchangerate)}}</td>
