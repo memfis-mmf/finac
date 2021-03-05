@@ -149,19 +149,33 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $debit_total = 0;
+                        $credit_total = 0;
+                        $ending_total = 0;
+                    @endphp
                     @foreach ($items as $item)
-                        
-                        <tr>
-                            <td valign="top" width="10%">{{$item->TransactionDate->format('d-m-Y')}}</td>
-                            <td valign="top" width="13%">{{$item->VoucherNo}}</td>
-                            <td valign="top" width="12%">{{$item->RefNo}}</td>
-                            <td valign="top" width="20%">{{$item->Description}}</td>
-                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Debit, 2, ',', '.')}}</td>
-                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Credit, 2, ',', '.')}}</td>
-                            <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->endingBalance, 2, ',', '.')}}</td>
-                        </tr>
-                        
+                      <tr>
+                          <td valign="top" width="10%">{{$carbon::parse($item->TransactionDate)->format('d-m-Y')}}</td>
+                          <td valign="top" width="13%">{{$item->VoucherNo}}</td>
+                          <td valign="top" width="12%">{{$item->RefNo}}</td>
+                          <td valign="top" width="20%">{{$item->Description}}</td>
+                          <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Debit, 2, ',', '.')}}</td>
+                          <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->Credit, 2, ',', '.')}}</td>
+                          <td valign="top" width="15%" align="right" style="padding-right:10px">{{number_format($item->endingBalance, 2, ',', '.')}}</td>
+                      </tr>
+                      @php
+                          $debit_total += $item->Debit;
+                          $credit_total += $item->Credit;
+                          $ending_total += $item->endingBalance;
+                      @endphp
                     @endforeach
+                    <tr>
+                        <td valign="top" width="" colspan="4"><b>Total</b></td>
+                        <td valign="top" width="" align="right" style="padding-right:10px">{{number_format($debit_total, 2, ',', '.')}}</td>
+                        <td valign="top" width="" align="right" style="padding-right:10px">{{number_format($credit_total, 2, ',', '.')}}</td>
+                        <td valign="top" width="" align="right" style="padding-right:10px">{{number_format($ending_total, 2, ',', '.')}}</td>
+                    </tr>
                 </tbody>
             </table>
         @endforeach

@@ -156,7 +156,7 @@
             <thead>
                 <tr>
                   <td width="" align="left" valign="top"><b>Date</b></td>
-                  <td width="" align="center" valign="top"><b>Description</b></td>
+                  <td width="" align="center" valign="top" width="100px" ><b>Description</b></td>
                   <td width="" align="center" valign="top"><b>Reference</b></td>
                   <td width="" align="center" valign="top"><b>Transaction No</b></td>
                   <td width="" align="right" valign="top"><b>Debit</b></td>
@@ -167,7 +167,7 @@
             <tbody style="font-size:11px;">
               @foreach ($data as $data_row)
                 <tr>
-                  <td>{{ $data_row->date }}</td>
+                  <td>{{ $carbon::parse($data_row->date)->format('d-m-Y') }}</td>
                   <td>{{ $data_row->description }}</td>
                   <td>{{ $data_row->ref }}</td>
                   <td>{{ $data_row->number }}</td>
