@@ -13,6 +13,7 @@ use App\User;
 use App\Models\Currency;
 use Illuminate\Support\Carbon;
 use App\Models\Project;
+use App\Models\TrxPaymentAdj;
 
 class TrxPayment extends MemfisModel
 {
@@ -291,5 +292,10 @@ class TrxPayment extends MemfisModel
     public function project()
     {
         return $this->belongsTo(Project::class, 'id_project', 'id');
+    }
+
+    public function adjustment()
+    {
+        return $this->hasMany(TrxPaymentAdj::class, 'trxpayment_id');
     }
 }
