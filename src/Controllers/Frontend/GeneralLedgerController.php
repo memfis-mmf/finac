@@ -372,6 +372,7 @@ class GeneralLedgerController extends Controller
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
+            'carbon' => Carbon::class
         ];
 
         $pdf = \PDF::loadView('formview::general-ledger-docs', $data);
