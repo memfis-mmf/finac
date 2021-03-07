@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     @component('frontend.common.buttons.read-help')
-                        @slot('href', '/outstanding-invoice.pdf/help')
+                        @slot('href', '/fa-outstanding-supplier-invoice.pdf/help')
                     @endcomponent
                 </div>
                 <div class="m-portlet m-portlet--mobile">
