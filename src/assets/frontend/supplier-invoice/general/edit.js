@@ -449,12 +449,38 @@ let SupplierInvoice = {
             });
 
             $('.modal').modal('hide');
+
+            supplier_invoice_adj_datatable.ajax.reload();
           } else {
             errorHandler(response);
           }
         },
         error: function(xhr) {
           errorHandler(xhr.responseJSON);
+        }
+      });
+    });
+
+    $(document).on('click', '.supplier_invoice_adj_datatable .delete', function () {
+      url = $(this).data('href');
+
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+            'content'
+          )
+        },
+        type: "post",
+        url: url,
+        data: {
+          _method: 'delete'
+        },
+        dataType: "json",
+        success: function (response) {
+          toastr.success('Data Deleted', 'Success');
+
+          $('.modal').modal('hide');
+          supplier_invoice_adj_datatable.ajax.reload();
         }
       });
     });

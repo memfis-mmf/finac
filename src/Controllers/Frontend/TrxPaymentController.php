@@ -224,8 +224,6 @@ class TrxPaymentController extends Controller
         $request->validate([
             'transaction_date' => 'required',
             'id_supplier' => 'required',
-            'currency' => 'required',
-            'exchange_rate' => 'required',
             'closed' => 'required'
         ]);
 
