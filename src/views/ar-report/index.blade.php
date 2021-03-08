@@ -123,25 +123,31 @@
                                     <div class="card card-custom gutter-b bg-diagonal bg-diagonal-light-primary">
                                         <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
-                                            <div class="d-flex flex-column mr-5">
-                                            <a href="#" data-target="#modal_aging_rd" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                            Aging Receivable Detail
-                                            </a>
-                                            <p class="text-dark-50">
-                                            <i class="fa fa-info-circle fa-4x"></i>
-                                            Shows list of payment of invoices
-                                            </p>
-                                            </div>
-                                            <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                            <a href="#" data-target="#modal_aging_rd" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
-                                                View
-                                            </a>
-                                            </div>
+                                                <div class="d-flex flex-column mr-5">
+                                                    <a href="#" data-target="#modal_aging_rd" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                        Aging Receivable Detail
+                                                    </a>
+                                                    <p class="text-dark-50">
+                                                        <i class="fa fa-info-circle fa-4x"></i>
+                                                        Shows list of payment of invoices
+                                                    </p>
+                                                    <p class="text-dark-50">
+                                                        <a href="/fa-aging-receivable-detail.pdf/help" target="_blank">
+                                                            <i class="fa fa-question-circle fa-4x"></i>
+                                                            Help
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+                                                    <a href="#" data-target="#modal_aging_rd" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                        View
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-    
+
                                 @include('arreport-agingview::modal')
 
                                 <div class="col-lg-4">
@@ -363,7 +369,7 @@
                                                     <p class="text-dark-50">
                                                         <i class="fa fa-info-circle fa-4x"></i>
                                                         Shows the report due to bank statement
-                                                    </p>                                                    
+                                                    </p>
                                                     <p class="text-dark-50">
                                                         <a href="/bank-statement-report.pdf/help" target="_blank">
                                                             <i class="fa fa-question-circle fa-4x"></i>
@@ -544,35 +550,35 @@
 
 @push('footer-scripts')
 <script>
-  $(document).ready(function() {
-      let currentUrl = window.location.href;
-      let _hash = currentUrl.split('#');
-      if (_hash.length < 2) {
-        window.location.href = currentUrl + "#faReport";
-      } else {
-        window.location.href = currentUrl;
-      }
+    $(document).ready(function() {
+        let currentUrl = window.location.href;
+        let _hash = currentUrl.split('#');
+        if (_hash.length < 2) {
+            window.location.href = currentUrl + "#faReport";
+        } else {
+            window.location.href = currentUrl;
+        }
 
-      $(document).on('click', '.export-to-excel', function() {
-        let href = $(this).data('href');
-        let daterange = $('[name=daterange]').val();
+        $(document).on('click', '.export-to-excel', function() {
+            let href = $(this).data('href');
+            let daterange = $('[name=daterange]').val();
 
-        href = href + '?daterange=' + daterange;
+            href = href + '?daterange=' + daterange;
 
-        window.open(href, '_blank');
+            window.open(href, '_blank');
 
-      });
+        });
 
-  });
+    });
 </script>
 
 @if (Session::get('errors'))
 <script type="text/javascript">
-	$(document).ready(function () {
-		toastr.error(`{{Session::get('errors')}}`, 'Invalid', {
-				timeOut: 3000
-		});
-	});
+    $(document).ready(function() {
+        toastr.error(`{{Session::get('errors')}}`, 'Invalid', {
+            timeOut: 3000
+        });
+    });
 </script>
 @endif
 
