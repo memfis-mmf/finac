@@ -39,7 +39,6 @@ class TrxPaymentController extends Controller
 
     public function approve(Request $request)
     {
-
 		DB::beginTransaction();
 		try {
 
@@ -51,24 +50,6 @@ class TrxPaymentController extends Controller
 					'errors' => 'Data Already Approved'
                 ];
             }
-
-            $total = TrxPaymentB::where(
-                'transaction_number',
-                $si->transaction_number
-            )->sum('total');
-
-            if ($si->currencies->code == 'idr') {
-                $grandtotal_foreign = $total;
-                $grandtotal = $total;
-            }else{
-                $grandtotal_foreign = $total;
-                $grandtotal = ($total*$si->exchange_rate);
-            }
-
-            $si_tmp->update([
-                'grandtotal_foreign' => $grandtotal_foreign,
-                'grandtotal' => $grandtotal,
-            ]);
 
 	        $si->approvals()->save(new Approval([
 	            'approvable_id' => $si->id,
@@ -83,20 +64,31 @@ class TrxPaymentController extends Controller
 
 			$header = (object) [
 				'voucher_no' => $si->transaction_number,
-				// 'transaction_date' => $date_approve,
 				'transaction_date' => $si->transaction_date,
 				'coa' => $si->vendor->coa()->first()->id,
 			];
 
             $total_debit = 0;
+            $total_credit = 0;
             $detail = [];
+
+            $exchange_rate = $si->exchange_rate;
+            if ($si->currencies->code == 'idr') {
+                $exchange_rate = 1;
+            }
+
+            if (count($data_detail) < 1) {
+                return [
+                    'errors' => 'Please fill detail first'
+                ];
+            }
 
 			for ($a=0; $a < count($data_detail); $a++) {
 				$x = $data_detail[$a];
 
 				$detail[] = (object) [
 					'coa_detail' => $x->coa->id,
-					'debit' => $x->total * $si->exchange_rate,
+					'debit' => $x->total * $exchange_rate,
 					'credit' => 0,
 					'_desc' => 'Supplier Invoice : '
 					.$si->transaction_number.' '
@@ -106,19 +98,28 @@ class TrxPaymentController extends Controller
 
 				$total_debit += $detail[count($detail)-1]->debit;
             }
-            
-            if (count($detail) < 1) {
-                return [
-                    'errors' => 'Please fill detail first'
-                ];
-            }
 
+            foreach ($si->adjustment as $adjustment_row) {
+				$detail[] = (object) [
+					'coa_detail' => $adjustment_row->coa->id,
+					'debit' => $adjustment_row->debit_idr,
+					'credit' => $adjustment_row->credit_idr,
+					'_desc' => 'Supplier Invoice : '
+					.$si->transaction_number.' '
+					.$si->vendor->name.'-'
+					.$adjustment_row->description,
+				];
+
+				$total_debit += $detail[count($detail)-1]->debit;
+				$total_credit += $detail[count($detail)-1]->credit;
+            }
+            
 			// add object in first array $detai
 			array_unshift(
 				$detail,
 				(object) [
 					'coa_detail' => $header->coa,
-					'credit' => $total_debit,
+					'credit' => $total_debit - $total_credit,
 					'debit' => 0,
 					'_desc' => 'Account Payable : '
 					.$si->transaction_number.' '

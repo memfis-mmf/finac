@@ -19,6 +19,39 @@ class TrxPaymentB extends MemfisModel
 		'description',
     ];
 
+    /**
+     * trigger event saat CRUD
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::created(function ($model) {
+            self::updateGrandtotalSI($model);
+        });
+
+        self::updated(function ($model) {
+            self::updateGrandtotalSI($model);
+        });
+
+        self::deleted(function ($model) {
+            self::updateGrandtotalSI($model);
+        });
+    }
+
+    private static function updateGrandtotalSI($model)
+    {
+        $trxpayment_class = new TrxPayment();
+
+        $si = $model->si;
+        $calculate_grandtotal = $trxpayment_class->calculateGrandtotalSIGeneral($si);
+
+        $si->update([
+            'grandtotal' => $calculate_grandtotal['total_idr'],
+            'grandtotal_foreign' => $calculate_grandtotal['total'],
+        ]);
+
+    }
+
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'code', 'code');

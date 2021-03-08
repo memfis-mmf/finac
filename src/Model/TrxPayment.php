@@ -303,4 +303,27 @@ class TrxPayment extends MemfisModel
     {
         return $this->hasMany(TrxPaymentAdj::class, 'trxpayments_id');
     }
+
+    public function calculateGrandtotalSIGeneral($si)
+    {
+        $total = $si->detail_general()->get()->sum('total');
+
+        /**
+         * ini yang ditotal debitnya saja 
+         * karena memang total hutangnya dihitung dari total kolom debit
+         */
+        $total += $si->adjustment()->get()->sum('debit');
+
+        if ($si->currencies->code == 'idr') {
+            return [
+                'total' => $total,
+                'total_idr' => $total
+            ];
+        }
+
+        return [
+            'total' => $total,
+            'total_idr' => $total * $si->exchange_rate
+        ];
+    }
 }
