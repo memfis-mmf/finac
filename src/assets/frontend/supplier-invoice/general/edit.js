@@ -383,8 +383,151 @@ let SupplierInvoice = {
       minimumInputLength: 3,
       // templateSelection: formatSelected
     });
+
+    let supplier_invoice_adj_datatable = $('.supplier_invoice_adj_datatable').DataTable({
+      dom: '<"top"f>rt<"bottom">pil',
+      scrollX: true,
+      processing: true,
+      serverSide: true,
+      ajax: $('.supplier_invoice_adj_datatable').data('url'),
+      order: [[ 0, "desc" ]],
+      columns: [
+        {data: 'created_at', visible: false},
+        {data: 'coa.code'},
+        {data: 'coa.name'},
+        {data: 'debit_formated', name:'debit'},
+        {data: 'credit_formated', name:'credit'},
+        {data: 'description'},
+        {data: 'action'},
+      ]
+    });
+
+    $(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_filter").addClass("pull-left");
+    $(".paging_simple_numbers").addClass("pull-left");
+    $(".dataTables_length").addClass("pull-right");
+    $(".dataTables_info").addClass("pull-right");
+    $(".dataTables_info").addClass("margin-info");
+    $(".paging_simple_numbers").addClass("padding-datatable");
+
+    $(document).on('click', '#add_si_adj', function () {
+      href = $(this).data('href');
+
+      $.ajax({
+        type: "get",
+        url: href,
+        dataType: "html",
+        success: function (response) {
+          $('.modal-section').html(response);
+          modal = $('.modal-section .modal');
+
+          modal.modal('show');
+        }
+      });
+    });
+
+    $(document).on('submit', '.modal-section form', function (e) {
+      e.preventDefault();
+
+      data = new FormData($(this)[0]);
+
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+            'content'
+          )
+        },
+        type: "post",
+        url: $(this).attr('action'),
+        data: data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (response) {
+          if (response.status) {
+            toastr.success('Data Saved', 'Success', {
+              timeOut: 2000
+            });
+
+            $('.modal').modal('hide');
+
+            supplier_invoice_adj_datatable.ajax.reload();
+          } else {
+            errorHandler(response);
+          }
+        },
+        error: function(xhr) {
+          errorHandler(xhr.responseJSON);
+        }
+      });
+    });
+
+    $(document).on('click', '.supplier_invoice_adj_datatable .delete', function () {
+      url = $(this).data('href');
+
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+            'content'
+          )
+        },
+        type: "post",
+        url: url,
+        data: {
+          _method: 'delete'
+        },
+        dataType: "json",
+        success: function (response) {
+          toastr.success('Data Deleted', 'Success');
+
+          $('.modal').modal('hide');
+          supplier_invoice_adj_datatable.ajax.reload();
+        }
+      });
+    });
+
+    $(document).on('click', '.supplier_invoice_adj_datatable .edit', function () {
+      href = $(this).data('href');
+
+      $.ajax({
+        type: "get",
+        url: href,
+        dataType: "html",
+        success: function (response) {
+          $('.modal-section').html(response);
+          modal = $('.modal-section .modal');
+
+          modal.modal('show');
+        }
+      });
+    });
 	}
 };
+
+let errorHandler = (response) => {
+
+  let message = '';
+
+  if (!('errors' in response)) {
+    message = response.message;
+  } else {
+    errors = response.errors;
+
+    loop = 0;
+    $.each(errors, function (index, value) {
+
+      if (!loop) {
+        message = value[0]
+      }
+
+      loop++;
+    })
+  }
+
+  toastr.error(message, 'Invalid', {
+    timeOut: 2000
+  });
+}
 
 jQuery(document).ready(function () {
     SupplierInvoice.init();

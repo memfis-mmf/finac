@@ -564,6 +564,36 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/get-vendors',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@getVendor'
 		)->name('trxpayment.vendor.get');
+
+        // supplier invoice adjustment
+		Route::get(
+			'/adjustment/select2-coa',
+			'App\Http\Controllers\Frontend\TrxPaymentAdjController@select2Coa'
+		)->name('trxpayment.adjustment.select2-coa');
+		Route::get(
+			'/adjustment/datatables/{si_id}',
+			'App\Http\Controllers\Frontend\TrxPaymentAdjController@datatables'
+		)->name('trxpayment.adjustment.datatables');
+		Route::get(
+			'/adjustment/create/{si_id}',
+			'App\Http\Controllers\Frontend\TrxPaymentAdjController@create'
+		)->name('trxpayment.adjustment.create');
+		Route::post(
+			'/adjustment/store/{si_id}',
+			'App\Http\Controllers\Frontend\TrxPaymentAdjController@store'
+		)->name('trxpayment.adjustment.store');
+		Route::get(
+			'/adjustment/edit/{trxpayment_adj_id}',
+			'App\Http\Controllers\Frontend\TrxPaymentAdjController@edit'
+		)->name('trxpayment.adjustment.edit');
+		Route::post(
+			'/adjustment/update/{trxpayment_adj_id}',
+			'App\Http\Controllers\Frontend\TrxPaymentAdjController@update'
+		)->name('trxpayment.adjustment.update');
+		Route::delete(
+			'/adjustment/delete/{trxpayment_adj_id}',
+			'App\Http\Controllers\Frontend\TrxPaymentAdjController@destroy'
+		)->name('trxpayment.adjustment.destroy');
 	});
 
     Route::prefix('trxpaymenta')->group(function () {
