@@ -14,7 +14,7 @@
             <select name="coa_id" class="form-control" data-url="{{ route('trxpayment.adjustment.select2-coa') }}">
               <option value=""></option>
               @if (isset($data))
-                <option value="{{ $data->coa->id }}">{{ "{$data->coa->name} ({$data->coa->code})" }}</option>
+                <option value="{{ $data->coa->id }}" selected>{{ "{$data->coa->name} ({$data->coa->code})" }}</option>
               @endif
             </select>
           </div>

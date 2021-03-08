@@ -485,6 +485,22 @@ let SupplierInvoice = {
         }
       });
     });
+
+    $(document).on('click', '.supplier_invoice_adj_datatable .edit', function () {
+      href = $(this).data('href');
+
+      $.ajax({
+        type: "get",
+        url: href,
+        dataType: "html",
+        success: function (response) {
+          $('.modal-section').html(response);
+          modal = $('.modal-section .modal');
+
+          modal.modal('show');
+        }
+      });
+    });
 	}
 };
 

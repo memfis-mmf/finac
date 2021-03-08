@@ -571,7 +571,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'App\Http\Controllers\Frontend\TrxPaymentAdjController@select2Coa'
 		)->name('trxpayment.adjustment.select2-coa');
 		Route::get(
-			'/adjustment/datatables',
+			'/adjustment/datatables/{si_id}',
 			'App\Http\Controllers\Frontend\TrxPaymentAdjController@datatables'
 		)->name('trxpayment.adjustment.datatables');
 		Route::get(
