@@ -9,6 +9,7 @@ use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 use App\Models\Department;
 use App\Models\Currency;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use DB;
@@ -649,6 +650,7 @@ class CashbookController extends Controller
 			'total_credit' => $total_credit,
 			'type' => $type,
 			'type_header' => $type_header,
+            'carbon' => Carbon::class
         ];
 
         $pdf = \PDF::loadView('formview::cashbook', $data);
