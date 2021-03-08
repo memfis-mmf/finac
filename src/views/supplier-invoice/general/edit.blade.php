@@ -344,6 +344,7 @@
                           data-url="{{ route('trxpayment.adjustment.datatables') }}">
                           <thead>
                             <tr>
+                              <th></th>
                               <th>Account Code</th>
                               <th>Account Name</th>
                               <th>Debit</th>

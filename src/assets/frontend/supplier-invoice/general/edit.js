@@ -392,6 +392,7 @@ let SupplierInvoice = {
       ajax: $('.supplier_invoice_adj_datatable').data('url'),
       order: [[ 0, "desc" ]],
       columns: [
+        {data: 'created_at', visible: false},
         {data: 'coa.code'},
         {data: 'coa.name'},
         {data: 'debit_formated', name:'debit'},
