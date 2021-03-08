@@ -294,8 +294,13 @@ class TrxPayment extends MemfisModel
         return $this->belongsTo(Project::class, 'id_project', 'id');
     }
 
+    public function detail_general()
+    {
+        return $this->hasMany(TrxPaymentB::class, 'transaction_number', 'transaction_number');
+    }
+
     public function adjustment()
     {
-        return $this->hasMany(TrxPaymentAdj::class, 'trxpayment_id');
+        return $this->hasMany(TrxPaymentAdj::class, 'trxpayments_id');
     }
 }

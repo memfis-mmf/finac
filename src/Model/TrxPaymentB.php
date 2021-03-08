@@ -7,6 +7,7 @@ use memfisfa\Finac\Model\MemfisModel;
 use memfisfa\Finac\Model\Coa;
 use Illuminate\Database\Eloquent\Model;
 
+// ini model detail SI General
 class TrxPaymentB extends MemfisModel
 {
     protected $table = "trxpaymentb";

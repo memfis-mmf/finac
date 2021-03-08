@@ -8,6 +8,7 @@ use memfisfa\Finac\Model\TrxPayment;
 use App\Models\GoodsReceived;
 use Illuminate\Database\Eloquent\Model;
 
+// ini model detail SI GRN
 class TrxPaymentA extends MemfisModel
 {
     protected $table = "trxpaymenta";
