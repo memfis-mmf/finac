@@ -224,7 +224,7 @@
                                                         Shows Outstanding Invoice
                                                     </p>
                                                     <p class="text-dark-50">
-                                                        <a href="/outstanding-invoice.pdf/help" target="_blank">
+                                                        <a href="/fa-outstanding-supplier-invoice.pdf/help" target="_blank">
                                                             <i class="fa fa-question-circle fa-4x"></i>
                                                             Help
                                                         </a>
