@@ -1,8 +1,8 @@
-<div class="modal fade" id="modal_customer_tb" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_supplier_tb" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="TitleModaladjustment">Customer Trial Balance</h5>
+        <h5 class="modal-title" id="TitleModaladjustment">Supplier Trial Balance</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -11,7 +11,7 @@
         <form 
           class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" 
           id="AdjustmentForm" 
-          action="{{ route('customer-trial-balance-docs') }}">
+          action="{{ route('supplier-trial-balance-docs') }}">
 
           <input type="hidden" name="_uuid" value="" disabled>
           <div class="m-portlet__body">
@@ -78,7 +78,7 @@
                 <div class="flex">
                   <div class="action-buttons">
 
-                    <button data-href="{{ route('customer-trial-balance-export') }}" type="button" class="btn btn-info btn-md export-to-excel">
+                    <button data-href="{{ route('supplier-trial-balance-export') }}" type="button" class="btn btn-info btn-md export-to-excel">
                       <span>
                         <i class="fa fa-file-download"></i>
                         <span>Export</span>

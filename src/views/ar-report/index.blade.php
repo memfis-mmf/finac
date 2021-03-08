@@ -245,7 +245,7 @@
                                       <div class="card-body">
                                           <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
                                               <div class="d-flex flex-column mr-5">
-                                                  <a href="#" data-target="#modal_customer_tb" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
+                                                  <a href="#" data-target="#modal_supplier_tb" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
                                                       Supplier Trial Balance
                                                   </a>
                                                   <p class="text-dark-50">
@@ -253,14 +253,14 @@
                                                       Shows the report due to supplier payables
                                                   </p>
                                                   <p class="text-dark-50">
-                                                      <a href="/customer-trial-balance.pdf/help" target="_blank">
+                                                      <a href="/supplier-trial-balance.pdf/help" target="_blank">
                                                           <i class="fa fa-question-circle fa-4x"></i>
                                                           Help
                                                       </a>
                                                   </p>
                                               </div>
                                               <div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-                                                  <a href="#" data-target="#modal_customer_tb" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+                                                  <a href="#" data-target="#modal_supplier_tb" data-toggle="modal" target="_blank" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
                                                       View
                                                   </a>
                                               </div>

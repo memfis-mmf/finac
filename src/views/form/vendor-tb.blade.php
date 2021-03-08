@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>TB Customer Report</title>
+  <title>TB Supplier Report</title>
   <style>
     @page {
       margin: 0cm 0cm;
@@ -99,7 +99,7 @@
             Website : www.ptmmf.co.id
           </td>
           <td width="50%" valign="top" align="center">
-            <h1 style="font-size:18px;">CUSTOMER TRIAL BALANCE<br>
+            <h1 style="font-size:18px;">SUPPLIER TRIAL BALANCE<br>
               <span style="font-size:12px;font-weight: none;">Period : {{ $start_date }} - {{ $end_date }}</span></h1>
           </td>
         </tr>
@@ -124,7 +124,7 @@
         </table>
         <table width="100%" cellpadding="3" style="margin-top:12px;" id="header-content">
           <tr>
-            <td width="20%" align="center"><b>Customer Name</b></td>
+            <td width="20%" align="center"><b>Supplier Name</b></td>
             <td width="20%" align="center"><b>Beginning Balace</b></td>
             <td width="20%" align="center"><b>Debit</b></td>
             <td width="20%" align="center"><b>Credit</b></td>
