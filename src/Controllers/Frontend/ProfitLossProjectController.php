@@ -315,7 +315,6 @@ class ProfitLossProjectController extends Controller
                         continue;
                     }
 
-                    
                     $actual_item = FefoIn::where('item_id', $item->id)
                         ->where('storage_id', $request_item->request->storage_id)
                         ->where('serial_number', $request_item->serial_number)
