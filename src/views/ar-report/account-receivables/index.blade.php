@@ -197,10 +197,12 @@
                       </span>
                     </button>
 
-                    @component('buttons::submit')
-                    @slot('text', 'Print')
-                    @slot('icon', 'fa-print')
-                    @endcomponent
+                    <a href="{{ $print }}" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
+                      <span>
+                        <i class="fa fa-print"></i>
+                        <span>Print</span>
+                      </span>
+                    </a>
 
                     <a href="{{ $export }}" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
                       <span>

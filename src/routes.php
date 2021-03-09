@@ -1121,6 +1121,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/ar-history-export',
 			'memfisfa\Finac\Controllers\Frontend\ARHistoryController@arHistoryExport'
         )->name('fa-report.ar-history-export');
+
+		Route::get(
+			'/ar-history-print',
+			'memfisfa\Finac\Controllers\Frontend\ARHistoryController@arHistoryPrint'
+        )->name('fa-report.ar-history-print');
         // END AR history
 
         // AP history

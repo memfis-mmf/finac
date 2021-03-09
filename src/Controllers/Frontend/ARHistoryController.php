@@ -108,12 +108,34 @@ class ARHistoryController extends Controller
 
         $data = $this->getArHistory($request);
         $data['export'] = route('fa-report.ar-history-export', $request->all());
+        $data['print'] = route('fa-report.ar-history-print', $request->all());
         
         return view('arreport-accountrhview::index', $data);
     }
 
+    public function arHistoryPrint(Request $request)
+    {
+        if (
+            !$request->daterange 
+        ) {
+            return redirect()->back();
+        }
+
+        $data = $this->getArHistory($request);
+        $data['carbon'] = Carbon::class;
+        
+        $pdf = \PDF::loadView('formview::ar-history', $data);
+        return $pdf->stream();
+    }
+
     public function arHistoryExport(Request $request)
     {
+        if (
+            !$request->daterange 
+        ) {
+            return redirect()->back();
+        }
+
         $data = $this->getArHistory($request);
 
         $startDate = Carbon::parse($data['date'][0])->format('d F Y');
