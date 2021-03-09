@@ -382,7 +382,7 @@
                                     <div class="col-sm-6 col-md-6">
                                         <select class="form-control bankinfo" name="_bankinfo2" id="" style="width:100%">
                                           @if (!$invoice->id_bank2)
-                                            <option value="" selected>--Pilih--</option>
+                                            <option value="" selected>--Select--</option>
                                           @endif
 																					@for ($a=0; $a < count($banks); $a++)
 																						@php
