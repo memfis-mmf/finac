@@ -45,12 +45,13 @@
                                 <label class="form-control-label">
                                     Currency
                                 </label>
-                            
-                                @component('input::select')
-                                    @slot('id', 'currency')
-                                    @slot('name', 'currency')
-                                    @slot('id_error', 'currency')
-                                @endcomponent
+
+                                <select name="currency" class="form-control" id="currency">
+                                  <option value="">-- Select --</option>
+                                  @foreach ($data_currency as $currency_row)
+                                    <option value="{{ $currency_row->id }}">{{ "{$currency_row->name} ({$currency_row->symbol})" }}</option>
+                                  @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

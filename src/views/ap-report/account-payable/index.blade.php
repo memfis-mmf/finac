@@ -165,7 +165,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-right">
                   <div class="action-buttons">
                     <button id="" type="button" name="submit" class="btn btn-primary btn-md add"
-                      data-target="#modal_account_rh" data-toggle="modal">
+                      data-target="#modal_ap" data-toggle="modal">
                       <span>
                         <i class="fa fa-filter"></i>
                         <span>Change Filter</span>
@@ -200,7 +200,7 @@
     </div>
   </div>
 </div>
-@include('arreport-accountrhview::modal')
+@include('apreport-accountrhview::modal')
 <input hidden id="coaid">
 
 @endsection
