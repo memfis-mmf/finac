@@ -119,6 +119,8 @@ class ARHistoryController extends Controller
         $startDate = Carbon::parse($data['date'][0])->format('d F Y');
         $endDate = Carbon::parse($data['date'][1])->format('d F Y');
 
+        $data['carbon'] = Carbon::class;
+
         // return view('arreport-accountrhview::export', $data);
 		return Excel::download(new ARHistoryExport($data), "AR History $startDate - $endDate.xlsx");
     }

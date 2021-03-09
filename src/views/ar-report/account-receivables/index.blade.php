@@ -202,7 +202,7 @@
                     @slot('icon', 'fa-print')
                     @endcomponent
 
-                    <a href="" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
+                    <a href="{{ $export }}" target="_blank" class="btn btn-success btn-md text-light" style="cursor: pointer">
                       <span>
                         <i class="fa fa-file-excel"></i>
                         <span>Export to Excel</span>
