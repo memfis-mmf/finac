@@ -32,6 +32,32 @@
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
+                                    Department
+                                </label>
+                            
+                                @component('input::select2')
+                                    @slot('class', 'department')
+                                    @slot('name', 'department')
+                                    @slot('id_error', 'department')
+                                @endcomponent
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-control-label">
+                                    Location
+                                </label>
+                            
+                                <select class="_select2 form-control" name="location" style="width:100%">
+                                    <option value=""></option>
+                                    <option value="Sidoarjo">Sidoarjo</option>
+                                    <option value="Surabaya">Surabaya</option>
+                                    <option value="Jakarta">Jakarta</option>
+                                    <option value="Biak">Biak</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-control-label">
                                     Supplier
                                 </label>
                             

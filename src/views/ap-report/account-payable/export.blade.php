@@ -2,7 +2,7 @@
   use Illuminate\Support\Carbon;
 @endphp
 <table>
-  {{-- <tr>
+  <tr>
     <td width="12%" valign="top">MMF Department</td>
     <td width="1%" valign="top">:</td>
     <td width="77%" valign="top">{{ $department ?? '-' }}</td>
@@ -11,7 +11,7 @@
     <td>MMF Location</td>
     <td>:</td>
     <td style="text-transform: capitalize">{{ $request->location ?? '-' }}</td>
-  </tr> --}}
+  </tr>
   <tr>
     <td>Currency</td>
     <td>:</td>
