@@ -79,18 +79,41 @@ class APHistoryController extends Controller
 
         $data = $this->getArHistory($request);
         $data['export'] = route('fa-report.ap-history-export', $request->all());
+        $data['print'] = route('fa-report.ap-history-print', $request->all());
         
         return view('apreport-accountrhview::index', $data);
     }
 
+    public function apHistoryPrint(Request $request)
+    {
+        if (
+            !$request->daterange 
+        ) {
+            return redirect()->back();
+        }
+
+        $data = $this->getArHistory($request);
+        $data['carbon'] = Carbon::class;
+        
+        $pdf = \PDF::loadView('formview::ap-history', $data);
+        return $pdf->stream();
+    }
+
     public function apHistoryExport(Request $request)
     {
+        if (
+            !$request->daterange 
+        ) {
+            return redirect()->back();
+        }
+
         $data = $this->getArHistory($request);
 
         $startDate = Carbon::parse($data['date'][0])->format('d F Y');
         $endDate = Carbon::parse($data['date'][1])->format('d F Y');
 
-        // return view('apreport-accountrhview::export', $data);
+        $data['carbon'] = Carbon::class;
+
 		return Excel::download(new APHistoryExport($data), "AP History $startDate - $endDate.xlsx");
     }
 

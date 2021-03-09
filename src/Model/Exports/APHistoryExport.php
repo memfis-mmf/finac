@@ -23,7 +23,7 @@ class APHistoryExport implements FromView, ShouldAutoSize
 
     public function view(): View
     {
-        return view('arreport-accountrhview::export', $this->data);
+        return view('apreport-accountrhview::export', $this->data);
     }
 
     public static function afterSheet(AfterSheet $event)
