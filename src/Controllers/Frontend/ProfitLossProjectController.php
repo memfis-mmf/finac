@@ -327,9 +327,9 @@ class ProfitLossProjectController extends Controller
                     foreach ($actual_items as $actual_itemRow) {
 
                         $item->transaction_number = $request_item->request->number ?? null;
-                        $item->quantity = $request_item->quantity;
+                        $item->quantity = $actual_itemRow->quantity;
                         $item->unit = $request_item->unit ?? null;
-                        $item->price = $actual_itemRow->price * $request_item->quantity_in_primary_unit;
+                        $item->price = $actual_itemRow->price * $actual_itemRow->quantity;
                         $item->ref_no = $jobcard->number ?? null;
                         $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at ?? null;
                         $item->category_name = $item->categories()->select('name')->first()->name ?? null;
@@ -380,9 +380,9 @@ class ProfitLossProjectController extends Controller
                     foreach ($actual_items as $actual_itemRow) {
 
                         $item->transaction_number = $request_item->request->number;
-                        $item->quantity = $request_item->quantity;
+                        $item->quantity = $actual_itemRow->quantity;
                         $item->unit = $request_item->unit;
-                        $item->price = $actual_itemRow->price * $request_item->quantity_in_primary_unit;
+                        $item->price = $actual_itemRow->price * $actual_itemRow->quantity;
                         $item->ref_no = $defectcard->code;
                         $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at;
                         $item->category = $item->categories()->select('name')->first();
