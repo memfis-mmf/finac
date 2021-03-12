@@ -159,14 +159,14 @@
                                           </span>
                                         </button> --}}
 
-                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ap.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
                                             <span>
                                                 <i class="fa fa-print"></i>
                                                 <span>Print</span>
                                             </span>
                                         </a>
 
-                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ap.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
                                             <span>
                                                 <i class="fa fa-file-excel"></i>
                                                 <span>Export to Excel</span>
