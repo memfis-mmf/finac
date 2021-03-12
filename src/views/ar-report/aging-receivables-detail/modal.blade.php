@@ -49,12 +49,12 @@
                                     Department
                                 </label>
                             
-                                @component('input::select2')
-                                    @slot('id', 'department')
-                                    @slot('name', 'department[]')
-                                    @slot('multiple','multiple')
-                                    @slot('id_error', 'department')
-                                @endcomponent
+                                <select class="form-control" name="department[]" style="width:100%" multiple>
+                                  <option value=""></option>
+                                  @foreach ($data_department as $department_row)
+                                    <option value="{{ $department_row->uuid }}">{{ $department_row->name }}</option>
+                                  @endforeach
+                                </select>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
@@ -118,6 +118,10 @@
   $(document).ready(function () {
     let _url = window.location.origin;
     modal = $('#modal_aging_rd');
+
+    modal.find("[name^=department]").select2({
+      placeholder: '-- Select --'
+    });
 
     modal.find("[name=date]").daterangepicker({
       buttonClasses: "m-btn btn",
