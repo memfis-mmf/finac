@@ -100,22 +100,22 @@
                   {{-- content --}}
                   <div class="form-group m-form__group row ">
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                      <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>
-                        <thead style="border-bottom:2px solid black;">
+                      <table class="table table-bordered">
+                        <thead>
                           <tr>
-                            <td width="" align="left" valign="top" style="padding-left:8px;"><b>Date</b></td>
-                            <td width="" align="center" valign="top"><b>Description</b></td>
-                            <td width="" align="center" valign="top"><b>Reference</b></td>
-                            <td width="" align="center" valign="top"><b>Transaction No</b></td>
-                            <td width="" align="right" valign="top"><b>Debit</b></td>
-                            <td width="" align="right" valign="top"><b>Credit</b></td>
-                            <td width="" align="right" valign="top"><b>Balance</b></td>
+                            <th width="" align="left" valign="top" style="padding-left:8px;"><b>Date</b></th>
+                            <th width="" align="center" valign="top"><b>Description</b></th>
+                            <th width="" align="center" valign="top"><b>Reference</b></th>
+                            <th width="" align="center" valign="top"><b>Transaction No</b></th>
+                            <th width="" align="right" valign="top"><b>Debit</b></th>
+                            <th width="" align="right" valign="top"><b>Credit</b></th>
+                            <th width="" align="right" valign="top"><b>Balance</b></th>
                           </tr>
                         </thead>
                         <tbody>
                           @foreach ($data as $data_row)
                             <tr>
-                              <td class="nowrap">{{ $data_row->date }}</td>
+                              <td class="nowrap">{{ $carbon::parse($data_row->date)->format('d-m-Y') }}</td>
                               <td class="nowrap">{{ $data_row->description }}</td>
                               <td class="nowrap">{{ $data_row->ref }}</td>
                               <td class="nowrap">{{ $data_row->number }}</td>
