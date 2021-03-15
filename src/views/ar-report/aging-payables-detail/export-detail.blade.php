@@ -28,7 +28,7 @@
   </tr>
 </table>
 
-@foreach ($data as $customer_row)
+@foreach ($data as $vendor_row)
 @php
   $total_amount_current = 0;
   $total_amount1_6 = 0;
@@ -40,7 +40,7 @@
 <table>
   <tr>
     <td>
-      <h4>Customer Name : {{ $customer_row->name }}</h4>
+      <h4>Customer Name : {{ $vendor_row->name }}</h4>
     </td>
   </tr>
 </table>
@@ -59,7 +59,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach ($customer_row->invoice as $invoice_row)
+    @foreach ($vendor_row->supplier_invoice as $invoice_row)
       <tr>
         <td class="nowrap" align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->number }}</td>
         <td class="nowrap" align="right" valign="top">{{ $invoice_row->due_date }}</td>
