@@ -639,6 +639,11 @@ let AccountReceivableEdit = {
         parseFloat(amount)
       );
 
+      $(target).find('.balance_amount').val(
+        data.invoice.currencies.symbol + ' ' +
+        number_format.format(parseFloat(data.invoice.grandtotalforeign - data.paid_amount - amount))
+      )
+
       $(target).find('.iv_date').val(data.ar.transactiondate);
       $(target).find('.iv_transactionnumber').val(data.invoice.transactionnumber);
       $(target).find('.iv_code').val(data.code);
