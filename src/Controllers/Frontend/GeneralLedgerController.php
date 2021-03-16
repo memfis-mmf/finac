@@ -19,7 +19,11 @@ class GeneralLedgerController extends Controller
 {
     public function index()
     {
-        return view('generalledgerview::index');
+        $data = [
+            'all_coa' => json_encode(Coa::orderBy('code')->get()->toArray())
+        ];
+
+        return view('generalledgerview::index', $data);
     }
 
     public function getEndingBalance($balance, $coa_type, $item)
@@ -78,7 +82,7 @@ class GeneralLedgerController extends Controller
         }
 
         $data = [
-            'data' => $data_coa,
+            'data' => array_values(array_filter($data_coa)),
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,

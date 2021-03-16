@@ -30,7 +30,7 @@
                     <div class="m-portlet__body">
                         <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
                             <div class="row align-items-center">
-                                <div class="col-xl-8 order-2 order-xl-1">
+                                <div class="col-xl-6 order-2 order-xl-1">
                                     <div class="form-group m-form__group row align-items-center">
                                         <div class="col-md-5">
                                             <div class="m-input-icon m-input-icon--left">
@@ -46,7 +46,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                                <div class="col-xl-6 order-1 order-xl-2 m--align-right">
+                                    <button href="javascript:;" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md select-all-coa">
+                                      <span>
+                                        <i class="fa fa-check"></i>
+                                        <span>Select All Coa</span>
+                                      </span>
+                                    </button>
+
+                                    <button href="javascript:;" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-danger btn-md delete-all-coa">
+                                      <span>
+                                        <i class="fa fa-check"></i>
+                                        <span>Delete All Coa</span>
+                                      </span>
+                                    </button>
+
                                     @component('buttons::create-new')
                                     @slot('text', 'Add COA')
                                     @slot('data_target', '#coa_modal')
@@ -110,6 +124,7 @@
                 window.location.href=currentUrl;
             }
         });
+        let all_coa = {!! $all_coa !!};
     </script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/general-ledger.js')}}"></script>
 <script src="{{ asset('vendor/courier/frontend/general-ledger/index.js')}}"></script>

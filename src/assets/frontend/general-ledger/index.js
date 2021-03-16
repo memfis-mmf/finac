@@ -34,8 +34,8 @@ let Coa = {
         })
 
         let coa_datatable = $('.coa_datatable').DataTable({
-            'paging':false,
-            "ordering":false,
+          'paging':true,
+          "ordering":false,
 	        "info":false,
 	        "searching":false,
         });
@@ -51,6 +51,26 @@ let Coa = {
             ]).draw();
 
             $('.modal').modal('hide');
+        });
+
+        $(document).on('click', '.select-all-coa', function () {
+
+          coa_datatable.clear().draw();
+          
+          $.each(all_coa, (index, row) => {
+            coa_datatable.row.add([
+            row.code,
+            row.name,
+                '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill delete" href="javascript:;" title="Delete"><i class="la la-trash"></i> </a>'
+            ]).draw();
+          })
+
+        });
+
+        $(document).on('click', '.delete-all-coa', function () {
+
+          coa_datatable.clear().draw();
+
         });
 
         $('.coa_datatable').on('click', '.delete', function () {
