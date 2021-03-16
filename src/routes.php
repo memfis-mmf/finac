@@ -501,7 +501,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/{trxpayment}/edit',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@edit'
-		);
+		)->name('supplier_invoice.edit');
+		Route::get(
+			'/{trxpayment}/show',
+			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@show'
+		)->name('supplier_invoice.show');
 		Route::get(
 			'/data',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@api'
@@ -555,7 +559,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/grn/{trxpayment}/edit',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@grnEdit'
-		);
+		)->name('supplier_invoice.grn.edit');
+		Route::get(
+			'/grn/{trxpayment}/show',
+			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@grnShow'
+		)->name('supplier_invoice.grn.show');
 		Route::get(
 			'grn/print',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@grnPrint'

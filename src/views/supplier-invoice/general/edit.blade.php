@@ -362,12 +362,14 @@
                 <div class="form-group m-form__group row ">
                   <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                     <div class="action-buttons">
-                      @component('buttons::submit')
-                      @slot('type', 'button')
-                      @slot('id','supplier_invoice_generalupdate')
-                      @endcomponent
+                      @if (!isset($show))
+                        @component('buttons::submit')
+                        @slot('type', 'button')
+                        @slot('id','supplier_invoice_generalupdate')
+                        @endcomponent
 
-                      @include('buttons::reset')
+                        @include('buttons::reset')
+                      @endif
 
                       <a href="{{route('trxpayment.index')}}" class="btn btn-secondary btn-md" style="">
                         <span>
@@ -395,14 +397,22 @@
 @push('footer-scripts')
 <script>
   $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faAP";
-            } else {
-                window.location.href=currentUrl;
-            }
-        });
+    let currentUrl = window.location.href;
+    let _hash = currentUrl.split('#');
+    if (_hash.length < 2) {
+        window.location.href=currentUrl+"#faAP";
+    } else {
+        window.location.href=currentUrl;
+    }
+
+    if ({{ isset($show) }}) {
+      $('input').attr('disabled', 'disabled');
+      $('select').attr('disabled', 'disabled');
+      $('textarea').attr('disabled', 'disabled');
+      $('button').attr('disabled', 'disabled');
+    }
+  });
+
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 

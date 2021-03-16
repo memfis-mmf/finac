@@ -216,6 +216,26 @@ class TrxPaymentController extends Controller
         return view('supplierinvoicegeneralview::edit', $data);
 	}
 
+    public function show(Request $request)
+    {
+		$data['data'] = TrxPayment::with([
+            'project'
+        ])->where(
+			'uuid',
+			$request->trxpayment
+        )->first();
+
+		$data['vendor'] = Vendor::all();
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full'
+		)->whereIn('code',['idr','usd'])
+		->get();
+
+        $data['show'] = true;
+
+        return view('supplierinvoicegeneralview::edit', $data);
+	}
+
     public function update(Request $request, TrxPayment $trxpayment)
     {
 		if ($trxpayment->approve) {
@@ -285,8 +305,17 @@ class TrxPaymentController extends Controller
         ->latest('transaction_date');
 
         return DataTables::of($data)
-		->escapeColumns([])
-		->make(true);
+            ->addColumn('show_url', function($row) {
+                $url = route('supplier_invoice.show', $row->uuid);
+
+                if ($row->x_type == 'GRN') {
+                    $url = route('supplier_invoice.grn.show', $row->uuid);
+                }
+
+                return "<a href='$url'>$row->transaction_number</a>";
+            })
+            ->escapeColumns([])
+            ->make(true);
     }
 
 	public function coaUse(Request $request)
@@ -489,6 +518,26 @@ class TrxPaymentController extends Controller
 			'code, CONCAT(name, " (", symbol ,")") as full'
 		)->whereIn('code',['idr','usd'])
 		->get();
+
+        return view('supplierinvoicegrnview::edit', $data);
+    }
+
+    public function grnShow(Request $request)
+    {
+		$data['data'] = TrxPayment::with([
+            'project'
+        ])->where(
+			'uuid',
+			$request->trxpayment
+		)->first();
+
+		$data['vendor'] = Vendor::all();
+		$data['currency'] = Currency::selectRaw(
+			'code, CONCAT(name, " (", symbol ,")") as full'
+		)->whereIn('code',['idr','usd'])
+		->get();
+
+        $data['show'] = true;
 
         return view('supplierinvoicegrnview::edit', $data);
     }

@@ -24,7 +24,7 @@ let Journal = {
           order: [[1, 'desc']],
           columns: [
             {data: 'transaction_date'},
-            {data: 'transaction_number'},
+            {data: 'show_url', name: 'transaction_number'},
             {data: 'x_type'},
             {data: 'vendor.name'},
             {data: 'status', searchable: false},
