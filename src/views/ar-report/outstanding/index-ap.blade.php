@@ -70,7 +70,7 @@
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-                                 <h1>OUTSTANDING INVOICE</h1>
+                                 <h1>OUTSTANDING SUPPLIER INVOICE</h1>
                                  <h4>As of Date. {{ Carbon::parse($date)->format('d F Y')  }}</h4>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                                 <td width="19%" align="left" valign="top" style="padding-left:8px;"><b>Supplier Invoice No.</b></td>
                                                 <td width="8%"align="center" valign="top"><b>Date</b></td>
                                                 <td width="8%"align="center" valign="top"><b>Due Date</b></td>
-                                                <td width="17%"align="center" valign="top"><b>Ref No.</b></td>
+                                                {{-- <td width="17%"align="center" valign="top"><b>Ref No.</b></td> --}}
                                                 <td width="4%"align="center" valign="top"><b>Currency</b></td>
                                                 <td width="6%"align="center" valign="top" colspan="2"><b>Rate</b></td>
                                                 <td width="9%"align="center" valign="top"  colspan="2"><b>Total Supplier Invoice</b></td>
@@ -125,7 +125,7 @@
                                                 <td width="19%" align="left" valign="top" style="padding-left:8px;">{{ $supplier_invoice_row->transaction_number }}</td>
                                                 <td width="8%"align="center" valign="top">{{ Carbon::parse($supplier_invoice_row->transaction_date)->format('d F Y') }}</td>
                                                 <td width="8%"align="center" valign="top">{!! $supplier_invoice_row->due_date !!}</td>
-                                                <td width="17%"align="left" valign="top">{{ $supplier_invoice_row->quotations->number ?? '-' }}</td>
+                                                {{-- <td width="17%"align="left" valign="top">{{ $supplier_invoice_row->quotations->number ?? '-' }}</td> --}}
                                                 <td width="4%"align="center" valign="top">{{ $supplier_invoice_row->currencies->code }}</td>
                                                 <td width="1%" align="right" valign="top">Rp </td>
                                                 <td width="5%"align="left" valign="top">{{ number_format($supplier_invoice_row->exchange_rate, 2, ',', '.') }}</td>
@@ -139,7 +139,7 @@
                                             @endforeach
                                             @foreach ($vendor_row->sum_total as $sum_total_index => $sum_total_row)
                                               <tr style="border-top:2px solid black;" >
-                                                  <td colspan="5"></td>
+                                                  <td colspan="4"></td>
                                                   <td align="left" valign="top" colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
                                                   <td width="1%" align="right" valign="top" class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
                                                   <td width="12%"align="right" valign="top" class="table-footer"><b>{{ number_format($sum_total_row['grandtotal_foreign'], 2, ',', '.') }}</b></td>

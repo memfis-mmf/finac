@@ -217,7 +217,7 @@
                                             <div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
                                                 <div class="d-flex flex-column mr-5">
                                                     <a href="#" data-target="#modal_outstanding_ap" data-toggle="modal" class="h4 text-dark text-hover-primary mb-5">
-                                                        Outstanding Invoice
+                                                        Outstanding Supplier Invoice
                                                     </a>
                                                     <p class="text-dark-50">
                                                         <i class="fa fa-info-circle fa-4x"></i>
