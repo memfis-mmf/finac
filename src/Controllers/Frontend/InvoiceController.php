@@ -625,7 +625,7 @@ class InvoiceController extends Controller
         ];
 
         if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
-            $coa_diff = Coa::where('code', '81112003')->first();
+            $coa_diff = Coa::where('code', '71112001')->first();
             if (!$coa_diff) {
                 return [
                     'errors' => 'Coa (Cash Balances Differential) not found'

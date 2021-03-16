@@ -256,7 +256,7 @@ class ARAController extends Controller
                     'ar_id' => $ara->ar->id,
                     'transactionnumber' => $ara->transactionnumber,
                     'id_invoice' => $ara->id_invoice,
-                    'code' => '81112003',
+                    'code' => '71112001',
                     'debit' => $arc_debit,
                     'credit' => $arc_credit,
                 ]);

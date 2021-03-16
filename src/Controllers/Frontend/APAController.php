@@ -326,7 +326,7 @@ class APAController extends Controller
                 'ap_id' => $apa->ap->id,
                 'transactionnumber' => $apa->transactionnumber,
                 'id_payment' => $apa->id_payment,
-                'code' => '81112003',
+                'code' => '71112001',
                 'debit' => $apc_debit,
                 'credit' => $apc_credit,
             ]);
