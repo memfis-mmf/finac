@@ -494,68 +494,7 @@
                     <td>
                         <fieldset>
                             <legend style="color:#3b98f5;font-weight: bold; font-size:14px;">Bank Account Information</legend>
-                            <table width="100%" cellpadding="4" style="padding-top:10px">
-                                    <tr>
-                                        <td valign="top" width="18%">Bank Name</td>
-                                        <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">
-                                            {{$invoice->bank->bank->name}}
-                                        </td>
-                                        {{-- bank 2 --}}
-                                        <td valign="top" width="18%">Bank Name</td>
-                                        <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">
-                                            {{@$invoice->bank2->bank->name}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td valign="top" width="18%">Bank Acc Name</td>
-                                        <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">{{$invoice->bank->name}}</td>
-                                        {{-- bank 2 --}}
-                                        <td valign="top" width="18%">Bank Acc Name</td>
-                                        <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">{{@$invoice->bank2->name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td valign="top" width="18%">Bank Acc No.</td>
-                                        <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">{{$invoice->bank->number}}</td>
-                                        {{-- bank 2 --}}
-                                        <td valign="top" width="18%">Bank Acc No.</td>
-                                        <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%">{{@$invoice->bank2->number}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td valign="top" width="18%">Currency</td>
-                                        <td valign="top" width="1%">:</td>
-                                        <td valign="top" width="31%" style="text-transform:uppercase">{{$invoice->currencies->code}}</td>
-                                    </tr>
-                                    <tr>
-                                        @if ($invoice->bank->swift_code)
-                                            <td valign="top" width="18%">Swift Code</td>
-                                            <td valign="top" width="1%">:</td>
-                                            <td valign="top" width="31%">{{$invoice->bank->swift_code}}</td>
-                                        @else
-                                            <td valign="top" width="18%"></td>
-                                            <td valign="top" width="1%"></td>
-                                            <td valign="top" width="31%"></td>
-                                        @endif
-                                        {{-- bank 2 --}}
-                                        @if (@$invoice->bank2->swift_code)
-                                            <td valign="top" width="18%">Swift Code</td>
-                                            <td valign="top" width="1%">:</td>
-                                            <td valign="top" width="31%">{{$invoice->bank->swift_code}}</td>
-                                        @else
-                                            <td valign="top" width="18%"></td>
-                                            <td valign="top" width="1%"></td>
-                                            <td valign="top" width="31%"></td>
-                                        @endif
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" align="center"><i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i></td>
-                                    </tr>
-                                </table>
+                          {!! $bank_segment !!}
                         </fieldset>
                     </td>
                 </tr>
