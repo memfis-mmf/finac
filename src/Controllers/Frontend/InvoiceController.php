@@ -80,8 +80,6 @@ class InvoiceController extends Controller
     {
         $data['today'] = Carbon::today()->toDateString();
 
-        $collection = collect();
-
         $departments = Department::with('type', 'parent')->get();
 
         $data['company'] = $departments;
@@ -159,6 +157,12 @@ class InvoiceController extends Controller
                 ->first()->id;
         }
 
+        $bankaccount3 = NULL;
+        if ($request->bank3) {
+            $bankaccount3 = BankAccount::where('uuid', $request->bank3)
+                ->first()->id;
+        }
+
         $id_branch = 1;
         $closed = 0;
         $transaction_number = Invoice::generateCode();
@@ -210,6 +214,7 @@ class InvoiceController extends Controller
             'schedule_payment' => $request->schedule_payment,
             'id_bank' => $bankaccount,
             'id_bank2' => $bankaccount2,
+            'id_bank3' => $bankaccount3,
             'accountcode' => $coa->id,
             'description' => $description,
             'term_and_condition' => $term_and_condition,
@@ -406,6 +411,9 @@ class InvoiceController extends Controller
         $bankAccountget2 = BankAccount::where('id', $invoice->id_bank2)->first();
         @$bankget2 = Bank::where('id', $bankAccountget2->bank_id)->first();
 
+        $bankAccountget3 = BankAccount::where('id', $invoice->id_bank3)->first();
+        @$bankget3 = Bank::where('id', $bankAccountget3->bank_id)->first();
+
         $bank = BankAccount::where('internal_account', 1)->selectRaw('uuid, CONCAT(name, " (", number ,")") as full,id')->get();
 
         $collection = collect();
@@ -430,6 +438,8 @@ class InvoiceController extends Controller
             ->with('bankget', $bankget)
             ->with('bankaccountget2', $bankAccountget2)
             ->with('bankget2', $bankget2)
+            ->with('bankaccountget3', $bankAccountget3)
+            ->with('bankget3', $bankget3)
             ->with('company', $company)
             ->with('currencycode', $currency);
     }
@@ -459,6 +469,13 @@ class InvoiceController extends Controller
                 ->first()->id;
         }
 
+        $bankaccount3 = NULL;
+
+        if ($request->_bankinfo3) {
+            $bankaccount3 = BankAccount::where('uuid', $request->_bankinfo3)
+                ->first()->id;
+        }
+
         $subtotal = $invoice->grandtotalforeign / 1.1;
 
         $currency_id = $currency->id;
@@ -484,6 +501,7 @@ class InvoiceController extends Controller
                 // 'ppnvalue' => $ppn_value,
                 'id_bank' => $bankaccount,
                 'id_bank2' => $bankaccount2,
+                'id_bank3' => $bankaccount3,
                 // 'grandtotalforeign' => $grandtotalfrg,
                 'grandtotal' => $grandtotalidr,
                 // 'accountcode' => $coa->id,
@@ -1410,13 +1428,89 @@ class InvoiceController extends Controller
             $other_workpackage->priceother = $total;
         }
 
+        $bank_segment = $this->preparedBankData($invoice);
+
         $data = [
             'invoice' => $invoice,
             'other_workpackage' => $other_workpackage,
+            'bank_segment' => $bank_segment,
         ];
 
         $pdf = \PDF::loadView('formview::invoice', $data);
         return $pdf->stream();
+    }
+
+    private function preparedBankData($invoice)
+    {
+        $bank_account_1 = $invoice->bank;
+        $bank_account_2 = $invoice->bank2;
+        $bank_account_3 = $invoice->bank3;
+
+        $bank_id = [
+            $bank_account_1->bank->id,
+            @$bank_account_2->bank->id ?? null,
+            @$bank_account_3->bank->id ?? null,
+        ];
+
+        $bank_account_name = [
+            $bank_account_1->name,
+            @$bank_account_2->name ?? null,
+            @$bank_account_3->name ?? null,
+        ];
+
+        $bank_id = array_filter($bank_id);
+        $bank_id = array_values($bank_id);
+
+        $bank_account_name = array_filter($bank_account_name);
+        $bank_account_name = array_values($bank_account_name);
+
+        $total_bank_id_difference = count(array_unique($bank_id));
+        $total_bank_name_difference = count(array_unique($bank_account_name));
+
+        if ($total_bank_id_difference == 2 and $total_bank_name_difference < 3 and count($bank_account_name) == 3) {
+
+            if ($bank_id[0] == $bank_id[1] and $bank_account_name[0] == $bank_account_name[1]) {
+                $data = [
+                    'bank1' => $bank_account_1,
+                    'bank2' => $bank_account_2,
+                    'bank3' => $bank_account_3,
+                ];
+            }
+
+            if ($bank_id[0] == $bank_id[2] and $bank_account_name[0] == $bank_account_name[2]) {
+                $data = [
+                    'bank1' => $bank_account_1,
+                    'bank2' => $bank_account_3,
+                    'bank3' => $bank_account_2,
+                ];
+            }
+
+            if ($bank_id[1] == $bank_id[2] and $bank_account_name[1] == $bank_account_name[2]) {
+                $data = [
+                    'bank1' => $bank_account_2,
+                    'bank2' => $bank_account_3,
+                    'bank3' => $bank_account_1,
+                ];
+
+            }
+
+            return view('formview::invoice-bank-account-segment-same-bank', $data);
+
+        }
+
+        if (
+            $total_bank_id_difference == 3 
+            or ($total_bank_id_difference == 2 and count($bank_account_name) == 3)
+            or count($bank_account_name) == 1
+            or count($bank_account_name) == 2
+        ) {
+            $data = [
+                'bank1' => $bank_account_1,
+                'bank2' => $bank_account_2,
+            ];
+
+            return view('formview::invoice-bank-account-segment', $data);
+        }
     }
 
     public function getCustomer()
