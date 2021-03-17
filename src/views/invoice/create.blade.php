@@ -404,6 +404,28 @@
                                 </div>
 
                                 <div class="form-group m-form__group row">
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        @component('input::select2')
+                                        @slot('id', 'bankinfo3')
+                                        @slot('name', 'bankinfo3')
+                                        @slot('class', 'bankinfo')
+                                        @slot('text', 'Bank Name Information')
+                                        @slot('id_error', 'bankinfo')
+                                        @endcomponent
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div hidden id="bai_header">
+                                            @component('input::inputreadonly')
+                                            @slot('id', 'bai')
+                                            @slot('name', 'bai')
+                                            @slot('text', 'Bank Account Information')
+                                            @slot('id_error', 'bankaccount')
+                                            @endcomponent
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group m-form__group row">
                                     <div id="actheader" class="col-sm-12 col-md-12 col-lg-12 footer">
                                         <div class="flex">
                                             <div class="action-buttons">
