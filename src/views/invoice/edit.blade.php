@@ -352,6 +352,7 @@
                                         </label>
 
 																				<select class="form-control bankinfo" name="_bankinfo" id="" style="width:100%">
+                                          <option value="">-- Select --</option>
 																					@for ($a=0; $a < count($banks); $a++)
 																						@php
 																							$x = $banks[$a];
@@ -381,9 +382,7 @@
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-6 col-md-6">
                                         <select class="form-control bankinfo" name="_bankinfo2" id="" style="width:100%">
-                                          @if (!$invoice->id_bank2)
-                                            <option value="" selected>--Select--</option>
-                                          @endif
+                                          <option value="">--Select--</option>
 																					@for ($a=0; $a < count($banks); $a++)
 																						@php
 																							$x = $banks[$a];
@@ -399,6 +398,31 @@
                                             @slot('id', 'bai')
                                             @slot('name', 'bai')
                                             @slot('value', @$bankget2->name)
+                                            @slot('text', 'Bank Account Information')
+                                            @slot('id_error', 'bankaccount')
+                                            @endcomponent
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <select class="form-control bankinfo" name="_bankinfo3" id="" style="width:100%">
+                                          <option value="">--Select--</option>
+																					@for ($a=0; $a < count($banks); $a++)
+																						@php
+																							$x = $banks[$a];
+                                            @endphp
+
+																						<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank3)? 'selected': ''}}>{{$x->full}}</option>
+																					@endfor
+																				</select>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div {{(!$invoice->id_bank3)? 'hidden': ''}} id="bai_header">
+                                            @component('input::inputreadonly')
+                                            @slot('id', 'bai')
+                                            @slot('name', 'bai')
+                                            @slot('value', @$bankget3->name)
                                             @slot('text', 'Bank Account Information')
                                             @slot('id_error', 'bankaccount')
                                             @endcomponent
