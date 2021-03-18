@@ -1467,7 +1467,7 @@ class InvoiceController extends Controller
         $total_bank_id_difference = count(array_unique($bank_id));
         $total_bank_name_difference = count(array_unique($bank_account_name));
 
-        if ($total_bank_id_difference == 2 and $total_bank_name_difference < 3 and count($bank_account_name) == 3) {
+        if ($total_bank_id_difference < 3 and $total_bank_name_difference < 3) {
 
             if ($bank_id[0] == $bank_id[1] and $bank_account_name[0] == $bank_account_name[1]) {
                 $data = [
@@ -1477,7 +1477,7 @@ class InvoiceController extends Controller
                 ];
             }
 
-            if ($bank_id[0] == $bank_id[2] and $bank_account_name[0] == $bank_account_name[2]) {
+            if ($bank_id[0] == ($bank_id[2] ?? null) and $bank_account_name[0] == ($bank_account_name[2] ?? null)) {
                 $data = [
                     'bank1' => $bank_account_1,
                     'bank2' => $bank_account_3,
@@ -1485,7 +1485,7 @@ class InvoiceController extends Controller
                 ];
             }
 
-            if ($bank_id[1] == $bank_id[2] and $bank_account_name[1] == $bank_account_name[2]) {
+            if (($bank_id[1] ?? null) == ($bank_id[2] ?? null) and ($bank_account_name[1] ?? null) == ($bank_account_name[2] ?? null)) {
                 $data = [
                     'bank1' => $bank_account_2,
                     'bank2' => $bank_account_3,
