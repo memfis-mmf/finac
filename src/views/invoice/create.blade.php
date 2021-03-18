@@ -262,7 +262,7 @@
                                                           @slot('text', 'Date')
                                                           @slot('name', 'date')
                                                           @slot('id_error', 'date')
-                                                          @slot('value', $today)
+                                                          @slot('value', $carbon::now()->format('d-m-Y'))
                                                           @slot('id_error','requested_at')
                                                         @endcomponent
                                                     </div>

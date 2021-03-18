@@ -3,9 +3,6 @@
 @section('faAR', 'm-menu__item--active m-menu__item--open')
 @section('faARInv', 'm-menu__item--active')
 @section('content')
-@php
-    use Carbon\Carbon;
-@endphp
 <style>
   .m-datatable__cell:last-of-type {
       vertical-align: top !important;
@@ -255,7 +252,7 @@
                                                           @slot('text', 'Date')
                                                           @slot('name', 'date')
                                                           @slot('id_error', 'date')
-                                                          @slot('value', Carbon::parse($invoice->transactiondate)->format('Y-m-d'))
+                                                          @slot('value', $carbon::parse($invoice->transactiondate)->format('d-m-Y'))
                                                           @slot('id_error','requested_at')
                                                         @endcomponent
                                                     </div>
