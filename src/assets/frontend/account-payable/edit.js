@@ -705,6 +705,11 @@ let AccountPayable = {
         parseFloat(amount)
       );
 
+      $(target).find('.balance_amount').val(
+        data.si.currencies.symbol + ' ' +
+        number_format.format(parseFloat(data.si.grandtotal_foreign - data.paid_amount - amount))
+      )
+
       $(target).find('.iv_date').val(data.ap.transactiondate);
       $(target).find('.iv_transactionnumber').val(data._transaction_number);
       $(target).find('.iv_code').val(data.code);

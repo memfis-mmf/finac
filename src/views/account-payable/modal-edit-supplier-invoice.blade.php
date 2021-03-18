@@ -90,6 +90,13 @@
               </div>
               <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
+                  Balance Amount
+                </label>
+
+                <input type="text" class="form-control balance_amount" disabled>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <label class="form-control-label">
                   Exchange Rate Gap
                 </label>
 
