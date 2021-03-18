@@ -237,6 +237,18 @@ class TrialBalanceController extends Controller
                 $data_final_row->Debit - $data_final_row->Credit;
         }
 
+        $data_final = collect($data_final);
+
+        $data_final->transform(function($row) {
+
+            if ($row->description == 'Header') {
+                $row->code = $row->name;
+                $row->name = null;
+            }
+            
+            return $row;
+        });
+
 		$data = [
 			'data' => $data_final,
 			'total_data' => $total_data,
