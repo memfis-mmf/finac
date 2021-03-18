@@ -68,7 +68,7 @@
       </div>
       <div class="modal-body">
         <input type="hidden" id="hiderow" value="">
-        <table class="table table-striped table-bordered table-hover table-checkable" id="coa_datatables_adj">
+        <table class="table table-striped table-bordered table-hover table-checkable" id="coa_datatables_adj" data-url="{{ route('areceive.coa.datatables') }}">
           <thead>
             <tr>
               <th>Account Code</th>

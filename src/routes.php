@@ -761,7 +761,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/coa/datatables',
 			'memfisfa\Finac\Controllers\Frontend\ARController@coaDatatables'
-		)->name('areceive.datatables');
+		)->name('areceive.coa.datatables');
 		Route::get(
 			'/{areceive}/edit',
 			'memfisfa\Finac\Controllers\Frontend\ARController@edit'

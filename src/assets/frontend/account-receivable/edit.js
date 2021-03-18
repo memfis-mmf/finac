@@ -81,7 +81,7 @@ let AccountReceivableEdit = {
       serverSide: !0,
       lengthMenu: [5, 10, 25, 50],
       pageLength: 5,
-      ajax: "/account-receivable/coa/datatables",
+      ajax: $("#coa_datatables_adj").data('url'),
       columns: [
         {
           data: 'code'
