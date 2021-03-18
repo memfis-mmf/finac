@@ -25,7 +25,7 @@ let Invoice = {
           columns: [
             {data: 'created_at', searchable: false, visible: false},
             {data: 'date', name: 'transactiondate'},
-            {data: 'transaction_number_link'},
+            {data: 'transaction_number_link', name: 'transactionnumber'},
             {data: 'xstatus', searchable: false, orderable: false},
             {data: 'customer.name'},
             {data: 'quotations.number', defaultContent: '-', render: (data, type, row) => {
