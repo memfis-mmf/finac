@@ -33,8 +33,8 @@ class JournalController extends Controller
 
 		for ($i = 0; $i < count($journala); $i++) {
 			$x = $journala[$i];
-			$debit += $x->debit;
-			$credit += $x->credit;
+			$debit += $x->debit ?? 0;
+			$credit += $x->credit ?? 0;
 		}
 
 		return (round($debit, 5) != round($credit, 5));
@@ -386,11 +386,17 @@ class JournalController extends Controller
 	public function print(Request $request)
 	{
 		$journal = Journal::where('uuid', $request->uuid)->first();
-		$journala = $journal->journala->transform(function($row) {
-            if ($row->debit != 0 or $row->credit != 0) {
-                return $row;
+		$journala = $journal->journala;
+
+
+        foreach ($journala as $journala_row) {
+            if ($journala_row->debit == 0 and $journala_row->credit == 0) {
+                continue;
             }
-        });
+            $journal_detail[] = $journala_row;
+        }
+
+        $journala = $journal_detail;
 
 		if ($this->checkBalance($journala)) {
             return redirect()->route('journal.index')->with(['errors' => 'Debit and Credit not balance']);
@@ -401,8 +407,8 @@ class JournalController extends Controller
 
 		for ($i = 0; $i < count($journala); $i++) {
 			$x = $journala[$i];
-			$debit += $x->debit;
-			$credit += $x->credit;
+			$debit += $x->debit ?? 0;
+			$credit += $x->credit ?? 0;
 		}
 
 		$data = [
