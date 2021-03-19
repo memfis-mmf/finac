@@ -405,7 +405,7 @@
         window.location.href=currentUrl;
     }
 
-    if ({{ isset($show) }}) {
+    if ('{{ $show ?? "" }}') {
       $('input').attr('disabled', 'disabled');
       $('select').attr('disabled', 'disabled');
       $('textarea').attr('disabled', 'disabled');
@@ -413,6 +413,7 @@
     }
   });
 
+  let show = '{{ $show ?? "" }}';
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 

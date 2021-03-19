@@ -28,12 +28,16 @@ let SupplierInvoice = {
         {
           data: '', searchable: false, render: (data, type, row) => {
             let t = row;
-            return (
-              '<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
-              '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-              t.uuid +
-              ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
-            );
+            if (!show) {
+              return (
+                '<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
+                '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                t.uuid +
+                ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'
+              );
+            }
+
+            return '-';
 
           }
         }
