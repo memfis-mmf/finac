@@ -386,7 +386,11 @@ class JournalController extends Controller
 	public function print(Request $request)
 	{
 		$journal = Journal::where('uuid', $request->uuid)->first();
-		$journala = $journal->journala;
+		$journala = $journal->journala->transform(function($row) {
+            if ($row->debit != 0 or $row->credit != 0) {
+                return $row;
+            }
+        });
 
 		if ($this->checkBalance($journala)) {
             return redirect()->route('journal.index')->with(['errors' => 'Debit and Credit not balance']);
