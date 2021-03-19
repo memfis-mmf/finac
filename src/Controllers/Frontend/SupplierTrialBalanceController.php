@@ -125,8 +125,10 @@ class SupplierTrialBalanceController extends Controller
              * mengambil grandtotal IDR dari supplier_invoice
              */
             $begining_balance = $vendor_row->supplier_invoice()
-                ->where('approve', true)
-                ->where('updated_at', '<=', $start_date)
+                ->where('approve', 1)
+                ->whereHas('approvals', function($approvals) use($start_date) {
+                    $approvals->where('created_at', '<=', $start_date);
+                })
                 ->sum('grandtotal');
 
             /**
@@ -134,8 +136,10 @@ class SupplierTrialBalanceController extends Controller
              */
             $credit = $vendor_row->supplier_invoice()
                 ->where('approve', true)
-                ->where('updated_at', '>', $start_date)
-                ->where('updated_at', '<', $end_date)
+                ->whereHas('approvals', function($approvals) use($start_date, $end_date) {
+                    $approvals->where('updated_at', '>', $start_date)
+                        ->where('updated_at', '<', $end_date);
+                })
                 ->sum('grandtotal');
 
             $vendor_row->credit = $credit;
@@ -145,6 +149,7 @@ class SupplierTrialBalanceController extends Controller
                 })
                 ->sum('debit_idr');
 
+            $vendor_row->begining_balance = $begining_balance;
             $vendor_row->ending_balance = $ending_balance = $begining_balance + $debit - $credit;
 
             $total['begining_balance'] += $begining_balance;
