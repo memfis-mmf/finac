@@ -91,7 +91,7 @@
                             </div>
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">   
-                                    <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
+                                    <table class="table table-bordered">  
                                         <thead style="border-bottom:2px solid black;">     
                                             <tr>
                                                 <td align="left" valign="top" style="padding-left:8px;"><b>Supplier Name</b></td>
