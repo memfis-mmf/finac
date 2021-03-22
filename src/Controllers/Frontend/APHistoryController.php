@@ -66,6 +66,7 @@ class APHistoryController extends Controller
                         $supplier_invoice_currency_current = $supplier_invoice_currency[$supplier_invoice_row->currencies->code];
 
                         $arr_tmp = [
+                            'currency' => $supplier_invoice_row->currencies,
                             'discount_total' =>
                                 $supplier_invoice_currency_current['discount_total'] 
                                 + $supplier_invoice_row->discount_total,
@@ -86,18 +87,19 @@ class APHistoryController extends Controller
                                 + $supplier_invoice_row->ending_balance['amount_idr'], 
                         ];
 
-                        $supplier_invoice_currency_current = $arr_tmp;
+                        $supplier_invoice_currency[$supplier_invoice_row->currencies->code] = $arr_tmp;
+                    } else {
+                        $supplier_invoice_currency[$supplier_invoice_row->currencies->code] = [
+                            'currency' => $supplier_invoice_row->currencies,
+                            'discount_total' => $supplier_invoice_row->discount_total,
+                            'vat_total' => $supplier_invoice_row->ppn_value, 
+                            'invoice_total' => $supplier_invoice_row->grandtotal_foreign, 
+                            'paid_amount_total' => $supplier_invoice_row->ap_amount['debit'], 
+                            'ending_balance_total' => $supplier_invoice_row->ending_balance['amount'], 
+                            'ending_balance_total_idr' => $supplier_invoice_row->ending_balance['amount_idr'],                     
+                        ];
                     }
 
-                    $supplier_invoice_currency[$supplier_invoice_row->currencies->code] = [
-                        'currency' => $supplier_invoice_row->currencies,
-                        'discount_total' => $supplier_invoice_row->discount_total,
-                        'vat_total' => $supplier_invoice_row->ppn_value, 
-                        'invoice_total' => $supplier_invoice_row->grandtotal_foreign, 
-                        'paid_amount_total' => $supplier_invoice_row->ap_amount['debit'], 
-                        'ending_balance_total' => $supplier_invoice_row->ending_balance['amount'], 
-                        'ending_balance_total_idr' => $supplier_invoice_row->ending_balance['amount_idr'],                     
-                    ];
                 }
 
                 $row->total = $supplier_invoice_currency;
