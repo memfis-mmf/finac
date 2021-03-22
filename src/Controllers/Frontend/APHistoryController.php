@@ -144,6 +144,7 @@ class APHistoryController extends Controller
 
         $data = $this->getArHistory($request);
         $data['carbon'] = Carbon::class;
+        $data['controller'] = Controller::class;
         
         $pdf = \PDF::loadView('formview::ap-history', $data);
         return $pdf->stream();
@@ -163,6 +164,7 @@ class APHistoryController extends Controller
         $endDate = Carbon::parse($data['date'][1])->format('d F Y');
 
         $data['carbon'] = Carbon::class;
+        $data['controller'] = Controller::class;
 
 		return Excel::download(new APHistoryExport($data), "AP History $startDate - $endDate.xlsx");
     }
