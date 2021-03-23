@@ -487,7 +487,7 @@ class InvoiceController extends Controller
         $ppn_value = $request->pphvalue; //this ppnvalue get data from pph and i don't understand why...
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $invoice->grandtotalforeign * $request->exchangerate;
-        $transaction_date = $request->date;
+        $transaction_date = Carbon::createFromFormat('d-m-Y', $request->date);
         $description = $request->description;
         $term_and_condition = $request->term_and_condition;
 
