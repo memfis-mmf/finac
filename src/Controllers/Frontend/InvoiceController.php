@@ -632,6 +632,12 @@ class InvoiceController extends Controller
             $total_credit += $detail[count($detail) - 1]->credit;
         }
 
+        if ($invoice->grandtotal != $total_credit) {
+            if (abs($invoice->grandtotal - $total_credit) < 0.01) {
+                $invoice->grandtotal = $total_credit;
+            }
+        }
+
         // detail piutang
         $detail[] = (object) [
             'coa_detail' => $header->coa,
