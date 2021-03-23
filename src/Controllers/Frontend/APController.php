@@ -193,6 +193,9 @@ class APController extends Controller
             ->addColumn('status', function($row) {
                 return $row->status;
             })
+            ->addColumn('can_approve_fa', function($row) {
+                return $this->canApproveFa();
+            })
             ->escapeColumns([])
             ->make(true);
     }

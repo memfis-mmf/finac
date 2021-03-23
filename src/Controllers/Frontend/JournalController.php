@@ -259,6 +259,9 @@ class JournalController extends Controller
         ->addColumn('approved_by', function($row) {
             return $row->approved_by ?? '-';
         })
+        ->addColumn('can_approve_fa', function($row) {
+            return $this->canApproveFa();
+        })
 		->addColumn('unapproved', function(Journal $journal) use ($request) {
 			$html = '';
 

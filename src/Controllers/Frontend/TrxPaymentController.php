@@ -314,6 +314,9 @@ class TrxPaymentController extends Controller
 
                 return "<a href='$url'>$row->transaction_number</a>";
             })
+            ->addColumn('can_approve_fa', function($row) {
+                return $this->canApproveFa();
+            })
             ->escapeColumns([])
             ->make(true);
     }

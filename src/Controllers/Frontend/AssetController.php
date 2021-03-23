@@ -226,15 +226,18 @@ class AssetController extends Controller
                     //         title="Delete">
                     //         <i class="la la-trash"></i> 
                     //     </a>';
-                    $html .=
-                        '<a 
-                            href="javascript:;" 
-                            data-uuid="'.$row->uuid.'" 
-                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
-                            title="Approve" 
-                            data-uuid="'.$row->uuid.'">
-                            <i class="la la-check"></i>
-                        </a>';
+
+                    if ($this->canApproveFa()) {
+                        $html .=
+                            '<a 
+                                href="javascript:;" 
+                                data-uuid="'.$row->uuid.'" 
+                                class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                                title="Approve" 
+                                data-uuid="'.$row->uuid.'">
+                                <i class="la la-check"></i>
+                            </a>';
+                    }
                 }
 
                 if ($row->approve) {

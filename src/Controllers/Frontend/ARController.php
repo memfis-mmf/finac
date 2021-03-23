@@ -253,6 +253,9 @@ class ARController extends Controller
             ->addColumn('url_edit', function($row) {
                 return route('areceive.edit', $row->uuid);
             })
+            ->addColumn('can_approve_fa', function($row) {
+                return $this->canApproveFa();
+            })
             ->escapeColumns([])
             ->make(true);
     }
