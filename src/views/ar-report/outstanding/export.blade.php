@@ -26,7 +26,7 @@
     <td style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
     <td>{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
     <td>{{ $invoice_row->due_date }}</td>
-    <td>{{ $invoice_row->quotations->number ?? '-' }}</td>
+    <td>{{ $invoice_row->quotations->number ?? $invoice_row->quotations->quotation_no ?? '-' }}</td>
     <td>{{ $invoice_row->currencies->code }}</td>
     <td>Rp </td>
     <td>{{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>

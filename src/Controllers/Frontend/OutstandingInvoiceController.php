@@ -12,9 +12,6 @@ use Illuminate\Support\Carbon;
 //use for export
 use memfisfa\Finac\Model\Exports\OutstandingInvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
-use memfisfa\Finac\Model\AReceive;
-use memfisfa\Finac\Model\Invoice;
-use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
 use Modules\Workshop\Http\Controllers\InvoiceWorkshop\InvoiceWorkshopController;
 
 class OutstandingInvoiceController extends Controller
@@ -63,23 +60,23 @@ class OutstandingInvoiceController extends Controller
                         $invoice = $invoice->where('currency', $request->currency);
                     }
                 },
-                // 'invoice_workshop' => function($invoice_workshop) use ($request, $date) {
-                //     $invoice_workshop
-                //         ->where('status_inv', 'Approved')
-                //         ->whereDate('transactiondate', '<=', $date);
+                'invoice_workshop' => function($invoice_workshop) use ($request, $date) {
+                    $invoice_workshop
+                        ->where('status_inv', 'Approved')
+                        ->whereDate('date', '<=', $date);
 
-                //     if ($request->customer) {
-                //         $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
-                //     }
+                    if ($request->customer) {
+                        $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                    }
 
-                //     if ($request->location) {
-                //         $invoice_workshop = $invoice_workshop->where('location', $request->location);
-                //     }
+                    if ($request->location) {
+                        $invoice_workshop = $invoice_workshop->where('location', $request->location);
+                    }
 
-                //     if ($request->currency) {
-                //         $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
-                //     }
-                // }
+                    if ($request->currency) {
+                        $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
+                    }
+                }
             ])
             ->whereHas('invoice', function($invoice) use($request, $department, $date) {
                 $invoice->where('approve', true)
@@ -104,112 +101,105 @@ class OutstandingInvoiceController extends Controller
                     $invoice = $invoice->where('currency', $request->currency);
                 }
             })
-            // ->orWhereHas('invoice_workshop', function($invoice_workshop) use($request, $date) {
-            //     $invoice_workshop->where('status_inv', 'Approved')
-            //         ->whereDate('transactiondate', '<=', $date);
+            ->orWhereHas('invoice_workshop', function($invoice_workshop) use($request, $date) {
+                $invoice_workshop->where('status_inv', 'Approved')
+                    ->whereDate('date', '<=', $date);
 
-            //     if ($request->customer) {
-            //         $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
-            //     }
-
-            //     if ($request->location) {
-            //         $invoice_workshop = $invoice_workshop->where('location', $request->location);
-            //     }
-
-            //     if ($request->currency) {
-            //         $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
-            //     }
-            // })
-            ->get();
-
-        foreach ($customer as $customer_row) {
-            $arr = [];
-
-            // looping sebanyak inovice HM
-            foreach ($customer_row->invoice as $invoice_row) {
-                $currency_code = $invoice_row->currencies->code;
-
-                $due_date = ($invoice_row->due_date != '-')? Carbon::parse($invoice_row->due_date): Carbon::parse($invoice_row->transactiondate);
-                $now = Carbon::now();
-
-                $style = '';
-                if ($now > $due_date) {
-                    $style = 'color:red';
+                if ($request->customer) {
+                    $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
                 }
 
-                $due_date_formated = $due_date->format('d F Y');
+                if ($request->location) {
+                    $invoice_workshop = $invoice_workshop->where('location', $request->location);
+                }
 
-                $invoice_row->due_date_formated = '<span style="'.$style.'">'.$due_date_formated.'</span>';
-                $invoice_row->due_date = $due_date;
+                if ($request->currency) {
+                    $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
+                }
+            })
+            ->get()
+            ->transform(function($row) {
+                $arr = [];
 
-                // jika currency belum masuk arr
-                if (@count($arr[$currency_code]) < 1) {
-                    $arr[$currency_code] = [
-                        'symbol' => $invoice_row->currencies->symbol,
-                        'grandtotalforeign' => $invoice_row->grandtotalforeign,
-                        'ppnvalue' => $invoice_row->ppnvalue,
-                        'ending_value' => $invoice_row->ending_balance['amount_idr'],
+                $invoice_from_workshop = [];
+                foreach ($row->invoice_workshop as $invoice_workshop_row) {
+                    $invoice_workshop_class = new InvoiceWorkshopController();
+
+                    //jika invoice service
+                    if ($invoice_workshop_row->quotation->type == 'Service') {
+                        $invoice_total = $invoice_workshop_class->summaryService($invoice_workshop_row)['value_cost'];
+                    }
+
+                    //jika invoice sale
+                    if ($invoice_workshop_row->quotation->type == 'Sales') {
+                        $invoice_total = $invoice_workshop_class->summarySale($invoice_workshop_row)['value_cost'];
+                    }
+
+                    $invoice_from_workshop[] = (object)[
+                        'transactionnumber' => $invoice_workshop_row->invoice_no,
+                        'transactiondate' => $invoice_workshop_row->date,
+                        'due_date' => $invoice_workshop_row->due_date,
+                        'quotations' => $invoice_workshop_row->quotation,
+                        'currencies' => $invoice_workshop_row->currency,
+                        'exchangerate' => $invoice_workshop_row->exchange_rate,
+                        'grandtotalforeign' => $invoice_total->grand_total,
+                        'ppnvalue' => $invoice_total->vat_total,
+                        'ending_balance' => [
+                            'amount' => $invoice_total->grand_total - $invoice_workshop_row->ar_amount['credit'],
+                            'amount_idr' => $invoice_total->grand_total_rupiah - $invoice_workshop_row->ar_amount['credit_idr'],
+                        ]
                     ];
+                }
+
+                if (count($row->invoice) > 0) {
+                    $row->invoice->concat(collect($invoice_from_workshop));
                 } else {
-                    $current = $arr[$currency_code];
-
-                    $arr[$currency_code] = [
-                        'symbol' => $invoice_row->currencies->symbol,
-                        'grandtotalforeign' => $current['grandtotalforeign'] + $invoice_row->grandtotalforeign,
-                        'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
-                        'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
-                    ];
+                    $row->invoice = $invoice_from_workshop;
                 }
 
-            }
+                // looping sebanyak inovice HM
+                foreach ($row->invoice as $invoice_row) {
+                    $currency_code = $invoice_row->currencies->code;
 
-            // foreach ($customer_row->invoice_workshop as $invoice_workshop_row) {
-                // $currency_code = $invoice_workshop_row->currency->code;
+                    $due_date = ($invoice_row->due_date != '-')? Carbon::parse($invoice_row->due_date): Carbon::parse($invoice_row->transactiondate);
+                    $now = Carbon::now();
 
-                // $due_date = ($invoice_workshop_row->due_date != '-')? Carbon::parse($invoice_workshop_row->due_date): Carbon::parse($invoice_workshop_row->date);
-                // $now = Carbon::now();
+                    $style = '';
+                    if ($now > $due_date) {
+                        $style = 'color:red';
+                    }
 
-                // $style = '';
-                // if ($now > $due_date) {
-                //     $style = 'color:red';
-                // }
+                    $due_date_formated = $due_date->format('d F Y');
 
-                // $due_date_formated = $due_date->format('d F Y');
+                    $invoice_row->due_date_formated = '<span style="'.$style.'">'.$due_date_formated.'</span>';
+                    $invoice_row->due_date = $due_date;
 
-                // $invoice_workshop_row->due_date_formated = '<span style="'.$style.'">'.$due_date_formated.'</span>';
-                // $invoice_workshop_row->due_date = $due_date;
+                    // jika currency belum masuk arr
+                    if (@count($arr[$currency_code]) < 1) {
+                        $arr[$currency_code] = [
+                            'symbol' => $invoice_row->currencies->symbol,
+                            'grandtotalforeign' => $invoice_row->grandtotalforeign,
+                            'ppnvalue' => $invoice_row->ppnvalue,
+                            'ending_value' => $invoice_row->ending_balance['amount_idr'],
+                        ];
+                    } else {
+                        $current = $arr[$currency_code];
 
-                // $invoice_workshop_controller = new InvoiceWorkshopController();
-                // $qn_workshop = QuotationWorkshop::where('quotation_no', $invoice_workshop_row->ref_quo)->first();
+                        $arr[$currency_code] = [
+                            'symbol' => $invoice_row->currencies->symbol,
+                            'grandtotalforeign' => $current['grandtotalforeign'] + $invoice_row->grandtotalforeign,
+                            'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
+                            'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
+                        ];
+                    }
 
-                // if ($qn_workshop->type === "Service") {
-                //     $summary = $invoice_workshop_controller->summaryService($invoice_workshop_row)['value_cost'];
-                // } else {
-                //     $summary = $invoice_workshop_controller->summarySale($invoice_workshop_row)['value_cost'];
-                // }
+                }
 
-                // // jika currency belum masuk arr
-                // if (@count($arr[$currency_code]) < 1) {
-                //     $arr[$currency_code] = [
-                //         'symbol' => $invoice_workshop_row->currency->symbol,
-                //         'grandtotalforeign' => $summary->grand_total,
-                //         'ppnvalue' => $summary->vat,
-                //         'ending_value' => $invoice_workshop_row->ending_balance['amount_idr'],
-                //     ];
-                // } else {
-                //     $current = $arr[$currency_code];
+                $row->sum_total = $arr;
 
-                //     $arr[$currency_code] = [
-                //         'symbol' => $invoice_workshop_row->currency->symbol,
-                //         'grandtotalforeign' => $current['grandtotalforeign'] + $summary->grand_total,
-                //         'ppnvalue' => $current['ppnvalue'] + $summary->vat,
-                //         'ending_value' => $current['ending_value'] + $invoice_workshop_row->ending_balance['amount_idr'],
-                //     ];
-                // }
-            // }
+                return $row;
 
-            $customer_row->sum_total = $arr;
-        }
+            });
 
         $data = [
             'customer' => $customer,
