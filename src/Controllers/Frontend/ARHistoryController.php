@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 //use for export
 use memfisfa\Finac\Model\Exports\ARHistoryExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Modules\Workshop\Http\Controllers\InvoiceWorkshop\InvoiceWorkshopController;
 
 class ARHistoryController extends Controller
 {
@@ -63,7 +64,25 @@ class ARHistoryController extends Controller
                     if ($request->currency) {
                         $invoice = $invoice->where('currency', $request->currency);
                     }
+                },
+                'invoice_workshop' => function($invoice_workshop) use ($request, $date) {
+                    $invoice_workshop
+                        ->where('status_inv', 'Approved')
+                        ->whereBetween('date', $date);
+
+                    if ($request->customer) {
+                        $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                    }
+
+                    if ($request->location) {
+                        $invoice_workshop = $invoice_workshop->where('location', $request->location);
+                    }
+
+                    if ($request->currency) {
+                        $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
+                    }
                 }
+
             ])
             ->whereHas('invoice', function($invoice) use($request, $department, $date) {
                 $invoice->where('approve', true)
@@ -85,9 +104,74 @@ class ARHistoryController extends Controller
                     $invoice = $invoice->where('currency', $request->currency);
                 }
             })
+            ->orWhereHas('invoice_workshop', function($invoice_workshop) use($request, $date) {
+                $invoice_workshop->where('status_inv', 'Approved')
+                    ->whereBetween('date', $date);
+
+                if ($request->customer) {
+                    $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                }
+
+                if ($request->location) {
+                    $invoice_workshop = $invoice_workshop->where('location', $request->location);
+                }
+
+                if ($request->currency) {
+                    $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
+                }
+            })
             ->get()
             ->transform(function($row) {
                 $invoice_currency = [];
+
+                $invoice_from_workshop = [];
+                foreach ($row->invoice_workshop as $invoice_workshop_row) {
+                    $invoice_workshop_class = new InvoiceWorkshopController();
+
+                    //jika invoice service
+                    if ($invoice_workshop_row->quotation->type == 'Service') {
+                        $invoice_total = $invoice_workshop_class->summaryService($invoice_workshop_row)['value_cost'];
+                    }
+
+                    //jika invoice sale
+                    if ($invoice_workshop_row->quotation->type == 'Sales') {
+                        $invoice_total = $invoice_workshop_class->summarySale($invoice_workshop_row)['value_cost'];
+                    }
+
+                    $invoice_from_workshop[] = (object)[
+                        'transactionnumber' => $invoice_workshop_row->invoice_no,
+                        'transactiondate' => $invoice_workshop_row->date,
+                        'due_date' => $invoice_workshop_row->due_date,
+                        'quotations' => $invoice_workshop_row->quotation,
+                        'currencies' => $invoice_workshop_row->currency,
+                        'exchangerate' => $invoice_workshop_row->exchange_rate,
+                        'grandtotalforeign' => $invoice_total->grand_total,
+                        'subtotal' => $invoice_total->total_before_tax,
+                        'discountvalue' => $invoice_total->discount,
+                        'ppnvalue' => $invoice_total->vat_total,
+                        'ar_amount' => $invoice_workshop_row->ar_amount,
+                        'ending_balance' => [
+                            'amount' => $invoice_total->grand_total - $invoice_workshop_row->ar_amount['credit'],
+                            'amount_idr' => $invoice_total->grand_total_rupiah - $invoice_workshop_row->ar_amount['credit_idr'],
+                        ],
+                        'totalprofit' => collect((object) [
+                            [
+                                'type' => 'discount',
+                                'amount' => $invoice_total->discount,
+                            ],
+                            [
+                                'type' => 'ppn',
+                                'amount' => $invoice_total->vat_total,
+                            ],
+                        ])
+                    ];
+                }
+
+                if (count($row->invoice) > 0) {
+                    $row->invoice->concat(collect($invoice_from_workshop));
+                } else {
+                    $row->invoice = $invoice_from_workshop;
+                }
 
                 foreach ($row->invoice as $invoice_row) {
 
