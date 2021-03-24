@@ -85,7 +85,56 @@ class ARHistoryController extends Controller
                     $invoice = $invoice->where('currency', $request->currency);
                 }
             })
-            ->get();
+            ->get()
+            ->transform(function($row) {
+                $invoice_currency = [];
+
+                foreach ($row->invoice as $invoice_row) {
+
+                    if (isset($invoice_currency[$invoice_row->currencies->code])) {
+                        $invoice_currency_current = $invoice_currency[$invoice_row->currencies->code];
+
+                        $arr_tmp = [
+                            'currency' => $invoice_row->currencies,
+                            'discount_total' =>
+                                $invoice_currency_current['discount_total'] 
+                                + $invoice_row->discount_total,
+                            'vat_total' =>
+                                $invoice_currency_current['vat_total'] 
+                                + $invoice_row->ppn_value, 
+                            'invoice_total' =>
+                                $invoice_currency_current['invoice_total'] 
+                                + $invoice_row->grandtotal_foreign, 
+                            'paid_amount_total' =>
+                                $invoice_currency_current['paid_amount_total'] 
+                                + $invoice_row->ap_amount['debit'], 
+                            'ending_balance_total' =>
+                                $invoice_currency_current['ending_balance_total'] 
+                                + $invoice_row->ending_balance['amount'], 
+                            'ending_balance_total_idr' =>
+                                $invoice_currency_current['ending_balance_total_idr'] 
+                                + $invoice_row->ending_balance['amount_idr'], 
+                        ];
+
+                        $invoice_currency[$invoice_row->currencies->code] = $arr_tmp;
+                    } else {
+                        $invoice_currency[$invoice_row->currencies->code] = [
+                            'currency' => $invoice_row->currencies,
+                            'discount_total' => $invoice_row->discount_total,
+                            'vat_total' => $invoice_row->ppn_value, 
+                            'invoice_total' => $invoice_row->grandtotal_foreign, 
+                            'paid_amount_total' => $invoice_row->ap_amount['debit'], 
+                            'ending_balance_total' => $invoice_row->ending_balance['amount'], 
+                            'ending_balance_total_idr' => $invoice_row->ending_balance['amount_idr'],                     
+                        ];
+                    }
+
+                }
+
+                $row->total = $invoice_currency;
+
+                return $row;            
+            });
 
         $data = [
             'customer' => $customer,
