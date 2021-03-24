@@ -52,33 +52,7 @@ let Journal = {
             {data: 'created_by', searchable: false},
             {data: 'updated_by', searchable: false},
             {data: 'approved_by', searchable: false},
-            {data: '', searchable: false, render: function (data, type, row) {
-              let _html =
-                  '<a href="'+_url+'/journal/print?uuid='+row.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + row.uuid +'">' +
-                      '<i class="la la-print"></i>' +
-                  '</a>'+row.unapproved;
-
-              if (!row.approve) {
-                _html +=
-                  '<a href="'+_url+'/journal/'+row.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                  row.uuid +
-                  '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t';
-
-                _html +=
-                  '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                  row.uuid +
-                  ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
-                
-                if (row.can_approve_fa) {
-                  _html +=
-                    '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + row.uuid + '">' +
-                    '<i class="la la-check"></i>' +
-                    '</a>';
-                }
-              }
-
-              return (_html);
-            }}
+            {data: 'action', searchable: false},
           ]
         });
 

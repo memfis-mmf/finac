@@ -4,14 +4,10 @@ namespace memfisfa\Finac\Model;
 
 
 use memfisfa\Finac\Model\MemfisModel;
-use Illuminate\Database\Eloquent\Model;
 use memfisfa\Finac\Model\TrxJournalA;
 use memfisfa\Finac\Model\TypeJurnal;
-use App\Models\GoodsReceived as GRN;
-use App\Models\Currency;
 use App\User;
 use App\Models\Approval;
-use Illuminate\Validation\ValidationException;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +21,7 @@ class TrxJournal extends MemfisModel
 		'voucher_no',
 		'transaction_date',
 		'ref_no',
+		'description_2',
 		'currency_code',
 		'exchange_rate',
 		'journal_type',

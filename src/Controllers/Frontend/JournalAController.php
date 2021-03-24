@@ -166,6 +166,50 @@ class JournalAController extends Controller
         ->make(true);
     }
 
+    public function datatablesAfterApprove(Request $request)
+    {
+        $data = JournalA::where('voucher_no', $request->voucher_no)->with([
+            'coa.type',
+            'journal.currency',
+            'project'
+        ])->orderBy('trxjournala.id', 'DESC')->get();
+
+        $total_debit = 0;
+        $total_credit = 0;
+
+        foreach ($data as $item) {
+            $total_debit += $item->debit;
+            $total_credit += $item->credit;
+        }
+
+        return datatables()->of($data)
+		->addColumn('total_debit', function() use($total_debit) {
+			return $total_debit;
+		})
+		->addColumn('total_credit', function() use($total_credit){
+			return $total_credit;
+		})
+        ->addColumn('description_field', function($row) {
+            $description = $row->description2 ?? $row->description;
+
+            $html = "<textarea class='form-control'>$description</textarea>";
+
+            return $html;
+        })
+        ->addColumn('action', function($row) {
+            $html = 
+            '<button 
+                class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill update-coa-benefit" 
+                title="Save" data-uuid="'.$row->uuid.'"> 
+                <i class="la la-check"></i> 
+            </button>';
+
+            return $html;
+        })
+        ->escapeColumns([])
+        ->make(true);
+    }
+
 	public function updateJournalTotalTransaction($voucher_no)
 	{
 		$journala = JournalA::where('voucher_no', $voucher_no)->get();

@@ -241,6 +241,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/{journal}',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@update'
 		)->name('journal.update');
+		Route::put(
+			'/{journal}',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@updateAfterApprove'
+		)->name('journal.update-after-approve');
 		Route::delete(
 			'/{journal}',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@destroy'
@@ -248,7 +252,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/{journal}/edit',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@edit'
-		);
+		)->name('journal.edit');
+		Route::get(
+			'/{journal}/edit-after-approve',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@editAfterApprove'
+		)->name('journal.edit-after-approve');
 		Route::get(
 			'/data',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@api'
@@ -451,6 +459,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/datatables',
 			'memfisfa\Finac\Controllers\Frontend\JournalAController@datatables'
 		)->name('journala.datatables');
+		Route::get(
+			'/datatables-after-approve',
+			'memfisfa\Finac\Controllers\Frontend\JournalAController@datatablesAfterApprove'
+		)->name('journala.datatables.after-approve');
 		Route::get(
 			'/{journala}/edit',
 			'memfisfa\Finac\Controllers\Frontend\JournalAController@edit'

@@ -143,7 +143,35 @@ class JournalController extends Controller
         return view('journalview::edit', $data);
     }
 
+    public function editAfterApprove(Request $request)
+    {
+        $data['journal']= Journal::where('uuid', $request->journal)->with([
+            'type_jurnal',
+            'currency',
+        ])->firstOrFail();
+
+        $data['journal_type'] = TypeJurnal::all();
+        $data['currency'] = Currency::whereIn('code', ['usd', 'idr'])
+            ->get();
+        $data['journala_after_approve_datatable_url'] = route('journala.datatables.after-approve', ['voucher_no' => $data['journal']->voucher_no]);
+
+        return view('journalview::edit-after-approve', $data);
+    }
+
     public function update(JournalUpdate $request, Journal $journal)
+    {
+		if ($journal->approve) {
+			return abort(404);
+        }
+
+		$voucher_no = $request->journal->voucher_no;
+
+        $journal->update($request->all());
+
+        return response()->json($journal);
+    }
+
+    public function updateAfterApprove(JournalUpdate $request, Journal $journal)
     {
 		if ($journal->approve) {
 			return abort(404);
@@ -259,8 +287,71 @@ class JournalController extends Controller
         ->addColumn('approved_by', function($row) {
             return $row->approved_by ?? '-';
         })
-        ->addColumn('can_approve_fa', function($row) {
-            return $this->canApproveFa();
+        ->addColumn('action', function($row) use($request) {
+            $html =
+                '<a 
+                    href="'.route('journal.print', ['uuid' => $row->uuid]).'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" 
+                    title="Print" 
+                    data-id="'.$row->uuid.'">
+                    <i class="la la-print"></i>
+                </a>';
+
+            if (!$row->approve) {
+                $html .=
+                    '<a 
+                        href="'.route('journal.edit', $row->uuid).'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                        title="Edit" 
+                        data-uuid='.$row->uuid.'>
+                        <i class="la la-pencil"></i>
+                    </a>';
+
+                $html .=
+                    '<a 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                        href="#" 
+                        data-uuid=' . $row->uuid . ' 
+                        title="Delete">
+                        <i class="la la-trash"></i> 
+                    </a>';
+                
+                if ($this->canApproveFa()) {
+                    $html .=
+                        '<a 
+                            href="javascript:;" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                            title="Approve" 
+                            data-uuid="' . $row->uuid . '">
+                            <i class="la la-check"></i>
+                        </a>';
+                }
+
+            }
+
+            if ($row->approve) {
+                $html .=
+                    '<a 
+                        href="'.route('journal.edit-after-approve', $row->uuid).'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                        title="Edit Description" 
+                        data-uuid='.$row->uuid.'>
+                        <i class="fa fa-pen-nib"></i>
+                    </a>';
+
+                if (auth()->user()->hasRole('admin')) {
+                    $html .= 
+                    '<a 
+                        href="javascript:;"
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill unapprove"
+                        title="Unapprove" data-uuid="'.$row->uuid.'">
+                        <i class="fa fa-times"></i>
+                    </a>';
+                }
+            }
+
+
+            return ($html);
         })
 		->addColumn('unapproved', function(Journal $journal) use ($request) {
 			$html = '';
