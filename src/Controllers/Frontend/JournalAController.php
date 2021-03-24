@@ -11,6 +11,7 @@ use memfisfa\Finac\Request\JournalAStore;
 use App\Http\Controllers\Controller;
 use DataTables;
 use memfisfa\Finac\Model\TrxJournal;
+use memfisfa\Finac\Model\TrxJournalA;
 
 class JournalAController extends Controller
 {
@@ -115,6 +116,20 @@ class JournalAController extends Controller
         return response()->json($journala);
     }
 
+    public function updateAfterApprove(Request $request, $journala_uuid)
+    {
+        $journala = JournalA::where('uuid', $journala_uuid);
+
+		$journala->update([
+				'description_2' => $request->description_2,
+			]);
+
+        return [
+            'status' => true,
+            'message' => 'Data Saved'
+        ];
+    }
+
     public function destroy(JournalA $journala)
     {
         $journal = $journala->journal;
@@ -156,7 +171,7 @@ class JournalAController extends Controller
             $total_credit += $item->credit;
         }
 
-        return DataTables::of($data)
+        return datatables()->of($data)
 		->addColumn('total_debit', function() use($total_debit) {
 			return $total_debit;
 		})
@@ -190,21 +205,25 @@ class JournalAController extends Controller
 			return $total_credit;
 		})
         ->addColumn('description_field', function($row) {
-            $description = $row->description2 ?? $row->description;
+            $description = $row->description_2 ?? $row->description;
 
-            $html = "<textarea class='form-control'>$description</textarea>";
+            $html = "<textarea class='form-control not-disabled'>$description</textarea>";
 
             return $html;
         })
         ->addColumn('action', function($row) {
             $html = 
             '<button 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill update-coa-benefit" 
+                type="button"
+                class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill save-description" 
                 title="Save" data-uuid="'.$row->uuid.'"> 
                 <i class="la la-check"></i> 
             </button>';
 
             return $html;
+        })
+        ->addColumn('url', function($row) {
+            return route('journala.update-after-approve', $row->uuid);
         })
         ->escapeColumns([])
         ->make(true);

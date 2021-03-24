@@ -242,9 +242,9 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\JournalController@update'
 		)->name('journal.update');
 		Route::put(
-			'/{journal}',
-			'memfisfa\Finac\Controllers\Frontend\JournalController@updateAfterApprove'
-		)->name('journal.update-after-approve');
+			'/journala/{journala_uuid}/update-after-approve',
+			'memfisfa\Finac\Controllers\Frontend\JournalaController@updateAfterApprove'
+		)->name('journala.update-after-approve');
 		Route::delete(
 			'/{journal}',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@destroy'

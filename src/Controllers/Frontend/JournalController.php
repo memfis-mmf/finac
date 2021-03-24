@@ -171,19 +171,6 @@ class JournalController extends Controller
         return response()->json($journal);
     }
 
-    public function updateAfterApprove(JournalUpdate $request, Journal $journal)
-    {
-		if ($journal->approve) {
-			return abort(404);
-        }
-
-		$voucher_no = $request->journal->voucher_no;
-
-        $journal->update($request->all());
-
-        return response()->json($journal);
-    }
-
     public function destroy(Journal $journal)
     {
 		if ($journal->approve) {

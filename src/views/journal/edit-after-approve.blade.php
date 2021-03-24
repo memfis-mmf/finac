@@ -211,28 +211,10 @@
                                             </div>
                                             <div class="m-portlet m-portlet--mobile">
                                                 <div class="m-portlet__body" style="padding-bottom:90px">
-                                                    <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-xl-8 order-2 order-xl-1">
-                                                                <div class="form-group m-form__group row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                                                @component('buttons::create-new')
-                                                                    @slot('text', 'Account Code')
-                                                                    @slot('data_target', '#modal_coa_create')
-                                                                @endcomponent
-                                                                <div class="m-separator m-separator--dashed d-xl-none"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     {{-- <div class="accountcode_datatable" id="scrolling_both"></div> --}}
                                                     <table 
                                                       class="table table-striped table-bordered table-hover table-checkable journala_datatable"
-                                                      data-url="{{ $journala_after_approve_datatable_url }}"
-                                                      >
+                                                      data-url="{{ $journala_after_approve_datatable_url }}">
                                                       <thead>
                                                         <th>Account Code</th> 
                                                         <th>Account Name</th> 
