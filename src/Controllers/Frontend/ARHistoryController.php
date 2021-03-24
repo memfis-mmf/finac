@@ -91,6 +91,13 @@ class ARHistoryController extends Controller
 
                 foreach ($row->invoice as $invoice_row) {
 
+                    $total_profit = $invoice_row->totalprofit;
+                    $discount = $total_profit->where('type', 'discount')->first();
+                    $ppn = $total_profit->where('type', 'ppn')->first();
+
+                    $discount_value = $discount->amount ?? 0;
+                    $ppn_value = $ppn->amount ?? 0;
+
                     if (isset($invoice_currency[$invoice_row->currencies->code])) {
                         $invoice_currency_current = $invoice_currency[$invoice_row->currencies->code];
 
@@ -98,16 +105,16 @@ class ARHistoryController extends Controller
                             'currency' => $invoice_row->currencies,
                             'discount_total' =>
                                 $invoice_currency_current['discount_total'] 
-                                + $invoice_row->discount_total,
+                                + $discount_value,
                             'vat_total' =>
                                 $invoice_currency_current['vat_total'] 
-                                + $invoice_row->ppn_value, 
+                                + $ppn_value, 
                             'invoice_total' =>
                                 $invoice_currency_current['invoice_total'] 
-                                + $invoice_row->grandtotal_foreign, 
+                                + $invoice_row->grandtotalforeign, 
                             'paid_amount_total' =>
                                 $invoice_currency_current['paid_amount_total'] 
-                                + $invoice_row->ap_amount['debit'], 
+                                + $invoice_row->ar_amount['credit'], 
                             'ending_balance_total' =>
                                 $invoice_currency_current['ending_balance_total'] 
                                 + $invoice_row->ending_balance['amount'], 
@@ -120,10 +127,10 @@ class ARHistoryController extends Controller
                     } else {
                         $invoice_currency[$invoice_row->currencies->code] = [
                             'currency' => $invoice_row->currencies,
-                            'discount_total' => $invoice_row->discount_total,
-                            'vat_total' => $invoice_row->ppn_value, 
-                            'invoice_total' => $invoice_row->grandtotal_foreign, 
-                            'paid_amount_total' => $invoice_row->ap_amount['debit'], 
+                            'discount_total' => $discount_value,
+                            'vat_total' => $ppn_value, 
+                            'invoice_total' => $invoice_row->grandtotalforeign, 
+                            'paid_amount_total' => $invoice_row->ar_amount['credit'], 
                             'ending_balance_total' => $invoice_row->ending_balance['amount'], 
                             'ending_balance_total_idr' => $invoice_row->ending_balance['amount_idr'],                     
                         ];
@@ -158,6 +165,7 @@ class ARHistoryController extends Controller
         $data = $this->getArHistory($request);
         $data['export'] = route('fa-report.ar-history-export', $request->all());
         $data['print'] = route('fa-report.ar-history-print', $request->all());
+        $data['controller'] = new Controller();
         
         return view('arreport-accountrhview::index', $data);
     }
@@ -172,6 +180,7 @@ class ARHistoryController extends Controller
 
         $data = $this->getArHistory($request);
         $data['carbon'] = Carbon::class;
+        $data['controller'] = new Controller();
         
         $pdf = \PDF::loadView('formview::ar-history', $data);
         return $pdf->stream();
@@ -191,6 +200,7 @@ class ARHistoryController extends Controller
         $endDate = Carbon::parse($data['date'][1])->format('d F Y');
 
         $data['carbon'] = Carbon::class;
+        $data['controller'] = new Controller();
 
         // return view('arreport-accountrhview::export', $data);
 		return Excel::download(new ARHistoryExport($data), "AR History $startDate - $endDate.xlsx");
