@@ -166,7 +166,7 @@ class InvoiceController extends Controller
         $id_branch = 1;
         $closed = 0;
         $transaction_number = Invoice::generateCode();
-        $transaction_date = $request->date;
+        $transaction_date = Carbon::createFromFormat('d-m-Y', $request->date);
         $customer_id = $customer->id;
         $currency_id = $currency->id;
         $quotation_id = $quotation->id;
