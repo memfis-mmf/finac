@@ -453,6 +453,12 @@ class CashbookController extends Controller
 
 			$cashbook_a = $cashbook->cashbook_a;
 
+            if (count($cashbook_a) < 1) {
+				return response()->json([
+					'errors' => 'Please add detail first'
+				]);
+            }
+
 			$header = (object) [
 				'voucher_no' => $cashbook->transactionnumber,
 				// 'transaction_date' => $date_approve,
@@ -577,6 +583,10 @@ class CashbookController extends Controller
 		$cashbook = Cashbook::where('uuid', $request->uuid)->first();
 		$cashbook_a = $cashbook->cashbook_a;
 
+        if (count($cashbook_a) < 1) {
+            return redirect()->route('cashbook.index');
+        }
+
 		$total_debit = 0;
 		$total_credit = 0;
 
@@ -653,7 +663,8 @@ class CashbookController extends Controller
 			'total_credit' => $total_credit,
 			'type' => $type,
 			'type_header' => $type_header,
-            'carbon' => Carbon::class
+            'carbon' => Carbon::class,
+            'controller' => new Controller()
         ];
 
         $pdf = \PDF::loadView('formview::cashbook', $data);
