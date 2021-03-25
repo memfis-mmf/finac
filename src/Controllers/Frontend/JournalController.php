@@ -419,6 +419,7 @@ class JournalController extends Controller
 			'journala' => $journala,
 			'debit' => $debit,
 			'credit' => $credit,
+            'carbon' => Carbon::class
 		];
 
         $pdf = \PDF::loadView('formview::journal', $data);
