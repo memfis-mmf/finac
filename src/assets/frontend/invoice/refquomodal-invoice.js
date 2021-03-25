@@ -27,7 +27,9 @@ let RefQuoDatatables = {
                     data: "project_no"
                 },
                 {
-                    data: "Actions"
+                    data: "Actions",
+                    searchable: false,
+                    orderable: false
                 }
             ],
             columnDefs: [{
