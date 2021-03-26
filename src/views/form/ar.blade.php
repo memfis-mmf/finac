@@ -188,7 +188,7 @@
                     <tbody>
                         @for($a = 0 ; $a<count($data_child); $a++)
                             @php
-                              $arr = $data_child[$a]
+                              $arr = $data_child[$a];
                               $journal_detail = $controller->getJournalDetail($data->transactionnumber, $arr->coa_code);
                             @endphp
                           <tr>
