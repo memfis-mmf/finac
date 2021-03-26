@@ -446,7 +446,14 @@ class TrxPaymentController extends Controller
     public function print(Request $request)
     {
         $trxpayment = TrxPayment::where('uuid', $request->uuid)->first();
-		$detail = $trxpayment->detail_general;
+		$detail = $trxpayment->detail_general()->get()->transform(function($row) {
+
+            $journal_detail = $this->getJournalDetail($row->si->transaction_number, $row->code);
+            $row->description = $journal_detail->description_2 ?? $row->description;
+
+            return $row;
+        });
+
 		$adjustment = $trxpayment->adjustment;
 
         $total = 0;
@@ -461,6 +468,7 @@ class TrxPaymentController extends Controller
             'detail' => $detail,
             'adjustment' => $adjustment,
             'total' => $total,
+            'controller' => new Controller()
         ];
 
         $pdf = \PDF::loadView('formview::supplier-invoice-general', $data);

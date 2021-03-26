@@ -911,6 +911,7 @@ class APController extends Controller
             'total_foreign' => $total_debit_foreign,
             'header_title' => $header_title,
             'header' => $header,
+            'controller' => new Controller()
         ];
 
         $pdf = \PDF::loadView('formview::ap', $data);

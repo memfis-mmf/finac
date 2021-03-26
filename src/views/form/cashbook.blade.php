@@ -183,11 +183,12 @@
                         @for($a = 0 ; $a<count($detail); $a++)
 													@php
 														$arr = $detail[$a];
+                            $journal_detail = $controller->getJournalDetail($cashbook->transactionnumber, $arr->coa_detail);
 													@endphp
                             <tr>
                                 <td width="15%" align="center">{{$arr->coa_detail}}</td>
                                 <td width="20%" align="left">{{$arr->coa_name}}</td>
-                                <td width="31%" align="left">{{$arr->_desc}}</td>
+                                <td width="31%" align="left">{!! $journal_detail->description_2 ?? $arr->_desc !!}</td>
                                 <td width="17%" align="right">
 																	@if ($arr->debit != 0)
 																		{{$arr->symbol.' '.$controller::currency_format($arr->debit, 2)}}

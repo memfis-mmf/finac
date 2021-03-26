@@ -188,12 +188,13 @@
                     <tbody>
                         @for($a = 0 ; $a<count($data_child); $a++)
                             @php
-                                $arr = $data_child[$a]
+                              $arr = $data_child[$a]
+                              $journal_detail = $controller->getJournalDetail($data->transactionnumber, $arr->coa_code);
                             @endphp
                           <tr>
                               <td width="15%" align="center">{{$arr->coa_code}}</td>
                               <td width="20%" align="left">{{$arr->coa_name}}</td>
-                              <td width="31%" align="left">{!!$arr->_desc!!}</td>
+                              <td width="31%" align="center">{!! $journal_detail->description_2 ?? $arr->_desc !!}</td>
                               <td width="17%" align="right">
                                 @php
                                     if ($arr->debit != 0) {
