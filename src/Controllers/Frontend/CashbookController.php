@@ -601,7 +601,9 @@ class CashbookController extends Controller
 				'coa_detail' => $arr->coa->code,
 				'coa_name' => $arr->coa->name,
 				'credit' => $arr->credit,
+				'second_credit' => $arr->second_credit,
 				'debit' => $arr->debit,
+				'second_debit' => $arr->second_debit,
 				'symbol' => $cashbook->currencies->symbol,
 				'_desc' => $arr->description,
 			];
@@ -646,6 +648,8 @@ class CashbookController extends Controller
 			(object) [
 				'coa_detail' => $cashbook->coa->code,
 				'coa_name' => $cashbook->coa->name,
+                'second_debit' => 0,
+                'second_credit' => 0,
 				$x_positiion => 0,
 				$positiion => $total,
 				'_desc' => $cashbook->description,

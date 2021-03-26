@@ -191,16 +191,20 @@
                                 <td width="17%" align="right">
 																	@if ($arr->debit != 0)
 																		{{$arr->symbol.' '.$controller::currency_format($arr->debit, 2)}}
-                                    @if ($cashbook->currencies->code != 'idr')
-                                      <p>{{ "(Rp {$controller::currency_format($arr->debit * $cashbook->exchangerate, 2)})" }}</p>
+                                    @if ($arr->second_debit)
+                                      <p>
+                                        {{ "({$cashbook->second_currencies->symbol} {$controller::currency_format($arr->second_debit, 2)})" }}
+                                      </p>
                                     @endif
 																	@endif
 																</td>
                                 <td width="17%" align="right">
 																	@if ($arr->credit != 0)
 																		{{$arr->symbol.' '.$controller::currency_format($arr->credit, 2)}}
-                                    @if ($cashbook->currencies->code != 'idr')
-                                      <p>{{ "(Rp {$controller::currency_format($arr->credit * $cashbook->exchangerate, 2)})" }}</p>
+                                    @if ($arr->second_credit)
+                                      <p>
+                                        {{ "({$cashbook->second_currencies->symbol} {$controller::currency_format($arr->second_credit, 2)})" }}
+                                      </p>
                                     @endif
 																	@endif
 																</td>
