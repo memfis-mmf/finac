@@ -340,21 +340,6 @@ class JournalController extends Controller
 
             return ($html);
         })
-		->addColumn('unapproved', function(Journal $journal) use ($request) {
-			$html = '';
-
-			if ($request->user()->hasRole('admin') && $journal->approve) {
-				$html = '
-					<a href="javascript:;"
-					class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill unapprove"
-					title="Unapprove" data-uuid="'.$journal->uuid.'">
-						<i class="fa fa-times"></i>
-					</a>
-				';
-			}
-
-			return $html;
-		})
 		->escapeColumns([])
 		->make(true);
     }
