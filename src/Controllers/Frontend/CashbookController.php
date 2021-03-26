@@ -587,6 +587,10 @@ class CashbookController extends Controller
             return redirect()->route('cashbook.index');
         }
 
+
+		$total_second_debit = 0;
+		$total_second_credit = 0;
+
 		$total_debit = 0;
 		$total_credit = 0;
 
@@ -608,6 +612,9 @@ class CashbookController extends Controller
 				'_desc' => $arr->description,
 			];
 
+			$total_second_debit += $detail[count($detail)-1]->second_debit;
+			$total_second_credit += $detail[count($detail)-1]->second_credit;
+
 			$total_debit += $detail[count($detail)-1]->debit;
 			$total_credit += $detail[count($detail)-1]->credit;
 		}
@@ -615,6 +622,8 @@ class CashbookController extends Controller
 		if (strpos($cashbook->transactionnumber, 'PJ') !== false) {
 			$type = 'pj';
 			$total = $total_debit - $total_credit;
+			$second_total = $total_second_debit - $total_second_credit;
+			$second_subtotal = $total_second_debit;
 			$positiion = 'credit';
 			$x_positiion = 'debit';
 		}
@@ -622,6 +631,8 @@ class CashbookController extends Controller
 		if (strpos($cashbook->transactionnumber, 'RJ') !== false) {
 			$type = 'rj';
 			$total = $total_credit - $total_debit;
+			$second_total = $total_second_credit - $total_second_debit;
+			$second_subtotal = $total_second_credit;
 			$positiion = 'debit';
 			$x_positiion = 'credit';
         }
@@ -648,8 +659,8 @@ class CashbookController extends Controller
 			(object) [
 				'coa_detail' => $cashbook->coa->code,
 				'coa_name' => $cashbook->coa->name,
-                'second_debit' => 0,
-                'second_credit' => 0,
+                "second_$x_positiion" => 0,
+                "second_$positiion" => $second_total,
 				$x_positiion => 0,
 				$positiion => $total,
 				'_desc' => $cashbook->description,
@@ -659,6 +670,8 @@ class CashbookController extends Controller
 
         $total_debit += $detail[0]->debit;
         $total_credit += $detail[0]->credit;
+
+        $cashbook->second_subtotal = $second_subtotal;
 
 		$data = [
 			'cashbook' => $cashbook,

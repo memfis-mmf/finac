@@ -213,7 +213,11 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3">
-                          {{-- <i> Terbilang total amount </i> --}}
+                          @if (isset($cashbook->second_currencies->code))
+                            <i>
+                              Total in {{ strtoupper($cashbook->second_currencies->code).' '.$controller::currency_format($cashbook->second_subtotal) }}
+                            </i>   
+                          @endif
                         </td>
                         <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{$controller::currency_format($total_debit, 2)}}</b></td>
                         <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{$controller::currency_format($total_credit, 2)}}</b></td>
