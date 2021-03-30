@@ -633,7 +633,7 @@ class InvoiceController extends Controller
         }
 
         if ($invoice->grandtotal != $total_credit) {
-            if (abs($invoice->grandtotal - $total_credit) < 0.09) {
+            if (abs($invoice->grandtotal - $total_credit) < 0.9) {
                 $invoice->grandtotal = $total_credit;
             }
         }
