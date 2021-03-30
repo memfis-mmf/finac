@@ -914,8 +914,7 @@ class InvoiceController extends Controller
                 return '<a href="'.route('invoice.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
             })
             ->addColumn('created_by', function($row) {
-                $created_by = $row->audits()->where('event', 'created')->user->name ?? null;
-                return $created_by;
+                return $row->created_by;
             })
             ->addColumn('can_approve_fa', function($row) {
                 return $this->canApproveFa();
