@@ -1373,6 +1373,10 @@ class InvoiceController extends Controller
                     $x->id
                 )->first();
 
+            if (!$project_workpackage) {
+                continue;
+            }
+
             $invoice->quotations->workpackages[$a]->facility = ProjectWorkPackageFacility::where('project_workpackage_id', $project_workpackage->id)
                 ->with('facility')
                 ->sum('price_amount') * $invoice->multiple;
