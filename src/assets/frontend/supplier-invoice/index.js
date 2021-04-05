@@ -31,24 +31,9 @@ let Journal = {
             {data: 'currency'},
             {data: 'exchange_rate_fix', name: 'exchange_rate'},
             {data: 'grandtotal_foreign_before_adj'},
-            {data: 'grandtotal_foreign', render: function(data, type, row) {
-                t = row;
-
-                let result = 0;
-
-                if (t.grandtotal_foreign) {
-                    result = addCommas(parseInt(t.grandtotal_foreign));
-                }
-
-                return row.currencies.symbol+' '+result;
-            }},
+            {data: 'grandtotal_foreign_formated'},
             {data: 'grandtotal_before_adj'},
-            {data: 'grandtotal', render: function(data, type, row) {
-                if (!row.grandtotal) {
-                  return addCommas(0)
-                }
-                return 'Rp '+addCommas(parseInt(row.grandtotal));
-            }},
+            {data: 'grandtotal_formated'},
             {data: 'account_code'},
             {data: 'created_by', searchable: false},
             {data: 'updated_by', searchable: false, defaultContent: '-'},

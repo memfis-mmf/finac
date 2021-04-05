@@ -313,12 +313,18 @@ class TrxPaymentController extends Controller
 
                 return $row->currencies->symbol." ".$this->currency_format($grandtotal_foreign);
             })
+            ->addColumn('grandtotal_foreign_formated', function($row) {
+                return "<span class='m-badge m-badge--primary m-badge--wide'>{$row->currencies->symbol} {$this->currency_format($row->grandtotal)}</span>";
+            })
             ->addColumn('grandtotal_before_adj', function($row) {
                 $grandtotal = $row->grandtotal_foreign;
                 $grandtotal += $row->adjustment()->get()->sum('credit_idr');
                 $grandtotal -= $row->adjustment()->get()->sum('debit_idr');
 
                 return "Rp ".$this->currency_format($grandtotal);
+            })
+            ->addColumn('grandtotal_formated', function($row) {
+                return "<span class='m-badge m-badge--primary m-badge--wide'>Rp {$this->currency_format($row->grandtotal)}</span>";
             })
             ->addColumn('show_url', function($row) {
                 $url = route('supplier_invoice.show', $row->uuid);
