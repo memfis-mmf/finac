@@ -41,4 +41,9 @@ class TypeAsset extends MemfisModel
 			'code'
 		);
 	}
+
+    public function asset()
+    {
+        return $this->hasMany(Asset::class, 'asset_category_id');
+    }
 }
