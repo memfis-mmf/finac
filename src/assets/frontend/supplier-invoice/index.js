@@ -30,6 +30,7 @@ let Journal = {
             {data: 'status', searchable: false},
             {data: 'currency'},
             {data: 'exchange_rate_fix', name: 'exchange_rate'},
+            {data: 'grandtotal_foreign_before_adj'},
             {data: 'grandtotal_foreign', render: function(data, type, row) {
                 t = row;
 
@@ -39,13 +40,14 @@ let Journal = {
                     result = addCommas(parseInt(t.grandtotal_foreign));
                 }
 
-                return result;
+                return row.currencies.symbol+' '+result;
             }},
+            {data: 'grandtotal_before_adj'},
             {data: 'grandtotal', render: function(data, type, row) {
                 if (!row.grandtotal) {
                   return addCommas(0)
                 }
-                return addCommas(parseInt(row.grandtotal));
+                return 'Rp '+addCommas(parseInt(row.grandtotal));
             }},
             {data: 'account_code'},
             {data: 'created_by', searchable: false},

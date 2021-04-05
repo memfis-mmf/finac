@@ -110,7 +110,9 @@
                       <th>Status</th>
                       <th>Currency</th>
                       <th>Exchange Rate</th>
+                      <th>Grandtotal Foreign Before Adj</th>
                       <th>Grandtotal Foreign</th>
+                      <th>Grandtotal IDR Before Adj</th>
                       <th>Grandtotal IDR</th>
                       <th>Account Code</th>
                       <th>Created By</th>

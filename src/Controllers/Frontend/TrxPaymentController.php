@@ -300,11 +300,26 @@ class TrxPaymentController extends Controller
     public function datatables()
     {
 		$data = TrxPayment::with([
-			'vendor'
+			'currencies',
+			'vendor',
 		])->select('trxpayments.*')
         ->latest('transaction_date');
 
-        return DataTables::of($data)
+        return datatables()->of($data)
+            ->addColumn('grandtotal_foreign_before_adj', function($row) {
+                $grandtotal_foreign = $row->grandtotal_foreign;
+                $grandtotal_foreign+= $row->adjustment()->get()->sum('credit');
+                $grandtotal_foreign-= $row->adjustment()->get()->sum('debit');
+
+                return $row->currencies->symbol." ".$this->currency_format($grandtotal_foreign);
+            })
+            ->addColumn('grandtotal_before_adj', function($row) {
+                $grandtotal = $row->grandtotal_foreign;
+                $grandtotal += $row->adjustment()->get()->sum('credit_idr');
+                $grandtotal -= $row->adjustment()->get()->sum('debit_idr');
+
+                return "Rp ".$this->currency_format($grandtotal);
+            })
             ->addColumn('show_url', function($row) {
                 $url = route('supplier_invoice.show', $row->uuid);
 
