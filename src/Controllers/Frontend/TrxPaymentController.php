@@ -248,29 +248,13 @@ class TrxPaymentController extends Controller
             'closed' => 'required'
         ]);
 
-		$currency = $request->trxpayment->currency;
-		$transaction_number = $request->trxpayment->transaction_number;
-		$exchange_rate = $request->trxpayment->exchange_rate;
-
-		$total = TrxPaymentB::where(
-			'transaction_number',
-			$transaction_number
-		)->sum('total');
-
-		if ($currency == 'idr') {
-			$request->merge([
-				'grandtotal_foreign' => $total,
-				'grandtotal' => $total
-			]);
-		}else{
-			$request->merge([
-				'grandtotal_foreign' => $total,
-				'grandtotal' => ($total*$exchange_rate)
-			]);
-		}
+        $trxpayment_class = new TrxPayment();
+        $total = $trxpayment_class->calculateGrandtotalSIGeneral($trxpayment);
 
 		$request->merge([
-			'description' => $request->description_si
+			'description' => $request->description_si,
+            'grandtotal_foreign' => $total['total'],
+            'grandtotal' => $total['total_idr'],
 		]);
 
         $trxpayment->update($request->all());
