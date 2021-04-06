@@ -37,7 +37,11 @@ class JournalController extends Controller
 			$credit += $x->credit ?? 0;
 		}
 
-		return (round($debit, 5) != round($credit, 5));
+		if (bccomp($debit, $credit, 5) == 0) {
+            return true; // balance
+        }
+
+        return false; // tidak balance
 	}
 
     public function approve(Request $request)
@@ -45,7 +49,7 @@ class JournalController extends Controller
 		$journal = Journal::where('uuid', $request->uuid);
 		$journala = $journal->first()->journala;
 
-		if ($this->checkBalance($journala)) {
+		if (!$this->checkBalance($journala)) {
 			return [
 				'errors' => 'Debit and Credit not balance'
 			];
@@ -61,7 +65,7 @@ class JournalController extends Controller
 		$journal = Journal::where('uuid', $request->uuid);
 		$journala = $journal->first()->journala;
 
-		if ($this->checkBalance($journala)) {
+		if (!$this->checkBalance($journala)) {
 			return [
 				'errors' => 'Debit and Credit not balance'
 			];
@@ -464,7 +468,7 @@ class JournalController extends Controller
 
         $journala = $journal_detail;
 
-		if ($this->checkBalance($journala)) {
+		if (!$this->checkBalance($journala)) {
             return redirect()->route('journal.index')->with(['errors' => 'Debit and Credit not balance']);
 		}
 
