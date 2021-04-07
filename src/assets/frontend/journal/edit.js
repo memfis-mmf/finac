@@ -252,7 +252,9 @@ let JournalEdit = {
 									data: "name"
 							},
 							{
-									data: "Actions"
+									data: "Actions",
+                    searchable: false,
+                    orderable: false
 							}
 					],
 					columnDefs: [{

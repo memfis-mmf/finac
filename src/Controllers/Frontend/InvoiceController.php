@@ -166,7 +166,7 @@ class InvoiceController extends Controller
         $id_branch = 1;
         $closed = 0;
         $transaction_number = Invoice::generateCode();
-        $transaction_date = $request->date;
+        $transaction_date = Carbon::createFromFormat('d-m-Y', $request->date);
         $customer_id = $customer->id;
         $currency_id = $currency->id;
         $quotation_id = $quotation->id;
@@ -487,7 +487,7 @@ class InvoiceController extends Controller
         $ppn_value = $request->pphvalue; //this ppnvalue get data from pph and i don't understand why...
         $grandtotalfrg = $request->grand_total;
         $grandtotalidr = $invoice->grandtotalforeign * $request->exchangerate;
-        $transaction_date = $request->date;
+        $transaction_date = Carbon::createFromFormat('d-m-Y', $request->date);
         $description = $request->description;
         $term_and_condition = $request->term_and_condition;
 
@@ -630,6 +630,12 @@ class InvoiceController extends Controller
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
+        }
+
+        if ($invoice->grandtotal != $total_credit) {
+            if (abs($invoice->grandtotal - $total_credit) < 0.9) {
+                $invoice->grandtotal = $total_credit;
+            }
         }
 
         // detail piutang
@@ -908,8 +914,10 @@ class InvoiceController extends Controller
                 return '<a href="'.route('invoice.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
             })
             ->addColumn('created_by', function($row) {
-                $created_by = $row->audits()->where('event', 'created')->user->name ?? null;
-                return $created_by;
+                return $row->created_by;
+            })
+            ->addColumn('can_approve_fa', function($row) {
+                return $this->canApproveFa();
             })
             ->escapeColumns([])
             ->make(true);
@@ -1365,6 +1373,10 @@ class InvoiceController extends Controller
                     $x->id
                 )->first();
 
+            if (!$project_workpackage) {
+                continue;
+            }
+
             $invoice->quotations->workpackages[$a]->facility = ProjectWorkPackageFacility::where('project_workpackage_id', $project_workpackage->id)
                 ->with('facility')
                 ->sum('price_amount') * $invoice->multiple;
@@ -1446,69 +1458,49 @@ class InvoiceController extends Controller
         $bank_account_2 = $invoice->bank2;
         $bank_account_3 = $invoice->bank3;
 
-        $bank_id = [
-            $bank_account_1->bank->id,
-            @$bank_account_2->bank->id ?? null,
-            @$bank_account_3->bank->id ?? null,
+        $bank_account = [
+            $bank_account_1,
+            $bank_account_2 ?? null,
+            $bank_account_3 ?? null,
         ];
 
-        $bank_account_name = [
-            $bank_account_1->name,
-            @$bank_account_2->name ?? null,
-            @$bank_account_3->name ?? null,
-        ];
+        $bank_account = array_filter($bank_account);
+        $bank_account = array_values($bank_account);
 
-        $bank_id = array_filter($bank_id);
-        $bank_id = array_values($bank_id);
+        $data_same_bank = [];
 
-        $bank_account_name = array_filter($bank_account_name);
-        $bank_account_name = array_values($bank_account_name);
+        for ($index=0; $index < count($bank_account); $index++) { 
+            for ($index_2=1; $index_2 < count($bank_account); $index_2++) { 
+                if ($bank_account[$index]->bank->id == $bank_account[$index_2]->bank->id) {
+                    $data_same_bank = [
+                        'bank1' => $bank_account[$index],
+                        'bank2' => $bank_account[$index_2],
+                    ];
 
-        $total_bank_id_difference = count(array_unique($bank_id));
-        $total_bank_name_difference = count(array_unique($bank_account_name));
+                    unset($bank_account[$index]);
+                    unset($bank_account[$index_2]);
+                    $bank_account = array_values($bank_account);
 
-        if ($total_bank_id_difference < 3 and $total_bank_name_difference < 3) {
+                    $data_same_bank['bank3'] = $bank_account[0] ?? null;
 
-            if ($bank_id[0] == $bank_id[1] and $bank_account_name[0] == $bank_account_name[1]) {
-                $data = [
-                    'bank1' => $bank_account_1,
-                    'bank2' => $bank_account_2,
-                    'bank3' => $bank_account_3,
-                ];
+                    break;
+                }
             }
 
-            if ($bank_id[0] == ($bank_id[2] ?? null) and $bank_account_name[0] == ($bank_account_name[2] ?? null)) {
-                $data = [
-                    'bank1' => $bank_account_1,
-                    'bank2' => $bank_account_3,
-                    'bank3' => $bank_account_2,
-                ];
+            if (count($data_same_bank) > 1) {
+                break;
             }
-
-            if (($bank_id[1] ?? null) == ($bank_id[2] ?? null) and ($bank_account_name[1] ?? null) == ($bank_account_name[2] ?? null)) {
-                $data = [
-                    'bank1' => $bank_account_2,
-                    'bank2' => $bank_account_3,
-                    'bank3' => $bank_account_1,
-                ];
-
-            }
-
-            return view('formview::invoice-bank-account-segment-same-bank', $data);
-
         }
 
-        if (
-            $total_bank_id_difference == 3 
-            or ($total_bank_id_difference == 2 and count($bank_account_name) == 3)
-            or count($bank_account_name) == 1
-            or count($bank_account_name) == 2
-        ) {
+        if (count($data_same_bank) > 1) {
+            return view('formview::invoice-bank-account-segment-same-bank', $data_same_bank);
+        }
+
+        if (count($data_same_bank) < 1) {
             $data = [
                 'bank1' => $bank_account_1,
-                'bank2' => $bank_account_2,
+                'bank2' => $bank_account_2 ?? $bank_account_3,
             ];
-
             return view('formview::invoice-bank-account-segment', $data);
         }
     }

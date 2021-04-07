@@ -30,23 +30,10 @@ let Journal = {
             {data: 'status', searchable: false},
             {data: 'currency'},
             {data: 'exchange_rate_fix', name: 'exchange_rate'},
-            {data: 'grandtotal_foreign', render: function(data, type, row) {
-                t = row;
-
-                let result = 0;
-
-                if (t.grandtotal_foreign) {
-                    result = addCommas(parseInt(t.grandtotal_foreign));
-                }
-
-                return result;
-            }},
-            {data: 'grandtotal', render: function(data, type, row) {
-                if (!row.grandtotal) {
-                  return addCommas(0)
-                }
-                return addCommas(parseInt(row.grandtotal));
-            }},
+            {data: 'grandtotal_foreign_before_adj'},
+            {data: 'grandtotal_foreign_formated'},
+            {data: 'grandtotal_before_adj'},
+            {data: 'grandtotal_formated'},
             {data: 'account_code'},
             {data: 'created_by', searchable: false},
             {data: 'updated_by', searchable: false, defaultContent: '-'},
@@ -68,15 +55,21 @@ let Journal = {
                                     // jika belum di approve
                 if (!t.approve) {
                     _html +=
-                    '<a href="'+_url+'/supplier-invoice/'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                    t.uuid +
-                    '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-                    '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                    t.uuid +
-                    ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-                    '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-type="'+t.x_type+'" data-uuid="' + t.uuid + '">' +
-                    '<i class="la la-check"></i>' +
-                    '</a>';
+                      '<a href="'+_url+'/supplier-invoice/'+type+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
+                      t.uuid +
+                      '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t';
+
+                    _html +=
+                      '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                      t.uuid +
+                      ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
+
+                    if (t.can_approve_fa) {
+                      _html +=
+                        '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-type="'+t.x_type+'" data-uuid="' + t.uuid + '">' +
+                        '<i class="la la-check"></i>' +
+                        '</a>';
+                    }
                 }
 
                 return ( _html );

@@ -228,7 +228,7 @@
                     <tr>
                       <td valign="top" align="center" width="20%">{{$item->coa->code}}</td>
                       <td valign="top" align="center" width="20%">{{$item->coa->name}}</td>
-                      <td valign="top" align="center" width="30%">{{$item->description}}</td>
+                      <td valign="top" align="center" width="30%">{!! $item->description !!}</td>
                       <td valign="top" align="right" width="30%">{{$class::currency_format($item->total)}} </td>
                     </tr>
                   @endforeach

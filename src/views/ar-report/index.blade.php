@@ -398,7 +398,7 @@
                         </div>
 
                         <div class="tab-pane" id="content_tab_4">
-                            -
+                          @include('frontend.asset-report.index-tab')
                         </div>
 
                         <div class="tab-pane" id="content_tab_5">

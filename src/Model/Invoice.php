@@ -182,7 +182,7 @@ class Invoice extends MemfisModel
         $qn = $this->quotations()->select(['term_of_payment'])->first();
 
         if ($this->approve and $qn) {
-            $approval_date = Carbon::parse($this->updated_at);
+            $approval_date = Carbon::parse($this->approvals()->first()->created_at);
             return $approval_date->addDays($qn->term_of_payment);
         }
 

@@ -81,7 +81,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@approve'
-		);
+		)->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 		Route::get(
 			'/create',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@create'
@@ -212,7 +212,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@approve'
-		);
+		)->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 		Route::post(
 			'/unapprove',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@unapprove'
@@ -241,6 +241,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/{journal}',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@update'
 		)->name('journal.update');
+		Route::put(
+			'/journala/{journala_uuid}/update-after-approve',
+			'memfisfa\Finac\Controllers\Frontend\JournalAController@updateAfterApprove'
+		)->name('journala.update-after-approve');
 		Route::delete(
 			'/{journal}',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@destroy'
@@ -248,7 +252,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/{journal}/edit',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@edit'
-		);
+		)->name('journal.edit');
+		Route::get(
+			'/{journal}/edit-after-approve',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@editAfterApprove'
+		)->name('journal.edit-after-approve');
 		Route::get(
 			'/data',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@api'
@@ -276,7 +284,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\TrxBSController@approve'
-		);
+		)->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 		Route::post(
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\TrxBSController@store'
@@ -311,7 +319,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\TrxBSRController@approve'
-		);
+		)->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 		Route::post(
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\TrxBSRController@store'
@@ -452,6 +460,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\JournalAController@datatables'
 		)->name('journala.datatables');
 		Route::get(
+			'/datatables-after-approve',
+			'memfisfa\Finac\Controllers\Frontend\JournalAController@datatablesAfterApprove'
+		)->name('journala.datatables.after-approve');
+		Route::get(
 			'/{journala}/edit',
 			'memfisfa\Finac\Controllers\Frontend\JournalAController@edit'
 		);
@@ -477,7 +489,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@approve'
-		);
+		)->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 		Route::get(
 			'/create',
 			'memfisfa\Finac\Controllers\Frontend\TrxPaymentController@create'
@@ -726,7 +738,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\APController@approve'
-		);
+		)->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 	});
 
     Route::prefix('account-receivable')->group(function () {
@@ -781,7 +793,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\ARController@approve'
-        );
+        )->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 		Route::get(
 			'/{ar_uuid}',
 			'memfisfa\Finac\Controllers\Frontend\ARController@show'
@@ -952,7 +964,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@approve'
-        );
+        )->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
         Route::get(
             '/select2-grn',
 			'memfisfa\Finac\Controllers\Frontend\AssetController@select2GetGRN'
@@ -1040,7 +1052,9 @@ Route::group(['middleware' => ['web','auth']], function () {
 		)->name('invoice.calculate.quo');
 		Route::get('/datatables', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@datatables')->name('invoice.datatables');
 		Route::post('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@store')->name('invoice.store');
-		Route::post('/{invoice}/approve', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@approve')->name('invoice.approve');
+		Route::post('/{invoice}/approve', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@approve')
+            ->name('invoice.approve')
+            ->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
 		Route::get('/{invoice}/edit', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@edit')->name('invoice.edit');
 		Route::post('/{invoice}/edit', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@update')->name('invoice.update');
 		Route::delete('/{invoice}', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@destroy')->name('invoice.delete');

@@ -116,7 +116,7 @@
                           @foreach ($data as $data_row)
                             <tr>
                               <td class="nowrap">{{ $carbon::parse($data_row->date)->format('d-m-Y') }}</td>
-                              <td class="nowrap">{{ $data_row->description }}</td>
+                              <td style="width: 200px">{{ $data_row->description }}</td>
                               <td class="nowrap">{{ $data_row->ref }}</td>
                               <td class="nowrap">{{ $data_row->number }}</td>
                               <td class="nowrap" align="right">{{ $data_row->debit_formated }}</td>

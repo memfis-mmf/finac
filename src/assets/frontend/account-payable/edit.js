@@ -55,7 +55,9 @@ let AccountPayable = {
           data: "name"
         },
         {
-          data: "Actions"
+          data: "Actions",
+                    searchable: false,
+                    orderable: false
         }
       ],
       columnDefs: [{
@@ -86,7 +88,9 @@ let AccountPayable = {
           data: "name"
         },
         {
-          data: "Actions"
+          data: "Actions",
+                    searchable: false,
+                    orderable: false
         }
       ],
       columnDefs: [{

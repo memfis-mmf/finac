@@ -25,7 +25,9 @@ let InvoiceWorkshop = {
                     data: "code"
                 },
                 {
-                    data: "Actions"
+                    data: "Actions",
+                    searchable: false,
+                    orderable: false
                 },
             ],
             columnDefs: [{

@@ -99,15 +99,6 @@
                 <div class="col-md-12" style="overflow: auto">
                   {{-- content --}}
                   @foreach ($customer as $customer_row)
-                  @php
-                    $subtotal_total = 0;
-                    $discount_total = 0;
-                    $vat_total = 0;
-                    $invoice_total = 0;
-                    $paid_amount_total = 0;
-                    $ending_balance_total = 0;
-                    $ending_balance_idr_total = 0;
-                  @endphp
                   <div class="form-group m-form__group row ">
                     <div class="col-sm-12 col-md-12 col-lg-12">
                       <table width="100%" cellpadding="3" class="table-head">
@@ -152,29 +143,43 @@
                             <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
                             <td width="" align="right" valign="top">Rp {{ number_format($invoice_row->ending_balance['amount_idr'], 2, ',', '.')  }}</td>
                           </tr>
-                          @php
-                            $subtotal_total += $invoice_row->subtotal;
-                            $discount_total += $invoice_row->discountvalue;
-                            $vat_total += $invoice_row->ppnvalue;
-                            $invoice_total += $invoice_row->grandtotalforeign;
-                            $paid_amount_total += $invoice_row->ar_amount['credit'];
-                            $ending_balance_total += $invoice_row->ending_balance['amount'];
-                            $ending_balance_idr_total += $invoice_row->ending_balance['amount_idr'];
-                          @endphp
                           @endforeach
-                          {{-- Total IDR --}}
+                          @foreach ($customer_row->total as $total_row)
                           <tr class="nowrap" style="border-top:2px solid black; font-size:9pt;">
-                            <td colspan="3"></td>
-                            <td align="left" valign="top"><b>Total </b></td>
-                            <td width="" align="right" valign="top" class="table-footer"><b>{{ $invoice_row->currencies->symbol.' '.number_format($subtotal_total, 2, ',', '.') }}</b></td>
-                            <td width="" align="right" valign="top" class="table-footer"><b>{{ $invoice_row->currencies->symbol.' '.number_format($discount_total, 2, ',', '.') }}</b></td>
-                            <td width="" align="right" valign="top" class="table-footer"><b>{{ $invoice_row->currencies->symbol.' '.number_format($vat_total, 2, ',', '.') }}</b></td>
-                            <td width="" align="right" valign="top" class="table-footer"><b>{{ $invoice_row->currencies->symbol.' '.number_format($invoice_total, 2, ',', '.') }}</b></td>
-                            <td width="" align="right" valign="top" class="table-footer"><b>{{ $invoice_row->currencies->symbol.' '.number_format($paid_amount_total, 2, ',', '.') }}</b></td>
-                            {{-- <td width="" align="right" valign="top" class="table-footer"><b>{{ $invoice_row->currencies->symbol.' '.number_format(0, 2, ',', '.') }}</b></td> --}}
-                            <td width="" align="right" valign="top" class="table-footer"><b>{{ $invoice_row->currencies->symbol.' '.number_format($ending_balance_total, 2, ',', '.') }}</b></td>
-                            <td width="" align="right" valign="top" class="table-footer"><b>Rp {{ number_format($ending_balance_idr_total, 2, ',', '.') }}</b></td>
-                          </tr>
+                            <td colspan="4"></td>
+                            <td align="left" valign="top"><b>Total {{ strtoupper($total_row['currency']->code) }}</b></td>
+                            <td width="" align="right" valign="top" class="table-footer">
+                              <b>
+                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['discount_total'], 2) }}
+                              </b>
+                            </td>
+                            <td width="" align="right" valign="top" class="table-footer">
+                              <b>
+                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['vat_total'], 2) }}
+                              </b>
+                            </td>
+                            <td width="" align="right" valign="top" class="table-footer">
+                              <b>
+                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['invoice_total'], 2) }}
+                              </b>
+                            </td>
+                            <td width="" align="right" valign="top" class="table-footer">
+                              <b>
+                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['paid_amount_total'], 2) }}
+                              </b>
+                            </td>
+                            <td width="" align="right" valign="top" class="table-footer">
+                              <b>
+                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['ending_balance_total'], 2) }}
+                              </b>
+                            </td>
+                            <td width="" align="right" valign="top" class="table-footer">
+                              <b>
+                                Rp {{ $controller::currency_format($total_row['ending_balance_total_idr'], 2) }}
+                              </b>
+                            </td>
+                          </tr>   
+                          @endforeach
 
                         </tbody>
                       </table>

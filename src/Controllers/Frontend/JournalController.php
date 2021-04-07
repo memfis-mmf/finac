@@ -37,7 +37,11 @@ class JournalController extends Controller
 			$credit += $x->credit ?? 0;
 		}
 
-		return (round($debit, 5) != round($credit, 5));
+		if (bccomp($debit, $credit, 5) == 0) {
+            return true; // balance
+        }
+
+        return false; // tidak balance
 	}
 
     public function approve(Request $request)
@@ -45,7 +49,7 @@ class JournalController extends Controller
 		$journal = Journal::where('uuid', $request->uuid);
 		$journala = $journal->first()->journala;
 
-		if ($this->checkBalance($journala)) {
+		if (!$this->checkBalance($journala)) {
 			return [
 				'errors' => 'Debit and Credit not balance'
 			];
@@ -61,7 +65,7 @@ class JournalController extends Controller
 		$journal = Journal::where('uuid', $request->uuid);
 		$journala = $journal->first()->journala;
 
-		if ($this->checkBalance($journala)) {
+		if (!$this->checkBalance($journala)) {
 			return [
 				'errors' => 'Debit and Credit not balance'
 			];
@@ -141,6 +145,21 @@ class JournalController extends Controller
             ->get();
 
         return view('journalview::edit', $data);
+    }
+
+    public function editAfterApprove(Request $request)
+    {
+        $data['journal']= Journal::where('uuid', $request->journal)->with([
+            'type_jurnal',
+            'currency',
+        ])->firstOrFail();
+
+        $data['journal_type'] = TypeJurnal::all();
+        $data['currency'] = Currency::whereIn('code', ['usd', 'idr'])
+            ->get();
+        $data['journala_after_approve_datatable_url'] = route('journala.datatables.after-approve', ['voucher_no' => $data['journal']->voucher_no]);
+
+        return view('journalview::edit-after-approve', $data);
     }
 
     public function update(JournalUpdate $request, Journal $journal)
@@ -259,21 +278,72 @@ class JournalController extends Controller
         ->addColumn('approved_by', function($row) {
             return $row->approved_by ?? '-';
         })
-		->addColumn('unapproved', function(Journal $journal) use ($request) {
-			$html = '';
+        ->addColumn('action', function($row) use($request) {
+            $html =
+                '<a 
+                    href="'.route('journal.print', ['uuid' => $row->uuid]).'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" 
+                    title="Print" 
+                    data-id="'.$row->uuid.'">
+                    <i class="la la-print"></i>
+                </a>';
 
-			if ($request->user()->hasRole('admin') && $journal->approve) {
-				$html = '
-					<a href="javascript:;"
-					class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill unapprove"
-					title="Unapprove" data-uuid="'.$journal->uuid.'">
-						<i class="fa fa-times"></i>
-					</a>
-				';
-			}
+            if (!$row->approve) {
+                $html .=
+                    '<a 
+                        href="'.route('journal.edit', $row->uuid).'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                        title="Edit" 
+                        data-uuid='.$row->uuid.'>
+                        <i class="la la-pencil"></i>
+                    </a>';
 
-			return $html;
-		})
+                $html .=
+                    '<a 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                        href="#" 
+                        data-uuid=' . $row->uuid . ' 
+                        title="Delete">
+                        <i class="la la-trash"></i> 
+                    </a>';
+                
+                if ($this->canApproveFa()) {
+                    $html .=
+                        '<a 
+                            href="javascript:;" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                            title="Approve" 
+                            data-uuid="' . $row->uuid . '">
+                            <i class="la la-check"></i>
+                        </a>';
+                }
+
+            }
+
+            if ($row->approve) {
+                $html .=
+                    '<a 
+                        href="'.route('journal.edit-after-approve', $row->uuid).'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                        title="Edit Description" 
+                        data-uuid='.$row->uuid.'>
+                        <i class="fa fa-pen-nib"></i>
+                    </a>';
+
+                if (auth()->user()->hasRole('admin')) {
+                    $html .= 
+                    '<a 
+                        href="javascript:;"
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill unapprove"
+                        title="Unapprove" data-uuid="'.$row->uuid.'">
+                        <i class="fa fa-times"></i>
+                    </a>';
+                }
+            }
+
+
+            return ($html);
+        })
 		->escapeColumns([])
 		->make(true);
     }
@@ -398,7 +468,7 @@ class JournalController extends Controller
 
         $journala = $journal_detail;
 
-		if ($this->checkBalance($journala)) {
+		if (!$this->checkBalance($journala)) {
             return redirect()->route('journal.index')->with(['errors' => 'Debit and Credit not balance']);
 		}
 
@@ -416,6 +486,7 @@ class JournalController extends Controller
 			'journala' => $journala,
 			'debit' => $debit,
 			'credit' => $credit,
+            'carbon' => Carbon::class
 		];
 
         $pdf = \PDF::loadView('formview::journal', $data);

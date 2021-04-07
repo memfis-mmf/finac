@@ -248,29 +248,13 @@ class TrxPaymentController extends Controller
             'closed' => 'required'
         ]);
 
-		$currency = $request->trxpayment->currency;
-		$transaction_number = $request->trxpayment->transaction_number;
-		$exchange_rate = $request->trxpayment->exchange_rate;
-
-		$total = TrxPaymentB::where(
-			'transaction_number',
-			$transaction_number
-		)->sum('total');
-
-		if ($currency == 'idr') {
-			$request->merge([
-				'grandtotal_foreign' => $total,
-				'grandtotal' => $total
-			]);
-		}else{
-			$request->merge([
-				'grandtotal_foreign' => $total,
-				'grandtotal' => ($total*$exchange_rate)
-			]);
-		}
+        $trxpayment_class = new TrxPayment();
+        $total = $trxpayment_class->calculateGrandtotalSIGeneral($trxpayment);
 
 		$request->merge([
-			'description' => $request->description_si
+			'description' => $request->description_si,
+            'grandtotal_foreign' => $total['total'],
+            'grandtotal' => $total['total_idr'],
 		]);
 
         $trxpayment->update($request->all());
@@ -300,11 +284,32 @@ class TrxPaymentController extends Controller
     public function datatables()
     {
 		$data = TrxPayment::with([
-			'vendor'
+			'currencies',
+			'vendor',
 		])->select('trxpayments.*')
         ->latest('transaction_date');
 
-        return DataTables::of($data)
+        return datatables()->of($data)
+            ->addColumn('grandtotal_foreign_before_adj', function($row) {
+                $grandtotal_foreign = $row->grandtotal_foreign;
+                $grandtotal_foreign+= $row->adjustment()->get()->sum('credit');
+                $grandtotal_foreign-= $row->adjustment()->get()->sum('debit');
+
+                return $row->currencies->symbol." ".$this->currency_format($grandtotal_foreign);
+            })
+            ->addColumn('grandtotal_foreign_formated', function($row) {
+                return "<span class='m-badge m-badge--primary m-badge--wide'>{$row->currencies->symbol} {$this->currency_format($row->grandtotal)}</span>";
+            })
+            ->addColumn('grandtotal_before_adj', function($row) {
+                $grandtotal = $row->grandtotal_foreign;
+                $grandtotal += $row->adjustment()->get()->sum('credit_idr');
+                $grandtotal -= $row->adjustment()->get()->sum('debit_idr');
+
+                return "Rp ".$this->currency_format($grandtotal);
+            })
+            ->addColumn('grandtotal_formated', function($row) {
+                return "<span class='m-badge m-badge--primary m-badge--wide'>Rp {$this->currency_format($row->grandtotal)}</span>";
+            })
             ->addColumn('show_url', function($row) {
                 $url = route('supplier_invoice.show', $row->uuid);
 
@@ -313,6 +318,9 @@ class TrxPaymentController extends Controller
                 }
 
                 return "<a href='$url'>$row->transaction_number</a>";
+            })
+            ->addColumn('can_approve_fa', function($row) {
+                return $this->canApproveFa();
             })
             ->escapeColumns([])
             ->make(true);
@@ -443,7 +451,14 @@ class TrxPaymentController extends Controller
     public function print(Request $request)
     {
         $trxpayment = TrxPayment::where('uuid', $request->uuid)->first();
-		$detail = $trxpayment->detail_general;
+		$detail = $trxpayment->detail_general()->get()->transform(function($row) {
+
+            $journal_detail = $this->getJournalDetail($row->si->transaction_number, $row->code);
+            $row->description = $journal_detail->description_2 ?? $row->description;
+
+            return $row;
+        });
+
 		$adjustment = $trxpayment->adjustment;
 
         $total = 0;
@@ -458,6 +473,7 @@ class TrxPaymentController extends Controller
             'detail' => $detail,
             'adjustment' => $adjustment,
             'total' => $total,
+            'controller' => new Controller()
         ];
 
         $pdf = \PDF::loadView('formview::supplier-invoice-general', $data);

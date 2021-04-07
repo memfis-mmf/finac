@@ -341,7 +341,7 @@
                       <div class="m-portlet__body pb-5">
                         <table
                           class="table table-striped table-bordered table-hover table-checkable supplier_invoice_adj_datatable"
-                          data-url="{{ route('trxpayment.adjustment.datatables', $data->id) }}">
+                          data-url="{{ route('trxpayment.adjustment.datatables', $data->id) }}?show={{ $show ?? false }}">
                           <thead>
                             <tr>
                               <th></th>

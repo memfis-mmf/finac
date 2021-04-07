@@ -193,6 +193,9 @@ class APController extends Controller
             ->addColumn('status', function($row) {
                 return $row->status;
             })
+            ->addColumn('can_approve_fa', function($row) {
+                return $this->canApproveFa();
+            })
             ->escapeColumns([])
             ->make(true);
     }
@@ -908,6 +911,7 @@ class APController extends Controller
             'total_foreign' => $total_debit_foreign,
             'header_title' => $header_title,
             'header' => $header,
+            'controller' => new Controller()
         ];
 
         $pdf = \PDF::loadView('formview::ap', $data);

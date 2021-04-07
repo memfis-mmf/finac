@@ -183,19 +183,30 @@
                         @for($a = 0 ; $a<count($detail); $a++)
 													@php
 														$arr = $detail[$a];
+                            $journal_detail = $controller->getJournalDetail($cashbook->transactionnumber, $arr->coa_detail);
 													@endphp
                             <tr>
                                 <td width="15%" align="center">{{$arr->coa_detail}}</td>
                                 <td width="20%" align="left">{{$arr->coa_name}}</td>
-                                <td width="31%" align="left">{{$arr->_desc}}</td>
+                                <td width="31%" align="left">{!! $journal_detail->description_2 ?? $arr->_desc !!}</td>
                                 <td width="17%" align="right">
 																	@if ($arr->debit != 0)
-																		{{$arr->symbol.' '.number_format($arr->debit, 2, ',', '.')}}
+																		{{$arr->symbol.' '.$controller::currency_format($arr->debit, 2)}}
+                                    @if ($arr->second_debit)
+                                      <p>
+                                        {{ "({$cashbook->second_currencies->symbol} {$controller::currency_format($arr->second_debit, 2)})" }}
+                                      </p>
+                                    @endif
 																	@endif
 																</td>
                                 <td width="17%" align="right">
 																	@if ($arr->credit != 0)
-																		{{$arr->symbol.' '.number_format($arr->credit, 2, ',', '.')}}
+																		{{$arr->symbol.' '.$controller::currency_format($arr->credit, 2)}}
+                                    @if ($arr->second_credit)
+                                      <p>
+                                        {{ "({$cashbook->second_currencies->symbol} {$controller::currency_format($arr->second_credit, 2)})" }}
+                                      </p>
+                                    @endif
 																	@endif
 																</td>
                             </tr>
@@ -203,10 +214,14 @@
                     </tbody>
                     <tr style="background:#d3e9f5;">
                         <td colspan="3">
-                          {{-- <i> Terbilang total amount </i> --}}
+                          @if (isset($cashbook->second_currencies->code))
+                            <i>
+                              Total in {{ strtoupper($cashbook->second_currencies->code).' '.$controller::currency_format($cashbook->second_subtotal) }}
+                            </i>   
+                          @endif
                         </td>
-                        <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{number_format($total_debit, 2, ',', '.')}}</b></td>
-                        <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{number_format($total_credit, 2, ',', '.')}}</b></td>
+                        <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{$controller::currency_format($total_debit, 2)}}</b></td>
+                        <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{$controller::currency_format($total_credit, 2)}}</b></td>
                     </tr>
                 </table>
             </div>

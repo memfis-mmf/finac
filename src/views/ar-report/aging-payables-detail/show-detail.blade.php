@@ -102,7 +102,7 @@
                                 @endphp
                                 <div class="col-sm-12 col-md-12 col-lg-12 pt-2 mt-5" style="overflow: auto">   
                                   <h4>Supplier Name : {{ $vendor_row->name }}</h4>
-                                    <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
+                                    <table class="table table-bordered">  
                                         <thead style="border-bottom:2px solid black;">     
                                             <tr>
                                                 <td align="left" valign="top" style="padding-left:8px;"><b>Transaction Number</b></td>

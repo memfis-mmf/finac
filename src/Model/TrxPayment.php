@@ -308,11 +308,8 @@ class TrxPayment extends MemfisModel
     {
         $total = $si->detail_general()->get()->sum('total');
 
-        /**
-         * ini yang ditotal debitnya saja 
-         * karena memang total hutangnya dihitung dari total kolom debit
-         */
         $total += $si->adjustment()->get()->sum('debit');
+        $total -= $si->adjustment()->get()->sum('credit');
 
         if ($si->currencies->code == 'idr') {
             return [

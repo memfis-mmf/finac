@@ -59,7 +59,9 @@ let AccountReceivableEdit = {
           data: "name"
         },
         {
-          data: "Actions"
+          data: "Actions",
+                    searchable: false,
+                    orderable: false
         }
       ],
       columnDefs: [{
@@ -90,7 +92,9 @@ let AccountReceivableEdit = {
           data: "name"
         },
         {
-          data: "Actions"
+          data: "Actions",
+                    searchable: false,
+                    orderable: false
         }
       ],
       columnDefs: [{

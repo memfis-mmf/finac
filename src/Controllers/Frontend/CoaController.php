@@ -213,6 +213,13 @@ class CoaController extends Controller
 
     public function basicModal()
     {
+		$coa = Coa::where('description', 'detail');
+
+        return datatables()->of($coa)->make();
+    }
+
+    public function basicModalBak()
+    {
         function filterArray( $array, $allowed = [] ) {
             return array_filter(
                 $array,
