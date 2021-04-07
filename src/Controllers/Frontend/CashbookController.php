@@ -224,7 +224,7 @@ class CashbookController extends Controller
         ->get();
         $data['page_type'] = 'show';
 
-		return view('cashbooknewview::edit', $data);
+		return view('cashbooknewview::show', $data);
     }
 
     public function datatables()
