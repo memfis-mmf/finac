@@ -124,7 +124,7 @@ class CashbookBPJController extends Controller
 
         TotalCashbook::calculate($data['header']['header'][0]);
         
-        dd($data['header']['header']);
+        // dd($data['header']['header']);
     }
 
     /**
