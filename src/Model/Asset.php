@@ -49,6 +49,11 @@ class Asset extends MemfisModel
         'location_remark',
     ];
 
+    protected $dates = [
+        'warrantystart',
+        'warrantyend'
+    ];
+
 	protected $appends = [
 		'created_by',
         'approved_by',
