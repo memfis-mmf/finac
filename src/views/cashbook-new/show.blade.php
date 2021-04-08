@@ -276,24 +276,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-12 order-1 order-xl-2 m--align-right">
-                                                    <button type="button" id="button_cushbook_adjustment" name="create" value="" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" style="display:none" target="" data-toggle="modal" data-target="#modal_cashbook_adjustment">
-
-                                                        <span>
-                                                            <i class="la la-plus-circle"></i>
-                                                            <span>Adjustment</span>
-                                                        </span>
-                                                    </button>
-
-                                                    <button type="button" id="button_cushbook_transaction" name="create" value="" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md" style="" target="" data-toggle="modal" data-target="#modal_cashbook_transaction">
-
-                                                        <span>
-                                                            <i class="la la-plus-circle"></i>
-                                                            <span>Transaction</span>
-                                                        </span>
-                                                    </button>
-                                                    <div class="m-separator m-separator--dashed d-xl-none"></div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
