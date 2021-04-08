@@ -42,7 +42,7 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            @include('label::show')
+                            @include('label::edit')
 
                             <h3 class="m-portlet__head-text">
                                 Cashbook
