@@ -472,7 +472,8 @@ class AssetController extends Controller
     {
         DB::beginTransaction();
 
-        ini_set('max_execution_time', '0');
+        ini_set('max_execution_time', '-1');
+        ini_set('memory_limit', '-1');
 
         $request->validate([
             'month_generate' => 'required|date'
