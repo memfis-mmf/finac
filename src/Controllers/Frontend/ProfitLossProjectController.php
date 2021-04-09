@@ -300,7 +300,11 @@ class ProfitLossProjectController extends Controller
                         ->first();
                     $item_jobcard_row->unit_id = $unit->id;
 
-                    $item = Item::where('code', $item_jobcard_row->code)->first();
+                    $item = Item::where('code', $item_jobcard_row->code)->withTrashed()->first();
+
+                    if( !$item ) {
+                        continue;
+                    }
 
                     $request_item = MaterialRequestItem::where('item_id', $item->id)
                         ->whereHas('request', function ($request) use ($project) {
