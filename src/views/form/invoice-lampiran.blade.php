@@ -204,7 +204,7 @@
                         <tr style="background:#ffdcc2;">
                             <td align="center" width="5%">No</td>
                             <td align="center" width="20%">Part Number</td>
-                            <td align="center" width="50%">Item Description</td>
+                            <td align="center" width="50%">Item Name</td>
                             <td align="center" width="12%">Qty</td>
                             <td align="center" width="13%">Unit</td>
                         </tr>
@@ -303,7 +303,7 @@
                             <tr style="background:#ffdcc2;">
                                 <td align="center" width="5%">No</td>
                                 <td align="center" width="20%">Part Number</td>
-                                <td align="center" width="50%">Item Description</td>
+                                <td align="center" width="50%">Item Name</td>
                                 <td align="center" width="12%">Qty</td>
                                 <td align="center" width="13%">Unit</td>
                             </tr>

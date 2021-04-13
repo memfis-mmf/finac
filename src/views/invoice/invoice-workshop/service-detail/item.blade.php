@@ -13,7 +13,7 @@
                     <thead>
                         <tr>
                             <th>Part Number</th>
-                            <th>Item Description</th>
+                            <th>Item Name</th>
                             <th>Job Request</th>
                             <th>Status</th>
                             <th></th>
