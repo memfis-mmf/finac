@@ -343,7 +343,7 @@
                 </tr> --}}
                  {{-- TheOthers --}}
                 <tr>
-                    <td width="10%" rowspan="{{($invoice->currencies->code != 'idr')? '6': '5'}}" align="center" valign="top"></td>
+                    <td width="10%" rowspan="{{($invoice->currencies->code != 'idr')? '7': '6'}}" align="center" valign="top"></td>
 
                     <td width="35%" style="border-bottom:none;color:red;border-right:none;"></td>
 
@@ -393,7 +393,27 @@
                 <tr>
                     <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
 
-                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">VAT 10% (included)</td>
+                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">Total before tax</td>
+
+                    <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
+                        {{$invoice->currencies->code}}
+                    </td>
+
+                    <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
+                        {{
+                            number_format(
+                                ($invoice->subtotal - $invoice->discountvalue) / 1.1
+                                , 0
+                                , 0
+                                , '.'
+                            )
+                        }}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
+
+                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">VAT 10% ({{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}})</td>
 
                     <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
                         {{$invoice->currencies->code}}
