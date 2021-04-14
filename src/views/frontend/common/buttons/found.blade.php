@@ -1,21 +1,21 @@
 <button
-    id="{{ $id or '' }}"
-    type="{{ $type or 'submit' }}"
-    name="{{ $name or 'submit' }}"
-    value="{{ $value or '' }}"
+    id="{{ $id ?? '' }}"
+    type="{{ $type ?? 'submit' }}"
+    name="{{ $name ?? 'submit' }}"
+    value="{{ $value ?? '' }}"
     class="btn
-           btn-{{ $color or 'primary' }}
-           btn-{{ $size or 'md' }}
-               {{ $class or '' }} add"
-    style="{{ $style or '' }}"
-    target="{{ $target or '' }}"
-    href="{{ $href or '' }}"
+           btn-{{ $color ?? 'primary' }}
+           btn-{{ $size ?? 'md' }}
+               {{ $class ?? '' }} add"
+    style="{{ $style ?? '' }}"
+    target="{{ $target ?? '' }}"
+    href="{{ $href ?? '' }}"
 
 >
 
     <span>
-        <i class="fab {{ $icon or 'fa-get-pocket' }}"></i>
+        <i class="fab {{ $icon ?? 'fa-get-pocket' }}"></i>
 
-        <span>{{ $text or 'Found Discrepancy' }}</span>
+        <span>{{ $text ?? 'Found Discrepancy' }}</span>
     </span>
 </button>

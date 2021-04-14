@@ -1,22 +1,22 @@
 <button
-    type="{{ $type or 'button' }}"
-    id="{{ $id or '' }}"
-    name="{{ $name or 'create' }}"
-    value="{{ $value or '' }}"
+    type="{{ $type ?? 'button' }}"
+    id="{{ $id ?? '' }}"
+    name="{{ $name ?? 'create' }}"
+    value="{{ $value ?? '' }}"
     class="btn
-    btn-{{ $color or 'warning' }}
-    btn-{{ $size or 'md' }}
-        {{ $class or '' }} add"
-    style="{{ $style or '' }}"
-    target="{{ $target or '' }}"
-    data-toggle="{{ $data_toggle or 'modal' }}"
-    data-target="{{ $data_target or '#' }}"
-    {{ $attribute or '' }}
+    btn-{{ $color ?? 'warning' }}
+    btn-{{ $size ?? 'md' }}
+        {{ $class ?? '' }} add"
+    style="{{ $style ?? '' }}"
+    target="{{ $target ?? '' }}"
+    data-toggle="{{ $data_toggle ?? 'modal' }}"
+    data-target="{{ $data_target ?? '#' }}"
+    {{ $attribute ?? '' }}
 >
 
     <span>
-        <i class="fa {{ $icon or 'fa-pause' }}"></i>
+        <i class="fa {{ $icon ?? 'fa-pause' }}"></i>
 
-        <span>{{ $text or 'Pause/Pending' }}</span>
+        <span>{{ $text ?? 'Pause/Pending' }}</span>
     </span>
 </button>

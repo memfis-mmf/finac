@@ -1,16 +1,16 @@
 <a
-    id={{ $id or '' }}
-    name={{ $name or '' }}
+    id={{ $id ?? '' }}
+    name={{ $name ?? '' }}
     class="btn
-           btn-{{ $color or 'secondary' }}
-           btn-{{ $size or 'md' }}
-           {{ $class or '' }}"
-    style="{{ $style or '' }}"
+           btn-{{ $color ?? 'secondary' }}
+           btn-{{ $size ?? 'md' }}
+           {{ $class ?? '' }}"
+    style="{{ $style ?? '' }}"
     onclick="goBack()">
 
     <span>
-        <i class="la la-{{ $icon or 'undo' }}"></i>
+        <i class="la la-{{ $icon ?? 'undo' }}"></i>
     </span>
 
-    {{ $text or 'Back' }}
+    {{ $text ?? 'Back' }}
 </a>

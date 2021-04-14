@@ -1,10 +1,10 @@
 <span
     class="m-badge
-           m-badge--{{ $color or 'warning' }}
-           m-badge--{{ $length or 'wide' }}
-           m-badge--{{ $type or 'rounded' }}"
-    style="background-color: {{ $background_color or 'beige' }};
-           padding: {{ $padding or '5px 10px' }};">
+           m-badge--{{ $color ?? 'warning' }}
+           m-badge--{{ $length ?? 'wide' }}
+           m-badge--{{ $type ?? 'rounded' }}"
+    style="background-color: {{ $background_color ?? 'beige' }};
+           padding: {{ $padding ?? '5px 10px' }};">
 
-    {{ $text or '' }}
+    {{ $text ?? '' }}
 </span>

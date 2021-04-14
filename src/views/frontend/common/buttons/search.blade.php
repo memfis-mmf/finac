@@ -1,19 +1,19 @@
 <button
-    id="{{ $id or '' }}"
-    type="{{ $type or 'submit' }}"
-    name="{{ $name or 'submit' }}"
-    value="{{ $value or '' }}"
+    id="{{ $id ?? '' }}"
+    type="{{ $type ?? 'submit' }}"
+    name="{{ $name ?? 'submit' }}"
+    value="{{ $value ?? '' }}"
     class="btn
-           btn-{{ $color or 'primary' }}
-           btn-{{ $size or 'md' }}
-               {{ $class or '' }} search"
-    style="{{ $style or '' }}"
-    target="{{ $target or '' }}"
+           btn-{{ $color ?? 'primary' }}
+           btn-{{ $size ?? 'md' }}
+               {{ $class ?? '' }} search"
+    style="{{ $style ?? '' }}"
+    target="{{ $target ?? '' }}"
 >
 
     <span>
-        <i class="fa {{ $icon or 'fa-search' }}"></i>
+        <i class="fa {{ $icon ?? 'fa-search' }}"></i>
 
-        <span>{{ $text or 'Search' }}</span>
+        <span>{{ $text ?? 'Search' }}</span>
     </span>
 </button>

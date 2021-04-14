@@ -1,19 +1,19 @@
 <button
-    id="{{ $id or '' }}"
-    type="{{ $type or 'reset' }}"
-    name="{{ $name or 'reset' }}"
-    value="{{ $value or '' }}"
+    id="{{ $id ?? '' }}"
+    type="{{ $type ?? 'reset' }}"
+    name="{{ $name ?? 'reset' }}"
+    value="{{ $value ?? '' }}"
     class="btn
-           btn-{{ $color or 'warning' }}
-           btn-{{ $size or 'md' }}
-           {{ $class or '' }} reset"
-    style="{{ $style or '' }}"
-    target="{{ $target or '' }}"
+           btn-{{ $color ?? 'warning' }}
+           btn-{{ $size ?? 'md' }}
+           {{ $class ?? '' }} reset"
+    style="{{ $style ?? '' }}"
+    target="{{ $target ?? '' }}"
 >
 
     <span>
-        <i class="fa {{ $icon or 'fa-undo' }}"></i>
+        <i class="fa {{ $icon ?? 'fa-undo' }}"></i>
 
-        <span>{{ $text or 'Reset' }}</span>
+        <span>{{ $text ?? 'Reset' }}</span>
     </span>
 </button>

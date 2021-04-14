@@ -1,23 +1,23 @@
 <div class="custom-file">
     <input
         type="file"
-        id="{{ $id or '' }}"
-        name="{{ $name or '' }}"
+        id="{{ $id ?? '' }}"
+        name="{{ $name ?? '' }}"
         class="custom-file-input
-               {{ $class or '' }}"
-        style="{{$style or ''}}"
+               {{ $class ?? '' }}"
+        style="{{$style ?? ''}}"
     >
 
     <label class="custom-file-label"
-           for="{{ $for or '' }}"
-           id="{{ $id or '' }}-label"
+           for="{{ $for ?? '' }}"
+           id="{{ $id ?? '' }}-label"
     >
 
-        {{ $text or '' }}
+        {{ $text ?? '' }}
 
     </label>
 </div>
 
 <span class="m-form__help">
-    {{ $help_text or '' }}
+    {{ $help_text ?? '' }}
 </span>

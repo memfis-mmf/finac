@@ -1,17 +1,17 @@
 <input
     type="hidden"
-    id="{{ $id or $name }}"
-    name="{{ $name or '' }}"
+    id="{{ $id ?? $name }}"
+    name="{{ $name ?? '' }}"
     class="form-control m-input
-           {{ $class or '' }}"
-    style="{{$style or ''}}"
-    value="{{$value or ''}}"
-    placeholder="{{ $placeholder or '' }}"
-    {{$editable or ''}}
+           {{ $class ?? '' }}"
+    style="{{$style ?? ''}}"
+    value="{{$value ?? ''}}"
+    placeholder="{{ $placeholder ?? '' }}"
+    {{$editable ?? ''}}
 >
 
-<div class="form-control-feedback text-danger" id="{{ $id_error or '' }}-error"></div>
+<div class="form-control-feedback text-danger" id="{{ $id_error ?? '' }}-error"></div>
 
 <span class="m-form__help">
-    {{ $help_text or '' }}
+    {{ $help_text ?? '' }}
 </span>

@@ -4,14 +4,14 @@
             m-btn--pill
             m-btn--airbtn-brand
             dropdown-toggle
-            btn-{{ $color or 'primary' }}
-            btn-{{ $size or 'md' }}"
-    type={{ $type or 'button' }}
-    id={{ $id or '' }}
-    data-toggle={{ $dropdown or 'dropdown' }}
+            btn-{{ $color ?? 'primary' }}
+            btn-{{ $size ?? 'md' }}"
+    type={{ $type ?? 'button' }}
+    id={{ $id ?? '' }}
+    data-toggle={{ $dropdown ?? 'dropdown' }}
     aria-haspopup="true"
     aria-expanded="true">
-    {{ $text or '' }}
+    {{ $text ?? '' }}
 </button>
 
 

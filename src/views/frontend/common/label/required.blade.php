@@ -1,8 +1,8 @@
-<{{ $html_tag or 'span' }}
-    class="{{$class or ''}}"
-    style="font-weight: {{ $font_weight or 'bold' }};
-    color:{{ $color or 'red' }};">
+<{{ $html_tag ?? 'span' }}
+    class="{{$class ?? ''}}"
+    style="font-weight: {{ $font_weight ?? 'bold' }};
+    color:{{ $color ?? 'red' }};">
 
-    {{ $text or '*' }}
+    {{ $text ?? '*' }}
 
-</{{ $html_tag or 'span' }}>
+</{{ $html_tag ?? 'span' }}>

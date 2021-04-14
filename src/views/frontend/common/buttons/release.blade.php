@@ -1,19 +1,19 @@
 <button
-    id="{{ $id or '' }}"
-    type="{{ $type or 'button' }}"
-    name="{{ $name or 'submit' }}"
-    value="{{ $value or '' }}"
+    id="{{ $id ?? '' }}"
+    type="{{ $type ?? 'button' }}"
+    name="{{ $name ?? 'submit' }}"
+    value="{{ $value ?? '' }}"
     class="btn
-           btn-{{ $color or 'success' }}
-           btn-{{ $size or 'md' }}
-               {{ $class or '' }} add"
-    style="{{ $style or '' }}"
-    target="{{ $target or '' }}"
+           btn-{{ $color ?? 'success' }}
+           btn-{{ $size ?? 'md' }}
+               {{ $class ?? '' }} add"
+    style="{{ $style ?? '' }}"
+    target="{{ $target ?? '' }}"
 >
 
     <span>
-        <i class="fa {{ $icon or 'fa-check-circle' }}"></i>
+        <i class="fa {{ $icon ?? 'fa-check-circle' }}"></i>
 
-        <span>{{ $text or 'Release Task' }}</span>
+        <span>{{ $text ?? 'Release Task' }}</span>
     </span>
 </button>

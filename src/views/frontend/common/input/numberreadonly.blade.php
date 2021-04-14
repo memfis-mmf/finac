@@ -1,27 +1,27 @@
 <div class="input-group">
-    <table style="width:{{ $width or '100%' }};" >
+    <table style="width:{{ $width ?? '100%' }};" >
         <tr>
             @if (isset($input_prepend))
                 <td style="width:5%;">
                     <div class="input-group-append">
                         <span class="input-group-text">
-                                {{ $input_prepend or '' }}
+                                {{ $input_prepend ?? '' }}
                             </span>
                     </div>
                 </td>
             @endif
 
             <td style="width: 90%;">
-                <input type="number" id="{{ $id or $name }}" name="{{ $name or '' }}" class="form-control m-input
-                           {{ $class or '' }}" style="{{ $style or ''}}" value="{{ $value or ''}}" placeholder="{{ $placeholder or '' }}"
-                    readonly min="{{ $min or ''}}" max="{{ $max or ''}}">
+                <input type="number" id="{{ $id ?? $name }}" name="{{ $name ?? '' }}" class="form-control m-input
+                           {{ $class ?? '' }}" style="{{ $style ?? ''}}" value="{{ $value ?? ''}}" placeholder="{{ $placeholder ?? '' }}"
+                    readonly min="{{ $min ?? ''}}" max="{{ $max ?? ''}}">
             </td>
 
             @if (isset($input_append))
                 <td style="width: 5%;">
                     <div class="input-group-append">
                         <span class="input-group-text">
-                                {{ $input_append or '' }}
+                                {{ $input_append ?? '' }}
                             </span>
                     </div>
                 </td>
@@ -29,9 +29,9 @@
         </tr>
     </table>
 </div>
-<div class="form-control-feedback text-danger" id="{{ $id_error or '' }}-error"></div>
+<div class="form-control-feedback text-danger" id="{{ $id_error ?? '' }}-error"></div>
 <div>
     <span class="m-form__help">
-        {{ $help_text or '' }}
+        {{ $help_text ?? '' }}
     </span>
 </div>

@@ -1,13 +1,13 @@
 <span
     class="m-badge
-           {{ $color or '' }}
-           {{ $length or 'm-badge--wide'}}
+           {{ $color ?? '' }}
+           {{ $length ?? 'm-badge--wide'}}
            m-badge--rounded"
-    style="{{ $style or '' }}"
+    style="{{ $style ?? '' }}"
 >
 
-    <i class="la {{ $icon or 'la-th-list' }}"></i>
-    <span>{{ $text or 'Datalist' }}</span>
+    <i class="la {{ $icon ?? 'la-th-list' }}"></i>
+    <span>{{ $text ?? 'Datalist' }}</span>
 </span>
 
 @push('header-scripts')

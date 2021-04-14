@@ -1,23 +1,23 @@
 <div>
   <button
-      type="{{ $type or 'button' }}"
-      id="{{ $id or '' }}"
-      name="{{ $name or 'create' }}"
-      value="{{ $value or '' }}"
+      type="{{ $type ?? 'button' }}"
+      id="{{ $id ?? '' }}"
+      name="{{ $name ?? 'create' }}"
+      value="{{ $value ?? '' }}"
       class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air
-            btn-{{ $color or 'accent' }}
-            btn-{{ $size or 'sm' }}
-                {{ $class or '' }}"
-      style="{{ $style or '' }}"
-      target="{{ $target or '' }}"
-      data-toggle="{{ $data_toggle or 'modal' }}"
-      data-target="{{ $data_target or '#' }}"
-      {{ $attribute or '' }}
+            btn-{{ $color ?? 'accent' }}
+            btn-{{ $size ?? 'sm' }}
+                {{ $class ?? '' }}"
+      style="{{ $style ?? '' }}"
+      target="{{ $target ?? '' }}"
+      data-toggle="{{ $data_toggle ?? 'modal' }}"
+      data-target="{{ $data_target ?? '#' }}"
+      {{ $attribute ?? '' }}
   >
 
       <span>
-          <i class="la la-{{ $icon or 'file-text'}}"></i>
-          <span>{{ $text or 'Add' }}</span>
+          <i class="la la-{{ $icon ?? 'file-text'}}"></i>
+          <span>{{ $text ?? 'Add' }}</span>
       </span>
   </button>
 </div>

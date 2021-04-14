@@ -1,27 +1,27 @@
 <label
-    class="m-radio m-radio--state-{{ $color or 'primary' }}
-           {{ $label_class or '' }}"
-    style="{{ $label_style or '' }}"
+    class="m-radio m-radio--state-{{ $color ?? 'primary' }}
+           {{ $label_class ?? '' }}"
+    style="{{ $label_style ?? '' }}"
 >
 
     <input
         type="radio"
-        id="{{ $id or ''}}"
-        name="{{ $name or '' }}"
-        class="{{ $class or ''}}"
-        style="{{ $style or ''}}"
-        value="{{ $value or '' }}"
-        onclick="{{ $onclick or '' }}"
-        {{ $disabled or ''}}
-        {{ $checked or ''}}
-        {{ $required or ''}}
+        id="{{ $id ?? ''}}"
+        name="{{ $name ?? '' }}"
+        class="{{ $class ?? ''}}"
+        style="{{ $style ?? ''}}"
+        value="{{ $value ?? '' }}"
+        onclick="{{ $onclick ?? '' }}"
+        {{ $disabled ?? ''}}
+        {{ $checked ?? ''}}
+        {{ $required ?? ''}}
     >
 
-    {{ $text or '' }}
+    {{ $text ?? '' }}
 
     <span></span>
 </label>
 
 <span class="m-form__help">
-    {{ $help_text or '' }}
+    {{ $help_text ?? '' }}
 </span>

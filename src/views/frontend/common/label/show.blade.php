@@ -1,13 +1,13 @@
 <span
     class="m-badge
-           {{ $color or '' }}
-           m-badge--{{ $length or 'wide' }}
-           m-badge--{{ $type or 'rounded' }}"
-    style="{{ $style or '' }}">
+           {{ $color ?? '' }}
+           m-badge--{{ $length ?? 'wide' }}
+           m-badge--{{ $type ?? 'rounded' }}"
+    style="{{ $style ?? '' }}">
 
-    <i class="{{ $icon or 'la la-eye' }}"></i>
+    <i class="{{ $icon ?? 'la la-eye' }}"></i>
 
-    <span>{{ $text or 'View' }}</span>
+    <span>{{ $text ?? 'View' }}</span>
 </span>
 
 @push('header-scripts')

@@ -1,39 +1,39 @@
-<div class="col-sm-{{ $size or '6' }}
-            col-md-{{ $size or '6' }}
-            col-lg-{{ $size or '6' }}"
-    style="padding-left: {{ $padding_left or '0' }};{{ $style_div or '' }}"
+<div class="col-sm-{{ $size ?? '6' }}
+            col-md-{{ $size ?? '6' }}
+            col-lg-{{ $size ?? '6' }}"
+    style="padding-left: {{ $padding_left ?? '0' }};{{ $style_div ?? '' }}"
 >
     <label
         class="m-checkbox
-               m-checkbox--{{ $color or 'primary' }}
-               {{ $class or '' }}">
+               m-checkbox--{{ $color ?? 'primary' }}
+               {{ $class ?? '' }}">
 
         <input
             type="checkbox"
-            id="{{ $id or ''}}"
-            name="{{ $name or '' }}"
-            class="{{ $class or ''}}"
-            style="{{ $style or ''}}"
-            value="{{ $value or ''}}"
-            onclick="{{ $onclik or ''}}"
-            {{ $checked or ''}}
-            {{ $disabled or ''}}
+            id="{{ $id ?? ''}}"
+            name="{{ $name ?? '' }}"
+            class="{{ $class ?? ''}}"
+            style="{{ $style ?? ''}}"
+            value="{{ $value ?? ''}}"
+            onclick="{{ $onclik ?? ''}}"
+            {{ $checked ?? ''}}
+            {{ $disabled ?? ''}}
         >
 
-        {{ $text or '' }}
+        {{ $text ?? '' }}
 
         <span></span>
     </label>
 </div>
 
-<div class="col-sm-{{ $size or '6' }}
-            col-md-{{ $size or '6' }}
-            col-lg-{{ $size or '6' }} "
-    style="padding-left: {{ $padding_left or '0' }}"
+<div class="col-sm-{{ $size ?? '6' }}
+            col-md-{{ $size ?? '6' }}
+            col-lg-{{ $size ?? '6' }} "
+    style="padding-left: {{ $padding_left ?? '0' }}"
 >
     <span class="m-form__help">
-    <i class="fa {{$icon or ''}}"></i>
-        {{ $help_text or '' }}
+    <i class="fa {{$icon ?? ''}}"></i>
+        {{ $help_text ?? '' }}
     </span>
 </div>
 

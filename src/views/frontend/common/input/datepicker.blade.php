@@ -1,14 +1,14 @@
 <div class="input-group date">
     <input
         type="text"
-        id="{{ $id or 'm_datepicker_1' }}"
-        name="{{ $name or '' }}"
+        id="{{ $id ?? 'm_datepicker_1' }}"
+        name="{{ $name ?? '' }}"
         class="form-control
-            {{$class or ''}}"
-        style="{{$style or ''}}"
-        placeholder="{{ $placeholder or '' }}"
-        {{ $disabled or ''}}
-        value="{{ $value or ''}}"
+            {{$class ?? ''}}"
+        style="{{$style ?? ''}}"
+        placeholder="{{ $placeholder ?? '' }}"
+        {{ $disabled ?? ''}}
+        value="{{ $value ?? ''}}"
         readonly
     >
     <div class="input-group-append">
@@ -18,8 +18,8 @@
     </div>
 </div>
 
-<div class="form-control-feedback text-danger" id="{{ $id_error or '' }}-error"></div>
+<div class="form-control-feedback text-danger" id="{{ $id_error ?? '' }}-error"></div>
 
 <span class="m-form__help">
-    {{ $help_text or '' }}
+    {{ $help_text ?? '' }}
 </span>

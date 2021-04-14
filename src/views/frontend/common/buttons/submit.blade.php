@@ -1,22 +1,22 @@
 <button
-    id="{{ $id or '' }}"
-    type="{{ $type or 'submit' }}"
-    name="{{ $name or 'submit' }}"
-    value="{{ $value or '' }}"
+    id="{{ $id ?? '' }}"
+    type="{{ $type ?? 'submit' }}"
+    name="{{ $name ?? 'submit' }}"
+    value="{{ $value ?? '' }}"
     class="btn
-           btn-{{ $color or 'success' }}
-           btn-{{ $size or 'md' }}
-               {{ $class or '' }} add"
-    style="{{ $style or '' }}"
-    target="{{ $target or '' }}"
-    data-uuid="{{ $data_uuid or '' }}"
-    data-toggle="{{ $data_toggle or '' }}"
-    data-target="{{ $data_target or '' }}"
+           btn-{{ $color ?? 'success' }}
+           btn-{{ $size ?? 'md' }}
+               {{ $class ?? '' }} add"
+    style="{{ $style ?? '' }}"
+    target="{{ $target ?? '' }}"
+    data-uuid="{{ $data_uuid ?? '' }}"
+    data-toggle="{{ $data_toggle ?? '' }}"
+    data-target="{{ $data_target ?? '' }}"
 >
 
     <span>
-        <i class="fa {{ $icon or 'fa-save' }}"></i>
+        <i class="fa {{ $icon ?? 'fa-save' }}"></i>
 
-        <span>{{ $text or 'Save New' }}</span>
+        <span>{{ $text ?? 'Save New' }}</span>
     </span>
 </button>

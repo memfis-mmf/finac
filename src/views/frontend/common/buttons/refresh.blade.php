@@ -1,15 +1,15 @@
 <a
-    href="{{ $href or '' }}"
-    id={{ $id or '' }}
-    name={{ $name or '' }}
+    href="{{ $href ?? '' }}"
+    id={{ $id ?? '' }}
+    name={{ $name ?? '' }}
     class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air
-            btn-{{ $color or 'primary' }}
-            btn-{{ $size or 'md' }}
-                {{ $class or '' }}"
-    style="{{ $style or '' }}">
+            btn-{{ $color ?? 'primary' }}
+            btn-{{ $size ?? 'md' }}
+                {{ $class ?? '' }}"
+    style="{{ $style ?? '' }}">
 
     <span>
-        <i class="la la-{{ $icon or 'refresh'}}"></i>
-        {{ $text or 'refresh' }}
+        <i class="la la-{{ $icon ?? 'refresh'}}"></i>
+        {{ $text ?? 'refresh' }}
     </span>
 </a>

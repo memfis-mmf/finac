@@ -1,7 +1,7 @@
-<{{ $element or 'div'}}
-    style="background-color: {{ $background_color or 'whitesmoke' }};
-    padding: {{ $padding or '5px 15px' }};">
+<{{ $element ?? 'div'}}
+    style="background-color: {{ $background_color ?? 'whitesmoke' }};
+    padding: {{ $padding ?? '5px 15px' }};">
 
-    {{ $text or '-' }}
+    {{ $text ?? '-' }}
 
-</{{ $element or 'div'}}>
+</{{ $element ?? 'div'}}>

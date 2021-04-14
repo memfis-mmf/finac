@@ -1,17 +1,17 @@
 <button
-    type="{{ $type or 'reset' }}"
-    id="{{ $id or '' }}"
-    name="{{ $name or 'submit' }}"
+    type="{{ $type ?? 'reset' }}"
+    id="{{ $id ?? '' }}"
+    name="{{ $name ?? 'submit' }}"
     class="btn
-           btn-{{ $color or 'success' }}
-           btn-{{ $size or 'md' }}
-               {{ $class or '' }} update"
-    style="{{ $style or '' }}"
-    value="{{ $value or '' }}"
-    target="{{ $target or '' }}">
+           btn-{{ $color ?? 'success' }}
+           btn-{{ $size ?? 'md' }}
+               {{ $class ?? '' }} update"
+    style="{{ $style ?? '' }}"
+    value="{{ $value ?? '' }}"
+    target="{{ $target ?? '' }}">
 
     <span>
-        <i class="fa {{ $icon or 'fa-save' }}"></i>
-        <span>{{ $text or ' Save Changes' }}</span>
+        <i class="fa {{ $icon ?? 'fa-save' }}"></i>
+        <span>{{ $text ?? ' Save Changes' }}</span>
     </span>
 </button>

@@ -1,19 +1,19 @@
 <button
-    id="{{ $id or '' }}"
-    type="{{ $type or 'submit' }}"
-    name="{{ $name or 'submit' }}"
-    value="{{ $value or '' }}"
+    id="{{ $id ?? '' }}"
+    type="{{ $type ?? 'submit' }}"
+    name="{{ $name ?? 'submit' }}"
+    value="{{ $value ?? '' }}"
     class="btn
-           btn-{{ $color or 'metal' }}
-           btn-{{ $size or 'md' }}
-               {{ $class or '' }} add"
-    style="{{ $style or '' }}"
-    target="{{ $target or '' }}"
+           btn-{{ $color ?? 'metal' }}
+           btn-{{ $size ?? 'md' }}
+               {{ $class ?? '' }} add"
+    style="{{ $style ?? '' }}"
+    target="{{ $target ?? '' }}"
 >
 
     <span>
-        <i class="fa {{ $icon or 'fa-print' }}"></i>
+        <i class="fa {{ $icon ?? 'fa-print' }}"></i>
 
-        <span>{{ $text or 'Save & Print' }}</span>
+        <span>{{ $text ?? 'Save & Print' }}</span>
     </span>
 </button>

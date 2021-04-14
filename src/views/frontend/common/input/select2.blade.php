@@ -1,20 +1,20 @@
 <select
-    id="{{ $id or '' }}"
-    name="{{ $name or '' }}"
+    id="{{ $id ?? '' }}"
+    name="{{ $name ?? '' }}"
     class="form-control m-select2
-           {{ $class or '' }}"
-    style="{{ $style or 'width:100%' }}"
-    {{ $multiple or '' }}
-    {{ $disabled or ''}}
-    value="{{ $value or ''}}"
+           {{ $class ?? '' }}"
+    style="{{ $style ?? 'width:100%' }}"
+    {{ $multiple ?? '' }}
+    {{ $disabled ?? ''}}
+    value="{{ $value ?? ''}}"
     > 
 
     <option value="">
-        &mdash; Select {{ $entity or '' }} &mdash;
+        &mdash; Select {{ $entity ?? '' }} &mdash;
     </option>
 </select>
 
-<div class="form-control-feedback text-danger" id="{{ $id_error or '' }}-error"></div>
+<div class="form-control-feedback text-danger" id="{{ $id_error ?? '' }}-error"></div>
 
 <span class="m-form__help">
     @if (isset($help_text))

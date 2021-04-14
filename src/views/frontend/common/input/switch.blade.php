@@ -2,12 +2,12 @@
         <span class="m-switch 
                     m-switch--outline 
                     m-switch--icon
-                    m-switch--{{ $size or 'md' }}">
+                    m-switch--{{ $size ?? 'md' }}">
                 <label>
                     <input type="checkbox" 
-                            {{ $checked or ''}}
-                            name="{{ $name or ''}}"
-                            id="{{ $id or ''}}">
+                            {{ $checked ?? ''}}
+                            name="{{ $name ?? ''}}"
+                            id="{{ $id ?? ''}}">
                     <span></span>
                 </label>
         </span>

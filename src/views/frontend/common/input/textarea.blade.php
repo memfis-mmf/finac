@@ -1,15 +1,15 @@
 <textarea
-    id="{{ $id or '' }}"
-    name="{{ $name or '' }}"
-    rows="{{ $rows or '' }}"
+    id="{{ $id ?? '' }}"
+    name="{{ $name ?? '' }}"
+    rows="{{ $rows ?? '' }}"
     class="form-control m-input m-input--air
-           {{ $class or '' }}"
-    style="{{$style or ''}}"
-    placeholder="{{ $placeholder or '' }}"
-    {{$editable or ''}} {{ $disabled or ''}} {{ $required or ''}}>{{$value or ''}}</textarea>
+           {{ $class ?? '' }}"
+    style="{{$style ?? ''}}"
+    placeholder="{{ $placeholder ?? '' }}"
+    {{$editable ?? ''}} {{ $disabled ?? ''}} {{ $required ?? ''}}>{{$value ?? ''}}</textarea>
 
-<div class="form-control-feedback text-danger" id="{{ $id_error or '' }}-error"></div>
+<div class="form-control-feedback text-danger" id="{{ $id_error ?? '' }}-error"></div>
 
 <span class="m-form__help">
-    {{ $help_text or '' }}
+    {{ $help_text ?? '' }}
 </span>

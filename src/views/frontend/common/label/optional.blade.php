@@ -1,8 +1,8 @@
-<{{ $html_tag or 'small' }}
-    class="text-{{ $color or 'muted' }}"
-    style="font-weight: {{ $font_weight or 'normal' }};
-                        {{ $style or '' }};">
+<{{ $html_tag ?? 'small' }}
+    class="text-{{ $color ?? 'muted' }}"
+    style="font-weight: {{ $font_weight ?? 'normal' }};
+                        {{ $style ?? '' }};">
 
-    (<em>{{ $text or 'optional' }}</em>)
+    (<em>{{ $text ?? 'optional' }}</em>)
 
-</{{ $html_tag or 'small' }}>
+</{{ $html_tag ?? 'small' }}>
