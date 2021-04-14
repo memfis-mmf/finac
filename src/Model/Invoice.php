@@ -67,6 +67,19 @@ class Invoice extends MemfisModel
         return $result;
     }
 
+    public function getTotalBeforeTaxAttribute()
+    {
+        $qn_type = $this->quotations->taxes[0]->TaxPaymentMethod->code;
+
+        $divide = 1;
+        if (strtolower($qn_type) == 'include') {
+            $divide = 1.1;
+        }
+        $total = ($this->subtotal - $this->discountvalue) / $divide;
+
+        return $total;
+    }
+
     public function getEndingBalanceAttribute()
     {
         $result = [
