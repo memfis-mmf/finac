@@ -129,6 +129,11 @@
     <div id="content">
         <div class="container">
         @foreach ($data as $items)
+            @php
+              if (! isset($items[0])) {
+                continue;
+              }
+            @endphp
             <table class="accountcode" width="100%" style="font-size:14px;" >
                 <tr >
                     <td width="9%" >Account Code</td>
