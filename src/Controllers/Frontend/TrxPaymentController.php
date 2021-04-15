@@ -292,16 +292,16 @@ class TrxPaymentController extends Controller
         return datatables()->of($data)
             ->addColumn('grandtotal_foreign_before_adj', function($row) {
                 $grandtotal_foreign = $row->grandtotal_foreign;
-                $grandtotal_foreign+= $row->adjustment()->get()->sum('credit');
-                $grandtotal_foreign-= $row->adjustment()->get()->sum('debit');
+                $grandtotal_foreign += $row->adjustment()->get()->sum('credit');
+                $grandtotal_foreign -= $row->adjustment()->get()->sum('debit');
 
                 return $row->currencies->symbol." ".$this->currency_format($grandtotal_foreign);
             })
             ->addColumn('grandtotal_foreign_formated', function($row) {
-                return "<span class='m-badge m-badge--primary m-badge--wide'>{$row->currencies->symbol} {$this->currency_format($row->grandtotal)}</span>";
+                return "<span class='m-badge m-badge--primary m-badge--wide'>{$row->currencies->symbol} {$this->currency_format($row->grandtotal_foreign)}</span>";
             })
             ->addColumn('grandtotal_before_adj', function($row) {
-                $grandtotal = $row->grandtotal_foreign;
+                $grandtotal = $row->grandtotal;
                 $grandtotal += $row->adjustment()->get()->sum('credit_idr');
                 $grandtotal -= $row->adjustment()->get()->sum('debit_idr');
 
