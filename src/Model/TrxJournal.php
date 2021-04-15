@@ -95,25 +95,7 @@ class TrxJournal extends MemfisModel
 
 	static public function generateCode($code = "JADJ")
 	{
-		$journal = TrxJournal::orderBy('voucher_no', 'desc')
-            ->withTrashed()
-            ->whereYear('created_at', Carbon::now()->format('Y'))
-            ->where('voucher_no', 'like', $code.'%')
-            ->first();
-
-        if (!$journal) {
-            $count = 1;
-        } else {
-            $explode = explode('/', $journal->voucher_no);
-            $number = end($explode);
-            $count = ltrim($number, '0') + 1;
-        }
-
-		$number = str_pad($count, 5, '0', STR_PAD_LEFT);
-
-		$code = $code."-".date('Y')."/".$number;
-
-		return $code;
+		return self::generateTransactionNumber(self::class, 'voucher_no', $code);
 	}
 
 	/*

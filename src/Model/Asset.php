@@ -149,26 +149,6 @@ class Asset extends MemfisModel
 
 	static public function generateCode($code = "FAMS")
 	{
-		$asset = Asset::orderBy('id', 'desc')
-            ->whereYear('created_at', Carbon::now()->format('Y'))
-			->where('transaction_number', 'like', $code.'%');
-
-		if (!$asset->count()) {
-
-			if ($asset->withTrashed()->count()) {
-				$order = $asset->withTrashed()->count() + 1;
-			}else{
-				$order = 1;
-			}
-
-		}else{
-			$order = $asset->withTrashed()->count() + 1;
-		}
-
-		$number = str_pad($order, 5, '0', STR_PAD_LEFT);
-
-		$code = $code."-".date('Y')."/".$number;
-
-		return $code;
+		return self::generateTransactionNumber(self::class, 'transaction_number', $code);
 	}
 }
