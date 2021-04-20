@@ -80,7 +80,6 @@ class GeneralLedgerController extends Controller
             );
 
             $data_coa[] = $get_data;
-
         }
 
         $data = [
@@ -88,6 +87,7 @@ class GeneralLedgerController extends Controller
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
+            'carbon' => Carbon::class
         ];
 
         return view('generalledgerview::show', $data);
@@ -171,7 +171,11 @@ class GeneralLedgerController extends Controller
         DB::connection()->getpdo()->exec($queryStatement);
         $data = DB::select($query);
 
+        // $total = [];
         foreach ($data as $index => $item) {
+            // if ($index > 3) {
+            //     dd($item);
+            // }
             $coa_type = Coa::where('code', $item->AccountCode)->first()
             ->type->code;
 

@@ -84,6 +84,8 @@
                                                 <th>Transaction No.</th>
                                                 <th>Ref. No.</th>
                                                 <th>Description</th>
+                                                <th>Foreign Total</th>
+                                                <th>Rate</th>
                                                 <th>Debit</th>
                                                 <th>Credit</th>
                                                 <th>Ending Balance</th>
@@ -92,10 +94,12 @@
                                         <tbody>
                                             @foreach ($items as $item)
                                                 <tr>
-                                                    <td>{{$item->TransactionDate}}</td>
+                                                    <td>{{ $carbon::parse($item->TransactionDate)->format('d/m/Y') }}</td>
                                                     <td>{!!$item->voucher_linked!!}</td>
                                                     <td>{{$item->RefNo}}</td>
                                                     <td>{{$item->Description}}</td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
                                                     <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
                                                     <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
