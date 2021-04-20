@@ -8,8 +8,7 @@ use memfisfa\Finac\Model\TrxJournalA;
 use memfisfa\Finac\Model\TypeJurnal;
 use App\User;
 use App\Models\Approval;
-use Auth;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TrxJournal extends MemfisModel
