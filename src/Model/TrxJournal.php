@@ -8,8 +8,12 @@ use memfisfa\Finac\Model\TrxJournalA;
 use memfisfa\Finac\Model\TypeJurnal;
 use App\User;
 use App\Models\Approval;
+use App\Models\GoodsReceived;
+use App\Models\InventoryOut;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
 class TrxJournal extends MemfisModel
 {
@@ -37,6 +41,73 @@ class TrxJournal extends MemfisModel
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
+    }
+
+    public function getRefNoAttribute(TrxJournal $journal): ?Collection
+    {
+        $doc_ref = [
+            'SITR' => [
+                'rate_column' => 'number',
+                'class' => new TrxPayment()
+            ], // supplier invoice
+            'GRNI' => [
+                'rate_column' => 'number',
+                'class' => new GoodsReceived()
+            ], // grn
+            'INVC' => [
+                'rate_column' => 'number',
+                'class' => new Invoice()
+            ], // invoice
+            'IOUT' => [
+                'rate_column' => 'number',
+                'class' => new InventoryOut()
+            ], // inventory out
+            'CCPJ' => [
+                'rate_column' => 'number',
+                'class' => new Cashbook()
+            ], // cashbook cash payment
+            'CBRJ' => [
+                'rate_column' => 'number',
+                'class' => new Cashbook()
+            ], // cashbook bank receive
+            'FAMS' => [
+                'rate_column' => 'number',
+                'class' => new Asset()
+            ], // assets
+            'CCRJ' => [
+                'rate_column' => 'number',
+                'class' => new Cashbook()
+            ], // cashbook cash receive
+            'CBPJ' => [
+                'rate_column' => 'number',
+                'class' => new Cashbook()
+            ], // cashbook bank payment
+            'CPYJ' => [
+                'rate_column' => 'number',
+                'class' => null
+            ], 
+            'BPYJ' => [
+                'rate_column' => 'number',
+                'class' => null
+            ],
+            'BRCJ' => [
+                'rate_column' => 'number',
+                'class' => null
+            ],
+            'IVSL' => [
+                'rate_column' => 'number',
+                'class' => new InvoiceWorkshop()
+            ], // invoice sale (workshop)
+            'IVSH' => [
+                'rate_column' => 'number',
+                'class' => new InvoiceWorkshop()
+            ], // invoice service (workshop)
+        ];
+
+        $ref_no_code = explode('-', $journal->ref_no)[0];
+        $class = $doc_ref[$ref_no_code]['class'];
+
+        return null;
     }
 
 	public function getApprovedByAttribute()
