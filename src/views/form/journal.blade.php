@@ -130,7 +130,7 @@
             <div id="footer">
                 <table width="100%">
                     <tr>
-                        <td>  <span style="margin-left:6px;">Created By : {{ @$journal->created_by->name }} ;  &nbsp;&nbsp;&nbsp; Approved By : {{ @$journal->approved_by->name }} ; </span> </td>
+                        <td>  <span style="margin-left:6px;">Created By : {{ $journal->created_by }} ;  &nbsp;&nbsp;&nbsp; Approved By : {{ $journal->approved_by }} ; </span> </td>
                         <td align="right">Page <span class="num"></span></td>
                     </tr>
                 </table>
