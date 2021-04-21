@@ -8,6 +8,7 @@ use memfisfa\Finac\Model\TrxJournalA;
 use memfisfa\Finac\Model\TypeJurnal;
 use App\User;
 use App\Models\Approval;
+use App\Models\ARWorkshop;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
 use Illuminate\Support\Collection;
@@ -84,15 +85,15 @@ class TrxJournal extends MemfisModel
             ], // cashbook bank payment
             'CPYJ' => [
                 'rate_column' => 'number',
-                'class' => null
+                'class' => new APayment()
             ], 
             'BPYJ' => [
                 'rate_column' => 'number',
-                'class' => null
+                'class' => new APayment()
             ],
             'BRCJ' => [
                 'rate_column' => 'number',
-                'class' => null
+                'class' => [new AReceive(), new ARWorkshop()]
             ],
             'IVSL' => [
                 'rate_column' => 'number',
@@ -105,6 +106,10 @@ class TrxJournal extends MemfisModel
         ];
 
         $ref_no_code = explode('-', $journal->ref_no)[0];
+        if (gettype($doc_ref[$ref_no_code]['class']) == 'array') {
+            return '';
+        }
+
         $class = $doc_ref[$ref_no_code]['class'];
 
         return null;
