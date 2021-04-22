@@ -142,10 +142,17 @@ class SupplierTrialBalanceController extends Controller
              */
             $credit = $vendor_row->supplier_invoice()
                 ->where('approve', true)
-                ->whereHas('approvals', function($approvals) use($start_date, $end_date) {
-                    $approvals->where('updated_at', '>', $start_date)
-                        ->where('updated_at', '<', $end_date);
-                })
+                /**
+                 * --caution--
+                 * ini menggunakan transaction date dan bukan approve date
+                 * karena bebearapa transaksi seperti inject saldo awal tidak memiliki object approvals
+                 */
+                ->where('transaction_date', '>', $start_date)
+                ->where('transaction_date', '<', $end_date)
+                // ->whereHas('approvals', function($approvals) use($start_date, $end_date) {
+                //     $approvals->where('updated_at', '>', $start_date)
+                //         ->where('updated_at', '<', $end_date);
+                // })
                 ->sum('grandtotal');
 
             $vendor_row->credit = $credit;
