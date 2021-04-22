@@ -60,6 +60,7 @@ class GeneralLedgerController extends Controller
     public function show(Request $request)
     {
         ini_set('max_execution_time', '-1');
+        ini_set('memory_limit', '-1');
 
         $code = explode(',', $request->data);
         $coa = Coa::whereIn('code', $code)->get();
@@ -356,6 +357,7 @@ class GeneralLedgerController extends Controller
     public function print(Request $request)
     {
         ini_set('max_execution_time', '-1');
+        ini_set('memory_limit', '-1');
 
         $code = explode(',', $request->data);
         $coa = Coa::whereIn('code', $code)->get();
