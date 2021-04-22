@@ -48,59 +48,73 @@ class TrxJournal extends MemfisModel
     {
         $doc_ref = [
             'SITR' => [
-                'rate_column' => 'number',
+                'number' => 'transaction_number',
+                'rate' => 'exchange_rate',
                 'class' => new TrxPayment()
             ], // supplier invoice
             'GRNI' => [
-                'rate_column' => 'number',
+                'number' => 'number',
+                'rate' => 'purchase_order->exchange_rate',
                 'class' => new GoodsReceived()
             ], // grn
             'INVC' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => new Invoice()
             ], // invoice
             'IOUT' => [
-                'rate_column' => 'number',
+                'number' => 'number',
+                'rate' => '',
                 'class' => new InventoryOut()
             ], // inventory out
             'CCPJ' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => new Cashbook()
             ], // cashbook cash payment
             'CBRJ' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => new Cashbook()
             ], // cashbook bank receive
             'FAMS' => [
-                'rate_column' => 'number',
+                'number' => 'transaction_number',
+                'rate' => '',
                 'class' => new Asset()
             ], // assets
             'CCRJ' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => new Cashbook()
             ], // cashbook cash receive
             'CBPJ' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => new Cashbook()
             ], // cashbook bank payment
             'CPYJ' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => new APayment()
             ], 
             'BPYJ' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => new APayment()
             ],
             'BRCJ' => [
-                'rate_column' => 'number',
+                'number' => 'transactionnumber',
+                'rate' => 'exchangerate',
                 'class' => [new AReceive(), new ARWorkshop()]
             ],
             'IVSL' => [
-                'rate_column' => 'number',
+                'number' => 'invoice_no',
+                'rate' => 'exchange_rate',
                 'class' => new InvoiceWorkshop()
             ], // invoice sale (workshop)
             'IVSH' => [
-                'rate_column' => 'number',
+                'number' => 'invoice_no',
+                'rate' => 'exchange_rate',
                 'class' => new InvoiceWorkshop()
             ], // invoice service (workshop)
         ];
@@ -110,7 +124,9 @@ class TrxJournal extends MemfisModel
             return '';
         }
 
-        $class = $doc_ref[$ref_no_code]['class'];
+        $class = $doc_ref[$ref_no_code]['class']
+            ->where($doc_ref[$ref_no_code]['number'], $journal->ref_no)
+            ->first();
 
         return null;
     }
