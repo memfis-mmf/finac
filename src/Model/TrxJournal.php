@@ -44,7 +44,7 @@ class TrxJournal extends MemfisModel
         return $this->morphMany(Approval::class, 'approvable');
     }
 
-    public function getRefNoAttribute(TrxJournal $journal): ?Collection
+    public function getRefNoFormatedAttribute(TrxJournal $journal): ?Collection
     {
         $doc_ref = [
             'SITR' => [
