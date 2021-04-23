@@ -161,9 +161,9 @@
                     <td valign="top" width="31%">{{strtoupper($data->currencies->code)}}</td>
                 </tr>
                 <tr>
-                    <td valign="top" width="18%">Ref No.</td>
+                    <td valign="top" width="18%">Project No.</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">{{$data->refno}}</td>
+                    <td valign="top" width="31%">{{$data->project->code ?? '-'}}</td>
                     <td valign="top" width="18%">Exchange Rate</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">{{number_format($data->exchangerate, 0, ',', '.')}}</td>
