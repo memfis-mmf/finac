@@ -148,7 +148,7 @@ class CustomerTrialBalanceController extends Controller
 
             $invoice_workshop = $customer_row->invoice_workshop()
                 ->where('status_inv', 'Approved')
-                ->where('updated_atupdated_at', '<=', $start_date)
+                ->where('transactiondate', '<=', $start_date)
                 ->get();
 
             foreach ($invoice_workshop as $invoice_workshop_row) {
@@ -171,14 +171,14 @@ class CustomerTrialBalanceController extends Controller
              */
             $debit = $customer_row->invoice()
                 ->where('approve', true)
-                ->where('updated_atupdated_at', '>', $start_date)
-                ->where('updated_atupdated_at', '<', $end_date)
+                ->where('transactiondate', '>', $start_date)
+                ->where('transactiondate', '<', $end_date)
                 ->sum('grandtotal');
 
             $invoice_workshop = $customer_row->invoice_workshop()
                 ->where('status_inv', 'Approved')
-                ->where('updated_at', '>', $start_date)
-                ->where('updated_at', '<', $end_date)
+                ->where('transactiondate', '>', $start_date)
+                ->where('transactiondate', '<', $end_date)
                 ->get();
 
             foreach ($invoice_workshop as $invoice_workshop_row) {
