@@ -125,7 +125,7 @@
         <table width="100%" cellpadding="3" style="margin-top:12px;" id="header-content">
           <tr>
             <td width="20%" align="center"><b>Customer Name</b></td>
-            <td width="20%" align="center"><b>Beginning Balace</b></td>
+            <td width="20%" align="center"><b>Beginning Balance</b></td>
             <td width="20%" align="center"><b>Debit</b></td>
             <td width="20%" align="center"><b>Credit</b></td>
             <td width="20%" align="center"><b>Ending Balance</b></td>
