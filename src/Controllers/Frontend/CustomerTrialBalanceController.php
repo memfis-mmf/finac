@@ -148,7 +148,7 @@ class CustomerTrialBalanceController extends Controller
 
             $invoice_workshop = $customer_row->invoice_workshop()
                 ->where('status_inv', 'Approved')
-                ->where('transactiondate', '<=', $start_date)
+                ->where('date', '<=', $start_date)
                 ->get();
 
             foreach ($invoice_workshop as $invoice_workshop_row) {
@@ -177,8 +177,8 @@ class CustomerTrialBalanceController extends Controller
 
             $invoice_workshop = $customer_row->invoice_workshop()
                 ->where('status_inv', 'Approved')
-                ->where('transactiondate', '>', $start_date)
-                ->where('transactiondate', '<', $end_date)
+                ->where('date', '>', $start_date)
+                ->where('date', '<', $end_date)
                 ->get();
 
             foreach ($invoice_workshop as $invoice_workshop_row) {
