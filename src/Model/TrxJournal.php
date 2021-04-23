@@ -53,7 +53,7 @@ class TrxJournal extends MemfisModel
             ], // supplier invoice
             'GRNI' => [
                 'number' => 'number',
-                'rate' => 'purchase_order->exchange_rate',
+                'rate' => 'rate',
                 'class' => new GoodsReceived()
             ], // grn
             'INVC' => [
