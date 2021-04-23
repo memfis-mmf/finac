@@ -11,7 +11,6 @@ use App\Models\Approval;
 use App\Models\ARWorkshop;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
@@ -44,7 +43,7 @@ class TrxJournal extends MemfisModel
         return $this->morphMany(Approval::class, 'approvable');
     }
 
-    public function getRefNoFormatedAttribute(TrxJournal $journal): ?Collection
+    public function getRefCollectionAttribute()
     {
         $doc_ref = [
             'SITR' => [
@@ -119,16 +118,22 @@ class TrxJournal extends MemfisModel
             ], // invoice service (workshop)
         ];
 
-        $ref_no_code = explode('-', $journal->ref_no)[0];
+        $ref_no_code = explode('-', $this->ref_no)[0];
         if (gettype($doc_ref[$ref_no_code]['class']) == 'array') {
             return '';
         }
 
-        $class = $doc_ref[$ref_no_code]['class']
-            ->where($doc_ref[$ref_no_code]['number'], $journal->ref_no)
+        $class_ref = $doc_ref[$ref_no_code]['class']
+            ->where($doc_ref[$ref_no_code]['number'], $this->ref_no)
             ->first();
 
-        return null;
+        $number = $doc_ref[$ref_no_code]['number'];
+        $rate = $doc_ref[$ref_no_code]['rate'];
+
+        $class_ref->number = $class_ref->$number;
+        $class_ref->rate = $class_ref->$rate ?? 1;
+
+        return $class_ref;
     }
 
 	public function getApprovedByAttribute()

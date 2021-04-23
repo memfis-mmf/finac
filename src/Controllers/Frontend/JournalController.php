@@ -458,7 +458,6 @@ class JournalController extends Controller
 		$journal = Journal::where('uuid', $request->uuid)->first();
 		$journala = $journal->journala;
 
-
         foreach ($journala as $journala_row) {
             if ($journala_row->debit == 0 and $journala_row->credit == 0) {
                 continue;
