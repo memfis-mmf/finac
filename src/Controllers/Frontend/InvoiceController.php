@@ -1470,7 +1470,7 @@ class InvoiceController extends Controller
         $data_same_bank = [];
 
         for ($index=0; $index < count($bank_account); $index++) { 
-            for ($index_2=1; $index_2 < count($bank_account); $index_2++) { 
+            for ($index_2=$index + 1; $index_2 < count($bank_account); $index_2++) { 
                 if ($bank_account[$index]->bank->id == $bank_account[$index_2]->bank->id) {
                     $data_same_bank = [
                         'bank1' => $bank_account[$index],
