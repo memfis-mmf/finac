@@ -231,10 +231,23 @@ class TrialBalanceController extends Controller
 
 		$data_final = $this->getData($beginDate, $endingDate);
         $total_data = count($data_final);
+        $total_beginning = 0;
+        $total_debit = 0;
+        $total_credit = 0;
+        $total_period = 0;
+        $total_ending = 0;
         
         foreach ($data_final as $data_final_row) {
             $data_final_row->period_balance = 
                 $data_final_row->Debit - $data_final_row->Credit;
+
+            if (strtolower($data_final_row->description) == 'header') {
+                $total_beginning += $data_final_row->LastBalance;
+                $total_debit += $data_final_row->Debit;
+                $total_credit += $data_final_row->Credit;
+                $total_period += $data_final_row->period_balance;
+                $total_ending += $data_final_row->EndingBalance;
+            }
         }
 
         $data_final = collect($data_final);
@@ -250,8 +263,14 @@ class TrialBalanceController extends Controller
         });
 
 		$data = [
+            'controller' => new Controller(),
 			'data' => $data_final,
 			'total_data' => $total_data,
+			'total_beginning' => $total_beginning,
+			'total_debit' => $total_debit,
+			'total_credit' => $total_credit,
+			'total_period' => $total_period,
+			'total_ending' => $total_ending,
 			'startDate' => $beginDate,
 			'finishDate' => $endingDate,
         ];

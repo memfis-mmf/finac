@@ -40,11 +40,19 @@
     <tr>
       <td valign="top" style="{{ $font_weight }}">{{ $data_row->code }}</td>
       <td valign="top" style="{{ $font_weight }}">{{ $data_row->name }}</td>
-      <td valign="top" style="{{ $font_weight }}" align="center">{{$data_row->LastBalance}}</td>
-      <td valign="top" style="{{ $font_weight }}" align="center">{{$data_row->Debit}}</td>
-      <td valign="top" style="{{ $font_weight }}" align="center">-{{$data_row->Credit}}</td>
-      <td valign="top" style="{{ $font_weight }} {{($data_row->period_balance < 0)? 'background:#ff9b9b;': '' }}"  align="center">{{$data_row->period_balance}}</td>
-      <td valign="top" style="{{ $font_weight }}" align="center">{{$data_row->EndingBalance}}</td>
+      <td valign="top" style="{{ $font_weight }}" align="right">{{$data_row->LastBalance}}</td>
+      <td valign="top" style="{{ $font_weight }}" align="right">{{$data_row->Debit}}</td>
+      <td valign="top" style="{{ $font_weight }}" align="right">-{{$data_row->Credit}}</td>
+      <td valign="top" style="{{ $font_weight }} {{($data_row->period_balance < 0)? 'background:#ff9b9b;': '' }}"  align="right">{{$data_row->period_balance}}</td>
+      <td valign="top" style="{{ $font_weight }}" align="right">{{$data_row->EndingBalance}}</td>
     </tr> 
   @endforeach
+  <tr>
+    <td valign="top" colspan="2">Total</td>
+    <td valign="top" align="right">{{ $total_beginning }}</td>
+    <td valign="top" align="right">{{ $total_debit }}</td>
+    <td valign="top" align="right">-{{ $total_credit }}</td>
+    <td valign="top" align="right">{{ $total_period }}</td>
+    <td valign="top" align="right">{{ $total_ending }}</td>
+  </tr>
 </table>
