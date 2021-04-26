@@ -74,13 +74,38 @@ class GeneralLedgerController extends Controller
         $beginDate = $date[0];
         $endingDate = $date[1];
 
+        $total_debit = 0;
+        $total_credit = 0;
+        $total_ending = 0;
+        $total_foreign = [];
+
         for ($i=0; $i < count($coa); $i++) {
 
             $get_data = $this->getData(
                 $beginDate, $endingDate, $coa[$i]->code
             );
 
-            $data_coa[] = $get_data;
+            $data_collection = collect($get_data);
+
+            $data_group_by_currency = $data_collection
+                ->groupBy('currency.code')->map(function($row) {
+                    return $row->sum('foreign_total');
+                });
+
+            foreach ($data_group_by_currency as $group_index => $group_row) {
+                if ($group_index == 'idr') {
+                    continue;
+                }
+
+                $total_foreign[$group_index]['currency'] = Currency::where('code', $group_index)->first();
+                $total_foreign[$group_index]['amount'] = ($total_foreign[$group_index]['amount'] ?? 0) + $group_row;
+            }
+
+            $total_debit += $data_collection->sum('Debit');
+            $total_credit += $data_collection->sum('Credit');
+            $total_ending += $data_collection->sum('endingBalance');
+
+            $data_coa[] = $data_collection;
         }
 
         $data = [
@@ -88,6 +113,10 @@ class GeneralLedgerController extends Controller
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
+            'total_debit' => $total_debit,
+            'total_credit' => $total_credit,
+            'total_ending' => $total_ending,
+            'total_foreign' => $total_foreign,
             'carbon' => Carbon::class,
             'controller' => new Controller()
         ];
@@ -209,6 +238,7 @@ class GeneralLedgerController extends Controller
             }
 
             $data[$index]->voucher_linked = '<a href="'.$link.'">'.$item->VoucherNo.'</a>';
+            $data[$index]->foreign_total = (($data[$index]->Debit != 0)? $data[$index]->Debit: $data[$index]->Credit) / $data[$index]->rate;
         }
 
         return $data;
