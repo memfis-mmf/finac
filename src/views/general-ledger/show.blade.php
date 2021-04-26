@@ -2,6 +2,34 @@
 
 @section('faGL', 'm-menu__item--active')
 @section('content')
+<style>
+  .dataTables_paginate a {
+    padding: 0 10px;
+  }
+
+  .dataTables_info {
+    margin-top: -10px;
+    margin-left: 10px;
+  }
+
+  .dataTables_length {
+    margin-top: -30px;
+    visibility: hidden;
+  }
+
+  .dataTables_length select {
+    visibility: visible;
+  }
+
+  table {
+    min-width: 100%;
+  }
+
+  table td {
+    white-space: nowrap !important;
+  }
+</style>
+
 <input type="hidden" name="_beginDate" value="{{$beginDate}}">
 <input type="hidden" name="_endingDate" value="{{$endingDate}}">
 <input type="hidden" name="_coa" value="{{$coa}}">
@@ -77,7 +105,7 @@
                                 
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     {{-- <div class="general_ledger_datatable" id="scrolling_both"></div> --}}
-                                    <table class="table table-striped table-bordered table-hover">
+                                    <table class="table table-striped table-bordered table-hover" id="table-general-ledger">
                                         <thead>
                                             <tr>
                                                 <th>Date</th>
@@ -85,6 +113,7 @@
                                                 <th>Ref. No.</th>
                                                 <th>Description</th>
                                                 <th>Foreign Total</th>
+                                                <th>Currency</th>
                                                 <th>Rate</th>
                                                 <th>Debit</th>
                                                 <th>Credit</th>
@@ -98,8 +127,9 @@
                                                     <td>{!!$item->voucher_linked!!}</td>
                                                     <td>{{$item->RefNo}}</td>
                                                     <td>{{$item->Description}}</td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{{ strtoupper($item->currency->code) }}</td>
+                                                    <td> {{ "{$item->currency->symbol} {$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}</td>
+                                                    <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
                                                     <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
                                                     <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
                                                     <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
@@ -158,16 +188,30 @@
 @endsection
 
 @push('footer-scripts')
-    <script>
-        $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faGL";
-            } else {
-                window.location.href=currentUrl;
-            }
+<script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        let currentUrl = window.location.href;
+        let _hash = currentUrl.split('#');
+        if (_hash.length < 2) {
+            window.location.href=currentUrl+"#faGL";
+        } else {
+            window.location.href=currentUrl;
+        }
+
+        $('#table-general-ledger').DataTable({
+          dom: '<"top"f>rt<"bottom">pil',
+          scrollX: true,
         });
-    </script>
+
+        $(".dataTables_length select").addClass("form-control m-input");
+        $(".dataTables_filter").addClass("pull-left");
+        $(".paging_simple_numbers").addClass("pull-left");
+        $(".dataTables_length").addClass("pull-right");
+        $(".dataTables_info").addClass("pull-right");
+        $(".dataTables_info").addClass("margin-info");
+        $(".paging_simple_numbers").addClass("padding-datatable");
+    });
+</script>
 <script src="{{ asset('vendor/courier/frontend/general-ledger/show.js')}}"></script>
 @endpush

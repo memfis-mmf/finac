@@ -13,14 +13,14 @@ use Carbon\Carbon;
 //use for export
 use memfisfa\Finac\Model\Exports\GLExport;
 use Maatwebsite\Excel\Facades\Excel;
-
+use memfisfa\Finac\Model\TrxJournal;
 
 class GeneralLedgerController extends Controller
 {
     public function index()
     {
         $data = [
-            'all_coa' => json_encode(Coa::orderBy('code')->get()->toArray())
+            'all_coa' => json_encode(Coa::orderBy('code')->get()->toArray()),
         ];
 
         return view('generalledgerview::index', $data);
@@ -88,7 +88,8 @@ class GeneralLedgerController extends Controller
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
-            'carbon' => Carbon::class
+            'carbon' => Carbon::class,
+            'controller' => new Controller()
         ];
 
         return view('generalledgerview::show', $data);
@@ -174,6 +175,18 @@ class GeneralLedgerController extends Controller
 
         // $total = [];
         foreach ($data as $index => $item) {
+
+            $data[$index]->currency = Currency::where('code', 'idr')->first();
+            $data[$index]->rate = 1;
+
+            if ($index > 0) {
+
+                $journal = TrxJournal::where('uuid', $item->journal_uuid)->first();
+
+                $data[$index]->currency = $journal->ref_collection->currency ?? $data[$index]->currency;
+                $data[$index]->rate = $journal->ref_collection->rate ?? $data[$index]->rate;
+            }
+
             // if ($index > 3) {
             //     dd($item);
             // }
