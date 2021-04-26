@@ -93,7 +93,7 @@
                   <tr>
                     <td width="10%"> Account Code</td>
                     <td width="1%">:</td>
-                    <td width="89%"> {{$items[0]->AccountCode}} - <span> {{$items[0]->Name}}</span> </td>
+                    <td width="89%"> {{$items['data'][0]->AccountCode}} - <span> {{$items['data'][0]->Name}}</span> </td>
                   </tr>
                   <tr>
                     <td width="10%">Period </td>
@@ -122,7 +122,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($items as $index => $item)
+                    @foreach ($items['data'] as $index => $item)
                     <tr>
                       <td>{{ $index + 1 }}</td>
                       <td>{{ $carbon::parse($item->TransactionDate)->format('d/m/Y') }}</td>
@@ -142,42 +142,30 @@
                   </tbody>
                 </table>
               </div>
-              @endforeach
-            </div>
-            <div class="form-group m-form__group row ">
-
-              <div class="col-md-4 col-12">
+              <div class="col-md-4 col-12 mb-5">
                 <table class="table" style="border: none">
-
-                  <tr>
-                    <td style="width: 1px; white-space: nowrap">Total Debit</td>
-                    <td style="width: 1px">:</td>
-                    <td style="width: 1px">Rp</td>
-                    <td class="text-right">{{ $controller->currency_format($total_debit) }}</td>
-                  </tr>
-                  <tr>
-                    <td style="width: 1px; white-space: nowrap">Total Credit</td>
-                    <td style="width: 1px">:</td>
-                    <td style="width: 1px">Rp</td>
-                    <td class="text-right">{{ $controller->currency_format($total_credit) }}</td>
-                  </tr>
-                  <tr>
-                    <td style="width: 1px; white-space: nowrap">Total Ending Balance</td>
-                    <td style="width: 1px">:</td>
-                    <td style="width: 1px">Rp</td>
-                    <td class="text-right">{{ $controller->currency_format($total_ending) }}</td>
-                  </tr>
-                  @foreach ($total_foreign as $total_foreign_index => $total_foreign_row)
+                  @foreach ($items['total']['local'] as $total_local_index => $total_local_row)
+                    <tr>
+                      <td style="width: 1px; white-space: nowrap">Total {{ $total_local_index }}</td>
+                      <td style="width: 1px">:</td>
+                      <td style="width: 1px; background: #f4f5f8">Rp </td>
+                      <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_local_row) }}</td>
+                    </tr>   
+                  @endforeach
+                  @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
                     <tr>
                       <td style="width: 1px; white-space: nowrap">Total {{ strtoupper($total_foreign_row['currency']->code) }}</td>
                       <td style="width: 1px">:</td>
-                      <td style="width: 1px">{{ $total_foreign_row['currency']->symbol }}</td>
-                      <td class="text-right">{{ $controller->currency_format($total_foreign_row['amount']) }}</td>
+                      <td style="width: 1px; background: #f4f5f8">{{ $total_foreign_row['currency']->symbol }}</td>
+                      <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_foreign_row['amount']) }}</td>
                     </tr>   
                   @endforeach
 
                 </table>
               </div>
+              @endforeach
+            </div>
+            <div class="form-group m-form__group row ">
 
               <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
 

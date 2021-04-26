@@ -82,30 +82,10 @@ class GeneralLedgerController extends Controller
         for ($i=0; $i < count($coa); $i++) {
 
             $get_data = $this->getData(
-                $beginDate, $endingDate, $coa[$i]->code
-            );
+                    $beginDate, $endingDate, $coa[$i]->code
+                );
 
-            $data_collection = collect($get_data);
-
-            $data_group_by_currency = $data_collection
-                ->groupBy('currency.code')->map(function($row) {
-                    return $row->sum('foreign_total');
-                });
-
-            foreach ($data_group_by_currency as $group_index => $group_row) {
-                if ($group_index == 'idr') {
-                    continue;
-                }
-
-                $total_foreign[$group_index]['currency'] = Currency::where('code', $group_index)->first();
-                $total_foreign[$group_index]['amount'] = ($total_foreign[$group_index]['amount'] ?? 0) + $group_row;
-            }
-
-            $total_debit += $data_collection->sum('Debit');
-            $total_credit += $data_collection->sum('Credit');
-            $total_ending += $data_collection->sum('endingBalance');
-
-            $data_coa[] = $data_collection;
+            $data_coa[] = $get_data;
         }
 
         $data = [
@@ -216,9 +196,6 @@ class GeneralLedgerController extends Controller
                 $data[$index]->rate = $journal->ref_collection->rate ?? $data[$index]->rate;
             }
 
-            // if ($index > 3) {
-            //     dd($item);
-            // }
             $coa_type = Coa::where('code', $item->AccountCode)->first()
             ->type->code;
 
@@ -239,6 +216,34 @@ class GeneralLedgerController extends Controller
 
             $data[$index]->voucher_linked = '<a href="'.$link.'">'.$item->VoucherNo.'</a>';
             $data[$index]->foreign_total = (($data[$index]->Debit != 0)? $data[$index]->Debit: $data[$index]->Credit) / $data[$index]->rate;
+
+            $ending_balance = $item->endingBalance;
+        }
+
+        $collection = collect($data);
+        $data = [];
+        $data['data'] = $collection;
+
+        $data['total']['local'] = [
+            'Total Debit' => $data['data']->sum('Debit'),
+            'Total Credit' => $data['data']->sum('Credit'),
+            'Total Ending Balance' => $ending_balance,
+        ];
+
+        $data_group_by_currency = $data['data']
+            ->groupBy('currency.code')->map(function($row) {
+                return $row->sum('foreign_total');
+            });
+
+        $data['total']['foreign'] = [];
+
+        foreach ($data_group_by_currency as $group_index => $group_row) {
+            if ($group_index == 'idr') {
+                continue;
+            }
+
+            $data['total']['foreign'][$group_index]['currency'] = Currency::where('code', $group_index)->first();
+            $data['total']['foreign'][$group_index]['amount'] = ($total_foreign[$group_index]['amount'] ?? 0) + $group_row;
         }
 
         return $data;
