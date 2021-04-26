@@ -74,11 +74,6 @@ class GeneralLedgerController extends Controller
         $beginDate = $date[0];
         $endingDate = $date[1];
 
-        $total_debit = 0;
-        $total_credit = 0;
-        $total_ending = 0;
-        $total_foreign = [];
-
         for ($i=0; $i < count($coa); $i++) {
 
             $get_data = $this->getData(
@@ -93,10 +88,6 @@ class GeneralLedgerController extends Controller
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
-            'total_debit' => $total_debit,
-            'total_credit' => $total_credit,
-            'total_ending' => $total_ending,
-            'total_foreign' => $total_foreign,
             'carbon' => Carbon::class,
             'controller' => new Controller()
         ];
@@ -434,7 +425,8 @@ class GeneralLedgerController extends Controller
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
-            'carbon' => Carbon::class
+            'carbon' => Carbon::class,
+            'controller' => new Controller()
         ];
 
         $pdf = \PDF::loadView('formview::general-ledger-docs', $data);
