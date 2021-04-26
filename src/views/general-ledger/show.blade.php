@@ -177,6 +177,13 @@
                       <span>Print</span>
                     </span>
                   </a>
+                  <a href="{{route('general_ledger.export')}}?data={{Request::get('data')}}&date={{Request::get('date')}}"
+                    class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md">
+                    <span>
+                      <i class="la la-file"></i>
+                      <span>Export to Excel</span>
+                    </span>
+                  </a>
                   @include('buttons::back')
                 </div>
               </div>

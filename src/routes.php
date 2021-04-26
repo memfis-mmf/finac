@@ -431,11 +431,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/export',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@export'
-		)->name('general_ledger.show');
+		)->name('general_ledger.export');
 		Route::get(
 			'/show/datatables',
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@showDatatables'
-		)->name('general_ledger.show');
+		)->name('general_ledger.datatables');
 	});
 
     Route::prefix('journala')->group(function () {
