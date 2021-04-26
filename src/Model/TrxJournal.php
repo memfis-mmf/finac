@@ -9,6 +9,7 @@ use memfisfa\Finac\Model\TypeJurnal;
 use App\User;
 use App\Models\Approval;
 use App\Models\ARWorkshop;
+use App\Models\Currency;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
 use Illuminate\Support\Facades\Auth;
@@ -49,89 +50,123 @@ class TrxJournal extends MemfisModel
             'SITR' => [
                 'number' => 'transaction_number',
                 'rate' => 'exchange_rate',
-                'class' => new TrxPayment()
+                'class' => new TrxPayment(),
+                'currency' => 'currencies'
             ], // supplier invoice
             'GRNI' => [
                 'number' => 'number',
                 'rate' => 'rate',
-                'class' => new GoodsReceived()
+                'class' => new GoodsReceived(),
+                'currency' => 'currency'
             ], // grn
             'INVC' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => new Invoice()
+                'class' => new Invoice(),
+                'currency' => 'currencies'
             ], // invoice
             'IOUT' => [
                 'number' => 'number',
                 'rate' => '',
-                'class' => new InventoryOut()
+                'class' => new InventoryOut(),
+                'currency' => '',
             ], // inventory out
             'CCPJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => new Cashbook()
+                'class' => new Cashbook(),
+                'currency' => 'currencies'
             ], // cashbook cash payment
             'CBRJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => new Cashbook()
+                'class' => new Cashbook(),
+                'currency' => 'currencies'
             ], // cashbook bank receive
             'FAMS' => [
                 'number' => 'transaction_number',
                 'rate' => '',
-                'class' => new Asset()
+                'class' => new Asset(),
+                'currency' => ''
             ], // assets
             'CCRJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => new Cashbook()
+                'class' => new Cashbook(),
+                'currency' => 'currencies'
             ], // cashbook cash receive
             'CBPJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => new Cashbook()
+                'class' => new Cashbook(),
+                'currency' => 'currencies'
             ], // cashbook bank payment
             'CPYJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => new APayment()
+                'class' => new APayment(),
+                'currency' => 'currencies'
             ], 
             'BPYJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => new APayment()
+                'class' => new APayment(),
+                'currency' => 'currencies'
             ],
             'BRCJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
-                'class' => [new AReceive(), new ARWorkshop()]
+                'class' => [new AReceive(), new ARWorkshop()],
+                'currency' => 'currencies'
             ],
             'IVSL' => [
                 'number' => 'invoice_no',
                 'rate' => 'exchange_rate',
-                'class' => new InvoiceWorkshop()
+                'class' => new InvoiceWorkshop(),
+                'currency' => 'currency'
             ], // invoice sale (workshop)
             'IVSH' => [
                 'number' => 'invoice_no',
                 'rate' => 'exchange_rate',
-                'class' => new InvoiceWorkshop()
+                'class' => new InvoiceWorkshop(),
+                'currency' => 'currency'
             ], // invoice service (workshop)
         ];
 
         $ref_no_code = explode('-', $this->ref_no)[0];
-        if (gettype($doc_ref[$ref_no_code]['class']) == 'array') {
+
+        if (! @$doc_ref[$ref_no_code]) {
             return '';
         }
 
-        $class_ref = $doc_ref[$ref_no_code]['class']
-            ->where($doc_ref[$ref_no_code]['number'], $this->ref_no)
-            ->first();
+        if (gettype($doc_ref[$ref_no_code]['class']) == 'array') {
+            $array_class = $doc_ref[$ref_no_code]['class'];
+
+            foreach ($array_class as $array_class_row) {
+                $class_ref = $array_class_row
+                    ->where($doc_ref[$ref_no_code]['number'], $this->ref_no)
+                    ->first();
+
+                if ($class_ref) {
+                    break;
+                }
+            }
+
+        } else {
+            $class_ref = $doc_ref[$ref_no_code]['class']
+                ->where($doc_ref[$ref_no_code]['number'], $this->ref_no)
+                ->first();
+        }
+
+        $idr_currency = Currency::where('code', 'idr')->first();
 
         $number = $doc_ref[$ref_no_code]['number'];
         $rate = $doc_ref[$ref_no_code]['rate'];
+        $currency = $doc_ref[$ref_no_code]['currency'];
 
         $class_ref->number = $class_ref->$number;
         $class_ref->rate = $class_ref->$rate ?? 1;
+        $class_ref->currency = $class_ref->$currency ?? $idr_currency;
 
         return $class_ref;
     }
