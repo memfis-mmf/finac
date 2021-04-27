@@ -46,10 +46,19 @@
       <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
     </tr>
     @endforeach
+    @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
+      <tr>
+        <td colspan="6">Total {{ strtoupper($total_foreign_row['currency']->code) }}</td>
+        <td colspan="2">{{ $total_foreign_row['currency']->symbol }} {{ $controller->currency_format($total_foreign_row['amount']) }}</td>
+        <td>Rp {{ $controller->currency_format($items['total']['local']['Total Debit']) }}</td>
+        <td>Rp {{ $controller->currency_format($items['total']['local']['Total Credit']) }} </td>
+        <td>Rp {{ $controller->currency_format($items['total']['local']['Total Ending Balance']) }}</td>
+      </tr>
+    @endforeach
   </tbody>
 </table>
 
-<table class="table" style="border: none">
+{{-- <table class="table" style="border: none">
   @foreach ($items['total']['local'] as $total_local_index => $total_local_row)
     <tr>
       <td style="width: 1px; white-space: nowrap">Total {{ $total_local_index }}</td>
@@ -67,7 +76,7 @@
     </tr>   
   @endforeach
 
-</table>
+</table> --}}
 <table></table>
 <table></table>
 
