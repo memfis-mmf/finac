@@ -246,9 +246,10 @@ class TrialBalanceController extends Controller
                 $total_debit += $data_final_row->Debit;
                 $total_credit += $data_final_row->Credit;
                 $total_period += $data_final_row->period_balance;
-                $total_ending += $data_final_row->EndingBalance;
             }
         }
+
+        $total_ending = $total_beginning + $total_debit - $total_credit;
 
         $data_final = collect($data_final);
 
