@@ -51,6 +51,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12 mb-2">
+                                  <form action="">
+                                    <div class="row">
+                                      <div class="col-md-3">
+                                        <label for="">Status</label>
+                                        <select name="status" class="form-control _select2">
+                                          <option value="">-- Select --</option>
+                                          <option value="open">Open</option>
+                                          <option value="approved">Approved</option>
+                                        </select>
+                                      </div>
+                                      <div class="col">
+                                        <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md mt-4">Filter</button>
+                                      </div>
+                                    </div>
+                                  </form>
+                                  
+                                </div>
                                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                                     <a href="{{url('cashbook/create')}}" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
                                             <i class="la la-plus-circle"></i>
@@ -65,7 +83,6 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                        {{-- <div class="cashbook_datatable" id="scrolling_both"></div> --}}
                                 <table class="table table-striped table-bordered table-hover table-checkable cashbook_datatable">
                                     <thead>
                                         <th>Date</th> 
@@ -106,13 +123,14 @@
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/cashbook/index.js')}}"></script>
 <script>
+
+$(document).ready(function () {
+  $('._select2').select2();
+});
+
 $(document).on("click", ".open-AddUuidApproveDialog", function () {
-     var uuid = $(this).data('uuid');
-     //console.log(uuid);
-     $(".modal-body #uuid-approve").val(uuid);
-     // As pointed out in comments,
-     // it is unnecessary to have to manually call the modal.
-     // $('#addBookDialog').modal('show');
+  var uuid = $(this).data('uuid');
+  $(".modal-body #uuid-approve").val(uuid);
 });
 </script>
 @endpush
