@@ -44,8 +44,6 @@ let Cashbook = {
                     '<i class="la la-print"></i>' +
                 "</a>";
 
-                _html += '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="'+_url+'/cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>';
-
                 if (!t.approve) {
                     if (t.can_approve_fa) {
                       _html +=
@@ -53,6 +51,8 @@ let Cashbook = {
                         '<i class="la la-check"></i>' +
                       '</a>';
                     }
+
+                    _html += '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="'+_url+'/cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>';
 
                     _html += '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                         t.uuid +
