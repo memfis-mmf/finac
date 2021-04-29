@@ -39,21 +39,26 @@ class Install extends Command
     {
         $this->copyright();
 
-        $this->warn('Run This Command After Running memfis:rebuild');
-        if ($this->confirm('Continue?')) {
-            if ($this->confirm('Publish Asset?')) {
-                $this->info('[START] Publishing Assets..........');
-                $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assetsfa']);
-                $this->info('[DONE] Publishing Assets..........');
-            }
-            // if ($this->confirm('Install/Seed Initial Data?')) {
-            //     if ($this->confirm('You Are in Production Mode, Are You Sure?')) {
-            //         $this->info('[START] Install Initial Data..........');
-            //         $this->callSilent('db:seed', ['--class' => "memfisfa\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
-            //         $this->info('[DONE] Install Initial Data.');
-            //     }
-            // }
-        }
+        // $this->warn('Run This Command After Running memfis:rebuild');
+        
+        $this->info('[START] Publishing Assets..........');
+        $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assetsfa']);
+        $this->info('[DONE] Publishing Assets..........');
+
+        // if ($this->confirm('Continue?')) {
+        //     if ($this->confirm('Publish Asset?')) {
+        //         $this->info('[START] Publishing Assets..........');
+        //         $this->callSilent('vendor:publish', ['--force' => true, '--tag' => 'assetsfa']);
+        //         $this->info('[DONE] Publishing Assets..........');
+        //     }
+        //     // if ($this->confirm('Install/Seed Initial Data?')) {
+        //     //     if ($this->confirm('You Are in Production Mode, Are You Sure?')) {
+        //     //         $this->info('[START] Install Initial Data..........');
+        //     //         $this->callSilent('db:seed', ['--class' => "memfisfa\\Finac\\Database\\Seeds\\DatabaseSeeder"]);
+        //     //         $this->info('[DONE] Install Initial Data.');
+        //     //     }
+        //     // }
+        // }
     }
 
 
