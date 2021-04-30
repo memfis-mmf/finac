@@ -896,9 +896,9 @@ class InvoiceController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
-        $invoices = Invoice::with([
+        $data = Invoice::with([
                 'customer',
                 'currencies',
                 'quotations:id,uuid,number',
@@ -907,7 +907,20 @@ class InvoiceController extends Controller
             ->orderBy('id', 'asc')
             ->select('invoices.*');
 
-        $data = $invoices;
+        if ($request->status and $request->status != 'all') {
+
+            if ($request->status == 'closed') {
+                $data = $data->where('transaction_status', 0);
+            } elseif (! $request->status == 'closed') {
+                $status = [
+                    'open' => 0,
+                    'approved' => 1,
+                ];
+
+                $data = $data->where('approve', $status[$request->status]);
+            }
+
+        }
 
         return datatables()::of($data)
             ->addColumn('transaction_number_link', function($row) {

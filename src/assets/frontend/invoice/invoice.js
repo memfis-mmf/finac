@@ -2,6 +2,10 @@ let Invoice = {
     init: function () {
 
         let _url = window.location.origin;
+        let invoice_datatable_url = _url+'/invoice/datatables';
+
+        $('._select2').select2();
+
         function addCommas(nStr)
         {
                 nStr += '';
@@ -20,7 +24,7 @@ let Invoice = {
           scrollX: true,
           processing: true,
           serverSide: true,
-          ajax: _url+'/invoice/datatables',
+          ajax: invoice_datatable_url,
           order: [[ 0, "desc" ]],
           columns: [
             {data: 'created_at', searchable: false, visible: false},
@@ -92,6 +96,14 @@ let Invoice = {
         $(".dataTables_info").addClass("pull-right");
         $(".dataTables_info").addClass("margin-info");
         $(".paging_simple_numbers").addClass("padding-datatable");
+
+        $(document).on('submit', '.form-filter-datatable', function (e) {
+          e.preventDefault();
+
+          data = $(this).serialize();
+
+          invoice_datatable.ajax.url(invoice_datatable_url+'?'+data).load();
+        });
 
         $('.modal-footer').on('click', '.reset', function () {
             coa_reset();
