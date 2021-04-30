@@ -279,6 +279,9 @@ class JournalController extends Controller
         ->addColumn('total_transaction', function($row) {
             return $row->total_transaction ?? '-';
         })
+        ->addColumn('status', function($row) {
+            return $row->status;
+        })
         ->addColumn('created_by', function($row) {
             return $row->created_by ?? '-';
         })
