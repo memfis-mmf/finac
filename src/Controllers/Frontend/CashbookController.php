@@ -230,11 +230,12 @@ class CashbookController extends Controller
     public function datatables(Request $request)
     {
 		$data  = Cashbook::with([
-            'cashbook_a',
-            'currencies',
-            'journal',
-        ])->orderBy('id', 'desc')
-        ->select('cashbooks.*');
+                'cashbook_a',
+                'currencies',
+                'journal',
+            ])
+            ->orderBy('id', 'desc')
+            ->select('cashbooks.*');
 
         if ($request->status and $request->status != 'all') {
 
