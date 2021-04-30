@@ -47,6 +47,23 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-6 order-2 order-xl-1">
                                 </div>
+                                <div class="col-md-12 mb-2">
+                                  <form action="" class="form-filter-datatable">
+                                    <div class="row">
+                                      <div class="col-md-3">
+                                        <label for="">Status</label>
+                                        <select name="status" class="form-control _select2">
+                                          <option value="all">All</option>
+                                          <option value="active">Active</option>
+                                          <option value="non-active">Non-Active</option>
+                                        </select>
+                                      </div>
+                                      <div class="col">
+                                        <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md mt-4">Filter</button>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
                                 <div class="col-xl-6 order-1 order-xl-2 m--align-right">
                                     <a id="export" href="{{route('master-coa.export-all')}}" 
                                       id="name=" 

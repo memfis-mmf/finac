@@ -141,38 +141,48 @@ class MasterCoaController extends Controller
 	
 	public function coaDatatables(Request $request)
 	{
-		$data = Coa::withTrashed()->with(['type']);
+		$data = Coa::withTrashed()
+            ->with(['type'])
+            ->select('coas.*');
+
+        if ($request->status == 'active') {
+            $data = $data->whereNull('deleted_at');
+        }
+
+        if ($request->status == 'non-active') {
+            $data = $data->whereNotNull('deleted_at');
+        }
 
 		return datatables()->of($data)
-		->addColumn('status', function(Coa $coa) use ($request) {
+            ->addColumn('status', function(Coa $coa) use ($request) {
 
-			$checked = 'checked';
+                $checked = 'checked';
 
-			if (!$coa->active) {
-				$checked = '';
-			}
-			
-			// make switch
-			$html = '
-				<div>
-					<span class="m-switch 
-							m-switch--outline 
-							m-switch--icon
-							m-switch--md">
-						<label>
-							<input type="checkbox" 
-							'.$checked.' 
-							id="coa_switch" data-uuid="'.$coa->uuid.'">
-							<span></span>
-						</label>
-					</span>
+                if (!$coa->active) {
+                    $checked = '';
+                }
+                
+                // make switch
+                $html = '
+                    <div>
+                        <span class="m-switch 
+                                m-switch--outline 
+                                m-switch--icon
+                                m-switch--md">
+                            <label>
+                                <input type="checkbox" 
+                                '.$checked.' 
+                                id="coa_switch" data-uuid="'.$coa->uuid.'">
+                                <span></span>
+                            </label>
+                        </span>
 
-				</div>
-			';
+                    </div>
+                ';
 
-			return $html;
-		})
-		->escapeColumns([])->make(true);
+                return $html;
+            })
+            ->escapeColumns([])->make(true);
 	}
 
 	// I don't know if this function is used or not, 

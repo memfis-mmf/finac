@@ -2,13 +2,16 @@ let MasterCoa = {
   init: function () {
 
     let _url = window.location.origin;
+    let coa_datatable_url = _url+'/master-coa/coa-datatables';
+
+    $('._select2').select2();
 
     let coa_datatable = $('.coa_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
       scrollX: true,
       processing: true,
       serverSide: true,
-      ajax: _url+'/master-coa/coa-datatables',
+      ajax: coa_datatable_url,
       columns: [
         {data: 'code'},
         {data: 'name'},
@@ -27,6 +30,14 @@ let MasterCoa = {
     $(".dataTables_info").addClass("pull-right");
     $(".dataTables_info").addClass("margin-info");
     $(".paging_simple_numbers").addClass("padding-datatable");
+
+    $(document).on('submit', '.form-filter-datatable', function (e) {
+      e.preventDefault();
+
+      data = $(this).serialize();
+
+      coa_datatable.ajax.url(coa_datatable_url+'?'+data).load();
+    });
 
     $('body').on('click', '#coa_switch', function() {
       let uuid = $(this).data('uuid');
