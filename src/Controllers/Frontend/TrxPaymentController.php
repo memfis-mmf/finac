@@ -281,13 +281,23 @@ class TrxPaymentController extends Controller
         return response()->json($trxpayment);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
 		$data = TrxPayment::with([
 			'currencies',
 			'vendor',
-		])->select('trxpayments.*')
-        ->latest('transaction_date');
+		])->orderBy('id', 'desc')
+        ->select('trxpayments.*');
+
+        if ($request->status and $request->status != 'all') {
+
+            $status = [
+                'open' => 0,
+                'approved' => 1,
+            ];
+
+            $data = $data->where('approve', $status[$request->status]);
+        }
 
         return datatables()->of($data)
             ->addColumn('grandtotal_foreign_before_adj', function($row) {

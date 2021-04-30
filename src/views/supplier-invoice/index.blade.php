@@ -70,6 +70,23 @@
                     {{-- @include('buttons::filter') --}}
                   </div>
                 </div>
+                <div class="col-md-12 mb-2">
+                  <form action="" class="form-filter-datatable">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label for="">Status</label>
+                        <select name="status" class="form-control _select2">
+                          <option value="all">All</option>
+                          <option value="open">Open</option>
+                          <option value="approved">Approved</option>
+                        </select>
+                      </div>
+                      <div class="col">
+                        <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md mt-4">Filter</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
                   <div class="m-btn-group m-btn-group--pill btn-group" role="group"
                     aria-label="Button group with nested dropdown">
