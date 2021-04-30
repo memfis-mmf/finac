@@ -110,6 +110,16 @@ class Asset extends MemfisModel
         return Carbon::parse($this->depreciationend)->format('Y-m-d');
     }
 
+    public function getStatusAttribute()
+	{
+		$status = 'Open';
+		if ($this->approve) {
+			$status = 'Approved';
+		}
+
+		return $status;
+    }
+
 	public function type()
 	{
 		return $this->belongsTo(TypeAsset::class, 'asset_category_id', 'id');
