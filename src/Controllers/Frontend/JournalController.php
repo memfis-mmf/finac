@@ -234,6 +234,16 @@ class JournalController extends Controller
         if ($request->daterange) {
             $data = $data->whereBetween('transaction_date', [$start_date, $end_date]);
         }
+
+        if ($request->status and $request->status != 'all') {
+
+            $status = [
+                'open' => 0,
+                'approved' => 1,
+            ];
+
+            $data = $data->where('approve', $status[$request->status]);
+        }
         
         $search = $request->search['value'];
 

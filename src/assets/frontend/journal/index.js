@@ -1,7 +1,10 @@
 let Journal = {
     init: function () {
         let _url = window.location.origin;
+        let journal_datatable_url = _url+'/journal/datatables';
         $.fn.dataTable.ext.errMode = 'none';
+
+        $('._select2').select2();
 
 				function addCommas(nStr)
 				{
@@ -21,7 +24,7 @@ let Journal = {
           scrollX: true,
           processing: true,
           serverSide: true,
-          ajax: _url+'/journal/datatables',
+          ajax: journal_datatable_url,
           order: [[1, 'desc']],
           columns: [
             {data: 'transaction_date'},
@@ -63,6 +66,14 @@ let Journal = {
         $(".dataTables_info").addClass("pull-right");
         $(".dataTables_info").addClass("margin-info");
         $(".paging_simple_numbers").addClass("padding-datatable");
+
+        $(document).on('submit', '.form-filter-datatable', function (e) {
+          e.preventDefault();
+
+          data = $(this).serialize();
+
+          journal_datatable.ajax.url(journal_datatable_url+'?'+data).load();
+        });
 
         let old_journal_datatable = $('.old_journal_datatable').mDatatable({
             data: {
