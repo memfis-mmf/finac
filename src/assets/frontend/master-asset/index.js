@@ -74,6 +74,7 @@ let MasterAsset = {
         }},
         { data: 'depreciationstart_format', name: 'depreciationstart', defaultContent: '-' },
         { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-' },
+        { data: 'status', defaultContent: '-', searchable: false },
         { data: 'created_by', defaultContent: '-', searchable: false },
         { data: 'approved_by', defaultContent: '-', searchable: false },
         { data: 'action' }

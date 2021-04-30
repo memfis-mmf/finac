@@ -207,6 +207,9 @@ class AssetController extends Controller
             ->addColumn('account_asset', function($row) {
                 return $row->type->coa->name.' ('.$row->type->coa->code.')';
             })
+            ->addColumn('status', function($row) {
+                return $row->status;
+            })
             ->addColumn('action', function($row) {
                 $html = '';
                 if (!$row->approve) {

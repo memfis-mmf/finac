@@ -105,6 +105,7 @@
                                         <th>Depreciation Account</th>
                                         <th>Depreciation Start</th>
                                         <th>Depreciation End</th>
+                                        <th>Status</th>
                                         <th>Created By</th>
                                         <th>Approved By</th>
                                         <th>Actions</th>
