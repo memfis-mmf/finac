@@ -181,13 +181,24 @@ class APController extends Controller
         return response()->json($apayment);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
         $data = APayment::orderBy('id', 'desc')->with([
-            'vendor',
-            'apa',
-            'coa',
-        ]);
+                'vendor',
+                'apa',
+                'coa',
+            ])
+            ->select('a_payments.*');
+
+        if ($request->status and $request->status != 'all') {
+
+            $status = [
+                'open' => 0,
+                'approved' => 1,
+            ];
+
+            $data = $data->where('approve', $status[$request->status]);
+        }
 
         return DataTables::of($data)
             ->addColumn('status', function($row) {

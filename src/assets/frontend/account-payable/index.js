@@ -2,6 +2,9 @@ let Journal = {
   init: function () {
 
     let _url = window.location.origin;
+    let account_payable_datatable_url = _url + '/account-payable/datatables';
+
+    $('._select2').select2();
 
     function addCommas(nStr) {
       nStr += '';
@@ -20,7 +23,7 @@ let Journal = {
       scrollX: true,
       processing: true,
       serverSide: true,
-      ajax: _url + '/account-payable/datatables',
+      ajax: account_payable_datatable_url,
       order: [[1, 'desc']],
       columns: [
         { data: 'transactiondate' },
@@ -97,6 +100,14 @@ let Journal = {
     $(".dataTables_info").addClass("pull-right");
     $(".dataTables_info").addClass("margin-info");
     $(".paging_simple_numbers").addClass("padding-datatable");
+
+    $(document).on('submit', '.form-filter-datatable', function (e) {
+      e.preventDefault();
+
+      data = $(this).serialize();
+
+      account_payable_datatable.ajax.url(account_payable_datatable_url+'?'+data).load();
+    });
 
     $('.modal-footer').on('click', '.reset', function () {
       coa_reset();
