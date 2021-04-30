@@ -233,7 +233,8 @@ class CashbookController extends Controller
             'cashbook_a',
             'currencies',
             'journal',
-        ])->orderBy('id', 'desc');
+        ])->orderBy('id', 'desc')
+        ->select('cashbooks.*');
 
         if ($request->status and $request->status != 'all') {
 
