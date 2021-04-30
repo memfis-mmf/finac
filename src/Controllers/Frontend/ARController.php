@@ -228,7 +228,7 @@ class ARController extends Controller
         return response()->json($areceive);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
         $data = AReceive::orderBy('id', 'desc')
             ->with([
@@ -237,6 +237,16 @@ class ARController extends Controller
                 'coa',
             ])
             ->select('a_receives.*');
+
+        if ($request->status and $request->status != 'all') {
+
+            $status = [
+                'open' => 0,
+                'approved' => 1,
+            ];
+
+            $data = $data->where('approve', $status[$request->status]);
+        }
 
         return DataTables::of($data)
             ->addColumn('transactionnumber_link', function($row) {
