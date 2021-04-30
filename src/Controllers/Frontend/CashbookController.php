@@ -227,13 +227,23 @@ class CashbookController extends Controller
 		return view('cashbooknewview::show', $data);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
 		$data  = Cashbook::with([
             'cashbook_a',
             'currencies',
             'journal',
         ])->orderBy('id', 'desc');
+
+        if ($request->status and $request->status != 'all') {
+
+            $status = [
+                'open' => 0,
+                'approved' => 1,
+            ];
+
+            $data = $data->where('approve', $status[$request->status]);
+        }
 
         return datatables()->of($data)
         ->addColumn('transactionnumber_link', function($row) {

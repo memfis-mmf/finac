@@ -52,12 +52,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-2">
-                                  <form action="">
+                                  <form action="" class="form-filter-datatable">
                                     <div class="row">
                                       <div class="col-md-3">
                                         <label for="">Status</label>
                                         <select name="status" class="form-control _select2">
-                                          <option value="">-- Select --</option>
+                                          <option value="all">All</option>
                                           <option value="open">Open</option>
                                           <option value="approved">Approved</option>
                                         </select>
@@ -123,11 +123,6 @@
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('vendor/courier/frontend/cashbook/index.js')}}"></script>
 <script>
-
-$(document).ready(function () {
-  $('._select2').select2();
-});
-
 $(document).on("click", ".open-AddUuidApproveDialog", function () {
   var uuid = $(this).data('uuid');
   $(".modal-body #uuid-approve").val(uuid);
