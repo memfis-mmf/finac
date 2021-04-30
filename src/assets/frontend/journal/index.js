@@ -28,7 +28,7 @@ let Journal = {
           order: [[1, 'desc']],
           columns: [
             {data: 'transaction_date'},
-            {data: 'voucher_no'},
+            {data: 'voucher_no_formated', name: 'voucher_no'},
             {data: 'ref_no'},
             {data: 'currency_code', render: function(data, type, row) {
               return row.currency_code.toUpperCase();
@@ -52,7 +52,7 @@ let Journal = {
 
               return val;
             }},
-            {data: 'status', name: 'approve'},
+            {data: 'status', name: 'status'},
             {data: 'created_by', searchable: false},
             {data: 'updated_by', searchable: false},
             {data: 'approved_by', searchable: false},
@@ -76,178 +76,9 @@ let Journal = {
           journal_datatable.ajax.url(journal_datatable_url+'?'+data).load();
         });
 
-        let old_journal_datatable = $('.old_journal_datatable').mDatatable({
-            data: {
-                type: 'remote',
-                source: {
-                    read: {
-                        method: 'GET',
-                        url: _url+'/journal/datatables',
-                        map: function (raw) {
-                            let dataSet = raw;
-
-                            if (typeof raw.data !== 'undefined') {
-                                dataSet = raw.data;
-                            }
-
-                            return dataSet;
-                        }
-                    }
-                },
-                pageSize: 10,
-                serverPaging: !1,
-                serverFiltering: !0,
-                serverSorting: !1
-            },
-            layout: {
-                theme: 'default',
-                class: '',
-                scroll: false,
-                footer: !1
-            },
-            sortable: !0,
-            filterable: !1,
-            pagination: !0,
-            search: {
-                input: $('#generalSearch')
-            },
-            toolbar: {
-                items: {
-                    pagination: {
-                        pageSizeSelect: [5, 10, 20, 30, 50, 100]
-                    }
-                }
-            },
-            columns: [
-                {
-                    field: '#',
-                    title: 'No',
-                    width:'40',
-                    sortable: 'asc',
-                    filterable: !1,
-                    textAlign: 'center',
-                    template: (row, index, datatable) => {
-                        return (index + 1) + (datatable.getCurrentPage() - 1) * datatable.getPageSize()
-                    }
-                },
-                {
-                    field: 'transaction_date',
-                    title: 'Date',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 60
-                },
-                {
-                    field: 'voucher_no',
-                    title: 'Transaction No',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'ref_no',
-                    title: 'Ref Doc',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 300,
-                },
-                {
-                    field: 'currency_code',
-                    title: 'Currency',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150,
-										template : function(t, e, i) {
-											return t.currency_code.toUpperCase();
-										}
-                },
-                {
-                    field: 'exchange_rate_fix',
-                    title: 'Exchange Rate',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'type_jurnal.name',
-                    title: 'Journal Type',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'total_transaction',
-                    title: 'Total Amount',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150,
-										template: function(t, e, i) {
-											let val = '';
-
-											if (t.total_transaction) {
-												val = t.currency.symbol+' '+addCommas(parseInt(t.total_transaction));
-											}
-
-											return val;
-										}
-                },
-                {
-                    field: 'created_by.name',
-                    title: 'Created By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'updated_by.name',
-                    title: 'Updated By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'approved_by.name',
-                    title: 'Approved By',
-                    sortable: 'asc',
-                    filterable: !1,
-                    width: 150
-                },
-                {
-                    field: 'Actions',
-                    width: 110,
-                    title: 'Actions',
-                    sortable: !1,
-                    overflow: 'visible',
-                    template: function (t, e, i) {
-
-											let _html =
-                          '<a href="'+_url+'/journal/print?uuid='+t.uuid+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid +'">' +
-                              '<i class="la la-print"></i>' +
-                          '</a>';
-
-											if (!t.approve) {
-												_html +=
-                          '<a href="'+_url+'/journal/'+t.uuid+'/edit" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
-                          t.uuid +
-                          '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t' +
-                          '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
-                          t.uuid +
-                          ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t' +
-                          '<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" title="Approve" data-uuid="' + t.uuid + '">' +
-                          '<i class="la la-check"></i>' +
-                          '</a>';
-											}
-
-                      return (_html);
-                    }
-                }
-            ]
-        });
-
         $('.modal-footer').on('click', '.reset', function () {
             coa_reset();
         });
-
 
         let save_changes_button = function () {
             $('.btn-success').removeClass('add');

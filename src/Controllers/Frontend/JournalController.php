@@ -218,20 +218,19 @@ class JournalController extends Controller
         ini_set('max_execution_time', -1); 
         ini_set("memory_limit",-1);
 
-        if ($request->daterange) {
-            $date = explode(' - ', $request->daterange);
-            $start_date = Carbon::createFromFormat('Y-m-d', $date[0])->startOfDay();
-            $end_date = Carbon::createFromFormat('Y-m-d', $date[1])->endOfDay();
-        }
-
 		$data = Journal::with([
                 'type_jurnal:id,name',
                 'currency',
             ])
             ->orderBy('transaction_date', 'desc')
-            ->orderBy('id', 'asc');
-
+            ->orderBy('id', 'asc')
+            ->select('trxjournals.*');
+        
         if ($request->daterange) {
+            $date = explode(' - ', $request->daterange);
+            $start_date = Carbon::createFromFormat('Y-m-d', $date[0])->startOfDay();
+            $end_date = Carbon::createFromFormat('Y-m-d', $date[1])->endOfDay();
+
             $data = $data->whereBetween('transaction_date', [$start_date, $end_date]);
         }
 
@@ -245,120 +244,101 @@ class JournalController extends Controller
             $data = $data->where('approve', $status[$request->status]);
         }
         
-        $search = $request->search['value'];
-
-        if ($search) {
-            $data = $data->where(function($row) use($search) {
-                $row->where('transaction_date', 'like', "%$search%")
-                    ->orWhere('voucher_no', 'like', "%$search%")
-                    ->orWhere('ref_no', 'like', "%$search%");
-            });
-        }
-
-        return DataTables::of($data)
-        ->addColumn('transaction_date', function($row) {
-            return $row->transaction_date ?? '-';
-        })
-        ->addColumn('voucher_no', function($row) {
-            return '<a href="'.route('journal.show', $row->uuid).'">'
-                        .$row->voucher_no
-                    .'</a>';
-        })
-        ->addColumn('ref_no', function($row) {
-            return $row->ref_no ?? '-';
-        })
-        ->addColumn('currency_code', function($row) {
-            return $row->currency_code ?? '-';
-        })
-        ->addColumn('exchange_rate', function($row) {
-            return $row->exchange_rate ?? '-';
-        })
-        ->addColumn('type_jurnal_name', function($row) {
-            return $row->type_jurnal->name ?? '-';
-        })
-        ->addColumn('total_transaction', function($row) {
-            return $row->total_transaction ?? '-';
-        })
-        ->addColumn('status', function($row) {
-            return $row->status;
-        })
-        ->addColumn('created_by', function($row) {
-            return $row->created_by ?? '-';
-        })
-        ->addColumn('updated_by', function($row) {
-            return $row->updated_by ?? '-';
-        })
-        ->addColumn('approved_by', function($row) {
-            return $row->approved_by ?? '-';
-        })
-        ->addColumn('action', function($row) use($request) {
-            $html =
-                '<a 
-                    href="'.route('journal.print', ['uuid' => $row->uuid]).'" 
-                    class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" 
-                    title="Print" 
-                    data-id="'.$row->uuid.'">
-                    <i class="la la-print"></i>
-                </a>';
-
-            if (!$row->approve) {
-                $html .=
+        return datatables()->of($data)
+            ->addColumn('transaction_date', function($row) {
+                return $row->transaction_date;
+            })
+            ->addColumn('voucher_no_formated', function($row) {
+                return '<a href="'.route('journal.show', $row->uuid).'">'
+                            .$row->voucher_no
+                        .'</a>';
+            })
+            ->addColumn('type_jurnal_name', function($row) {
+                return $row->type_jurnal->name;
+            })
+            ->addColumn('total_transaction', function($row) {
+                return $row->total_transaction;
+            })
+            ->addColumn('status', function($row) {
+                return $row->status;
+            })
+            ->addColumn('created_by', function($row) {
+                return $row->created_by;
+            })
+            ->addColumn('updated_by', function($row) {
+                return $row->updated_by;
+            })
+            ->addColumn('approved_by', function($row) {
+                return $row->approved_by;
+            })
+            ->addColumn('action', function($row) use($request) {
+                $html =
                     '<a 
-                        href="'.route('journal.edit', $row->uuid).'" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
-                        title="Edit" 
-                        data-uuid='.$row->uuid.'>
-                        <i class="la la-pencil"></i>
+                        href="'.route('journal.print', ['uuid' => $row->uuid]).'" 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" 
+                        title="Print" 
+                        data-id="'.$row->uuid.'">
+                        <i class="la la-print"></i>
                     </a>';
 
-                $html .=
-                    '<a 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
-                        href="#" 
-                        data-uuid=' . $row->uuid . ' 
-                        title="Delete">
-                        <i class="la la-trash"></i> 
-                    </a>';
-                
-                if ($this->canApproveFa()) {
+                if (!$row->approve) {
                     $html .=
                         '<a 
-                            href="javascript:;" 
-                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
-                            title="Approve" 
-                            data-uuid="' . $row->uuid . '">
-                            <i class="la la-check"></i>
+                            href="'.route('journal.edit', $row->uuid).'" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                            title="Edit" 
+                            data-uuid='.$row->uuid.'>
+                            <i class="la la-pencil"></i>
                         </a>';
+
+                    $html .=
+                        '<a 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
+                            href="#" 
+                            data-uuid=' . $row->uuid . ' 
+                            title="Delete">
+                            <i class="la la-trash"></i> 
+                        </a>';
+                    
+                    if ($this->canApproveFa()) {
+                        $html .=
+                            '<a 
+                                href="javascript:;" 
+                                class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
+                                title="Approve" 
+                                data-uuid="' . $row->uuid . '">
+                                <i class="la la-check"></i>
+                            </a>';
+                    }
+
                 }
 
-            }
+                if ($row->approve) {
+                    $html .=
+                        '<a 
+                            href="'.route('journal.edit-after-approve', $row->uuid).'" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
+                            title="Edit Description" 
+                            data-uuid='.$row->uuid.'>
+                            <i class="fa fa-pen-nib"></i>
+                        </a>';
 
-            if ($row->approve) {
-                $html .=
-                    '<a 
-                        href="'.route('journal.edit-after-approve', $row->uuid).'" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
-                        title="Edit Description" 
-                        data-uuid='.$row->uuid.'>
-                        <i class="fa fa-pen-nib"></i>
-                    </a>';
-
-                if (auth()->user()->hasRole('admin')) {
-                    $html .= 
-                    '<a 
-                        href="javascript:;"
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill unapprove"
-                        title="Unapprove" data-uuid="'.$row->uuid.'">
-                        <i class="fa fa-times"></i>
-                    </a>';
+                    if (auth()->user()->hasRole('admin')) {
+                        $html .= 
+                        '<a 
+                            href="javascript:;"
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill unapprove"
+                            title="Unapprove" data-uuid="'.$row->uuid.'">
+                            <i class="fa fa-times"></i>
+                        </a>';
+                    }
                 }
-            }
 
 
-            return ($html);
-        })
-		->escapeColumns([])
-		->make(true);
+                return ($html);
+            })
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function old_datatables()
