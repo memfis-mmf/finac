@@ -52,6 +52,7 @@ let Journal = {
 
               return val;
             }},
+            {data: 'status', name: 'approve'},
             {data: 'created_by', searchable: false},
             {data: 'updated_by', searchable: false},
             {data: 'approved_by', searchable: false},

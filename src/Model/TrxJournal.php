@@ -37,6 +37,7 @@ class TrxJournal extends MemfisModel
 		'created_by',
 		'updated_by',
 		'approved_by',
+		'status',
 	];
 
     public function approvals()
@@ -222,6 +223,16 @@ class TrxJournal extends MemfisModel
 		}
 
 		return $code;
+	}
+
+	public function getStatusAttribute()
+	{
+		$status = 'Open';
+		if ($this->approve) {
+			$status = 'Approved';
+		}
+
+		return $status;
 	}
 
 	static public function generateCode($code = "JADJ")

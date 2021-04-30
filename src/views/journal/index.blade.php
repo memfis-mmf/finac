@@ -102,6 +102,7 @@
                                   <th width="12%">Exchange Rate</th> 
                                   <th>Journal Type</th> 
                                   <th width="15%">Total Amount</th> 
+                                  <th>Status</th>
                                   <th>Created By</th> 
                                   <th>Updated By</th> 
                                   <th>Approved By</th> 
