@@ -2,6 +2,9 @@ let MasterAsset = {
   init: function () {
 
     let _url = window.location.origin;
+    let master_asset_datatable_url = `${_url}/asset/datatables`;
+
+    $('._select2').select2();
 
     $("[name=date_generate]").daterangepicker({
       singleDatePicker: true,
@@ -27,7 +30,7 @@ let MasterAsset = {
       scrollX: true,
       processing: true,
       serverSide: true,
-      ajax: `${_url}/asset/datatables`,
+      ajax: master_asset_datatable_url,
       order: [[0, 'desc']],
       columns: [
         { data: 'transaction_number', defaultContent: '-', render: (data, type, row) => {
@@ -88,6 +91,14 @@ let MasterAsset = {
     $(".dataTables_info").addClass("pull-right");
     $(".dataTables_info").addClass("margin-info");
     $(".paging_simple_numbers").addClass("padding-datatable");
+
+    $(document).on('submit', '.form-filter-datatable', function (e) {
+      e.preventDefault();
+
+      data = $(this).serialize();
+
+      master_asset_datatable.ajax.url(master_asset_datatable_url+'?'+data).load();
+    });
 
     let approve = $('body').on('click', 'a.approve', function () {
       let _uuid = $(this).data('uuid');

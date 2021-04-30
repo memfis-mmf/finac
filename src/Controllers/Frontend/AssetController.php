@@ -194,7 +194,7 @@ class AssetController extends Controller
         return response()->json($asset);
     }
 
-    public function datatables()
+    public function datatables(Request $request)
     {
 		$data = Asset::with([
                 'coa_accumulate:code,name',
@@ -203,7 +203,17 @@ class AssetController extends Controller
             ])
             ->select('assets.*');
 
-        return DataTables::of($data)
+        if ($request->status and $request->status != 'all') {
+
+            $status = [
+                'open' => 0,
+                'approved' => 1,
+            ];
+
+            $data = $data->where('approve', $status[$request->status]);
+        }
+
+        return datatables()->of($data)
             ->addColumn('account_asset', function($row) {
                 return $row->type->coa->name.' ('.$row->type->coa->code.')';
             })
