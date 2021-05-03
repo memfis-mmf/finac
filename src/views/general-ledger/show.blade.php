@@ -88,6 +88,11 @@
           <div class="m-portlet__body">
             <div class="form-group m-form__group row ">
               @foreach ($data as $items)
+              @if (! isset($items['data'][0]->AccountCode))
+                @php
+                  continue;
+                @endphp
+              @endif
               <h5 class="col-sm-12 col-md-12 col-lg-12">
                 <table width="100%">
                   <tr>

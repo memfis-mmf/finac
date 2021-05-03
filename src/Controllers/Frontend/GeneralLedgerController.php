@@ -205,8 +205,12 @@ class GeneralLedgerController extends Controller
                 $link = route('journal.print')."?uuid=$item->journal_uuid";
             }
 
+            if ($data[$index]->rate == 0 or ! $data[$index]->rate) {
+                $data[$index]->rate = 1;
+            }
+
             $data[$index]->voucher_linked = '<a href="'.$link.'">'.$item->VoucherNo.'</a>';
-            $data[$index]->foreign_total = (($data[$index]->Debit != 0)? $data[$index]->Debit: $data[$index]->Credit) / $data[$index]->rate;
+            $data[$index]->foreign_total = (($data[$index]->Debit != 0)? $data[$index]->Debit: $data[$index]->Credit) / ($data[$index]->rate);
 
             $ending_balance = $item->endingBalance;
         }
@@ -218,7 +222,7 @@ class GeneralLedgerController extends Controller
         $data['total']['local'] = [
             'Total Debit' => $data['data']->sum('Debit'),
             'Total Credit' => $data['data']->sum('Credit'),
-            'Total Ending Balance' => $ending_balance,
+            'Total Ending Balance' => $ending_balance ?? 0,
         ];
 
         $data_group_by_currency = $data['data']
