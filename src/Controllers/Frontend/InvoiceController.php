@@ -909,16 +909,13 @@ class InvoiceController extends Controller
 
         if ($request->status and $request->status != 'all') {
 
-            if ($request->status == 'closed') {
-                $data = $data->where('transaction_status', 0);
-            } elseif (! $request->status == 'closed') {
-                $status = [
-                    'open' => 0,
-                    'approved' => 1,
-                ];
+            $status = [
+                'closed' => 0,
+                'open' => 1,
+                'approved' => 2,
+            ];
 
-                $data = $data->where('approve', $status[$request->status]);
-            }
+            $data = $data->where('transaction_status', $status[$request->status]);
 
         }
 
