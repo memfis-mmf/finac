@@ -391,7 +391,8 @@ class ARController extends Controller
                     'debit' => 0,
                     '_desc' => 'Payment From : ' . $ara_row->transactionnumber 
                         . ' '
-                        . $ara_row->ar->customer->name,
+                        . $ara_row->ar->customer->name
+                        . " ({$ara_row->invoice->transactionnumber})",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -407,7 +408,7 @@ class ARController extends Controller
                     'credit' => $y->credit_idr,
                     'debit' => $y->debit_idr,
                     '_desc' => 'Payment From : ' . $ara_row->transactionnumber . ' '
-                        . $ara_row->ar->customer->name,
+                        . $ara_row->ar->customer->name." (ADJ)",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -434,7 +435,7 @@ class ARController extends Controller
                     $side => $val,
                     $x_side => 0,
                     '_desc' => 'Payment From : ' . $ara_row->transactionnumber . ' '
-                        . $ara_row->ar->customer->name,
+                        . $ara_row->ar->customer->name. " (GAP)",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -555,7 +556,7 @@ class ARController extends Controller
                 'credit_foreign' => ($ara_row->credit_idr / $ar_rate),
                 'debit' => 0,
                 'debit_foreign' => 0,
-                '_desc' => $ara_row->description,
+                '_desc' => "{$ara_row->description} ({$ara_row->invoice->transactionnumber})",
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
@@ -576,7 +577,7 @@ class ARController extends Controller
                 'credit_foreign' => $y->credit_idr / $ar_rate,
                 'debit' => $y->debit_idr,
                 'debit_foreign' => $y->debit_idr / $ar_rate,
-                '_desc' => $y->description,
+                '_desc' => "{$y->description} (ADJ)",
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
