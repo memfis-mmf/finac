@@ -26,6 +26,67 @@ class APController extends Controller
         return view('accountpayableview::index');
     }
 
+    public function show($ap_uuid)
+    {
+        $data['data'] = APayment::where(
+            'uuid',
+            $ap_uuid
+        )->with([
+            'currencies',
+            'project',
+        ])->firstOrFail();
+
+        $data['department'] = Department::with('type', 'parent')->get();
+
+        $data['vendor'] = Vendor::all();
+        $data['currency'] = Currency::selectRaw(
+            'code, CONCAT(name, " (", symbol ,")") as full'
+        )->whereIn('code', ['idr', 'usd'])
+            ->get();
+
+        $data['debt_total_amount'] = TrxPayment::where(
+            'id_supplier',
+            $data['data']->id_supplier
+        )
+            ->where('x_type', 'NON GRN')
+            ->where('approve', true)
+            ->sum('grandtotal');
+
+        $si_grn = TrxPayment::where(
+            'id_supplier',
+            $data['data']->id_supplier
+        )
+            ->where('x_type', 'GRN')
+            ->where('approve', true)
+            ->first();
+
+        if ($si_grn) {
+            foreach ($si_grn->trxpaymenta as $tpa_row) {
+                $data['debt_total_amount'] += $tpa_row->total_idr + ($tpa_row->total_idr * $tpa_row->tax_percent / 100);
+            }
+        }
+
+        $apayment_id = APayment::where('id_supplier', $data['data']->id_supplier)
+            ->where('approve', true)
+            ->pluck('id');
+
+        $payment_total_amount = APaymentA::whereIn('ap_id', $apayment_id)
+            ->sum('debit_idr');
+
+        $data['payment_total_amount'] = $payment_total_amount;
+        $debt_balance = abs(($data['debt_total_amount'] - $data['payment_total_amount']));
+
+        $class = 'danger';
+        if ($debt_balance < $data['debt_total_amount']) {
+            $class = 'success';
+        }
+
+        $data['debt_balance'] = "<span class='text-$class'>Rp " . number_format($debt_balance, 0, ',', '.') . "</span>";
+        $data['page_type'] = 'show';
+
+        return view('accountpayableview::edit', $data);
+    }
+
     public function create()
     {
         $data['vendor'] = Vendor::all();
@@ -200,7 +261,15 @@ class APController extends Controller
             $data = $data->where('approve', $status[$request->status]);
         }
 
-        return DataTables::of($data)
+        return datatables($data)
+            ->addColumn('transactionnumber_link', function($row) {
+                $html = '<a href="'.route('apayment.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
+
+                return $html;
+            })
+            ->addColumn('created_by', function($row) {
+                return $row->audits()->first()->user->name ?? null;
+            })
             ->addColumn('status', function($row) {
                 return $row->status;
             })

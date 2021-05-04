@@ -1,6 +1,14 @@
 let AccountPayable = {
   init: function () {
 
+    if (page_type == 'show') {
+      $('input').attr('disabled', 'disabled');
+      $('select').attr('disabled', 'disabled');
+      $('textarea').attr('disabled', 'disabled');
+      $('button').attr('disabled', 'disabled');
+      $('button').hide();
+    }
+
     let _url = window.location.origin;
     let ap_uuid = $('input[name=ap_uuid]').val();
     let id_vendor = $('select[name=id_supplier]').val();
@@ -64,6 +72,10 @@ let AccountPayable = {
         targets: -1,
         orderable: !1,
         render: function (a, e, t, n) {
+          if (page_type == 'show') {
+            return '';
+          }
+
           return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
         }
       },
@@ -97,6 +109,9 @@ let AccountPayable = {
         targets: -1,
         orderable: !1,
         render: function (a, e, t, n) {
+          if (page_type == 'show') {
+            return '';
+          }
           return '<a id="userow" class="btn btn-primary btn-sm m-btn--hover-brand select-coa" title="View" data-id="" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
         }
       },
@@ -237,6 +252,9 @@ let AccountPayable = {
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
+            if (page_type == 'show') {
+              return '';
+            }
             return (
               '<button data-target="#modal_edit_supplier_invoice" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
               '\t\t\t\t\t\t\t<a href="javascript:;" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -340,6 +358,9 @@ let AccountPayable = {
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
+            if (page_type == 'show') {
+              return '';
+            }
             return (
               '<button data-target="#modal_edit_adjustment" type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit-item" title="Edit" data-uuid=' + t.uuid + '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
               '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -476,6 +497,9 @@ let AccountPayable = {
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
+            if (page_type == 'show') {
+              return '';
+            }
             return (
               '<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
             );

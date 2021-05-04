@@ -739,6 +739,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\APController@approve'
 		)->middleware('role:admin|finance_chief|manager-finance|general-manager|finance_general-manager|CEO');
+        Route::get(
+			'/{ap_uuid}',
+			'memfisfa\Finac\Controllers\Frontend\APController@show'
+		)->name('apayment.show');
 	});
 
     Route::prefix('account-receivable')->group(function () {

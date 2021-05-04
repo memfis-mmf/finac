@@ -414,14 +414,16 @@
 @push('footer-scripts')
 <script>
   $(document).ready(function() {
-            let currentUrl = window.location.href;
-            let _hash = currentUrl.split('#');
-            if (_hash.length < 2) {
-                window.location.href=currentUrl+"#faAP";
-            } else {
-                window.location.href=currentUrl;
-            }
-        });
+    let currentUrl = window.location.href;
+    let _hash = currentUrl.split('#');
+    if (_hash.length < 2) {
+        window.location.href=currentUrl+"#faAP";
+    } else {
+        window.location.href=currentUrl;
+    }
+  });
+
+  let page_type = '{{ $page_type ?? null }}';
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
 
