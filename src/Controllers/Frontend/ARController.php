@@ -556,7 +556,7 @@ class ARController extends Controller
                 'credit_foreign' => ($ara_row->credit_idr / $ar_rate),
                 'debit' => 0,
                 'debit_foreign' => 0,
-                '_desc' => "{$ara_row->description} ({$ara_row->invoice->transactionnumber})",
+                '_desc' => "{$ara_row->description} <b>({$ara_row->invoice->transactionnumber})</b>",
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
