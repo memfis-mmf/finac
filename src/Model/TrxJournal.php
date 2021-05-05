@@ -159,6 +159,10 @@ class TrxJournal extends MemfisModel
                 ->first();
         }
 
+        if (! @$class_ref) {
+            return '';
+        }
+
         $idr_currency = Currency::where('code', 'idr')->first();
 
         $number = $doc_ref[$ref_no_code]['number'];
