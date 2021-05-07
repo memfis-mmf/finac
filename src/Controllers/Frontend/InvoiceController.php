@@ -933,6 +933,9 @@ class InvoiceController extends Controller
             ->addColumn('can_approve_fa', function($row) {
                 return $this->canApproveFa();
             })
+            ->addColumn('export_url', function($row) {
+                return route('invoice.export')."?uuid={$row->uuid}";
+            })
             ->escapeColumns([])
             ->make(true);
     }

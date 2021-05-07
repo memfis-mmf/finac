@@ -53,11 +53,16 @@ let Invoice = {
 
                 if (t.quotations) {
                   if (t.approve == 1) {
-                      return (
-                          '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="la la-print"></i></a>\t\t\t\t\t\t'+
-                          // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
-                          '\t\t\t\t\t\t\t'
-                      );
+                      html = 
+                        '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="la la-print"></i></a>\t\t\t\t\t\t';
+                        // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
+
+                      html +=
+                        '<a href="'+t.export_url+'" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid + '">' +
+                            '<i class="fa fa-file-download"></i>' +
+                        "</a>";
+
+                      return html;
 
                   } else if (t.status == 'Void') {
                       return (
@@ -65,9 +70,17 @@ let Invoice = {
                           '\t\t\t\t\t\t\t'
                       );
                   } else {
-                    html = '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="la la-print"></i></a>\t\t\t\t\t\t';
-                    html += '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t';
+                    html = 
+                      '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="la la-print"></i></a>\t\t\t\t\t\t';
+                    html += 
+                      '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t';
 
+                    html +=
+                      '<a href="'+t.export_url+'" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+                          t.uuid + '">' +
+                          '<i class="fa fa-file-download"></i>' +
+                      "</a>";
+                      
                     if (t.can_approve_fa) {
                       html += '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalinvoice" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Approve" data-uuid=' +
                             t.uuid +
