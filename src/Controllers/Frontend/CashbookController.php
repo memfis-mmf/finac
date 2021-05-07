@@ -9,11 +9,12 @@ use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 use App\Models\Department;
 use App\Models\Currency;
+use App\Models\Type;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use DB;
-use DataTables;
+use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class CashbookController extends Controller
 {
@@ -696,7 +697,7 @@ class CashbookController extends Controller
             'controller' => new Controller()
         ];
 
-        $pdf = \PDF::loadView('formview::cashbook', $data);
+        $pdf = PDF::loadView('formview::cashbook', $data);
         return $pdf->stream();
     }
     
