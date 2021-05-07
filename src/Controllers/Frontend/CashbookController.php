@@ -283,6 +283,9 @@ class CashbookController extends Controller
         ->addColumn('can_approve_fa', function($row) {
             return $this->canApproveFa();
         })
+        ->addColumn('export_url', function($row) {
+            return route('cashbook.export')."?uuid={$row->uuid}";
+        })
 		->escapeColumns([])
 		->make(true);
     }
@@ -729,6 +732,9 @@ class CashbookController extends Controller
     {
         $cashbook = Cashbook::query();
 
+        $now = Carbon::now()->format('d-m-Y');
+        $name = "Cashbook {$now}";
+        
         if ($request->uuid) {
             $cashbook = $cashbook->where('uuid', $request->uuid);
         }
@@ -740,8 +746,13 @@ class CashbookController extends Controller
             'cashbook' => $cashbook
         ];
 
-        $now = Carbon::now()->format('d-m-Y');
+        $prefix = 'All';
+        if ($request->uuid) {
+            $prefix = str_replace('/', '-', $cashbook->first()->transactionnumber);
+        }
 
-        return Excel::download(new CashbookExport($data), "{$now} Cashbook.xlsx");
+        $name .= " {$prefix}";
+
+        return Excel::download(new CashbookExport($data), "{$name}.xlsx");
     }
 }
