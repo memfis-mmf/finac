@@ -720,4 +720,25 @@ class CashbookController extends Controller
 
         return $data;
     }
+
+    public function export(Request $request)
+    {
+        $cashbook = Cashbook::query();
+
+        if ($request->uuid) {
+            $cashbook = $cashbook->where('uuid', $request->uuid);
+        }
+
+        $cashbook = $cashbook->get()
+            ->transform(function($row) {
+                $journal = $row->journal;
+
+                $row->journal_number = '-';
+                if ($journal) {
+                    $row->journal_number = "<a href='".route('journal.print')."?uuid=$journal->uuid'>$journal->voucher_no</a>";
+                }
+
+                return $row;
+            });
+    }
 }
