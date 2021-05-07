@@ -73,9 +73,8 @@
                   </form>
                 </div>
                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                  <a id="export" href="{{route('frontend.purchase-request.export.all')}}" id="name="
+                  <a id="export" href="{{ route('cashbook.export') }}" target="_blank"
                     class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-info btn-md" style="">
-
                     <span>
                       <i class="fa fa-file-download"></i>
                       <span>Export All</span>

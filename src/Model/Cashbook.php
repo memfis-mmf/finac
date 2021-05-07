@@ -34,6 +34,10 @@ class Cashbook extends MemfisModel
         'id_project',
     ];
 
+    protected $dates = [
+        'transactiondate'
+    ];
+
 	protected $appends = [
 		'approved_by',
 		'created_by',

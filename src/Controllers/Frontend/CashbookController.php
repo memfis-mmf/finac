@@ -16,6 +16,10 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
 
+//use for export
+use memfisfa\Finac\Model\Exports\CashbookExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class CashbookController extends Controller
 {
     public function index()
@@ -729,16 +733,15 @@ class CashbookController extends Controller
             $cashbook = $cashbook->where('uuid', $request->uuid);
         }
 
-        $cashbook = $cashbook->get()
-            ->transform(function($row) {
-                $journal = $row->journal;
+        $cashbook = $cashbook->get();
 
-                $row->journal_number = '-';
-                if ($journal) {
-                    $row->journal_number = "<a href='".route('journal.print')."?uuid=$journal->uuid'>$journal->voucher_no</a>";
-                }
+        $data = [
+            'controller' => new Controller(),
+            'cashbook' => $cashbook
+        ];
 
-                return $row;
-            });
+        $now = Carbon::now()->format('d-m-Y');
+
+        return Excel::download(new CashbookExport($data), "{$now} Cashbook.xlsx");
     }
 }

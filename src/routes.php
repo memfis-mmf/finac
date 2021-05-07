@@ -70,6 +70,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@index'
         )->name('cashbook.index');
+        Route::get(
+			'/export',
+			'memfisfa\Finac\Controllers\Frontend\CashbookController@export'
+        )->name('cashbook.export');
 		Route::get(
 			'/select2-cashbook-ref',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@select2Ref'
