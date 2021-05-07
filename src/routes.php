@@ -1054,6 +1054,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
 	Route::prefix('invoice')->group(function () {
         Route::get('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
+        Route::get('export', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@export')->name('invoice.export');
 		Route::get(
 			'/calculate-quo',
 			'memfisfa\Finac\Controllers\Frontend\InvoiceController@calculateQuo'

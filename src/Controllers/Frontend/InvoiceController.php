@@ -33,6 +33,10 @@ use stdClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+//use for export
+use memfisfa\Finac\Model\Exports\InvoiceExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class InvoiceController extends Controller
 {
     private $qn_select_column = [
@@ -1528,5 +1532,33 @@ class InvoiceController extends Controller
         }
 
         return json_encode($type, JSON_PRETTY_PRINT);
+    }
+
+    public function export(Request $request)
+    {
+        $invoice = Invoice::query();
+
+        $now = Carbon::now()->format('d-m-Y');
+        $name = "Invoice {$now}";
+        
+        if ($request->uuid) {
+            $invoice = $invoice->where('uuid', $request->uuid);
+        }
+
+        $invoice = $invoice->get();
+
+        $data = [
+            'controller' => new Controller(),
+            'invoice' => $invoice
+        ];
+
+        $prefix = 'All';
+        if ($request->uuid) {
+            $prefix = str_replace('/', '-', $invoice->first()->transactionnumber);
+        }
+
+        $name .= " {$prefix}";
+
+        return Excel::download(new InvoiceExport($data), "{$name}.xlsx");
     }
 }

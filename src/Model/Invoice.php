@@ -32,6 +32,10 @@ class Invoice extends MemfisModel
         'due_date'
 	];
 
+    protected $dates = [
+        'transactiondate'
+    ];
+
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
