@@ -28,6 +28,21 @@ class AReceiveA extends MemfisModel
         'description',
     ];
 
+    protected $appends = [
+        'gap'
+    ];
+
+    public function getGapAttribute()
+    {
+        $arc = $this->arc;
+
+        if (! $arc) {
+            return 0;
+        }
+
+        return $arc->debit - $arc->credit;
+    }
+
     public function ar()
     {
         return $this->belongsTo(

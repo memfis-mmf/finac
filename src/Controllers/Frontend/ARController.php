@@ -7,17 +7,19 @@ use memfisfa\Finac\Model\AReceive;
 use memfisfa\Finac\Model\AReceiveA;
 use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\Invoice;
-use memfisfa\Finac\Request\AReceiveUpdate;
-use memfisfa\Finac\Request\AReceiveStore;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
 use App\Models\Department;
-use DataTables;
-use DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+
+//use for export
+use memfisfa\Finac\Model\Exports\ARExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ARController extends Controller
 {
@@ -248,7 +250,7 @@ class ARController extends Controller
             $data = $data->where('approve', $status[$request->status]);
         }
 
-        return DataTables::of($data)
+        return datatables($data)
             ->addColumn('transactionnumber_link', function($row) {
                 $html = '<a href="'.route('areceive.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
 
@@ -317,7 +319,7 @@ class ARController extends Controller
 
         $data = $invoice;
 
-        return DataTables::of($data)
+        return datatables($data)
             ->addColumn('total_amount_idr', function($row) {
                 return $this->countPaidAmount($row->id);
             })
@@ -680,5 +682,54 @@ class ARController extends Controller
 
         $pdf = \PDF::loadView('formview::ar', $data);
         return $pdf->stream();
+    }
+
+    public function export(Request $request)
+    {
+        $invoice = Invoice::has('ara');
+
+        if ($request->uuid) {
+            $invoice = $invoice->whereHas('ara.ar', function($ar) use($request) {
+                $ar->where('uuid', $request->uuid);
+            });
+        }
+
+        $invoice = $invoice
+            ->get()
+            ->filter(function($row) {
+
+                foreach ($row->ara as $ara_row) {
+                    $ar = null;
+                    if ($ara_row->ar_id != 0) {
+                        $ar = $ara_row->ar;
+                    }
+                }
+
+                if ($ar) {
+                    $row->ar = $ar;
+                    $row->ar->gap = $row->ar->arc->sum(function($arc) {
+                        return $arc->debit - $arc->credit;
+                    });
+                    return $row;
+                }
+            });
+
+        $data = [
+            'controller' => new Controller(),
+            'invoice' => $invoice,
+            'carbon' => Carbon::class
+        ];
+
+        $prefix = 'All';
+        if ($request->uuid) {
+            $prefix = str_replace('/', '-', $invoice->first()->ara->ar->transactionnumber);
+        }
+
+        $now = Carbon::now()->format('d-m-Y');
+        $name = "Account Receivable {$now}";
+
+        $name .= " {$prefix}";
+
+        return Excel::download(new ARExport($data), "{$name}.xlsx");
     }
 }

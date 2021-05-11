@@ -754,6 +754,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/',
 			'memfisfa\Finac\Controllers\Frontend\ARController@index'
 		)->name('areceive.index');
+        Route::get(
+			'/export',
+			'memfisfa\Finac\Controllers\Frontend\ARController@export'
+		)->name('areceive.export');
 		Route::get(
 			'/create',
 			'memfisfa\Finac\Controllers\Frontend\ARController@create'

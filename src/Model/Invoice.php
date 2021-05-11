@@ -6,12 +6,10 @@ use App\Models\Approval;
 use App\Models\Currency;
 use App\Models\Quotation;
 use App\Models\Customer;
-use App\Models\Bank;
 use App\Models\BankAccount;
 use App\User;
 use Carbon\Carbon;
 use memfisfa\Finac\Model\MemfisModel;
-use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends MemfisModel
 {
