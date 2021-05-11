@@ -66,12 +66,18 @@ let Journal = {
                     _html +=
                       '<a href="'+row.url_edit+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
                       t.uuid +
-                      '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t';
+                      '><i class="la la-pencil"></i></a>';
 
                     _html +=
-                      '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
+                      '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                       t.uuid +
-                      ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
+                      ' title="Delete"><i class="la la-trash"></i> </a>';
+
+                    _html +=
+                      '<a href="'+t.url_export+'" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+                          t.uuid + '">' +
+                          '<i class="fa fa-file-download"></i>' +
+                      "</a>";
 
                     if (t.can_approve_fa) {
                       _html +=

@@ -265,6 +265,9 @@ class ARController extends Controller
             ->addColumn('url_edit', function($row) {
                 return route('areceive.edit', $row->uuid);
             })
+            ->addColumn('url_export', function($row) {
+                return route('areceive.export')."?uuid={$row->uuid}";
+            })
             ->addColumn('can_approve_fa', function($row) {
                 return $this->canApproveFa();
             })
@@ -720,10 +723,11 @@ class ARController extends Controller
             'carbon' => Carbon::class
         ];
 
-        $prefix = 'All';
-        if ($request->uuid) {
-            $prefix = str_replace('/', '-', $invoice->first()->ara->ar->transactionnumber);
-        }
+        $prefix = '';
+        // $prefix = 'All';
+        // if ($request->uuid) {
+        //     $prefix = str_replace('/', '-', $invoice->first()->ara->ar->transactionnumber);
+        // }
 
         $now = Carbon::now()->format('d-m-Y');
         $name = "Account Receivable {$now}";
