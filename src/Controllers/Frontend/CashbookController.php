@@ -732,9 +732,6 @@ class CashbookController extends Controller
     {
         $cashbook = Cashbook::query();
 
-        $now = Carbon::now()->format('d-m-Y');
-        $name = "Cashbook {$now}";
-        
         if ($request->uuid) {
             $cashbook = $cashbook->where('uuid', $request->uuid);
         }
@@ -750,6 +747,9 @@ class CashbookController extends Controller
         if ($request->uuid) {
             $prefix = str_replace('/', '-', $cashbook->first()->transactionnumber);
         }
+
+        $now = Carbon::now()->format('d-m-Y');
+        $name = "Cashbook {$now}";
 
         $name .= " {$prefix}";
 
