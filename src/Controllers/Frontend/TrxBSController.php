@@ -138,12 +138,12 @@ class TrxBSController extends Controller
 		$data = $request->all();
 		$data['transaction_number'] = BS::generateCode('BSTR');
 
-        $bs = BS::create($data);
+        BS::create($data);
 
         return [
             'status' => true,
             'message' => 'Data Saved',
-            'redirect' => route('bs.edit', $bs->uuid)
+            'redirect' => route('bs.index')
         ];
     }
 
