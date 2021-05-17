@@ -2,7 +2,7 @@ let GetDateRequired = {
     init: function () {
 
         $("#date-required").datetimepicker({
-            format: "yyyy-mm-dd",
+            format: "dd-mm-yyyy",
             todayHighlight: !0,
             autoclose: !0,
             startView: 2,

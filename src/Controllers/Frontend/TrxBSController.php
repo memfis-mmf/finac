@@ -11,6 +11,7 @@ use memfisfa\Finac\Request\BSStore;
 use App\Models\Currency;
 use App\Models\Employee;
 use App\Models\Approval;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use memfisfa\Finac\Model\TypeJurnal;
 
@@ -94,12 +95,38 @@ class TrxBSController extends Controller
         ]);
 
         $bs = BS::create($request->all());
-        
+
         return $bs;
 	}
 
-    public function store(BSStore $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'id_employee' => 'required',
+            'transaction_date' => 'required',
+            'date_return' => 'required',
+            'value' => 'required|numeric',
+            'coac' => 'required',
+            'coad' => 'required',
+        ], [
+            'id_employee.required' => 'Person cannot be empty',
+            'transaction_date.required' => 'Date cannot be empty',
+            'date_return.required' => 'Date returned cannot be empty',
+            'value.required' => 'Amount cannot be empty',
+            'coac.required' => 'Cash/Bank account cannot be empty',
+            'coad.required' => 'Bond cannot be empty',
+        ]);
+
+        $transaction_date = Carbon::createFromFormat('d-m-Y', $request->transaction_date);
+        $return_date = Carbon::createFromFormat('d-m-Y', $request->date_return);
+
+        if ($return_date < $transaction_date) {
+            return [
+                'status' => false,
+                'message' => 'Date return must be more than transaction date'
+            ];
+        }
+
 		/*
 		 *coac itu yang bank
 		 *coad itu yang bond
@@ -112,7 +139,12 @@ class TrxBSController extends Controller
 		$data['transaction_number'] = BS::generateCode('BSTR');
 
         $bs = BS::create($data);
-        return response()->json($bs);
+
+        return [
+            'status' => true,
+            'message' => 'Data Saved',
+            'redirect' => route('bs.edit', $bs->uuid)
+        ];
     }
 
     public function edit(Request $request)
@@ -165,25 +197,25 @@ class TrxBSController extends Controller
             ->of($data)
             ->addColumn('action', function($row) {
                 $html =
-                    '<a href="'.route('bs.edit', $row->uuid).'" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
-                        title="Edit" 
+                    '<a href="'.route('bs.edit', $row->uuid).'"
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit"
+                        title="Edit"
                         data-uuid="'.$row->uuid.'">
                         <i class="la la-pencil"></i>
                     </a>';
                 $html .=
-                    '<a href="javascript:;" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" 
-                        title="Delete" 
+                    '<a href="javascript:;"
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete"
+                        title="Delete"
                         data-uuid=t.uuid>
-                        <i class="la la-trash"></i> 
+                        <i class="la la-trash"></i>
                     </a>';
-                $html .= 
-                    '<a href="javascript:;" 
-                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve" 
-                        title="Approve" 
+                $html .=
+                    '<a href="javascript:;"
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill approve"
+                        title="Approve"
                         data-uuid="'.$row->uuid.'">
-                        <i class="la la-check"></i> 
+                        <i class="la la-check"></i>
                     </a>';
 
                 return $html;

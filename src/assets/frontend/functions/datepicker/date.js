@@ -2,7 +2,7 @@ let GetDate = {
     init: function () {
 
         $("#date").datetimepicker({
-            format: "yyyy-mm-dd",
+            format: "dd-mm-yyyy",
             todayHighlight: !0,
             autoclose: !0,
             startView: 2,
