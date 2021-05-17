@@ -62,6 +62,12 @@ let Journal = {
                     '<i class="la la-print"></i>' +
                 '</a>';
 
+                _html +=
+                    '<a href="'+t.url_export+'" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
+                        t.uuid + '">' +
+                        '<i class="fa fa-file-download"></i>' +
+                    "</a>";
+
                 if (!t.approve) {
                     _html +=
                       '<a href="'+row.url_edit+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" title="Edit" data-uuid=' +
@@ -72,12 +78,6 @@ let Journal = {
                       '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                       t.uuid +
                       ' title="Delete"><i class="la la-trash"></i> </a>';
-
-                    _html +=
-                      '<a href="'+t.url_export+'" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
-                          t.uuid + '">' +
-                          '<i class="fa fa-file-download"></i>' +
-                      "</a>";
 
                     if (t.can_approve_fa) {
                       _html +=
