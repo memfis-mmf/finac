@@ -101,10 +101,11 @@ class CashbookController extends Controller
             }
         }
 
-		$request->request->add([
+		$request->merge([
 			'transactionnumber' => Cashbook::generateCode(
-				$this->transactionnumber($request->cashbook_type)
-			)
+                    $this->transactionnumber($request->cashbook_type)
+                ),
+            'transactiondate' => Carbon::createFromFormat('d-m-Y', $request->transactiondate)
 		]);
 
         $cashbook = Cashbook::create($request->all());
@@ -488,7 +489,7 @@ class CashbookController extends Controller
 
 			$total_debit = 0;
             $total_credit = 0;
-            
+
             $detail = [];
 
 			for (
@@ -523,7 +524,7 @@ class CashbookController extends Controller
 				$positiion = 'debit';
 				$x_positiion = 'credit';
             }
-            
+
             if (count($detail) < 1) {
 				return response()->json([
 					'errors' => 'Cashbook is empty'
@@ -656,7 +657,7 @@ class CashbookController extends Controller
 			$positiion = 'debit';
 			$x_positiion = 'credit';
         }
-        
+
         if (Str::contains(strtolower($cashbook->transactionnumber), ['cp'])) {
             $type_header = 'Cash Payment';
         }
@@ -707,7 +708,7 @@ class CashbookController extends Controller
         $pdf = PDF::loadView('formview::cashbook', $data);
         return $pdf->stream();
     }
-    
+
     public function select2Ref(Request $request)
     {
         $cashbook = Cashbook::where('approve', true)
