@@ -23,7 +23,7 @@
       <td>{{ $invoice_row->transactiondate->format('d-m-Y') }}</td>
       <td>{{ $invoice_row->transactionnumber }}</td>
       <td>{{ $invoice_row->quotations->number ?? '-' }}</td>
-      <td>{{ $invoice_row->quotations->title }}</td>
+      <td>{{ $invoice_row->quotations->title ?? '-' }}</td>
       <td>{{ strtoupper($invoice_row->currencies->code) }}</td>
       <td>{{ $controller->currency_format($invoice_row->exchangerate, 2) }}</td>
       <td>{{ $controller->currency_format($invoice_row->subtotal, 2) }}</td>
@@ -39,4 +39,4 @@
       <td>{{ $invoice_row->approved_by }}</td>
     </tr>
   @endforeach
-</table>   
+</table>
