@@ -125,20 +125,21 @@ class TrxBSController extends Controller
         ]);
 
         $employee = Employee::where('uuid', $request->id_employee)->firstOrFail();
-
-        $request->merge([
-            'id_employee' => $employee->id
-        ]);
-
         $transaction_date = Carbon::createFromFormat('d-m-Y', $request->transaction_date);
-        $return_date = Carbon::createFromFormat('d-m-Y', $request->date_return);
+        $date_return = Carbon::createFromFormat('d-m-Y', $request->date_return);
 
-        if ($return_date < $transaction_date) {
+        if ($date_return < $transaction_date) {
             return [
                 'status' => false,
-                'message' => 'Date return must be more than transaction date'
+                'message' => 'Date return cannot be less than transaction date'
             ];
         }
+
+        $request->merge([
+            'id_employee' => $employee->id,
+            'transaction_date' => $transaction_date,
+            'date_return' => $date_return,
+        ]);
 
 		/*
 		 *coac itu yang bank

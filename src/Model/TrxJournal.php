@@ -107,7 +107,7 @@ class TrxJournal extends MemfisModel
                 'rate' => 'exchangerate',
                 'class' => new APayment(),
                 'currency' => 'currencies'
-            ], 
+            ],
             'BPYJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
@@ -285,9 +285,13 @@ class TrxJournal extends MemfisModel
 
 		}
 
-		TrxJournal::where('id', $journal->id)->update([
-			'total_transaction' => $header->value
+        $tmp_journal = TrxJournal::where('id', $journal->id);
+
+		$tmp_journal->update([
+			'total_transaction' => $header->value,
 		]);
+
+        TrxJournal::approve($tmp_journal);
 	}
 
 	static public function insertFromBSR($header, $detail)
@@ -575,9 +579,9 @@ class TrxJournal extends MemfisModel
                         'debit' => $detail_row->val,
                         'credit' => 0,
                         '_desc' => 'Material Usage: '
-                            . $header->voucher_no 
+                            . $header->voucher_no
                             . ' '
-                            . $detail_row->part_number 
+                            . $detail_row->part_number
                     ];
                 }
 
@@ -591,9 +595,9 @@ class TrxJournal extends MemfisModel
                         'debit' => 0,
                         'credit' => $detail_row->val,
                         '_desc' => 'Increased Inventory : '
-                            . $header->voucher_no 
+                            . $header->voucher_no
                             . ' '
-                            . $detail_row->item_categories->name 
+                            . $detail_row->item_categories->name
                     ];
                 }
             }
@@ -653,5 +657,5 @@ class TrxJournal extends MemfisModel
 			'voucher_no',
 			'voucher_no'
 		);
-    }    
+    }
 }
