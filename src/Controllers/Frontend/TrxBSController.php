@@ -255,7 +255,7 @@ class TrxBSController extends Controller
                     '<a href="javascript:;"
                         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete"
                         title="Delete"
-                        data-uuid=t.uuid>
+                        data-uuid='.$row->uuid.'>
                         <i class="la la-trash"></i>
                     </a>';
                 $html .=
