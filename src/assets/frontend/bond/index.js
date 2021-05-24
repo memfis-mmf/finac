@@ -4,7 +4,7 @@ let Bond = {
     let _url = window.location.origin;
 
     let number_format = new Intl.NumberFormat('de-DE', {
-      minimumFractionDigits: 2,      
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
 
@@ -31,7 +31,7 @@ let Bond = {
       columns: [
         {data: 'transaction_date'},
         {data: 'transaction_number'},
-        {data: 'person', defaultContent: '-'},
+        {data: 'employee.full_name', name: 'employee.first_name', defaultContent: '-'},
         {data: 'value', render: (data, type, row) => {
           return number_format.format(row.value);
         }},

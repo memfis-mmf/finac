@@ -28,6 +28,13 @@ class TrxBSController extends Controller
 
 		$header = $bs->first();
 
+        if ($header->approve) {
+            return [
+                'status' => false,
+                'message' => 'Document already approved'
+            ];
+        }
+
 		$detail[] = (object) [
 			'code' => $header->coad
 		];
@@ -117,6 +124,12 @@ class TrxBSController extends Controller
             'coad.required' => 'Bond cannot be empty',
         ]);
 
+        $employee = Employee::where('uuid', $request->id_employee)->firstOrFail();
+
+        $request->merge([
+            'id_employee' => $employee->id
+        ]);
+
         $transaction_date = Carbon::createFromFormat('d-m-Y', $request->transaction_date);
         $return_date = Carbon::createFromFormat('d-m-Y', $request->date_return);
 
@@ -152,6 +165,13 @@ class TrxBSController extends Controller
 		$data['data'] = BS::where('uuid', $request->bs)->first();
 		$data['employee'] = Employee::orderBy('id', 'desc')->get();
 
+        if ($data['data']->approve) {
+            return [
+                'status' => false,
+                'message' => 'Document already approved'
+            ];
+        }
+
 		if ($data['data']->approve) {
 			return redirect()->back();
 		}
@@ -161,6 +181,13 @@ class TrxBSController extends Controller
 
     public function update(BSUpdate $request, BS $bs)
     {
+        if ($bs->approve) {
+            return [
+                'status' => false,
+                'message' => 'Document already approved'
+            ];
+        }
+
 		$request->request->add([
 			'closed' => 0
 		]);
@@ -172,6 +199,13 @@ class TrxBSController extends Controller
 
     public function destroy(BS $bs)
     {
+        if ($bs->approve) {
+            return [
+                'status' => false,
+                'message' => 'Document already approved'
+            ];
+        }
+
         $bs->delete();
 
         return response()->json($bs);
@@ -196,6 +230,19 @@ class TrxBSController extends Controller
         return datatables()
             ->of($data)
             ->addColumn('action', function($row) {
+                $html = '';
+                if ($row->approve) {
+                    $html =
+                        '<a href="'.route('bs.print', $row->uuid).'"
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                            title="Print"
+                            data-uuid="'.$row->uuid.'">
+                            <i class="la la-print"></i>
+                        </a>';
+
+                    return $html;
+                }
+
                 $html =
                     '<a href="'.route('bs.edit', $row->uuid).'"
                         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit"
@@ -251,7 +298,7 @@ class TrxBSController extends Controller
 			'credit' => $credit,
 		];
 
-        $pdf = \PDF::loadView('formview::bs', $data);
+        $pdf = \PDF::loadView('formview::view-bs', $data);
         return $pdf->stream();
 	}
 }
