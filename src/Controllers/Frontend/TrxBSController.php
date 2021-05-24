@@ -233,13 +233,15 @@ class TrxBSController extends Controller
             ->addColumn('action', function($row) {
                 $html = '';
                 if ($row->approve) {
-                    $html =
-                        '<a href="'.route('bs.print', $row->uuid).'"
-                            class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
-                            title="Print"
-                            data-uuid="'.$row->uuid.'">
-                            <i class="la la-print"></i>
-                        </a>';
+                    // $html =
+                    //     '<a href="'.route('bs.print', $row->uuid).'"
+                    //         class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"
+                    //         title="Print"
+                    //         data-uuid="'.$row->uuid.'">
+                    //         <i class="la la-print"></i>
+                    //     </a>';
+
+                    $html = '-';
 
                     return $html;
                 }
@@ -274,32 +276,14 @@ class TrxBSController extends Controller
 
 	public function print(Request $request)
 	{
+        return redirect()->back();
 		$bs = BS::where('uuid', $request->uuid)->first();
-		$bsa = $bs->bsa;
-
-		if ($this->checkBalance($bsa)) {
-			return redirect()->route('bs.index')->with([
-				'errors' => 'Debit and Credit not balance'
-			]);
-		}
-
-		$debit = 0;
-		$credit = 0;
-
-		for ($i = 0; $i < count($bsa); $i++) {
-			$x = $bsa[$i];
-			$debit += $x->debit;
-			$credit += $x->credit;
-		}
 
 		$data = [
 			'bs' => $bs,
-			'bsa' => $bsa,
-			'debit' => $debit,
-			'credit' => $credit,
 		];
 
-        $pdf = \PDF::loadView('formview::view-bs', $data);
+        $pdf = \PDF::loadView('formview::bs', $data);
         return $pdf->stream();
 	}
 }
