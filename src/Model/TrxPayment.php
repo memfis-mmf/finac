@@ -55,6 +55,10 @@ class TrxPayment extends MemfisModel
 		'print_date',
 	];
 
+    protected $dates = [
+        'transaction_date'
+    ];
+
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');

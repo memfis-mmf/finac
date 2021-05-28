@@ -90,7 +90,7 @@
                       @slot('text', 'Date')
                       @slot('name', 'transaction_date')
                       @slot('id_error', 'date')
-                      @slot('value', $data->transaction_date)
+                      @slot('value', $data->transaction_date->format('d-m-Y'))
                       @endcomponent
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6">
@@ -129,7 +129,7 @@
 
                           <div class="input-group date">
                             <input type="text" disabled="disabled" id="valid_until" name="valid_until"
-                              class="form-control" value="{{$data->due_date}}">
+                              class="form-control" value="{{ $data->transaction_date->addDays($data->closed)->format('d-m-Y') }}">
                             <div class="input-group-append">
                               <span class="input-group-text">
                                 <i class="la la-calendar glyphicon-th"></i>
@@ -449,21 +449,16 @@
     });
 
     $('body').on('input', '#term_of_payment', function() {
-        let date = new Date($('[name=transaction_date]').val());
+      let transaction_date_arr = $('[name=transaction_date]').val().split('-')
+      let date = new Date(transaction_date_arr[2], transaction_date_arr[1], transaction_date_arr[0]);
 
-        console.log([
-            date,
-            $(this).val()
-        ]);
+			if (parseInt($(this).val())) {
+				date.setDate(date.getDate() + parseInt($(this).val()));
 
-        if (parseInt($(this).val())) {
-            date.setDate(date.getDate() + parseInt($(this).val()));
-
-        $('#valid_until').val(date.toInputFormat());
-        }else{
-        $('#valid_until').val('');
-        }
-
+	      $('#valid_until').val(('0'+date.getDate()).slice(-2)+'-'+('0'+date.getMonth()).slice(-2)+'-'+date.getFullYear());
+			}else{
+	      $('#valid_until').val('');
+			}
     });
 
         Date.prototype.toInputFormat = function() {

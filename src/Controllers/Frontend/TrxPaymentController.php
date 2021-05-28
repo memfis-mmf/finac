@@ -18,6 +18,7 @@ use App\Models\GoodsReceived as GRN;
 use App\Models\PurchaseOrder as PO;
 use App\Models\Approval;
 use App\Models\PurchaseOrder;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use DataTables;
@@ -176,11 +177,9 @@ class TrxPaymentController extends Controller
 
 		DB::beginTransaction();
 		$request->merge([
-			'id_supplier' => $request->id_supplier
-		]);
-
-		$request->merge([
-			'account_code' => Vendor::findOrFail($request->id_supplier)->coa->first()->code
+			'id_supplier' => $request->id_supplier,
+			'account_code' => Vendor::findOrFail($request->id_supplier)->coa->first()->code,
+            'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->transaction_date)
 		]);
 
 		$request->request->add([
@@ -252,6 +251,7 @@ class TrxPaymentController extends Controller
         $total = $trxpayment_class->calculateGrandtotalSIGeneral($trxpayment);
 
 		$request->merge([
+            'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->transaction_date),
 			'description' => $request->description_si,
             'grandtotal_foreign' => $total['total'],
             'grandtotal' => $total['total_idr'],
@@ -511,14 +511,11 @@ class TrxPaymentController extends Controller
 
 		DB::beginTransaction();
 		$request->merge([
-			'id_supplier' => $request->id_supplier
-		]);
-
-		$request->request->add([
-			'transaction_number' => TrxPayment::generateCode('GRNT'),
+			'id_supplier' => $request->id_supplier,
+            'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->transaction_date),
+            'transaction_number' => TrxPayment::generateCode('GRNT'),
 			'x_type' => 'GRN',
-			'account_code' => Vendor::find($request->id_supplier)
-			->coa()->first()->code
+			'account_code' => Vendor::find($request->id_supplier)->coa()->first()->code
 		]);
 
         $trxpayment = TrxPayment::create($request->all());
@@ -833,6 +830,7 @@ class TrxPaymentController extends Controller
 		}
 
 		$request->merge([
+            'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->transaction_date),
 			'description' => $request->description_si
 		]);
 
