@@ -12,6 +12,8 @@
         &mdash; Select {{ $entity ?? '' }} &mdash;
     </option>
 
+    {!! $option ?? null !!}
+
 </select>
 
 <div class="form-control-feedback text-danger" id="{{ $id_error ?? '' }}-error"></div>
