@@ -248,9 +248,10 @@ class TrxJournal extends MemfisModel
 	 *jangan copy function dibawah ini untuk membuat function lain
 	 *yang seperti ini, copy function insertFromAP saja
 	 */
-	static public function insertFromBS($header, $detail)
+	static public function insertFromCashAdvance($header, $detail)
 	{
-		$data['voucher_no'] = $header->transaction_number;
+		$data['voucher_no'] = TrxJournal::generateCode('PRJR');
+		$data['ref_no'] = $header->transaction_number;
 		$data['transaction_date'] = $header->transaction_date;
 		$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
 		$data['currency_code'] = 'idr';
@@ -258,13 +259,11 @@ class TrxJournal extends MemfisModel
 
 		$journal = TrxJournal::create($data);
 
-		$total = $header->value;
-
 		for($a = 0; $a < count($detail); $a++) {
 
 			if($detail[$a]) {
 
-				$debit = $header->value;
+				$debit = $header->amount;
 				$credit = 0;
 
 				/*
@@ -272,7 +271,7 @@ class TrxJournal extends MemfisModel
 				 */
 				if ($a > 0) {
 					$debit = 0;
-					$credit = $header->value;
+					$credit = $header->amount;
 				}
 
 				TrxJournalA::create([
@@ -288,7 +287,7 @@ class TrxJournal extends MemfisModel
         $tmp_journal = TrxJournal::where('id', $journal->id);
 
 		$tmp_journal->update([
-			'total_transaction' => $header->value,
+			'total_transaction' => $header->amount,
 		]);
 
         TrxJournal::approve($tmp_journal);
