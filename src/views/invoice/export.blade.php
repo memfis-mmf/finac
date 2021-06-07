@@ -1,20 +1,20 @@
 <table>
   <tr>
-    <th style="background: #ffb822"><b>date invoice</b></th>
-    <th style="background: #ffb822"><b>invoice no</b></th>
-    <th style="background: #ffb822"><b>ref QN no</b></th>
+    <th style="background: #ffb822"><b>Date Invoice</b></th>
+    <th style="background: #ffb822"><b>Invoice No</b></th>
+    <th style="background: #ffb822"><b>Ref QN No</b></th>
     <th style="background: #ffb822"><b>Subject</b></th>
-    <th style="background: #ffb822"><b>currency</b></th>
-    <th style="background: #ffb822"><b>exchange rate</b></th>
-    <th style="background: #ffb822"><b>sub total</b></th>
-    <th style="background: #ffb822"><b>disc total</b></th>
-    <th style="background: #ffb822"><b>total before tax</b></th>
-    <th style="background: #ffb822"><b>vat type</b></th>
+    <th style="background: #ffb822"><b>Currency</b></th>
+    <th style="background: #ffb822"><b>Exchange rate</b></th>
+    <th style="background: #ffb822"><b>Sub Total</b></th>
+    <th style="background: #ffb822"><b>Disc Total</b></th>
+    <th style="background: #ffb822"><b>Total Before Tax</b></th>
+    <th style="background: #ffb822"><b>Vat Type</b></th>
     <th style="background: #ffb822"><b>VAT 10%</b></th>
     <th style="background: #ffb822"><b>Other Cost Total</b></th>
     <th style="background: #ffb822"><b>Grand Total</b></th>
     <th style="background: #ffb822"><b>Grand Total IDR</b></th>
-    <th style="background: #ffb822"><b>status</b></th>
+    <th style="background: #ffb822"><b>Status</b></th>
     <th style="background: #ffb822"><b>Created By</b></th>
     <th style="background: #ffb822"><b>Approved By</b></th>
   </tr>
