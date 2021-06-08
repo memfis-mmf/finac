@@ -18,6 +18,8 @@ use App\Models\Approval;
 use DataTables;
 use App\Models\Project;
 use Carbon\Carbon;
+use memfisfa\Finac\Model\Invoice;
+use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
 class JournalController extends Controller
 {
@@ -213,6 +215,68 @@ class JournalController extends Controller
         return view('journalview::edit', $data);
     }
 
+    public function setRefLink(Journal $journal): string
+    {
+        $ref_no = explode('-', $journal->ref_no)[0];
+
+        // 1. jika dari cash advance, direct page mengarah pada halaman print out cash advance
+        // 2. jika dari invoice, direct page mengarah pada halaman show invoice
+        // 3. jika dari cashbook, direct page mengarah pada halaman print out cashbook
+        // 4. jika dari AP/AR, direct page mengarah pada halaman print out AP/AR
+        // 5. jika dari depr asset, direct page mengarah pada halaman show asset nya
+        // 6. jika dari GRN, direct page mengarah pada halaman print out GRN
+
+        switch ($ref_no) {
+            case 'CSAD':
+                $link = 'javascript:;';
+                break;
+            case 'INVC':
+                $invoice = Invoice::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('invoice.show', $invoice->uuid);
+                break;
+            case 'IVSL':
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                break;
+            case 'CBPJ':
+                # code...
+                break;
+            case 'CBRJ':
+                # code...
+                break;
+            case 'CCPJ':
+                # code...
+                break;
+            case 'CCRJ':
+                # code...
+                break;
+            case 'BPYJ':
+                # code...
+                break;
+            case 'CPYJ':
+                # code...
+                break;
+            case 'CCPJ':
+                # code...
+                break;
+            case 'BPYJ':
+                # code...
+                break;
+            case 'FAMS':
+                # code...
+                break;
+            case 'GRNI':
+                # code...
+                break;
+            
+            default:
+                return $journal->ref_no;
+                break;
+        }
+
+        return "<a href='{$link}'>{$journal->ref_no}</a>";
+    }
+
     public function datatables(Request $request)
     {
         ini_set('max_execution_time', -1); 
@@ -244,7 +308,7 @@ class JournalController extends Controller
             $data = $data->where('approve', $status[$request->status]);
         }
         
-        return datatables()->of($data)
+        return datatables($data)
             ->addColumn('transaction_date', function($row) {
                 return $row->transaction_date;
             })
@@ -252,6 +316,9 @@ class JournalController extends Controller
                 return '<a href="'.route('journal.show', $row->uuid).'">'
                             .$row->voucher_no
                         .'</a>';
+            })
+            ->addColumn('ref_no_link', function($row) {
+                return $this->setRefLink($row);
             })
             ->addColumn('type_jurnal_name', function($row) {
                 return $row->type_jurnal->name;
