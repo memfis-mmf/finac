@@ -125,7 +125,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/print',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@print'
-        );
+        )->name('cashbook.print');
 		Route::get(
 			'/{cashbook}',
 			'memfisfa\Finac\Controllers\Frontend\CashbookController@show'
