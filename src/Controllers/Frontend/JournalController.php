@@ -239,34 +239,44 @@ class JournalController extends Controller
                 $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CBPJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CBRJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CCPJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CCRJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'BPYJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CPYJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CCPJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'BPYJ':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'FAMS':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'GRNI':
-                # code...
+                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             
             default:
