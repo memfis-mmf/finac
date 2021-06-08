@@ -15,9 +15,14 @@ use memfisfa\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Approval;
+use App\Models\GoodsReceived;
 use DataTables;
 use App\Models\Project;
 use Carbon\Carbon;
+use memfisfa\Finac\Model\APayment;
+use memfisfa\Finac\Model\AReceive;
+use memfisfa\Finac\Model\Asset;
+use memfisfa\Finac\Model\Cashbook;
 use memfisfa\Finac\Model\Invoice;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
@@ -239,44 +244,44 @@ class JournalController extends Controller
                 $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CBPJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('cashbook.print', $cashbook->uuid);
                 break;
             case 'CBRJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('cashbook.print', $cashbook->uuid);
                 break;
             case 'CCPJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('cashbook.print', $cashbook->uuid);
                 break;
             case 'CCRJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('cashbook.print', $cashbook->uuid);
                 break;
             case 'BPYJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $ap = APayment::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('apayment.print', $ap->uuid);
                 break;
             case 'CPYJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $ap = APayment::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('apayment.print', $ap->uuid);
                 break;
-            case 'CCPJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+            case 'BRCJ':
+                $ar = AReceive::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('areceive.print', $ar->uuid);
                 break;
-            case 'BPYJ':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+            case 'CRCJ':
+                $ar = AReceive::where('transactionnumber', $journal->ref_no)->firstOrFail();
+                $link = route('areceive.print', $ar->uuid);
                 break;
             case 'FAMS':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $asset = Asset::where('transaction_number', $journal->ref_no)->firstOrFail();
+                $link = route('asset.show', $asset->uuid);
                 break;
             case 'GRNI':
-                $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->firstOrFail();
-                $link = route('frontend.invoice-workshop.show', $invoice->uuid);
+                $grn = GoodsReceived::where('number', $journal->ref_no)->firstOrFail();
+                $link = route('frontend.goods-received.show', $grn->uuid);
                 break;
             
             default:
