@@ -266,19 +266,19 @@ class JournalController extends Controller
                 break;
             case 'BPYJ':
                 $ap = APayment::where('transactionnumber', $journal->ref_no)->first();
-                $link = route('apayment.print', $ap->uuid);
+                $link = route('apayment.print', ['uuid' => $ap->uuid]);
                 break;
             case 'CPYJ':
                 $ap = APayment::where('transactionnumber', $journal->ref_no)->first();
-                $link = route('apayment.print', $ap->uuid);
+                $link = route('apayment.print', ['uuid' => $ap->uuid]);
                 break;
             case 'BRCJ':
                 $ar = AReceive::where('transactionnumber', $journal->ref_no)->first();
-                $link = route('areceive.print', $ar->uuid);
+                $link = route('areceive.print', ['uuid' => $ar->uuid]);
                 break;
             case 'CRCJ':
                 $ar = AReceive::where('transactionnumber', $journal->ref_no)->first();
-                $link = route('areceive.print', $ar->uuid);
+                $link = route('areceive.print', ['uuid' => $ar->uuid]);
                 break;
             case 'FAMS':
                 $asset = Asset::where('transaction_number', $journal->ref_no)->first();
