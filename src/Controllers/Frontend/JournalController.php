@@ -245,19 +245,19 @@ class JournalController extends Controller
                 break;
             case 'CBPJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
-                $link = route('cashbook.print', $cashbook->uuid);
+                $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'CBRJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
-                $link = route('cashbook.print', $cashbook->uuid);
+                $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'CCPJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
-                $link = route('cashbook.print', $cashbook->uuid);
+                $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'CCRJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->firstOrFail();
-                $link = route('cashbook.print', $cashbook->uuid);
+                $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'BPYJ':
                 $ap = APayment::where('transactionnumber', $journal->ref_no)->firstOrFail();

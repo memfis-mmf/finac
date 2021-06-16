@@ -29,7 +29,7 @@ let Journal = {
           columns: [
             {data: 'transaction_date'},
             {data: 'voucher_no_formated', name: 'voucher_no'},
-            {data: 'ref_no'},
+            {data: 'ref_no_link', name: 'ref_no'},
             {data: 'currency_code', render: function(data, type, row) {
               return row.currency_code.toUpperCase();
             }},
