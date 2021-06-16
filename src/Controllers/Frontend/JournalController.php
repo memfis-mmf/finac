@@ -15,6 +15,7 @@ use memfisfa\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Approval;
+use App\Models\ARWorkshop;
 use App\Models\CashAdvance;
 use App\Models\GoodsReceived;
 use DataTables;
@@ -298,17 +299,19 @@ class JournalController extends Controller
                 break;
             case 'BRCJ':
                 $ar = AReceive::where('transactionnumber', $journal->ref_no)->first();
-                if (!$ar) {
+                $ar_workshop = ARWorkshop::where('transactionnumber', $journal->ref_no)->first();
+                if (!$ar and !$ar_workshop) {
                     return $journal->ref_no;
                 }
-                $link = route('areceive.print', ['uuid' => $ar->uuid]);
+                $link = route('areceive.print', ['uuid' => $ar->uuid ?? $ar_workshop->uuid]);
                 break;
             case 'CRCJ':
                 $ar = AReceive::where('transactionnumber', $journal->ref_no)->first();
-                if (!$ar) {
+                $ar_workshop = ARWorkshop::where('transactionnumber', $journal->ref_no)->first();
+                if (!$ar and !$ar_workshop) {
                     return $journal->ref_no;
                 }
-                $link = route('areceive.print', ['uuid' => $ar->uuid]);
+                $link = route('areceive.print', ['uuid' => $ar->uuid ?? $ar_workshop->uuid]);
                 break;
             case 'FAMS':
                 $asset = Asset::where('transaction_number', $journal->ref_no)->first();
