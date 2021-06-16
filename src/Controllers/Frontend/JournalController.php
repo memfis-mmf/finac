@@ -306,7 +306,7 @@ class JournalController extends Controller
                 if ($ar) {
                     $link = route('areceive.print', ['uuid' => $ar->uuid]);
                 } else {
-                    $link = route('frontend.account-receivable-workshop.print', ['uuid' => $ar->uuid]);
+                    $link = route('frontend.account-receivable-workshop.print', ['uuid' => $ar_workshop->uuid]);
                 }
 
                 break;
@@ -319,7 +319,7 @@ class JournalController extends Controller
                 if ($ar) {
                     $link = route('areceive.print', ['uuid' => $ar->uuid]);
                 } else {
-                    $link = route('frontend.account-receivable-workshop.print', ['uuid' => $ar->uuid]);
+                    $link = route('frontend.account-receivable-workshop.print', ['uuid' => $ar_workshop->uuid]);
                 }
 
                 break;
