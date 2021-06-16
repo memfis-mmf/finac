@@ -235,10 +235,16 @@ class JournalController extends Controller
         switch ($ref_no) {
             case 'CSAD':
                 $cash_advance = CashAdvance::where('transaction_number', $journal->ref_no)->first();
+                if (!$cash_advance) {
+                    return $journal->ref_no;
+                }
                 $link = route('frontend.cash-advance.show', $cash_advance->uuid);
                 break;
             case 'INVC':
                 $invoice = Invoice::where('transactionnumber', $journal->ref_no)->first();
+                if (!$invoice) {
+                    return $journal->ref_no;
+                }
                 $link = route('invoice.show', $invoice->uuid);
                 break;
             case 'IVSL':
@@ -250,42 +256,72 @@ class JournalController extends Controller
                 break;
             case 'CBPJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->first();
+                if (!$cashbook) {
+                    return $journal->ref_no;
+                }
                 $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'CBRJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->first();
+                if (!$cashbook) {
+                    return $journal->ref_no;
+                }
                 $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'CCPJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->first();
+                if (!$cashbook) {
+                    return $journal->ref_no;
+                }
                 $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'CCRJ':
                 $cashbook = Cashbook::where('transactionnumber', $journal->ref_no)->first();
+                if (!$cashbook) {
+                    return $journal->ref_no;
+                }
                 $link = route('cashbook.print', ['uuid' => $cashbook->uuid]);
                 break;
             case 'BPYJ':
                 $ap = APayment::where('transactionnumber', $journal->ref_no)->first();
+                if (!$ap) {
+                    return $journal->ref_no;
+                }
                 $link = route('apayment.print', ['uuid' => $ap->uuid]);
                 break;
             case 'CPYJ':
                 $ap = APayment::where('transactionnumber', $journal->ref_no)->first();
+                if (!$ap) {
+                    return $journal->ref_no;
+                }
                 $link = route('apayment.print', ['uuid' => $ap->uuid]);
                 break;
             case 'BRCJ':
                 $ar = AReceive::where('transactionnumber', $journal->ref_no)->first();
+                if (!$ar) {
+                    return $journal->ref_no;
+                }
                 $link = route('areceive.print', ['uuid' => $ar->uuid]);
                 break;
             case 'CRCJ':
                 $ar = AReceive::where('transactionnumber', $journal->ref_no)->first();
+                if (!$ar) {
+                    return $journal->ref_no;
+                }
                 $link = route('areceive.print', ['uuid' => $ar->uuid]);
                 break;
             case 'FAMS':
                 $asset = Asset::where('transaction_number', $journal->ref_no)->first();
+                if (!$asset) {
+                    return $journal->ref_no;
+                }
                 $link = route('asset.show', $asset->uuid);
                 break;
             case 'GRNI':
                 $grn = GoodsReceived::where('number', $journal->ref_no)->first();
+                if (!$grn) {
+                    return $journal->ref_no;
+                }
                 $link = route('frontend.goods-received.print', $grn->uuid);
                 break;
             
