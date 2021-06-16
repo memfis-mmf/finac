@@ -241,6 +241,9 @@ class JournalController extends Controller
                 break;
             case 'IVSL':
                 $invoice = InvoiceWorkshop::where('invoice_no', $journal->ref_no)->first();
+                if (!$invoice) {
+                    return $journal->ref_no;
+                }
                 $link = route('frontend.invoice-workshop.show', $invoice->uuid);
                 break;
             case 'CBPJ':
