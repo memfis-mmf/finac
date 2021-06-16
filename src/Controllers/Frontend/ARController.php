@@ -504,7 +504,7 @@ class ARController extends Controller
 
     function print(Request $request)
     {
-        $ar = AReceive::where('uuid', $request->uuid)->first();
+        $ar = AReceive::where('uuid', $request->uuid)->firstOrFail();
 
         $ara = $ar->ara;
         $arb = $ar->arb;
