@@ -15,6 +15,7 @@ use memfisfa\Finac\Request\JournalAstore;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\Approval;
+use App\Models\CashAdvance;
 use App\Models\GoodsReceived;
 use DataTables;
 use App\Models\Project;
@@ -233,7 +234,8 @@ class JournalController extends Controller
 
         switch ($ref_no) {
             case 'CSAD':
-                $link = 'javascript:;';
+                $cash_advance = CashAdvance::where('transaction_number', $journal->ref_no)->first();
+                $link = route('frontend.cash-advance.show', $cash_advance->uuid);
                 break;
             case 'INVC':
                 $invoice = Invoice::where('transactionnumber', $journal->ref_no)->first();
@@ -284,7 +286,7 @@ class JournalController extends Controller
                 break;
             case 'GRNI':
                 $grn = GoodsReceived::where('number', $journal->ref_no)->first();
-                $link = route('frontend.goods-received.show', $grn->uuid);
+                $link = route('frontend.goods-received.print', $grn->uuid);
                 break;
             
             default:
