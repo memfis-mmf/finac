@@ -812,7 +812,7 @@ class APController extends Controller
 
     function print(Request $request)
     {
-        $ap = APayment::where('uuid', $request->uuid)->first();
+        $ap = APayment::where('uuid', $request->uuid)->firstOrFail();
 
         $apa = $ap->apa;
         $apb = $ap->apb;
