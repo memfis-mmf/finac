@@ -303,7 +303,12 @@ class JournalController extends Controller
                 if (!$ar and !$ar_workshop) {
                     return $journal->ref_no;
                 }
-                $link = route('areceive.print', ['uuid' => $ar->uuid ?? $ar_workshop->uuid]);
+                if ($ar) {
+                    $link = route('areceive.print', ['uuid' => $ar->uuid]);
+                } else {
+                    $link = route('frontend.account-receivable-workshop.print', ['uuid' => $ar->uuid]);
+                }
+
                 break;
             case 'CRCJ':
                 $ar = AReceive::where('transactionnumber', $journal->ref_no)->first();
@@ -311,7 +316,12 @@ class JournalController extends Controller
                 if (!$ar and !$ar_workshop) {
                     return $journal->ref_no;
                 }
-                $link = route('areceive.print', ['uuid' => $ar->uuid ?? $ar_workshop->uuid]);
+                if ($ar) {
+                    $link = route('areceive.print', ['uuid' => $ar->uuid]);
+                } else {
+                    $link = route('frontend.account-receivable-workshop.print', ['uuid' => $ar->uuid]);
+                }
+
                 break;
             case 'FAMS':
                 $asset = Asset::where('transaction_number', $journal->ref_no)->first();
