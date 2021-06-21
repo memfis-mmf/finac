@@ -264,6 +264,9 @@ class APController extends Controller
         }
 
         return datatables($data)
+            ->addColumn('transactiondate_formated', function($row) {
+                return $row->transactiondate->format('d-m-Y');
+            })
             ->addColumn('transactionnumber_link', function($row) {
                 $html = '<a href="'.route('apayment.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
 

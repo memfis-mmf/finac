@@ -26,8 +26,8 @@ let Journal = {
       ajax: account_payable_datatable_url,
       order: [[1, 'desc']],
       columns: [
-        { data: 'transactiondate' },
-        {data: 'transactionnumber_link', name: 'transactionnumber'},
+        { data: 'transactiondate_formated', name: 'transactiondate' },
+        { data: 'transactionnumber_link', name: 'transactionnumber' },
         { data: 'vendor.name' },
         // { data: 'refno' },
         { data: 'currency' },
