@@ -96,7 +96,7 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
-                                            @slot('value', $cashbook->transactiondate)
+                                            @slot('value', $cashbook->transactiondate->format('d-m-Y'))
                                         @endcomponent
                                     </div>
                                     <div class="col-md-6 mt-2">

@@ -149,6 +149,10 @@ class CashbookController extends Controller
             ]);
         }
 
+        $request->merge([
+            'transactiondate' => Carbon::createFromFormat('d-m-Y', $request->transactiondate)
+        ]);
+
         $cashbook->update($request->except([
             'cashbook_type',
             'cashbook_ref',
