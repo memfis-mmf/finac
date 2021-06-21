@@ -183,7 +183,7 @@
                             <tr>
                                 <td width="40%" valign="top"><b>Date</b></td>
                                 <td width="1%" valign="top">:</td>
-                                <td width="59%" valign="top">{{date('Y-m-d', strtotime($header->transaction_date))}}</td>
+                                <td width="59%" valign="top">{{$header->transaction_date->format('d-m-Y')}}</td>
                             </tr>
                             <tr>
                                 <td width="40%" valign="top"><b>Term of Payment</b></td>

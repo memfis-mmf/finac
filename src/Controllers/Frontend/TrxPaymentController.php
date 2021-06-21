@@ -299,7 +299,10 @@ class TrxPaymentController extends Controller
             $data = $data->where('approve', $status[$request->status]);
         }
 
-        return datatables()->of($data)
+        return datatables($data)
+            ->addColumn('transaction_date_formated', function($row) {
+                return $row->transaction_date->format('d-m-Y');
+            })
             ->addColumn('grandtotal_foreign_before_adj', function($row) {
                 $grandtotal_foreign = $row->grandtotal_foreign;
                 $grandtotal_foreign += $row->adjustment()->get()->sum('credit');

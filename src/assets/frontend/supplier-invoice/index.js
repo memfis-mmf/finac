@@ -26,7 +26,7 @@ let Journal = {
           ajax: supplier_invoice_datatable_url,
           order: [[1, 'desc']],
           columns: [
-            {data: 'transaction_date'},
+            {data: 'transaction_date_formated', name: 'transaction_date'},
             {data: 'show_url', name: 'transaction_number'},
             {data: 'x_type'},
             {data: 'vendor.name'},

@@ -22,12 +22,13 @@
     visibility: visible;
   }
 
-  table {
-    min-width: 100%;
+  table td,
+  table th {
+    white-space: nowrap !important;
   }
 
-  table td {
-    white-space: nowrap !important;
+  table {
+    min-width: 100%;
   }
 </style>
 
