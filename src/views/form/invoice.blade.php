@@ -181,7 +181,7 @@
                     <td valign="top" width="18%">Attn</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-                        {{json_decode(@$invoice->customer->attention)[0]->name}}
+                        {{$invoice->attention}}
                     </td>
                     <td valign="top" width="18%">Rate</td>
                     <td valign="top" width="1%">:</td>

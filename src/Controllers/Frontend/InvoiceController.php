@@ -1459,6 +1459,11 @@ class InvoiceController extends Controller
 
         $bank_segment = $this->preparedBankData($invoice);
 
+        $invoice->attention = '-';
+        if (isset($invoice->customer->attention)) {
+            $invoice->attention = json_decode(@$invoice->customer->attention)[0]->name;
+        }
+
         $data = [
             'invoice' => $invoice,
             'other_workpackage' => $other_workpackage,
