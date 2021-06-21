@@ -119,6 +119,7 @@ class ARController extends Controller
         $request->merge([
             'approve' => 0,
             'transactionnumber' => AReceive::generateCode($code),
+            'transactiondate' => Carbon::createFromFormat('d-m-Y', $request->transactiondate)
         ]);
 
         $areceive = AReceive::create($request->all());
@@ -199,7 +200,8 @@ class ARController extends Controller
         ]);
 
         $request->merge([
-            'description' => $request->ar_description
+            'description' => $request->ar_description,
+            'transactiondate' => Carbon::createFromFormat('d-m-Y', $request->transactiondate)
         ]);
 
         $areceive->update($request->all());
@@ -251,13 +253,16 @@ class ARController extends Controller
         }
 
         return datatables($data)
+            ->addColumn('transactiondate_formated', function($row) {
+                return $row->transactiondate->format('d-m-Y');
+            })
             ->addColumn('transactionnumber_link', function($row) {
                 $html = '<a href="'.route('areceive.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
 
                 return $html;
             })
             ->addColumn('created_by', function($row) {
-                return $row->audits()->first()->user->name ?? null;
+                return $row->created_by;
             })
             ->addColumn('status', function($row) {
                 return $row->status;

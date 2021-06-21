@@ -27,7 +27,7 @@ let Journal = {
           ajax: account_receivable_datatable_url,
           order: [[1, 'desc']],
           columns: [
-            {data: 'transactiondate'},
+            {data: 'transactiondate_formated', name: 'transactiondate'},
             {data: 'transactionnumber_link', name: 'transactionnumber'},
             {data: 'customer.name'},
             // {data: 'refno'},

@@ -155,7 +155,7 @@
                 <tr>
                     <td valign="top" width="18%">Date</td>
                     <td valign="top" width="1%">:</td>
-                    <td valign="top" width="31%">{{$header->transaction_date}}</td>
+                    <td valign="top" width="31%">{{$data->transactiondate->format('d-m-Y')}}</td>
                     <td valign="top" width="18%">Currency</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">{{strtoupper($data->currencies->code)}}</td>

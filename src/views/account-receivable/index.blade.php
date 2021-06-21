@@ -4,22 +4,26 @@
 @section('faARReceive', 'm-menu__item--active')
 @section('content')
 <style>
-  .dataTables_paginate a{
-      padding: 0 10px;
-  }
-  .dataTables_info{
-      margin-top:-10px;
-      margin-left:10px;
-  }
-  .dataTables_length{
-      margin-top:-30px;
-      visibility: hidden;
-  }
-  .dataTables_length select{
-      visibility: visible;
+  .dataTables_paginate a {
+    padding: 0 10px;
   }
 
-  table td {
+  .dataTables_info {
+    margin-top: -10px;
+    margin-left: 10px;
+  }
+
+  .dataTables_length {
+    margin-top: -30px;
+    visibility: hidden;
+  }
+
+  .dataTables_length select {
+    visibility: visible;
+  }
+
+  table td,
+  table th {
     white-space: nowrap !important;
   }
 

@@ -130,7 +130,7 @@
                     @slot('text', 'Date')
                     @slot('name', 'transactiondate')
                     @slot('id_error', 'date')
-                    @slot('value', $data->date)
+                    @slot('value', $data->transactiondate->format('d-m-Y'))
                     @endcomponent
                   </div>
                   <div class="col-sm-6 col-md-6 col-lg-6">
