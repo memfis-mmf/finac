@@ -32,6 +32,10 @@ class APayment extends MemfisModel
         'payment_type',
     ];
 
+    protected $dates = [
+        'transactiondate'
+    ];
+
 	protected $appends = [
 		'date',
 		'created_by',

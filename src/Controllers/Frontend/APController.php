@@ -113,7 +113,8 @@ class APController extends Controller
         }
 
         $request->merge([
-            'id_supplier' => $vendor->id
+            'id_supplier' => $vendor->id,
+            'transactiondate' => Carbon::createFromFormat('d-m-Y', $request->transactiondate)
         ]);
 
         $code = 'CPYJ';
@@ -212,7 +213,8 @@ class APController extends Controller
         ]);
 
         $request->merge([
-            'description' => $request->ap_description
+            'description' => $request->ap_description,
+            'transactiondate' => Carbon::createFromFormat('d-m-Y', $request->transactiondate)
         ]);
 
         $apayment->update($request->all());
