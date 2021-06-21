@@ -92,7 +92,7 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transactiondate')
                                             @slot('id_error', 'date')
-                                            @slot('value', $cashbook->transactiondate)
+                                            @slot('value', $cashbook->transactiondate->format('d-m-Y'))
                                             @slot('readonly', 'readonly')
                                             @slot('disabled', 'disabled')
                                         @endcomponent
