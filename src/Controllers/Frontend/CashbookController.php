@@ -257,42 +257,45 @@ class CashbookController extends Controller
             $data = $data->where('approve', $status[$request->status]);
         }
 
-        return datatables()->of($data)
-        ->addColumn('transactionnumber_link', function($row) {
-            return "<a href='".route('cashbook.show', $row->uuid)."'>$row->transactionnumber</a>";
-        })
-        ->addColumn('journal_number', function($row) {
-            $journal = $row->journal;
+        return datatables($data)
+            ->addColumn('transactiondate_formated', function($row) {
+                return $row->transactiondate->format('d-m-Y');
+            })
+            ->addColumn('transactionnumber_link', function($row) {
+                return "<a href='".route('cashbook.show', $row->uuid)."'>$row->transactionnumber</a>";
+            })
+            ->addColumn('journal_number', function($row) {
+                $journal = $row->journal;
 
-            if ($journal) {
-                return "<a href='".route('journal.print')."?uuid=$journal->uuid'>$journal->voucher_no</a>";
-            }
+                if ($journal) {
+                    return "<a href='".route('journal.print')."?uuid=$journal->uuid'>$journal->voucher_no</a>";
+                }
 
-            return '-';
-        })
-        ->addColumn('approved_by', function($row) {
-            return $row->approved_by;
-        })
-        ->addColumn('created_by', function($row) {
-            return $row->created_by;
-        })
-        ->addColumn('cashbook_type', function($row) {
-            return $row->cashbook_type;
-        })
-        ->addColumn('account_name', function($row) {
-            return $row->account_name;
-        })
-        ->addColumn('status', function($row) {
-            return $row->status;
-        })
-        ->addColumn('can_approve_fa', function($row) {
-            return $this->canApproveFa();
-        })
-        ->addColumn('export_url', function($row) {
-            return route('cashbook.export')."?uuid={$row->uuid}";
-        })
-		->escapeColumns([])
-		->make(true);
+                return '-';
+            })
+            ->addColumn('approved_by', function($row) {
+                return $row->approved_by;
+            })
+            ->addColumn('created_by', function($row) {
+                return $row->created_by;
+            })
+            ->addColumn('cashbook_type', function($row) {
+                return $row->cashbook_type;
+            })
+            ->addColumn('account_name', function($row) {
+                return $row->account_name;
+            })
+            ->addColumn('status', function($row) {
+                return $row->status;
+            })
+            ->addColumn('can_approve_fa', function($row) {
+                return $this->canApproveFa();
+            })
+            ->addColumn('export_url', function($row) {
+                return route('cashbook.export')."?uuid={$row->uuid}";
+            })
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function basicModal()

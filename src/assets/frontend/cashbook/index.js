@@ -27,7 +27,7 @@ let Cashbook = {
           ajax: cashbook_datatable_url,
           order: [[1, 'desc']],
           columns: [
-            {data: 'transactiondate'},
+            {data: 'transactiondate_formated', name: 'transactiondate'},
             {data: 'transactionnumber_link', name: 'transactionnumber'},
             {data: 'journal_number', name: 'journal.voucher_no'},
             {data: 'totaltransaction', render: function(data, type, row) {
