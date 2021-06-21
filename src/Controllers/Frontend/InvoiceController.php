@@ -923,7 +923,10 @@ class InvoiceController extends Controller
 
         }
 
-        return datatables()::of($data)
+        return datatables($data)
+            ->addColumn('transactiondate_formated', function($row) {
+                return $row->transactiondate->format('d-m-Y');
+            })
             ->addColumn('transaction_number_link', function($row) {
                 return '<a href="'.route('invoice.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
             })
