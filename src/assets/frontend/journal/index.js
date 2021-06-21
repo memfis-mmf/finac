@@ -27,7 +27,7 @@ let Journal = {
           ajax: journal_datatable_url,
           order: [[1, 'desc']],
           columns: [
-            {data: 'transaction_date'},
+            {data: 'transaction_date_formated', name: 'transaction_date'},
             {data: 'voucher_no_formated', name: 'voucher_no'},
             {data: 'ref_no_link', name: 'ref_no'},
             {data: 'currency_code', render: function(data, type, row) {

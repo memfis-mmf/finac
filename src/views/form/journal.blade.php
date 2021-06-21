@@ -144,7 +144,7 @@
                 <tr>
                     <td valign="top" width="20%">Date</td>
                     <td valign="top"width="1%">:</td>
-                    <td valign="top" width="29%">{{ $carbon::parse($journal->transaction_date)->format('d/m/Y') }}</td>
+                    <td valign="top" width="29%">{{ $carbon::parse($journal->transaction_date)->format('d-m-Y') }}</td>
                     <td valign="top" width="20%">Ref. Doc</td>
                     <td valign="top"width="1%">:</td>
                     <td valign="top" width="29%">{{ $journal->ref_no }}</td>

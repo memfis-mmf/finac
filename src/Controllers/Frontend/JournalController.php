@@ -64,7 +64,7 @@ class JournalController extends Controller
 			];
 		}
 
-		Journal::approve($journal);
+		Journal::do_approve($journal);
 
         return response()->json($journal->first());
     }
@@ -127,14 +127,24 @@ class JournalController extends Controller
 		JournalA::create($request->all());
 	}
 
-    public function store(JournalStore $request)
+    public function store(Request $request)
     {
+        $request->validate([
+			'transaction_date' => 'required',
+			'currency_code' => 'required',
+			'exchange_rate' => 'required',
+			'journal_type' => 'required',
+        ]);
+
 		$code = Journal::getJournalCode($request->journal_type);
 
-		$data = $request->all();
-		$data['voucher_no'] = Journal::generateCode($code);
+        $request->merge([
+            'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->transaction_date),
+            'voucher_no' => Journal::generateCode($code)
+        ]);
 
-        $journal = Journal::create($data);
+        $journal = Journal::create($request->all());
+
         return response()->json($journal);
     }
 
@@ -222,7 +232,7 @@ class JournalController extends Controller
         return view('journalview::edit', $data);
     }
 
-    public function setRefLink(Journal $journal): string
+    public function setRefLink(Journal $journal)
     {
         $ref_no = explode('-', $journal->ref_no)[0];
 
@@ -378,8 +388,8 @@ class JournalController extends Controller
         }
         
         return datatables($data)
-            ->addColumn('transaction_date', function($row) {
-                return $row->transaction_date;
+            ->addColumn('transaction_date_formated', function($row) {
+                return $row->transaction_date->format('d-m-Y');
             })
             ->addColumn('voucher_no_formated', function($row) {
                 return '<a href="'.route('journal.show', $row->uuid).'">'
@@ -586,6 +596,10 @@ class JournalController extends Controller
 	{
 		$journal = Journal::where('uuid', $request->uuid)->first();
 		$journala = $journal->journala;
+
+        if (count($journala) < 1) {
+            return redirect()->route('journal.index')->with(['errors' => 'Please add detail']);
+        }
 
         foreach ($journala as $journala_row) {
             if ($journala_row->debit == 0 and $journala_row->credit == 0) {

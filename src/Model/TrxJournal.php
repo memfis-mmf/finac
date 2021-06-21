@@ -40,6 +40,10 @@ class TrxJournal extends MemfisModel
 		'status',
 	];
 
+    protected $dates = [
+        'transaction_date'
+    ];
+
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'approvable');
@@ -290,7 +294,7 @@ class TrxJournal extends MemfisModel
 			'total_transaction' => $header->amount,
 		]);
 
-        TrxJournal::approve($tmp_journal);
+        TrxJournal::do_approve($tmp_journal);
 	}
 
 	static public function insertFromBSR($header, $detail)
@@ -337,7 +341,7 @@ class TrxJournal extends MemfisModel
 
 	// approve journal
 
-	static public function approve($journal)
+	static public function do_approve($journal)
 	{
 
 		try {
@@ -450,7 +454,7 @@ class TrxJournal extends MemfisModel
 		]);
 
         if ($auto_approve) {
-            TrxJournal::approve($tmp_journal);
+            TrxJournal::do_approve($tmp_journal);
         }
 
 		if (bccomp($total_debit, $total_credit, 5) != 0) {

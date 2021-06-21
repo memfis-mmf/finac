@@ -126,7 +126,7 @@
                                             @slot('text', 'Date')
                                             @slot('name', 'transaction_date')
                                             @slot('id_error', 'date')
-																						@slot('value', $journal->transaction_date_ymd)
+																						@slot('value', $journal->transaction_date->format('d-m-Y'))
                                         @endcomponent
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
