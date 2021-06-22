@@ -56,7 +56,7 @@ class APayment extends MemfisModel
 		$result = '-';
 
 		if ($conducted_by) {
-			$result = $conducted_by.' '.$this->created_at;
+			$result = $conducted_by.' '.$this->created_at->format('d-m-Y H:i:s');
 		}
 
 		return $result;
@@ -70,7 +70,7 @@ class APayment extends MemfisModel
 		$result = '-';
 
 		if ($conducted_by) {
-			$result = $conducted_by.' '.$approval->created_at;
+			$result = $conducted_by.' '.$approval->created_at->format('d-m-Y H:i:s');
 		}
 
 		return $result;
