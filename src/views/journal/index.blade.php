@@ -65,7 +65,8 @@
                                             @slot('id', 'daterange')
                                             @slot('class', 'daterange')
                                             @slot('name', 'daterange')
-                                            @slot('id_error', 'daterange_account_receivables_history') @endcomponent
+                                            @slot('id_error', 'daterange_account_receivables_history') 
+                                          @endcomponent
                                         </div>
                                     </div>
                                 </div>

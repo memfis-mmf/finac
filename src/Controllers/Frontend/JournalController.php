@@ -371,8 +371,8 @@ class JournalController extends Controller
         
         if ($request->daterange) {
             $date = explode(' - ', $request->daterange);
-            $start_date = Carbon::createFromFormat('Y-m-d', $date[0])->startOfDay();
-            $end_date = Carbon::createFromFormat('Y-m-d', $date[1])->endOfDay();
+            $start_date = Carbon::createFromFormat('d-m-Y', $date[0])->startOfDay();
+            $end_date = Carbon::createFromFormat('d-m-Y', $date[1])->endOfDay();
 
             $data = $data->whereBetween('transaction_date', [$start_date, $end_date]);
         }

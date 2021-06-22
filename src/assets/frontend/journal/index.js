@@ -361,7 +361,7 @@ let Journal = {
           applyClass: "btn-primary",
           cancelClass: "btn-secondary",
           locale: {
-            format: 'YYYY-MM-DD'
+            format: 'DD-MM-YYYY'
           }
         });
 
