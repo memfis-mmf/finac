@@ -111,7 +111,7 @@
       singleDatePicker: true,
       showDropdown: true,
       locale: {
-        format: 'YYYY/MM/DD'
+        format: 'DD-MM-YYYY'
       }    
     });
 </script>

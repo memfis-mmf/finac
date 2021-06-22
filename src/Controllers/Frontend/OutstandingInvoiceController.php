@@ -18,8 +18,7 @@ class OutstandingInvoiceController extends Controller
 {
 	public function convertDate($param)
 	{
-		$tmp_date = new Carbon($param);
-		$date = $tmp_date->format('Y-m-d');
+		$date = Carbon::createFromFormat('d-m-Y', $param)->format('Y-m-d');
 
 		return $date;
     }
