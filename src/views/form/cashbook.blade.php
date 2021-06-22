@@ -112,7 +112,7 @@
                       <span style="margin-left:6px;">
                         Created By : {{$cashbook->created_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;
                         Approved By : {{$cashbook->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; 
-                        Printed By :  {{Auth::user()->name.' '.date('Y-m-d H:i:s')}} 
+                        Printed By :  {{Auth::user()->name.' '.date('d-m-Y H:i:s')}} 
                       </span> 
                     </td>
                 </tr>
