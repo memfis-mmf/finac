@@ -137,7 +137,7 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <td>Printed on {{$header->print_date}}
+                    <td>Printed on {{date('d-m-Y H:i:s')}}
                     </td>
                     <td align="right" valign="bottom"> <span class="page-number">Page </span></td>
                 </tr>
