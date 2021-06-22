@@ -112,7 +112,7 @@ class TrxPayment extends MemfisModel
 		$result = '-';
 
 		if ($conducted_by) {
-			$result = $conducted_by.' '.$approval->created_at;
+			$result = $conducted_by.' '.$approval->created_at->format('d-m-Y H:i:s');
 		}
 
 		return $result;
@@ -137,7 +137,7 @@ class TrxPayment extends MemfisModel
 		$result = '-';
 
 		if ($conducted_by) {
-			$result = $conducted_by.' '.$this->created_at;
+			$result = $conducted_by.' '.$this->created_at->format('d-m-Y H:i:s');
 		}
 
 		return $result;
@@ -151,7 +151,7 @@ class TrxPayment extends MemfisModel
 
 		if (count($tmp) > 1) {
 			$result = User::find($tmp[count($tmp)-1]->user_id)->name
-			.' '.$this->created_at;
+			.' '.$this->created_at->format('d-m-Y H:i:s');
 		}
 
 		return $result;
