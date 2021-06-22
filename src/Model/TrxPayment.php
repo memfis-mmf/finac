@@ -226,7 +226,7 @@ class TrxPayment extends MemfisModel
 	public function getDueDateAttribute()
 	{
 		$date_tmp = new Carbon($this->transaction_date);
-		$date = $date_tmp->addDays($this->closed)->format('Y-m-d');
+		$date = $date_tmp->addDays($this->closed)->format('d-m-Y');
 
 		return $date;
     }
