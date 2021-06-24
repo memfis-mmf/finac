@@ -281,6 +281,7 @@ class TrxJournal extends MemfisModel
 				TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
 					'account_code' => $detail[$a]->code,
+					'description' => $detail[$a]->description,
 					'debit' => $debit,
 					'credit' => $credit,
 				]);
