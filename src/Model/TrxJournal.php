@@ -188,6 +188,11 @@ class TrxJournal extends MemfisModel
 		$result = '-';
 
 		if ($conducted_by) {
+
+            if (! $this->ref_collection) {
+                $conducted_by = 'System';
+            }
+
 			$result = $conducted_by.' '.$approval->created_at->format('d-m-Y H:i:s');
 		}
 
