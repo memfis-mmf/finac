@@ -168,7 +168,7 @@ let AccountPayable = {
           filterable: !1,
         },
         {
-          field: 'ap.transactiondate',
+          field: 'ap.date',
           title: 'Date',
           sortable: 'asc',
           filterable: !1,

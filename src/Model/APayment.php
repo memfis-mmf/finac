@@ -89,7 +89,7 @@ class APayment extends MemfisModel
 
 	public function getDateAttribute()
 	{
-		return date('Y-m-d', strtotime($this->transactiondate));
+		return date('d-m-Y', strtotime($this->transactiondate));
 	}
 
 	static public function generateCode($code)
