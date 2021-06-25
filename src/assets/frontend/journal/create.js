@@ -112,7 +112,14 @@ let JournalCreate = {
 				]
 		});
 
+    let saving = false;
 		let simpan = $('body').on('click', '#journalsave', function () {
+
+        if (saving) {
+          return;
+        }
+
+        saving = true;
 
 				let form = $(this).parents('form');
 				let _data = form.serialize();
@@ -126,6 +133,7 @@ let JournalCreate = {
 						data: _data,
 						success: function (data) {
 								if (data.errors) {
+                    saving = false;
 										if (data.errors.code) {
 												$('#code-error').html(data.errors.code[0]);
 
