@@ -189,6 +189,10 @@ class JournalController extends Controller
 
 		$voucher_no = $request->journal->voucher_no;
 
+        $request->merge([
+            'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->transaction_date)
+        ]);
+
         $journal->update($request->all());
 
         return response()->json($journal);
