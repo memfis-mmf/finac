@@ -246,7 +246,7 @@ class APController extends Controller
 
     public function datatables(Request $request)
     {
-        $data = APayment::orderBy('id', 'desc')->with([
+        $data = APayment::with([
                 'vendor',
                 'apa',
                 'coa',

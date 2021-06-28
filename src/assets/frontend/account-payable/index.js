@@ -24,7 +24,7 @@ let Journal = {
       processing: true,
       serverSide: true,
       ajax: account_payable_datatable_url,
-      order: [[1, 'desc']],
+      order: [[9, 'desc']],
       columns: [
         { data: 'transactiondate_formated', name: 'transactiondate' },
         { data: 'transactionnumber_link', name: 'transactionnumber' },
@@ -57,7 +57,7 @@ let Journal = {
         { data: 'coa.code', defaultContent: '-' },
         { data: 'description' },
         { data: 'status', name: 'approve'},
-        { data: 'created_by', searchable: false },
+        { data: 'created_by', name: 'created_at'},
         { data: 'approved_by', searchable: false, defaultContent: '-' },
         {
           data: '', searchable: false, render: function (data, type, row) {
