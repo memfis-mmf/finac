@@ -24,7 +24,10 @@ let Journal = {
       processing: true,
       serverSide: true,
       ajax: account_payable_datatable_url,
-      order: [[9, 'desc']],
+      order: [
+        [9, 'desc'],
+        [0, 'desc'],
+      ],
       columns: [
         { data: 'transactiondate_formated', name: 'transactiondate' },
         { data: 'transactionnumber_link', name: 'transactionnumber' },
