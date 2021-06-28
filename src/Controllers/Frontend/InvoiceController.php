@@ -907,8 +907,6 @@ class InvoiceController extends Controller
                 'currencies',
                 'quotations:id,uuid,number',
             ])
-            ->orderBy('transactiondate', 'desc')
-            ->orderBy('id', 'asc')
             ->select('invoices.*');
 
         if ($request->status and $request->status != 'all') {
@@ -924,6 +922,9 @@ class InvoiceController extends Controller
         }
 
         return datatables($data)
+            ->filterColumn('transactiondate', function($query, $search) {
+                datatables_search_date('transactiondate', $search, $query);
+            })
             ->addColumn('transactiondate_formated', function($row) {
                 return $row->transactiondate->format('d-m-Y');
             })

@@ -25,7 +25,10 @@ let Invoice = {
           processing: true,
           serverSide: true,
           ajax: invoice_datatable_url,
-          order: [[ 0, "desc" ]],
+          order: [
+            [ 0, "desc" ],
+            [ 1, "desc" ]
+          ],
           columns: [
             {data: 'created_at', searchable: false, visible: false},
             {data: 'transactiondate_formated', name: 'transactiondate'},
@@ -45,7 +48,7 @@ let Invoice = {
                 let symbol = row.currencies.symbol;
                 return `${symbol} ${value}`;
             }},
-            {data: 'status', searchable: false, orderable: false},
+            {data: 'status', name: 'approve'},
             {data: 'created_by', searchable: false, orderable: false, defaultContent: '-'},
             {data: 'approved_by', searchable: false, orderable: false, defaultContent: '-'},
             {data: '', searchable: false, render: function (data, type, row) {
