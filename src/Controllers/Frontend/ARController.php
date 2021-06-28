@@ -234,8 +234,7 @@ class ARController extends Controller
 
     public function datatables(Request $request)
     {
-        $data = AReceive::orderBy('id', 'desc')
-            ->with([
+        $data = AReceive::with([
                 'customer',
                 'ara',
                 'coa',
@@ -253,6 +252,9 @@ class ARController extends Controller
         }
 
         return datatables($data)
+            ->filterColumn('transactiondate', function($query, $search) {
+                datatables_search_date('transactiondate', $search, $query);
+            })
             ->addColumn('transactiondate_formated', function($row) {
                 return $row->transactiondate->format('d-m-Y');
             })
