@@ -264,6 +264,9 @@ class APController extends Controller
         }
 
         return datatables($data)
+            ->filterColumn('transactiondate', function($query, $search) {
+                datatables_search_date('transactiondate', $search, $query);
+            })
             ->addColumn('transactiondate_formated', function($row) {
                 return $row->transactiondate->format('d-m-Y');
             })

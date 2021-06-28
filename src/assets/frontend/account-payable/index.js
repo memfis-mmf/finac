@@ -56,7 +56,7 @@ let Journal = {
         },
         { data: 'coa.code', defaultContent: '-' },
         { data: 'description' },
-        { data: 'status', searchable: false},
+        { data: 'status', name: 'approve'},
         { data: 'created_by', searchable: false },
         { data: 'approved_by', searchable: false, defaultContent: '-' },
         {
