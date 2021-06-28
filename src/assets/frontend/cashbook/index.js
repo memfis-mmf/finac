@@ -25,7 +25,7 @@ let Cashbook = {
           processing: true,
           serverSide: true,
           ajax: cashbook_datatable_url,
-          order: [[1, 'desc']],
+          order: [[0, 'desc']],
           columns: [
             {data: 'transactiondate_formated', name: 'transactiondate'},
             {data: 'transactionnumber_link', name: 'transactionnumber'},

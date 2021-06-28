@@ -244,7 +244,6 @@ class CashbookController extends Controller
                 'currencies',
                 'journal',
             ])
-            ->orderBy('id', 'desc')
             ->select('cashbooks.*');
 
         if ($request->status and $request->status != 'all') {
@@ -258,6 +257,9 @@ class CashbookController extends Controller
         }
 
         return datatables($data)
+            ->filterColumn('transactiondate', function($query) use($request) {
+                datatables_search_date($request->search['value'], $query);
+            })
             ->addColumn('transactiondate_formated', function($row) {
                 return $row->transactiondate->format('d-m-Y');
             })
