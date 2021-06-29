@@ -55,8 +55,8 @@ let Journal = {
             {data: 'coa.code', defaultContent: '-'},
             {data: 'description'},
             {data: 'status', name: 'approve'},
-            {data: 'created_by', name: 'created_at'},
-            {data: 'approved_by', searchable: false, defaultContent: '-'},
+            {data: 'created_by'},
+            {data: 'approved_by'},
             {data: '', searchable: false, render: function (data, type, row) {
                 t = row;
 
