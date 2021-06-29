@@ -260,6 +260,15 @@ class CashbookController extends Controller
             ->filterColumn('transactiondate', function($query, $search) {
                 datatables_search_date('transactiondate', $search, $query);
             })
+            ->filterColumn('approved_by', function($query, $search) {
+                datatables_search_approved_by($search, $query);
+            })
+            ->filterColumn('created_by', function($query, $search) {
+                datatables_search_audits($search, $query);
+            })
+            ->filterColumn('updated_by', function($query, $search) {
+                datatables_search_audits($search, $query);
+            })
             ->addColumn('transactiondate_formated', function($row) {
                 return $row->transactiondate->format('d-m-Y');
             })

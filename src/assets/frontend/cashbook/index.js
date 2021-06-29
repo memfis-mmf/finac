@@ -36,8 +36,8 @@ let Cashbook = {
             {data: 'personal'},
             {data: 'description'},
             {data: 'status', name: 'approve', defaultContent: '-'},
-            {data: 'created_by', searchable: false},
-            {data: 'approved_by', searchable: false, defaultContent: '-'},
+            {data: 'created_by'},
+            {data: 'approved_by'},
             {data: '', searchable: false, render: function (data, type, row) {
                 t = row;
 
