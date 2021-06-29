@@ -931,6 +931,9 @@ class InvoiceController extends Controller
             ->filterColumn('created_by', function($query, $search) {
                 datatables_search_audits($search, $query);
             })
+            ->filterColumn('updated_by', function($query, $search) {
+                datatables_search_audits($search, $query);
+            })
             ->addColumn('transactiondate_formated', function($row) {
                 return $row->transactiondate->format('d-m-Y');
             })
