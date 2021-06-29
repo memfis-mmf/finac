@@ -300,6 +300,18 @@ class TrxPaymentController extends Controller
         }
 
         return datatables($data)
+            ->filterColumn('transaction_date', function($query, $search) {
+                datatables_search_date('transaction_date', $search, $query);
+            })
+            ->filterColumn('approved_by', function($query, $search) {
+                datatables_search_approved_by($search, $query);
+            })
+            ->filterColumn('created_by', function($query, $search) {
+                datatables_search_audits($search, $query);
+            })
+            ->filterColumn('updated_by', function($query, $search) {
+                datatables_search_audits($search, $query);
+            })
             ->addColumn('transaction_date_formated', function($row) {
                 return $row->transaction_date->format('d-m-Y');
             })

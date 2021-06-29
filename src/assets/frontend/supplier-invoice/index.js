@@ -30,7 +30,7 @@ let Journal = {
             {data: 'show_url', name: 'transaction_number'},
             {data: 'x_type'},
             {data: 'vendor.name'},
-            {data: 'status', searchable: false},
+            {data: 'status', name: 'approve'},
             {data: 'currency'},
             {data: 'exchange_rate_fix', name: 'exchange_rate'},
             {data: 'grandtotal_foreign_before_adj'},
@@ -38,9 +38,9 @@ let Journal = {
             {data: 'grandtotal_before_adj'},
             {data: 'grandtotal_formated'},
             {data: 'account_code'},
-            {data: 'created_by', searchable: false},
-            {data: 'updated_by', searchable: false, defaultContent: '-'},
-            {data: 'approved_by', searchable: false, defaultContent: '-'},
+            {data: 'created_by'},
+            {data: 'updated_by'},
+            {data: 'approved_by'},
             {data: '', searchable: false, render: function (data, para_type, row) {
                 t = row;
 
