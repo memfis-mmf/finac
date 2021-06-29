@@ -49,8 +49,8 @@ let Invoice = {
                 return `${symbol} ${value}`;
             }},
             {data: 'status', name: 'approve'},
-            {data: 'created_by', searchable: false, orderable: false, defaultContent: '-'},
-            {data: 'approved_by', searchable: false, orderable: false, defaultContent: '-'},
+            {data: 'created_by'},
+            {data: 'approved_by'},
             {data: '', searchable: false, render: function (data, type, row) {
                 let t = row;
 
