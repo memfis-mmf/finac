@@ -214,6 +214,15 @@ class AssetController extends Controller
         }
 
         return datatables()->of($data)
+            ->filterColumn('approved_by', function($query, $search) {
+                datatables_search_approved_by($search, $query);
+            })
+            ->filterColumn('created_by', function($query, $search) {
+                datatables_search_audits($search, $query);
+            })
+            ->filterColumn('updated_by', function($query, $search) {
+                datatables_search_audits($search, $query);
+            })
             ->addColumn('account_asset', function($row) {
                 return $row->type->coa->name.' ('.$row->type->coa->code.')';
             })
