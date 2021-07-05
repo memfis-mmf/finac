@@ -9,6 +9,7 @@ use memfisfa\Finac\Model\TypeJurnal;
 use App\User;
 use App\Models\Approval;
 use App\Models\ARWorkshop;
+use App\Models\CashAdvance;
 use App\Models\Currency;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
@@ -52,6 +53,12 @@ class TrxJournal extends MemfisModel
     public function getRefCollectionAttribute()
     {
         $doc_ref = [
+            'CSAD' => [
+                'number' => 'transaction_number',
+                'rate' => '',
+                'class' => new CashAdvance(),
+                'currency' => ''
+            ], // cash advance
             'SITR' => [
                 'number' => 'transaction_number',
                 'rate' => 'exchange_rate',
@@ -189,7 +196,7 @@ class TrxJournal extends MemfisModel
 
 		if ($conducted_by) {
 
-            if (! $this->ref_collection) {
+            if ($this->ref_collection) {
                 $conducted_by = 'System';
             }
 

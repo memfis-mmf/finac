@@ -18,6 +18,7 @@ use App\Models\Approval;
 use App\Models\ARWorkshop;
 use App\Models\CashAdvance;
 use App\Models\GoodsReceived;
+use App\Models\InventoryOut;
 use DataTables;
 use App\Models\Project;
 use Carbon\Carbon;
@@ -248,6 +249,14 @@ class JournalController extends Controller
         // 6. jika dari GRN, direct page mengarah pada halaman print out GRN
 
         switch ($ref_no) {
+            case 'IOUT':
+                $iv_out = InventoryOut::where('number', $journal->ref_no)->first();
+                if (!$iv_out) {
+                    return $journal->ref_no;
+                }
+                $link = route('frontend.inventory-out-material.print', $iv_out->uuid);
+                break;
+                break;
             case 'CSAD':
                 $cash_advance = CashAdvance::where('transaction_number', $journal->ref_no)->first();
                 if (!$cash_advance) {
