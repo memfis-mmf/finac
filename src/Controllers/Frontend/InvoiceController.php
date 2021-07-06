@@ -1474,7 +1474,7 @@ class InvoiceController extends Controller
 
         $invoice->attention = '-';
         if (isset($invoice->customer->attention)) {
-            $invoice->attention = json_decode(@$invoice->customer->attention)[0]->name;
+            $invoice->attention = @json_decode(@$invoice->customer->attention)[0]->name;
         }
 
         $data = [
