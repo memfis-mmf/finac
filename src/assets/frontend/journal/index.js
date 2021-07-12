@@ -25,8 +25,12 @@ let Journal = {
           processing: true,
           serverSide: true,
           ajax: journal_datatable_url,
-          order: [[1, 'desc']],
+          order: [
+            [0, 'desc'],
+            [1, 'desc']
+          ],
           columns: [
+            {data: 'created_at', visible: false},
             {data: 'transaction_date_formated', name: 'transaction_date'},
             {data: 'voucher_no_formated', name: 'voucher_no'},
             {data: 'ref_no_link', name: 'ref_no'},
@@ -40,22 +44,12 @@ let Journal = {
 
               return val;
             }},
-            {data: 'type_jurnal_name', searchable: false},
-            {data: 'total_transaction', render: function(data, type, row) {
-              let val = '';
-
-              if (row.total_transaction) {
-                val = row.currency.symbol+' '+addCommas(
-                  parseInt(row.total_transaction)
-                );
-              }
-
-              return val;
-            }},
+            {data: 'type_jurnal.name'},
+            {data: 'total_transaction_formated', name: 'total_transaction'},
             {data: 'status', name: 'approve'},
-            {data: 'created_by'},
-            {data: 'updated_by'},
-            {data: 'approved_by'},
+            {data: 'created_by', name: 'created_at'},
+            {data: 'updated_by', name: 'updated_at'},
+            {data: 'approved_by', name: 'approvals.created_at'},
             {data: 'action', searchable: false},
           ]
         });

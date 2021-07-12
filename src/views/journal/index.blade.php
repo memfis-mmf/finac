@@ -104,6 +104,7 @@
                           <div class="col-lg-12 col-md-12 col-sm-12">
                               <table class="table table-striped table-bordered table-hover table-checkable journal_datatable">
                                 <thead>
+                                  <th></th> 
                                   <th>Date</th> 
                                   <th>Transaction No</th> 
                                   <th>Ref Doc</th> 

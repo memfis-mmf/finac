@@ -375,11 +375,10 @@ class JournalController extends Controller
         ini_set("memory_limit",-1);
 
 		$data = Journal::with([
+                'approvals',
                 'type_jurnal:id,name',
                 'currency',
             ])
-            ->orderBy('transaction_date', 'desc')
-            ->orderBy('id', 'asc')
             ->select('trxjournals.*');
         
         if ($request->daterange) {
@@ -404,7 +403,7 @@ class JournalController extends Controller
             ->filterColumn('transaction_date', function($query, $search) {
                 datatables_search_date('transaction_date', $search, $query);
             })
-            ->filterColumn('approved_by', function($query, $search) {
+            ->filterColumn('approvals.created_at', function($query, $search) {
                 datatables_search_approved_by($search, $query);
             })
             ->filterColumn('created_by', function($query, $search) {
@@ -424,11 +423,8 @@ class JournalController extends Controller
             ->addColumn('ref_no_link', function($row) {
                 return $this->setRefLink($row);
             })
-            ->addColumn('type_jurnal_name', function($row) {
-                return $row->type_jurnal->name;
-            })
-            ->addColumn('total_transaction', function($row) {
-                return $row->total_transaction;
+            ->addColumn('total_transaction_formated', function($row) {
+                return $row->currency->symbol.' '.$this->currency_format($row->total_transaction);
             })
             ->addColumn('status', function($row) {
                 return $row->status;
