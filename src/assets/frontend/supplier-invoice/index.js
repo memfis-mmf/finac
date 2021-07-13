@@ -26,6 +26,7 @@ let Journal = {
           ajax: supplier_invoice_datatable_url,
           order: [[1, 'desc']],
           columns: [
+            {data: 'created_at', visible: false},
             {data: 'transaction_date_formated', name: 'transaction_date'},
             {data: 'show_url', name: 'transaction_number'},
             {data: 'x_type'},
@@ -33,14 +34,14 @@ let Journal = {
             {data: 'status', name: 'approve'},
             {data: 'currency'},
             {data: 'exchange_rate_fix', name: 'exchange_rate'},
-            {data: 'grandtotal_foreign_before_adj'},
-            {data: 'grandtotal_foreign_formated'},
-            {data: 'grandtotal_before_adj'},
-            {data: 'grandtotal_formated'},
+            {data: 'grandtotal_foreign_before_adj', name: 'grandtotal_foreign'},
+            {data: 'grandtotal_foreign_formated', name: 'grandtotal_foreign'},
+            {data: 'grandtotal_before_adj', name: 'grandtotal'},
+            {data: 'grandtotal_formated', name: 'grandtotal'},
             {data: 'account_code'},
-            {data: 'created_by'},
-            {data: 'updated_by'},
-            {data: 'approved_by'},
+            {data: 'created_by', name: 'created_at'},
+            {data: 'updated_by', name: 'updated_at'},
+            {data: 'approved_by', name: 'approvals.created_at'},
             {data: '', searchable: false, render: function (data, para_type, row) {
                 t = row;
 

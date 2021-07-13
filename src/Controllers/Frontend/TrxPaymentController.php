@@ -286,7 +286,8 @@ class TrxPaymentController extends Controller
 		$data = TrxPayment::with([
 			'currencies',
 			'vendor',
-		])->orderBy('id', 'desc')
+            'approvals'
+		])
         ->select('trxpayments.*');
 
         if ($request->status and $request->status != 'all') {
@@ -303,7 +304,7 @@ class TrxPaymentController extends Controller
             ->filterColumn('transaction_date', function($query, $search) {
                 datatables_search_date('transaction_date', $search, $query);
             })
-            ->filterColumn('approved_by', function($query, $search) {
+            ->filterColumn('approvals.created_at', function($query, $search) {
                 datatables_search_approved_by($search, $query);
             })
             ->filterColumn('created_by', function($query, $search) {

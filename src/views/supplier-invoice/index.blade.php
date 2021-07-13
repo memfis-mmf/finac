@@ -121,6 +121,7 @@
                   class="table table-striped table-bordered table-hover table-checkable supplier_invoice_datatable">
                   <thead>
                     <tr>
+                      <th></th>
                       <th>Date</th>
                       <th>SI NO</th>
                       <th>Type</th>
