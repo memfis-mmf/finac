@@ -59,19 +59,16 @@ let RefQuoDatatables = {
             var code = $(this).data('uuid');
             $('#coa_modal').modal('hide');
             mApp.blockPage();
-            //console.log(code);
             $.ajax({
                 url: '/invoice/quotation/datatables/modal/' + code + '/detail',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
                     mApp.unblockPage();
-                    console.log(data);
                     // if (data.spcount != data.invoicecount) {
                     if (!data.duplicate) {
                         n_invoice_count = data.invoicecount;
                         var scheduled_payment_amount1112 = JSON.parse(data.scheduled_payment_amount);
-                        console.log(scheduled_payment_amount1112[n_invoice_count].amount);
                         $("#due_payment").val(scheduled_payment_amount1112[n_invoice_count].amount);
 
                         let dataSchedule = JSON.parse(data.scheduled_payment_amount);
@@ -234,17 +231,16 @@ let RefQuoDatatables = {
                         customers = JSON.parse(data.customer);
                         attention = JSON.parse(customers.attention);
                         attentionquo = JSON.parse(data.attention_quo);
-                        console.log(attentionquo);
                         currency = data.currency;
                         var levels = customers.levels[0];
 												atten_array = [];
 
-												console.table({
-													'currency': currency
-												});
-
 												if (currency.code == 'idr') {
 													$('#currency').attr('disabled', 'disabled');
+													$('#exchange_rate1111').attr('disabled', 'disabled')
+												}
+
+												if (currency.code != 'idr') {
 													$('#exchange_rate1111').attr('disabled', 'disabled')
 												}
 
@@ -283,10 +279,8 @@ let RefQuoDatatables = {
                             );
                         });
                         $("#refquono").data("uuid", code);
-                        //console.log(code);
                         $('#refquo_modal').modal('hide');
                     } else {
-                        //console.log("gak bisa");
                         toastr.error('Invoice already created', 'Failed', {
                             timeOut: 5000
                         }
@@ -306,9 +300,6 @@ let RefQuoDatatables = {
 jQuery(document).ready(function () {
     RefQuoDatatables.init();
     $('#attention').on('change', function () {
-        console.log(attention);
-        console.log(customers);
-        console.log(atten_array);
         var this_attention = attention[this.value];
         var attn_phone = this_attention['phones'];
         var attn_fax = this_attention['fax'];
@@ -338,7 +329,6 @@ jQuery(document).ready(function () {
 });
 jQuery(document).on("click", ".open-AddRowDialog", function () {
     var myBookId = $(this).data('id');
-    console.log(myBookId);
     document.getElementById('hiderow').value = myBookId;
 
 
