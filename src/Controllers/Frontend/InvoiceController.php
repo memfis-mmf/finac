@@ -110,7 +110,7 @@ class InvoiceController extends Controller
         DB::beginTransaction();
         $quotation = Quotation::where('number', $request->quotation)->first();
 
-        if ($quotation->status != 'Approved') {
+        if ($quotation->status != 'Approved' and $quotation->status != 'RTS') {
             return [
                 'error' => 'Quotation status is not Approved'
             ];
