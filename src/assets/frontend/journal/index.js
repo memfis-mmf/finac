@@ -23,7 +23,7 @@ let Journal = {
           dom: '<"top"f>rt<"bottom">pil',
           scrollX: true,
           processing: true,
-          serverSide: false,
+          serverSide: true,
           ajax: journal_datatable_url,
           order: [
             [0, 'desc'],
