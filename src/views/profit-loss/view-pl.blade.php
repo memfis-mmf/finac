@@ -60,8 +60,8 @@
                                         <tr style="background:#5f6b5e; color:white;font-weight: bold;font-size:16px">
                                             <td width="25%">Account Code</td>
                                             <td width="55%">Account Name</td>
-                                            <td width="10%" align="right">Accumulated</td>
                                             <td width="10%" align="right">Period</td>
+                                            <td width="10%" align="right">Accumulated (Year to date)</td>
                                         </tr>
                                         @for ($a=0; $a < count($data['pendapatan']); $a++) @php
                                             $x=$data['pendapatan'][$a]; 
