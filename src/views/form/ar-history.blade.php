@@ -139,7 +139,7 @@
         <img src="./vendor/courier/img/form/printoutfa/FooterFA-A4-Landscape.png" width="100%" alt="" >
     </footer>
 
-    <div id="content">
+    <div id="content" style="font-size: 10px !important">
         <div class="container">
           @foreach ($customer as $customer_row)
             <div style="margin-bottom:10px;">
