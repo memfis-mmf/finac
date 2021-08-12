@@ -87,6 +87,7 @@
         <div id="head">
             <table width="95%">
                 <tr>
+                    <td width="10%"></td>
                     <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
                         Juanda International Airport, Surabaya Indonesia
                         <br>
@@ -142,7 +143,7 @@
     <div id="content" style="font-size: 10px !important">
         <div class="container">
           @foreach ($customer as $customer_row)
-            <div style="margin-bottom:10px;">
+            <div style="margin-bottom:10px; margin-top:40px">
                 <table width="100%" cellpadding="3" class="table-head">
                     <tr>
                         <td width="18%" valign="top"><b>Customer Name</b></td>

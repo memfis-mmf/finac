@@ -266,7 +266,8 @@ class ARHistoryController extends Controller
         $data['carbon'] = Carbon::class;
         $data['controller'] = new Controller();
         
-        $pdf = \PDF::loadView('formview::ar-history', $data);
+        $pdf = \PDF::loadView('formview::ar-history', $data)
+            ->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 
