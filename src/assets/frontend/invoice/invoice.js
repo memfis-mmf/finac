@@ -44,8 +44,9 @@ let Invoice = {
             }},
             {data: 'currencies.code'},
             {data: 'grandtotalforeign', render: function(data, type, row) {
-                let value = addCommas(parseInt(row.grandtotalforeign));
+                let value = addCommas(parseFloat(row.grandtotalforeign));
                 let symbol = row.currencies.symbol;
+
                 return `${symbol} ${value}`;
             }},
             {data: 'status', name: 'approve'},
