@@ -119,11 +119,11 @@
                       <th>Ref. No.</th>
                       <th>Description</th>
                       <th>Currency</th>
-                      <th>Foreign Total</th>
+                      <th>Amount Total</th>
                       <th>Rate</th>
-                      <th>Debit</th>
-                      <th>Credit</th>
-                      <th>Ending Balance</th>
+                      <th>Debit (IDR)</th>
+                      <th>Credit (IDR)</th>
+                      <th>Ending Balance (IDR)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -136,7 +136,7 @@
                       <td>{{$item->Description}}</td>
                       <td>{{ strtoupper($item->currency->code) }}</td>
                       <td>
-                        {{ "{$item->currency->symbol} {$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
+                        {{ "{$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
                       </td>
                       <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
                       <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
@@ -151,7 +151,7 @@
                 <table class="table" style="border: none">
                   @foreach ($items['total']['local'] as $total_local_index => $total_local_row)
                     <tr>
-                      <td style="width: 1px; white-space: nowrap">Total {{ $total_local_index }}</td>
+                      <td style="width: 1px; white-space: nowrap">{{ $total_local_index }}</td>
                       <td style="width: 1px">:</td>
                       <td style="width: 1px; background: #f4f5f8">Rp </td>
                       <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_local_row) }}</td>
@@ -159,7 +159,7 @@
                   @endforeach
                   @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
                     <tr>
-                      <td style="width: 1px; white-space: nowrap">Total {{ strtoupper($total_foreign_row['currency']->code) }}</td>
+                      <td style="width: 1px; white-space: nowrap">{{ strtoupper($total_foreign_row['currency']->code) }}</td>
                       <td style="width: 1px">:</td>
                       <td style="width: 1px; background: #f4f5f8">{{ $total_foreign_row['currency']->symbol }}</td>
                       <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_foreign_row['amount']) }}</td>
