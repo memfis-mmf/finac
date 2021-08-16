@@ -257,7 +257,7 @@ class ProjectReportController extends Controller
         foreach ($project as $project_row) {
             $data['results'][] = [
                 'id' => $project_row->uuid,
-                'text' => $project_row->code . " [" . $project_row->customer->name . "]"
+                'text' => $project_row->code . " [" . $project_row->customer->name . "] | {$project_row->aircraft_register}"
             ];
         }
 
