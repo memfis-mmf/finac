@@ -74,7 +74,7 @@ class OutstandingInvoiceController extends Controller
                     }
 
                     if ($request->currency) {
-                        $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
+                        $invoice_workshop = $invoice_workshop->where('currency_id', $request->currency);
                     }
                 }
             ])
@@ -115,7 +115,7 @@ class OutstandingInvoiceController extends Controller
                 }
 
                 if ($request->currency) {
-                    $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
+                    $invoice_workshop = $invoice_workshop->where('currency_id', $request->currency);
                 }
             });
 
