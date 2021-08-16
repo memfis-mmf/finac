@@ -71,7 +71,8 @@ class ARHistoryController extends Controller
                         ->whereBetween('date', $date);
 
                     if ($request->customer) {
-                        $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                        $_customer = Customer::where('id', $request->customer)->get()->pluck('uuid');
+                        $invoice_workshop = $invoice_workshop->whereIn('general_ori->>uuid', $_customer);
                     }
 
                     if ($request->location) {
@@ -109,7 +110,8 @@ class ARHistoryController extends Controller
                     ->whereBetween('date', $date);
 
                 if ($request->customer) {
-                    $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                    $_customer = Customer::where('id', $request->customer)->get()->pluck('uuid');
+                    $invoice_workshop = $invoice_workshop->whereIn('general_ori->>uuid', $_customer);
                 }
 
                 if ($request->location) {
@@ -119,8 +121,13 @@ class ARHistoryController extends Controller
                 if ($request->currency) {
                     $invoice_workshop = $invoice_workshop->where('currency_id', $request->currency);
                 }
-            })
-            ->get()
+            });
+
+        if ($request->customer) {
+            $customer = $customer->where('id', $request->customer);
+        }
+
+        $customer = $customer->get()
             ->transform(function($row) {
                 $invoice_currency = [];
 
