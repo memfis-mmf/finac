@@ -33,6 +33,20 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Supplier
+                                </label>
+                            
+                                @component('input::select')
+                                    @slot('id', 'vendor1')
+                                    @slot('name', 'vendor[]')
+                                    @slot('multiple','multiple')
+                                    @slot('id_error', 'vendor')
+                                @endcomponent
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
                             {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Department
@@ -117,6 +131,15 @@
   modal.find('._select2').select2({
     width: '100%',
     placeholder: '-- Select --'
+  });
+
+  modal.find('#vendor1').select2({
+    width: '100%',
+    placeholder: '-- Select --',
+    ajax: {
+      url: '{{ route("fa-report.ap.aging.select2.vendor") }}',
+      dataType: 'json'
+    }    
   });
 
 </script>

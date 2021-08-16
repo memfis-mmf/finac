@@ -38,7 +38,7 @@ class OutstandingSupplierInvoiceController extends Controller
                         ->whereDate('transaction_date', '<=', $date);
 
                     if ($request->vendor) {
-                        $supplier_invoice = $supplier_invoice->where('id_vendor', $request->vendor);
+                        $supplier_invoice = $supplier_invoice->whereIn('id_supplier', $request->vendor);
                     }
 
                     if ($request->department) {
@@ -59,7 +59,7 @@ class OutstandingSupplierInvoiceController extends Controller
                     ->whereDate('transaction_date', '<=', $date);
 
                 if ($request->vendor) {
-                    $supplier_invoice = $supplier_invoice->where('id_vendor', $request->vendor);
+                    $supplier_invoice = $supplier_invoice->whereIn('id_supplier', $request->vendor);
                 }
 
                 if ($request->department) {
@@ -73,7 +73,13 @@ class OutstandingSupplierInvoiceController extends Controller
                 if ($request->currency) {
                     $supplier_invoice = $supplier_invoice->where('currency', $request->currency);
                 }
-            })
+            });
+
+        if ($request->vendor) {
+            $vendor = $vendor->whereIn('id', $request->vendor);
+        }
+
+        $vendor = $vendor
             ->get();
 
         foreach ($vendor as $vendor_row) {
