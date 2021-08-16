@@ -65,7 +65,8 @@ class OutstandingInvoiceController extends Controller
                         ->whereDate('date', '<=', $date);
 
                     if ($request->customer) {
-                        $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                        $_customer = Customer::whereIn('id', $request->customer)->get()->pluck('uuid');
+                        $invoice_workshop = $invoice_workshop->whereIn('general_ori->>uuid', $_customer);
                     }
 
                     if ($request->location) {
@@ -105,7 +106,8 @@ class OutstandingInvoiceController extends Controller
                     ->whereDate('date', '<=', $date);
 
                 if ($request->customer) {
-                    $invoice_workshop = $invoice_workshop->where('id_customer', $request->customer);
+                    $_customer = Customer::whereIn('id', $request->customer)->get()->pluck('uuid');
+                    $invoice_workshop = $invoice_workshop->whereIn('general_ori->>uuid', $_customer);
                 }
 
                 if ($request->location) {
@@ -115,8 +117,13 @@ class OutstandingInvoiceController extends Controller
                 if ($request->currency) {
                     $invoice_workshop = $invoice_workshop->where('currency', $request->currency);
                 }
-            })
-            ->get()
+            });
+
+        if ($request->customer) {
+            $customer = $customer->whereIn('id', $request->customer);
+        }
+            
+        $customer = $customer->get()
             ->transform(function($row) {
                 $arr = [];
 

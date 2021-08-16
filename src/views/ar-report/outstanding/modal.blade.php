@@ -33,6 +33,20 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Customer
+                                </label>
+                            
+                                @component('input::select')
+                                    @slot('id', 'customer1')
+                                    @slot('name', 'customer[]')
+                                    @slot('multiple','multiple')
+                                    @slot('id_error', 'customer')
+                                @endcomponent
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
                             {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Department
@@ -114,6 +128,21 @@
         format: 'DD-MM-YYYY'
       }    
     });
+
+    // console.log({
+    //   modal: modal,
+    //   custoemr: modal.find('#customer')
+    // })
+
+    modal.find('#customer1').select2({
+      width: '100%',
+      placeholder: '-- Select --',
+      ajax: {
+        url: '{{ route("fa-report.ar.aging.select2.customer") }}',
+        dataType: 'json'
+      }    
+    });
+
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/outstanding.js')}}"></script>
 
