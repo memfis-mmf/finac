@@ -27,6 +27,7 @@ use memfisfa\Finac\Model\AReceive;
 use memfisfa\Finac\Model\Asset;
 use memfisfa\Finac\Model\Cashbook;
 use memfisfa\Finac\Model\Invoice;
+use memfisfa\Finac\Model\TrxPayment;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
 class JournalController extends Controller
@@ -256,6 +257,13 @@ class JournalController extends Controller
                 }
                 $link = route('frontend.inventory-out-material.print', $iv_out->uuid);
                 break;
+                break;
+            case 'SITR':
+                $supplier_invoice = TrxPayment::where('transaction_number', $journal->ref_no)->first();
+                if (!$supplier_invoice) {
+                    return $journal->ref_no;
+                }
+                $link = route('supplier_invoice.show', $supplier_invoice->uuid);
                 break;
             case 'CSAD':
                 $cash_advance = CashAdvance::where('transaction_number', $journal->ref_no)->first();
