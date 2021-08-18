@@ -5,9 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Currency;
 use Carbon\Carbon;
-use memfisfa\Finac\Model\QueryFunction as QF;
 
 //use for export
 use memfisfa\Finac\Model\Exports\BSExport;
@@ -114,13 +112,12 @@ class BalanceSheetController extends Controller
 
 	public function convertDate($date)
 	{
-		$tmp_date = explode('-', $date);
+		$tmp_date = explode(' - ', $date);
 
-		$start = new Carbon(str_replace('/', "-", trim($tmp_date[0])));
-		$startDate = $start->format('Y-m-d');
+		$startDate = Carbon::createFromFormat('d-m-Y', str_replace('/', '-', $tmp_date[0]))
+            ->subDay();
 
-		$end = new Carbon(str_replace('/', "-", trim($tmp_date[1])));
-		$endDate = $end->format('Y-m-d');
+		$endDate = Carbon::createFromFormat('d-m-Y', str_replace('/', '-', $tmp_date[1]));
 
 		return [
 			$startDate,
