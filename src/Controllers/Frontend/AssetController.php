@@ -6,18 +6,13 @@ use Illuminate\Http\Request;
 use memfisfa\Finac\Model\TypeAsset;
 use memfisfa\Finac\Model\Asset;
 use memfisfa\Finac\Model\TrxJournal;
-use memfisfa\Finac\Request\AssetUpdate;
-use memfisfa\Finac\Request\AssetStore;
 use App\Http\Controllers\Controller;
-use App\Models\Currency;
-use App\Models\Company;
 use App\Models\Department;
 use App\Models\Approval;
 use App\Models\GoodsReceived;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Auth;
-use DataTables;
+use Illuminate\Support\Facades\Auth;
 use memfisfa\Finac\Model\Coa;
 
 class AssetController extends Controller
