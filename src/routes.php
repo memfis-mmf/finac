@@ -1236,6 +1236,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 			->name('profit-loss.view.additional');
     });
     
+    //Benefit
     Route::get('benefit-coa-master/datatables', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController@datatables')
         ->name('benefit-coa-master.datatables');
 
@@ -1243,4 +1244,13 @@ Route::group(['middleware' => ['web','auth']], function () {
         ->name('benefit-coa-master.select2.coa');
 
     Route::resource('benefit-coa-master', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController');
+
+	//BPJS
+	Route::get('bpjs-coa-master/datatables', 'memfisfa\Finac\Controllers\Frontend\BPJSCoaMasterController@datatables')
+        ->name('bpjs-coa-master.datatables');
+
+    Route::get('bpjs-coa-master/select2-coa', 'memfisfa\Finac\Controllers\Frontend\BPJSCoaMasterController@select2Coa')
+        ->name('bpjs-coa-master.select2.coa');
+
+    Route::resource('bpjs-coa-master', 'memfisfa\Finac\Controllers\Frontend\BPJSCoaMasterController');
 });

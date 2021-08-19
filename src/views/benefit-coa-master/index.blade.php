@@ -49,45 +49,86 @@
                         @slot('href', '/benefit-coa-master.pdf/help')
                     @endcomponent
                   </div>
-                  <div class="m-portlet m-portlet--mobile">
-                      <div class="m-portlet__body pb-5">
-                          <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
-                              <div class="row align-items-center">
-                                  <div class="col-xl-8 order-2 order-xl-1">
-                                  </div>
-                                  <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                      {{-- @component('buttons::create-new')
-                                          @slot('text', 'Add Benefit COA')
-                                          @slot('data_target', '#modal_benefit_coa')
-                                      @endcomponent --}}
+									<div class="m-portlet m-portlet--mobile">
+											<div class="m-portlet__body">
+													<ul class="nav nav-tabs nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
+															<li class="nav-item m-tabs__item">
+																	<a href="#tabs-1" class="nav-link m-tabs__link active" data-toggle="tab">
+																			<i class="fa fa-dollar-sign"></i>Benefit
+																	</a>
+															</li>
+															<li>
+																	<a href="#tabs-2" class="nav-link m-tabs__link" data-toggle="tab">
+																			<i class="fa fa-briefcase-medical"></i>BPJS
+																	</a>
+															</li>
+													</ul>
+													<div class="tab-content">
+															<div class="tab-pane active" id="tabs-1" role="tabpanel">
+																<div class="m-portlet__body m-0 p-0">
+																		<div class="m-form m-form--label-align-right">
+																				<div class="row align-items-center">
+																						<div class="col-xl-8 order-2 order-xl-1">
+																						</div>
+																						<div class="col-xl-4 order-1 order-xl-2 m--align-right">
+																								<div class="m-separator m-separator--dashed d-xl-none"></div>
+																						</div>
+																				</div>
+																		</div>
 
-                                      <div class="m-separator m-separator--dashed d-xl-none"></div>
-                                  </div>
-                              </div>
-                          </div>
+																		@include('benefit-coa-master::modal')
+																		<div class="row">
+																			<div class="col-md-12">
+																				<table class="table table-striped table-bordered table-hover table-checkable benefit_coa_datatable">
+																					<thead>
+																						<tr>
+																							<th>Code</th>
+																							<th>Benefit Name</th>
+																							<th>Desciption</th>
+																							<th>COA</th>
+																							<th>Approved By</th>
+																							<th>Action</th>
+																						</tr>
+																					</thead>
+																				</table>
+																			</div>
+																		</div>
+																</div>
+															</div>
+															<div class="tab-pane" id="tabs-2" role="tabpanel">
+																	 <div class="m-portlet__body m-0 p-0">
+																			<div class="m-form m-form--label-align-right">
+																					<div class="row align-items-center">
+																							<div class="col-xl-8 order-2 order-xl-1">
+																							</div>
+																							<div class="col-xl-4 order-1 order-xl-2 m--align-right">
+																									<div class="m-separator m-separator--dashed d-xl-none"></div>
+																							</div>
+																					</div>
+																			</div>
 
-                          @include('benefit-coa-master::modal')
-
-                          {{-- <div class="benefit_coa_datatable" id="scrolling_both"></div> --}}
-                          
-                          <div class="row">
-                            <div class="col-md-12">
-                              <table class="table table-striped table-bordered table-hover table-checkable benefit_coa_datatable">
-                                <thead>
-                                  <tr>
-                                    <th>Code</th>
-                                    <th>Benefit Name</th>
-                                    <th>Desciption</th>
-                                    <th>COA</th>
-                                    <th>Approved By</th>
-                                    <th>Action</th>
-                                  </tr>
-                                </thead>
-                              </table>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
+																			@include('benefit-coa-master::modal')
+																			<div class="row">
+																				<div class="col-md-12">
+																					<table class="table table-striped table-bordered table-hover table-checkable bpjs_coa_datatable">
+																						<thead>
+																							<tr>
+																								<th>Code</th>
+																								<th>BPJS Name</th>
+																								<th>Desciption</th>
+																								<th>COA</th>
+																								<th>Approved By</th>
+																								<th>Action</th>
+																							</tr>
+																						</thead>
+																					</table>
+																				</div>
+																			</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
               </div>
           </div>
       </div>
@@ -162,15 +203,7 @@
       }
     });
 
-    $(".dataTables_length select").addClass("form-control m-input");
-    $(".dataTables_filter").addClass("pull-left");
-    $(".paging_simple_numbers").addClass("pull-left");
-    $(".dataTables_length").addClass("pull-right");
-    $(".dataTables_info").addClass("pull-right");
-    $(".dataTables_info").addClass("margin-info");
-    $(".paging_simple_numbers").addClass("padding-datatable");
-
-    $(document).on('click', '.update-coa-benefit', function () {
+    benefit_coa_datatable.on('click', '.update-coa-benefit', function () {
       let uuid = $(this).data('uuid');
 
       let tr = $(this).parents('tr');
@@ -208,6 +241,80 @@
       });
 
     });
+
+		let bpjs_coa_datatable = $('.bpjs_coa_datatable').DataTable({
+      dom: '<"top"f>rt<"bottom">pil',
+      scrollX: true,
+      processing: true,
+      serverSide: true,
+      ajax: '{{ route("bpjs-coa-master.datatables") }}',
+      order: [[ 0, "desc" ]],
+      columns: [
+        {data: 'code_show', name: 'code', defaultContent: '-'},
+        {data: 'name', defaultContent: '-'},
+        {data: 'description_show', name: 'description', defaultContent: '-'},
+        {data: 'coa', defaultContent: '-'},
+        {data: 'approved_by', defaultContent: '-'},
+        {data: 'action'}
+      ],
+      drawCallback: function(setting) {
+
+        $('.select2').select2({
+          placeholder: '--Select--',
+          ajax: {
+            url: '{{ route("bpjs-coa-master.select2.coa") }}'
+          }
+        });
+
+      }
+    });
+
+		bpjs_coa_datatable.on('click', '.update-coa-bpjs', function () {
+      let uuid = $(this).data('uuid');
+
+      let tr = $(this).parents('tr');
+
+      let id_coa = tr.find('select').val();
+
+      let url = '{{ route("bpjs-coa-master.update", ":uuid") }}'
+      url = url.replace(':uuid', uuid);
+
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "put",
+        url: url,
+        data: {
+          'id_coa': id_coa
+        },
+        dataType: "json",
+        success: function (response) {
+          if (response.status) {
+            toastr.success(response.message, 'Success', {
+              timeOut: 2000
+            });
+
+            bpjs_coa_datatable.ajax.reload(null, false);
+
+          } else {
+            errorHandler(response);
+          }
+        },
+        error: function(xhr) {
+          errorHandler(xhr.responseJSON);
+        }
+      });
+
+    });
+
+		$(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_filter").addClass("pull-left");
+    $(".paging_simple_numbers").addClass("pull-left");
+    $(".dataTables_length").addClass("pull-right");
+    $(".dataTables_info").addClass("pull-right");
+    $(".dataTables_info").addClass("margin-info");
+    $(".paging_simple_numbers").addClass("padding-datatable");
   });
 </script>
 @endpush
