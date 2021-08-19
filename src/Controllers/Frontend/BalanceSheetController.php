@@ -29,7 +29,7 @@ class BalanceSheetController extends Controller
 		$viewGL = $this->getViewGL($tmp_data);
 
 		$data = [
-			'beginDate' => $beginDate,
+			'beginDate' => $beginDate->addDay(),
 			'endingDate' => $endingDate,
 			'data' => $viewGL['data'],
 			'totalActiva' => $viewGL['totalActiva'],
@@ -50,7 +50,7 @@ class BalanceSheetController extends Controller
 		$viewGL = $this->getViewGL($tmp_data);
 
 		$data = [
-			'beginDate' => $beginDate,
+			'beginDate' => $beginDate->addDay(),
 			'endingDate' => $endingDate,
 			'data' => $viewGL['data'],
 			'totalActiva' => $viewGL['totalActiva'],
@@ -184,7 +184,7 @@ class BalanceSheetController extends Controller
 		$viewGL = $this->getViewGL($tmp_data);
 
 		$data = [
-			'beginDate' => $beginDate,
+			'beginDate' => $beginDate->addDay(),
 			'endingDate' => $endingDate,
 			'data' => $viewGL['data'],
 			'totalActiva' => $viewGL['totalActiva'],
