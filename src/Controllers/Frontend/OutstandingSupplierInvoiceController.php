@@ -32,7 +32,7 @@ class OutstandingSupplierInvoiceController extends Controller
         $currency = Currency::find($request->currency);
 
         $vendor = Vendor::with([
-                'supplier_invoice' => function($supplier_invoice) use ($request, $department, $date) {
+                'supplier_invoice' => function($supplier_invoice) use ($request, $department, $date, $currency) {
                     $supplier_invoice
                         ->where('approve', true)
                         ->whereDate('transaction_date', '<=', $date);
@@ -50,11 +50,11 @@ class OutstandingSupplierInvoiceController extends Controller
                     }
 
                     if ($request->currency) {
-                        $supplier_invoice = $supplier_invoice->where('currency', $request->currency);
+                        $supplier_invoice = $supplier_invoice->where('currency', $currency->code);
                     }
                 },
             ])
-            ->whereHas('supplier_invoice', function($supplier_invoice) use($request, $department, $date) {
+            ->whereHas('supplier_invoice', function($supplier_invoice) use($request, $department, $date, $currency) {
                 $supplier_invoice->where('approve', true)
                     ->whereDate('transaction_date', '<=', $date);
 
@@ -71,7 +71,7 @@ class OutstandingSupplierInvoiceController extends Controller
                 }
 
                 if ($request->currency) {
-                    $supplier_invoice = $supplier_invoice->where('currency', $request->currency);
+                    $supplier_invoice = $supplier_invoice->where('currency', $currency->code);
                 }
             });
 
