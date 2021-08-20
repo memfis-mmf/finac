@@ -195,6 +195,7 @@ class AssetController extends Controller
                 'coa_accumulate:code,name',
                 'coa_depreciation:code,name',
                 'coa_expense:code,name',
+                'approvals'
             ])
             ->select('assets.*');
 

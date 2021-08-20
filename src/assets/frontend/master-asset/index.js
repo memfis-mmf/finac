@@ -79,7 +79,7 @@ let MasterAsset = {
         { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-' },
         { data: 'status', name: 'approve'},
         { data: 'created_by'},
-        { data: 'approved_by'},
+        { data: 'approved_by', name: 'approvals.created_at' },
         { data: 'action' }
       ]
     });
