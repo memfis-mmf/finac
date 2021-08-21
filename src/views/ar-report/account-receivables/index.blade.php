@@ -122,7 +122,7 @@
                             <td width="" align="center" valign="top"><b>Receivables Total</b></td>
                             <td width="" align="center" valign="top"><b>Paid Amount</b></td>
                             {{-- <td width="" align="center" valign="top"><b>PPH</b></td> --}}
-                            <td width="" align="center" valign="top"><b>Ending Balance</b></td>
+                            <td width="" align="center" valign="top"><b>Ending Balance Curr</b></td>
                             <td width="" align="center" valign="top"><b>Ending Balance in IDR</b></td>
                           </tr>
                         </thead>
