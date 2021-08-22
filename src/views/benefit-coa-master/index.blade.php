@@ -120,7 +120,8 @@
 																								<th>Code</th>
 																							  <th>BPJS Name</th>
 																								<th>Desciption</th>
-																								<th>COA</th>
+																								<th>COA Paid by Employee</th>
+																								<th>COA Paid by Company</th>
 																								<th>Approved By</th>
 																								<th>Action</th>
 																							</tr>
@@ -257,7 +258,8 @@
         {data: 'code_show', name: 'code', defaultContent: '-'},
         {data: 'name', defaultContent: '-'},
         {data: 'description_show', name: 'description', defaultContent: '-'},
-        {data: 'coa', defaultContent: '-'},
+        {data: 'coa_employee', name: 'coa_id', defaultContent: '-'},
+        {data: 'coa_company', name: 'coa_lawan_id', defaultContent: '-'},
         {data: 'approved_by', defaultContent: '-'},
         {data: 'action'}
       ],
@@ -278,7 +280,8 @@
 
       let tr = $(this).parents('tr');
 
-      let id_coa = tr.find('select').val();
+      let coa_id = tr.find('select[name=coa_id]').val();
+      let coa_lawan_id = tr.find('select[name=coa_lawan_id]').val();
 
       let url = '{{ route("bpjs-coa-master.update", ":uuid") }}'
       url = url.replace(':uuid', uuid);
@@ -290,7 +293,8 @@
         type: "put",
         url: url,
         data: {
-          'id_coa': id_coa
+          'coa_id': coa_id,
+          'coa_lawan_id': coa_lawan_id,
         },
         dataType: "json",
         success: function (response) {

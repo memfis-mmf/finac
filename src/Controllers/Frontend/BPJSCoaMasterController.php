@@ -20,7 +20,7 @@ class BPJSCoaMasterController extends Controller
         $bpjss = BPJS::query();
 
         return datatables()->of($bpjss)
-            ->addColumn('coa', function($row) {
+            ->addColumn('coa_employee', function($row) {
                 $coa = Coa::find($row->coa_id);
 
                 if (!$coa) {
@@ -32,7 +32,25 @@ class BPJSCoaMasterController extends Controller
                 }
 
                 $html = 
-                    '<select class="form-control select2" style="width:400px">
+                    '<select class="form-control select2" name="coa_id" style="width:400px">
+                        <option selected value="'.$val.'">'.$result.'</option>
+                    </select>';
+
+                return $html;
+            })
+            ->addColumn('coa_company', function($row) {
+                $coa = Coa::find($row->coa_lawan_id);
+
+                if (!$coa) {
+                    $val = '';
+                    $result = '-';
+                } else {                        
+                    $val = $coa->id;
+                    $result = $coa->name." ($coa->code)";
+                }
+
+                $html = 
+                    '<select class="form-control select2" name="coa_lawan_id" style="width:400px">
                         <option selected value="'.$val.'">'.$result.'</option>
                     </select>';
 
@@ -76,20 +94,30 @@ class BPJSCoaMasterController extends Controller
         BPJS::where('uuid', $uuid_benefit)->firstOrFail();
 
         // mengambil coa
-        $check_coa = Coa::find($request->id_coa);
+        $check_coa = Coa::find($request->coa_id);
+        $check_coa_lawan = Coa::find($request->coa_lawan_id);
 
         // jika coa tidak ada
         if (!$check_coa) {
             return response([
                 'status' => false,
-                'message' => 'Coa Not found'
+                'message' => 'Coa Employee Not found'
+            ], 422);
+        }
+
+        // jika coa tidak ada
+        if (!$check_coa_lawan) {
+            return response([
+                'status' => false,
+                'message' => 'Coa Company Not found'
             ], 422);
         }
 
         BPJS::where('uuid', $uuid_benefit)
             ->first()
             ->update([
-                'coa_id' => $request->id_coa
+                'coa_id' => $request->coa_id,
+                'coa_lawan_id' => $request->coa_lawan_id,
             ]);
 
         return response([
