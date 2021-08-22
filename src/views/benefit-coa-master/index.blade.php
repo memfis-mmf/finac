@@ -3,22 +3,26 @@
 @section('faBenefitCoaMaster', 'm-menu__item--active')
 @section('content')
 <style>
-  .dataTables_paginate a{
-      padding: 0 10px;
-  }
-  .dataTables_info{
-      margin-top:-10px;
-      margin-left:10px;
-  }
-  .dataTables_length{
-      margin-top:-30px;
-      visibility: hidden;
-  }
-  .dataTables_length select{
-      visibility: visible;
+  .dataTables_paginate a {
+    padding: 0 10px;
   }
 
-  table td {
+  .dataTables_info {
+    margin-top: -10px;
+    margin-left: 10px;
+  }
+
+  .dataTables_length {
+    margin-top: -30px;
+    visibility: hidden;
+  }
+
+  .dataTables_length select {
+    visibility: visible;
+  }
+
+  table td,
+  table th {
     white-space: nowrap !important;
   }
 
@@ -53,12 +57,12 @@
 											<div class="m-portlet__body">
 													<ul class="nav nav-tabs nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
 															<li class="nav-item m-tabs__item">
-																	<a href="#tabs-1" class="nav-link m-tabs__link active" data-toggle="tab">
+																	<a href="#tabs-1" class="nav-link m-tabs__link active tab1" data-toggle="tab">
 																			<i class="fa fa-dollar-sign"></i>Benefit
 																	</a>
 															</li>
 															<li>
-																	<a href="#tabs-2" class="nav-link m-tabs__link" data-toggle="tab">
+																	<a href="#tabs-2" class="nav-link m-tabs__link tab2" data-toggle="tab">
 																			<i class="fa fa-briefcase-medical"></i>BPJS
 																	</a>
 															</li>
@@ -114,7 +118,7 @@
 																						<thead>
 																							<tr>
 																								<th>Code</th>
-																								<th>BPJS Name</th>
+																							  <th>BPJS Name</th>
 																								<th>Desciption</th>
 																								<th>COA</th>
 																								<th>Approved By</th>
@@ -308,13 +312,22 @@
 
     });
 
-		$(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_length select").addClass("form-control m-input");
     $(".dataTables_filter").addClass("pull-left");
     $(".paging_simple_numbers").addClass("pull-left");
     $(".dataTables_length").addClass("pull-right");
     $(".dataTables_info").addClass("pull-right");
     $(".dataTables_info").addClass("margin-info");
     $(".paging_simple_numbers").addClass("padding-datatable");
+
+    $(document).on('click', 'a.tab2', function () {
+      bpjs_coa_datatable.ajax.reload();
+    });
+
+    $(document).on('click', 'a.tab1', function () {
+      benefit_coa_datatable.ajax.reload();
+    });
+
   });
 </script>
 @endpush
