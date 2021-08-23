@@ -5,6 +5,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Benefit;
+use App\Models\GeneralCoaSetting;
 use App\User;
 use memfisfa\Finac\Model\Coa;
 
@@ -12,7 +13,17 @@ class BenefitCoaMasterController extends Controller
 {
     public function index()
     {
-        return view('benefit-coa-master::index');
+        $general_coa_setting = GeneralCoaSetting::all()
+            ->transform(function($row) {
+
+                return $row;
+            });
+
+        $data = [
+            'general_coa_setting' => $general_coa_setting
+        ];
+
+        return view('benefit-coa-master::index', $data);
     }
 
     public function datatables()

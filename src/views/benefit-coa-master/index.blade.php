@@ -30,120 +30,163 @@
     min-width: 100%;
   }
 </style>
-    
-  <div class="m-content">
-      <div class="row">
-          <div class="col-lg-12">
-              <div class="m-portlet">
-                  <div class="m-portlet__head ribbon ribbon-top ribbon-ver">
-                      <div class="m-portlet__head-caption">
-                          <div class="m-portlet__head-title">
-                              <span class="m-portlet__head-icon m--hide">
-                                  <i class="la la-gear"></i>
-                              </span>
 
-                              @include('label::datalist')
+<div class="m-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="m-portlet">
+        <div class="m-portlet__head ribbon ribbon-top ribbon-ver">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <span class="m-portlet__head-icon m--hide">
+                <i class="la la-gear"></i>
+              </span>
 
-                              <h3 class="m-portlet__head-text">
-                                  Benefit COA Master
-                              </h3>
-                          </div>
-                      </div>
-                      @component('frontend.common.buttons.read-help')
-                        @slot('href', '/benefit-coa-master.pdf/help')
-                    @endcomponent
-                  </div>
-									<div class="m-portlet m-portlet--mobile">
-											<div class="m-portlet__body">
-													<ul class="nav nav-tabs nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
-															<li class="nav-item m-tabs__item">
-																	<a href="#tabs-1" class="nav-link m-tabs__link active tab1" data-toggle="tab">
-																			<i class="fa fa-dollar-sign"></i>Benefit
-																	</a>
-															</li>
-															<li>
-																	<a href="#tabs-2" class="nav-link m-tabs__link tab2" data-toggle="tab">
-																			<i class="fa fa-briefcase-medical"></i>BPJS
-																	</a>
-															</li>
-													</ul>
-													<div class="tab-content">
-															<div class="tab-pane active" id="tabs-1" role="tabpanel">
-																<div class="m-portlet__body m-0 p-0">
-																		<div class="m-form m-form--label-align-right">
-																				<div class="row align-items-center">
-																						<div class="col-xl-8 order-2 order-xl-1">
-																						</div>
-																						<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-																								<div class="m-separator m-separator--dashed d-xl-none"></div>
-																						</div>
-																				</div>
-																		</div>
+              @include('label::datalist')
 
-																		@include('benefit-coa-master::modal')
-																		<div class="row">
-																			<div class="col-md-12">
-																				<table class="table table-striped table-bordered table-hover table-checkable benefit_coa_datatable">
-																					<thead>
-																						<tr>
-																							<th>Code</th>
-																							<th>Benefit Name</th>
-																							<th>Desciption</th>
-																							<th>COA</th>
-																							<th>Approved By</th>
-																							<th>Action</th>
-																						</tr>
-																					</thead>
-																				</table>
-																			</div>
-																		</div>
-																</div>
-															</div>
-															<div class="tab-pane" id="tabs-2" role="tabpanel">
-																	 <div class="m-portlet__body m-0 p-0">
-																			<div class="m-form m-form--label-align-right">
-																					<div class="row align-items-center">
-																							<div class="col-xl-8 order-2 order-xl-1">
-																							</div>
-																							<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-																									<div class="m-separator m-separator--dashed d-xl-none"></div>
-																							</div>
-																					</div>
-																			</div>
-
-																			@include('benefit-coa-master::modal')
-																			<div class="row">
-																				<div class="col-md-12">
-																					<table class="table table-striped table-bordered table-hover table-checkable bpjs_coa_datatable">
-																						<thead>
-																							<tr>
-																								<th>Code</th>
-																							  <th>BPJS Name</th>
-																								<th>Desciption</th>
-																								<th>COA Paid by Employee</th>
-																								<th>COA Paid by Company</th>
-																								<th>Approved By</th>
-																								<th>Action</th>
-																							</tr>
-																						</thead>
-																					</table>
-																				</div>
-																			</div>
-																	</div>
-															</div>
-													</div>
-											</div>
-									</div>
-              </div>
+              <h3 class="m-portlet__head-text">
+                Payroll COA Master
+              </h3>
+            </div>
           </div>
+          @component('frontend.common.buttons.read-help')
+          @slot('href', '/benefit-coa-master.pdf/help')
+          @endcomponent
+        </div>
+        <div class="m-portlet m-portlet--mobile">
+          <div class="m-portlet__body">
+            <ul class="nav nav-tabs nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
+              <li class="nav-item m-tabs__item">
+                <a href="#tabs-1" class="nav-link m-tabs__link active tab1" data-toggle="tab">
+                  <i class="fa fa-dollar-sign"></i>Benefit
+                </a>
+              </li>
+              <li>
+                <a href="#tabs-2" class="nav-link m-tabs__link tab2" data-toggle="tab">
+                  <i class="fa fa-briefcase-medical"></i>BPJS
+                </a>
+              </li>
+              <li>
+                <a href="#tabs-3" class="nav-link m-tabs__link tab3" data-toggle="tab">
+                  <i class="fa fa-briefcase-medical"></i>General
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                <div class="m-portlet__body m-0 p-0">
+                  <div class="m-form m-form--label-align-right">
+                    <div class="row align-items-center">
+                      <div class="col-xl-8 order-2 order-xl-1">
+                      </div>
+                      <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  @include('benefit-coa-master::modal')
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table
+                        class="table table-striped table-bordered table-hover table-checkable benefit_coa_datatable">
+                        <thead>
+                          <tr>
+                            <th>Code</th>
+                            <th>Benefit Name</th>
+                            <th>Desciption</th>
+                            <th>COA</th>
+                            <th>Approved By</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="tabs-2" role="tabpanel">
+                <div class="m-portlet__body m-0 p-0">
+                  <div class="m-form m-form--label-align-right">
+                    <div class="row align-items-center">
+                      <div class="col-xl-8 order-2 order-xl-1">
+                      </div>
+                      <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped table-bordered table-hover table-checkable bpjs_coa_datatable">
+                        <thead>
+                          <tr>
+                            <th>Code</th>
+                            <th>BPJS Name</th>
+                            <th>Desciption</th>
+                            <th>COA Paid by Employee</th>
+                            <th>COA Paid by Company</th>
+                            <th>Approved By</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="tabs-3" role="tabpanel">
+                <div class="m-portlet__body m-0 p-0">
+                  <div class="m-form m-form--label-align-right">
+                    <div class="row align-items-center">
+                      <div class="col-xl-8 order-2 order-xl-1">
+                      </div>
+                      <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped table-bordered table-hover table-checkable general_coa_datatable">
+                        <thead>
+                          <tr>
+                            <th>Code</th>
+                            <th>Desciption</th>
+                            <th>COA Paid by Employee</th>
+                            <th>COA Paid by Company</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($general_coa_setting as $coa_setting_row)
+                            <tr>
+                              <th>{{ $coa_setting_row->code }}</th>
+                              <th>{{ $coa_setting_row->description }}</th>
+                              <th>{{ $coa_setting_row->input_1 }}</th>
+                              <th>{{ $coa_setting_row->input_2 }}</th>
+                              <th>{{ $coa_setting_row->action }}</th>
+                            </tr>    
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
+</div>
 @endsection
 
 @push('footer-scripts')
 <script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
 <script>
-
   let errorHandler = (response) => {
 
     let message = '';
