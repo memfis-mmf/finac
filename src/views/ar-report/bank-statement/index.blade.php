@@ -123,9 +123,9 @@
                         <thead style="border-bottom:2px solid black;">
                           <tr>
                             <td width="" align="left" valign="top" style="padding-left:8px;"><b>Date</b></td>
-                            <td width="" align="center" valign="top"><b>Description</b></td>
-                            <td width="" align="center" valign="top"><b>Reference</b></td>
                             <td width="" align="center" valign="top"><b>Transaction No</b></td>
+                            <td width="" align="center" valign="top"><b>Reference</b></td>
+                            <td width="" align="center" valign="top"><b>Description</b></td>
                             <td width="" align="right" valign="top"><b>Debit</b></td>
                             <td width="" align="right" valign="top"><b>Credit</b></td>
                             <td width="" align="right" valign="top"><b>Balance</b></td>
@@ -135,9 +135,9 @@
                           @foreach ($data as $data_row)
                             <tr>
                               <td class="nowrap">{{ $data_row->date }}</td>
-                              <td style="width: 200px">{{ $data_row->description }}</td>
-                              <td class="nowrap">{{ $data_row->ref }}</td>
                               <td class="nowrap">{{ $data_row->number }}</td>
+                              <td class="nowrap">{{ $data_row->ref }}</td>
+                              <td style="width: 200px">{{ $data_row->description }}</td>
                               <td class="nowrap" align="right">{{ $data_row->debit_formated }}</td>
                               <td class="nowrap" align="right">{{ $data_row->credit_formated }}</td>
                               <td class="nowrap" align="right">{{ $data_row->balance_formated }}</td>
