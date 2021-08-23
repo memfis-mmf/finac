@@ -75,7 +75,7 @@ let JournalEdit = {
 
       $('.modal').on('hidden.bs.modal', function (e) {
         modal = $('.modal');
-        modal.find('input:not([type=radio])').val('');
+        modal.find('input:not([type=radio], [type=hidden])').val('');
         modal.find('select').empty();
         modal.find('textarea').val('');
       })
