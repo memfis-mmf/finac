@@ -249,7 +249,7 @@
 
 		let bpjs_coa_datatable = $('.bpjs_coa_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
-      scrollX: false,
+      scrollX: true,
       processing: true,
       serverSide: true,
       ajax: '{{ route("bpjs-coa-master.datatables") }}',
