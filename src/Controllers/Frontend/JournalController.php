@@ -715,7 +715,7 @@ class JournalController extends Controller
         foreach ($projects as $project_row) {
             $data['results'][] = [
                 'id' => $project_row->id,
-                'text' => $project_row->code
+                'text' => "{$project_row->code} [{$project_row->customer->name}] | {$project_row->aircraft_register}"
             ];
         }
 
