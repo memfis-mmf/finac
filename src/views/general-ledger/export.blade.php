@@ -1,4 +1,9 @@
 @foreach ($data as $items)
+@if (! isset($items['data'][0]->AccountCode))
+  @php
+    continue;
+  @endphp
+@endif
 <table>
   <tr>
     <td> Account Code</td>
