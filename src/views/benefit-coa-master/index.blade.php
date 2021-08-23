@@ -61,14 +61,14 @@
                   <i class="fa fa-dollar-sign"></i>Benefit
                 </a>
               </li>
-              <li>
+              <li class="nav-item m-tabs__item">
                 <a href="#tabs-2" class="nav-link m-tabs__link tab2" data-toggle="tab">
                   <i class="fa fa-briefcase-medical"></i>BPJS
                 </a>
               </li>
-              <li>
+              <li class="nav-item m-tabs__item">
                 <a href="#tabs-3" class="nav-link m-tabs__link tab3" data-toggle="tab">
-                  <i class="fa fa-briefcase-medical"></i>General
+                  <i class="fa fa-cogs"></i>General
                 </a>
               </li>
             </ul>
@@ -124,8 +124,8 @@
                             <th>Code</th>
                             <th>BPJS Name</th>
                             <th>Desciption</th>
-                            <th>COA Paid by Employee</th>
                             <th>COA Paid by Company</th>
+                            <th>COA Paid by Employee</th>
                             <th>Approved By</th>
                             <th>Action</th>
                           </tr>
@@ -154,8 +154,8 @@
                           <tr>
                             <th>Code</th>
                             <th>Desciption</th>
-                            <th>COA Paid by Employee</th>
                             <th>COA Paid by Company</th>
+                            <th>COA Paid by Employee</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -164,9 +164,9 @@
                             <tr>
                               <th>{{ $coa_setting_row->code }}</th>
                               <th>{{ $coa_setting_row->description }}</th>
-                              <th>{{ $coa_setting_row->input_1 }}</th>
-                              <th>{{ $coa_setting_row->input_2 }}</th>
-                              <th>{{ $coa_setting_row->action }}</th>
+                              <th>{!! $coa_setting_row->input_1 !!}</th>
+                              <th>{!! $coa_setting_row->input_2 !!}</th>
+                              <th>{!! $coa_setting_row->action !!}</th>
                             </tr>    
                           @endforeach
                         </tbody>
@@ -301,8 +301,8 @@
         {data: 'code_show', name: 'code', defaultContent: '-'},
         {data: 'name', defaultContent: '-'},
         {data: 'description_show', name: 'description', defaultContent: '-'},
-        {data: 'coa_employee', name: 'coa_id', defaultContent: '-'},
-        {data: 'coa_company', name: 'coa_lawan_id', defaultContent: '-'},
+        {data: 'coa_company', name: 'coa_id', defaultContent: '-'},
+        {data: 'coa_employee', name: 'coa_lawan_id', defaultContent: '-'},
         {data: 'approved_by', defaultContent: '-'},
         {data: 'action'}
       ],
@@ -347,6 +347,51 @@
             });
 
             bpjs_coa_datatable.ajax.reload(null, false);
+
+          } else {
+            errorHandler(response);
+          }
+        },
+        error: function(xhr) {
+          errorHandler(xhr.responseJSON);
+        }
+      });
+
+    });
+
+    general_coa_datatable = $('.general_coa_datatable').DataTable({
+      dom: '<"top"f>rt<"bottom">pil',
+    });
+
+    general_coa_datatable.on('click', '.update-coa-general', function () {
+      let uuid = $(this).data('uuid');
+
+      let tr = $(this).parents('tr');
+
+      let coa_id_1 = tr.find('select[name=coa_id_1]').val();
+      let coa_id_2 = tr.find('select[name=coa_id_2]').val();
+
+      let url = '{{ route("benefit-coa-master.update-general", ":uuid") }}'
+      url = url.replace(':uuid', uuid);
+
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "put",
+        url: url,
+        data: {
+          'coa_id_1': coa_id_1,
+          'coa_id_2': coa_id_2,
+        },
+        dataType: "json",
+        success: function (response) {
+          if (response.status) {
+            toastr.success(response.message, 'Success', {
+              timeOut: 2000
+            });
+
+            general_coa_datatable.reload(null, false);
 
           } else {
             errorHandler(response);

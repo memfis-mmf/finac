@@ -16,6 +16,51 @@ class BenefitCoaMasterController extends Controller
         $general_coa_setting = GeneralCoaSetting::all()
             ->transform(function($row) {
 
+                $coa_1 = Coa::find($row->coa_id_1);
+                $coa_2 = Coa::find($row->coa_id_2);
+                $row->input_1 = null;
+                $row->input_2 = null;
+
+                if ($row->column_coa == 0 or $row->column_coa == 1) {
+                    $val = $coa_1->id ?? null;
+                    $name = $coa_1->name ?? null;
+                    $code = $coa_1->code ?? null;
+                    $text = null;
+
+                    if ($name) {
+                        $text = "{$name} ({$code})";
+                    }
+
+                    $row->input_1 = 
+                        '<select class="form-control select2" name="coa_id_1" style="width:400px">
+                            <option selected value="'.$val.'">'.$text.'</option>
+                        </select>';
+                }
+
+                if ($row->column_coa == 0 or $row->column_coa == 2) {
+                    $val = $coa_2->id ?? null;
+                    $name = $coa_2->name ?? null;
+                    $code = $coa_2->code ?? null;
+                    $text = null;
+
+                    if ($name) {
+                        $text = "{$name} ({$code})";
+                    }
+
+                    $row->input_2 .= 
+                        '<select class="form-control select2" name="coa_id_2" style="width:400px">
+                            <option selected value="'.$val.'">'.$text.'</option>
+                        </select>';
+
+                }
+
+                $row->action = 
+                    '<button 
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill update-coa-general" 
+                        title="Save" data-uuid="'.$row->uuid.'"> 
+                        <i class="la la-check"></i> 
+                    </button>';
+
                 return $row;
             });
 
@@ -101,6 +146,20 @@ class BenefitCoaMasterController extends Controller
             ->first()
             ->update([
                 'coa_id' => $request->id_coa
+            ]);
+
+        return response([
+            'status' => true,
+            'message' => 'Coa updated'
+        ]);
+    }
+
+    public function update_general(Request $request, GeneralCoaSetting $general_coa_setting)
+    {
+        $general_coa_setting
+            ->update([
+                'coa_id_1' => $request->coa_id_1,
+                'coa_id_2' => $request->coa_id_2,
             ]);
 
         return response([

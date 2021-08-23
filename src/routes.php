@@ -1243,6 +1243,9 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('benefit-coa-master/select2-coa', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController@select2Coa')
         ->name('benefit-coa-master.select2.coa');
 
+    Route::put('benefit-coa-master/update-general/{general_coa_setting}', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController@update_general')
+        ->name('benefit-coa-master.update-general');
+
     Route::resource('benefit-coa-master', 'memfisfa\Finac\Controllers\Frontend\BenefitCoaMasterController');
 
 	//BPJS

@@ -20,7 +20,7 @@ class BPJSCoaMasterController extends Controller
         $bpjss = BPJS::query();
 
         return datatables()->of($bpjss)
-            ->addColumn('coa_employee', function($row) {
+            ->addColumn('coa_company', function($row) {
                 $coa = Coa::find($row->coa_id);
 
                 if (!$coa) {
@@ -38,7 +38,7 @@ class BPJSCoaMasterController extends Controller
 
                 return $html;
             })
-            ->addColumn('coa_company', function($row) {
+            ->addColumn('coa_employee', function($row) {
                 $coa = Coa::find($row->coa_lawan_id);
 
                 if (!$coa) {
@@ -90,6 +90,13 @@ class BPJSCoaMasterController extends Controller
 
     public function update(Request $request, $uuid_benefit)
     {
+        $request->validate([
+            'coa_id' => 'required',
+            'coa_lawan_id' => 'required',
+        ], [
+            'coa_id.required' => 'COA paid by company cannot be null',
+            'coa_lawan_id.required' => 'COA paid by employee cannot be null',
+        ]);
         // check apakah benefit ada
         BPJS::where('uuid', $uuid_benefit)->firstOrFail();
 
@@ -101,7 +108,7 @@ class BPJSCoaMasterController extends Controller
         if (!$check_coa) {
             return response([
                 'status' => false,
-                'message' => 'Coa Employee Not found'
+                'message' => 'Coa Company Not found'
             ], 422);
         }
 
@@ -109,7 +116,7 @@ class BPJSCoaMasterController extends Controller
         if (!$check_coa_lawan) {
             return response([
                 'status' => false,
-                'message' => 'Coa Company Not found'
+                'message' => 'Coa Employee Not found'
             ], 422);
         }
 
