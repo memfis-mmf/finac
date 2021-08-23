@@ -13,7 +13,7 @@ let JournalEdit = {
       }
 
       $('select.project').select2({
-        placeholder: '-- Select --',
+        placeholder: 'PK-',
         width: '100%',
         ajax: {
           url: _url+'/journal/get-project-select2',
@@ -379,6 +379,7 @@ let JournalEdit = {
 			}
 
 			$('#_accountcode').select2({
+        placeholder: '-- Select --',
 			  ajax: {
 			    url: _url+'/journal/get-account-code-select2',
 			    dataType: 'json'
