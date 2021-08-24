@@ -88,86 +88,86 @@
           <div class="m-portlet__body">
             <div class="form-group m-form__group row ">
               @foreach ($data as $items)
-              @if (! isset($items['data'][0]->AccountCode))
-                @php
-                  continue;
-                @endphp
-              @endif
-              <h5 class="col-sm-12 col-md-12 col-lg-12">
-                <table width="100%">
-                  <tr>
-                    <td width="10%"> Account Code</td>
-                    <td width="1%">:</td>
-                    <td width="89%"> {{$items['data'][0]->AccountCode}} - <span> {{$items['data'][0]->Name}}</span> </td>
-                  </tr>
-                  <tr>
-                    <td width="10%">Period </td>
-                    <td width="1%">:</td>
-                    <td width="89%">{{$beginDate.' - '.$endingDate}}</td>
-                  </tr>
-                </table><br>
-              </h5>
+                @if (! isset($items['data'][0]->AccountCode))
+                  @php
+                    continue;
+                  @endphp
+                @endif
+                <h5 class="col-sm-12 col-md-12 col-lg-12">
+                  <table width="100%">
+                    <tr>
+                      <td width="10%"> Account Code</td>
+                      <td width="1%">:</td>
+                      <td width="89%"> {{$items['data'][0]->AccountCode}} - <span> {{$items['data'][0]->Name}}</span> </td>
+                    </tr>
+                    <tr>
+                      <td width="10%">Period </td>
+                      <td width="1%">:</td>
+                      <td width="89%">{{$beginDate.' - '.$endingDate}}</td>
+                    </tr>
+                  </table><br>
+                </h5>
 
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                {{-- <div class="general_ledger_datatable" id="scrolling_both"></div> --}}
-                <table class="table table-striped table-bordered table-hover" id="table-general-ledger">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Date</th>
-                      <th>Transaction No.</th>
-                      <th>Ref. No.</th>
-                      <th>Description</th>
-                      <th>Currency</th>
-                      <th>Amount Total</th>
-                      <th>Rate</th>
-                      <th>Debit (IDR)</th>
-                      <th>Credit (IDR)</th>
-                      <th>Ending Balance (IDR)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($items['data'] as $index => $item)
-                    <tr>
-                      <td>{{ $index + 1 }}</td>
-                      <td>{{ $carbon::parse($item->TransactionDate)->format('d/m/Y') }}</td>
-                      <td>{!!$item->voucher_linked!!}</td>
-                      <td>{{$item->RefNo}}</td>
-                      <td>{{$item->Description}}</td>
-                      <td>{{ strtoupper($item->currency->code) }}</td>
-                      <td>
-                        {{ "{$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
-                      </td>
-                      <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
-                      <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
-                      <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
-                      <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
-                    </tr>
+                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow-x: auto">
+                  {{-- <div class="general_ledger_datatable" id="scrolling_both"></div> --}}
+                  <table class="table table-striped table-bordered table-hover" id="table-general-ledger">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Date</th>
+                        <th>Transaction No.</th>
+                        <th>Ref. No.</th>
+                        <th>Description</th>
+                        <th>Currency</th>
+                        <th>Amount Total</th>
+                        <th>Rate</th>
+                        <th>Debit (IDR)</th>
+                        <th>Credit (IDR)</th>
+                        <th>Ending Balance (IDR)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($items['data'] as $index => $item)
+                      <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $carbon::parse($item->TransactionDate)->format('d/m/Y') }}</td>
+                        <td>{!!$item->voucher_linked!!}</td>
+                        <td>{{$item->RefNo}}</td>
+                        <td>{{$item->Description}}</td>
+                        <td>{{ strtoupper($item->currency->code) }}</td>
+                        <td>
+                          {{ "{$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
+                        </td>
+                        <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
+                        <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
+                        <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
+                        <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4 col-12 mb-5">
+                  <table class="table" style="border: none">
+                    @foreach ($items['total']['local'] as $total_local_index => $total_local_row)
+                      <tr>
+                        <td style="width: 1px; white-space: nowrap">{{ $total_local_index }}</td>
+                        <td style="width: 1px">:</td>
+                        <td style="width: 1px; background: #f4f5f8">Rp </td>
+                        <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_local_row) }}</td>
+                      </tr>   
                     @endforeach
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-4 col-12 mb-5">
-                <table class="table" style="border: none">
-                  @foreach ($items['total']['local'] as $total_local_index => $total_local_row)
-                    <tr>
-                      <td style="width: 1px; white-space: nowrap">{{ $total_local_index }}</td>
-                      <td style="width: 1px">:</td>
-                      <td style="width: 1px; background: #f4f5f8">Rp </td>
-                      <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_local_row) }}</td>
-                    </tr>   
-                  @endforeach
-                  @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
-                    <tr>
-                      <td style="width: 1px; white-space: nowrap">{{ strtoupper($total_foreign_row['currency']->code) }}</td>
-                      <td style="width: 1px">:</td>
-                      <td style="width: 1px; background: #f4f5f8">{{ $total_foreign_row['currency']->symbol }}</td>
-                      <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_foreign_row['amount']) }}</td>
-                    </tr>   
-                  @endforeach
+                    @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
+                      <tr>
+                        <td style="width: 1px; white-space: nowrap">{{ strtoupper($total_foreign_row['currency']->code) }}</td>
+                        <td style="width: 1px">:</td>
+                        <td style="width: 1px; background: #f4f5f8">{{ $total_foreign_row['currency']->symbol }}</td>
+                        <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_foreign_row['amount']) }}</td>
+                      </tr>   
+                    @endforeach
 
-                </table>
-              </div>
+                  </table>
+                </div>
               @endforeach
             </div>
             <div class="form-group m-form__group row ">
