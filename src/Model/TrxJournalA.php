@@ -13,6 +13,7 @@ class TrxJournalA extends MemfisModel
 		'id_branch',
 		'voucher_no',
 		'description',
+		'description_2',
 		'account_code',
 		'debit',
 		'credit',

@@ -83,8 +83,16 @@ class GeneralLedgerController extends Controller
             $data_coa[] = $get_data;
         }
 
+        $data_coa = array_values(array_filter($data_coa));
+
+        foreach ($data_coa as $data_coa_row) {
+            foreach ($data_coa_row['data'] as $data_row) {
+                $data_row->description_formated = $data_row->Description_2 ?? $data_row->Description;
+            }
+        }
+
         $data = [
-            'data' => array_values(array_filter($data_coa)),
+            'data' => $data_coa,
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
@@ -118,7 +126,8 @@ class GeneralLedgerController extends Controller
             AS SaldoAwal,
             0 AS Debit,
             0 AS Credit,
-            'Saldo Awal' AS Description
+            'Saldo Awal' AS Description,
+            'Saldo Awal' AS Description_2
             FROM m_journal
             WHERE
             m_journal.description = 'Detail'
@@ -136,7 +145,8 @@ class GeneralLedgerController extends Controller
             0 AS SaldoAwal ,
             trxjournala.Debit AS Debit,
             trxjournala.Credit AS Credit,
-            trxjournala.description AS Description
+            trxjournala.description AS Description,
+            trxjournala.description_2 AS Description_2
             from
             trxjournals
             left join trxjournala

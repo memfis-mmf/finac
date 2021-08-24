@@ -133,7 +133,7 @@
                         <td>{{ $carbon::parse($item->TransactionDate)->format('d/m/Y') }}</td>
                         <td>{!!$item->voucher_linked!!}</td>
                         <td>{{$item->RefNo}}</td>
-                        <td>{{$item->Description}}</td>
+                        <td>{{$item->description_formated}}</td>
                         <td>{{ strtoupper($item->currency->code) }}</td>
                         <td>
                           {{ "{$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
