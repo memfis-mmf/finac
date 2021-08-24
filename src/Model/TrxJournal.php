@@ -513,6 +513,7 @@ class TrxJournal extends MemfisModel
                 if (!$coaExist) {
                     $newSumDetail = (object)[
                         'coa_detail' => $detailVal->coa_iv,
+                        'coa' => Coa::find($detailVal->coa_iv)->name,
                         'debit' => $detailVal->val,
                         'credit' => 0,
                         '_desc' => 'Increased Inventory : '
@@ -526,6 +527,7 @@ class TrxJournal extends MemfisModel
 
             $newSumDetail = (object) [
                 'coa_detail' => $detail[0]->coa_vendor,
+                'coa' => Coa::find($detail[0]->coa_vendor)->name,
                 'debit' => 0,
                 'credit' => 0,
                 '_desc' => 'Increased Inventory : '
@@ -539,6 +541,8 @@ class TrxJournal extends MemfisModel
             }
 
             $sumDetail[] = $newSumDetail;
+
+            dd($sumDetail);
 
 			TrxJournal::autoJournal($header, $sumDetail, 'PRJR', 'PRJ', true);
 
