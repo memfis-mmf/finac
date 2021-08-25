@@ -14,6 +14,28 @@
   thead td {
     white-space: nowrap !important;
   }
+
+  .dataTables_paginate a {
+    padding: 0 10px;
+  }
+
+  .dataTables_info {
+    margin-top: -10px;
+    margin-left: 10px;
+  }
+
+  .dataTables_length {
+    margin-top: -30px;
+    visibility: hidden;
+  }
+
+  .dataTables_length select {
+    visibility: visible;
+  }
+
+  table.datatable {
+    min-width: 100%;
+  }
 </style>
 <div class="m-subheader hidden">
   <div class="d-flex align-items-center">
@@ -119,7 +141,7 @@
                   {{-- content --}}
                   <div class="form-group m-form__group row ">
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                      <table class="table table-bordered">
+                      <table class="table table-bordered datatable">
                         <thead style="border-bottom:2px solid black;">
                           <tr>
                             <td width="" align="left" valign="top" style="padding-left:8px;"><b>Date</b></td>
@@ -198,3 +220,24 @@
 <input hidden id="coaid">
 
 @endsection
+@push('footer-scripts')
+<script src="{{ asset('assets/metronic/vendors/custom/datatables/datatables.bundle.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $('.datatable').DataTable({
+      searching: false,
+      paging: false,
+      ordering: false,
+      info: false
+    });
+
+    $(".dataTables_length select").addClass("form-control m-input");
+    $(".dataTables_filter").addClass("pull-left");
+    $(".paging_simple_numbers").addClass("pull-left");
+    $(".dataTables_length").addClass("pull-right");
+    $(".dataTables_info").addClass("pull-right");
+    $(".dataTables_info").addClass("margin-info");
+    $(".paging_simple_numbers").addClass("padding-datatable");
+  });
+</script>
+@endpush
