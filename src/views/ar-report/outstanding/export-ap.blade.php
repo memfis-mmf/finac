@@ -29,13 +29,13 @@
     <td>{{ $supplier_invoice_row->quotations->number ?? '-' }}</td>
     <td>{{ $supplier_invoice_row->currencies->code }}</td>
     <td>Rp </td>
-    <td>{{ number_format($supplier_invoice_row->exchange_rate, 2, ',', '.') }}</td>
+    <td>{{ $supplier_invoice_row->exchange_rate }}</td>
     <td>{{ $supplier_invoice_row->currencies->symbol }}</td>
-    <td>{{ number_format($supplier_invoice_row->grandtotal_foreign, 2, ',', '.') }}</td>
+    <td>{{ $supplier_invoice_row->grandtotal_foreign }}</td>
     {{-- <td>{{ $supplier_invoice_row->currencies->symbol }}</td>
-    <td>{{ number_format($supplier_invoice_row->ppnvalue, 2, ',', '.') }}</td> --}}
+    <td>{{ $supplier_invoice_row->ppnvalue }}</td> --}}
     <td>{{ $supplier_invoice_row->currencies->symbol }}</td>
-    <td>{{ number_format($supplier_invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
+    <td>{{ $supplier_invoice_row->ending_balance['amount'] }}</td>
   </tr>
   @endforeach
   @foreach ($vendor_row->sum_total as $sum_total_index => $sum_total_row)
@@ -44,13 +44,15 @@
     <td colspan="2"><b>Total {{ strtoupper($sum_total_index) }}</b></td>
     <td class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
     <td class="table-footer">
-      <b>{{ number_format($sum_total_row['grandtotal_foreign'], 2, ',', '.') }}</b></td>
+      {{ $sum_total_row['grandtotal_foreign'] }}
+    </td>
     <td class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td>
     {{-- <td class="table-footer">
-      <b>{{ number_format($sum_total_row['ppnvalue'], 2, ',', '.') }}</b></td>
+      <b>{{ $sum_total_row['ppnvalue'] }}</b></td>
     <td class="table-footer"><b>{{ $sum_total_row['symbol'] }}</b></td> --}}
     <td class="table-footer">
-      <b>{{ number_format($sum_total_row['ending_value'], 2, ',', '.') }}</b></td>
+      {{ $sum_total_row['ending_value'] }}
+    </td>
   </tr>
   @endforeach
 </table>
