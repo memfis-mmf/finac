@@ -183,7 +183,7 @@
 	                    <td valign="top" align="center" width="4%">{{ $i+1 }}</td>
 	                    <td valign="top" align="center" width="13%">{{ $x->coa->code }}</td>
 	                    <td valign="top" width="19%">{{ $x->coa->name }}</th>
-	                    <td valign="top"  width="24%">{{ $x->description }}</td>
+	                    <td valign="top"  width="24%">{{ $x->description_2 ?? $x->description }}</td>
 	                    <td valign="top" align="right" width="20%">{{ ($x->debit == 0)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 2, ',', '.').",-" }}</td>
 	                    <td valign="top" align="right" width="20%">{{ ($x->credit == 0)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 2, ',', '.').",-" }}</td>
 	                </tr>

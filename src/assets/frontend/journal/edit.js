@@ -39,7 +39,7 @@ let JournalEdit = {
             );
             return row.journal.currency.symbol + ' ' + number_format.format(row.credit);
           }},
-          {data: 'description'}
+          {data: 'description_formated'}
       );
 
       if (page_type != 'show') {

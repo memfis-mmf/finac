@@ -172,13 +172,16 @@ class JournalAController extends Controller
         }
 
         return datatables()->of($data)
-		->addColumn('total_debit', function() use($total_debit) {
-			return $total_debit;
-		})
-		->addColumn('total_credit', function() use($total_credit){
-			return $total_credit;
-		})
-        ->make(true);
+            ->addColumn('total_debit', function() use($total_debit) {
+                return $total_debit;
+            })
+            ->addColumn('total_credit', function() use($total_credit){
+                return $total_credit;
+            })
+            ->addColumn('description_formated', function($row) {
+                return $row->description_2 ?? $row->description;
+            })
+            ->make(true);
     }
 
     public function datatablesAfterApprove(Request $request)
