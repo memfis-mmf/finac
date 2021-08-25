@@ -36,6 +36,7 @@ class SupplierTrialBalanceController extends Controller
         }
 
         $data = $this->getData($request);
+        $data['controller'] = new Controller();
 
         $pdf = \PDF::loadView('formview::vendor-tb', $data);
         return $pdf->stream();
