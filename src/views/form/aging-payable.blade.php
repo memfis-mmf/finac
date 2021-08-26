@@ -6,89 +6,88 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        @page {
-            margin: 0cm 0cm;
-        }
-        
-        html,body{
-            padding: 0;
-            margin: 0;
-            font-size: 12px;
-        }
+      @page {
+        margin: 0cm 0cm;
+      }
 
-        body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-top: 4.5cm;
-            margin-bottom: 2cm;
-        }
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        font-size: 12px;
+      }
 
-        header {
-            position: fixed;
-            top: 0cm;
-            left: 0cm;
-            right: 0cm;
-            height: 3cm;
-        }
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin-top: 5.7cm;
+        margin-bottom: 2cm;
+      }
 
-        footer {
-            position: fixed;
-            bottom: 0cm;
-            left: 0cm;
-            right: 0cm;
-            height: 1.4cm;
-        }
-        ul li{
-            display: inline-block;
-        }
+      header {
+        position: fixed;
+        top: 0cm;
+        left: 0cm;
+        right: 0cm;
+        height: 3cm;
+      }
 
-        table{
-            border-collapse: collapse;
-        }
+      footer {
+        position: fixed;
+        bottom: 0cm;
+        left: 0cm;
+        right: 0cm;
+        height: 1.4cm;
+      }
 
-        #head{
-            top: 4px;
-            left: 220px;
-            position: absolute;
-            text-align: center;
-        }
+      ul li {
+        display: inline-block;
+      }
 
-        .container{
-            width: 100%;
-            margin: 0 36px;
-        }
+      table {
+        border-collapse: collapse;
+      }
 
-        .barcode{
-            margin-left:70px;
-            margin-top:12px;
-        }
+      #head {
+        top: 9px;
+        left: 220px;
+        position: absolute;
+        text-align: center;
+      }
 
-        #content .table-head{
-            margin-bottom: 8px;
-        }
+      #body #header-content tr td {
+        border-bottom: 2px solid black;
+      }
 
-        #content .table-body thead tr td{
-            border-bottom: 2px solid black;
-        }
-        #content .table-body tbody .table-footer{
-            border-top: 2px solid black;
-        }
+      .container {
+        width: 100%;
+        margin: 0 36px;
+      }
 
-        .page_break {
-            page-break-before: always;
-        }
+      .barcode {
+        margin-left: 70px;
+        margin-top: 12px;
+      }
 
-        footer .page-number:after { 
-            content: counter(page); 
-        }
+      #content table .amount {
+        border-top: 2px solid black;
+      }
+
+      .page_break {
+        page-break-before: always;
+      }
+
+      footer .page-number:after {
+        content: counter(page);
+      }
     </style>
 </head>
 <body>
     <header>
-        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Landscape.png" alt=""width="100%">
+        <img src="./vendor/courier/img/form/printoutfa/HeaderFA-A4-Potrait.png" alt=""width="100%">
         <div id="head">
             <table width="95%">
                 <tr>
-                    <td width="55%" valign="middle" style="font-size:14px;line-height:20px;">
+                    <td width="50%" valign="middle" style="font-size:12px;line-height:20px;">
                         Juanda International Airport, Surabaya Indonesia
                         <br>
                         Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
@@ -98,7 +97,7 @@
                         Website : www.ptmmf.co.id
                     </td>
                     <td width="45%" valign="top" align="center">
-                        <h1 style="font-size:26px;">AGING PAYABLE<br> 
+                        <h1 style="font-size:22px;">AGING PAYABLE<br> 
                         <span style="font-size:15px;font-weight: none;">Date : {{ $date }}</span></h1>
                     </td>
                 </tr>
