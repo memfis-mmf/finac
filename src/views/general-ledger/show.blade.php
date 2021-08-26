@@ -135,13 +135,13 @@
                         <td>{{$item->RefNo}}</td>
                         <td>{{$item->description_formated}}</td>
                         <td>{{ strtoupper($item->currency->code) }}</td>
-                        <td>
+                        <td style="text-align: right">
                           {{ "{$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
                         </td>
-                        <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
-                        <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
-                        <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
-                        <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
+                        <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->rate, 2)) !!}</td>
+                        <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->Debit, 2)) !!}</td>
+                        <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->Credit, 2)) !!}</td>
+                        <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->endingBalance, 2)) !!}</td>
                       </tr>
                       @endforeach
                     </tbody>

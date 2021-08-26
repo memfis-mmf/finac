@@ -194,7 +194,13 @@ class GeneralLedgerController extends Controller
                 $journal = TrxJournal::where('uuid', $item->journal_uuid)->first();
 
                 $data[$index]->currency = $journal->ref_collection->currency ?? $data[$index]->currency;
-                $data[$index]->rate = $journal->ref_collection->rate ?? $data[$index]->rate;
+
+                if ($data[$index]->currency->code == 'idr') {
+                    $data[$index]->rate = 1;
+                } else {
+                    $data[$index]->rate = $journal->ref_collection->rate ?? $data[$index]->rate;
+                }
+
             }
 
             $coa_type = Coa::where('code', $item->AccountCode)->first()
