@@ -48,9 +48,9 @@
     <td>{{ $data_row->description }}</td>
     <td>{{ $data_row->ref }}</td>
     <td>{{ $data_row->number }}</td>
-    <td>{{ $data_row->debit_formated }}</td>
-    <td>{{ $data_row->credit_formated }}</td>
-    <td>{{ $data_row->balance_formated }}</td>
+    <td>{{ $data_row->debit }}</td>
+    <td>{{ $data_row->credit }}</td>
+    <td>{{ $data_row->balance }}</td>
   </tr>
   @endforeach
 </table>
