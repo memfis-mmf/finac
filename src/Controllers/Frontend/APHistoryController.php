@@ -147,6 +147,8 @@ class APHistoryController extends Controller
         $data['controller'] = Controller::class;
         
         $pdf = \PDF::loadView('formview::ap-history', $data);
+        $pdf->setPaper('a4', 'landscape');
+
         return $pdf->stream();
     }
 

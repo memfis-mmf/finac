@@ -18,7 +18,7 @@
 
         body{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-top: 5cm;
+            margin-top: 6cm;
             margin-bottom: 2cm;
         }
 
@@ -87,6 +87,7 @@
         <div id="head">
             <table width="95%">
                 <tr>
+                    <td width="20%"></td>
                     <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
                         Juanda International Airport, Surabaya Indonesia
                         <br>
@@ -139,7 +140,7 @@
         <img src="./vendor/courier/img/form/printoutfa/FooterFA-A4-Landscape.png" width="100%" alt="" >
     </footer>
 
-    <div id="content" style="font-size: 10px !important">
+    <div id="content" style="font-size: 10px !important;">
         <div class="container">
           @foreach ($vendor as $vendor_row)
             @php
@@ -151,7 +152,7 @@
               $ending_balance_total = 0;
               $ending_balance_idr_total = 0;
             @endphp
-            <div style="margin-bottom:10px;">
+            <div style="margin-bottom:10px">
                 <table width="100%" cellpadding="3" class="table-head">
                     <tr>
                         <td width="18%" valign="top"><b>Customer Name</b></td>
