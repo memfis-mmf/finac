@@ -505,6 +505,10 @@ class CashbookController extends Controller
 				'coa' => $cashbook->coa->id,
 			];
 
+            if ($cashbook->currencies->code == 'idr') {
+                $cashbook->exchangerate = 1;
+            }
+
 			$total_debit = 0;
             $total_credit = 0;
 
