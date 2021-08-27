@@ -2,7 +2,7 @@
 
 namespace memfisfa\Finac\Model;
 
-
+use App\Models\Project;
 use memfisfa\Finac\Model\MemfisModel;
 use memfisfa\Finac\Model\Coa;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +17,7 @@ class TrxPaymentB extends MemfisModel
 		'code',
 		'total',
 		'description',
+		'project_id',
     ];
 
     /**
@@ -65,4 +66,9 @@ class TrxPaymentB extends MemfisModel
 			'transaction_number'
 		);
 	}
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id', 'id');
+    }
 }

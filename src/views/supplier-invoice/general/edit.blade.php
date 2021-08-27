@@ -432,6 +432,15 @@
 
     let _url = window.location.origin;
 
+    $('.project').select2({
+      placeholder: '--Select--',
+      width: '100%',
+      ajax: {
+        url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      }
+    });
+
     $('._select2').select2({
       allowClear: true,
       placeholder: '-- Select --'

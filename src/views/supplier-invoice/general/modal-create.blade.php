@@ -59,6 +59,19 @@
                                 @endcomponent
                             </div>
                         </div>
+                        <div class="form-group m-form__group row ">
+                            <div class="col-md-12">
+                              <label class="form-control-label">
+                                Project
+                              </label>
+
+                              @component('input::select')
+                              @slot('class', 'project')
+                              @slot('id', 'project_create')
+                              @slot('name', 'project_id')
+                              @endcomponent
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <div class="flex">

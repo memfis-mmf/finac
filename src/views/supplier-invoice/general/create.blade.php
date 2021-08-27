@@ -343,6 +343,7 @@
 
     // handle select2
     $('#project').select2({
+      placeholder: '--Select--',
       ajax: {
         url: _url+'/journal/get-project-select2',
         dataType: 'json'

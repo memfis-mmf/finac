@@ -31,6 +31,7 @@ class TrxPaymentBController extends Controller
         }
 
         $trxpaymentb = TrxPaymentB::create($request->all());
+
         return response()->json($trxpaymentb);
     }
 

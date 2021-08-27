@@ -334,11 +334,6 @@ let SupplierInvoice = {
         let uuid = form.find('input[name=uuid]').val();
         let _data = form.serialize();
 
-        console.table(_data);
-        console.table(
-          _data.amount
-        );
-
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -350,6 +345,7 @@ let SupplierInvoice = {
               'amount' : form.find('[name=amount]').val(),
               'si_uuid' : _si_uuid,
               'remark' : form.find('[name=remark]').val(),
+              'project_id' : form.find('[name=project_id]').val(),
             },
             success: function (data) {
                 if (data.errors) {
