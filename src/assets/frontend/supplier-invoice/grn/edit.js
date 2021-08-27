@@ -6,6 +6,7 @@ let SupplierInvoice = {
     let number_format = new Intl.NumberFormat('de-DE');
 
     $('#project').select2({
+      placeholder: '--Select--',
       ajax: {
         url: _url + '/journal/get-project-select2',
         dataType: 'json'

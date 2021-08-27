@@ -189,7 +189,7 @@
                           <option value="biak" {{ ($data->location == 'biak')? 'selected': '' }}>Biak</option>
                       </select>
                   </div>
-                  <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
                     <label class="form-control-label">
                       Remark
                     </label>
