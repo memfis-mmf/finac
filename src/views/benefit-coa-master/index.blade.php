@@ -361,6 +361,7 @@
 
     general_coa_datatable = $('.general_coa_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
+      scrollX: true,
     });
 
     general_coa_datatable.on('click', '.update-coa-general', function () {
