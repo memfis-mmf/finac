@@ -256,6 +256,14 @@ class TrxPayment extends MemfisModel
 		);
 	}
 
+    public function trxpaymentb()
+	{
+		return $this->hasMany(TrxPaymentB::class,
+			'transaction_number',
+			'transaction_number'
+		);
+	}
+
 	public function coa()
 	{
 		return $this->belongsTo(Coa::class, 'account_code', 'code');

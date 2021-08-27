@@ -369,6 +369,7 @@ let SupplierInvoice = {
                   general_table.reload();
 
                   form.find('input#amount').val('');
+                  form.find('select[name=project_id]').empty();
                   form.find('input[type=radio]').prop('checked', false);
                   form.find('textarea:not([type=hidden])').val('');
                   $('#_accountcode').val('').trigger('change');

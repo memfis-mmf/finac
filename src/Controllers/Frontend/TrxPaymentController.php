@@ -360,6 +360,7 @@ class TrxPaymentController extends Controller
 			'transaction_number' => $trxpayment->transaction_number,
 			'code' => $request->account_code,
 			'total' => $request->amount,
+			'project_id' => $request->project_id,
 			'description' => $request->remark,
 		]);
 	}
