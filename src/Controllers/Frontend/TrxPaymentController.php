@@ -609,9 +609,9 @@ class TrxPaymentController extends Controller
                 'grn.purchase_order'
 			])->select('trxpaymenta.*');
 
-        return DataTables::of($data)
-		->escapeColumns([])
-		->make(true);
+        return datatables($data)
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function grnDatatables(Request $request)
