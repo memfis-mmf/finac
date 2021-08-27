@@ -20,6 +20,10 @@ class TrxPaymentB extends MemfisModel
 		'project_id',
     ];
 
+    protected $appends = [
+        'project_formated'
+    ];
+
     /**
      * trigger event saat CRUD
      */
@@ -37,6 +41,13 @@ class TrxPaymentB extends MemfisModel
         self::deleted(function ($model) {
             self::updateGrandtotalSI($model);
         });
+    }
+
+    public function getProjectFormatedAttribute()
+    {
+        $project = $this->project;
+
+        return "{$project->code} [{$project->customer->name}] | {$project->aircraft_register}";
     }
 
     private static function updateGrandtotalSI($model)

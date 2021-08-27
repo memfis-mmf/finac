@@ -370,11 +370,12 @@ class TrxPaymentController extends Controller
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 
 		$data = $alldata = json_decode(
-			TrxPaymentB::where(
-				'transaction_number', $trxpayment->transaction_number
-			)->with([
-				'coa'
-			])->get()
+			TrxPaymentB::where('transaction_number', $trxpayment->transaction_number)
+                ->with([
+                    'coa',
+                    'project',
+                ])
+                ->get()
 		);
 
 		$datatable = array_merge([

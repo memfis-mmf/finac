@@ -4,7 +4,7 @@ let SupplierInvoice = {
 		let _url = window.location.origin;
     let _si_uuid = $('input[name=si_uuid]').val();
 
-    $('#project').select2({
+    $('.project').select2({
       placeholder: '-- Select --',
       ajax: {
         url: _url+'/journal/get-project-select2',
@@ -122,6 +122,13 @@ let SupplierInvoice = {
 								return addCommas(parseInt(t.total));
 							}
 						},
+            {
+							field: 'project_formated',
+              width: 400,
+							title: 'Project',
+							sortable: 'asc',
+							filterable: !1,
+						},
 						{
 							field: 'description',
 							title: 'Description',
@@ -164,6 +171,18 @@ let SupplierInvoice = {
 			_modal.find('#total_amount').val(parseInt(data.total));
 			_modal.find('#description').val(data.description);
 			_modal.find('input[name=uuid]').val(uuid);
+
+      project = data.project;
+      var data_select2 = {
+        id: project.id,
+        text: `${project.code} [${project.customer.name}] | ${project.aircraft_register}`
+      };
+
+      console.log(data_select2);
+      
+      var newOption = new Option(data_select2.text, data_select2.id, false, true);
+      _modal.find('select[name=project_id]').append(newOption).trigger('change');
+
 			_modal.modal('show');
 		});
 
