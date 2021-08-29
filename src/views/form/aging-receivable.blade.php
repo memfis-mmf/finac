@@ -19,7 +19,7 @@
 
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin-top: 5.7cm;
+        margin-top: 6cm;
         margin-bottom: 2cm;
       }
 
