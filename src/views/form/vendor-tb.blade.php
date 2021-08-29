@@ -150,22 +150,22 @@
 
   <div id="content">
     <div class="container">
-      <table width="100%" cellpadding="6">
+      <table width="100%" cellpadding="6" page-break-inside: auto;>
         @foreach ($vendor as $vendor_row)
           <tr>
-            <td width="20%" align="left" valign="top">{{ $vendor_row->name }}</td>
-            <td width="20%" align="right" valign="top">{!! $controller->fa_format('Rp', number_format($vendor_row->begining_balance, 2, ',', '.')) !!}</td>
-            <td width="20%" align="right" valign="top">{!! $controller->fa_format('Rp', number_format($vendor_row->debit, 2, ',', '.')) !!}</td>
-            <td width="20%" align="right" valign="top">{!! $controller->fa_format('Rp', number_format($vendor_row->credit, 2, ',', '.')) !!}</td>
-            <td width="20%" align="right" valign="top">{!! $controller->fa_format('Rp', number_format($vendor_row->ending_balance, 2, ',', '.')) !!}</td>
+            <td align="left" valign="top">{{ $vendor_row->name }}</td>
+            <td align="right" valign="top">{!! $controller->fa_format('Rp', $controller->currency_format($vendor_row->begining_balance, 2), true) !!}</td>
+            <td align="right" valign="top">{!! $controller->fa_format('Rp', $controller->currency_format($vendor_row->debit, 2), true) !!}</td>
+            <td align="right" valign="top">{!! $controller->fa_format('Rp', $controller->currency_format($vendor_row->credit, 2), true) !!}</td>
+            <td align="right" valign="top">{!! $controller->fa_format('Rp', $controller->currency_format($vendor_row->ending_balance, 2), true) !!}</td>
           </tr>
         @endforeach
         <tr>
-          <td width="20%" align="right" valign="top"><b>TOTAL</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', number_format($total->begining_balance, 2, ',', '.')) !!}</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', number_format($total->debit, 2, ',', '.')) !!}</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', number_format($total->credit, 2, ',', '.')) !!}</b></td>
-          <td width="20%" align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', number_format($total->ending_balance, 2, ',', '.')) !!}</b></td>
+          <td align="right" valign="top"><b>TOTAL</b></td>
+          <td align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', $controller->currency_format($total->begining_balance, 2), true) !!}</b></td>
+          <td align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', $controller->currency_format($total->debit, 2), true) !!}</b></td>
+          <td align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', $controller->currency_format($total->credit, 2), true) !!}</b></td>
+          <td align="right" valign="top" class="amount"><b>{!! $controller->fa_format('Rp', $controller->currency_format($total->ending_balance, 2), true) !!}</b></td>
         </tr>
       </table>
     </div>
