@@ -144,7 +144,7 @@ class APHistoryController extends Controller
 
         $data = $this->getArHistory($request);
         $data['carbon'] = Carbon::class;
-        $data['controller'] = Controller::class;
+        $data['controller'] = new Controller();
         
         $pdf = \PDF::loadView('formview::ap-history', $data);
         $pdf->setPaper('a4', 'landscape');
