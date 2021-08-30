@@ -87,6 +87,7 @@
         <div id="head">
             <table width="95%">
                 <tr>
+                    <td width="15%" ></td>
                     <td width="50%" valign="middle" style="font-size:12px;line-height:20px;">
                         Juanda International Airport, Surabaya Indonesia
                         <br>
