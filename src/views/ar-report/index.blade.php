@@ -581,7 +581,9 @@
 @if (Session::get('errors'))
 <script type="text/javascript">
     $(document).ready(function() {
-        toastr.error(`{{Session::get('errors')}}`, 'Invalid', {
+        error = {!!Session::get('errors')!!};
+
+        toastr.error(error[Object.keys(error)[0]], 'Invalid', {
             timeOut: 3000
         });
     });
