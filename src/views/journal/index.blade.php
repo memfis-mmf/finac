@@ -82,7 +82,7 @@
                                         </select>
                                       </div>
                                       <div class="col">
-                                        <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md mt-4">Filter</button>
+                                        <button class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md mt-4">Filter</button>
                                       </div>
                                     </div>
                                   </form>
