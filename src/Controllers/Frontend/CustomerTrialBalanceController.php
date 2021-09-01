@@ -38,6 +38,7 @@ class CustomerTrialBalanceController extends Controller
         }
 
         $data = $this->getData($request);
+        $data['controller'] = new Controller();
 
         $pdf = \PDF::loadView('formview::customer-tb', $data);
         return $pdf->stream();
