@@ -55,7 +55,7 @@
                                 <div class="col-xl-6 order-1 order-xl-2 m--align-right">
                                     <a id="export" href="{{route('master-coa.export-all')}}" 
                                       id="name=" 
-                                      class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-info btn-md" style="">
+                                      class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-success btn-md" style="">
 
                                       <span>
                                         <i class="fa fa-file-download"></i>
