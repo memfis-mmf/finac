@@ -413,6 +413,10 @@
     $(".dataTables_info").addClass("margin-info");
     $(".paging_simple_numbers").addClass("padding-datatable");
 
+    $(document).on('click', 'a.tab3', function () {
+      general_coa_datatable.draw();
+    });
+
     $(document).on('click', 'a.tab2', function () {
       bpjs_coa_datatable.ajax.reload();
     });
