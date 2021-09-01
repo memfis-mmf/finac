@@ -132,16 +132,16 @@
                             <td width="" align="left" valign="top" style="padding-left:8px;">{{ $invoice_row->transactionnumber }}</td>
                             <td width="" align="center" valign="top">{{ Carbon::parse($invoice_row->transactiondate)->format('d F Y') }}</td>
                             <td width="" align="left" valign="top">{{ $invoice_row->quotations->number ?? '-' }}</td>
-                            <td width="" align="left" valign="top">Rp {{ number_format($invoice_row->exchangerate, 2, ',', '.') }}</td>
+                            <td width="" align="left" valign="top">{!! $controller->fa_format('Rp', number_format($invoice_row->exchangerate, 2, ',', '.')) !!}</td>
                             {{-- <td width="" align="left" valign="top">{!! $invoice_row->description !!}</td> --}}
-                            <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->subtotal, 2, ',', '.') }}</td>
-                            <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->discountvalue, 2, ',', '.') }}</td>
-                            <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->ppnvalue, 2, ',', '.') }}</td>
-                            <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->grandtotalforeign, 2, ',', '.')  }}</td>
-                            <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->ar_amount['credit'], 2, ',', '.') }}</td>
+                            <td width="" align="right" valign="top">{!! $controller->fa_format($invoice_row->currencies->symbol, number_format($invoice_row->subtotal, 2, ',', '.')) !!}</td>
+                            <td width="" align="right" valign="top">{!! $controller->fa_format($invoice_row->currencies->symbol, number_format($invoice_row->discountvalue, 2, ',', '.')) !!}</td>
+                            <td width="" align="right" valign="top">{!! $controller->fa_format($invoice_row->currencies->symbol, number_format($invoice_row->ppnvalue, 2, ',', '.')) !!}</td>
+                            <td width="" align="right" valign="top">{!! $controller->fa_format($invoice_row->currencies->symbol, number_format($invoice_row->grandtotalforeign, 2, ',', '.'))  !!}</td>
+                            <td width="" align="right" valign="top">{!! $controller->fa_format($invoice_row->currencies->symbol, number_format($invoice_row->ar_amount['credit'], 2, ',', '.')) !!}</td>
                             {{-- <td width="" align="right" valign="top">{{ number_format(0, 2, ',', '.') }}</td> --}}
-                            <td width="" align="right" valign="top">{{ $invoice_row->currencies->symbol.' '.number_format($invoice_row->ending_balance['amount'], 2, ',', '.') }}</td>
-                            <td width="" align="right" valign="top">Rp {{ number_format($invoice_row->ending_balance['amount_idr'], 2, ',', '.')  }}</td>
+                            <td width="" align="right" valign="top">{!! $controller->fa_format($invoice_row->currencies->symbol, number_format($invoice_row->ending_balance['amount'], 2, ',', '.')) !!}</td>
+                            <td width="" align="right" valign="top">{!! $controller->fa_format('Rp', number_format($invoice_row->ending_balance['amount_idr'], 2, ',', '.'))  !!}</td>
                           </tr>
                           @endforeach
                           @foreach ($customer_row->total as $total_row)
@@ -150,32 +150,32 @@
                             <td align="left" valign="top"><b>Total {{ strtoupper($total_row['currency']->code) }}</b></td>
                             <td width="" align="right" valign="top" class="table-footer">
                               <b>
-                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['discount_total'], 2) }}
+                                {!! $controller->fa_format($total_row['currency']->symbol, $controller::currency_format($total_row['discount_total'], 2)) !!}
                               </b>
                             </td>
                             <td width="" align="right" valign="top" class="table-footer">
                               <b>
-                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['vat_total'], 2) }}
+                                {!! $controller->fa_format($total_row['currency']->symbol, $controller::currency_format($total_row['vat_total'], 2)) !!}
                               </b>
                             </td>
                             <td width="" align="right" valign="top" class="table-footer">
                               <b>
-                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['invoice_total'], 2) }}
+                                {!! $controller->fa_format($total_row['currency']->symbol, $controller::currency_format($total_row['invoice_total'], 2)) !!}
                               </b>
                             </td>
                             <td width="" align="right" valign="top" class="table-footer">
                               <b>
-                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['paid_amount_total'], 2) }}
+                                {!! $controller->fa_format($total_row['currency']->symbol, $controller::currency_format($total_row['paid_amount_total'], 2)) !!}
                               </b>
                             </td>
                             <td width="" align="right" valign="top" class="table-footer">
                               <b>
-                                {{ $total_row['currency']->symbol.' '.$controller::currency_format($total_row['ending_balance_total'], 2) }}
+                                {!! $controller->fa_format($total_row['currency']->symbol, $controller::currency_format($total_row['ending_balance_total'], 2)) !!}
                               </b>
                             </td>
                             <td width="" align="right" valign="top" class="table-footer">
                               <b>
-                                Rp {{ $controller::currency_format($total_row['ending_balance_total_idr'], 2) }}
+                                {!! $controller->fa_format('Rp', $controller::currency_format($total_row['ending_balance_total_idr'], 2)) !!}
                               </b>
                             </td>
                           </tr>   
