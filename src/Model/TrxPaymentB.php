@@ -47,6 +47,10 @@ class TrxPaymentB extends MemfisModel
     {
         $project = $this->project;
 
+        if (! $project) {
+            return;
+        }
+
         return "{$project->code} [{$project->customer->name}] | {$project->aircraft_register}";
     }
 
