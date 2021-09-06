@@ -525,7 +525,7 @@
 
                     } else {
 
-                        toastr.success('Data saved.', 'Sukses', {
+                        toastr.success('Data saved.', 'Success', {
                             timeOut: 5000
                         });
 

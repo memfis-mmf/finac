@@ -25,6 +25,8 @@ class Coa extends MemfisModel
 		'coa_tree',
 	];
 
+    protected $hidden = [];
+
 	public function getCoaNumberAttribute()
 	{
 		return str_replace('0', '', $this->code);
