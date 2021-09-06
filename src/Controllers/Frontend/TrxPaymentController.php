@@ -200,7 +200,7 @@ class TrxPaymentController extends Controller
         ])->where(
 			'uuid',
 			$request->trxpayment
-        )->first();
+        )->firstOrFail();
 
 		if ($data['data']->approve) {
 			return abort(404);
@@ -222,7 +222,7 @@ class TrxPaymentController extends Controller
         ])->where(
 			'uuid',
 			$request->trxpayment
-        )->first();
+        )->firstOrFail();
 
 		$data['vendor'] = Vendor::all();
 		$data['currency'] = Currency::selectRaw(
