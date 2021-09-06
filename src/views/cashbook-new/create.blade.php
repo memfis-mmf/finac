@@ -151,7 +151,7 @@
                                   <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                          Multy Currency
+                                          Multi Currency
                                         </label>
                                         @component('input::checkbox')
                                             @slot('id', 'multy_currency')
