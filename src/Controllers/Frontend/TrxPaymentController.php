@@ -478,7 +478,8 @@ class TrxPaymentController extends Controller
 
     public function print(Request $request)
     {
-        $trxpayment = TrxPayment::where('uuid', $request->uuid)->first();
+        $trxpayment = TrxPayment::where('uuid', $request->uuid)->firstOrFail();
+
 		$detail = $trxpayment->detail_general()->get()->transform(function($row) {
 
             $journal_detail = $this->getJournalDetail($row->si->transaction_number, $row->code);
