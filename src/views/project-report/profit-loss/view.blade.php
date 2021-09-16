@@ -268,7 +268,7 @@
                                         <td valign="top" align="right">{{ number_format($revenue_row->value, 2, ',', '.') }}</td>
                                     </tr>
                                 @endforeach
-                                <tr class="text-danger">
+                                <tr style="color: #5867dd">
                                     <th scope="row" valign="top" width="55%">Total Revenue</th>
                                     <td valign="top"  width="1%">:</td>
                                     <td valign="top" align="right">{{ number_format($total_revenue, 2, ',', '.') }}</td>
@@ -285,7 +285,7 @@
                                     <td valign="top"  width="1%">:</td>
                                     <td valign="top" align="right">{{ number_format($total_expense, 2, ',', '.') }}</td>
                                 </tr>
-                                <tr class="text-success" style="font-size:16px">
+                                <tr class="{{ ($total_revenue - $total_expense) > 0 ? 'text-success': 'text-danger' }}" style="font-size:16px">
                                     <th scope="row" valign="top" width="55%">Net Profit</th>
                                     <td valign="top"  width="1%">:</td>
                                     <td valign="top" align="right">{{ number_format($total_revenue - $total_expense, 2, ',', '.') }}</td>
