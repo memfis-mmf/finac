@@ -84,9 +84,8 @@ class ProfitLossProjectController extends Controller
         $project = Project::select($selected_column)
             ->without('quotations')
             ->where('uuid', $project_uuid)
-            ->withCount('approvals')
-            ->having('approvals_count', '>=', 2) // mengambil status project yang minimal quotation approve
-            ->whereNull('parent_id') // mengambil project induk (bukan additional project)
+            // ->whereIn('status', ['Quotation Approved', 'Project Approved'])
+            // ->whereNull('parent_id') // mengambil project induk (bukan additional project)
             ->firstOrFail();
 
         $project->customer = json_decode($project->origin_customer);
