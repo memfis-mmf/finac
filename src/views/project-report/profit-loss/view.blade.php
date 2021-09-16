@@ -350,7 +350,7 @@
                         <table class="table table-bordered table-striped mb-0"  style="font-size:12px">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
-                                    <th scope="col" width="25%">Inventory Out</th>
+                                    <th scope="col" width="25%">Material Request</th>
                                     <th scope="col" width="14%">Part Number</th>
                                     <th scope="col" width="30%" align="center">Item Name</th>
                                     <th scope="col" align="center">Qty</th>
