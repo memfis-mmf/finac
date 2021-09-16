@@ -10,6 +10,7 @@ use App\Models\InventoryOut;
 use App\Models\Item;
 use App\Models\ItemRequest;
 use App\Models\JobCard;
+use App\Models\Pivots\InventoryOutItem;
 use App\Models\Pivots\MaterialRequestItem;
 use App\Models\Project;
 use App\Models\Quotation;
@@ -292,60 +293,105 @@ class ProfitLossProjectController extends Controller
     {
         $items = [];
         if ($project->parent_id == null) {
-            $quotation_id = $project->quotations->first()->id;
-            $jobcards = JobCard::where('quotation_id', $quotation_id)->get();
-            foreach ($jobcards as $jobcard) {
-                foreach ($jobcard->materials as $item_jobcard_row) {
-                    $item_jobcard_row = (object) $item_jobcard_row;
+            // $quotation_id = $project->quotations->first()->id;
+            // $jobcards = JobCard::where('quotation_id', $quotation_id)->get();
+            // foreach ($jobcards as $jobcard) {
+            //     foreach ($jobcard->materials as $item_jobcard_row) {
+            //         $item_jobcard_row = (object) $item_jobcard_row;
 
-                    $unit = Unit::where('symbol', $item_jobcard_row->unit)
-                        ->first();
-                    $item_jobcard_row->unit_id = $unit->id;
+            //         $unit = Unit::where('symbol', $item_jobcard_row->unit)
+            //             ->first();
+            //         $item_jobcard_row->unit_id = $unit->id;
 
-                    $item = Item::where('code', $item_jobcard_row->code)->withTrashed()->first();
+            //         $item = Item::where('code', $item_jobcard_row->code)->withTrashed()->first();
 
-                    if( !$item ) {
-                        continue;
-                    }
+            //         if( !$item ) {
+            //             continue;
+            //         }
 
-                    $request_item = MaterialRequestItem::where('item_id', $item->id)
-                        ->whereHas('request', function ($request) use ($project) {
-                            $request
-                                ->has('approvals')
+            //         $request_item = MaterialRequestItem::where('item_id', $item->id)
+            //             ->whereHas('request', function ($request) use ($project) {
+            //                 $request
+            //                     ->has('approvals')
+            //                     ->where('ref_uuid', $project->uuid);
+            //             })
+            //             ->first();
+
+            //         if (!$request_item) {
+            //             continue;
+            //         }
+
+            //         $actual_items = $request_item->request->inventoryOut->fefo_out()
+            //             ->where('item_id', $item->id)
+            //             ->where('storage_id', $request_item->request->storage_id)
+            //             ->where('serial_number', $request_item->serial_number)
+            //             ->get();
+
+            //         if (!$actual_items) {
+            //             continue;
+            //         }
+
+            //         foreach ($actual_items as $actual_itemRow) {
+
+            //             $item->transaction_number = $request_item->request->number ?? null;
+            //             $item->quantity = $actual_itemRow->quantity;
+            //             $item->unit = $request_item->unit ?? null;
+            //             $item->price = $actual_itemRow->price * $actual_itemRow->quantity;
+            //             $item->ref_no = $jobcard->number ?? null;
+            //             $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at ?? null;
+            //             $item->category_name = $item->categories()->select('name')->first()->name ?? null;
+            //             $item->ref_status = $jobcard->progress ?? null; // ini di tiap object sudah punya field progress atau return 
+            //             $item->ref_type = json_decode($jobcard->origin_jobcardable)->type->code ?? json_decode($jobcard->origin_jobcardable)->eo_header->type->code ?? null; // kalau dari defect card valuenya "additional" kalau htcrr "HT/CRR"
+
+            //             $items[] = $item;
+            //         }
+            //     }
+            // }
+
+            $items = InventoryOutItem::whereHas('inventory_out', function($iv_out) use($project) {
+                    $iv_out->has('approvals')
+                        ->where('inventoryoutable_type', 'App\Models\ItemRequest')
+                        ->whereHas('item_request', function($material_request) use($project) {
+                            $material_request->has('approvals')
                                 ->where('ref_uuid', $project->uuid);
-                        })
-                        ->first();
+                        });
+                })
+                ->get()
+                ->transform(function($row) use($project) {
 
-                    if (!$request_item) {
-                        continue;
+                    $price = $row->inventory_out->fefo_out()
+                        ->where('item_id', $row->item_id)
+                        ->get()
+                        ->sum(function($query) {
+                            return $query->price * $query->quantity;
+                        });
+
+                    $row->code = $row->item->code;
+                    $row->name = $row->item->name;
+                    $row->transaction_number = $row->inventory_out->item_request->number ?? null;
+                    $row->quantity = $row->quantity;
+                    $row->unit = $row->unit ?? null;
+                    $row->price = $price;
+                    $row->used_date = $row->inventory_out->item_request->approvals()->orderBy('id', 'desc')->first()->created_at ?? null;
+                    $row->category_name = $row->item->categories()->select('name')->first()->name ?? null;
+
+                    $row->ref_no = null;
+                    $row->ref_status = null;
+                    $row->ref_type = null;
+
+                    $quotation_id = $project->quotations->first()->id;
+                    if ($quotation_id) {
+                        // $jobcards = JobCard::where('quotation_id', $quotation_id)->get();
+
+                        // $row->ref_no = $jobcard->number ?? null;
+                        // $row->ref_status = $jobcard->progress ?? null; // ini di tiap object sudah punya field progress atau return 
+                        // $row->ref_type = json_decode($jobcard->origin_jobcardable)->type->code ?? json_decode($jobcard->origin_jobcardable)->eo_header->type->code ?? null; // kalau dari defect card valuenya "additional" kalau htcrr "HT/CRR"
                     }
 
-                    $actual_items = $request_item->request->inventoryOut->fefo_out()
-                        ->where('item_id', $item->id)
-                        ->where('storage_id', $request_item->request->storage_id)
-                        ->where('serial_number', $request_item->serial_number)
-                        ->get();
 
-                    if (!$actual_items) {
-                        continue;
-                    }
+                    return $row;
+                });
 
-                    foreach ($actual_items as $actual_itemRow) {
-
-                        $item->transaction_number = $request_item->request->number ?? null;
-                        $item->quantity = $actual_itemRow->quantity;
-                        $item->unit = $request_item->unit ?? null;
-                        $item->price = $actual_itemRow->price * $actual_itemRow->quantity;
-                        $item->ref_no = $jobcard->number ?? null;
-                        $item->used_date = $request_item->request->approvals()->orderBy('id', 'desc')->first()->created_at ?? null;
-                        $item->category_name = $item->categories()->select('name')->first()->name ?? null;
-                        $item->ref_status = $jobcard->progress ?? null; // ini di tiap object sudah punya field progress atau return 
-                        $item->ref_type = json_decode($jobcard->origin_jobcardable)->type->code ?? json_decode($jobcard->origin_jobcardable)->eo_header->type->code ?? null; // kalau dari defect card valuenya "additional" kalau htcrr "HT/CRR"
-
-                        $items[] = $item;
-                    }
-                }
-            }
         } else {
             $defectcards = DefectCard::where('project_additional_id', $project->id)
                 ->get();
