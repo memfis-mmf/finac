@@ -453,8 +453,6 @@
                 data_morris_bar.push(obj);
             }
 
-            console.log(data_morris_bar);
-
             new Morris.Bar({
                 element: "m_morris_3",
                 data: data_morris_bar,
@@ -480,8 +478,8 @@
                     ],
                     labels: [1, 2]
                 },
-                { donut: !0, donutWidth: 17, showLabel: !1 }
-            ).on("draw", function(e) {
+                { donut: !0, donutWidth: 17, showLabel: !1 })
+              .on("draw", function(e) {
                 if ("slice" === e.type) {
                     var t = e.element._node.getTotalLength();
                     e.element.attr({
