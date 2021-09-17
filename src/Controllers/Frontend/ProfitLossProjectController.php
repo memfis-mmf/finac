@@ -141,9 +141,15 @@ class ProfitLossProjectController extends Controller
 
             $all_project_row->items = $this->getProjectItem($all_project_row, $all_project_row->quotation);
 
+            $quotation_id = null;
+
+            if ($all_project_row->quotation) {
+                $quotation_id = $all_project_row->quotation->id;
+            }
+
             // mengambil nomer invoice dari quotation
             $all_project_row->invoice = Invoice::select(['id', 'transactionnumber'])
-                ->where('id_quotation', $all_project_row->quotation->id)
+                ->where('id_quotation', $quotation_id)
                 ->where('approve', true)
                 ->first();
 

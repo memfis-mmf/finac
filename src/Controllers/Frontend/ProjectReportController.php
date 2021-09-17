@@ -16,7 +16,10 @@ class ProjectReportController extends Controller
     public function getActualManhour($project)
     {
         $workpackage_manhour = $project->projectWorkpackages()->sum('total_manhours_with_performance_factor');
-        $htcrr_manhour = json_decode($project->data_htcrr)->total_manhours_with_performance_factor;
+        $htcrr_manhour = 0;
+        if ($project->data_htcrr) {
+            $htcrr_manhour = json_decode($project->data_htcrr)->total_manhours_with_performance_factor;
+        }
 
         return $workpackage_manhour + $htcrr_manhour;
     }

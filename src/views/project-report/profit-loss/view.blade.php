@@ -55,7 +55,7 @@
                         <tr valign="top">
                             <td width="30%">Quotaion No</td>
                             <td width="1%">:</td>
-                            <td><b>{{ $main_project->quotation->number }}</b></td>
+                            <td><b>{{ $main_project->quotation->number ?? '' }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">Work Order No</td>
@@ -95,7 +95,11 @@
                         <tr valign="top">
                             <td width="30%">Quotation Approval</td>
                             <td width="1%">:</td>
-                            <td><b>{{ $main_project->quotation->approvals->first()->conductedBy->full_name }}</b></td>
+                            @if ($main_project->quotation)
+                              <td><b>{{ $main_project->quotation->approvals()->first()->conductedBy->full_name}}</b></td>
+                            @else
+                              <td><b>{{ '' }}</b></td>
+                            @endif
                         </tr>
                     </table>
                 </div>
