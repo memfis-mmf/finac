@@ -53,7 +53,7 @@ class ProjectReportController extends Controller
                 'value' => $request->manhour * $actual_manhour
             ];
 
-            $data['total_expense'] += $request->manhour;
+            $data['total_expense'] += $request->manhour * $actual_manhour;
         }
 
         if ($request->hangar_space > 0) {
