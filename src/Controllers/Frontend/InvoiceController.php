@@ -624,16 +624,18 @@ class InvoiceController extends Controller
                 $divider = 1;
             }
 
+            $credit = ($amount / $divider) * $invoice->exchangerate;
+
             $detail[] = (object) [
                 'coa_detail' => $detail_row->accountcode,
-                'credit' => ($amount / $divider) * $invoice->exchangerate,
+                'credit' => $credit,
                 'debit' => 0,
                 '_desc' => 'Income : '
                     . $detail_row->invoice->transactionnumber . ' '
                     . $detail_row->invoice->customer->name,
             ];
 
-            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_credit += $credit;
         }
 
         if ($invoice->grandtotal != $total_credit) {
