@@ -30,9 +30,7 @@ let Cashbook = {
             {data: 'transactiondate_formated', name: 'transactiondate'},
             {data: 'transactionnumber_link', name: 'transactionnumber'},
             {data: 'journal_number', name: 'journal.voucher_no'},
-            {data: 'totaltransaction', render: function(data, type, row) {
-                return row.currencies.symbol+' '+addCommas(parseInt(row.totaltransaction));
-            }},
+            {data: 'totaltransaction_formated', name: 'totaltransaction'},
             {data: 'personal'},
             {data: 'description'},
             {data: 'status', name: 'approve', defaultContent: '-'},
@@ -126,7 +124,7 @@ let Cashbook = {
 													timeOut: 3000
 											});
 									} else {
-											toastr.success('Data saved.', 'Sukses', {
+											toastr.success('Data saved.', 'Success', {
 													timeOut: 3000
 											});
 
@@ -223,7 +221,7 @@ let Cashbook = {
                         save_button();
                         $('#modal_coa').modal('hide');
 
-                        toastr.success('Data saved.', 'Sukses', {
+                        toastr.success('Data saved.', 'Success', {
                             timeOut: 5000
                         });
 

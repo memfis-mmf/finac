@@ -272,6 +272,9 @@ class CashbookController extends Controller
             ->addColumn('transactiondate_formated', function($row) {
                 return $row->transactiondate->format('d-m-Y');
             })
+            ->addColumn('totaltransaction_formated', function($row) {
+                return $row->currencies->symbol.' '.$this->currency_format($row->totaltransaction);
+            })
             ->addColumn('transactionnumber_link', function($row) {
                 return "<a href='".route('cashbook.show', $row->uuid)."'>$row->transactionnumber</a>";
             })

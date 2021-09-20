@@ -254,7 +254,7 @@ let Cashbook = {
                     } else {
                         $('#modal_approvalcashbook').modal('hide');
 
-                        toastr.success('Data saved.', 'Sukses', {
+                        toastr.success('Data saved.', 'Success', {
                             timeOut: 5000
                         });
 
@@ -356,7 +356,7 @@ let Cashbook = {
                         save_button();
                         $('#modal_coa').modal('hide');
 
-                        toastr.success('Data saved.', 'Sukses', {
+                        toastr.success('Data saved.', 'Success', {
                             timeOut: 5000
                         });
 

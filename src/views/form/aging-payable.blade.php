@@ -19,7 +19,7 @@
 
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin-top: 5.7cm;
+        margin-top: 6cm;
         margin-bottom: 2cm;
       }
 
@@ -87,6 +87,7 @@
         <div id="head">
             <table width="95%">
                 <tr>
+                    <td width="15%" ></td>
                     <td width="50%" valign="middle" style="font-size:12px;line-height:20px;">
                         Jl. Indonesia Raya 116
                         <br>

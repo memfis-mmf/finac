@@ -32,7 +32,6 @@ use memfisfa\Finac\Model\TrxJournal;
 use stdClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 //use for export
 use memfisfa\Finac\Model\Exports\InvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -305,6 +304,12 @@ class InvoiceController extends Controller
             'amount' => $htcrr_price_val,
             'type' => 'htcrr'
         ]);
+
+        // if ($invoice->grandtotalforeign != $invoice->totalprofit()->sum('amount')) {
+        //     return [
+        //         'error' => 'Total Invoice and Total Quotation are different'
+        //     ];
+        // }
 
         // return [
         // 	'error' => Invoicetotalprofit::select('amount')->get(),
@@ -624,16 +629,18 @@ class InvoiceController extends Controller
                 $divider = 1;
             }
 
+            $credit = ($amount / $divider) * $invoice->exchangerate;
+
             $detail[] = (object) [
                 'coa_detail' => $detail_row->accountcode,
-                'credit' => ($amount / $divider) * $invoice->exchangerate,
+                'credit' => $credit,
                 'debit' => 0,
                 '_desc' => 'Income : '
                     . $detail_row->invoice->transactionnumber . ' '
                     . $detail_row->invoice->customer->name,
             ];
 
-            $total_credit += $detail[count($detail) - 1]->credit;
+            $total_credit += $credit;
         }
 
         if ($invoice->grandtotal != $total_credit) {

@@ -55,7 +55,7 @@
                         <tr valign="top">
                             <td width="30%">Quotaion No</td>
                             <td width="1%">:</td>
-                            <td><b>{{ $main_project->quotation->number }}</b></td>
+                            <td><b>{{ $main_project->quotation->number ?? '' }}</b></td>
                         </tr>
                         <tr valign="top">
                             <td width="30%">Work Order No</td>
@@ -95,7 +95,11 @@
                         <tr valign="top">
                             <td width="30%">Quotation Approval</td>
                             <td width="1%">:</td>
-                            <td><b>{{ $main_project->quotation->approvals->first()->conductedBy->full_name }}</b></td>
+                            @if ($main_project->quotation)
+                              <td><b>{{ $main_project->quotation->approvals()->first()->conductedBy->full_name}}</b></td>
+                            @else
+                              <td><b>{{ '' }}</b></td>
+                            @endif
                         </tr>
                     </table>
                 </div>
@@ -268,7 +272,7 @@
                                         <td valign="top" align="right">{{ number_format($revenue_row->value, 2, ',', '.') }}</td>
                                     </tr>
                                 @endforeach
-                                <tr class="text-danger">
+                                <tr style="color: #5867dd">
                                     <th scope="row" valign="top" width="55%">Total Revenue</th>
                                     <td valign="top"  width="1%">:</td>
                                     <td valign="top" align="right">{{ number_format($total_revenue, 2, ',', '.') }}</td>
@@ -285,7 +289,7 @@
                                     <td valign="top"  width="1%">:</td>
                                     <td valign="top" align="right">{{ number_format($total_expense, 2, ',', '.') }}</td>
                                 </tr>
-                                <tr class="text-success" style="font-size:16px">
+                                <tr class="{{ ($total_revenue - $total_expense) > 0 ? 'text-success': 'text-danger' }}" style="font-size:16px">
                                     <th scope="row" valign="top" width="55%">Net Profit</th>
                                     <td valign="top"  width="1%">:</td>
                                     <td valign="top" align="right">{{ number_format($total_revenue - $total_expense, 2, ',', '.') }}</td>
@@ -350,7 +354,7 @@
                         <table class="table table-bordered table-striped mb-0"  style="font-size:12px">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
-                                    <th scope="col" width="25%">Inventory Out</th>
+                                    <th scope="col" width="25%">Material Request</th>
                                     <th scope="col" width="14%">Part Number</th>
                                     <th scope="col" width="30%" align="center">Item Name</th>
                                     <th scope="col" align="center">Qty</th>
@@ -453,8 +457,6 @@
                 data_morris_bar.push(obj);
             }
 
-            console.log(data_morris_bar);
-
             new Morris.Bar({
                 element: "m_morris_3",
                 data: data_morris_bar,
@@ -480,8 +482,8 @@
                     ],
                     labels: [1, 2]
                 },
-                { donut: !0, donutWidth: 17, showLabel: !1 }
-            ).on("draw", function(e) {
+                { donut: !0, donutWidth: 17, showLabel: !1 })
+              .on("draw", function(e) {
                 if ("slice" === e.type) {
                     var t = e.element._node.getTotalLength();
                     e.element.attr({

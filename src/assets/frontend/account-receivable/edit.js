@@ -611,7 +611,7 @@ let AccountReceivableEdit = {
               timeOut: 2000
             });
           } else {
-            toastr.success('Data saved.', 'Sukses', {
+            toastr.success('Data saved.', 'Success', {
               timeOut: 2000
             });
 
@@ -701,7 +701,7 @@ let AccountReceivableEdit = {
               timeOut: 2000
             });
           } else {
-            toastr.success('Data saved.', 'Sukses', {
+            toastr.success('Data saved.', 'Success', {
               timeOut: 2000
             });
 

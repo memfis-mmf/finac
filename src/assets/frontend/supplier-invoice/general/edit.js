@@ -173,16 +173,17 @@ let SupplierInvoice = {
 			_modal.find('input[name=uuid]').val(uuid);
 
       project = data.project;
-      var data_select2 = {
-        id: project.id,
-        text: `${project.code} [${project.customer.name}] | ${project.aircraft_register}`
-      };
 
-      console.log(data_select2);
+      if (project) {
+        var data_select2 = {
+          id: project.id,
+          text: `${project.code} [${project.customer.name}] | ${project.aircraft_register}`
+        };
+
+        var newOption = new Option(data_select2.text, data_select2.id, false, true);
+        _modal.find('select[name=project_id]').append(newOption).trigger('change');
+      }
       
-      var newOption = new Option(data_select2.text, data_select2.id, false, true);
-      _modal.find('select[name=project_id]').append(newOption).trigger('change');
-
 			_modal.modal('show');
 		});
 

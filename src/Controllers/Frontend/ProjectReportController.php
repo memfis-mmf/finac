@@ -4,12 +4,7 @@ namespace memfisfa\Finac\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\DefectCard;
-use App\Models\HtCrr;
-use App\Models\JobCard;
-use App\Models\Pivots\ProjectWorkpackage;
 use App\Models\Project;
-use App\Models\Quotation;
 
 class ProjectReportController extends Controller
 {
@@ -20,53 +15,13 @@ class ProjectReportController extends Controller
 
     public function getActualManhour($project)
     {
-        $jobcards = [];
-        $htcrrs = HtCrr::where('project_id', $project->id)->whereNull('parent_id')->get();
-
-        $additional_projects = $project->childs->pluck('id')->toArray();
-        $additional_quotations = Quotation::select('id', 'quotationable_type', 'quotationable_id')->where('quotationable_type', 'App\Models\Project')->whereIn('quotationable_id', $additional_projects)->pluck('id')->toArray();
-
-        $additionals = DefectCard::whereIn('quotation_additional_id', $additional_quotations)->get();
-
-        $tat = ProjectWorkpackage::where('project_id', $project->id)->sum('tat');
-
-        if (isset($project->data_htcrr)) {
-            $tat += json_decode($project->data_htcrr)->tat;
+        $workpackage_manhour = $project->projectWorkpackages()->sum('total_manhours_with_performance_factor');
+        $htcrr_manhour = 0;
+        if ($project->data_htcrr) {
+            $htcrr_manhour = json_decode($project->data_htcrr)->total_manhours_with_performance_factor;
         }
 
-        $quotation_ids = Quotation::where('quotationable_id', $project->id)->orWhere('parent_id', $project->id)->has('approvals', '>', 1)->pluck('id')->toArray();
-
-        $jobcard_routine = JobCard::select('id', 'uuid', 'progress', 'jobcardable_type', 'jobcardable_id', 'quotation_id', 'is_rii', 'type', 'is_mandatory', 'origin_jobcardable')
-            ->whereIn('quotation_id', $quotation_ids)
-            ->where('jobcardable_type', 'App\Models\TaskCard')->with('progresses', 'jobcardable')
-            ->get();
-
-        $jobcard_nonrotine = JobCard::select('id', 'uuid', 'progress', 'jobcardable_type', 'jobcardable_id', 'quotation_id', 'is_rii', 'type', 'is_mandatory', 'origin_jobcardable')
-            ->whereIn('quotation_id', $quotation_ids)
-            ->where('jobcardable_type', 'App\Models\EOInstruction')->with('progresses', 'jobcardable.eo_header.type')
-            ->get();
-
-        $jobcards["routine"] = $jobcards["non_routine"] = $jobcards["additionals"]  = 0;
-
-        $result = 0;
-
-        foreach ($jobcard_routine as $jobcard) {
-            $result += floatval($jobcard->actual_manhourV2);
-        }
-
-        foreach ($jobcard_nonrotine as $jobcard) {
-            $result += floatval($jobcard->actual_manhourV2);
-        }
-
-        foreach ($additionals as $jobcard) {
-            $result += floatval($jobcard->actual_manhourV2);
-        }
-
-        foreach ($htcrrs as $jobcard) {
-            $result += floatval(array_sum($jobcard->actual_manhour));
-        }
-
-        return $result;
+        return $workpackage_manhour + $htcrr_manhour;
     }
 
     public function view(Request $request)
@@ -98,7 +53,7 @@ class ProjectReportController extends Controller
                 'value' => $request->manhour * $actual_manhour
             ];
 
-            $data['total_expense'] += $request->manhour;
+            $data['total_expense'] += $request->manhour * $actual_manhour;
         }
 
         if ($request->hangar_space > 0) {

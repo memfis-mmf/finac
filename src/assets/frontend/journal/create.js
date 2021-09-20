@@ -150,7 +150,7 @@ let JournalCreate = {
 								} else {
 										$('#modal_coa').modal('hide');
 
-										toastr.success('Data saved.', 'Sukses', {
+										toastr.success('Data saved.', 'Success', {
 												timeOut: 5000
 										});
 

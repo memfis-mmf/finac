@@ -286,7 +286,7 @@ var DatatableAutoColumnHideDemo = function () {
               }
 
             } else if (t.htcrrcount != null) {
-              $("#htcrr_price_val").val(t.price);
+              $("#htcrr_price_val").val(t.price * multiple);
 
               if (_currency == 'idr') {
                 _result = IDRformatter.format(t.price * multiple) + "<br/>"

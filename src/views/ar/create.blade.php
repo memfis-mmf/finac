@@ -292,7 +292,7 @@
                 } else {
                     //$('#modal_coa').modal('hide');
                     console.log(data.uuid);
-                    toastr.success('Data saved.', 'Sukses', {
+                    toastr.success('Data saved.', 'Success', {
                         timeOut: 5000
                     });
                     window.location.replace("/ar/"+data.uuid+"/edit");
