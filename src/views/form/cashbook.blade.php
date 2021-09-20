@@ -87,13 +87,13 @@
             <table width="95%">
                 <tr>
                     <td width="50%" valign="middle" style="font-size:12px;line-height:15px;">
-                        Juanda International Airport, Surabaya Indonesia
+                        Jl. Indonesia Raya 116
                         <br>
-                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        Phone : 031-5730289 &nbsp;&nbsp;&nbsp; Fax : 031-5203618
                         <br>
-                        Email : marketing@ptmmf.co.id
+                        Email : marketing@company.co.id
                         <br>
-                        Website : www.ptmmf.co.id
+                        Website : www.company.co.id
                     </td>
                     <td width="55%" valign="top" align="center" style="padding-top:-16px">
                         <h1 style="font-size:24px;">{{$type_header}}<br> 

@@ -95,10 +95,10 @@
                         <img src="./vendor/courier/img/LogoMMF.png" alt="logo" height="60px">
                     </td>
                     <td width="35%" style="font-size:12px; line-height: 1.2;">
-                        Juanda International Airport, Surabaya Indonesia <br>
-                        Phone : 031-8686482 <span style="margin-left:12px">Fax : 031-8686500</span> <br>
-                        Email : marketing@ptmmf.co.id <br>
-                        Website : wwww.ptmmf.co.id
+                        Jl. Indonesia Raya 116 <br>
+                        Phone : 031-5730289 <span style="margin-left:12px">Fax : 031-5203618</span> <br>
+                        Email : marketing@company.co.id <br>
+                        Website : wwww.company.co.id
                     </td>
                     <td width="40%" align="center">
                         <h1>BANK PAYMENT JOURNAL <br> (Cashbook)</h1>

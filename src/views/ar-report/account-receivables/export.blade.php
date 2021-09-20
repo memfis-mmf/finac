@@ -1,11 +1,11 @@
 <table>
   <tr>
-    <td valign="top">MMF Department</td>
+    <td valign="top">Department</td>
     <td valign="top">:</td>
     <td valign="top">{{ $department ?? '-' }}</td>
   </tr>
   <tr>
-    <td>MMF Location</td>
+    <td>Location</td>
     <td>:</td>
     <td style="text-transform: capitalize">{{ $request->location ?? '-' }}</td>
   </tr>

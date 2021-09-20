@@ -110,13 +110,13 @@
         <table width="95%">
                 <tr>
                     <td width="55%" valign="middle" style="font-size:14px;line-height:20px;">
-                        Juanda International Airport, Surabaya Indonesia
+                        Jl. Indonesia Raya 116
                         <br>
-                        Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
+                        Phone : 031-5730289 &nbsp;&nbsp;&nbsp; Fax : 031-5730289
                         <br>
-                        Email : marketing@ptmmf.co.id
+                        Email : marketing@company.co.id
                         <br>
-                        Website : www.ptmmf.co.id
+                        Website : www.company.co.id
                     </td>
                     <td width="45%" valign="top" align="center">
                         <h1 style="font-size:26px;">TRIAL BALANCE<br> 

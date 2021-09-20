@@ -72,12 +72,12 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <table width="100%" cellpadding="3">
                                         <tr>
-                                            <td class="nowrap" valign="top" width="1px">MMF Department</td>
+                                            <td class="nowrap" valign="top" width="1px">Department</td>
                                             <td class="nowrap" valign="top" width="1px">:</td>
                                             <td  valign="top">{{ $department }}</td>
                                         </tr>
                                         <tr>
-                                            <td>MMF Location</td>
+                                            <td>Location</td>
                                             <td>:</td>
                                             <td>{{ $location }}</td>
                                         </tr>

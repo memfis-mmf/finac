@@ -61,7 +61,7 @@
   </div>
 </div>
 {{-- <div class="text-center p-5 text-white" style="background:#5f6b5e;">
-    <h1>PT. MERPATI MAINTENANCE FACILITY</h1>
+    <h1>PT. COMPANY</h1>
     <h5>GENERAL LEDGER</h5>
     <h4><b>11/11/11 - 11/11/20</b></h4>
 </div>  --}}

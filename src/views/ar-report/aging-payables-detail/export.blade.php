@@ -12,12 +12,12 @@
 </table>
 <table>
     <tr>
-        <td class="nowrap" valign="top" width="1px">MMF Department</td>
+        <td class="nowrap" valign="top" width="1px">Department</td>
         <td class="nowrap" valign="top" width="1px">:</td>
         <td  valign="top">{{ $department }}</td>
     </tr>
     <tr>
-        <td>MMF Location</td>
+        <td>Location</td>
         <td>:</td>
         <td>{{ $location }}</td>
     </tr>
