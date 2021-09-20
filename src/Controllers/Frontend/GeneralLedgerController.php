@@ -422,9 +422,7 @@ class GeneralLedgerController extends Controller
         $coa = Coa::whereIn('code', $code)->get();
 
         if (count($coa) < 1) {
-            return redirect()->back()->with([
-                'errors' => 'Coa not found'
-            ]);
+            return redirect()->back()->with(['errors' => 'Coa not found']);
         }
 
         $date = $this->convertDate($request->date);
@@ -434,10 +432,19 @@ class GeneralLedgerController extends Controller
 
         for ($i=0; $i < count($coa); $i++) {
 
-            $data_coa[] = $this->getData(
-                $beginDate, $endingDate, $coa[$i]->code
-            );
+            $get_data = $this->getData(
+                    $beginDate, $endingDate, $coa[$i]->code
+                );
 
+            $data_coa[] = $get_data;
+        }
+
+        $data_coa = array_values(array_filter($data_coa));
+
+        foreach ($data_coa as $data_coa_row) {
+            foreach ($data_coa_row['data'] as $data_row) {
+                $data_row->description_formated = $data_row->Description_2 ?? $data_row->Description;
+            }
         }
 
         $data = [
