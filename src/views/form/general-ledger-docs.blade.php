@@ -133,6 +133,11 @@
   <div id="content">
     <div class="container">
       @foreach ($data as $items)
+      @if (! isset($items['data'][0]->AccountCode))
+        @php
+          continue;
+        @endphp
+      @endif
       <table class="accountcode" width="100%" style="font-size:14px;">
         <tr>
           <td width="9%">Account Code</td>
@@ -149,34 +154,27 @@
             <th>Ref. No.</th>
             <th>Description</th>
             <th>Currency</th>
-            <th>Foreign Total</th>
+            <th>Amount Total</th>
             <th>Rate</th>
-            <th>Debit</th>
-            <th>Credit</th>
-            <th>Ending Balance</th>
+            <th>Debit (IDR)</th>
+            <th>Credit (IDR)</th>
+            <th>Ending Balance (IDR)</th>
           </tr>
         </thead>
         <tbody>
-          @php
-          $debit_total = 0;
-          $credit_total = 0;
-          $ending_total = 0;
-          @endphp
           @foreach ($items['data'] as $index => $item)
           <tr>
             <td>{{ $index + 1 }}</td>
             <td>{{ $carbon::parse($item->TransactionDate)->format('d/m/Y') }}</td>
-            <td>{!! $item->VoucherNo !!}</td>
+            <td>{!!$item->voucher_linked!!}</td>
             <td>{{$item->RefNo}}</td>
-            <td>{{$item->Description}}</td>
+            <td>{{$item->description_formated}}</td>
             <td>{{ strtoupper($item->currency->code) }}</td>
-            <td>
-              {{ "{$item->currency->symbol} {$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
-            </td>
-            <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
-            <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
-            <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
-            <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
+            <td style="text-align: right"> {{ "{$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }} </td>
+            <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->rate, 2)) !!}</td>
+            <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->Debit, 2)) !!}</td>
+            <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->Credit, 2)) !!}</td>
+            <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->endingBalance, 2)) !!}</td>
           </tr>
           @endforeach
           <tr>
