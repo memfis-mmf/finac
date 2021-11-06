@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Aging Receivable Report</title>
+    <title>Aging Receivable Report {{ $date }}</title>
     <style>
       @page {
         margin: 0cm 0cm;
@@ -143,7 +143,7 @@
     <div id="content">
         <div class="container">
             <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>
-                <thead style="border-bottom:2px solid rgb(131, 131, 131);">
+                <thead style="border-bottom:2px solid rgb(0, 0, 0);">
                     <tr>
                       <td align="center" valign="top" style="padding-left:8px;"><b>Customer Name</b></td>
                       <td align="center" valign="top"><b>Account</b></td>
