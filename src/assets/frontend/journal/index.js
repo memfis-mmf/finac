@@ -34,10 +34,10 @@ let Journal = {
             {data: 'transaction_date_formated', name: 'transaction_date'},
             {data: 'voucher_no_formated', name: 'voucher_no'},
             {data: 'ref_no_link', name: 'ref_no'},
-            {data: 'currency_code', render: function(data, type, row) {
+            {data: 'currency_code', class: 'text-center', render: function(data, type, row) {
               return row.currency_code.toUpperCase();
             }},
-            {data: 'exchange_rate', render: function(data, type, row) {
+            {data: 'exchange_rate', class: 'text-right text-nowrap', render: function(data, type, row) {
               val = row.currency.symbol+' '+addCommas(
                 parseInt(row.exchange_rate)
               );
@@ -45,8 +45,8 @@ let Journal = {
               return val;
             }},
             {data: 'type_jurnal.name'},
-            {data: 'total_transaction_formated', name: 'total_transaction'},
-            {data: 'status', name: 'approve'},
+            {data: 'total_transaction_formated', name: 'total_transaction', class: 'text-right text-nowrap'},
+            {data: 'status', name: 'approve', class: 'text-center'},
             {data: 'created_by', name: 'created_at'},
             {data: 'updated_by', name: 'updated_at'},
             {data: 'approved_by', name: 'approvals.created_at'},

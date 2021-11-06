@@ -133,7 +133,7 @@
             <div class="row">
               <div class="col-md-12">
                 <table class="table table-striped table-bordered table-hover table-checkable invoice_datatable">
-                  <thead>
+                  <thead class="text-center">
                     <th></th>
                     <th>Date</th>
                     <th>Invoice No.</th>

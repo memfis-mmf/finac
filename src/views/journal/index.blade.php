@@ -65,7 +65,7 @@
                                             @slot('id', 'daterange')
                                             @slot('class', 'daterange')
                                             @slot('name', 'daterange')
-                                            @slot('id_error', 'daterange_account_receivables_history') 
+                                            @slot('id_error', 'daterange_account_receivables_history')
                                           @endcomponent
                                         </div>
                                     </div>
@@ -103,20 +103,20 @@
                         <div class="row">
                           <div class="col-lg-12 col-md-12 col-sm-12">
                               <table class="table table-striped table-bordered table-hover table-checkable journal_datatable">
-                                <thead>
-                                  <th></th> 
-                                  <th>Date</th> 
-                                  <th>Transaction No</th> 
-                                  <th>Ref Doc</th> 
-                                  <th>Currency</th> 
-                                  <th width="12%">Exchange Rate</th> 
-                                  <th>Journal Type</th> 
-                                  <th width="15%">Total Amount</th> 
+                                <thead class="text-center">
+                                  <th></th>
+                                  <th>Date</th>
+                                  <th>Transaction No</th>
+                                  <th>Ref Doc</th>
+                                  <th>Currency</th>
+                                  <th width="12%">Exchange Rate</th>
+                                  <th>Journal Type</th>
+                                  <th width="15%">Total Amount</th>
                                   <th>Status</th>
-                                  <th>Created By</th> 
-                                  <th>Updated By</th> 
-                                  <th>Approved By</th> 
-                                  <th>Actions</th> 
+                                  <th>Created By</th>
+                                  <th>Updated By</th>
+                                  <th>Approved By</th>
+                                  <th>Actions</th>
                                 </thead>
                               </table>
                           </div>

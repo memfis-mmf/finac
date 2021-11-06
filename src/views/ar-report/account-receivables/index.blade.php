@@ -6,7 +6,7 @@
   use Illuminate\Support\Carbon;
 @endphp
 <style>
-  tr.nowrap td, 
+  tr.nowrap td,
   td.nowrap {
     white-space: nowrap;
   }
@@ -15,6 +15,7 @@
     white-space: nowrap !important;
   }
 </style>
+
 <div class="m-subheader hidden">
   <div class="d-flex align-items-center">
     <div class="mr-auto">
@@ -178,7 +179,7 @@
                                 {!! $controller->fa_format('Rp', $controller::currency_format($total_row['ending_balance_total_idr'], 2)) !!}
                               </b>
                             </td>
-                          </tr>   
+                          </tr>
                           @endforeach
 
                         </tbody>

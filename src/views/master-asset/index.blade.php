@@ -82,14 +82,14 @@
                                         <span>Master Asset</span>
                                       </span>
                                     </a>
-                                    {{-- <a href="#modal_form_depreciation" data-toggle="modal" 
+                                    {{-- <a href="#modal_form_depreciation" data-toggle="modal"
                                       class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md btn-depreciation">
                                       <span>
                                         <i class="fa fa-copy"></i>
                                         <span>Generate Depreciation</span>
                                       </span>
                                     </a> --}}
-                                    <a href="#modal_form_depreciation_month" data-toggle="modal" 
+                                    <a href="#modal_form_depreciation_month" data-toggle="modal"
                                       class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md btn-depreciation">
                                       <span>
                                         <i class="fa fa-copy"></i>
@@ -109,7 +109,7 @@
                             <div class="col-md-12">
                                 {{-- <div class="master_asset_datatable" id="scrolling_both"></div> --}}
                                 <table class="table table-striped table-bordered table-hover table-checkable master_asset_datatable">
-                                    <thead>
+                                    <thead class="text-center">
                                         <th>Asset Number</th>
                                         <th>Asset Code</th>
                                         <th>Asset Name</th>

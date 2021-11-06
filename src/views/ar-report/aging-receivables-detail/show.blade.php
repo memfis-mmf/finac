@@ -90,34 +90,34 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
-                                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">   
-                                    <table class="table table-bordered">  
-                                        <thead style="border-bottom:2px solid black;">     
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">
+                                    <table class="table table-bordered">
+                                        <thead style="border-bottom:2px solid rgb(131, 131, 131);">
                                             <tr>
-                                                <td align="left" valign="top" style="padding-left:8px;"><b>Customer Name</b></td>
-                                                <td align="center" valign="top"><b>Account</b></td>
-                                                <td align="center" valign="top" colspan="2" style="color:red;"><i><b>1-6 Months</b></i></td>
-                                                <td align="center" valign="top"  colspan="2" style="color:red;"><i><b>7-12 Months</b></i></td>
-                                                <td align="center" valign="top"  colspan="2" style="color:red;"><i><b> 1 Year</b></i></td>
-                                                <td align="center" valign="top"  colspan="2" style="color:red;"><i><b> 2 Year</b></i></td>
-                                                <td align="center" valign="top"  colspan="2"><i><b>Total Balance</b></i></td>
+                                                <td align="left" valign="center" style="padding-left:8px;"><b>Customer Name</b></td>
+                                                <td align="left" valign="center"><b>Account</b></td>
+                                                <td align="center" valign="center" colspan="2" style="color:red;"><i><b>1-6 Months</b></i></td>
+                                                <td align="center" valign="center"  colspan="2" style="color:red;"><i><b>7-12 Months</b></i></td>
+                                                <td align="center" valign="center"  colspan="2" style="color:red;"><i><b> 1 Year</b></i></td>
+                                                <td align="center" valign="center"  colspan="2" style="color:red;"><i><b> 2 Year</b></i></td>
+                                                <td align="center" valign="center"  colspan="2"><i><b>Total Balance</b></i></td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                           @foreach ($data as $customer_row)
                                             <tr>
-                                              <td class="nowrap" align="left" valign="top" style="padding-left:8px;">{{ $customer_row->name }}</td>
-                                              <td class="nowrap" align="center" valign="top">{{ $customer_row->coa_formated }}</td>
-                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice1_6) }}</td>
-                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice7_12) }}</td>
-                                              <td class="nowrap" align="right" valign="top" > {{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice_1) }}</td>
-                                              <td class="nowrap" align="right" valign="top" > {{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->invoice_2) }}</td>
-                                              <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
-                                              <td class="nowrap" align="right" valign="top">{{ $class::currency_format($customer_row->balance) }}</td>
+                                              <td align="left" valign="center" style="padding-left:8px;">{{ $customer_row->name }}</td>
+                                              <td align="left" valign="center">{{ $customer_row->coa_formated }}</td>
+                                              <td class="nowrap" align="right" valign="center" >{{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="center">{{ $class::currency_format($customer_row->invoice1_6) }}</td>
+                                              <td class="nowrap" align="right" valign="center" >{{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="center">{{ $class::currency_format($customer_row->invoice7_12) }}</td>
+                                              <td class="nowrap" align="right" valign="center" > {{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="center">{{ $class::currency_format($customer_row->invoice_1) }}</td>
+                                              <td class="nowrap" align="right" valign="center" > {{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="center">{{ $class::currency_format($customer_row->invoice_2) }}</td>
+                                              <td class="nowrap" align="right" valign="center" >{{ $currency->symbol }} </td>
+                                              <td class="nowrap" align="right" valign="center">{{ $class::currency_format($customer_row->balance) }}</td>
                                             </tr>
                                             @php
                                                 $total1_6 += $customer_row->invoice1_6;
@@ -159,14 +159,14 @@
                                           </span>
                                         </button> --}}
 
-                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md">
                                             <span>
                                                 <i class="fa fa-print"></i>
                                                 <span>Print</span>
                                             </span>
                                         </a>
 
-                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md">
                                             <span>
                                                 <i class="fa fa-file-excel"></i>
                                                 <span>Export to Excel</span>

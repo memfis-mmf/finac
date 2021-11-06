@@ -42,14 +42,14 @@ let Invoice = {
 
               return '';
             }},
-            {data: 'currencies.code'},
-            {data: 'grandtotalforeign', render: function(data, type, row) {
+            {data: 'currency_formated', name: 'currencies.code', defaultContent: '-', class: 'text-center text-nowrap'},
+            {data: 'grandtotalforeign', className: 'dt-text-right text-nowrap', render: function(data, type, row) {
                 let value = addCommas(parseFloat(row.grandtotalforeign));
                 let symbol = row.currencies.symbol;
 
                 return `${symbol} ${value}`;
             }},
-            {data: 'status', name: 'approve'},
+            {data: 'status', name: 'approve', class: 'text-center'},
             {data: 'created_by'},
             {data: 'approved_by'},
             {data: '', searchable: false, render: function (data, type, row) {
@@ -57,7 +57,7 @@ let Invoice = {
 
                 if (t.quotations) {
                   if (t.approve == 1) {
-                      html = 
+                      html =
                         '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="la la-print"></i></a>\t\t\t\t\t\t';
                         // '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/"><i class="la la-eye"></i></a>\t\t\t\t\t\t' +
 
@@ -74,9 +74,9 @@ let Invoice = {
                           '\t\t\t\t\t\t\t'
                       );
                   } else {
-                    html = 
+                    html =
                       '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/print?uuid=' + t.uuid + '"><i class="la la-print"></i></a>\t\t\t\t\t\t';
-                    html += 
+                    html +=
                       '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="/invoice/' + t.uuid + '/edit"><i class="la la-pencil"></i></a>\t\t\t\t\t\t';
 
                     html +=
@@ -84,13 +84,13 @@ let Invoice = {
                           t.uuid + '">' +
                           '<i class="fa fa-file-download"></i>' +
                       "</a>";
-                      
+
                     if (t.can_approve_fa) {
                       html += '\t\t\t\t\t\t\t<button data-toggle="modal" data-target="#modal_approvalinvoice" type="button" href="#" class="open-AddUuidApproveDialog m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Approve" data-uuid=' +
                             t.uuid +
                             '>\t\t\t\t\t\t\t<i class="la la-check"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t';
                     }
-                    
+
                     html += '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete-invoice" href="#" data-uuid=' +
                           t.uuid +
                           ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t'

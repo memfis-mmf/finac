@@ -119,7 +119,7 @@
                 {{-- <div class="supplier_invoice_datatable" id="scrolling_both"></div> --}}
                 <table
                   class="table table-striped table-bordered table-hover table-checkable supplier_invoice_datatable">
-                  <thead>
+                  <thead class="text-center">
                     <tr>
                       <th></th>
                       <th>Date</th>

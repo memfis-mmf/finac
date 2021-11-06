@@ -13,10 +13,10 @@ let MasterCoa = {
       serverSide: true,
       ajax: coa_datatable_url,
       columns: [
-        {data: 'code'},
+        {data: 'code', class: 'text-center'},
         {data: 'name'},
-        {data: 'description'},
-        {data: 'type.name'},
+        {data: 'description', class: 'text-center'},
+        {data: 'type.name', class: 'text-center'},
         // {data: 'sub_account'},
         // {data: 'created_by'},
         {data: 'status'},

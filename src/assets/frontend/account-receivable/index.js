@@ -34,11 +34,11 @@ let Journal = {
             {data: 'transactionnumber_link', name: 'transactionnumber'},
             {data: 'customer.name'},
             // {data: 'refno'},
-            {data: 'currency'},
-            {data: 'exchangerate', render: function(data, type, row) {
+            {data: 'currency', class: 'text-center'},
+            {data: 'exchangerate', class: 'text-right text-nowrap', render: function(data, type, row) {
                 return addCommas(parseInt(row.exchangerate));
             }},
-            {data: 'ara.credit', searchabale: false,  render: function(data, type, row) {
+            {data: 'ara.credit', searchabale: false, class:'text-right text-nowrap',  render: function(data, type, row) {
 
                 t = row;
 
@@ -52,7 +52,7 @@ let Journal = {
                 return addCommas(parseInt(total));
 
             }},
-            {data: 'coa.code', defaultContent: '-'},
+            {data: 'coa.code', defaultContent: '-', class: 'text-center'},
             {data: 'description'},
             {data: 'status', name: 'approve'},
             {data: 'created_by'},
