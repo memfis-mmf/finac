@@ -88,29 +88,21 @@ let Coa = {
         },
         columns: [
             {
-                field: 'code',
-                title: 'Account Code',
-                sortable: 'asc',
-                filterable: !1,
-                width: 100
+                field: 'code', title: 'Account Code', class:'text-center', sortable: 'asc', filterable: !1, width: 150,
             },
             {
-                field: 'name',
-                title: 'Account Name',
-                sortable: 'asc',
-                filterable: !1,
-                width: 150
+                field: 'name', title: 'Account Name', class:'text-left', sortable: 'asc', filterable: !1, width: 120,
             },
             {
                 field: 'project.code',
-                title: 'Project',
+                title: 'Project', class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150
             },
             {
                 field: 'debit',
-                title: 'Debit',
+                title: 'Debit', class:'text-right text-nowrap',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150,
@@ -130,7 +122,7 @@ let Coa = {
             },
             {
                 field: 'credit',
-                title: 'Credit',
+                title: 'Credit', class:'text-right text-nowrap',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150,
@@ -182,15 +174,15 @@ let Coa = {
 									$('#button_cushbook_adjustment').show();
 
 									let _html =
-										`<button 
-										id="show_coa_edit" 
-										data-target="#modal_coa_edit" 
-										type="button" 
-										href="#" 
-										class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
-										title="Edit" 
+										`<button
+										id="show_coa_edit"
+										data-target="#modal_coa_edit"
+										type="button"
+										href="#"
+										class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit"
+										title="Edit"
 										data-transactionnumber="${t.transactionnumber}"
-										data-description="${t.description}" 
+										data-description="${t.description}"
 										data-uuid="${t.uuid}"` +
                     '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                     '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -206,7 +198,7 @@ let Coa = {
             }
         ]
 		});
-		
+
 		function display_modal_adj(_modal, data) {
 			_modal.find('[name=uuid]').val(data.uuid);
 			_modal.find('[name=account_code_b]').val(data.code);

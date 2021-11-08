@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Cash Statement</title>
+  <title>Cash Statement {{ $start_date }} - {{ $end_date }}</title>
   <style>
     @page {
       margin: 0cm 0cm;
@@ -143,7 +143,7 @@
         <table width="100%" cellpadding="3" page-break-inside: auto;>
             <thead>
                 <tr>
-                  <td width="" align="left" valign="top"><b>Date</b></td>
+                  <td width="" align="left" valign="top" width="30px"><b>Date</b></td>
                   <td width="" align="center" valign="top"><b>Transaction No</b></td>
                   <td width="" align="center" valign="top"><b>Reference</b></td>
                   <td width="" align="center" valign="top" width="100px" ><b>Description</b></td>
