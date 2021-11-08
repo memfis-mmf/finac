@@ -88,21 +88,29 @@ let Coa = {
         },
         columns: [
             {
-                field: 'code', title: 'Account Code', class:'text-center', sortable: 'asc', filterable: !1, width: 150,
-            },
-            {
-                field: 'name', title: 'Account Name', class:'text-left', sortable: 'asc', filterable: !1, width: 120,
-            },
+                field: 'code',
+                title: 'Account Code',
+                class:'text-center',
+                sortable: 'asc',
+                filterable: !1, width: 200,
+                template: function (data, type, row) {
+                    return '<b><p class="text-left mb-0">' + data.code + '</b></p>' + '<p class="text-left">' + data.name + '</p>';
+            }},
+            // {
+            //     field: 'name', title: 'Account Name', class:'text-left', sortable: 'asc', filterable: !1, width: 120, visible:false,
+            // },
             {
                 field: 'project.code',
-                title: 'Project', class:'text-center',
+                title: 'Project',
+                class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
-                width: 150
+                width: 150,
             },
             {
                 field: 'debit',
-                title: 'Debit', class:'text-right text-nowrap',
+                title: 'Debit',
+                class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150,
@@ -117,12 +125,12 @@ let Coa = {
                     result += ` (${t.cashbook.second_currencies.symbol} ${number_format.format(parseFloat(t.second_debit))})`;
                   }
 
-                  return result;
-								}
-            },
+                  return '<p class="text-right text-nowrap">' + result + '</p>';
+			}},
             {
                 field: 'credit',
-                title: 'Credit', class:'text-right text-nowrap',
+                title: 'Credit',
+                class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150,
@@ -137,20 +145,28 @@ let Coa = {
                     result += ` (${t.cashbook.second_currencies.symbol} ${number_format.format(parseFloat(t.second_credit))})`;
                   }
 
-                  return result;
-								}
-            },
+                  return '<p class="text-right text-nowrap">' + result + '</p>';
+			}},
             {
                 field: 'description',
                 title: 'Description',
+                class: 'text-center',
                 sortable: 'asc',
                 filterable: !1,
-                width: 150
-            },
+                width: 150,
+                template: function (data, type, row) {
+                    if (data.description) {
+                        return '<p class="text-left">' + data.description + '</p>';
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
             {
                 field: 'Actions',
                 width: 110,
                 title: 'Actions',
+                class: 'text-nowrap',
                 sortable: !1,
                 overflow: 'visible',
                 template: function (t, e, i) {
