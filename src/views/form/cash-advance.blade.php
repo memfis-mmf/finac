@@ -132,12 +132,12 @@
         <tr>
           <td valign="top" width="18%">Transaction No.</td>
           <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">{{$cash_advance->transactionnumber}}</td>
+          <td valign="top" width="31%">{{$cash_advance->transaction_number}}</td>
           <td valign="top" width="18%">
             Payment To
           </td>
           <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">{{$cash_advance->personal}}</td>
+          <td valign="top" width="31%">{{$cash_advance->ref_collection->name}}</td>
         </tr>
         <tr>
           <td valign="top" width="18%">Date</td>
@@ -145,23 +145,7 @@
           <td valign="top" width="31%">{{$carbon::parse($cash_advance->transactiondate)->format('d-m-Y')}}</td>
           <td valign="top" width="18%">Currency</td>
           <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">{{$cash_advance->currency}}</td>
-        </tr>
-        <tr>
-          <td valign="top" width="18%">Ref No.</td>
-          <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">{{$cash_advance->refno}}</td>
-          <td valign="top" width="18%">Exchange Rate</td>
-          <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">{{number_format($cash_advance->exchangerate, 2, ',', '.')}}</td>
-        </tr>
-        <tr>
-          <td valign="top" width="18%">cash_advance Ref.</td>
-          <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">{{$cash_advance->cash_advance_ref}}</td>
-          <td valign="top" width="18%"></td>
-          <td valign="top" width="1%"></td>
-          <td valign="top" width="31%"></td>
+          <td valign="top" width="31%">IDR</td>
         </tr>
       </table>
     </div>
