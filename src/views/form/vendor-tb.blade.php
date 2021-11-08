@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>TB Supplier Report</title>
+  <title>TB Supplier Report {{ $start_date }} - {{ $end_date }}</title>
   <style>
     @page {
       margin: 0cm 0cm;

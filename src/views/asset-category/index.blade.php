@@ -42,7 +42,7 @@
                     @endcomponent
                 </div>
                 <div class="m-portlet m-portlet--mobile">
-                    <div class="m-portlet__body">                        
+                    <div class="m-portlet__body">
                         <div class="row align-items-center">
                             <div class="col-xl-8 order-2 order-xl-1">
                                 <div class="form-group m-form__group row align-items-center">
@@ -66,11 +66,11 @@
                                 <div class="m-separator m-separator--dashed d-xl-none"></div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-striped table-bordered table-hover table-checkable asset_category_datatable">
-                                    <thead>
+                                    <thead class="text-center">
                                         <tr>
                                             <th>Category Code</th>
                                             <th>Category Name</th>

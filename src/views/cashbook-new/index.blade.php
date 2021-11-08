@@ -104,7 +104,7 @@
             <div class="row">
               <div class="col-md-12">
                 <table class="table table-striped table-bordered table-hover table-checkable cashbook_datatable">
-                  <thead>
+                  <thead class="text-center">
                     <th>Date</th>
                     <th>Transaction No</th>
                     <th>Journal No</th>

@@ -105,7 +105,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-striped table-bordered table-hover table-checkable account_payable_datatable">
-                                    <thead>
+                                    <thead class="text-center">
                                         <tr>
                                             <th>Date</th>
                                             <th>Transaction NO</th>

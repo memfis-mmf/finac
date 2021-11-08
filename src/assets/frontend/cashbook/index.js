@@ -21,21 +21,49 @@ let Cashbook = {
 
         let cashbook_datatable = $('.cashbook_datatable').DataTable({
           dom: '<"top"f>rt<"bottom">pil',
-          scrollX: true,
           processing: true,
+          responsive: true,
           serverSide: true,
+          scrollX: true,
           ajax: cashbook_datatable_url,
           order: [[0, 'desc']],
           columns: [
-            {data: 'transactiondate_formated', name: 'transactiondate'},
-            {data: 'transactionnumber_link', name: 'transactionnumber'},
-            {data: 'journal_number', name: 'journal.voucher_no'},
-            {data: 'totaltransaction_formated', name: 'totaltransaction'},
-            {data: 'personal'},
-            {data: 'description'},
-            {data: 'status', name: 'approve', defaultContent: '-'},
-            {data: 'created_by'},
-            {data: 'approved_by'},
+            {data: 'transactiondate_formated', name: 'transactiondate', class: 'text-nowrap'},
+            //     "render": function ( data, type, row, meta ) {
+            //         return `<p class="text-center" style="width:50px">${row.transactiondate_formated}</p>`;
+            // }},
+            {data: 'transactionnumber_link', name: 'transactionnumber', class: 'text-nowrap'},
+            {data: 'journal_number', defaultContent: '-', name: 'journal.voucher_no', class: 'text-nowrap'},
+            {data: 'totaltransaction_formated', name: 'totaltransaction', class: 'text-right text-nowrap'},
+            {data: 'personal', defaultContent: '-', class: 'text-nowrap'},
+            //     "render": function ( data, type, row, meta ) {
+            //         if (row.personal) {
+            //             return `<p class="text-left" style="width:50px">${row.personal}</p>`;
+            //         }
+            //         else {
+            //             return "-"
+            //     }
+            // }},
+            {data: 'description', defaultContent: '-', className: "dt-text-left"},
+            //     "render": function ( data, type, row, meta ) {
+            //         if (row.description) {
+            //             return `<p style="width:100px">${row.description}</p>`;
+            //         }
+            //         else {
+            //             return "-"
+            //         }
+            // }},
+            {data: 'status', name: 'approve', defaultContent: '-', class: 'text-center'},
+            {data: 'created_by', defaultContent: '-', class: 'text-center'},
+            //     "render": function ( data, type, row, meta ) {
+            //         if (row.approved_by) {
+            //             return `<p class="text-center" style="width:80px">${row.approved_by}</p>`;
+            //         }
+            //         else {
+            //             return "-"
+            //         }
+            // }},
+            {data: 'approved_by', defaultContent: '-', class: 'text-center'},
             {data: '', searchable: false, render: function (data, type, row) {
                 t = row;
 
@@ -59,10 +87,10 @@ let Cashbook = {
                         '</a>';
                     }
 
-                    _html += 
+                    _html +=
                       '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" href="'+_url+'/cashbook/'+t.uuid+'/edit"><i class="la la-pencil"></i></a>';
 
-                    _html += 
+                    _html +=
                       '<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                       t.uuid +
                       ' title="Delete"><i class="la la-trash"></i> </a>'

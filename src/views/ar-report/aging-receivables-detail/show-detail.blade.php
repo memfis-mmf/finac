@@ -100,10 +100,10 @@
                                   $total_amount_2 = 0;
                                   $total_balance = 0;
                                 @endphp
-                                <div class="col-sm-12 col-md-12 col-lg-12 pt-2 mt-5" style="overflow: auto">   
+                                <div class="col-sm-12 col-md-12 col-lg-12 pt-2 mt-5" style="overflow: auto">
                                   <h4>Customer Name : {{ $customer_row->name }}</h4>
-                                    <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
-                                        <thead style="border-bottom:2px solid black;">     
+                                    <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>
+                                        <thead style="border-bottom:2px solid black;">
                                             <tr>
                                                 <td align="left" valign="top" style="padding-left:8px;"><b>Invoice Number</b></td>
                                                 <td align="center" valign="top"><b>Due Date</b></td>
@@ -143,7 +143,7 @@
                                               $total_balance += $invoice_row->balance;
                                             @endphp
                                           @endforeach
-                                          
+
                                           <tr>
                                               <td align="center" valign="top" colspan="2"><b>Total</b></td>
                                               <td align="right" valign="top"><b>{{ $currency->symbol }}</b></td>
@@ -177,14 +177,14 @@
                                           </span>
                                         </button> --}}
 
-                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ar.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md">
                                             <span>
                                                 <i class="fa fa-print"></i>
                                                 <span>Print</span>
                                             </span>
                                         </a>
 
-                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ar.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md">
                                             <span>
                                                 <i class="fa fa-file-excel"></i>
                                                 <span>Export to Excel</span>

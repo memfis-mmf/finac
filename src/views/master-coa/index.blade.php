@@ -65,8 +65,8 @@
                                   </form>
                                 </div>
                                 <div class="col-xl-6 order-1 order-xl-2 m--align-right">
-                                    <a id="export" href="{{route('master-coa.export-all')}}" 
-                                      id="name=" 
+                                    <a id="export" href="{{route('master-coa.export-all')}}"
+                                      id="name="
                                       class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-success btn-md" style="">
 
                                       <span>
@@ -87,7 +87,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-striped table-bordered table-hover table-checkable coa_datatable">
-                                    <thead>
+                                    <thead class="text-center">
                                         <th>Account No.</th>
                                         <th>Account Name</th>
                                         <th>Account Group</th>

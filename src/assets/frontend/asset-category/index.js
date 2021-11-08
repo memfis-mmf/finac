@@ -116,8 +116,8 @@ let AssetCategory = {
           columns: [
             {data: 'code'},
             {data: 'name'},
-            {data: 'usefullife'},
-            {data: 'accountcode'},
+            {data: 'usefullife', class:'text-center'},
+            {data: 'accountcode', class: 'text-center'},
             {data: 'created_by', searchable: false},
             {data: '', searchable: false, render: function (data, type, row) {
                 t = row;

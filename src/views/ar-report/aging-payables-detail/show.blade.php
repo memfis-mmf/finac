@@ -90,11 +90,11 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">
-                                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">   
-                                    <table class="table table-bordered">  
-                                        <thead style="border-bottom:2px solid black;">     
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="overflow: auto">
+                                    <table class="table table-bordered">
+                                        <thead style="border-bottom:2px solid rgb(131, 131, 131);">
                                             <tr>
-                                                <td align="left" valign="top" style="padding-left:8px;"><b>Supplier Name</b></td>
+                                                <td align="center" valign="top" style="padding-left:8px;"><b>Supplier Name</b></td>
                                                 <td align="center" valign="top"><b>Account</b></td>
                                                 <td align="center" valign="top" colspan="2" style="color:red;"><i><b>1-6 Months</b></i></td>
                                                 <td align="center" valign="top"  colspan="2" style="color:red;"><i><b>7-12 Months</b></i></td>
@@ -106,8 +106,8 @@
                                         <tbody>
                                           @foreach ($data as $vendor_row)
                                             <tr>
-                                              <td class="nowrap" align="left" valign="top" style="padding-left:8px;">{{ $vendor_row->name }}</td>
-                                              <td class="nowrap" align="center" valign="top">{{ $vendor_row->coa_formated }}</td>
+                                              <td align="left" valign="top" style="padding-left:8px;">{{ $vendor_row->name }}</td>
+                                              <td align="left" valign="top">{{ $vendor_row->coa_formated }}</td>
                                               <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
                                               <td class="nowrap" align="right" valign="top">{{ $class::currency_format($vendor_row->supplier_invoice1_6) }}</td>
                                               <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
@@ -159,14 +159,14 @@
                                           </span>
                                         </button> --}}
 
-                                        <a href="{{ route('fa-report.ap.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ap.aging.print', Request::all()) }}" target="_blank" class="btn btn-success btn-md">
                                             <span>
                                                 <i class="fa fa-print"></i>
                                                 <span>Print</span>
                                             </span>
                                         </a>
 
-                                        <a href="{{ route('fa-report.ap.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md"> 
+                                        <a href="{{ route('fa-report.ap.aging.export', Request::all()) }}" target="_blank" class="btn btn-success btn-md">
                                             <span>
                                                 <i class="fa fa-file-excel"></i>
                                                 <span>Export to Excel</span>

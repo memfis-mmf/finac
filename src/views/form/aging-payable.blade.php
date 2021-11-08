@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Aging Payable Report {{ $date }}</title>
     <style>
       @page {
         margin: 0cm 0cm;
@@ -98,7 +98,7 @@
                         Website : www.company.co.id
                     </td>
                     <td width="45%" valign="top" align="center">
-                        <h1 style="font-size:22px;">AGING PAYABLE<br> 
+                        <h1 style="font-size:22px;">AGING PAYABLE<br>
                         <span style="font-size:15px;font-weight: none;">Date : {{ $date }}</span></h1>
                     </td>
                 </tr>
@@ -142,10 +142,10 @@
 
     <div id="content">
         <div class="container">
-            <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>  
-                <thead>     
+            <table width="100%" cellpadding="4" class="table-body" page-break-inside: auto;>
+                <thead style="border-bottom:2px solid rgb(0, 0, 0);">
                     <tr>
-                      <td align="left" valign="top" style="padding-left:8px;"><b>Supplier Name</b></td>
+                      <td align="center" valign="top" style="padding-left:8px;"><b>Supplier Name</b></td>
                       <td align="center" valign="top"><b>Account</b></td>
                       <td align="center" valign="top" colspan="2" style="color:red;"><i><b>1-6 Months</b></i></td>
                       <td align="center" valign="top"  colspan="2" style="color:red;"><i><b>7-12 Months</b></i></td>
@@ -158,7 +158,7 @@
                   @foreach ($data as $vendor_row)
                     <tr>
                       <td class="nowrap" align="left" valign="top" style="padding-left:8px;">{{ $vendor_row->name }}</td>
-                      <td class="nowrap" align="center" valign="top">{{ $vendor_row->coa_formated }}</td>
+                      <td class="nowrap" align="left" valign="top">{{ $vendor_row->coa_formated }}</td>
                       <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>
                       <td class="nowrap" align="right" valign="top">{{ $class::currency_format($vendor_row->supplier_invoice1_6) }}</td>
                       <td class="nowrap" align="right" valign="top" >{{ $currency->symbol }} </td>

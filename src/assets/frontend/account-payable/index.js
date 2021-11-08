@@ -33,16 +33,16 @@ let Journal = {
         { data: 'transactionnumber_link', name: 'transactionnumber' },
         { data: 'vendor.name' },
         // { data: 'refno' },
-        { data: 'currency' },
+        { data: 'currency', class:'text-center' },
         {
-          data: 'exchangerate', render: function (data, type, row) {
+          data: 'exchangerate', class: 'text-right text-nowrap', render: function (data, type, row) {
 
             return addCommas(parseInt(row.exchangerate));
 
           }
         },
         {
-          data: 'apa.debit', render: function (data, type, row) {
+          data: 'apa.debit', class: 'text-right text-nowrap', render: function (data, type, row) {
 
             t = row;
 
@@ -57,9 +57,9 @@ let Journal = {
 
           }
         },
-        { data: 'coa.code', defaultContent: '-' },
+        { data: 'coa.code', defaultContent: '-', class: 'text-center text-nowrap' },
         { data: 'description' },
-        { data: 'status', name: 'approve'},
+        { data: 'status', name: 'approve', class: 'text-center'},
         { data: 'created_by'},
         { data: 'approved_by'},
         {

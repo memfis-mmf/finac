@@ -40,7 +40,7 @@ let MasterAsset = {
         { data: 'name', defaultContent: '-' },
         { data: 'grnno', defaultContent: '-'},
         {
-          data: 'povalue', defaultContent: '-', render: function (data, type, row) {
+          data: 'povalue', defaultContent: '-', class: 'text-right text-nowrap', render: function (data, type, row) {
             if (!row.povalue) {
               row.povalue = 0;
             }
@@ -49,7 +49,7 @@ let MasterAsset = {
           }
         },
         {
-          data: 'usefullife', defaultContent: '-', render: function (data, type, row) {
+          data: 'usefullife', defaultContent: '-', class: 'text-right text-nowrap', render: function (data, type, row) {
             return addCommas(parseFloat(row.usefullife)) + ' Month';
           }
         },
@@ -77,7 +77,7 @@ let MasterAsset = {
         }},
         { data: 'depreciationstart_format', name: 'depreciationstart', defaultContent: '-' },
         { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-' },
-        { data: 'status', name: 'approve'},
+        { data: 'status', name: 'approve', class: 'text-center'},
         { data: 'created_by'},
         { data: 'approved_by', name: 'approvals.created_at' },
         { data: 'action' }
@@ -156,7 +156,7 @@ let MasterAsset = {
           errorHandler(xhr.responseJSON);
         }
       });
-      
+
     });
 
     $(document).on('click', '.history-depreciation', function () {

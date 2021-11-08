@@ -90,7 +90,7 @@
                     <div class="col-md-12">
                       <table
                         class="table table-striped table-bordered table-hover table-checkable benefit_coa_datatable">
-                        <thead>
+                        <thead class="text-center">
                           <tr>
                             <th>Code</th>
                             <th>Benefit Name</th>
@@ -119,7 +119,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <table class="table table-striped table-bordered table-hover table-checkable bpjs_coa_datatable">
-                        <thead>
+                        <thead class="text-center">
                           <tr>
                             <th>Code</th>
                             <th>BPJS Name</th>
@@ -150,7 +150,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <table class="table table-striped table-bordered table-hover table-checkable general_coa_datatable">
-                        <thead>
+                        <thead class="text-center">
                           <tr>
                             <th>Code</th>
                             <th>Desciption</th>
@@ -167,7 +167,7 @@
                               <th>{!! $coa_setting_row->input_1 !!}</th>
                               <th>{!! $coa_setting_row->input_2 !!}</th>
                               <th>{!! $coa_setting_row->action !!}</th>
-                            </tr>    
+                            </tr>
                           @endforeach
                         </tbody>
                       </table>
