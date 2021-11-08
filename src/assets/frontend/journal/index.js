@@ -38,9 +38,7 @@ let Journal = {
               return row.currency_code.toUpperCase();
             }},
             {data: 'exchange_rate', class: 'text-right text-nowrap', render: function(data, type, row) {
-              val = row.currency.symbol+' '+addCommas(
-                parseInt(row.exchange_rate)
-              );
+              val = addCommas(parseInt(row.exchange_rate));
 
               return val;
             }},
