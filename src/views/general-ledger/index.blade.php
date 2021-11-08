@@ -32,7 +32,7 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-6 order-2 order-xl-1">
                                     <div class="form-group m-form__group row align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <div class="m-input-icon m-input-icon--left">
                                                 <label class="form-control-label">
                                                     Select Period
