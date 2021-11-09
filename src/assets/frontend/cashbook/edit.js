@@ -90,27 +90,27 @@ let Coa = {
             {
                 field: 'code',
                 title: 'Account Code',
+                class:'text-center',
                 sortable: 'asc',
-                filterable: !1,
-                width: 100
-            },
-            {
-                field: 'name',
-                title: 'Account Name',
-                sortable: 'asc',
-                filterable: !1,
-                width: 150
-            },
+                filterable: !1, width: 200,
+                template: function (data, type, row) {
+                    return '<b><p class="text-left mb-0">' + data.code + '</b></p>' + '<p class="text-left">' + data.name + '</p>';
+            }},
+            // {
+            //     field: 'name', title: 'Account Name', class:'text-left', sortable: 'asc', filterable: !1, width: 120, visible:false,
+            // },
             {
                 field: 'project.code',
                 title: 'Project',
+                class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
-                width: 150
+                width: 150,
             },
             {
                 field: 'debit',
                 title: 'Debit',
+                class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150,
@@ -125,12 +125,12 @@ let Coa = {
                     result += ` (${t.cashbook.second_currencies.symbol} ${number_format.format(parseFloat(t.second_debit))})`;
                   }
 
-                  return result;
-								}
-            },
+                  return '<p class="text-right text-nowrap">' + result + '</p>';
+			}},
             {
                 field: 'credit',
                 title: 'Credit',
+                class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
                 width: 150,
@@ -145,20 +145,28 @@ let Coa = {
                     result += ` (${t.cashbook.second_currencies.symbol} ${number_format.format(parseFloat(t.second_credit))})`;
                   }
 
-                  return result;
-								}
-            },
+                  return '<p class="text-right text-nowrap">' + result + '</p>';
+			}},
             {
                 field: 'description',
                 title: 'Description',
+                class: 'text-center',
                 sortable: 'asc',
                 filterable: !1,
-                width: 150
-            },
+                width: 150,
+                template: function (data, type, row) {
+                    if (data.description) {
+                        return '<p class="text-left">' + data.description + '</p>';
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
             {
                 field: 'Actions',
                 width: 110,
                 title: 'Actions',
+                class: 'text-nowrap',
                 sortable: !1,
                 overflow: 'visible',
                 template: function (t, e, i) {
@@ -182,15 +190,15 @@ let Coa = {
 									$('#button_cushbook_adjustment').show();
 
 									let _html =
-										`<button 
-										id="show_coa_edit" 
-										data-target="#modal_coa_edit" 
-										type="button" 
-										href="#" 
-										class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit" 
-										title="Edit" 
+										`<button
+										id="show_coa_edit"
+										data-target="#modal_coa_edit"
+										type="button"
+										href="#"
+										class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill edit"
+										title="Edit"
 										data-transactionnumber="${t.transactionnumber}"
-										data-description="${t.description}" 
+										data-description="${t.description}"
 										data-uuid="${t.uuid}"` +
                     '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</button>\t\t\t\t\t\t' +
                     '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
@@ -206,7 +214,7 @@ let Coa = {
             }
         ]
 		});
-		
+
 		function display_modal_adj(_modal, data) {
 			_modal.find('[name=uuid]').val(data.uuid);
 			_modal.find('[name=account_code_b]').val(data.code);

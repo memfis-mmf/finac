@@ -28,43 +28,51 @@ let Cashbook = {
           ajax: cashbook_datatable_url,
           order: [[0, 'desc']],
           columns: [
-            {data: 'transactiondate_formated', name: 'transactiondate', class: 'text-nowrap'},
-            //     "render": function ( data, type, row, meta ) {
-            //         return `<p class="text-center" style="width:50px">${row.transactiondate_formated}</p>`;
-            // }},
-            {data: 'transactionnumber_link', name: 'transactionnumber', class: 'text-nowrap'},
+            {data: 'transactiondate_formated', name: 'transactiondate', class: 'text-nowrap',
+                "render": function ( data, type, row, meta ) {
+                    return '<b>' + row.transactiondate_formated + '</b><br>' + row.transactionnumber_link;
+            }},
+            {data: 'transactionnumber_link', name: 'transactionnumber', class: 'text-nowrap', visible:false},
             {data: 'journal_number', defaultContent: '-', name: 'journal.voucher_no', class: 'text-nowrap'},
-            {data: 'totaltransaction_formated', name: 'totaltransaction', class: 'text-right text-nowrap'},
-            {data: 'personal', defaultContent: '-', class: 'text-nowrap'},
-            //     "render": function ( data, type, row, meta ) {
-            //         if (row.personal) {
-            //             return `<p class="text-left" style="width:50px">${row.personal}</p>`;
-            //         }
-            //         else {
-            //             return "-"
-            //     }
-            // }},
-            {data: 'description', defaultContent: '-', className: "dt-text-left"},
-            //     "render": function ( data, type, row, meta ) {
-            //         if (row.description) {
-            //             return `<p style="width:100px">${row.description}</p>`;
-            //         }
-            //         else {
-            //             return "-"
-            //         }
-            // }},
+            {data: 'personal', defaultContent: '-', class: 'text-nowrap',
+                "render": function ( data, type, row, meta ) {
+                    if (row.personal) {
+                        return `<p class="text-left" style="width:50px">${row.personal}</p>`;
+                    }
+                    else {
+                        return "-"
+                }
+            }},
+            {data: 'description', defaultContent: '-', className: "dt-text-left",
+                "render": function ( data, type, row, meta ) {
+                    if (row.description) {
+                        return `<p style="width:150px">${row.description}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
             {data: 'status', name: 'approve', defaultContent: '-', class: 'text-center'},
-            {data: 'created_by', defaultContent: '-', class: 'text-center'},
-            //     "render": function ( data, type, row, meta ) {
-            //         if (row.approved_by) {
-            //             return `<p class="text-center" style="width:80px">${row.approved_by}</p>`;
-            //         }
-            //         else {
-            //             return "-"
-            //         }
-            // }},
-            {data: 'approved_by', defaultContent: '-', class: 'text-center'},
-            {data: '', searchable: false, render: function (data, type, row) {
+            {data: 'totaltransaction_formated', name: 'totaltransaction', class: 'text-right text-nowrap'},
+            {data: 'created_by', defaultContent: '-', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.created_by) {
+                        return `<p class="text-center" style="width:120px">${row.created_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: 'approved_by', defaultContent: '-', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.approved_by) {
+                        return `<p class="text-center" style="width:120px">${row.approved_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: '', class: 'text-nowrap', searchable: false, render: function (data, type, row) {
                 t = row;
 
                 let _html =

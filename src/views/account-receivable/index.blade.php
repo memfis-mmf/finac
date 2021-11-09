@@ -22,10 +22,10 @@
     visibility: visible;
   }
 
-  table td,
+  /* table td,
   table th {
     white-space: nowrap !important;
-  }
+  } */
 
   table {
     min-width: 100%;
@@ -109,11 +109,11 @@
                             {{-- @include('accountreceivableview::filter') --}}
                         </div>
                         {{-- <div class="account_receivable_datatable" id="scrolling_both"></div> --}}
-                        
+
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-striped table-bordered table-hover table-checkable account_receivable_datatable">
-                                    <thead>
+                                    <thead class="text-center">
                                         <tr>
                                             <th>Date</th>
                                             <th>Transaction No.</th>

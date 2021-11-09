@@ -31,28 +31,63 @@ let Invoice = {
           ],
           columns: [
             {data: 'created_at', searchable: false, visible: false},
-            {data: 'transactiondate_formated', name: 'transactiondate'},
-            {data: 'transaction_number_link', name: 'transactionnumber'},
-            {data: 'xstatus', searchable: false, orderable: false},
-            {data: 'customer.name'},
-            {data: 'quotations.number', defaultContent: '-', render: (data, type, row) => {
-              if (row.quotations) {
-                return `<a target="_blank" href="${_url}/quotation/${row.quotations.uuid}/print">${row.quotations.number}</a>`;
-              }
-
-              return '';
+            {data: 'transactiondate_formated', name: 'transactiondate', class: 'text-nowrap',
+                "render": function ( data, type, row, meta ) {
+                    return '<b>' + row.transactiondate_formated + '</b><br>' + row.transaction_number_link;
+            }},
+            {data: 'transaction_number_link', name: 'transactionnumber', visible: false},
+            {data: 'xstatus', searchable: false, orderable: false, class:'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.xstatus) {
+                        return `<p style="width:80px">${row.xstatus}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: 'customer.name', visible:false},
+            {data: 'quotations.number', defaultContent: '-', class:'text-nowrap',
+                render: (data, type, row) => {
+                    if (row.quotations.number) {
+                        return `<a target="_blank" href="${_url}/quotation/${row.quotations.uuid}/print">${row.quotations.number}</a><br>` + row.customer.name;
+                    }
+                    else {
+                        return "-"
+                    }
             }},
             {data: 'currency_formated', name: 'currencies.code', defaultContent: '-', class: 'text-center text-nowrap'},
-            {data: 'grandtotalforeign', className: 'dt-text-right text-nowrap', render: function(data, type, row) {
-                let value = addCommas(parseFloat(row.grandtotalforeign));
-                let symbol = row.currencies.symbol;
+            {data: 'grandtotalforeign',
+                "render": function ( data, type, row, meta ) {
+                    if (row.grandtotalforeign) {
+                        let value = addCommas(parseFloat(row.grandtotalforeign));
+                        let symbol = row.currencies.symbol;
 
-                return `${symbol} ${value}`;
+                        return `<p class="text-right text-nowrap">${symbol} ${value}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
             }},
             {data: 'status', name: 'approve', class: 'text-center'},
-            {data: 'created_by'},
-            {data: 'approved_by'},
-            {data: '', searchable: false, render: function (data, type, row) {
+            {data: 'created_by', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.created_by) {
+                        return `<p class="text-center" style="width:120px">${row.created_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: 'approved_by', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.approved_by) {
+                        return `<p class="text-center" style="width:120px">${row.approved_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: '', class:'text-nowrap', searchable: false, render: function (data, type, row) {
                 let t = row;
 
                 if (t.quotations) {

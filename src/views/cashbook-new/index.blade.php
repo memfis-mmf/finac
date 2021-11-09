@@ -21,10 +21,10 @@
     visibility: visible;
   }
 
-  table td,
+  /* table td,
   table th {
     white-space: nowrap !important;
-  }
+  } */
 
   table {
     min-width: 100%;
@@ -108,10 +108,10 @@
                     <th>Date</th>
                     <th>Transaction No</th>
                     <th>Journal No</th>
-                    <th>Total Transaction</th>
                     <th>Payment/Received By</th>
                     <th>Remark</th>
                     <th>Status</th>
+                    <th>Total Transaction</th>
                     <th>Created By</th>
                     <th>Approved By</th>
                     <th>Actions</th>
