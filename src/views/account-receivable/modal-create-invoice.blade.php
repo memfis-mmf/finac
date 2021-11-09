@@ -9,10 +9,10 @@
       </div>
       <div class="modal-body">
         <table class="table table-striped table-bordered table-hover invoice_modal_datatable">
-          <thead>
+          <thead class="text-center">
             <tr>
               <th>Invoice No.</th>
-              <th>Date</th>
+              {{-- <th>Date</th> --}}
               <th>Due Date</th>
               <th>Exchange Rate</th>
               <th>Total Amount</th>
@@ -20,7 +20,7 @@
               <th>Paid Amount</th>
               <th>Account Code</th>
               <th>Exchange rate Gap</th>
-              <th>Description</th>
+              {{-- <th>Description</th> --}}
               <th>Actions</th>
             </tr>
           </thead>

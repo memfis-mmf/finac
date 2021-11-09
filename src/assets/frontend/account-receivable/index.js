@@ -30,15 +30,27 @@ let Journal = {
             [0, 'desc'],
           ],
           columns: [
-            {data: 'transactiondate_formated', name: 'transactiondate'},
-            {data: 'transactionnumber_link', name: 'transactionnumber'},
-            {data: 'customer.name'},
+            {data: 'transactiondate_formated', name: 'transactiondate', class: 'text-nowrap',
+                "render": function ( data, type, row, meta ) {
+                    return '<b>' + row.transactiondate_formated + '</b><br>' + row.transactionnumber_link ;
+            }},
+            {data: 'transactionnumber_link', name: 'transactionnumber', visible:false},
+            {data: 'customer.name', className: "dt-text-left",
+                "render": function ( data, type, row, meta ) {
+                    if (row.customer.name) {
+                        return `<p style="width:120px">${row.customer.name}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
             // {data: 'refno'},
             {data: 'currency', class: 'text-center'},
             {data: 'exchangerate', class: 'text-right text-nowrap', render: function(data, type, row) {
                 return addCommas(parseInt(row.exchangerate));
             }},
-            {data: 'ara.credit', searchabale: false, class:'text-right text-nowrap',  render: function(data, type, row) {
+            {data: 'ara.credit', searchabale: false, class:'text-right text-nowrap',
+                render: function(data, type, row) {
 
                 t = row;
 
@@ -52,12 +64,36 @@ let Journal = {
                 return addCommas(parseInt(total));
 
             }},
-            {data: 'coa.code', defaultContent: '-', class: 'text-center'},
-            {data: 'description'},
-            {data: 'status', name: 'approve'},
-            {data: 'created_by'},
-            {data: 'approved_by'},
-            {data: '', searchable: false, render: function (data, type, row) {
+            {data: 'coa.code', defaultContent: '-', class: 'text-center text-nowrap'},
+            {data: 'description', className: "dt-text-left",
+                "render": function ( data, type, row, meta ) {
+                    if (row.description) {
+                        return `<p style="width:150px">${row.description}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: 'status', name: 'approve', class: 'text-center'},
+            {data: 'created_by', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.created_by) {
+                        return `<p class="text-center" style="width:120px">${row.created_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: 'approved_by', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.approved_by) {
+                        return `<p class="text-center" style="width:120px">${row.approved_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: '', class:'text-nowrap', searchable: false, render: function (data, type, row) {
                 t = row;
 
                 let _html =
