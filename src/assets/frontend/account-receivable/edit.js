@@ -202,13 +202,6 @@ let AccountReceivableEdit = {
           }
         },
         {
-          field: 'code',
-          title: 'Account Code',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-        },
-        {
           field: 'credit',
           title: 'Receive Amount',
           sortable: 'asc',
@@ -253,6 +246,13 @@ let AccountReceivableEdit = {
                         return "-"
                     }
         }},
+        {
+            field: 'code',
+            title: 'Account Code',
+            sortable: 'asc',
+            class: 'text-center',
+            filterable: !1,
+        },
         {
           field: 'actions',
           title: 'Actions',
@@ -433,12 +433,12 @@ let AccountReceivableEdit = {
           render: (data, type, row) => {
             return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(row.paid_amount)) + '</p>';
         }},
-        { data: 'coas.code', class:'text-center' },
         {
           data: 'exchange_rate_gap', class: 'text-center',
           render: (data, type, row) => {
             return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(row.exchange_rate_gap)) + '</p>';
         }},
+        { data: 'coas.code', class:'text-center' },
         // { data: 'description' },
         {
           data: '', searchable: false, render: function (data, type, row) {

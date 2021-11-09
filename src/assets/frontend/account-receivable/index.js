@@ -46,7 +46,8 @@ let Journal = {
             }},
             // {data: 'refno'},
             {data: 'currency', class: 'text-center'},
-            {data: 'exchangerate', class: 'text-right text-nowrap', render: function(data, type, row) {
+            {data: 'exchangerate', class: 'text-right text-nowrap',
+            render: function(data, type, row) {
                 return addCommas(parseInt(row.exchangerate));
             }},
             {data: 'ara.credit', searchabale: false, class:'text-right text-nowrap',
@@ -74,7 +75,7 @@ let Journal = {
                         return "-"
                     }
             }},
-            {data: 'status', name: 'approve', class: 'text-center'},
+            {data: 'status', name: 'approve', defaultContent: '-', class: 'text-center'},
             {data: 'created_by', class: 'text-center',
                 "render": function ( data, type, row, meta ) {
                     if (row.created_by) {
