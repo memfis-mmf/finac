@@ -408,10 +408,10 @@ let AccountReceivableEdit = {
       columns: [
         { data: 'transactionnumber', class: 'text-nowrap',
             "render": function ( data, type, row, meta ) {
-                return '<b>' + row.transactiondate + '</b><br>' + row.transactionnumber ;
+                return '<b>' + row.date_formated + '</b><br>' + row.transactionnumber ;
         }},
         // { data: 'transactiondate', visible:false },
-        { data: 'due_date', class:'text-center'},
+        { data: 'due_date_formated', class:'text-center'},
         {
           data: 'exchangerate', class: 'text-center',
           render: (data, type, row) => {

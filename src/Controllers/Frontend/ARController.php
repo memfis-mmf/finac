@@ -339,6 +339,12 @@ class ARController extends Controller
         $data = $invoice;
 
         return datatables($data)
+            ->addColumn('date_formated', function($row) {
+                return Carbon::parse($row->transactiondate)->format('d-m-Y');
+            })
+            ->addColumn('due_date_formated', function($row) {
+                return Carbon::parse($row->due_date)->format('d-m-Y');
+            })
             ->addColumn('total_amount_idr', function($row) {
                 return $this->countPaidAmount($row->id);
             })
