@@ -10,6 +10,7 @@ use memfisfa\Finac\Model\AReceiveC;
 use memfisfa\Finac\Request\AReceiveAUpdate;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use Carbon\Carbon;
 use DB;
 
 class ARAController extends Controller
@@ -351,6 +352,7 @@ class ARAController extends Controller
             if ($AR->currencies->code == 'idr') {
                 $ARA[$ara_index]->credit = $ARA[$ara_index]->credit_idr;
             }
+            $ARA[$ara_index]->date = Carbon::parse($ara_row->transactiondate)->format('d-m-Y');
         }
 
         $data = $alldata = json_decode(
