@@ -248,7 +248,6 @@ let AccountPayable = {
         {
           field: 'actions',
           title: 'Actions',
-          width: 110,
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
@@ -354,7 +353,6 @@ let AccountPayable = {
         {
           field: 'actions',
           title: 'Actions',
-          width: 110,
           sortable: !1,
           overflow: 'visible',
           template: function (t, e, i) {
@@ -501,7 +499,6 @@ let AccountPayable = {
         {
           field: 'actions',
           title: 'Actions',
-        //   width: 110,
           sortable: !1,
           class: 'text-nowrap',
           overflow: 'visible',
