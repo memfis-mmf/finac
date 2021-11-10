@@ -343,6 +343,10 @@ class ARController extends Controller
                 return Carbon::parse($row->transactiondate)->format('d-m-Y');
             })
             ->addColumn('due_date_formated', function($row) {
+                if ($row->due_date == '-') {
+                    return '-';
+                }
+
                 return Carbon::parse($row->due_date)->format('d-m-Y');
             })
             ->addColumn('total_amount_idr', function($row) {
