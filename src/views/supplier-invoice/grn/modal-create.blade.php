@@ -10,7 +10,7 @@
             <div class="modal-body">
 							{{-- <div class="grn_modal_datatable" id="scrolling_both"></div> --}}
               <table class="table table-striped table-bordered table-hover table-checkable grn_modal_datatable">
-                <thead>
+                <thead class="text-center">
                   <tr>
                     <th>Date</th>
                     <th>GRN No.</th>

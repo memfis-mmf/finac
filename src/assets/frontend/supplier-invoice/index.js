@@ -27,22 +27,64 @@ let Journal = {
           order: [[0, 'desc']],
           columns: [
             {data: 'created_at', visible: false},
-            {data: 'transaction_date_formated', name: 'transaction_date'},
-            {data: 'show_url', name: 'transaction_number'},
-            {data: 'x_type'},
-            {data: 'vendor.name'},
+            {data: 'transaction_date_formated', name: 'transaction_date', class: 'text-nowrap',
+                "render": function ( data, type, row, meta ) {
+                    return '<b><p class="text-nowrap mb-0">' + row.transaction_date_formated + '</b><br>' + row.show_url + '</p>' ;
+            }},
+            {data: 'show_url', name: 'transaction_number', visible:false},
+            {data: 'x_type', class:'text-center text-nowrap'},
+            {data: 'vendor.name', className: "dt-text-left",
+                "render": function ( data, type, row, meta ) {
+                    if (row.vendor.name) {
+                        return `<p style="width:120px">${row.vendor.name}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
             {data: 'status', name: 'approve', class:'text-center'},
-            {data: 'currency', class:'text-center'},
-            {data: 'exchange_rate_fix', name: 'exchange_rate', class:'text-center'},
-            {data: 'grandtotal_foreign_before_adj', name: 'grandtotal_foreign', class: 'text-right text-nowrap'},
-            {data: 'grandtotal_foreign_formated', name: 'grandtotal_foreign', class: 'text-right text-nowrap'},
-            {data: 'grandtotal_before_adj', name: 'grandtotal', class: 'text-right text-nowrap'},
-            {data: 'grandtotal_formated', name: 'grandtotal', class: 'text-right text-nowrap'},
+            {data: 'currency', class:'text-center text-nowrap',
+                "render": function ( data, type, row, meta ) {
+                    return '<p class="text-nowrap mb-0">' + row.currency + '<br>' + row.exchange_rate_fix + '</p>' ;
+            }},
+            // {data: 'exchange_rate_fix', name: 'exchange_rate', class:'text-center text-nowrap'},
+            {data: 'grandtotal_foreign_before_adj', name: 'grandtotal_foreign', class: 'text-center',
+            "render": function ( data, type, row, meta ) {
+                return '<p class="text-right text-nowrap">' + row.grandtotal_foreign_before_adj + '</p>' ;
+            }},
+            {data: 'grandtotal_foreign_formated', name: 'grandtotal_foreign', class: 'text-center',
+            "render": function ( data, type, row, meta ) {
+                return '<p class="text-right text-nowrap">' + row.grandtotal_foreign_formated + '</p>' ;
+            }},
+            {data: 'grandtotal_before_adj', name: 'grandtotal', class: 'text-center',
+            "render": function ( data, type, row, meta ) {
+                return '<p class="text-right text-nowrap">' + row.grandtotal_before_adj + '</p>' ;
+            }},
+            {data: 'grandtotal_formated', name: 'grandtotal', class: 'text-center',
+            "render": function ( data, type, row, meta ) {
+                return '<p class="text-right text-nowrap">' + row.grandtotal_formated + '</p>' ;
+            }},
             {data: 'account_code', class: 'text-center text-nowrap'},
-            {data: 'created_by', name: 'created_at'},
-            {data: 'updated_by', name: 'updated_at'},
-            {data: 'approved_by', name: 'approvals.created_at'},
-            {data: '', searchable: false, render: function (data, para_type, row) {
+            {data: 'created_by', name: 'created_at', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.created_by) {
+                        return `<p class="text-center" style="width:120px">${row.created_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            // {data: 'updated_by', name: 'updated_at'},
+            {data: 'approved_by', name: 'approvals.created_at', class: 'text-center',
+                "render": function ( data, type, row, meta ) {
+                    if (row.approved_by) {
+                        return `<p class="text-center" style="width:120px">${row.approved_by}</p>`;
+                    }
+                    else {
+                        return "-"
+                    }
+            }},
+            {data: '', class:'text-nowrap', searchable: false, render: function (data, para_type, row) {
                 t = row;
 
                 let type = '';

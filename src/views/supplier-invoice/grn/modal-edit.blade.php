@@ -17,14 +17,14 @@
                                     GRN No.
                                 </label>
 
-																<input type="text" id="grn_no" class="form-control m-input" disabled>
+								<input type="text" id="grn_no" class="form-control m-input" disabled>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Total Amount
                                 </label>
 
-																<input type="text" id="total_amount" class="form-control m-input" disabled>
+								<input type="text" id="total_amount" class="form-control m-input" disabled>
                             </div>
                         </div>
                         <div class="form-group m-form__group row ">

@@ -105,40 +105,50 @@ let SupplierInvoice = {
 							field: 'code',
 							title: 'Account Code',
 							sortable: 'asc',
+                            class: 'text-center',
 							filterable: !1,
-						},
-						{
-							field: 'coa.name',
-							title: 'Account Name',
-							sortable: 'asc',
-							filterable: !1,
-						},
+                            template: function (data, type, row) {
+                                return '<b><p class="text-left mb-0">' + data.code + '</b><br>' + data.coa.name+ '</p>';
+                        }},
+						// {
+						// 	field: 'coa.name',
+						// 	title: 'Account Name',
+						// 	sortable: 'asc',
+						// 	filterable: !1,
+						// },
 						{
 							field: 'total',
 							title: 'Total Amount',
 							sortable: 'asc',
+                            class: 'text-center',
 							filterable: !1,
 							template: function(t, e, i) {
-								return addCommas(parseInt(t.total));
-							}
-						},
-            {
+								return '<p class="text-right">' + addCommas(parseInt(t.total)) + '</p>';
+						}},
+                        {
 							field: 'project_formated',
-              width: 400,
+                            // width: 170,
 							title: 'Project',
 							sortable: 'asc',
+                            class: 'text-center',
 							filterable: !1,
-						},
+                            template: function (data, type, row) {
+                                return '<p class="text-left mb-0">' + data.project_formated + '</p>';
+                        }},
 						{
 							field: 'description',
 							title: 'Description',
 							sortable: 'asc',
+                            class: 'text-center',
 							filterable: !1,
-						},
+                            template: function (data, type, row) {
+                                return '<p class="text-left mb-0">' + data.description + '</p>';
+                        }},
 						{
 							field: 'Actions',
 							width: 110,
 							sortable: !1,
+                            class: 'text-nowrap',
 							overflow: 'visible',
 							template: function (t, e, i) {
 
@@ -183,7 +193,7 @@ let SupplierInvoice = {
         var newOption = new Option(data_select2.text, data_select2.id, false, true);
         _modal.find('select[name=project_id]').append(newOption).trigger('change');
       }
-      
+
 			_modal.modal('show');
 		});
 
@@ -417,11 +427,20 @@ let SupplierInvoice = {
       order: [[ 0, "desc" ]],
       columns: [
         {data: 'created_at', visible: false},
-        {data: 'coa.code'},
-        {data: 'coa.name'},
-        {data: 'debit_formated', name:'debit'},
-        {data: 'credit_formated', name:'credit'},
-        {data: 'description'},
+        {data: 'coa.code',
+        "render": function ( data, type, row, meta ) {
+            return '<b><p class="text-left text-nowrap mb-0">' + row.coa.code + '</p></b>' + '<p class="text-left mb-0">' + row.coa.name +'</p>';
+        }},
+        // {data: 'coa.name'},
+        {data: 'debit_formated', name:'debit',
+        "render": function ( data, type, row, meta ) {
+            return '<p class="text-right text-nowrap mb-0">' + row.debit_formated + '</p>';
+        }},
+        {data: 'credit_formated', name:'credit',
+        "render": function ( data, type, row, meta ) {
+            return '<p class="text-right text-nowrap mb-0">' + row.credit_formated + '</p>';
+        }},
+        {data: 'description', className: "dt-text-left"},
         {data: 'action'},
       ]
     });
