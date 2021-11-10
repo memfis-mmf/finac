@@ -418,6 +418,7 @@ let AccountPayable = {
           title: 'Transaction No.',
           sortable: 'asc',
           class: 'text-center',
+          width: 150,
           filterable: !1,
           template: function (data, type, row) {
             return '<b><p class="text-left text-nowrap mb-0">' + data.transaction_date + '</b></p>' + '<p class="text-left text-nowrap">' + data.transaction_number + '</p>';
