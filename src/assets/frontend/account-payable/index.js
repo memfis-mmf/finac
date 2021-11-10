@@ -29,20 +29,30 @@ let Journal = {
         [0, 'desc'],
       ],
       columns: [
-        { data: 'transactiondate_formated', name: 'transactiondate' },
-        { data: 'transactionnumber_link', name: 'transactionnumber' },
-        { data: 'vendor.name' },
+        { data: 'transactiondate_formated', name: 'transactiondate', class: 'text-nowrap',
+        "render": function ( data, type, row, meta ) {
+            return '<b><p class="text-nowrap mb-0">' + row.transactiondate_formated + '</b><br>' + row.transactionnumber_link + '</p>' ;
+        }},
+        { data: 'transactionnumber_link', name: 'transactionnumber', visible:false },
+        { data: 'vendor.name', className: "dt-text-left",
+        "render": function ( data, type, row, meta ) {
+            if (row.vendor.name) {
+                return `<p style="width:120px">${row.vendor.name}</p>`;
+            }
+            else {
+                return "-"
+            }
+        }},
         // { data: 'refno' },
         { data: 'currency', class:'text-center' },
-        {
-          data: 'exchangerate', class: 'text-right text-nowrap', render: function (data, type, row) {
+        { data: 'exchangerate',
+          render: function (data, type, row) {
 
-            return addCommas(parseInt(row.exchangerate));
+            return '<p class="text-right text-nowrap">' + addCommas(parseInt(row.exchangerate)) + '</p>';
 
-          }
-        },
-        {
-          data: 'apa.debit', class: 'text-right text-nowrap', render: function (data, type, row) {
+        }},
+        { data: 'apa.debit',
+          render: function (data, type, row) {
 
             t = row;
 
@@ -53,17 +63,39 @@ let Journal = {
               total += x.debit;
             }
 
-            return addCommas(parseInt(total));
+            return '<p class="text-right text-nowrap">' + addCommas(parseInt(total)) + '</p>';
 
-          }
-        },
+        }},
         { data: 'coa.code', defaultContent: '-', class: 'text-center text-nowrap' },
-        { data: 'description' },
+        { data: 'description', className: "dt-text-left",
+        "render": function ( data, type, row, meta ) {
+            if (row.description) {
+                return `<p style="width:150px">${row.description}</p>`;
+            }
+            else {
+                return "-"
+            }
+        }},
         { data: 'status', name: 'approve', class: 'text-center'},
-        { data: 'created_by'},
-        { data: 'approved_by'},
-        {
-          data: '', searchable: false, render: function (data, type, row) {
+        { data: 'created_by', class: 'text-center',
+        "render": function ( data, type, row, meta ) {
+            if (row.created_by) {
+                return `<p class="text-center" style="width:120px">${row.created_by}</p>`;
+            }
+            else {
+                return "-"
+            }
+        }},
+        { data: 'approved_by', class: 'text-center',
+        "render": function ( data, type, row, meta ) {
+            if (row.approved_by) {
+                return `<p class="text-center" style="width:120px">${row.approved_by}</p>`;
+            }
+            else {
+                return "-"
+            }
+        }},
+        { data: '', class:'text-nowrap', searchable: false, render: function (data, type, row) {
             t = row;
 
             let _html =

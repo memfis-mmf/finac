@@ -21,11 +21,12 @@ let SupplierInvoice = {
       serverSide: true,
       ajax: _url + '/supplier-invoice/grn/items/datatables?si_uuid=' + _si_uuid,
       columns: [
-        { data: 'grn.number' },
-        { data: 'total', searchable: false, render: (data, type, row) => {
+        { data: 'grn.number', class: 'text-center' },
+        { data: 'total', searchable: false, class: 'text-right tex-nowrap',
+        render: (data, type, row) => {
           return row.grn.purchase_order.currency.symbol + ' ' + number_format.format(parseInt(row.total_after_tax));
         }},
-        { data: 'description', defaultContent: '-' },
+        { data: 'description', defaultContent: '-', className:'dt-text-left'},
         {
           data: '', searchable: false, render: (data, type, row) => {
             let t = row;
@@ -135,11 +136,12 @@ let SupplierInvoice = {
       ajax: _url + '/supplier-invoice/grn/datatables?si_uuid=' + _si_uuid,
       order: [[ 0, "desc" ]],
       columns: [
-        {data: 'received_at', searchable: false, orderable: false},
-        {data: 'number'},
-        {data: 'purchase_order.number'},
-        {data: 'total_amount', searchable: false, orderable: false, render: (data, type, row) => {
-          return row.purchase_order.currency.symbol + ' ' + number_format.format(row.total_amount);
+        {data: 'received_at', searchable: false, orderable: false, class:'text-center'},
+        {data: 'number', class:'text-center'},
+        {data: 'purchase_order.number', class:'text-center'},
+        {data: 'total_amount', searchable: false, orderable: false,
+        render: (data, type, row) => {
+          return '<p class="text-right text-nowrap">' + row.purchase_order.currency.symbol + number_format.format(row.total_amount) + '</p>';
         }},
         {data: '', searchable: false, orderable: false, render: (data, type, row) => {
           return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-uuid="' + row.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'

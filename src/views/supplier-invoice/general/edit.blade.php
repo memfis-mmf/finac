@@ -19,9 +19,9 @@
       visibility: visible;
   }
 
-  table td {
+  /* table td {
     white-space: nowrap !important;
-  }
+  } */
 
   table {
     min-width: 100%;
@@ -342,11 +342,11 @@
                         <table
                           class="table table-striped table-bordered table-hover table-checkable supplier_invoice_adj_datatable"
                           data-url="{{ route('trxpayment.adjustment.datatables', $data->id) }}?show={{ $show ?? false }}">
-                          <thead>
+                          <thead class="text-center">
                             <tr>
                               <th></th>
                               <th>Account Code</th>
-                              <th>Account Name</th>
+                              {{-- <th>Account Name</th> --}}
                               <th>Debit</th>
                               <th>Credit</th>
                               <th>Description</th>

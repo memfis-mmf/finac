@@ -419,82 +419,91 @@ let AccountPayable = {
           field: 'transaction_number',
           title: 'Transaction No.',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
-        },
-        {
-          field: 'transaction_date',
-          title: 'Date',
-          sortable: 'asc',
-          filterable: !1,
-        },
+          template: function (data, type, row) {
+            return '<b><p class="text-left text-nowrap mb-0">' + data.transaction_date + '</b></p>' + '<p class="text-left text-nowrap">' + data.transaction_number + '</p>';
+        }},
+        // {
+        //   field: 'transaction_date',
+        //   title: 'Date',
+        //   sortable: 'asc',
+        //   filterable: !1,
+        // },
         {
           field: 'due_date',
           title: 'Due Date',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
         },
         {
           field: 'exchange_rate',
           title: 'Exchange Rate',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp '+number_format.format(parseFloat(t.exchange_rate));
-          }
-        },
+            return '<p class="text-right text-nowrap">' + 'Rp'+number_format.format(parseFloat(t.exchange_rate)) + '</p>';
+        }},
         {
           field: 'grandtotal_foreign',
           title: 'Total Amount',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return t.currencies.symbol+' '+number_format.format(parseFloat(t.grandtotal_foreign));
-          }
-        },
+            return '<p class="text-right text-nowrap">' + t.currencies.symbol+' '+number_format.format(parseFloat(t.grandtotal_foreign)) + '</p>';
+        }},
         {
           field: 'grnadtotal',
           title: 'Total Amount (IDR)',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp '+number_format.format(parseFloat(t.grandtotal));
-          }
-        },
+            return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.grandtotal)) + '</p>';
+        }},
         {
           field: 'paid_amount',
           title: 'Paid Amount',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp '+number_format.format(parseFloat(t.paid_amount));
-          }
-        },
+            return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.paid_amount)) + '</p>';
+        }},
         {
           field: 'coa.code',
           title: 'Account Code',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
         },
         {
           field: '',
           title: 'Exchange Rate Gap',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap));
-          }
-        },
+            return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap))+ '</p>';
+        }},
         {
           field: 'description',
           title: 'Description',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
-        },
+          template: function (data, type, row) {
+            return '<p class="text-left">' + data.description + '</p>';
+        }},
         {
           field: 'actions',
           title: 'Actions',
-          width: 110,
+        //   width: 110,
           sortable: !1,
+          class: 'text-nowrap',
           overflow: 'visible',
           template: function (t, e, i) {
             if (page_type == 'show') {

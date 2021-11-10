@@ -234,7 +234,7 @@
                           <div class="col-sm-12 col-md-12 col-lg-12">
                             {{-- <div class="grn_datatable" id="scrolling_both"></div> --}}
                             <table class="table table-striped table-bordered table-hover table-checkable grn_datatable">
-                              <thead>
+                              <thead class="text-center">
                                 <tr>
                                   <th>GRN No.</th>
                                   <th>Total Amount</th>

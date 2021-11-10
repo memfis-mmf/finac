@@ -22,10 +22,10 @@
     visibility: visible;
   }
 
-  table td,
+  /* table td,
   table th {
     white-space: nowrap !important;
-  }
+  } */
 
   table {
     min-width: 100%;
@@ -127,15 +127,15 @@
                       <th>Type</th>
                       <th>Supplier Name</th>
                       <th>Status</th>
-                      <th>Currency</th>
-                      <th>Exchange Rate</th>
+                      <th>Curr|Rate</th>
+                      {{-- <th>Exchange Rate</th> --}}
                       <th>Grandtotal Foreign Before Adj</th>
                       <th>Grandtotal Foreign</th>
                       <th>Grandtotal IDR Before Adj</th>
                       <th>Grandtotal IDR</th>
                       <th>Account Code</th>
                       <th>Created By</th>
-                      <th>Updated By</th>
+                      {{-- <th>Updated By</th> --}}
                       <th>Approved By</th>
                       <th>Actions</th>
                     </tr>

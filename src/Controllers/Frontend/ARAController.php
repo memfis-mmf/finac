@@ -352,7 +352,6 @@ class ARAController extends Controller
             if ($AR->currencies->code == 'idr') {
                 $ARA[$ara_index]->credit = $ARA[$ara_index]->credit_idr;
             }
-            $ARA[$ara_index]->date = Carbon::parse($ara_row->transactiondate)->format('d-m-Y');
         }
 
         $data = $alldata = json_decode(

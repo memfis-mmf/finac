@@ -22,10 +22,10 @@
     visibility: visible;
   }
 
-  table td,
+  /* table td,
   table th {
     white-space: nowrap !important;
-  }
+  } */
 
   table {
     min-width: 100%;
