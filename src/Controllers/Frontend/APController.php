@@ -522,6 +522,7 @@ class APController extends Controller
                 }
 
                 $arr[$index_arr] = json_decode($x);
+                $arr[$index_arr]->transaction_date = Carbon::parse($arr[$index_arr]->transaction_date)->format('d-m-Y');
                 $arr[$index_arr]->transaction_number = $z->grn->number;
                 $arr[$index_arr]->uuid = $z->grn->uuid;
                 $arr[$index_arr]->grandtotal_foreign = $z->total + ($z->total * $z->tax_percent / 100);
@@ -549,10 +550,11 @@ class APController extends Controller
                 unset($si[$si_index]);
                 continue;
             }
+            $si_row->transaction_date = Carbon::parse($si_row->transaction_date)->format('d-m-Y');
 
             $si_row->due_date = Carbon::parse($si_row->updated_at)
                 ->addDays($si_row->closed)
-                ->format('d/m/Y');
+                ->format('d-m-Y');
 
             $si_row->amount_to_pay = $si_row->grandtotal - $si_row->paid_amount;
             $si_row->exchange_rate_gap = $si_row->exchange_rate - $ap->exchangerate;
