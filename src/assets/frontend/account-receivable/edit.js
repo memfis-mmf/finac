@@ -156,9 +156,8 @@ let AccountReceivableEdit = {
           sortable: 'asc',
           class: 'text-center',
           filterable: !1,
-          width: '130px',
           template: function (data, type, row) {
-            return '<b><p class="text-left mb-0">' + data.ar.date + '</b></p>' + '<p class="text-left">' + data.invoice.transactionnumber + '</p>';
+            return '<b><p class="text-left mb-0">' + data.ar.date + '</p></b>' + '<p class="text-left">' + data.invoice.transactionnumber + '</p>';
         }},
         // {
         //   field: 'ar.transactiondate',
