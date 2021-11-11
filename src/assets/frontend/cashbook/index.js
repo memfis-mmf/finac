@@ -34,10 +34,10 @@ let Cashbook = {
             }},
             {data: 'transactionnumber_link', name: 'transactionnumber', class: 'text-nowrap', visible:false},
             {data: 'journal_number', defaultContent: '-', name: 'journal.voucher_no', class: 'text-nowrap'},
-            {data: 'personal', defaultContent: '-', class: 'text-nowrap',
+            {data: 'personal', defaultContent: '-', class:'text-center',
                 "render": function ( data, type, row, meta ) {
                     if (row.personal) {
-                        return `<p class="text-left" style="width:50px">${row.personal}</p>`;
+                        return `<p class="text-left">${row.personal}</p>`;
                     }
                     else {
                         return "-"
