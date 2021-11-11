@@ -532,7 +532,8 @@ class APController extends Controller
             }
         }
 
-        $trxpayment_non_grn = TrxPayment::where('id_supplier', $request->id_vendor)
+        $trxpayment_non_grn = TrxPayment::with(['coa'])
+            ->where('id_supplier', $request->id_vendor)
             ->where('x_type', 'NON GRN')
             ->where('approve', 1)
             ->with(['currencies'])
