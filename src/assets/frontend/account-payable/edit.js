@@ -513,7 +513,7 @@ let AccountPayable = {
           class: 'text-center',
           filterable: !1,
           template: function (data, type, row) {
-            return '<p class="text-left">' + data.description + '</p>';
+            return '<p class="text-left">' + data.description ?? '-' + '</p>';
         }},
         {
           field: 'actions',
