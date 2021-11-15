@@ -19,7 +19,7 @@
               <th>Total Amount (IDR)</th>
               <th>Paid Amount</th>
               <th>Account Code</th>
-              <th>Exchange rate Gap</th>
+              {{-- <th>Exchange rate Gap</th> --}}
               {{-- <th>Description</th> --}}
               <th>Actions</th>
             </tr>
