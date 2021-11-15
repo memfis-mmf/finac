@@ -10,12 +10,12 @@
             <div class="modal-body">
               <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="AdjustmentForm" action="{{route('fa-report.ar-history')}}">
                     <div class="m-portlet__body">
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-0 pb-0">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Date Period
                                 </label>
-                            
+
                                 @component('input::datepicker')
                                     @slot('id', 'daterange')
                                     @slot('class', 'daterange')
@@ -26,15 +26,15 @@
                         </div>
                         <div class="row">
                             <div class="col-12 pl-5">
-                                <h2 class="text-primary">Additional Filter</h2>
+                                <h5 class="text-primary">Additional Filter</h5>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-1 pb-1">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Department
                                 </label>
-                            
+
                                 @component('input::select2')
                                     @slot('class', 'department')
                                     @slot('name', 'department')
@@ -45,7 +45,7 @@
                                 <label class="form-control-label">
                                     Location
                                 </label>
-                            
+
                                 <select class="_select2 form-control" name="location" style="width:100%">
                                     <option value=""></option>
                                     <option value="Sidoarjo">Sidoarjo</option>
@@ -55,12 +55,12 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-2 pb-1">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Customer
                                 </label>
-                            
+
                                 @component('input::select')
                                     @slot('id', '_customer')
                                     @slot('name', 'customer')
@@ -71,7 +71,7 @@
                                 <label class="form-control-label">
                                     Currency
                                 </label>
-                            
+
                                 @component('input::select')
                                     @slot('id', 'currency')
                                     @slot('name', 'currency')
@@ -143,4 +143,3 @@
     </script>
 @endpush
 
-    
