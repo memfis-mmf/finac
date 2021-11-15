@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 //use for export
 use memfisfa\Finac\Model\Exports\TBExport;
 use Maatwebsite\Excel\Facades\Excel;
+use memfisfa\Finac\Model\Coa;
 
 class TrialBalanceController extends Controller
 {
@@ -229,35 +230,82 @@ class TrialBalanceController extends Controller
 		$beginDate = $date[0];
 		$endingDate = $date[1];
 
-		$data_final = $this->getData($beginDate, $endingDate);
-        $total_data = count($data_final);
+		$tmp_data = $this->getData($beginDate, $endingDate);
+        $total_data = count($tmp_data);
         $total_beginning = 0;
         $total_debit = 0;
         $total_credit = 0;
         $total_period = 0;
         $total_ending = 0;
         
-        foreach ($data_final as $data_final_row) {
-            $data_final_row->period_balance = 
-                $data_final_row->Debit - $data_final_row->Credit;
+        foreach ($tmp_data as $tmp_data_index => $tmp_data_row) {
+            // calculate period balance
+            $tmp_data_row->period_balance = 
+                $tmp_data_row->Debit - $tmp_data_row->Credit;
 
-            if (strtolower($data_final_row->description) == 'header') {
-                $total_beginning += $data_final_row->LastBalance;
-                $total_debit += $data_final_row->Debit;
-                $total_credit += $data_final_row->Credit;
-                $total_period += $data_final_row->period_balance;
+            // calculate every total
+            if (strtolower($tmp_data_row->description) == 'header') {
+                $total_beginning += $tmp_data_row->LastBalance;
+                $total_debit += $tmp_data_row->Debit;
+                $total_credit += $tmp_data_row->Credit;
+                $total_period += $tmp_data_row->period_balance;
             }
+
+            // jika coa tidak ada (bisa aja udah kehapus)
+            if (! Coa::where('code', $tmp_data_row->code)->first()) {
+                unset($tmp_data[$tmp_data_index]);
+                continue;
+            }
+
+            $tmp_data_row->level = Coa::where('code', $tmp_data_row->code)->first()->coa_number;
         }
 
         $total_ending = $total_beginning + $total_debit - $total_credit;
 
+        $tmp_data = array_filter($tmp_data);
+        $tmp_data = collect($tmp_data);
+        $tmp_data = $tmp_data->groupBy('level');
+
+        $data_final = [];
+        foreach ($tmp_data as $tmp_data_row) {
+            $data_final[] = $tmp_data_row;
+        }
+
         $data_final = collect($data_final);
 
-        $data_final->transform(function($row) {
+        //re arange code
+        foreach ($data_final as $data_final_index => $data_final_row) {
+            // jika bukan loopingan pertama
+            if ($data_final_index > 0) {
+                // semakin kecil angka levelnya, semakin tinggi tingkatannya
+                // jika data sekarang itu masuk ke header baru (parent)
+                if (strlen($data_final[$data_final_index-1][0]->level) > strlen($data_final_row[0]->level)) {
+                    $tmp_array = [$data_final->filter(function($row) use($data_final_row) {
+                            if ($row[0]->level == ($data_final_row[0]->level - 1)) {
+                                return $row;
+                            }
+                        })->first()
+                    ];
 
-            if ($row->description == 'Header') {
-                $row->code = $row->name;
-                $row->name = null;
+                    if (! @$tmp_array[0]) {
+                        continue;
+                    }
+
+                    $tmp_array[0]->first()->code = "Total {$tmp_array[0]->first()->name}";
+                    $tmp_array[0]->first()->name = "";
+                    $tmp_array[0]->first()->description = "Header total";
+
+                    $data_final->splice($data_final_index-1, 0, $tmp_array);
+                }
+            }
+        }
+
+        $data_final->transform(function($row) {
+            foreach ($row as $row_data) {
+                if ($row_data->description == 'Header') {
+                    $row_data->code = $row_data->name;
+                    $row_data->name = null;
+                }
             }
             
             return $row;

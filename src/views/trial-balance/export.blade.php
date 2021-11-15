@@ -23,29 +23,20 @@
     </th>
   </tr>
   @foreach ($data as $data_row)
-    @php
-      // $substract = 2;
-      // $loop = strlen($data_row->COA) - $substract;
-      // if ($loop == 6) {
-      //   $loop -= 1;
-      // }
-
-      // $space = '';
-      // for ($i=0; $i < $loop; $i++) { 
-      //   $space .= '. ';
-      // }
-
-      $font_weight = (strtolower($data_row->description) == 'header')? 'font-weight:bold;': '';
-    @endphp
-    <tr>
-      <td valign="top" style="{{ $font_weight }}">{{ $data_row->code }}</td>
-      <td valign="top" style="{{ $font_weight }}">{{ $data_row->name }}</td>
-      <td valign="top" style="{{ $font_weight }}" align="right">{{$data_row->LastBalance}}</td>
-      <td valign="top" style="{{ $font_weight }}" align="right">{{$data_row->Debit}}</td>
-      <td valign="top" style="{{ $font_weight }}" align="right">-{{$data_row->Credit}}</td>
-      <td valign="top" style="{{ $font_weight }} {{($data_row->period_balance < 0)? 'background:#ff9b9b;': '' }}"  align="right">{{$data_row->period_balance}}</td>
-      <td valign="top" style="{{ $font_weight }}" align="right">{{$data_row->EndingBalance}}</td>
-    </tr> 
+    @foreach ($data_row as $row)
+      @php
+        $font_weight = (in_array(strtolower($row->description), ['header', 'header total']))? 'font-weight:bold;': '';
+      @endphp
+      <tr>
+        <td valign="top" style="{{ $font_weight }}">{{ $row->code }}</td>
+        <td valign="top" style="{{ $font_weight }}">{{ $row->name }}</td>
+        <td valign="top" style="{{ $font_weight }}" align="right">{{$row->LastBalance}}</td>
+        <td valign="top" style="{{ $font_weight }}" align="right">{{$row->Debit}}</td>
+        <td valign="top" style="{{ $font_weight }}" align="right">-{{$row->Credit}}</td>
+        <td valign="top" style="{{ $font_weight }} {{($row->period_balance < 0)? 'background:#ff9b9b;': '' }}"  align="right">{{$row->period_balance}}</td>
+        <td valign="top" style="{{ $font_weight }}" align="right">{{$row->EndingBalance}}</td>
+      </tr> 
+    @endforeach
   @endforeach
   <tr>
     <td valign="top" colspan="2">Total</td>

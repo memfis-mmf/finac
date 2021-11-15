@@ -29,7 +29,8 @@ class Coa extends MemfisModel
 
 	public function getCoaNumberAttribute()
 	{
-		return str_replace('0', '', $this->code);
+        // mengambil angka depan dari coa code
+		return explode('0', $this->code)[0];
     }
 
 	public function getActiveAttribute()
