@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 //use for export
 use memfisfa\Finac\Model\Exports\TBExport;
 use Maatwebsite\Excel\Facades\Excel;
+use memfisfa\Finac\Model\Coa;
 
 class TrialBalanceController extends Controller
 {
@@ -238,9 +239,11 @@ class TrialBalanceController extends Controller
         $total_ending = 0;
         
         foreach ($data_final as $data_final_row) {
+            // calculate period balance
             $data_final_row->period_balance = 
                 $data_final_row->Debit - $data_final_row->Credit;
 
+            // calculate every total
             if (strtolower($data_final_row->description) == 'header') {
                 $total_beginning += $data_final_row->LastBalance;
                 $total_debit += $data_final_row->Debit;
@@ -255,6 +258,13 @@ class TrialBalanceController extends Controller
 
         $data_final->transform(function($row) {
 
+            // jika coa tidak ada (bisa aja udah kehapus)
+            if (! Coa::where('code', $row->code)->first()) {
+                return;
+            }
+
+            $row->level = Coa::where('code', $row->code)->first()->coa_number;
+
             if ($row->description == 'Header') {
                 $row->code = $row->name;
                 $row->name = null;
@@ -262,6 +272,11 @@ class TrialBalanceController extends Controller
             
             return $row;
         });
+
+        $data_final = array_filter($data_final->toArray());
+        $data_final = collect($data_final);
+
+        dd($data_final->groupBy('level'));
 
 		$data = [
             'controller' => new Controller(),

@@ -24,17 +24,6 @@
   </tr>
   @foreach ($data as $data_row)
     @php
-      // $substract = 2;
-      // $loop = strlen($data_row->COA) - $substract;
-      // if ($loop == 6) {
-      //   $loop -= 1;
-      // }
-
-      // $space = '';
-      // for ($i=0; $i < $loop; $i++) { 
-      //   $space .= '. ';
-      // }
-
       $font_weight = (strtolower($data_row->description) == 'header')? 'font-weight:bold;': '';
     @endphp
     <tr>
