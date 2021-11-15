@@ -479,15 +479,15 @@ let AccountPayable = {
           class: 'text-center',
           filterable: !1,
         },
-        {
-          field: '',
-          title: 'Exchange Rate Gap',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-          template: function (t, e, i) {
-            return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap))+ '</p>';
-        }},
+        // {
+        //   field: '',
+        //   title: 'Exchange Rate Gap',
+        //   sortable: 'asc',
+        //   class: 'text-center',
+        //   filterable: !1,
+        //   template: function (t, e, i) {
+        //     return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap))+ '</p>';
+        // }},
         {
           field: 'description',
           title: 'Description',
