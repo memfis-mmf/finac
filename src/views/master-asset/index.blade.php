@@ -18,8 +18,8 @@
       visibility: visible;
   }
 
-  table td {
-    white-space: nowrap !important;
+  /* table td {
+    white-space: nowrap !important; */
   }
 
   table {
@@ -111,8 +111,8 @@
                                 <table class="table table-striped table-bordered table-hover table-checkable master_asset_datatable">
                                     <thead class="text-center">
                                         <th>Asset Number</th>
-                                        <th>Asset Code</th>
-                                        <th>Asset Name</th>
+                                        <th>Asset Code|Name</th>
+                                        {{-- <th>Asset Name</th> --}}
                                         <th>Ref. Doc</th>
                                         <th>Asset Value</th>
                                         <th>Useful Life</th>

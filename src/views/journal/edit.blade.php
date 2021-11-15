@@ -18,9 +18,9 @@
       visibility: visible;
   }
 
-  table td {
+  /* table td {
     white-space: nowrap !important;
-  }
+  } */
 
   table {
     min-width: 100%;
@@ -143,7 +143,7 @@
 																								</option>
 																						@endforeach
 																				</select>
-        
+
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row ">
@@ -165,7 +165,7 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <label class="form-control-label">
-                                            Exchange Rate 
+                                            Exchange Rate
                                         <span id="requi" class="requi" style="font-weight: bold;color:red">*</span>
                                         </label>
                                         @component('input::numberreadonly')
@@ -230,14 +230,14 @@
                                                     </div>
                                                     {{-- <div class="accountcode_datatable" id="scrolling_both"></div> --}}
                                                     <table class="table table-striped table-bordered table-hover table-checkable accountcode_datatable">
-                                                      <thead>
-                                                        <th>Account Code</th> 
-                                                        <th>Account Name</th> 
-                                                        <th>Project</th> 
-                                                        <th>Debit</th> 
-                                                        <th>Credit</th> 
-                                                        <th>Remark</th> 
-                                                        <th>Action</th> 
+                                                      <thead class="text-center">
+                                                        <th>Account Code</th>
+                                                        {{-- <th>Account Name</th>  --}}
+                                                        <th>Project</th>
+                                                        <th>Debit</th>
+                                                        <th>Credit</th>
+                                                        <th>Remark</th>
+                                                        <th>Action</th>
                                                       </thead>
                                                     </table>
                                                 </div>

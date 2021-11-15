@@ -33,54 +33,90 @@ let MasterAsset = {
       ajax: master_asset_datatable_url,
       order: [[0, 'desc']],
       columns: [
-        { data: 'transaction_number', defaultContent: '-', render: (data, type, row) => {
+        { data: 'transaction_number', defaultContent: '-', class:'text-nowrap',
+        render: (data, type, row) => {
           return `<a href="${_url}/asset/${row.uuid}">${row.transaction_number}</a>`
         }},
-        { data: 'asset_code', defaultContent: '-'},
-        { data: 'name', defaultContent: '-' },
-        { data: 'grnno', defaultContent: '-'},
+        { data: 'asset_code', defaultContent: '-', class:'text-nowrap',
+        "render": function ( data, type, row, meta ) {
+            if (row.asset_code) {
+                return '<b><p class="text-left style="width:150px" mb-0">' + row.asset_code + '</b><br>' + row.name + '</p>';
+            }
+            else {
+                return "-"
+            }
+        }},
+        // { data: 'name', defaultContent: '-', class:'text-nowrap', },
+        { data: 'grnno', defaultContent: '-', class:'text-nowrap'},
         {
-          data: 'povalue', defaultContent: '-', class: 'text-right text-nowrap', render: function (data, type, row) {
+          data: 'povalue', defaultContent: '-',
+          render: function (data, type, row) {
             if (!row.povalue) {
               row.povalue = 0;
             }
 
-            return addCommas(parseFloat(row.povalue));
-          }
-        },
+            return '<p class="text-right text-nowrap">' + addCommas(parseFloat(row.povalue)) + '</p>';
+        }},
         {
-          data: 'usefullife', defaultContent: '-', class: 'text-right text-nowrap', render: function (data, type, row) {
+          data: 'usefullife', defaultContent: '-', class: 'text-center text-nowrap',
+          render: function (data, type, row) {
             return addCommas(parseFloat(row.usefullife)) + ' Month';
-          }
-        },
-        { data: 'account_asset', defaultContent: '-', searchable: false, orderable: false },
-        { data: 'coa_accumulate.name', defaultContent: '-', render: (data, type, row) => {
+          }},
+        { data: 'account_asset', class:'text-center', defaultContent: '-', searchable: false, orderable: false,
+        "render": function ( data, type, row, meta ) {
+            if (row.account_asset) {
+                return '<p class="text-center" style="width:120px">' + row.account_asset + '</p>';
+            }
+            else {
+                return "-"
+            }
+        }},
+        { data: 'coa_accumulate.name', defaultContent: '-',
+        render: (data, type, row) => {
           if (row.coa_accumulate) {
-            return row.coa_accumulate.name + ' (' + row.coa_accumulate.code + ')';
+            return '<p class="text-center" style="width:120px">' + row.coa_accumulate.name + ' (' + row.coa_accumulate.code + ')';
           }
 
           return '-';
         }},
-        { data: 'coa_expense.name', defaultContent: '-', render: (data, type, row) => {
+        { data: 'coa_expense.name', defaultContent: '-',
+        render: (data, type, row) => {
           if (row.coa_expense) {
-            return row.coa_expense.name + ' (' + row.coa_expense.code + ')';
+            return '<p class="text-center" style="width:120px">' + row.coa_expense.name + ' (' + row.coa_expense.code + ')';
           }
 
           return '-';
         }},
-        { data: 'coa_depreciation.name', defaultContent: '-', render: (data, type, row) => {
+        { data: 'coa_depreciation.name', defaultContent: '-',
+        render: (data, type, row) => {
           if (row.coa_depreciation) {
-            return row.coa_depreciation.name + ' (' + row.coa_depreciation.code + ')';
+            return '<p class="text-center" style="width:120px">' + row.coa_depreciation.name + ' (' + row.coa_depreciation.code + ')';
           }
 
           return '-';
         }},
-        { data: 'depreciationstart_format', name: 'depreciationstart', defaultContent: '-' },
-        { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-' },
+        { data: 'depreciationstart_format', name: 'depreciationstart', defaultContent: '-', class:'text-center' },
+        { data: 'depreciationend_format', name: 'depreciationend', defaultContent: '-', class:'text-center' },
         { data: 'status', name: 'approve', class: 'text-center'},
-        { data: 'created_by'},
-        { data: 'approved_by', name: 'approvals.created_at' },
-        { data: 'action' }
+        { data: 'created_by', class: 'text-center',
+        "render": function ( data, type, row, meta ) {
+            if (row.created_by) {
+                return `<p class="text-center" style="width:120px">${row.created_by}</p>`;
+            }
+            else {
+                return "-"
+            }
+        }},
+        { data: 'approved_by', name: 'approvals.created_at', class: 'text-center',
+        "render": function ( data, type, row, meta ) {
+            if (row.approved_by) {
+                return `<p class="text-center" style="width:120px">${row.approved_by}</p>`;
+            }
+            else {
+                return "-"
+            }
+        }},
+        { data: 'action', class:'text-nowrap' }
       ]
     });
 
