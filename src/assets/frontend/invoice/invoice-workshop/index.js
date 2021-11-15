@@ -64,7 +64,7 @@ let InvoiceWorkshop = {
         $('.item_datatable').on('click', '.delete', function () {
             let tr = $(this).parents('tr');
 
-            console.log('wew')
+            // console.log('wew')
 
             item_datatable.row(tr).remove().draw();
         });

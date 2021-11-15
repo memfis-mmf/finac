@@ -277,7 +277,7 @@ let Coa = {
 
 		let update_cashbook_a = $('body').on('click', '#update_cashbook_a', function () {
 
-			console.log('wew');
+			// console.log('wew');
 
 			let _form = $(this).parents('form');
 			let _uuid = _form.find('[name=uuid]').val();
@@ -508,7 +508,7 @@ let Coa = {
 		});
 
 		$('body').on('click', '#button_cushbook_transaction', function() {
-			console.log('wew');
+			// console.log('wew');
 			$('#select2-_accountcode-container').empty();
 			$('#select2-_accountcode-container').css('height', '43');
 			$('[name=amount_a').val('');
