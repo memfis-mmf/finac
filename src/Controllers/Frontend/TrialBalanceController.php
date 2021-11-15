@@ -238,7 +238,7 @@ class TrialBalanceController extends Controller
         $total_period = 0;
         $total_ending = 0;
         
-        foreach ($data_final as $data_final_row) {
+        foreach ($data_final as $data_final_index => $data_final_row) {
             // calculate period balance
             $data_final_row->period_balance = 
                 $data_final_row->Debit - $data_final_row->Credit;
@@ -249,6 +249,17 @@ class TrialBalanceController extends Controller
                 $total_debit += $data_final_row->Debit;
                 $total_credit += $data_final_row->Credit;
                 $total_period += $data_final_row->period_balance;
+            }
+
+            $data_final_row->level = Coa::where('code', $data_final_row->code)->first()->coa_number;
+
+            // jika bukan loopingan pertama
+            if ($data_final_index > 0) {
+                // semakin kecil angka levelnya, semakin tinggi tingkatannya
+                // jika data sekarang itu masuk ke header baru (parent)
+                if (count($data_final_row[$data_final_index-1]->level) > count($data_final_row->level)) {
+                    // ini nanti masukan array baru buat total header sblmnya
+                }
             }
         }
 
@@ -262,8 +273,6 @@ class TrialBalanceController extends Controller
             if (! Coa::where('code', $row->code)->first()) {
                 return;
             }
-
-            $row->level = Coa::where('code', $row->code)->first()->coa_number;
 
             if ($row->description == 'Header') {
                 $row->code = $row->name;
