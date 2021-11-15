@@ -274,9 +274,9 @@ class TrialBalanceController extends Controller
         });
 
         $data_final = array_filter($data_final->toArray());
-        $data_final = collect($data_final);
+        $data_final = collect($data_final)->groupBy('level');
 
-        dd($data_final->groupBy('level'));
+        // dd($data_final);
 
 		$data = [
             'controller' => new Controller(),
