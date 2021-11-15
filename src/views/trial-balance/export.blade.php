@@ -25,7 +25,7 @@
   @foreach ($data as $data_row)
     @foreach ($data_row as $row)
       @php
-        $font_weight = (strtolower($row->description) == 'header')? 'font-weight:bold;': '';
+        $font_weight = (in_array(strtolower($row->description), ['header', 'header total']))? 'font-weight:bold;': '';
       @endphp
       <tr>
         <td valign="top" style="{{ $font_weight }}">{{ $row->code }}</td>
