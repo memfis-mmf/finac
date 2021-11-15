@@ -78,7 +78,7 @@ let Coa = {
         $('.coa_datatable').on('click', '.delete', function () {
             let tr = $(this).parents('tr');
 
-            console.log('wew')
+            // console.log('wew')
 
             coa_datatable.row(tr).remove().draw();
         });
