@@ -230,90 +230,103 @@ class TrialBalanceController extends Controller
 		$beginDate = $date[0];
 		$endingDate = $date[1];
 
-		$tmp_data = $this->getData($beginDate, $endingDate);
-        $total_data = count($tmp_data);
+		$data_final = $this->getData($beginDate, $endingDate);
+        $total_data = count($data_final);
         $total_beginning = 0;
         $total_debit = 0;
         $total_credit = 0;
         $total_period = 0;
         $total_ending = 0;
         
-        foreach ($tmp_data as $tmp_data_index => $tmp_data_row) {
+        foreach ($data_final as $data_final_index => $data_final_row) {
             // calculate period balance
-            $tmp_data_row->period_balance = 
-                $tmp_data_row->Debit - $tmp_data_row->Credit;
+            $data_final_row->period_balance = 
+                $data_final_row->Debit - $data_final_row->Credit;
 
             // calculate every total
-            if (strtolower($tmp_data_row->description) == 'header') {
-                $total_beginning += $tmp_data_row->LastBalance;
-                $total_debit += $tmp_data_row->Debit;
-                $total_credit += $tmp_data_row->Credit;
-                $total_period += $tmp_data_row->period_balance;
+            if (strtolower($data_final_row->description) == 'header') {
+                $total_beginning += $data_final_row->LastBalance;
+                $total_debit += $data_final_row->Debit;
+                $total_credit += $data_final_row->Credit;
+                $total_period += $data_final_row->period_balance;
             }
 
             // jika coa tidak ada (bisa aja udah kehapus)
-            if (! Coa::where('code', $tmp_data_row->code)->first()) {
-                unset($tmp_data[$tmp_data_index]);
+            if (! Coa::where('code', $data_final_row->code)->first()) {
+                unset($data_final[$data_final_index]);
                 continue;
             }
 
-            $tmp_data_row->level = Coa::where('code', $tmp_data_row->code)->first()->coa_number;
+            $data_final_row->level = Coa::where('code', $data_final_row->code)->first()->coa_number;
+            $data_final_row->total_child = Coa::where('code', $data_final_row->code)->first()->total_child;
         }
 
-        $total_ending = $total_beginning + $total_debit - $total_credit;
+        $new_data = [];
+        $iteration = [];
 
-        $tmp_data = array_filter($tmp_data);
-        $tmp_data = collect($tmp_data);
-        $tmp_data = $tmp_data->groupBy('level');
-
-        $data_final = [];
-        foreach ($tmp_data as $tmp_data_row) {
-            $data_final[] = $tmp_data_row;
-        }
-
-        $data_final = collect($data_final);
-
-        //re arange code
         foreach ($data_final as $data_final_index => $data_final_row) {
-            // jika bukan loopingan pertama
-            if ($data_final_index > 0) {
-                // semakin kecil angka levelnya, semakin tinggi tingkatannya
-                // jika data sekarang itu masuk ke header baru (parent)
-                if (strlen($data_final[$data_final_index-1][0]->level) > strlen($data_final_row[0]->level)) {
-                    $tmp_array = [$data_final->filter(function($row) use($data_final_row) {
-                            if ($row[0]->level == ($data_final_row[0]->level - 1)) {
-                                return $row;
-                            }
-                        })->first()
-                    ];
 
-                    if (! @$tmp_array[0]) {
-                        continue;
+            if ($data_final_row->total_child > 0) {
+                $iteration[$data_final_row->level] = [
+                    "total_child" => $data_final_row->total_child,
+                    "counting" => $data_final_row->total_child,
+                ];
+            }
+
+            // insert to new array
+            foreach (array_keys((array)$data_final_row) as $data_final_row_index) {
+                $new_data_temp[$data_final_row_index] = $data_final_row->$data_final_row_index;
+            }
+            $new_data[] = (object) $new_data_temp;
+
+            foreach ($iteration as $iteration_index => $iteration_row) {
+                if ($iteration_row['counting'] == 0) {
+                    $parent_index = $data_final_index - $iteration_row['total_child'];
+                    $parent_data = $data_final[$parent_index];
+
+                    foreach (array_keys((array)$parent_data) as $parent_data_index) {
+                        $new_data_temp[$parent_data_index] = $parent_data->$parent_data_index;
                     }
+                    $new_data[] = (object) $new_data_temp;
 
-                    $tmp_array[0]->first()->code = "Total {$tmp_array[0]->first()->name}";
-                    $tmp_array[0]->first()->name = "";
-                    $tmp_array[0]->first()->description = "Header total";
+                    $new_data[count($new_data)-1]->name = 'Total '.$parent_data->name;
+                    $new_data[count($new_data)-1]->description = 'header total';
 
-                    $data_final->splice($data_final_index-1, 0, $tmp_array);
+                    unset($iteration[$iteration_index]);
                 }
+            }
+
+            foreach ($iteration as $iteration_index => $iteration_row) {
+                $iteration[$iteration_index]['counting'] = $iteration_row['counting'] - 1;
             }
         }
 
-        $data_final->transform(function($row) {
-            foreach ($row as $row_data) {
-                if ($row_data->description == 'Header') {
-                    $row_data->code = $row_data->name;
-                    $row_data->name = null;
-                }
+        foreach ($new_data as $new_data_row) {
+            if ($new_data_row->description == 'Header') {
+                $new_data_row->code = $new_data_row->name;
+                $new_data_row->name = null;
+
+                $new_data_row->Debit = '';
+                $new_data_row->Credit = '';
+                $new_data_row->LastBalance = '';
+                $new_data_row->EndingBalance = '';
             }
+        }
+
+        // $data_final->transform(function($row) {
+        //     foreach ($row as $row_data) {
+        //         if ($row_data->description == 'Header') {
+        //             $row_data->code = $row_data->name;
+        //             $row_data->name = null;
+        //         }
+        //     }
             
-            return $row;
-        });
+        //     return $row;
+        // });
 
 		$data = [
-            'controller' => new Controller(),
-			'data' => $data_final,
+            'controller' => $this,
+			'data' => $new_data,
 			'total_data' => $total_data,
 			'total_beginning' => $total_beginning,
 			'total_debit' => $total_debit,
