@@ -23,13 +23,15 @@ class Coa extends MemfisModel
 		'coa_number',
 		'active',
 		'coa_tree',
+        'total_child'
 	];
 
     protected $hidden = [];
 
 	public function getCoaNumberAttribute()
 	{
-		return str_replace('0', '', $this->code);
+        // mengambil angka depan dari coa code
+		return explode('0', $this->code)[0];
     }
 
 	public function getActiveAttribute()
@@ -72,6 +74,21 @@ class Coa extends MemfisModel
         }
 
         return '<span class="badge badge-pill badge-'.$badge.'">'.$indent.'</span>&nbsp;'.$this->code.' - '.$this->name;
+    }
+
+    public function getTotalChildAttribute()
+    {
+        $level = $this->coa_number;
+
+        $last_number = substr($this->code, -1) ;
+
+        if($last_number != 0) {
+            return 0;
+        }
+
+        $total_child = Coa::where('code', 'like', "{$level}%")->count() - 1;
+        
+        return $total_child;
     }
 
     /*************************************** RELATIONSHIP ****************************************/

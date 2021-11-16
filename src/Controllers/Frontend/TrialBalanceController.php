@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 //use for export
 use memfisfa\Finac\Model\Exports\TBExport;
 use Maatwebsite\Excel\Facades\Excel;
+use memfisfa\Finac\Model\Coa;
 
 class TrialBalanceController extends Controller
 {
@@ -230,43 +231,105 @@ class TrialBalanceController extends Controller
 		$endingDate = $date[1];
 
 		$data_final = $this->getData($beginDate, $endingDate);
-        $total_data = count($data_final);
         $total_beginning = 0;
         $total_debit = 0;
         $total_credit = 0;
         $total_period = 0;
         $total_ending = 0;
         
-        foreach ($data_final as $data_final_row) {
+        foreach ($data_final as $data_final_index => $data_final_row) {
+            // calculate period balance
             $data_final_row->period_balance = 
                 $data_final_row->Debit - $data_final_row->Credit;
 
+            // calculate every total
             if (strtolower($data_final_row->description) == 'header') {
                 $total_beginning += $data_final_row->LastBalance;
                 $total_debit += $data_final_row->Debit;
                 $total_credit += $data_final_row->Credit;
                 $total_period += $data_final_row->period_balance;
             }
+
+            // jika coa tidak ada (bisa aja udah kehapus)
+            if (! Coa::where('code', $data_final_row->code)->first()) {
+                unset($data_final[$data_final_index]);
+                continue;
+            }
+
+            $data_final_row->level = Coa::where('code', $data_final_row->code)->first()->coa_number;
+            $data_final_row->total_child = Coa::where('code', $data_final_row->code)->first()->total_child;
         }
 
-        $total_ending = $total_beginning + $total_debit - $total_credit;
+        $data_final = array_values($data_final);
 
-        $data_final = collect($data_final);
+        $new_data = [];
+        $iteration = [];
 
-        $data_final->transform(function($row) {
+        foreach ($data_final as $data_final_index => $data_final_row) {
 
-            if ($row->description == 'Header') {
-                $row->code = $row->name;
-                $row->name = null;
+            if ($data_final_row->total_child > 0) {
+                $iteration[$data_final_row->level] = [
+                    "total_child" => $data_final_row->total_child,
+                    "counting" => $data_final_row->total_child,
+                    "coa" => $data_final_row->code,
+                    "name" => $data_final_row->name,
+                ];
+
+                krsort($iteration);
             }
-            
-            return $row;
-        });
+
+            // insert to new array
+            foreach (array_keys((array)$data_final_row) as $data_final_row_index) {
+                $new_data_temp[$data_final_row_index] = $data_final_row->$data_final_row_index;
+            }
+            $new_data[] = (object) $new_data_temp;
+
+            foreach ($iteration as $iteration_index => $iteration_row) {
+                if ($iteration_row['counting'] == 0) {
+                    $parent_index = $data_final_index - $iteration_row['total_child'];
+                    $parent_index = ($parent_index < 0)? 0: $parent_index;
+                    $parent_data = $data_final[$parent_index];
+
+                    foreach (array_keys((array)$parent_data) as $parent_data_index) {
+                        $new_data_temp[$parent_data_index] = $parent_data->$parent_data_index;
+                    }
+                    $new_data[] = (object) $new_data_temp;
+
+                    $new_data[count($new_data)-1]->code = 'Total '.$parent_data->name;
+                    $new_data[count($new_data)-1]->name = '';
+                    $new_data[count($new_data)-1]->description = 'header total';
+
+                    // add new blank row
+                    foreach (array_keys((array)$parent_data) as $parent_data_index) {
+                        $new_data_temp[$parent_data_index] = ' ';
+                    }
+                    $new_data[] = (object) $new_data_temp;
+
+                    unset($iteration[$iteration_index]);
+                }
+            }
+
+            foreach ($iteration as $iteration_index => $iteration_row) {
+                $iteration[$iteration_index]['counting'] = $iteration_row['counting'] - 1;
+            }
+        }
+
+        foreach ($new_data as $new_data_row) {
+            if ($new_data_row->description == 'Header') {
+                $new_data_row->code = $new_data_row->name;
+                $new_data_row->name = null;
+
+                $new_data_row->Debit = '';
+                $new_data_row->Credit = '';
+                $new_data_row->LastBalance = '';
+                $new_data_row->PeriodBalance = '';
+                $new_data_row->EndingBalance = '';
+            }
+        }
 
 		$data = [
-            'controller' => new Controller(),
-			'data' => $data_final,
-			'total_data' => $total_data,
+            'controller' => $this,
+			'data' => $new_data,
 			'total_beginning' => $total_beginning,
 			'total_debit' => $total_debit,
 			'total_credit' => $total_credit,
@@ -279,4 +342,9 @@ class TrialBalanceController extends Controller
         // return view('trialbalanceview::export', $data);
 		return Excel::download(new TBExport($data), 'TB.xlsx');
 	}
+
+    public function generate_data_export()
+    {
+        # code...
+    }
 }
