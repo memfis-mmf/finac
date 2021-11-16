@@ -8,14 +8,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <form 
-          class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" 
-          id="AdjustmentForm" 
+        <form
+          class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
+          id="AdjustmentForm"
           action="{{ route('customer-trial-balance-docs') }}">
 
           <input type="hidden" name="_uuid" value="" disabled>
           <div class="m-portlet__body">
-            <div class="form-group m-form__group row ">
+            <div class="form-group m-form__group row pb-0">
 
               <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
@@ -33,7 +33,7 @@
                 <label class="form-control-label">
                   Currency
                 </label>
-            
+
                 @component('input::select')
                 @slot('id', 'currency')
                 @slot('class', 'currency')
@@ -50,7 +50,7 @@
                 <label class="form-control-label">
                   Department
                 </label>
-            
+
                 @component('input::select2')
                   @slot('class', 'department')
                   @slot('name', 'department')
@@ -61,7 +61,7 @@
                 <label class="form-control-label">
                   Location
                 </label>
-              
+
                 <select class="_select2 form-control" name="location" style="width:100%">
                   <option value=""></option>
                   <option value="Sidoarjo">Sidoarjo</option>
@@ -78,7 +78,7 @@
                 <div class="flex">
                   <div class="action-buttons">
 
-                    <button data-href="{{ route('customer-trial-balance-export') }}" type="button" class="btn btn-info btn-md export-to-excel">
+                    <button data-href="{{ route('customer-trial-balance-export') }}" type="button" class="btn btn-success btn-md export-to-excel">
                       <span>
                         <i class="fa fa-file-download"></i>
                         <span>Export</span>
@@ -89,6 +89,7 @@
                     @slot('id', 'update_adjustment')
                     @slot('type', 'submit')
                     @slot('text', 'View')
+                    @slot('color','primary')
                     @slot('icon','fa-search')
                     @endcomponent
 

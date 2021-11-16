@@ -8,18 +8,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form 
-                  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" 
-                  id="AdjustmentForm" 
+                <form
+                  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
+                  id="AdjustmentForm"
                   action="{{route('fa-report.outstanding-supplier-invoice')}}">
 
                     <div class="m-portlet__body">
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row pt-0 pb-0">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Date
                                 </label>
-                            
+
                                 @component('input::text')
                                     @slot('id', 'date')
                                     @slot('name', 'date')
@@ -29,15 +29,15 @@
                         </div>
                         <div class="row">
                             <div class="col-12 pl-5">
-                                <h2 class="text-primary">Additional Filter</h2>
+                                <h5 class="text-primary">Additional Filter</h5>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row pt-1 pb-0">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
                                     Supplier
                                 </label>
-                            
+
                                 @component('input::select')
                                     @slot('id', 'vendor1')
                                     @slot('name', 'vendor[]')
@@ -46,12 +46,12 @@
                                 @endcomponent
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-1 pb-2">
                             {{-- <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Department
                                 </label>
-                            
+
                                 @component('input::select2')
                                     @slot('id', 'department_id')
                                     @slot('name', 'department_id')
@@ -61,9 +61,21 @@
                             </div> --}}
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
+                                    Currency
+                                </label>
+
+                                <select class="_select2 form-control" name="currency" style="width:100%">
+                                    <option value=""></option>
+                                    @foreach ($data_currency as $data_currency_row)
+                                      <option value="{{ $data_currency_row->id }}">{{ "($data_currency_row->symbol) $data_currency_row->name" }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label class="form-control-label">
                                     Location
                                 </label>
-                            
+
                                 <select class="_select2 form-control" name="location" style="width:100%">
                                     <option value=""></option>
                                     <option value="Sidoarjo">Sidoarjo</option>
@@ -73,12 +85,12 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        {{-- <div class="form-group m-form__group row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Currency
                                 </label>
-                            
+
                                 <select class="_select2 form-control" name="currency" style="width:100%">
                                     <option value=""></option>
                                     @foreach ($data_currency as $data_currency_row)
@@ -86,7 +98,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <div class="flex">
@@ -139,7 +151,7 @@
     ajax: {
       url: '{{ route("fa-report.ap.aging.select2.vendor") }}',
       dataType: 'json'
-    }    
+    }
   });
 
 </script>

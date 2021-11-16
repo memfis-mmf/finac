@@ -10,13 +10,13 @@
             <div class="modal-body">
                 <form action="{{ route('fa-report.ap.aging') }}" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
                     <div class="m-portlet__body">
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-0 pb-0">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Date
                                 </label>
                                 <span class="text-danger">*</span>
-                            
+
                                 @component('input::text')
                                     @slot('id', 'date')
                                     @slot('name', 'date')
@@ -29,12 +29,12 @@
                                 <h2 class="text-primary">Additional Filter</h2>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-1 pb-0">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">
                                     Supplier
                                 </label>
-                            
+
                                 @component('input::select')
                                     @slot('id', 'vendor')
                                     @slot('name', 'vendor[]')
@@ -43,12 +43,12 @@
                                 @endcomponent
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-1 pb-1">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Department
                                 </label>
-                            
+
                                 <select class="form-control" name="department[]" style="width:100%" multiple>
                                   <option value=""></option>
                                   @foreach ($data_department as $department_row)
@@ -60,7 +60,7 @@
                                 <label class="form-control-label">
                                     Location
                                 </label>
-                            
+
                                 <select class="form-control" name="location" style="width:100%">
                                   <option value=""></option>
                                   <option value="sidoarjo">Sidoarjo</option>
@@ -70,13 +70,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row row pt-2 pb-1">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Currency
                                 </label>
                                 <span class="text-danger">*</span>
-                            
+
                                 @component('input::select')
                                     @slot('id', 'currency')
                                     @slot('name', 'currency')
@@ -109,7 +109,7 @@
         </div>
     </div>
 </div>
-    
+
 
 @push('footer-scripts')
 <script src="{{ asset('vendor/courier/frontend/functions/daterange/aging-receivables.js')}}"></script>
@@ -138,7 +138,7 @@
       ajax: {
         url: _url+'/journal/get-account-code-select2',
         dataType: 'json'
-      }    
+      }
     });
 
     modal.find('[name^=vendor]').select2({
@@ -147,7 +147,7 @@
       ajax: {
         url: '{{ route("fa-report.ap.aging.select2.vendor") }}',
         dataType: 'json'
-      }    
+      }
     });
 
     modal.find('[name=location]').select2({

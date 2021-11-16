@@ -166,89 +166,97 @@ let AccountPayable = {
           title: 'Transaction No.',
           sortable: 'asc',
           filterable: !1,
-        },
-        {
-          field: 'ap.date',
-          title: 'Date',
-          sortable: 'asc',
-          filterable: !1,
-        },
+          template: function (data, type, row) {
+            return '<b><p class="text-left mb-0">' + data.ap.date + '</b></p>' + '<p class="text-left text-nowrap mb-0">' + data._transaction_number + '</p>';
+        }},
+        // {
+        //   field: 'ap.date',
+        //   title: 'Date',
+        //   sortable: 'asc',
+        //   filterable: !1,
+        // },
         {
           field: 'currency',
           title: 'Currency',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
         },
         {
           field: 'exchangerate',
           title: 'Exchange Rate',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp ' + number_format.format(parseFloat(t.exchangerate));
-          }
-        },
+            return '<p class="text-right text-nowrap mb-0">' + 'Rp ' + number_format.format(parseFloat(t.exchangerate)) + '</p>';
+        }},
         {
           field: 'si.grandtotal_foreign',
           title: 'Total Amount',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return t.si.currencies.symbol + ' ' + number_format.format(parseFloat(t.si.grandtotal_foreign));
-          }
-        },
+            return '<p class="text-right text-nowrap mb-0">' + t.si.currencies.symbol + ' ' + number_format.format(parseFloat(t.si.grandtotal_foreign)) + '</p>';
+        }},
         {
           field: 'paid_amount',
           title: 'Paid Amount',
+          class: 'text-center',
           sortable: 'asc',
           filterable: !1,
           template: function (t, e, i) {
-            return t.si.currencies.symbol + ' ' + number_format.format(parseFloat(t.paid_amount));
-          }
-        },
+            return '<p class="text-right text-nowrap mb-0">' + t.si.currencies.symbol + ' ' + number_format.format(parseFloat(t.paid_amount)) + '</p>';
+        }},
         {
           field: 'code',
           title: 'Account Code',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
         },
         {
           field: 'debit',
           title: 'Amount to Pay',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return t.si.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit));
-          }
-        },
+            return '<p class="text-right text-nowrap mb-0">' + t.si.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit)) + '</p>';
+        }},
         {
           field: '',
           title: 'Amount to Pay IDR',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp. ' + number_format.format(parseFloat(t.debit_idr));
-          }
-        },
+            return '<p class="text-right text-nowrap mb-0">' + 'Rp. ' + number_format.format(parseFloat(t.debit_idr)) + '</p>';
+        }},
         {
           field: 'exchange_rate_gap',
           title: 'Exchange Rate Gap',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return 'Rp. ' + number_format.format(parseFloat((v = t.apc) ? v.gap : 0));
-          }
-        },
+            return '<p class="text-right text-nowrap mb-0">' + 'Rp. ' + number_format.format(parseFloat((v = t.apc) ? v.gap : 0)) + '</p>';
+        }},
         {
           field: 'description',
           title: 'Description',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
-        },
+          template: function (data, type, row) {
+            return '<p class="text-left mb-0">' + data.description + '</p>';
+        }},
         {
           field: 'actions',
           title: 'Actions',
           sortable: !1,
+          class: 'text-nowrap',
           overflow: 'visible',
           template: function (t, e, i) {
             if (page_type == 'show') {
@@ -308,52 +316,62 @@ let AccountPayable = {
       },
       columns: [
         {
-          field: 'project.code',
-          title: 'Project',
-          sortable: 'asc',
-          filterable: !1,
-          width: '150px'
-        },
-        {
           field: 'code',
           title: 'Account Code',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
-        },
-        {
-          field: 'name',
-          title: 'Account Name',
-          sortable: 'asc',
-          filterable: !1,
-        },
+          template: function (data, type, row) {
+            return '<b><p class="text-left style="width:120px" mb-0"  >' + data.code + '</b><br>' + data.name;
+        }},
+        // {
+        //   field: 'name',
+        //   title: 'Account Name',
+        //   sortable: 'asc',
+        //   filterable: !1,
+        // },
         {
           field: 'debit',
           title: 'Debit',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return t.ap.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit));
+            return '<p class="text-right text-nowrap mb-0">' + t.ap.currencies.symbol + ' ' + number_format.format(parseFloat(t.debit)) + '</p>';
           }
         },
         {
           field: 'credit',
           title: 'Credit',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
           template: function (t, e, i) {
-            return t.ap.currencies.symbol + ' ' + number_format.format(parseFloat(t.credit));
+            return '<p class="text-right text-nowrap mb-0">' + t.ap.currencies.symbol + ' ' + number_format.format(parseFloat(t.credit)) + '</p>';
           }
         },
+        {
+            field: 'project.code',
+            title: 'Project',
+            sortable: 'asc',
+            class: 'text-center text-nowrap mb-0',
+            filterable: !1,
+            width: '150px'
+          },
         {
           field: 'description',
           title: 'Description',
           sortable: 'asc',
+          class: 'text-center',
           filterable: !1,
-        },
+          template: function (data, type, row) {
+            return '<p class="text-left">' + data.description + '</p>';
+        }},
         {
           field: 'actions',
           title: 'Actions',
           sortable: !1,
+          class: 'text-center text-nowrap',
           overflow: 'visible',
           template: function (t, e, i) {
             if (page_type == 'show') {
@@ -487,7 +505,7 @@ let AccountPayable = {
         //   filterable: !1,
         //   template: function (t, e, i) {
         //     return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap))+ '</p>';
-        // }},
+        // }}hide krn cukup menampilkan exchange gap di datatable edit AP aja,
         {
           field: 'description',
           title: 'Description',

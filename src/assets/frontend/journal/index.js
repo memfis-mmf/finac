@@ -31,9 +31,12 @@ let Journal = {
           ],
           columns: [
             {data: 'created_at', visible: false},
-            {data: 'transaction_date_formated', name: 'transaction_date'},
-            {data: 'voucher_no_formated', name: 'voucher_no'},
-            {data: 'ref_no_link', name: 'ref_no'},
+            {data: 'transaction_date_formated', name: 'transaction_date', class: 'text-left text-nowrap',
+            "render": function ( data, type, row, meta ) {
+                return '<b>' + row.transaction_date_formated + '</b><br>' + row.voucher_no_formated ;
+            }},
+            {data: 'voucher_no_formated', name: 'voucher_no', visible:false},
+            {data: 'ref_no_link', name: 'ref_no', class:'text-nowrap'},
             {data: 'currency_code', class: 'text-center', render: function(data, type, row) {
               return row.currency_code.toUpperCase();
             }},
@@ -42,13 +45,45 @@ let Journal = {
 
               return val;
             }},
-            {data: 'type_jurnal.name'},
+            {data: 'type_jurnal.name',
+            "render": function ( data, type, row, meta ) {
+                if (row.type_jurnal.name) {
+                    return `<p class="text-left" style="width:120px">${row.type_jurnal.name}</p>`;
+                }
+                else {
+                    return "-"
+                }
+            }},
             {data: 'total_transaction_formated', name: 'total_transaction', class: 'text-right text-nowrap'},
             {data: 'status', name: 'approve', class: 'text-center'},
-            {data: 'created_by', name: 'created_at'},
-            {data: 'updated_by', name: 'updated_at'},
-            {data: 'approved_by', name: 'approvals.created_at'},
-            {data: 'action', searchable: false},
+            {data: 'created_by', name: 'created_at', class: 'text-center',
+            "render": function ( data, type, row, meta ) {
+                if (row.created_by) {
+                    return `<p class="text-center" style="width:120px">${row.created_by}</p>`;
+                }
+                else {
+                    return "-"
+                }
+            }},
+            {data: 'updated_by', name: 'updated_at', class: 'text-center',
+            "render": function ( data, type, row, meta ) {
+                if (row.updated_by) {
+                    return `<p class="text-center" style="width:120px">${row.updated_by}</p>`;
+                }
+                else {
+                    return "-"
+                }
+            }},
+            {data: 'approved_by', name: 'approvals.created_at', class: 'text-center',
+            "render": function ( data, type, row, meta ) {
+                if (row.approved_by) {
+                    return `<p class="text-center" style="width:120px">${row.approved_by}</p>`;
+                }
+                else {
+                    return "-"
+                }
+            }},
+            {data: 'action', class:'text-nowrap', searchable: false},
           ]
         });
 

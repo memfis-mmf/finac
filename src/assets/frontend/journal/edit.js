@@ -24,22 +24,35 @@ let JournalEdit = {
       column_list = [];
 
       column_list.push(
-          {data: 'coa.code'},
-          {data: 'coa.name'},
-          {data: 'project.code', defaultContent: '-'},
-          {data: 'debit', render: (data, type, row) => {
-            return row.journal.currency.symbol + ' ' + number_format.format(row.debit);
+          {data: 'coa.code',
+          "render": function ( data, type, row, meta ) {
+              return '<b><p class="text-left text-nowrap mb-0">' + row.coa.code + '</b><br>' + row.coa.name + '</p>' ;
           }},
-          {data: 'credit', render: (data, type, row) => {
+        //   {data: 'coa.name'},
+          {data: 'project.code', defaultContent: '-'},
+          {data: 'debit',
+            render: (data, type, row) => {
+                return  '<p class="text-right text-nowrap mb-0">' + row.journal.currency.symbol + ' ' + number_format.format(row.debit) + '</p>';
+          }},
+          {data: 'credit',
+            render: (data, type, row) => {
             $("#total_debit").val(
-              number_format.format(parseFloat(row.total_debit))
+                 number_format.format(parseFloat(row.total_debit))
             );
             $("#total_credit").val(
               number_format.format(parseFloat(row.total_credit))
             );
-            return row.journal.currency.symbol + ' ' + number_format.format(row.credit);
+            return '<p class="text-right text-nowrap mb-0">' + row.journal.currency.symbol + ' ' + number_format.format(row.credit) + '</p>';
           }},
-          {data: 'description_formated'}
+          {data: 'description_formated', class: 'text-center',
+          "render": function ( data, type, row, meta ) {
+              if (row.description_formated) {
+                  return `<p class="text-left" style="width:150px">${row.description_formated}</p>`;
+              }
+              else {
+                  return "-"
+              }
+            }},
       );
 
       if (page_type != 'show') {
@@ -51,7 +64,7 @@ let JournalEdit = {
               '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
               row.uuid +
               ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
-              
+
 
             return (_html);
           }}
@@ -63,7 +76,7 @@ let JournalEdit = {
           }},
         );
       }
-      
+
       let account_code_table = $('.accountcode_datatable').DataTable({
         dom: '<"top"f>rt<"bottom">pil',
         scrollX: true,
