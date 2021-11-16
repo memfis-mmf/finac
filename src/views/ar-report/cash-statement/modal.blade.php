@@ -8,19 +8,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form 
-                  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" 
-                  id="AdjustmentForm" 
+                <form
+                  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
+                  id="AdjustmentForm"
                   action="{{url('/fa-report/cash-statement')}}">
 
                     <div class="m-portlet__body">
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row pt-0 pb-0">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Date
                                 </label>
                                 <span class="text-danger">*</span>
-                            
+
                                 @component('input::text')
                                     @slot('id', 'daterange')
                                     @slot('name', 'daterange')
@@ -28,13 +28,13 @@
                                 @endcomponent
                             </div>
                         </div>
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row pt-1 pb-2">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Cash Account
                                 </label>
                                 <span class="text-danger">*</span>
-                            
+
                                 <select class="_select2 form-control" name="coa" style="width:100%">
                                     <option value=""></option>
                                 </select>
@@ -44,13 +44,20 @@
                                     Currency
                                 </label>
                                 <span class="text-danger">*</span>
-                            
-                                @component('input::select')
+
+                                <select class="_select2 form-control" name="currency" style="width:100%">
+                                    <option value=""></option>
+                                    @foreach ($data_currency as $data_currency_row)
+                                      <option value="{{ $data_currency_row->id }}">{{ "($data_currency_row->symbol) $data_currency_row->name" }}</option>
+                                    @endforeach
+                                </select>
+
+                                {{-- @component('input::select')
                                     @slot('id', 'currency_id')
                                     @slot('name', 'currency')
                                     @slot('class', 'currency')
                                     @slot('id_error', 'currency')
-                                @endcomponent
+                                @endcomponent --}}
                             </div>
                         </div>
                     </div>
@@ -104,7 +111,7 @@
         ajax: {
           url: _url+'/journal/get-account-code-select2',
           dataType: 'json'
-        }    
+        }
       });
     });
 

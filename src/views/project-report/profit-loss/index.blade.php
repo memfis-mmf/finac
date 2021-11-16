@@ -71,7 +71,7 @@
                                         @endcomponent
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row ">
+                                <div class="form-group m-form__group row pt-0 pb-0">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <fieldset class="border p-3">
                                             <legend class="w-auto font-weight-bold text-primary">Enter COGS Value</legend>
@@ -80,7 +80,7 @@
                                                     <label class="form-control-label">
                                                         Manhour COGS
                                                     </label>
-        
+
                                                     @component('input::number')
                                                         @slot('id', 'manhour')
                                                         @slot('text', 'Manhour COGS')
@@ -93,7 +93,7 @@
                                                     <label class="form-control-label">
                                                         Hangar Space COGS
                                                     </label>
-        
+
                                                     @component('input::number')
                                                         @slot('id', 'hangar_space')
                                                         @slot('text', 'Hangar Space COGS')
@@ -101,13 +101,13 @@
                                                         @slot('id_error', 'hangar_space')
                                                     @endcomponent
                                                 </div>
-                                            </div>  
+                                            </div>
                                             <div class="form-group m-form__group row ">
                                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                                     <label class="form-control-label">
                                                         Parking Area COGS
                                                     </label>
-        
+
                                                     @component('input::number')
                                                         @slot('id', 'parking_area')
                                                         @slot('text', 'Parking Area COGS')
@@ -119,7 +119,7 @@
                                                     <label class="form-control-label">
                                                         Other Expense
                                                     </label>
-        
+
                                                     @component('input::number')
                                                         @slot('id', 'other_expense')
                                                         @slot('text', 'Other Expense')
@@ -127,7 +127,7 @@
                                                         @slot('id_error', 'other_expense')
                                                     @endcomponent
                                                 </div>
-                                            </div>  
+                                            </div>
                                             <i class="fa fa-info-circle fa-4x text-danger"></i>
                                             <span class="text-danger">All Amount Should be in IDR</span>
                                         </fieldset>
