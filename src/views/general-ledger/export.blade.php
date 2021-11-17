@@ -42,6 +42,10 @@
         @foreach ($items['data'] as $index => $item)
         @php
             $number++;
+            $total_foreign += (($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate;
+            $total_debit += $item->Debit;
+            $total_credit += $item->Credit;
+            $total_ending_balance += $item->endingBalance;
         @endphp
         <tr>
             <td>{{ $number }}</td>
@@ -61,15 +65,21 @@
             <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
         </tr>
         @endforeach
-        {{-- @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
-        <tr>
-            <td colspan="6">Total {{ strtoupper($total_foreign_row['currency']->code) }}</td>
-            <td colspan="2">{{ $total_foreign_row['currency']->symbol }} {{ $controller->currency_format($total_foreign_row['amount']) }}</td>
-            <td>Rp {{ $controller->currency_format($items['total']['local']['Total Debit']) }}</td>
-            <td>Rp {{ $controller->currency_format($items['total']['local']['Total Credit']) }} </td>
-            <td>Rp {{ $controller->currency_format($items['total']['local']['Total Ending Balance']) }}</td>
-        </tr>
-        @endforeach --}}
     @endforeach
+      <tr>
+        <td>{{ $number }}</td>
+        <td></td>
+        <td>Total</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{ $total_foreign }}</td>
+        <td></td>
+        <td>{{ $total_debit }}</td>
+        <td>{{ $total_credit }}</td>
+        <td>{{ $total_ending_balance }}</td>
+      </tr>
   </tbody>
 </table>
