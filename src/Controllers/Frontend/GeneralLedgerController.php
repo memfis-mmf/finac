@@ -227,17 +227,24 @@ class GeneralLedgerController extends Controller
 
             $journal_ref = TrxJournal::where('voucher_no', $item->VoucherNo)->first();
             $project_number = null;
+            $po_number = null;
             if ($journal_ref) {
 
                 $project = @$journal_ref->ref_collection->project;
+                $purchase_order = @$journal_ref->ref_collection->purchase_order;
 
                 if ($project) {
                     $project_number = $project->code;
+                }
+
+                if ($purchase_order) {
+                    $po_number = $purchase_order->number;
                 }
             }
 
             $data[$index]->voucher_linked = '<a href="'.$link.'">'.$item->VoucherNo.'</a>';
             $data[$index]->project_number = $project_number;
+            $data[$index]->po_number = $po_number;
             $data[$index]->foreign_total = (($data[$index]->Debit != 0)? $data[$index]->Debit: $data[$index]->Credit) / ($data[$index]->rate);
 
             $ending_balance = $item->endingBalance;
