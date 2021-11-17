@@ -8,19 +8,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form 
-                  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" 
-                  id="AdjustmentForm" 
+                <form
+                  class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
+                  id="AdjustmentForm"
                   action="{{url('/fa-report/bank-statement')}}">
 
                     <div class="m-portlet__body">
-                        <div class="form-group m-form__group row">
+                        <div class="form-group m-form__group row pt-0 pb-0">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Date
                                 </label>
                                 <span class="text-danger">*</span>
-                            
+
                                 @component('input::datepicker')
                                     @slot('id', 'daterange')
                                     @slot('name', 'daterange')
@@ -86,7 +86,7 @@
         ajax: {
           url: _url+'/fa-report/cash-statement/select2-bank-account',
           dataType: 'json'
-        }    
+        }
       });
     });
 

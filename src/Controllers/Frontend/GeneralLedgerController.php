@@ -491,7 +491,11 @@ class GeneralLedgerController extends Controller
             'endingDate' => $endingDate,
             'coa' => $coa,
             'carbon' => Carbon::class,
-            'controller' => new Controller()
+            'controller' => new Controller(),
+            'total_foreign' => 0,
+            'total_debit' => 0,
+            'total_credit' => 0,
+            'total_ending_balance' => 0,
         ];
 
         return Excel::download(new GLExport($data), 'GL.xlsx');

@@ -26,7 +26,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 pl-5">
-                                <h2 class="text-primary">Additional Filter</h2>
+                                <h5 class="text-primary">Additional Filter</h5>
                             </div>
                         </div>
                         <div class="form-group m-form__group row row pt-1 pb-0">
@@ -43,7 +43,7 @@
                                 @endcomponent
                             </div>
                         </div>
-                        <div class="form-group m-form__group row row pt-1 pb-1">
+                        <div class="form-group m-form__group row row pt-1 pb-2">
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label class="form-control-label">
                                     Department
@@ -77,11 +77,18 @@
                                 </label>
                                 <span class="text-danger">*</span>
 
-                                @component('input::select')
+                                <select class="_select2 form-control" name="currency" style="width:100%">
+                                    <option value=""></option>
+                                    @foreach ($data_currency as $data_currency_row)
+                                      <option value="{{ $data_currency_row->id }}">{{ "($data_currency_row->symbol) $data_currency_row->name" }}</option>
+                                    @endforeach
+                                </select>
+
+                                {{-- @component('input::select')
                                     @slot('id', 'currency')
                                     @slot('name', 'currency')
                                     @slot('id_error', 'currency')
-                                @endcomponent
+                                @endcomponent --}}
                             </div>
                         </div>
                     </div>

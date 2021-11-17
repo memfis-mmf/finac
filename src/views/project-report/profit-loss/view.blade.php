@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-<div class="m-content">    
+<div class="m-content">
     <div class="row">
         <div class="col-md-4">
             <div class="m-portlet m-portlet--full-height ">
@@ -53,7 +53,7 @@
                             <td><b>{{ $main_project->code }}</b></td>
                         </tr>
                         <tr valign="top">
-                            <td width="30%">Quotaion No</td>
+                            <td width="30%">Quotation No</td>
                             <td width="1%">:</td>
                             <td><b>{{ $main_project->quotation->number ?? '' }}</b></td>
                         </tr>
@@ -152,7 +152,7 @@
                                     <span class="m-widget__legend-text text-primary">{{ $total_revenue_percent }}%</span>
                                 </div>
                             </div>
-                            <p>Income Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR {{ number_format($total_revenue, 2, ',', '.') }}</span></p> 
+                            <p>Income Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR {{ number_format($total_revenue, 2, ',', '.') }}</span></p>
                         </div>
                         <div class="col-6 text-primary" style="border-left:1px solid black;">
                             <div class="m-widget__legends">
@@ -161,7 +161,7 @@
                                     <span class="m-widget__legend-text text-primary">{{ $total_expense_percent }}%</span>
                                 </div>
                             </div>
-                            <p>Expense Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR {{ number_format($total_expense, 2, ',', '.') }}</span></p> 
+                            <p>Expense Total : <br> <span class="font-weight-bold" style="font-size:16px">IDR {{ number_format($total_expense, 2, ',', '.') }}</span></p>
                         </div>
                     </div>
                 </div>
@@ -209,7 +209,7 @@
                 </div>
             </div>
         </div>
-    
+
     </div>
     <div class="row">
         <div class="col-xl-5">
@@ -250,7 +250,7 @@
                                                         <span class="m-nav__link-text">Print Document</span>
                                                         </a>
                                                     </li>
-                                                    
+
                                                 </ul>
                                             </div>
                                         </div>
