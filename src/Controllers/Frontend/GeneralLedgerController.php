@@ -485,13 +485,26 @@ class GeneralLedgerController extends Controller
 
         }
 
+        foreach ($data_coa as $items) {
+            foreach ($items['total']['local'] as $total_local_index => $total_local_row) {
+                $total_local_row;
+            }
+
+            foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row) {
+                $total_foreign_row['amount'];
+            }
+        }
+
         $data = [
             'data' => $data_coa,
             'beginDate' => $beginDate,
             'endingDate' => $endingDate,
             'coa' => $coa,
             'carbon' => Carbon::class,
-            'controller' => new Controller()
+            'controller' => new Controller(),
+            'total_foreign' => 0,
+            'total_debit' => 0,
+            'total_credit' => 0,
         ];
 
         return Excel::download(new GLExport($data), 'GL.xlsx');
