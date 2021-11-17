@@ -15,7 +15,7 @@
 >
 
     <span>
-        <i class="fa {{ $icon ?? 'fa-save' }}"></i>
+        <i class="{{ $iconlibrary ?? 'fa' }} {{ $icon ?? 'fa-save' }}"></i>
 
         <span>{{ $text ?? 'Save New' }}</span>
     </span>

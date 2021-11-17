@@ -49,7 +49,8 @@
                                             @slot('type', 'submit')
                                             @slot('color','primary')
                                             @slot('text','View')
-                                            @slot('icon','fa-search')
+                                            @slot('iconlibrary','la')
+                                            @slot('icon','la-external-link-square')
                                         @endcomponent
 
                                         @include('buttons::close')

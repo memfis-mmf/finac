@@ -80,7 +80,7 @@
 
                     <button data-href="{{ route('supplier-trial-balance-export') }}" type="button" class="btn btn-success btn-md export-to-excel">
                       <span>
-                        <i class="fa fa-file-download"></i>
+                        <i class="far fa-file-excel"></i>
                         <span>Export</span>
                       </span>
                     </button>
@@ -90,7 +90,8 @@
                     @slot('type', 'submit')
                     @slot('text', 'View')
                     @slot('color','primary')
-                    @slot('icon','fa-search')
+                    @slot('iconlibrary','la')
+                    @slot('icon','la-external-link-square')
                     @endcomponent
 
                     @include('buttons::reset')
