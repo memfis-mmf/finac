@@ -27,9 +27,14 @@
       <th>Debit</th>
       <th>Credit</th>
       <th>Ending Balance</th>
+      <th>Project Number</th>
+      <th>Purchase Order Number</th>
     </tr>
   </thead>
   <tbody>
+    @php
+        $number = 0
+    @endphp
     @foreach ($data as $items)
         @if (! isset($items['data'][0]->AccountCode))
         @php
@@ -37,8 +42,15 @@
         @endphp
         @endif
         @foreach ($items['data'] as $index => $item)
+        @php
+            $number++;
+            $total_foreign += (($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate;
+            $total_debit += $item->Debit;
+            $total_credit += $item->Credit;
+            $total_ending_balance += $item->endingBalance;
+        @endphp
         <tr>
-            <td>{{ $index + 1 }}</td>
+            <td>{{ $number }}</td>
             <td>{{$items['data'][0]->AccountCode}}</td>
             <td>{{$items['data'][0]->Name}}</td>
             <td>{{ $carbon::parse($item->TransactionDate)->format('d/m/Y') }}</td>
@@ -53,40 +65,27 @@
             <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
             <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
             <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
-        </tr>
-        @endforeach
-        @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
-        <tr>
-            <td colspan="6">Total {{ strtoupper($total_foreign_row['currency']->code) }}</td>
-            <td colspan="2">{{ $total_foreign_row['currency']->symbol }} {{ $controller->currency_format($total_foreign_row['amount']) }}</td>
-            <td>Rp {{ $controller->currency_format($items['total']['local']['Total Debit']) }}</td>
-            <td>Rp {{ $controller->currency_format($items['total']['local']['Total Credit']) }} </td>
-            <td>Rp {{ $controller->currency_format($items['total']['local']['Total Ending Balance']) }}</td>
+            <td>{{$item->project_number}}</td>
+            <td>{{$item->po_number}}</td>
         </tr>
         @endforeach
     @endforeach
+      <tr>
+        <td>{{ $number }}</td>
+        <td></td>
+        <td>Total</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{ $total_foreign }}</td>
+        <td></td>
+        <td>{{ $total_debit }}</td>
+        <td>{{ $total_credit }}</td>
+        <td>{{ $total_ending_balance }}</td>
+        <td></td>
+        <td></td>
+      </tr>
   </tbody>
 </table>
-
-{{-- <table class="table" style="border: none">
-  @foreach ($items['total']['local'] as $total_local_index => $total_local_row)
-    <tr>
-      <td style="width: 1px; white-space: nowrap">Total {{ $total_local_index }}</td>
-      <td style="width: 1px">:</td>
-      <td style="width: 1px;">Rp </td>
-      <td style="text-align: right">{{ $controller->currency_format($total_local_row) }}</td>
-    </tr>
-  @endforeach
-  @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
-    <tr>
-      <td style="width: 1px; white-space: nowrap">Total {{ strtoupper($total_foreign_row['currency']->code) }}</td>
-      <td style="width: 1px">:</td>
-      <td style="width: 1px;">{{ $total_foreign_row['currency']->symbol }}</td>
-      <td style="text-align: right">{{ $controller->currency_format($total_foreign_row['amount']) }}</td>
-    </tr>
-  @endforeach
-
-</table> --}}
-{{-- <table></table>
-<table></table> --}}
-
