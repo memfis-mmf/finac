@@ -45,19 +45,19 @@
                                 </label>
                                 <span class="text-danger">*</span>
 
-                                <select class="_select2 form-control" name="currency" style="width:100%">
+                                {{-- <select class="_select2 form-control" name="currency" style="width:100%">
                                     <option value=""></option>
                                     @foreach ($data_currency as $data_currency_row)
                                       <option value="{{ $data_currency_row->id }}">{{ "($data_currency_row->symbol) $data_currency_row->name" }}</option>
                                     @endforeach
-                                </select>
+                                </select> --}}
 
-                                {{-- @component('input::select')
+                                @component('input::select')
                                     @slot('id', 'currency_id')
                                     @slot('name', 'currency')
                                     @slot('class', 'currency')
                                     @slot('id_error', 'currency')
-                                @endcomponent --}}
+                                @endcomponent
                             </div>
                         </div>
                     </div>

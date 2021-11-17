@@ -50,38 +50,35 @@
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <h3>
+                                    <h5>
                                         Date Period
                                         {{date('d/m/y', strtotime($beginDate))}} -
                                         {{date('d/m/y', strtotime($endingDate))}}
-                                    </h3>
+                                    </h5>
                                 </div>
                             </div>
-                            <div class="form-group m-form__group row ">
+                            <div class="form-group m-form__group row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <table width="100%" cellpadding="8">
-                                        <tr style="background:#5f6b5e; color:white;font-weight: bold;">
-                                            <td width="18%">Account Code</td>
-                                            <td width="52%" align="center">Account Name</td>
+                                        <tr class="pb-0" style="background:#5f6b5e; color:white;font-weight: bold;">
+                                            <td width="18%" align="left">Account Code</td>
+                                            <td width="52%" align="left">Account Name</td>
                                             <td width="30%" align="center">Total Balance</td>
                                         </tr>
                                         {{-- spasi --}}
                                         <tr>
                                             <td width="18%" colspan="3"></td>
                                         </tr>
-                                        <tr>
-                                            <td width="18%" colspan="3"></td>
-                                        </tr>
                                         {{-- Activa --}}
                                         <tr style="color:blue;font-weight: bold;">
-                                            <td width="18%" colspan="3"><h3>ACTIVA</h3></td>
+                                            <td class="pt-0" width="18%" colspan="3"><h5>ACTIVA</h5></td>
                                         </tr>
                                         @for ($index_activa=0; $index_activa < count($data['activa']); $index_activa++)
                                             @php
                                                 $arr = $data['activa'][$index_activa];
                                             @endphp
                                             <tr style="font-weight: bold; border-bottom:1px solid black">
-                                                <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+                                                <td class="pt-0 pb-0" width="18%" colspan="3"><h5>{{$arr->name}}</h5></td>
                                             </tr>
                                             @for ($index_child=0; $index_child < count($arr->child); $index_child++)
                                                 @php
@@ -90,13 +87,16 @@
                                                 <tr>
                                                     <td width="18%">{{$arr2->code}}</td>
                                                     <td width="52%">{{$arr2->name}}</td>
-                                                    <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+                                                    <td width="30%" align="right">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
                                                 </tr>
-                                                                                @endfor
+                                                @endfor
                                                 <tr style="background:#cfcfcf;font-weight: bold;">
-                                                    <td width="38%"><h5>Total {{$arr->name}}</h5></td>
+                                                    <td width="38%">Total {{$arr->name}}</td>
                                                     <td width="32%" align="center"></td>
-                                                    <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+                                                    <td class="pb-1" width="30%" align="right">{{number_format($arr->total, '0', '0', '.')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="18%" colspan="3"></td>
                                                 </tr>
                                             @endfor
                                             {{-- spasi --}}
@@ -108,9 +108,9 @@
                                             </tr>
                                             {{-- total Activa --}}
                                             <tr style="background:#add8f7;font-weight: bold;">
-                                                <td width="18%"><h5>Total Assets</h5></td>
+                                                <td class="pb-1" width="18%"><h5>Total Assets</h5></td>
                                                 <td width="52%" align="center"></td>
-                                                <td width="30%" align="center">{{number_format($totalActiva, 0, ',', '.')}}</td>
+                                                <td class="text-right pb-2" width="30%" align="right">{{number_format($totalActiva, 0, ',', '.')}}</td>
                                             </tr>
 
                                             {{-- spasi --}}
@@ -123,14 +123,14 @@
 
                                             {{-- Pasiva --}}
                                             <tr style="color:blue;font-weight: bold;">
-                                                <td width="18%" colspan="3"><h3>PASIVA & EQUITY</h3></td>
+                                                <td class="pt-0" width="18%" colspan="3"><h5>PASIVA & EQUITY</h5></td>
                                             </tr>
                                             @for ($index_activa=0; $index_activa < count($data['pasiva']); $index_activa++)
                                                 @php
                                                     $arr = $data['pasiva'][$index_activa];
                                                 @endphp
                                                 <tr style="font-weight: bold; border-bottom:1px solid black">
-                                                    <td width="18%" colspan="3"><h3>{{$arr->name}}</h3></td>
+                                                    <td class="pt-0 pb-0" width="18%" colspan="3"><h5>{{$arr->name}}</h5></td>
                                                 </tr>
                                                 @for ($index_child=0; $index_child < count($arr->child); $index_child++)
                                                     @php
@@ -139,13 +139,16 @@
                                                     <tr>
                                                         <td width="18%">{{$arr2->code}}</td>
                                                         <td width="52%">{{$arr2->name}}</td>
-                                                        <td width="30%" align="center">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
+                                                        <td width="30%" align="right">{{number_format($arr2->CurrentBalance, '0', '0', '.')}}</td>
                                                     </tr>
                                             @endfor
                                             <tr style="background:#cfcfcf;font-weight: bold;">
-                                                <td width="18%"><h5>Total {{$arr->name}}</h5></td>
+                                                <td class="pb-1" width="18%">Total {{$arr->name}}</td>
                                                 <td width="52%" align="center"></td>
-                                                <td width="30%" align="center">{{number_format($arr->total, '0', '0', '.')}}</td>
+                                                <td class="pb-2" width="30%" align="right">{{number_format($arr->total, '0', '0', '.')}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="18%" colspan="3"></td>
                                             </tr>
                                         @endfor
                                         {{-- spasi --}}
@@ -157,9 +160,9 @@
                                         </tr>
                                         {{-- total Activa --}}
                                         <tr style="background:#add8f7;font-weight: bold;">
-                                            <td width="18%"><h5>Total Liabilitie & Equities</h5></td>
+                                            <td class="pb-1" width="18%"><h5>Total Liabilities & Equity</h5></td>
                                             <td width="52%" align="center"></td>
-                                            <td width="30%" align="center">{{number_format($totalPasiva, 0, ',', '.')}}</td>
+                                            <td class="pb-2" width="30%" align="right">{{number_format($totalPasiva, 0, ',', '.')}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -167,8 +170,18 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <div class="action-buttons">
-                                      <a href="{{route('balancesheet.export').'?daterange='.Request::get('daterange')}}" class="btn btn-primary">Export to excel</a>
-                                      <a href="{{route('balancesheet.print').'?daterange='.Request::get('daterange')}}" class="btn btn-primary">Print</a>
+                                        <a href="{{route('balancesheet.export').'?daterange='.Request::get('daterange')}}" class="btn btn-success">
+                                            <span>
+                                                <i class="export far fa-file-excel ml-2"></i>
+                                                <span class="ml-1">Export to excel</span>
+                                            </span>
+                                        </a>
+                                        <a href="{{route('balancesheet.print').'?daterange='.Request::get('daterange')}}" class="btn btn-info">
+                                            <span>
+                                                <i class="la la-print"></i>
+                                                <span>Print</span>
+                                            </span>
+                                        </a>
                                       @include('buttons::back')
                                     </div>
                                 </div>

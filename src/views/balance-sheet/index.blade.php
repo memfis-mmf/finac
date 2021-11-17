@@ -29,7 +29,7 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-8 order-2 order-xl-1">
                                     <div class="form-group m-form__group row align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-sm-5 col-md-5 col-lg-5">
                                             <div class="m-input-icon m-input-icon--left">
                                                 <label class="form-control-label">
                                                     Select Period
@@ -43,6 +43,7 @@
                                         </div>
                                         <a href="javascript:;" class="view btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md">
                                             <span>
+                                                <i class="la la-external-link-square"></i>
                                                 <span>View Balance Sheet</span>
                                             </span>
                                         </a>

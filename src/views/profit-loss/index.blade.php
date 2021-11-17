@@ -29,7 +29,7 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-8 order-2 order-xl-1">
                                     <div class="form-group m-form__group row align-items-center">
-                                        <div class="col-md-5">
+                                        <div class="col-sm-5 col-md-5 col-lg-5">
                                             <div class="m-input-icon m-input-icon--left">
                                                 <label class="form-control-label">
                                                     Select Period
@@ -41,10 +41,11 @@
                                                 @endcomponent
                                             </div>
                                         </div>
-                                        <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="Button group with nested dropdown">
-                                            <a href="javascript:;" data-href="{{url('profit-loss/view-pl')}}" class="m-btn btn btn-primary view-pl">
+                                        <div>
+                                            <a href="javascript:;" data-href="{{url('profit-loss/view-pl')}}" class="m-btn btn m-btn--pill m-btn--icon btn-primary view-pl">
                                                 <span>
-                                                <span>View Profit & Loss </span>
+                                                    <i class="la la-external-link-square"></i>
+                                                    <span>View Profit & Loss</span>
                                                 </span>
                                             </a>
                                             {{-- <a href="javascript:;" data-href="{{url('profit-loss/detail-pl')}}" class="btn btn-primary m-btn m-btn--pill-last detail-pl">

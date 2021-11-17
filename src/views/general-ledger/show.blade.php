@@ -155,7 +155,7 @@
                         <td style="width: 1px">:</td>
                         <td style="width: 1px; background: #f4f5f8">Rp </td>
                         <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_local_row) }}</td>
-                      </tr>   
+                      </tr>
                     @endforeach
                     @foreach ($items['total']['foreign'] as $total_foreign_index => $total_foreign_row)
                       <tr>
@@ -163,7 +163,7 @@
                         <td style="width: 1px">:</td>
                         <td style="width: 1px; background: #f4f5f8">{{ $total_foreign_row['currency']->symbol }}</td>
                         <td class="text-right" style="background: #f4f5f8">{{ $controller->currency_format($total_foreign_row['amount']) }}</td>
-                      </tr>   
+                      </tr>
                     @endforeach
 
                   </table>
@@ -175,17 +175,17 @@
               <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
 
                 <div class="action-buttons">
-                  <a href="{{route('general_ledger.print')}}?data={{Request::get('data')}}&date={{Request::get('date')}}"
-                    class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md">
-                    <span>
-                      <i class="la la-file"></i>
+                  {{-- <a href="{{route('general_ledger.print')}}?data={{Request::get('data')}}&date={{Request::get('date')}}"
+                    class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md">
+                    <span> Finance ga btuh print outnya
+                      <i class="la la-print"></i>
                       <span>Print</span>
                     </span>
-                  </a>
+                  </a> --}}
                   <a href="{{route('general_ledger.export')}}?data={{Request::get('data')}}&date={{Request::get('date')}}"
                     class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md">
                     <span>
-                      <i class="la la-file"></i>
+                      <i class="far fa-file-excel"></i>
                       <span>Export to Excel</span>
                     </span>
                   </a>

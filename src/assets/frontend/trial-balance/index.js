@@ -70,14 +70,15 @@ let TrialBalance = {
                     field: 'code',
                     title: 'Account Code',
                     sortable: 'asc',
+                    class: 'text-center text-nowrap',
                     filterable: !1,
-                    width: 90,
+                    width: 100,
                     template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
-                            return '<b>' + t.code + '</b>';
+                            return '<b>'  + t.code + '</b>';
                         }
                         else
-                            return t.code;
+                            return  t.code ;
 
                     }
                 },
@@ -85,14 +86,14 @@ let TrialBalance = {
                     field: 'name',
                     title: 'Account Name',
                     sortable: 'asc',
+                    class: 'text-center',
                     filterable: !1,
-                    width: 300,
                     template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
-                            return '<b>' + t.name + '</b>';
+                            return '<b><p class="text-left">' + t.name + '</p></b>';
                         }
                         else
-                            return t.name;
+                            return '<p class="text-left">' + t.name + '</p>';
 
                     }
                 },
@@ -100,14 +101,15 @@ let TrialBalance = {
                     field: 'LastBalance',
                     title: 'Begining Balance',
                     sortable: 'asc',
+                    class: 'text-center',
                     filterable: !1,
                     width: 180,
                     template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
-                            return '<b>' + addCommas(parseInt(t.LastBalance)) + '</b>';
+                            return '<b><p class="text-right text-nowrap">' + addCommas(parseInt(t.LastBalance)) + '</p></b>';
                         }
                         else
-                            return addCommas(parseInt(t.LastBalance));
+                            return '<p class="text-right text-nowrap">' + addCommas(parseInt(t.LastBalance)) + '</p>';
 
                     }
                 },
@@ -115,14 +117,15 @@ let TrialBalance = {
                     field: 'Debit',
                     title: 'Debit',
                     sortable: 'asc',
+                    class: 'text-center',
                     filterable: !1,
                     width: 180,
                     template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
-                            return '<b>' + addCommas(parseInt(t.Debit)) + '</b>';
+                            return '<b><p class="text-right text-nowrap">' + addCommas(parseInt(t.Debit)) + '</p></b>';
                         }
                         else
-                            return addCommas(parseInt(t.Debit));
+                            return '<p class="text-right text-nowrap">' + addCommas(parseInt(t.Debit)) + '</p>';
 
                     }
                 },
@@ -130,14 +133,15 @@ let TrialBalance = {
                     field: 'Credit',
                     title: 'Credit',
                     sortable: 'asc',
+                    class: 'text-center',
                     filterable: !1,
                     width: 180,
 					template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
-                            return '<b>' + addCommas(parseInt(t.Credit)) + '</b>';
+                            return '<b><p class="text-right text-nowrap">' + addCommas(parseInt(t.Credit)) + '</p></b>';
                         }
                         else
-                            return addCommas(parseInt(t.Credit));
+                            return '<p class="text-right text-nowrap">' + addCommas(parseInt(t.Credit)) + '</p>';
 
                     }
                 },
@@ -149,10 +153,10 @@ let TrialBalance = {
                     width: 180,
 					template: function(t, e, i) {
                         if (t.code.slice(-2) == '00') {
-                            return '<b>' + addCommas(parseInt(t.EndingBalance)) + '</b>';
+                            return '<b><p class="text-right text-nowrap">' + addCommas(parseInt(t.EndingBalance)) + '</p></b>';
                         }
                         else
-                            return addCommas(parseInt(t.EndingBalance));
+                            return '<p class="text-right text-nowrap">' + addCommas(parseInt(t.EndingBalance)) + '</p>';
 
                     }
                 },
