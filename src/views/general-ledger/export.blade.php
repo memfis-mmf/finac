@@ -27,6 +27,7 @@
       <th>Debit</th>
       <th>Credit</th>
       <th>Ending Balance</th>
+      <th>Project Number</th>
     </tr>
   </thead>
   <tbody>
@@ -63,6 +64,7 @@
             <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
             <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
             <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
+            <td>{{$item->project_number}}</td>
         </tr>
         @endforeach
     @endforeach
@@ -80,6 +82,7 @@
         <td>{{ $total_debit }}</td>
         <td>{{ $total_credit }}</td>
         <td>{{ $total_ending_balance }}</td>
+        <td></td>
       </tr>
   </tbody>
 </table>
