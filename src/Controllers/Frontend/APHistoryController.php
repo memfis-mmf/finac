@@ -44,7 +44,7 @@ class APHistoryController extends Controller
                     $supplier_invoice->where('approve', true);
                 }
             ])
-            ->whereHas('supplier_invoice', function($supplier_invoice) use($request, $department, $date) {
+            ->whereHas('supplier_invoice', function($supplier_invoice) use($request, $currency, $date) {
                 $supplier_invoice->where('approve', true)
                     ->whereBetween('transaction_date', $date);
 
@@ -53,7 +53,7 @@ class APHistoryController extends Controller
                 }
 
                 if ($request->currency) {
-                    $supplier_invoice = $supplier_invoice->where('currency', $request->currency);
+                    $supplier_invoice = $supplier_invoice->where('currency', $currency->code);
                 }
             })
             ->get()
