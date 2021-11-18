@@ -5,9 +5,9 @@
 <div class="m-subheader hidden">
     <div class="d-flex align-items-center">
         <div class="mr-auto">
-            <h3 class="m-subheader__title m-subheader__title--separator">
+            <h5 class="m-subheader__title m-subheader__title--separator">
                 View Profit & Loss
-            </h3>
+            </h5>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
                     <a href="" class="m-nav__link m-nav__link--icon">
@@ -39,143 +39,136 @@
                                 <i class="la la-gear"></i>
                             </span>
 
-                            <h3 class="m-portlet__head-text">
+                            <h5 class="m-portlet__head-text">
                                 View Profit & Loss
-                            </h3>
+                            </h5>
                         </div>
                     </div>
                 </div>
                 <div class="m-portlet m-portlet--mobile">
-                    <div class="m-portlet__body">
+                    <div class="m-portlet__body p-2">
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <h3>Date Period {{ date('d/m/y', strtotime($beginDate)) }} -
-                                        {{ date('d/m/y', strtotime($endingDate)) }}</h3>
+                                    <h5>Date Period {{ date('d/m/y', strtotime($beginDate)) }} -
+                                        {{ date('d/m/y', strtotime($endingDate)) }}</h5>
                                 </div>
                             </div>
-                            <div class="form-group m-form__group row ">
+                            <div class="form-group m-form__group row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <table width="100%" cellpadding="8">
-                                        <tr style="background:#5f6b5e; color:white;font-weight: bold;font-size:16px">
-                                            <td width="25%">Account Code</td>
-                                            <td width="35%">Account Name</td>
-                                            <td width="20%" align="right">Period</td>
-                                            <td width="20%" align="right">Accumulated (Year to date)</td>
+                                        <tr style="background:#5f6b5e; color:white;font-weight: bold;font-size:14px">
+                                            <td width="25%" class="text-left">Account Code</td>
+                                            <td width="35%" class="text-left">Account Name</td>
+                                            <td width="20%" class="text-center">Period</td>
+                                            <td class= "text-nowrap" width="20%" align="center">Accumulated (Year to date)</td>
                                         </tr>
-                                        @for ($a=0; $a < count($data['pendapatan']); $a++) @php
-                                            $x=$data['pendapatan'][$a]; 
-                                        @endphp 
-                                        <tr style="font-weight: bold; border-bottom:1px solid black; font-size:16px">
+                                            @for ($a=0; $a < count($data['pendapatan']); $a++) @php
+                                            $x=$data['pendapatan'][$a];
+                                            @endphp
+                                        <tr style="font-weight: bold; border-bottom:1px solid black; font-size:14px">
+                                            <td width="25%">{{$x->name}}</td>
+                                            <td width="35%"></td>
+                                            <td width="20%" class="text-right text-nowrap">
+                                                {{number_format($x->CurrentBalance, 0, ',', '.')}}
+                                            </td>
+                                            <td width="20%" class="text-right text-nowrap">
+                                                {{number_format($x->EndingBalance, 0, ',', '.')}}
+                                            </td>
+                                        </tr>
+                                            @for ($b=0; $b < count($x->child); $b++)
+                                            @php
+                                            $y = $x->child[$b];
+                                            @endphp
+                                        <tr>
+                                            <td width="25%">{{$y->code}}</td>
+                                            <td width="35%">{{$y->name}}</td>
+                                            <td width="20%" align="right">
+                                                {{number_format($y->CurrentBalance, 0, ',', '.')}}
+                                            </td>
+                                            <td width="20%" align="right">
+                                                {{number_format($y->EndingBalance, 0, ',', '.')}}
+                                            </td>
+                                        </tr>
+                                            @endfor
+                                            @endfor
+                                        <tr>
+                                            <td colspan="4"></td>
+                                        </tr>
+                                        <tr style="background:#add8f7;font-weight: bold;font-size:14px">
+                                            <td width="25%">
+                                                    Total Revenue
+                                            </td>
+                                            <td width="35%"></td>
+                                            <td width="20%" align="right">
+                                                {{number_format($pendapatan_accumulated, 0, ',', '.')}}
+                                            </td>
+                                            <td width="20%" align="right">
+                                                {{number_format($pendapatan_period, 0, ',', '.')}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"></td>
+                                        </tr>
+                                            {{-- Biaya --}}
+                                            @for ($a=0; $a < count($data['biaya']); $a++) @php
+                                                $x=$data['biaya'][$a]; @endphp
+                                        <tr style="font-weight: bold; border-bottom:1px solid black; font-size:14px">
                                             <td width="25%">{{$x->name}}</td>
                                             <td width="35%"></td>
                                             <td width="20%" align="right">
-                                                {{number_format($x->CurrentBalance, 0, ',', '.')}}</td>
+                                                {{number_format($x->CurrentBalance, 0, ',', '.')}}
+                                            </td>
                                             <td width="20%" align="right">
-                                                {{number_format($x->EndingBalance, 0, ',', '.')}}</td>
-                                            </tr>
+                                                {{number_format($x->EndingBalance, 0, ',', '.')}}
+                                            </td>
+                                        </tr>
                                             @for ($b=0; $b < count($x->child); $b++)
                                                 @php
                                                 $y = $x->child[$b];
                                                 @endphp
-                                                <tr>
-                                                <td width="25%">{{$y->code}}</td>
-                                                    <td width="35%">{{$y->name}}</td>
-                                                    <td width="20%" align="right">
-                                                        {{number_format($y->CurrentBalance, 0, ',', '.')}}</td>
-                                                    <td width="20%" align="right">
-                                                        {{number_format($y->EndingBalance, 0, ',', '.')}}</td>
-                                                </tr>
-                                                @endfor
-                                                @endfor
-
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                </tr>
-
-                                                <tr style="background:#add8f7;font-weight: bold;font-size:16px">
-                                                    <td width="25%">
-                                                        Total Revenue
-                                                    </td>
-                                                    <td width="35%"></td>
-                                                    <td width="20%" align="right">
-                                                        {{number_format($pendapatan_accumulated, 0, ',', '.')}}</td>
-                                                    <td width="20%" align="right">
-                                                        {{number_format($pendapatan_period, 0, ',', '.')}}</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4"></td>
-                                                </tr>
-
-                                                {{-- Biaya --}}
-                                                @for ($a=0; $a < count($data['biaya']); $a++) @php
-                                                    $x=$data['biaya'][$a]; @endphp <tr
-                                                    style="font-weight: bold; border-bottom:1px solid black; font-size:16px">
-                                                    <td width="25%">{{$x->name}}</td>
-                                                    <td width="35%"></td>
-                                                    <td width="20%" align="right">
-                                                        {{number_format($x->CurrentBalance, 0, ',', '.')}}</td>
-                                                    <td width="20%" align="right">
-                                                        {{number_format($x->EndingBalance, 0, ',', '.')}}</td>
-                                                    </tr>
-                                                    @for ($b=0; $b < count($x->child); $b++)
-                                                        @php
-                                                        $y = $x->child[$b];
-                                                        @endphp
-                                                        <tr>
-                                                        <td width="25%">{{$y->code}}</td>
-                                                            <td width="35%">{{$y->name}}</td>
-                                                            <td width="20%" align="right">
-                                                                {{number_format($y->CurrentBalance, 0, ',', '.')}}</td>
-                                                            <td width="20%" align="right">
-                                                                {{number_format($y->EndingBalance, 0, ',', '.')}}</td>
-                                                        </tr>
-                                                        @endfor
-                                                        @endfor
-                                                        <tr>
-                                                            <td colspan="4"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="4"></td>
-                                                        </tr>
-                                                        <tr
-                                                            style="background:#add8f7;font-weight: bold; font-size:16px">
-                                                            <td width="25%">
-                                                                Total Expense
-                                                            </td>
-                                                            <td width="35%"></td>
-                                                            <td width="20%" align="right">
-                                                                {{number_format($biaya_accumulated, 0, ',', '.')}}</td>
-                                                            <td width="20%" align="right">
-                                                                {{number_format($biaya_period, 0, ',', '.')}}</td>
-                                                        </tr>
-                                                                                                            
+                                        <tr>
+                                            <td width="25%">{{$y->code}}</td>
+                                            <td width="35%">{{$y->name}}</td>
+                                            <td width="20%" align="right">
+                                                {{number_format($y->CurrentBalance, 0, ',', '.')}}
+                                            </td>
+                                            <td width="20%" align="right">
+                                                {{number_format($y->EndingBalance, 0, ',', '.')}}
+                                            </td>
+                                        </tr>
+                                            @endfor
+                                            @endfor
+                                        <tr>
+                                            <td colspan="4"></td>
+                                        </tr>
+                                        <tr style="background:#add8f7;font-weight: bold; font-size:14px">
+                                            <td width="25%">
+                                                Total Expense
+                                            </td>
+                                            <td width="35%"></td>
+                                            <td width="20%" align="right">
+                                                {{number_format($biaya_accumulated, 0, ',', '.')}}
+                                            </td>
+                                            <td width="20%" align="right">
+                                                {{number_format($biaya_period, 0, ',', '.')}}
+                                            </td>
+                                        </tr>
                                     </table>
 
-                                    <div class="form-group m-form__group row mt-5">
+                                    <div class="form-group m-form__group row mt-3">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
-
                                             <table width="100%" >
-                                                <tr style="font-weight: bold; font-size:16px">
-                                                <td width="25%">
-                                                               
-                                                            </td>
-                                                            <td width="35%" align="center"> PROFIT & LOSS</td>
-                                                            <td width="20%" align="right">
-                                                                {{number_format($pendapatan_accumulated - $biaya_accumulated, 0, ',', '.')}}</td>
-                                                            <td width="20%" align="right">
-                                                                {{number_format($pendapatan_period - $biaya_period, 0, ',', '.')}}</td>
-
-                                                  
+                                                <tr style="font-weight: bold; font-size:14px">
+                                                    <td width="25%"></td>
+                                                    <td width="35%" align="center"> PROFIT & LOSS</td>
+                                                    <td width="20%" align="right">
+                                                        {{number_format($pendapatan_accumulated - $biaya_accumulated, 0, ',', '.')}}
+                                                    </td>
+                                                    <td width="20%" align="right">
+                                                        {{number_format($pendapatan_period - $biaya_period, 0, ',', '.')}}
+                                                    </td>
                                                 </tr>
-                                               
                                             </table>
                                         </div>
                                     </div>
@@ -185,17 +178,17 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <div class="action-buttons">
                                         <a href="{{url('')}}/profit-loss/print-view-pl?daterange={{$daterange}}"
-                                            class="btn btn-success btn-md add">
+                                            class="btn btn-info btn-md add">
                                             <span>
-                                                <i class="fa fa-print"></i>
+                                                <i class="la la-print"></i>
                                                 <span>Print</span>
                                             </span>
                                         </a>
                                         <a href="{{url('')}}/profit-loss/export-view-pl?daterange={{$daterange}}"
                                             class="btn btn-success btn-md add">
                                             <span>
-                                                <i class="fa fa-file-download"></i>
-                                                <span>Export to excel</span>
+                                                <i class="far fa-file-excel"></i>
+                                                <span class="ml-1">Export to excel</span>
                                             </span>
                                         </a>
 

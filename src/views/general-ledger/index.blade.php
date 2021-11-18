@@ -32,7 +32,7 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-6 order-2 order-xl-1">
                                     <div class="form-group m-form__group row align-items-center">
-                                        <div class="col-md-12">
+                                        <div class="col-sm-7 col-md-7 col-lg-7">
                                             <div class="m-input-icon m-input-icon--left">
                                                 <label class="form-control-label">
                                                     Select Period
@@ -47,16 +47,16 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-6 order-1 order-xl-2 m--align-right">
-                                    <button href="javascript:;" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md select-all-coa">
+                                    <button href="javascript:;" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md select-all-coa">
                                       <span>
-                                        <i class="fa fa-check"></i>
+                                        <i class="la la-check-square-o"></i>
                                         <span>Select All Coa</span>
                                       </span>
                                     </button>
 
                                     <button href="javascript:;" class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-danger btn-md delete-all-coa">
                                       <span>
-                                        <i class="fa fa-check"></i>
+                                        <i class="la la-trash"></i>
                                         <span>Delete All Coa</span>
                                       </span>
                                     </button>
@@ -85,20 +85,20 @@
                             <div class="col-sm-12 col-md-12 col-lg-12  d-flex justify-content-end">
                                 <div class="action-buttons">
                                     <a href="javascript:;"
-                                        class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md print"><span>
-                                            <i class="la la-file"></i>
+                                        class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md print"><span>
+                                            <i class="la la-print"></i>
                                             <span>Print</span>
                                         </span>
                                     </a>
                                     <a href="javascript:;"
                                         class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md view"><span>
-                                            <i class="la la-file"></i>
+                                            <i class="la la-external-link-square"></i>
                                             <span>View</span>
                                         </span>
                                     </a>
                                     <a href="javascript:;"
                                         class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-success btn-md export"><span>
-                                            <i class="la la-file"></i>
+                                            <i class="far fa-file-excel"></i>
                                             <span>Export to Excel</span>
                                         </span>
                                     </a>

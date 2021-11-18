@@ -72,19 +72,13 @@
                                     Currency
                                 </label>
 
-                                <select class="_select2 form-control" name="currency" style="width:100%">
-                                    <option value=""></option>
-                                    @foreach ($data_currency as $data_currency_row)
-                                      <option value="{{ $data_currency_row->id }}">{{ "($data_currency_row->symbol) $data_currency_row->name" }}</option>
-                                    @endforeach
-                                </select>
-
-                                {{-- <select name="currency" class="form-control" id="currency">
+                                <select name="currency" class="form-control" id="currency">
                                   <option value="">-- Select --</option>
                                   @foreach ($data_currency as $currency_row)
                                     <option value="{{ $currency_row->id }}">{{ "{$currency_row->name} ({$currency_row->symbol})" }}</option>
                                   @endforeach
-                                </select> --}}
+                                </select>
+
                             </div>
                         </div>
                     </div>
@@ -98,7 +92,8 @@
                                             @slot('type', 'submit')
                                             @slot('color','primary')
                                             @slot('text','view')
-                                            @slot('icon','fa-search')
+                                            @slot('iconlibrary','la')
+                                            @slot('icon','la-external-link-square')
                                         @endcomponent
 
                                         @include('buttons::close')
