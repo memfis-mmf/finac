@@ -2,7 +2,7 @@
 
 namespace memfisfa\Finac\Model;
 
-
+use App\ClosingJournal;
 use memfisfa\Finac\Model\MemfisModel;
 use memfisfa\Finac\Model\TrxJournalA;
 use memfisfa\Finac\Model\TypeJurnal;
@@ -260,6 +260,21 @@ class TrxJournal extends MemfisModel
 		return self::generateTransactionNumber(self::class, 'voucher_no', $code);
 	}
 
+    public function check_closing_journal($date)
+    {
+        $closing_journal = ClosingJournal::where('start_date', '<=', $date)
+            ->where('end_date', '>=', $date)
+            ->first();
+
+        // date transaction sudah ter close
+        if ($closing_journal) {
+            return false;
+        }
+
+        // date transaction belum di close
+        return true;
+    }
+
 	/*
 	 *jangan copy function dibawah ini untuk membuat function lain
 	 *yang seperti ini, copy function insertFromAP saja
@@ -272,6 +287,16 @@ class TrxJournal extends MemfisModel
 		$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
+
+        $model_journal = new TrxJournal();
+        $check_closing = $model_journal->check_closing_journal($data['transaction_date']);
+
+        if (! $check_closing) {
+			return [
+				'status' => false,
+				'message' => 'Failed, Transaction date already closed'
+			];
+        }
 
 		$journal = TrxJournal::create($data);
 
@@ -317,6 +342,16 @@ class TrxJournal extends MemfisModel
 		$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
 		$data['currency_code'] = 'idr';
 		$data['exchange_rate'] = 1;
+
+        $model_journal = new TrxJournal();
+        $check_closing = $model_journal->check_closing_journal($data['transaction_date']);
+
+        if (! $check_closing) {
+			return [
+				'status' => false,
+				'message' => 'Failed, Transaction date already closed'
+			];
+        }
 
 		$journal = TrxJournal::create($data);
 
@@ -418,6 +453,17 @@ class TrxJournal extends MemfisModel
 		$data['journal_type'] = TypeJurnal::where(
 			'code', $journal_type
 		)->first();
+
+        $model_journal = new TrxJournal();
+        $check_closing = $model_journal->check_closing_journal($data['transaction_date']);
+
+        if (! $check_closing) {
+			return [
+				'status' => false,
+				'message' => 'Failed, Transaction date already closed'
+			];
+        }
+
 		if ($data['journal_type']) {
 			$data['journal_type'] = $data['journal_type']->id;
 		}else{
