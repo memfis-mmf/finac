@@ -2,7 +2,7 @@
 
 namespace memfisfa\Finac\Model;
 
-
+use App\ClosingJournal;
 use memfisfa\Finac\Model\MemfisModel;
 use memfisfa\Finac\Model\TrxJournalA;
 use memfisfa\Finac\Model\TypeJurnal;
@@ -262,7 +262,7 @@ class TrxJournal extends MemfisModel
 
     public function check_closing_journal($date)
     {
-        # code...
+        $closing_journal = ClosingJournal::where('start_date', '<', $date);
     }
 
 	/*
@@ -425,7 +425,7 @@ class TrxJournal extends MemfisModel
 		)->first();
 
         $model_journal = new TrxJournal();
-        $model_journal->check_closing_journal($data['transaction_date']);
+        $check_closing = $model_journal->check_closing_journal($data['transaction_date']);
 
 		if ($data['journal_type']) {
 			$data['journal_type'] = $data['journal_type']->id;
