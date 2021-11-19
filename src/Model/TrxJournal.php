@@ -260,6 +260,11 @@ class TrxJournal extends MemfisModel
 		return self::generateTransactionNumber(self::class, 'voucher_no', $code);
 	}
 
+    public function check_closing_journal($date)
+    {
+        # code...
+    }
+
 	/*
 	 *jangan copy function dibawah ini untuk membuat function lain
 	 *yang seperti ini, copy function insertFromAP saja
@@ -418,6 +423,10 @@ class TrxJournal extends MemfisModel
 		$data['journal_type'] = TypeJurnal::where(
 			'code', $journal_type
 		)->first();
+
+        $model_journal = new TrxJournal();
+        $model_journal->check_closing_journal($data['transaction_date']);
+
 		if ($data['journal_type']) {
 			$data['journal_type'] = $data['journal_type']->id;
 		}else{
