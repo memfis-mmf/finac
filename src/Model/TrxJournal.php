@@ -13,8 +13,10 @@ use App\Models\CashAdvance;
 use App\Models\Currency;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
+use App\Models\Payroll;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
 class TrxJournal extends MemfisModel
@@ -413,6 +415,28 @@ class TrxJournal extends MemfisModel
 		}
 
 	}
+
+    // auto journal payroll
+    public function autoJournalPayroll()
+    {
+        $payroll = new Payroll();
+
+        $data = $payroll->getAutoJurnalValues();
+
+        $header = $data['header'];
+        $detail = $data['detail'];
+
+        foreach ($detail as $detail_row) {
+            $coa = Coa::find($detail_row->coa_detail);
+            if (! $coa) {
+                throw ValidationException::withMessages([
+                    'default' => 'Coa Not found'
+                ]);
+            }
+        }
+
+        return $this->autoJournal($header, $detail, 'PYRL', 'GJV');
+    }
 
 	// auto journal
 
