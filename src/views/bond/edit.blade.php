@@ -63,7 +63,7 @@
 																						@foreach ($employee as $x)
 																								<option value="{{ $x->code }}"
 																										@if ($x->code == $data->id_employee) selected @endif>
-																										{{ $x->first_name." ".$x->last_name }}
+																										{{ ($x->first_name ?? '')." ".($x->last_name ?? '') }}
 																								</option>
 																						@endforeach
 																				</select>
