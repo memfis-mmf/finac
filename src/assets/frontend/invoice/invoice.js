@@ -98,7 +98,7 @@ let Invoice = {
 
                       html +=
                         '<a href="'+t.export_url+'" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' + t.uuid + '">' +
-                            '<i class="fa fa-file-download"></i>' +
+                            '<i class="far fa-file-excel"></i>' +
                         "</a>";
 
                       return html;
@@ -117,7 +117,7 @@ let Invoice = {
                     html +=
                       '<a href="'+t.export_url+'" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill print" title="Print" data-id="' +
                           t.uuid + '">' +
-                          '<i class="fa fa-file-download"></i>' +
+                          '<i class="far fa-file-excel"></i>' +
                       "</a>";
 
                     if (t.can_approve_fa) {
