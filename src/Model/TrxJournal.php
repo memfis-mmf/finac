@@ -417,9 +417,15 @@ class TrxJournal extends MemfisModel
 	}
 
     // auto journal payroll
-    public function autoJournalPayroll()
+    public function autoJournalPayroll($payroll_id)
     {
-        $payroll = new Payroll();
+        $payroll = Payroll::find($payroll_id);
+
+        if (! $payroll) {
+            throw ValidationException::withMessages([
+                'default' => 'Payroll not found'
+            ]);
+        }
 
         $data = $payroll->getAutoJurnalValues();
 
