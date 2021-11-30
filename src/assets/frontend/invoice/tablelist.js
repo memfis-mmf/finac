@@ -22,12 +22,12 @@ let exchange_rate = parseInt($('#exchange_rate').attr('value'));
 let _exchange_rate = 1;
 
 const formatter = new Intl.NumberFormat('de-DE', {
-   minimumFractionDigits: 2,      
+   minimumFractionDigits: 2,
    maximumFractionDigits: 2,
 });
 
 let number_format = new Intl.NumberFormat('de-DE', {
-   minimumFractionDigits: 2,      
+   minimumFractionDigits: 2,
    maximumFractionDigits: 2,
 });
 
@@ -164,7 +164,8 @@ var DatatableAutoColumnHideDemo = function () {
         {
           field: 'code',
           title: 'No',
-          width: '200px',
+          class:'text-center',
+          width: '80px',
           template: function (t) {
             // if this is other, return null
             // if (t.priceother != null) {
@@ -174,11 +175,11 @@ var DatatableAutoColumnHideDemo = function () {
             // return t.code;
             return no++;
           }
-        }, 
+        },
         {
           field: 'description',
           title: 'Detail',
-          width: '700px',
+          width: '500px',
 
           template: function (t) {
             if (t.htcrrcount == null && t.priceother == null) {
@@ -248,7 +249,7 @@ var DatatableAutoColumnHideDemo = function () {
           filterable: !1,
           template: function (t, e, i) {
 
-            // rate invoice selalu 1 jika currency invoice idr 
+            // rate invoice selalu 1 jika currency invoice idr
             // jika invoice currency-nya idr maka convert to idr menggunkana rate QN
             // jika invoice currency-nya foreign maka convert to idr menggunakan rate invoice sendiri
             if (_currency == 'idr') {
@@ -266,7 +267,7 @@ var DatatableAutoColumnHideDemo = function () {
                 material_price += t.mat_tool_price * multiple;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple;
 
-                _result =  
+                _result =
                   '<br>' +
                   IDRformatter.format(t.facilities_price_amount * multiple) + '<br>' +
                   IDRformatter.format(t.mat_tool_price * multiple) + '<br>' +
@@ -278,7 +279,7 @@ var DatatableAutoColumnHideDemo = function () {
                 material_price += t.mat_tool_price;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
 
-                _result = 
+                _result =
                   '<br>' +
                   ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
                   ForeignFormatter.format(t.mat_tool_price) + '<br>' +
