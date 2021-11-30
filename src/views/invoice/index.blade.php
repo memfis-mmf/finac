@@ -55,8 +55,8 @@
           @endcomponent
         </div>
         <div class="m-portlet m-portlet--mobile">
-          <div class="m-portlet__body pb-5">
-            <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+          <div class="m-portlet__body pt-3 pb-5">
+            <div class="m-form m-form--label-align-right m--margin-top-10 m--margin-bottom-20">
               <div class="row align-items-center">
                 <div class="col-xl-8 order-2 order-xl-1">
                   <div class="form-group m-form__group row align-items-center">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-md-12 mb-2">
                   <form action="" class="form-filter-datatable">
-                    <div class="row">
+                    <div class="row pt-0">
                       <div class="col-md-3">
                         <label for="">Status</label>
                         <select name="status" class="form-control _select2">
@@ -76,53 +76,57 @@
                           <option value="closed">Closed</option>
                         </select>
                       </div>
-                      <div class="col">
+                      <div class="col pt-2">
                         <button
-                          class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md mt-4">Filter</button>
+                          class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-info btn-md mt-4">
+                          <span>
+                            <i class="la la-filter"></i>
+                            <span>Filter</span>
+                          </span>
+                        </button>
                       </div>
                     </div>
                   </form>
                 </div>
                 <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                  <a id="export" href="{{ route('invoice.export') }}" target="_blank"
-                    class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-success btn-md" style="">
-                    <span>
-                      <i class="fa fa-file-download"></i>
-                      <span>Export All</span>
-                    </span>
-                  </a>
-                  <div class="m-btn-group m-btn-group--pill btn-group" role="group"
-                    aria-label="Button group with nested dropdown">
-                    <div class="m-btn-group btn-group" role="group">
-                      <button id="btnGroupDrop1" type="button"
-                        class="btn btn-primary m-btn m-btn--pill-last dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" style="border-radius:20px;">
+                    <a id="export" href="{{ route('invoice.export') }}" target="_blank"
+                        class="btn m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air btn-success btn-md" style="">
                         <span>
-                          <i class="la la-plus-circle"></i>
-                          <span>Invoice</span>
+                        <i class="far fa-file-excel"></i>
+                        <span>Export All</span>
                         </span>
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <a class="dropdown-item" href="{{route('invoice.create')}}">
-                          <span>
-                            <i class="la la-plus-circle"></i>
-                            <span>Invoice</span>
-                          </span>
-                        </a>
-                        <!-- <a class="dropdown-item" href="{{-- {{route('frontend.invoice-sales.create')}} --}}">
-                                                    <span>
-                                                        <i class="la la-plus-circle"></i>
-                                                        <span>Invoice Sales</span>
-                                                    </span>
-                                                </a> -->
-                        <!-- <a class="dropdown-item" href="{{route('frontend.invoice-workshop.create')}}">
-                                                    <span>
-                                                        <i class="la la-plus-circle"></i>
-                                                        <span>Invoice Workshop</span>
-                                                    </span>
-                                                </a> -->
-                      </div>
-                    </div>
+                    </a>
+                    <div class="m-btn-group m-btn-group--pill btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <div class="m-btn-group btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button"
+                                class="btn btn-primary m-btn m-btn--pill-last dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" style="border-radius:20px;">
+                                <span>
+                                    <i class="la la-plus-circle"></i>
+                                    <span>Invoice</span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="{{route('invoice.create')}}">
+                                    <span>
+                                        <i class="la la-plus-circle"></i>
+                                        <span>Invoice</span>
+                                    </span>
+                                </a>
+                                <!-- <a class="dropdown-item" href="{{-- {{route('frontend.invoice-sales.create')}} --}}">
+                                    <span>
+                                        <i class="la la-plus-circle"></i>
+                                        <span>Invoice Sales</span>
+                                    </span>
+                                </a> -->
+                                <!-- <a class="dropdown-item" href="{{route('frontend.invoice-workshop.create')}}">
+                                    <span>
+                                        <i class="la la-plus-circle"></i>
+                                        <span>Invoice Workshop</span>
+                                    </span>
+                                </a> -->
+                            </div>
+                        </div>
                   </div>
 
                   <div class="m-separator m-separator--dashed d-xl-none"></div>

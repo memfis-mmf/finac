@@ -70,13 +70,13 @@
                     </div>
                 </div>
                 <div class="m-portlet m-portlet--mobile">
-                    <div class="m-portlet__body">
+                    <div class="m-portlet__body pt-1">
                         <form id="itemform" name="itemform" action="{{route('invoice.update', Request::segment(2))}}" method='post'>
 													@csrf
-                            <div class="m-portlet__body">
+                            <div class="m-portlet__body mb-0 px-2 pb-0">
                                 <div class="form-group m-form__group row">
                                     <div class="col-sm-6 col-md-6">
-                                        <div class="form-group m-form__group row">
+                                        <div class="form-group m-form__group row mb-0">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -102,32 +102,32 @@
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
-                                                <fieldset class="border p-2">
-                                                    <legend class="w-auto">Identifier Customer</legend>
+                                                <fieldset class="border m-0 px-3 py-2">
+                                                    <legend class="w-auto m-0">Identifier Customer</legend>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="m-portlet__head">
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
                                                                     <li class="nav-item m-tabs__item">
                                                                         <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_tabs_6_1" role="tab">
-                                                                            <i class="la la-bell-o"></i> General
+                                                                            <i class="far fa-address-card"></i> General
                                                                         </a>
                                                                     </li>
                                                                     <li class="nav-item m-tabs__item">
                                                                         <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_2" role="tab">
-                                                                            <i class="la la-bell-o"></i> Contact
+                                                                            <i class="la la-phone-square"></i> Contact
                                                                         </a>
                                                                     </li>
                                                                     <li class="nav-item m-tabs__item">
                                                                         <a class="nav-link m-tabs__link " data-toggle="tab" href="#m_tabs_6_3" role="tab">
-                                                                            <i class="la la-cog"></i> Address
+                                                                            <i class="far fa-map"></i> Address
                                                                         </a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="m-portlet__body">
+                                                    <div class="m-portlet__body m-0 px-2 py-2">
                                                         <div class="tab-content">
                                                             <div class="tab-pane active" id="m_tabs_6_1" role="tabpanel">
                                                                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -239,7 +239,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
-                                        <div class="form-group m-form__group row">
+                                        <div class="form-group m-form__group row mb-0">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -263,78 +263,77 @@
                                         <div class="form-group m-form__group row">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group m-form__group row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                                        <label class="form-control-label">
-                                                            Currency @include('frontend.common.label.required')
-                                                        </label>
+                                                        <div class="col-sm-6 col-md-6 col-lg-6 mb-2">
+                                                            <label class="form-control-label">
+                                                                Currency @include('frontend.common.label.required')
+                                                            </label>
 
-                                                        @component('input::inputreadonly')
-                                                        @slot('id', '_currency')
-                                                        @slot('text', 'Currency')
-                                                        @slot('name', 'currency')
-                                                        @slot('id_error', '_currency')
-                                                        @slot('value', $currencycode->name)
-                                                        @endcomponent
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                                        <br />
-                                                        <label class="form-control-label">
-                                                            Exchange Rate <span id="requi" class="requi" style="font-weight: bold;color:red">
+                                                            @component('input::inputreadonly')
+                                                            @slot('id', '_currency')
+                                                            @slot('text', 'Currency')
+                                                            @slot('name', 'currency')
+                                                            @slot('id_error', '_currency')
+                                                            @slot('value', $currencycode->name)
+                                                            @endcomponent
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-6 col-lg-6 mb-2">
+                                                            <label class="form-control-label">
+                                                                Exchange Rate <span id="requi" class="requi" style="font-weight: bold;color:red">
+                                                                    *
+                                                                </span>
+                                                            </label>
 
-                                                                *
+                                                            @component('input::numberreadonly')
+                                                            @slot('id', '_exchange_rate1111')
+                                                            @slot('text', '_exchange_rate1111')
+                                                            @slot('name', 'exchangerate')
+                                                            @slot('value', (float) $invoice->exchangerate)
+                                                            @endcomponent
+                                                        </div>
+                                                    {{-- <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
 
-                                                            </span>
-                                                        </label>
-
-                                                        @component('input::numberreadonly')
-                                                        @slot('id', '_exchange_rate1111')
-                                                        @slot('text', '_exchange_rate1111')
-                                                        @slot('name', 'exchangerate')
-                                                        @slot('value', (float) $invoice->exchangerate)
-                                                        @endcomponent
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                                        <br />
+                                                    </div> --}}
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
                                                         <label class="form-control-label">
                                                             President Director
                                                         </label>
-
                                                         @component('frontend.common.input.input')
                                                         @slot('id', 'presdir')
                                                         @slot('name', 'presdir')
                                                         @slot('value', $invoice->presdir)
                                                         @endcomponent
                                                     </div>
-                                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                                        <br />
-                                                        <label class="form-control-label">
-																													Location
-                                                        </label>
-
-																												<select class="_select2 form-control" name="location" style="width:100%">
-																													<option value=""></option>
-																													<option value="sidoarjo" {{(strtolower($invoice->location) == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
-																													<option value="surabaya" {{(strtolower($invoice->location) == 'surabaya')? 'selected': ''}}>Surabaya</option>
-																													<option value="jakarta" {{(strtolower($invoice->location) == 'jakarta')? 'selected': ''}}>Jakarta</option>
-																													<option value="biak" {{(strtolower($invoice->location) == 'biak')? 'selected': ''}}>Biak</option>
-																												</select>
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                                        <br />
-                                                        <label class="form-control-label">
-																													Company and Department
-                                                        </label>
-
-																												<select class="_select2 form-control" name="company_department" style="width:100%">
-																													<option value=""></option>
-																													@for ($a=0; $a < count($company); $a++)
-																														@php
-																															$x = $company[$a]
-																														@endphp
-																														<option value="{{$x->name}}" {{($invoice->company_department == $x->name)? 'selected': ''}}>{{$x->name}}</option>
-																													@endfor
-																												</select>
-                                                    </div>
+                                                </div>
+                                                    <div class="form-group m-form__group row">
+                                                        <div class="col-sm-5 col-md-5 col-lg-5 mb-2">
+                                                            <label class="form-control-label">
+                                                                Location
+                                                            </label>
+                                                            <select class="_select2 form-control" name="location" style="width:100%">
+                                                                <option value=""></option>
+                                                                <option value="sidoarjo" {{(strtolower($invoice->location) == 'sidoarjo')? 'selected': ''}}>Sidoarjo</option>
+                                                                <option value="surabaya" {{(strtolower($invoice->location) == 'surabaya')? 'selected': ''}}>Surabaya</option>
+                                                                <option value="jakarta" {{(strtolower($invoice->location) == 'jakarta')? 'selected': ''}}>Jakarta</option>
+                                                                <option value="biak" {{(strtolower($invoice->location) == 'biak')? 'selected': ''}}>Biak</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-7 col-md-7 col-lg-7 mb-2">
+                                                            <label class="form-control-label">
+                                                                Company and Department
+                                                            </label>
+                                                            <select class="_select2 form-control" name="company_department" style="width:100%">
+                                                                <option value=""></option>
+                                                                       @for ($a=0; $a < count($company); $a++)
+                                                                       @php
+                                                                       $x = $company[$a]
+                                                                       @endphp
+                                                                       <option value="{{$x->name}}" {{($invoice->company_department == $x->name)? 'selected': ''}}>{{$x->name}}</option>
+                                                                       @endfor
+                                                            </select>
+                                                        </div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -343,28 +342,25 @@
                                 </div>
 
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6 px-4">
                                         <label class="form-control-label">
                                             Bank Name Information @include('frontend.common.label.required')
                                         </label>
-
-																				<select class="form-control bankinfo" name="_bankinfo" id="" style="width:100%">
-                                          <option value="">-- Select --</option>
-																					@for ($a=0; $a < count($banks); $a++)
-																						@php
-																							$x = $banks[$a];
-																						@endphp
-
-																						<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank)? 'selected': ''}}>{{$x->full}}</option>
-																					@endfor
-																				</select>
+										<select class="form-control bankinfo" name="_bankinfo" id="" style="width:100%">
+                                            <option value="">-- Select --</option>
+												@for ($a=0; $a < count($banks); $a++)
+												@php
+													$x = $banks[$a];
+												@endphp
+    										<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank)? 'selected': ''}}>{{$x->full}}</option>
+												@endfor
+										</select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6 px-4">
                                         <div id="bai_header">
                                             <label class="form-control-label">
                                                 Bank Account Information
                                             </label>
-
                                             @component('input::inputreadonly')
                                             @slot('id', 'bai')
                                             @slot('name', 'bai')
@@ -377,19 +373,19 @@
                                 </div>
 
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6 px-4">
                                         <select class="form-control bankinfo" name="_bankinfo2" id="" style="width:100%">
-                                          <option value="">--Select--</option>
-																					@for ($a=0; $a < count($banks); $a++)
-																						@php
-																							$x = $banks[$a];
+                                            <option value="">--Select--</option>
+												@for ($a=0; $a < count($banks); $a++)
+												@php
+												$x = $banks[$a];
                                             @endphp
 
-																						<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank2)? 'selected': ''}}>{{$x->full}}</option>
-																					@endfor
-																				</select>
+									    	<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank2)? 'selected': ''}}>{{$x->full}}</option>
+												@endfor
+										</select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6 px-4">
                                         <div {{(!$invoice->id_bank2)? 'hidden': ''}} id="bai_header">
                                             @component('input::inputreadonly')
                                             @slot('id', 'bai')
@@ -402,19 +398,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6 px-4">
                                         <select class="form-control bankinfo" name="_bankinfo3" id="" style="width:100%">
-                                          <option value="">--Select--</option>
-																					@for ($a=0; $a < count($banks); $a++)
-																						@php
-																							$x = $banks[$a];
+                                            <option value="">--Select--</option>
+												@for ($a=0; $a < count($banks); $a++)
+												@php
+												$x = $banks[$a];
                                             @endphp
-
-																						<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank3)? 'selected': ''}}>{{$x->full}}</option>
-																					@endfor
-																				</select>
+								    		<option value="{{$x->uuid}}" {{($x->id == $invoice->id_bank3)? 'selected': ''}}>{{$x->full}}</option>
+												@endfor
+										</select>
                                     </div>
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6 px-4">
                                         <div {{(!$invoice->id_bank3)? 'hidden': ''}} id="bai_header">
                                             @component('input::inputreadonly')
                                             @slot('id', 'bai')
@@ -426,8 +421,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br />
-                                <br />
                                 @if(@$quotation->number=="quotationsales")
                                     <div id="quotation-sales">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -459,7 +452,7 @@
                                                     @include('invoice-itemlistview::edit')
                                                 </div>
                                                 <div class="tab-pane" id="m_tabs_6_2_2" role="tabpanel">
-                                                    @include('invoice-additionalview::edit') 
+                                                    @include('invoice-additionalview::edit')
                                                 </div>
                                                 <div class="tab-pane" id="m_tabs_6_3_3" role="tabpanel">
                                                     @include('invoice-apcview::edit')
@@ -496,19 +489,14 @@
                                     <div id="hiddennext">
                                     <div class="form-group m-form__group row">
                                             <div class="col-sm-12 col-md-12 col-lg-12">
-                                                <br />
-                                                <br />
                                                 <fieldset class="border p-2">
                                                     <legend class="w-auto">Profit Center :</legend>
                                                     <div class="row">
-                                                        <div class="col-sm-3 col-md-3">
+                                                        <div class="col-sm-1 col-md-1">
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                                 <label style="margin-top:13px" class="form-control-label">
-
                                                                     Manhours
                                                                 </label>
-
-
                                                             </div>
 
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -516,8 +504,6 @@
 
                                                                     Material
                                                                 </label>
-
-
                                                             </div>
 
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -525,38 +511,27 @@
                                                                     <br />
                                                                     Facility
                                                                 </label>
-
-
                                                             </div>
 
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                                 <label style="margin-top:15px" class="form-control-label">
                                                                     <br />
-                                                                                                                                    Discount
+                                                                    Discount
                                                                 </label>
-
-
                                                             </div>
 
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                                 <label style="margin-top:15px" class="form-control-label">
                                                                     <br />
-                                                                                                                                    PPN
+                                                                    PPN
                                                                 </label>
-
-
                                                             </div>
 
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                                 <label style="margin-top:34px" class="form-control-label">
-
                                                                     Other
                                                                 </label>
-
-
                                                             </div>
-
-
                                                         </div>
                                                         <div class="col-sm-3 col-md-3">
                                                             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -644,7 +619,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-sm-6 col-md-6">
+                                                        <div class="col-sm-8 col-md-8">
                                                             <div style="margin-top:1px" class="col-sm-12 col-md-12 col-lg-12">
                                                                 @component('input::inputreadonly')
                                                                 @slot('id', 'manhours_name')
@@ -663,7 +638,7 @@
                                                                 @slot('id_error', 'material_name')
                                                                 @endcomponent
                                                             </div>
-                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            <div style="margin-top:22px" class="col-sm-12 col-md-12 col-lg-12">
                                                                 @component('input::inputreadonly')
                                                                 @slot('id', 'facility_name')
                                                                 @slot('name', 'facility_name')
@@ -672,7 +647,7 @@
                                                                 @slot('id_error', 'facility_name')
                                                                 @endcomponent
                                                             </div>
-                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            <div style="margin-top:23px" class="col-sm-12 col-md-12 col-lg-12">
                                                                 @component('input::inputreadonly')
                                                                 @slot('id', 'discount_name')
                                                                 @slot('name', 'discount_name')
@@ -681,7 +656,7 @@
                                                                 @slot('id_error', 'discount_name')
                                                                 @endcomponent
                                                             </div>
-                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            <div style="margin-top:23px" class="col-sm-12 col-md-12 col-lg-12">
                                                                 @component('input::inputreadonly')
                                                                 @slot('id', 'ppn_name')
                                                                 @slot('name', 'ppn_name')
@@ -690,7 +665,7 @@
                                                                 @slot('id_error', 'ppn_name')
                                                                 @endcomponent
                                                             </div>
-                                                            <div style="margin-top:20px" class="col-sm-12 col-md-12 col-lg-12">
+                                                            <div style="margin-top:23px" class="col-sm-12 col-md-12 col-lg-12">
                                                                 @component('input::inputreadonly')
                                                                 @slot('id', 'other_name')
                                                                 @slot('name', 'other_name')
@@ -714,16 +689,13 @@
                                                     </fieldset> --}}
                                             </div>
                                         </div>
-                                        <br />
-                                        <br />
-
                                         <center>
-                                            <h3 id="subjectquo">Quotation Subject</h3>
+                                            <h4 id="subjectquo">Quotation Subject</h4>
                                         </center>
                                         {{-- <table class="table table-striped table-bordered table-hover table-checkable wpck-table mt-5">
                                         <thead>
-                                            <th>No</th> 
-                                            <th>Workpackage Detail</th> 
+                                            <th>No</th>
+                                            <th>Workpackage Detail</th>
                                             <th>Total</th>
                                         </thead>
                                         </table> --}}
@@ -805,17 +777,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 offset-md-6">
+                                            <div class="col-md-7 offset-md-7">
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
                                                             Subtotal
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9">
+                                                    <div class="col-sm-6 col-md-6 pr-5">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'sub_total')
-                                                        @slot('class', 'sub_total')
+                                                        @slot('class', 'sub_total text-right')
                                                         @slot('text', '')
                                                         @slot('value', $invoice->currencies->symbol.' '.number_format($invoice->subtotal, 2))
                                                         @endcomponent
@@ -827,10 +799,10 @@
                                                             Discount Total
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9">
+                                                    <div class="col-sm-6 col-md-6 pr-5">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'total_discount')
-                                                        @slot('class', 'total_discount')
+                                                        @slot('class', 'total_discount text-right')
                                                         @slot('text', '0')
                                                         @slot('value', 	$invoice->currencies->symbol.' '.number_format(abs($invoice->discountvalue) * -1, 2))
                                                         @endcomponent
@@ -843,10 +815,10 @@
                                                             Total Before Tax
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9">
+                                                    <div class="col-sm-6 col-md-6 pr-5">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'total')
-                                                        @slot('class', 'total')
+                                                        @slot('class', 'total text-right')
                                                         @slot('text', '0')
                                                         @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->total, 2))
                                                         @endcomponent
@@ -859,10 +831,10 @@
                                                             Vat 10% ({{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}})
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9">
+                                                    <div class="col-sm-6 col-md-6 pr-5">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'tax')
-                                                        @slot('class', 'tax')
+                                                        @slot('class', 'tax text-right')
                                                         @slot('text', '')
                                                         @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->ppnvalue, 2))
                                                         @endcomponent
@@ -875,10 +847,10 @@
                                                           Other Cost Total
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9">
+                                                    <div class="col-sm-6 col-md-6 pr-5">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'other_price')
-                                                        @slot('class', 'other_price')
+                                                        @slot('class', 'other_price text-right')
                                                         @slot('text', '')
                                                         @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->other_price, 2))
                                                         @endcomponent
@@ -891,10 +863,10 @@
                                                             Grand Total
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9">
+                                                    <div class="col-sm-6 col-md-6 pr-5">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'grandtotal')
-                                                        @slot('class', 'grandtotal')
+                                                        @slot('class', 'grandtotal text-right')
                                                         @slot('text', '')
                                                         @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign, 2))
                                                         @endcomponent
@@ -906,10 +878,10 @@
                                                             Grand Total in IDR
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-9 col-md-9">
+                                                    <div class="col-sm-6 col-md-6 pr-5">
                                                         @component('input::inputreadonly')
                                                         @slot('id', 'grandtotalrp')
-                                                        @slot('class', 'grandtotalrp')
+                                                        @slot('class', 'grandtotalrp text-right')
                                                         @slot('text', '')
                                                         @slot('value', 	'Rp.  '.number_format($invoice->grandtotal, 2))
                                                         @endcomponent
@@ -1241,7 +1213,7 @@
     let IDRformatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: 'idr', minimumFractionDigits: 0, maximumFractionDigits: 0 });
     let ForeignFormatterTax = new Intl.NumberFormat(locale, { style: 'currency', currency: _currency, minimumFractionDigits: 0, maximumFractionDigits: 0 });
     let numberFormat = new Intl.NumberFormat('id', { maximumSignificantDigits: 3, maximumFractionDigits: 2, minimumFractionDigits: 2 });
-    
+
     // summary datatable
     let total = 0;
     let total1 = 0;
@@ -1319,7 +1291,8 @@
         {
           field: 'code',
           title: 'No',
-          width: '200px',
+          class:'text-center',
+          width: '80px',
           template: function (t) {
             // if this is other, return null
             // if (t.priceother != null) {
@@ -1328,11 +1301,12 @@
 
             // return t.code;
             return no++;
-          }
-        }, {
+          }},
+          {
           field: 'description',
           title: 'Detail',
-          width: '700px',
+          class:'text-left',
+          width: '400px',
 
           template: function (t) {
             if (t.htcrrcount == null && t.priceother == null) {
@@ -1376,7 +1350,7 @@
               }
 
               return (
-                "<b>" + t.pivot.description + "</b><br/>"
+                '<p class="text-left mb-0">'+ "<b>" + t.pivot.description + "</b></p>"
                 + "Facility <br/>"
                 + "Material Need " + materialitem + " item(s)<br/>"
                 + "Total " + t.total_manhours_with_performance_factor + " Manhours<br/>"
@@ -1392,13 +1366,12 @@
             } else if (t.priceother != null) {
               return '';
             }
-
-          }
-        },
+        }},
         {
           field: 'total',
           title: 'Total Amount',
           sortable: 'asc',
+          class: 'text-right',
           filterable: !1,
           template: function (t, e, i) {
 
@@ -1416,7 +1389,7 @@
                 material_price += t.mat_tool_price * multiple;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount * multiple;
 
-                _result =  
+                _result =
                   '<br>' +
                   IDRformatter.format(t.facilities_price_amount * multiple) + '<br>' +
                   IDRformatter.format(t.mat_tool_price * multiple) + '<br>' +
@@ -1428,7 +1401,7 @@
                 material_price += t.mat_tool_price;
                 manhour_price += t.total_manhours_with_performance_factor * t.pivot.manhour_rate_amount;
 
-                _result = 
+                _result =
                   '<br>' +
                   ForeignFormatter.format(t.facilities_price_amount) + '<br>' +
                   ForeignFormatter.format(t.mat_tool_price) + '<br>' +
