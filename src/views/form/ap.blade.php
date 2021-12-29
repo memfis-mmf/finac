@@ -91,8 +91,8 @@
             page-break-before: always;
         }
 
-        footer .num:after { 
-            content: counter(page); 
+        footer .num:after {
+            content: counter(page);
         }
     </style>
 </head>
@@ -122,7 +122,7 @@
             </table>
         </div>
     </header>
-    
+
     <footer>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
 
@@ -199,7 +199,7 @@
 																@php
 																	if ($arr->debit != 0) {
                                     echo 'Rp '. number_format($arr->debit, 0, ',', '.');
-                                    
+
                                     if (($si_sample->currency != 'idr' or $data->currency != 'idr') and $arr->debit_foreign != 0) {
                                       echo "<br>(".$data->currencies->symbol.' '.number_format($arr->debit_foreign, 2, ',', '.').' )';
                                     }
@@ -245,9 +245,9 @@
                         @else
                             <td align="center" width="10%" rowspan="2">Prepared By</td>
                         @endif
-                        <td align="center" width="10%" rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>President Director</i></b></span></td>
+                        <td align="center" width="10%" rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>Director</i></b></span></td>
                         <td align="center" width="10%" colspan="3">FINANCE & ACCOUNTING</td>
-                    
+
                         @if ('payment' == 'payment')
                             <td align="center" width="10%" rowspan="2"> Received By </td>
                         @else

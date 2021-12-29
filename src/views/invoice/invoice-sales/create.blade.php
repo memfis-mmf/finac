@@ -239,7 +239,7 @@
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                             <label class="form-control-label">
-                                                President Director
+                                                Director
                                             </label>
 
                                             @component('frontend.common.input.input')
@@ -248,7 +248,7 @@
                                                 @slot('value', 'Rowin H. Mangkoesoebroto')
                                             @endcomponent
                                         </div>
-                                    </div>   
+                                    </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                             <label class="form-control-label">
@@ -264,7 +264,7 @@
                                                 @slot('id_error', 'bankinfo')
                                             @endcomponent
                                         </div>
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
@@ -340,7 +340,7 @@
         });
     </script>
 @endpush
-{{-- 
+{{--
 <div hidden id="quotation-sales">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="m-portlet__head">
@@ -371,7 +371,7 @@
                 @include('invoice-itemlistview::index')
             </div>
             <div class="tab-pane" id="m_tabs_6_2_2" role="tabpanel">
-                @include('invoice-additionalview::index') 
+                @include('invoice-additionalview::index')
             </div>
             <div class="tab-pane" id="m_tabs_6_3_3" role="tabpanel">
                 @include('invoice-apcview::index')

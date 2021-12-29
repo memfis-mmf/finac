@@ -239,7 +239,7 @@
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                             <label class="form-control-label">
-                                                President Director
+                                                Director
                                             </label>
 
                                             @component('frontend.common.input.input')
@@ -248,7 +248,7 @@
                                                 @slot('value', 'Rowin H. Mangkoesoebroto')
                                             @endcomponent
                                         </div>
-                                    </div>   
+                                    </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                             <label class="form-control-label">
@@ -264,7 +264,7 @@
                                                 @slot('id_error', 'bankinfo')
                                             @endcomponent
                                         </div>
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">

@@ -297,7 +297,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
                                                         <label class="form-control-label">
-                                                            President Director
+                                                            Director
                                                         </label>
                                                         @component('frontend.common.input.input')
                                                         @slot('id', 'presdir')

@@ -91,8 +91,8 @@
             page-break-before: always;
         }
 
-        footer .num:after { 
-            content: counter(page); 
+        footer .num:after {
+            content: counter(page);
         }
     </style>
 </head>
@@ -247,9 +247,9 @@
                         @else
                             <td align="center" width="10%" rowspan="2">Prepared By</td>
                         @endif
-                        <td align="center" width="10%" rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>President Director</i></b></span></td>
+                        <td align="center" width="10%" rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>Director</i></b></span></td>
                         <td align="center" width="10%" colspan="3">FINANCE & ACCOUNTING</td>
-                    
+
                         @if ('payment' == 'payment')
                             <td align="center" width="10%" rowspan="2"> Received By </td>
                         @else
