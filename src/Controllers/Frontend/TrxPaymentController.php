@@ -637,17 +637,8 @@ class TrxPaymentController extends Controller
 	{
         $grn = GRN::find($grn_id);
 
-		$items = $grn->items;
+        $sum = $grn->total_amount_no_tax;
 
-		$sum = 0;
-		for ($i = 0; $i < count($items); $i++) {
-			$x = $items[$i];
-			$pivot = $x->pivot;
-			$total = $pivot->price * $pivot->quantity;
-
-			$sum += $total;
-        }
-        
         $rate = $si->exchange_rate;
         if ($grn->purchase_order->currency->code == 'idr') {
             $rate = 1;
@@ -702,7 +693,7 @@ class TrxPaymentController extends Controller
 
 		$sum_grn_item = $this->sumGrnItem($grn->id, $trxpayment);
 
-        $po_tax = $grn->purchase_order->taxes->first()->percent;
+        $po_tax = $grn->purchase_order->taxes->first()->percent ?? 0;
 		TrxPaymentA::create([
 			'transaction_number' => $trxpayment->transaction_number,
 			'total' => $sum_grn_item->total,
