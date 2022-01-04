@@ -628,7 +628,9 @@ class TrxPaymentController extends Controller
             ->has('approvals')
             ->select('goods_received.*');
 
-        return datatables()->of($data)->escapeColumns([])->make();
+        return datatables($data)
+            ->escapeColumns([])
+            ->make();
     }
 
 	public function sumGrnItem($grn_id, $si)
