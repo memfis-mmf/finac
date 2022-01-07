@@ -96,7 +96,7 @@
                         Website : www.company.co.id
                     </td>
                     <td width="55%" valign="top" align="center" style="padding-top:-16px">
-                        <h1 style="font-size:24px;">{{$type_header}}<br> 
+                        <h1 style="font-size:24px;">{{$type_header}}<br>
                         <span style="font-size:18px;">(Cashbook)</span></h1>
                     </td>
                 </tr>
@@ -108,12 +108,12 @@
         <div class="container">
             <table width="100%">
                 <tr>
-                    <td>  
+                    <td>
                       <span style="margin-left:6px;">
                         Created By : {{$cashbook->created_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;
-                        Approved By : {{$cashbook->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; 
-                        Printed By :  {{Auth::user()->name.' '.date('d-m-Y H:i:s')}} 
-                      </span> 
+                        Approved By : {{$cashbook->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;
+                        Printed By :  {{Auth::user()->name.' '.date('d-m-Y H:i:s')}}
+                      </span>
                     </td>
                 </tr>
             </table>
@@ -217,7 +217,7 @@
                           @if (isset($cashbook->second_currencies->code))
                             <i>
                               Total in {{ strtoupper($cashbook->second_currencies->code).' '.$controller::currency_format($cashbook->second_subtotal) }}
-                            </i>   
+                            </i>
                           @endif
                         </td>
                         <td style="background:#e6eef2" align="right"><b>{{$detail[0]->symbol}}. {{$controller::currency_format($total_debit, 2)}}</b></td>
@@ -233,7 +233,7 @@
             <table width="100%" border="1">
                 <tr>
                     <td align="center" rowspan="2">Ordered By</td>
-                    <td align="center"  rowspan="2">Approved By <br><span style="font-size: 10px;"><b><i>President Director</i></b></span></td>
+                    <td align="center"  rowspan="2">Approved By <br><span style="font-size: 10px;"><b><i>Director</i></b></span></td>
                     <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
                     <td align="center"  rowspan="2"  width="15%">
 											@if ($type == 'rj')

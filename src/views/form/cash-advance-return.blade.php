@@ -172,7 +172,7 @@
               <td align="left">{{ $detail_row->description }}</td>
               <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->debit), true) !!}</td>
               <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->credit), true) !!}</td>
-            </tr>   
+            </tr>
             @endforeach
           </tbody>
           <tr style="background:#d3e9f5;">
@@ -194,7 +194,7 @@
       <table width="100%" border="1">
         <tr>
           <td align="center" rowspan="2">Ordered By</td>
-          <td align="center" rowspan="2">Approved By <br><span style="font-size: 10px;"><b><i>President
+          <td align="center" rowspan="2">Approved By <br><span style="font-size: 10px;"><b><i>
                   Director</i></b></span></td>
           <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
           <td align="center" rowspan="2" width="15%">
