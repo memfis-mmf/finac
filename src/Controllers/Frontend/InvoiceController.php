@@ -25,13 +25,20 @@ use App\Models\TaskCard;
 use App\Models\Type;
 use App\Models\Department;
 use App\Helpers\CalculateQuoPrice;
+use App\Http\Controllers\Frontend\CashAdvanceController;
+use App\Models\AdvancePaymentBalance;
+use App\Models\CashAdvance;
 use App\Models\Pivots\ProjectWorkpackage;
+use App\Models\Project;
 use App\Models\QuotationDefectCardItem;
 use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\TrxJournal;
 use stdClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+
 //use for export
 use memfisfa\Finac\Model\Exports\InvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -205,6 +212,14 @@ class InvoiceController extends Controller
         $grandtotal_val = $request->grandtotal_val;
         $grandtotal_rp_val = $request->grandtotalrp_val;
 
+        if ($request->cash_advance_id) {
+            $cash_advance_controller = new CashAdvanceController();
+
+            $cash_advance = CashAdvance::find($request->cash_advance_id);
+
+            $cash_advance_controller->check_cash_advance($customer, $cash_advance, $project);
+        }
+
         $invoice = Invoice::create([
             'id_branch' => $id_branch,
             'closed' => $closed,
@@ -234,6 +249,7 @@ class InvoiceController extends Controller
             'other_price' => $other_price_val,
             'grandtotalforeign' => $grandtotal_val,
             'grandtotal' => $grandtotal_val * $exchange_rate,
+            'cash_advance_id' => $request->cash_advance_id ?? null,
         ]);
 
         $list = [
@@ -695,6 +711,20 @@ class InvoiceController extends Controller
                 'message' => $autoJournal['message']
             ];
         }
+
+        if ($invoice->cash_advance_id) {
+            $cash_advance_controller = new CashAdvanceController();
+
+            $cash_advance = CashAdvance::find($invoice->cash_advance_id);
+
+            $project = $invoice->quotation->quotationable()->first();
+
+            $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $project);
+        }
+
+        // update amount
+        $advance_payment_balance = new AdvancePaymentBalance();
+        $advance_payment_balance->update_amount($invoice->cash_advance, $amount);
 
         DB::commit();
 
@@ -1588,5 +1618,19 @@ class InvoiceController extends Controller
         $name .= " {$prefix}";
 
         return Excel::download(new InvoiceExport($data), "{$name}.xlsx");
+    }
+
+    public function select2_cash_advance(Request $request)
+    {
+        $data = CashAdvance::where('transaction_number', 'like', $request->q)
+            ->get()
+            ->transform(function($row) {
+
+                $row->text = $row->transaction_number;
+
+                return $row;
+            });
+
+        return $data;
     }
 }
