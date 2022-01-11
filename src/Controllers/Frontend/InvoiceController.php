@@ -731,7 +731,7 @@ class InvoiceController extends Controller
 
             // update amount
             $advance_payment_balance = new AdvancePaymentBalance();
-            $advance_payment_balance->update_amount($invoice->cash_advance, $amount);
+            $advance_payment_balance->update_amount($invoice->cash_advance, $invoice->grandtotal);
         }
 
         DB::commit();
