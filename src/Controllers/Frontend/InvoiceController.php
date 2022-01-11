@@ -732,6 +732,9 @@ class InvoiceController extends Controller
             // update amount
             $advance_payment_balance = new AdvancePaymentBalance();
             $advance_payment_balance->update_amount($invoice->cash_advance, $invoice->grandtotal);
+
+            $ar_controller = new ARController();
+            $ar_controller->generate_ar($invoice);
         }
 
         DB::commit();
@@ -741,7 +744,6 @@ class InvoiceController extends Controller
             'message' => 'Data Approved'
         ];
     }
-
 
     public function quodatatables()
     {

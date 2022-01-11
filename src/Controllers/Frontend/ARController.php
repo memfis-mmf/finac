@@ -762,4 +762,18 @@ class ARController extends Controller
 
         return Excel::download(new ARExport($data), "{$name}.xlsx");
     }
+
+    public function generate_ar($invoice)
+    {
+        $request = new Request();
+
+        $request->merge([
+            'payment_type' => 'cash',
+            'transactiondate' => now()->format('d-m-Y'),
+            'id_customer' => $invoice->customer->id,
+            'accountcode' => 'required',
+            'currency' => 'required',
+            'exchangerate' => 'required'
+        ]);
+    }
 }
