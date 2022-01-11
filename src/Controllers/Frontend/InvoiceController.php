@@ -249,8 +249,11 @@ class InvoiceController extends Controller
             'other_price' => $other_price_val,
             'grandtotalforeign' => $grandtotal_val,
             'grandtotal' => $grandtotal_val * $exchange_rate,
-            'cash_advance_id' => $request->cash_advance_id ?? null,
         ]);
+
+        if ($request->cash_advance_id) {
+            $invoice->cash_advance()->attach($request->cash_advance_id);
+        }
 
         $list = [
             'manhours' => $request->manhoursprice,
@@ -522,6 +525,9 @@ class InvoiceController extends Controller
             $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
 
             $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
+
+            $invoice->cash_advance()->detach();
+            $invoice->cash_advance()->attach($request->cash_advance_id);
         }
 
         $invoice1 = Invoice::where('id', $invoice->id)
@@ -595,10 +601,10 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        // Invoice::where('id', $invoice->id)
-        //     ->update([
-        //         'closed' => 2,
-        //     ]);
+        if ($invoice->approve) {
+            return abort(404);
+        }
+        $invoice->cash_advance()->detach();
         $invoice->delete();
         return response()->json($invoice);
     }
@@ -723,15 +729,15 @@ class InvoiceController extends Controller
         if ($invoice->cash_advance_id) {
             $cash_advance_controller = new CashAdvanceController();
 
-            $cash_advance = CashAdvance::findOrFail($invoice->cash_advance_id);
-
             $project = $invoice->quotation->quotationable()->first();
 
-            $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $project);
+            foreach ($invoice->cash_advance as $cash_advance) {
+                $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $project);
 
-            // update amount
-            $advance_payment_balance = new AdvancePaymentBalance();
-            $advance_payment_balance->update_amount($invoice->cash_advance, $invoice->grandtotal);
+                // update amount
+                $advance_payment_balance = new AdvancePaymentBalance();
+                $advance_payment_balance->update_amount($invoice->cash_advance, $invoice->grandtotal);
+            }
 
             $ar_controller = new ARController();
             $ar_controller->generate_ar($invoice);

@@ -2,6 +2,7 @@
 
 namespace memfisfa\Finac\Model;
 
+use App\InvoiceCashAdvance;
 use App\Models\Approval;
 use App\Models\Currency;
 use App\Models\Quotation;
@@ -50,7 +51,7 @@ class Invoice extends MemfisModel
         "description",
         "total",
         "subtotal",
-        "cash_advance_id",
+        "cash_advance_id", // kolom ini ngga kepake
     ];
 
 	protected $appends = [
@@ -325,6 +326,6 @@ class Invoice extends MemfisModel
 
     public function cash_advance()
     {
-        return $this->belongsTo(CashAdvance::class, 'cash_advance_id');
+        return $this->belongsToMany(CashAdvance::class, (new InvoiceCashAdvance())->getTable());
     }
 }
