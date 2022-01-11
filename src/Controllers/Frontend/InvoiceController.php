@@ -215,7 +215,7 @@ class InvoiceController extends Controller
         if ($request->cash_advance_id) {
             $cash_advance_controller = new CashAdvanceController();
 
-            $cash_advance = CashAdvance::find($request->cash_advance_id);
+            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
 
             $cash_advance_controller->check_cash_advance($customer, $cash_advance, $project);
         }
@@ -516,6 +516,14 @@ class InvoiceController extends Controller
         $description = $request->description;
         $term_and_condition = $request->term_and_condition;
 
+        if ($request->cash_advance_id) {
+            $cash_advance_controller = new CashAdvanceController();
+
+            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
+
+            $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
+        }
+
         $invoice1 = Invoice::where('id', $invoice->id)
             ->update([
                 'currency' => $currency_id,
@@ -715,16 +723,16 @@ class InvoiceController extends Controller
         if ($invoice->cash_advance_id) {
             $cash_advance_controller = new CashAdvanceController();
 
-            $cash_advance = CashAdvance::find($invoice->cash_advance_id);
+            $cash_advance = CashAdvance::findOrFail($invoice->cash_advance_id);
 
             $project = $invoice->quotation->quotationable()->first();
 
             $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $project);
-        }
 
-        // update amount
-        $advance_payment_balance = new AdvancePaymentBalance();
-        $advance_payment_balance->update_amount($invoice->cash_advance, $amount);
+            // update amount
+            $advance_payment_balance = new AdvancePaymentBalance();
+            $advance_payment_balance->update_amount($invoice->cash_advance, $amount);
+        }
 
         DB::commit();
 
@@ -1622,14 +1630,27 @@ class InvoiceController extends Controller
 
     public function select2_cash_advance(Request $request)
     {
-        $data = CashAdvance::where('transaction_number', 'like', $request->q)
-            ->get()
-            ->transform(function($row) {
+        if (! $request->customer) {
+            return [
+                'results' => []
+            ];
+        }
 
-                $row->text = $row->transaction_number;
+        $customer = Customer::findOrFail($request->customer);
 
-                return $row;
-            });
+        $cash_advance = CashAdvance::where('class_ref', 'like', '%Customer%')
+            ->where('id_ref', $customer->id)
+            ->where('transaction_number', 'like', "%{$request->q}%")
+            ->get();
+
+        $data['results'] = [];
+    
+        foreach ($cash_advance as $cash_advance_row) {
+            $data['results'][] = [
+                'id' => $cash_advance_row->id,
+                'text' => $cash_advance_row->transaction_number
+            ];
+        }
 
         return $data;
     }

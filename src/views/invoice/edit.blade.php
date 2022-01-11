@@ -339,6 +339,18 @@
                                         </div>
 
                                     </div>
+                                    <div class="col-12 mb-4">
+                                      <label class="form-control-label">
+                                          Cash Advance
+                                      </label>
+                                      <select class="form-control cash_advance_id" name="cash_advance_id" id="cash_advance_id" style="width:100%">
+                                        @if ($invoice->cash_advance_id)
+                                          <option value="{{ $invoice->cash_advance_id }}" selected>{{ $invoice->cash_advance->transaction_number }}</option>
+                                        @else
+                                          <option value=""></option>
+                                        @endif
+                                      </select>
+                                    </div>
                                 </div>
 
                                 <div class="form-group m-form__group row">
@@ -1185,6 +1197,7 @@
 <script src="{{ asset('js/frontend/functions/summernote.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+    let _url = window.location.origin;
     let _exchange_rate = 1;
 
     function addCommas(nStr)
@@ -1199,6 +1212,14 @@
         }
         return x1 + x2;
     }
+
+    $('.cash_advance_id').select2({
+      placeholder: '-- Select --',
+      ajax: {
+        url: _url+'/invoice/select2-cash-advance?customer={{ $invoice->customer->id }}',
+        dataType: 'json'
+      },
+    });
 
     // select2 handler
 		$('._select2').select2({

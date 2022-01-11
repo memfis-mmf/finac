@@ -349,6 +349,17 @@
                                         </div>
 
                                     </div>
+                                    <div class="col-12">
+                                      <label class="form-control-label">
+                                        Cash Advance
+                                      </label>
+                                      @component('input::select2')
+                                      @slot('id', 'cash_advance_id')
+                                      @slot('name', 'cash_advance_id')
+                                      @slot('class', 'cash_advance_id')
+                                      @slot('id_error', 'cash_advance_id')
+                                      @endcomponent
+                                    </div>
                                 </div>
 
                                 <div class="form-group m-form__group row">
@@ -1136,6 +1147,10 @@
                 $('#exchange_rate1111').val(1);
                 $('#exchange_rate1111').attr('disabled', 'disabled');
             }
+        });
+
+        $('.cash_advance_id').select2({
+          placeholder: '-- Select --',
         });
 
         $('.bankinfo').select2({
