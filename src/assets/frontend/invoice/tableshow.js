@@ -360,6 +360,7 @@
 //     // });
 //     // scheduled_payment_array.pop();
 //     let data = new FormData();
+//     data.append("cash_advance_id", $('[name=cash_advance_id]').val());
 //     data.append("date", $('[name=date]').val());
 //     data.append("quotation", $('#refquono').val());
 //     data.append("currency", $('#currency').val());

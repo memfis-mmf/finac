@@ -247,6 +247,14 @@ let RefQuoDatatables = {
                         $.each(attention, function (i, attention) {
                             atten_array[i] = attention.name;
                         });
+
+                        $('.cash_advance_id').select2({
+                            ajax: {
+                                url: _url+'/invoice/select2-cash-advance?customer='+customers.id,
+                                dataType: 'json'
+                            },
+                        });
+                        
                         $('#attention').empty();
                         $("#name").val(customers.name);
                         $("#address").val((customers.addresses[0])? customers.addresses[0].address: '-');

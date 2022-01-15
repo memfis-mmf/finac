@@ -1057,6 +1057,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 	// });
 
 	Route::prefix('invoice')->group(function () {
+        Route::get('/select2-cash-advance', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@select2_cash_advance')->name('invoice.select2.cash-advance');
         Route::get('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
         Route::get('export', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@export')->name('invoice.export');
 		Route::get(
