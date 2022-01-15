@@ -8,6 +8,7 @@ use memfisfa\Finac\Model\AReceiveA;
 use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
+use App\Models\AdvancePaymentBalance;
 use App\Models\Customer;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
@@ -416,14 +417,20 @@ class ARController extends Controller
                     $substract = $arc_first->gap;
                 }
 
+                $desc = 'Payment From : ' . $ara_row->transactionnumber 
+                    . ' '
+                    . $ara_row->ar->customer->name
+                    . " ({$ara_row->invoice->transactionnumber})";
+
+                if ($ara_row->description) {
+                    $desc = $ara_row->description;
+                }
+
                 $detail[] = (object) [
                     'coa_detail' => $ara_row->coa->id,
                     'credit' => $ara_row->credit_idr - $substract,
                     'debit' => 0,
-                    '_desc' => 'Payment From : ' . $ara_row->transactionnumber 
-                        . ' '
-                        . $ara_row->ar->customer->name
-                        . " ({$ara_row->invoice->transactionnumber})",
+                    '_desc' => $desc,
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -765,15 +772,57 @@ class ARController extends Controller
 
     public function generate_ar($invoice)
     {
-        $request = new Request();
+        $amount = $invoice->grantotal_foreign;
+        $count_cash_advance = $invoice->cash_advance()->count();
 
-        $request->merge([
-            'payment_type' => 'cash',
-            'transactiondate' => now()->format('d-m-Y'),
-            'id_customer' => $invoice->customer->id,
-            'accountcode' => 'required',
-            'currency' => 'required',
-            'exchangerate' => 'required'
-        ]);
+        // generate ar as much as cash advance
+        foreach ($invoice->cash_advance ?? [] as $cash_advance) {
+            $request = new Request();
+
+            $request->merge([
+                'payment_type' => 'cash',
+                'transactiondate' => now()->format('d-m-Y'),
+                'id_customer' => $invoice->customer->id,
+                'accountcode' => $cash_advance->coad,
+                'currency' => $cash_advance->currency->code,
+                'exchangerate' => $cash_advance->rate
+            ]);
+
+            $store = $this->store($request)->getData();
+            $ar = AReceive::where('uuid', $store->uuid)->first();
+
+            $request = new Request();
+
+            $request->merge([
+                'ar_uuid' => $ar->uuid,
+                'data_uuid' => $invoice->uuid,
+                'description' => "Auto Generated From {$cash_advance->transaction_number} - {$invoice->transactionnumber} - {$invoice->customer->name}",
+            ]);
+
+            $advance_payment_balance = new AdvancePaymentBalance();
+            $update_amount = $advance_payment_balance->update_amount($cash_advance, $amount, $count_cash_advance);
+
+            $request = new Request();
+            $request->merge([
+                'credit' => $update_amount['diff_balance']
+            ]);
+
+            $ara_controller = new ARAController();
+            $ara_controller->store($request);
+
+            $request = new Request();
+            $request->merge([
+                'uuid' => $ar->uuid
+            ]);
+
+            $this->approve($request);
+
+            $amount = $update_amount['current_amount'];
+            $count_cash_advance--;
+                        
+            if ($amount < 1) {
+                break;
+            }
+        }
     }
 }

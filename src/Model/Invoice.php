@@ -328,4 +328,9 @@ class Invoice extends MemfisModel
     {
         return $this->belongsToMany(CashAdvance::class, (new InvoiceCashAdvance())->getTable());
     }
+
+    public function cash_advance_pivot()
+    {
+        return $this->hasMany(InvoiceCashAdvance::class, 'invoice_id');
+    }
 }

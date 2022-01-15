@@ -56,8 +56,13 @@ class ARAController extends Controller
             ]);
         }
 
+        $description = '';
+        if ($request->description) {
+            $description = $request->description;
+        }
+
         $request->request->add([
-            'description' => '',
+            'description' => $description,
             'transactionnumber' => $AR->transactionnumber,
             'ar_id' => $AR->id,
             'id_invoice' => $invoice->id,

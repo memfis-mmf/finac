@@ -212,14 +212,6 @@ class InvoiceController extends Controller
         $grandtotal_val = $request->grandtotal_val;
         $grandtotal_rp_val = $request->grandtotalrp_val;
 
-        if ($request->cash_advance_id) {
-            $cash_advance_controller = new CashAdvanceController();
-
-            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
-
-            $cash_advance_controller->check_cash_advance($customer, $cash_advance, $project);
-        }
-
         $invoice = Invoice::create([
             'id_branch' => $id_branch,
             'closed' => $closed,
@@ -252,6 +244,12 @@ class InvoiceController extends Controller
         ]);
 
         if ($request->cash_advance_id) {
+            $cash_advance_controller = new CashAdvanceController();
+
+            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
+
+            $cash_advance_controller->check_cash_advance($invoice, $customer, $cash_advance, $project);
+
             $invoice->cash_advance()->attach($request->cash_advance_id);
         }
 
@@ -524,7 +522,7 @@ class InvoiceController extends Controller
 
             $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
 
-            $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
+            $cash_advance_controller->check_cash_advance($invoice, $invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
 
             $invoice->cash_advance()->detach();
             $invoice->cash_advance()->attach($request->cash_advance_id);
@@ -727,16 +725,11 @@ class InvoiceController extends Controller
         }
 
         if ($invoice->cash_advance_id) {
+
             $cash_advance_controller = new CashAdvanceController();
 
-            $project = $invoice->quotation->quotationable()->first();
-
-            foreach ($invoice->cash_advance as $cash_advance) {
-                $cash_advance_controller->check_cash_advance($invoice->customer, $cash_advance, $project);
-
-                // update amount
-                $advance_payment_balance = new AdvancePaymentBalance();
-                $advance_payment_balance->update_amount($invoice->cash_advance, $invoice->grandtotal);
+            foreach ($invoice->cash_advance ?? [] as $cash_advance) {
+                $cash_advance_controller->check_cash_advance($invoice, $invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
             }
 
             $ar_controller = new ARController();
@@ -1656,7 +1649,7 @@ class InvoiceController extends Controller
         foreach ($cash_advance as $cash_advance_row) {
             $data['results'][] = [
                 'id' => $cash_advance_row->id,
-                'text' => $cash_advance_row->transaction_number
+                'text' => "{$cash_advance_row->transaction_number} (".strtoupper($cash_advance_row->currency->code).")"
             ];
         }
 
