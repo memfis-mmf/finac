@@ -357,6 +357,7 @@ jQuery(document).ready(function () {
     _form.find('[disabled=disabled]').removeAttr('disabled');
 
     let data = new FormData();
+    data.append('cash_advance_id', $('[name=cash_advance_id]').val());
     data.append('date', $('[name=date]').val());
     data.append('presdir', $('[name=presdir]').val());
     data.append('location', $('[name=location]').val());

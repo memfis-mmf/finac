@@ -529,7 +529,8 @@ class CashbookController extends Controller
 					'credit' => $arr->credit * $cashbook->exchangerate,
 					'debit' => $arr->debit * $cashbook->exchangerate,
                     '_desc' => $arr->description,
-                    'id_project' => $arr->id_project
+                    'id_project' => $arr->id_project,
+                    'quotation_workshop_id' => $arr->quotation_workshop_id
 				];
 
 				$total_debit += $detail[count($detail)-1]->debit;

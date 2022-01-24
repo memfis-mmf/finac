@@ -55,6 +55,21 @@
                                 @endcomponent
                             </div>
                         </div>
+
+                        <div class="form-group m-form__group row ">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <label class="form-control-label">
+                                    Quotation Workshop
+                                </label>
+
+                                @component('input::select')
+                                    @slot('id', 'quotation_workshop_id')
+                                    @slot('text', 'quotation_workshop_id')
+                                    @slot('name', 'quotation_workshop_id')
+                                    @slot('class', 'quotation_workshop')
+                                @endcomponent
+                            </div>
+                        </div>
                         <div class="form-group m-form__group row ">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label class="form-control-label">

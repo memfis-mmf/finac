@@ -2,18 +2,57 @@
 
 namespace memfisfa\Finac\Model;
 
+use App\InvoiceCashAdvance;
 use App\Models\Approval;
 use App\Models\Currency;
 use App\Models\Quotation;
 use App\Models\Customer;
 use App\Models\BankAccount;
+use App\Models\CashAdvance;
 use App\User;
 use Carbon\Carbon;
 use memfisfa\Finac\Model\MemfisModel;
 
 class Invoice extends MemfisModel
 {
-    protected $guarded = [];
+    protected $fillable = [
+        "uuid",
+        "id_branch",
+        "closed",
+        "transactionnumber",
+        "transaction_status",
+        "transactiondate",
+        "id_customer",
+        "currency",
+        "id_bank",
+        "attention",
+        "exchangerate",
+        "discountpercent",
+        "discountvalue",
+        "ppnpercent",
+        "ppnvalue",
+        "grandtotalforeign",
+        "grandtotal",
+        "accountcode",
+        "schedule_payment",
+        "deleted_at",
+        "created_at",
+        "updated_at",
+        "location",
+        "company_department",
+        "presdir",
+        "approve",
+        "other_price",
+        "count_journal_report",
+        "id_bank2",
+        "id_bank3",
+        "id_quotation",
+        "term_and_condition",
+        "description",
+        "total",
+        "subtotal",
+        "cash_advance_id", // kolom ini ngga kepake
+    ];
 
 	protected $appends = [
         'ar_amount',
@@ -284,4 +323,14 @@ class Invoice extends MemfisModel
 	{
 		return self::generateTransactionNumber(self::class, 'transactionnumber', $code);
 	}
+
+    public function cash_advance()
+    {
+        return $this->belongsToMany(CashAdvance::class, (new InvoiceCashAdvance())->getTable());
+    }
+
+    public function cash_advance_pivot()
+    {
+        return $this->hasMany(InvoiceCashAdvance::class, 'invoice_id');
+    }
 }

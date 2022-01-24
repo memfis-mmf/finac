@@ -25,13 +25,20 @@ use App\Models\TaskCard;
 use App\Models\Type;
 use App\Models\Department;
 use App\Helpers\CalculateQuoPrice;
+use App\Http\Controllers\Frontend\CashAdvanceController;
+use App\Models\AdvancePaymentBalance;
+use App\Models\CashAdvance;
 use App\Models\Pivots\ProjectWorkpackage;
+use App\Models\Project;
 use App\Models\QuotationDefectCardItem;
 use memfisfa\Finac\Model\Invoicetotalprofit;
 use memfisfa\Finac\Model\TrxJournal;
 use stdClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+
 //use for export
 use memfisfa\Finac\Model\Exports\InvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -235,6 +242,16 @@ class InvoiceController extends Controller
             'grandtotalforeign' => $grandtotal_val,
             'grandtotal' => $grandtotal_val * $exchange_rate,
         ]);
+
+        if ($request->cash_advance_id) {
+            $cash_advance_controller = new CashAdvanceController();
+
+            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
+
+            $cash_advance_controller->check_cash_advance($invoice, $customer, $cash_advance, $project);
+
+            $invoice->cash_advance()->attach($request->cash_advance_id);
+        }
 
         $list = [
             'manhours' => $request->manhoursprice,
@@ -500,6 +517,17 @@ class InvoiceController extends Controller
         $description = $request->description;
         $term_and_condition = $request->term_and_condition;
 
+        if ($request->cash_advance_id) {
+            $cash_advance_controller = new CashAdvanceController();
+
+            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
+
+            $cash_advance_controller->check_cash_advance($invoice, $invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
+
+            $invoice->cash_advance()->detach();
+            $invoice->cash_advance()->attach($request->cash_advance_id);
+        }
+
         $invoice1 = Invoice::where('id', $invoice->id)
             ->update([
                 'currency' => $currency_id,
@@ -571,10 +599,10 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        // Invoice::where('id', $invoice->id)
-        //     ->update([
-        //         'closed' => 2,
-        //     ]);
+        if ($invoice->approve) {
+            return abort(404);
+        }
+        $invoice->cash_advance()->detach();
         $invoice->delete();
         return response()->json($invoice);
     }
@@ -696,6 +724,18 @@ class InvoiceController extends Controller
             ];
         }
 
+        if ($invoice->cash_advance_id) {
+
+            $cash_advance_controller = new CashAdvanceController();
+
+            foreach ($invoice->cash_advance ?? [] as $cash_advance) {
+                $cash_advance_controller->check_cash_advance($invoice, $invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
+            }
+
+            $ar_controller = new ARController();
+            $ar_controller->generate_ar($invoice);
+        }
+
         DB::commit();
 
         return [
@@ -703,7 +743,6 @@ class InvoiceController extends Controller
             'message' => 'Data Approved'
         ];
     }
-
 
     public function quodatatables()
     {
@@ -1588,5 +1627,32 @@ class InvoiceController extends Controller
         $name .= " {$prefix}";
 
         return Excel::download(new InvoiceExport($data), "{$name}.xlsx");
+    }
+
+    public function select2_cash_advance(Request $request)
+    {
+        if (! $request->customer) {
+            return [
+                'results' => []
+            ];
+        }
+
+        $customer = Customer::findOrFail($request->customer);
+
+        $cash_advance = CashAdvance::where('class_ref', 'like', '%Customer%')
+            ->where('id_ref', $customer->id)
+            ->where('transaction_number', 'like', "%{$request->q}%")
+            ->get();
+
+        $data['results'] = [];
+    
+        foreach ($cash_advance as $cash_advance_row) {
+            $data['results'][] = [
+                'id' => $cash_advance_row->id,
+                'text' => "{$cash_advance_row->transaction_number} (".strtoupper($cash_advance_row->currency->code).")"
+            ];
+        }
+
+        return $data;
     }
 }

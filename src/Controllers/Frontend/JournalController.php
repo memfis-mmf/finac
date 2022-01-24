@@ -29,6 +29,7 @@ use memfisfa\Finac\Model\Cashbook;
 use memfisfa\Finac\Model\Invoice;
 use memfisfa\Finac\Model\TrxPayment;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
+use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
 
 class JournalController extends Controller
 {
@@ -704,7 +705,7 @@ class JournalController extends Controller
                 'approvals', 
             ])
             ->where('code', 'like', "%$q%")
-            ->whereIn('status', ['Quotation Approved', 'Project Approved'])
+            ->where('status', '!=', 'Open')
             // ->has('approvals', 2)
             ->orderBy('id', 'desc')
             ->limit(50)
@@ -716,6 +717,31 @@ class JournalController extends Controller
             $data['results'][] = [
                 'id' => $project_row->id,
                 'text' => "{$project_row->code} [{$project_row->customer->name}] | {$project_row->aircraft_register}"
+            ];
+        }
+
+		return $data;
+	}
+
+    public function getQuotationWorkshopSelect2(Request $request)
+	{
+        $q = $request->q;
+
+        $quotation_workshops = QuotationWorkshop::
+            where('quotation_no', 'like', "%$q%")
+            ->where('status_quot', 'like', '%Approve%')
+            ->orderBy('id', 'desc')
+            ->limit(50)
+            ->get();
+
+        $data['results'] = [];
+        
+        foreach ($quotation_workshops as $quotation_workshop) {
+            $general_ori = json_decode($quotation_workshop->general_ori);
+
+            $data['results'][] = [
+                'id' => $quotation_workshop->id,
+                'text' => "{$quotation_workshop->quotation_no} | {$general_ori->name}"
             ];
         }
 

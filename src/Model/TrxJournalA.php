@@ -18,6 +18,7 @@ class TrxJournalA extends MemfisModel
 		'debit',
 		'credit',
 		'id_project',
+		'quotation_workshop_id',
     ];
 
 	protected $appends = [
@@ -58,4 +59,8 @@ class TrxJournalA extends MemfisModel
         return $this->belongsTo(Project::class, 'id_project');
     }
 
+	public function quotation_workshop()
+    {
+        return $this->belongsTo(QuotationWorkshop::class, 'quotation_workshop_id', 'id');
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\Approval;
 use App\Models\Currency;
 use App\User;
 use App\Models\Project;
+use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
@@ -32,6 +33,7 @@ class Cashbook extends MemfisModel
         'company_department',
         'cashbook_ref',
         'id_project',
+        'quotation_workshop_id',
     ];
 
     protected $dates = [
@@ -162,5 +164,10 @@ class Cashbook extends MemfisModel
     public function project()
     {
         return $this->belongsTo(Project::class, 'id_project', 'id');
+    }
+
+    public function quotation_workshop()
+    {
+        return $this->belongsTo(QuotationWorkshop::class, 'quotation_workshop_id', 'id');
     }
 }

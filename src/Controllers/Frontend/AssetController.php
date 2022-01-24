@@ -164,6 +164,13 @@ class AssetController extends Controller
 
         $asset_tmp->update($request->only($list));
 
+        $depreciationstart = new Carbon(str_replace('/', "-", trim($request->depreciationstart)));
+		$depreciationstart = $depreciationstart->format('Y-m-d');
+
+        $asset_tmp->update([
+            'depreciationstart' => $depreciationstart
+        ]);
+
         return [
             'status' => true,
             'message' => 'Data saved'
@@ -343,8 +350,14 @@ class AssetController extends Controller
                 'status' => 2
 			]);
 
-			$depreciationStart = new Carbon($date_approve);
-			$depreciationEnd = Carbon::parse($date_approve)->addMonths($asset->usefullife);
+            if ($asset->depreciationstart) {
+                $depreciationStart = $asset->depreciationstart;
+            }
+            else {
+                $depreciationStart = new Carbon($date_approve);
+            }
+			
+			$depreciationEnd = Carbon::parse($depreciationStart)->addMonths($asset->usefullife);
 
 			Asset::where('id', $asset->id)->update([
 				'depreciationstart' => $depreciationStart,

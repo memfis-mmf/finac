@@ -257,6 +257,7 @@ class CashbookAController extends Controller
 			'credit',
 			'description',
 			'id_project',
+			'quotation_workshop_id',
 		]));
 
         $total = $this->sumTotal($cashbook_a_tmp->first()->transactionnumber);
@@ -363,6 +364,7 @@ class CashbookAController extends Controller
             CashbookA::where('transactionnumber', $cashbook->transactionnumber)
             ->with([
                 'project',
+                'quotation_workshop',
                 'cashbook.currencies',
                 'cashbook.second_currencies'
             ])

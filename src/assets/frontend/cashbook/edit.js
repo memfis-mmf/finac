@@ -21,6 +21,15 @@ let Coa = {
       },
     });
 
+    $('select.quotation_workshop').select2({
+      placeholder: '-- Select --',
+      width: '100%',
+      ajax: {
+        url: _url+'/journal/get-quotation_workshop-select2',
+        dataType: 'json'
+      },
+    });
+
     $('.modal').on('hidden.bs.modal', function (e) {
       modal = $('.modal');
       modal.find('input').not('[type=hidden]').val('');
@@ -102,6 +111,14 @@ let Coa = {
             {
                 field: 'project.code',
                 title: 'Project',
+                class:'text-center',
+                sortable: 'asc',
+                filterable: !1,
+                width: 150,
+            },
+            {
+                field: 'quotation_workshop.quotation_no',
+                title: 'QN Workshop',
                 class:'text-center',
                 sortable: 'asc',
                 filterable: !1,
@@ -238,11 +255,24 @@ let Coa = {
         _modal.find('[name=id_project]').append(new Option(data.project.code, data.id_project, false, true));
       }
 
+      if (data.quotation_workshop) {
+        _modal.find('[name=quotation_workshop_id]').append(new Option(data.quotation_workshop.quotation_no, data.quotation_workshop_id, false, true));
+      }
+
       _modal.find('[name=id_project]').select2({
         placeholder: '-- Select --',
         width: '100%',
         ajax: {
           url: _url+'/journal/get-project-select2',
+          dataType: 'json'
+        },
+      });
+
+      _modal.find('[name=quotation_workshop_id]').select2({
+        placeholder: '-- Select --',
+        width: '100%',
+        ajax: {
+          url: _url+'/journal/get-quotation_workshop-select2',
           dataType: 'json'
         },
       });

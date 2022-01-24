@@ -213,6 +213,10 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'/get-project-select2',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@getProjectSelect2'
 		)->name('journal.get-project-select2');
+		Route::get(
+			'/get-quotation_workshop-select2',
+			'memfisfa\Finac\Controllers\Frontend\JournalController@getQuotationWorkshopSelect2'
+		)->name('journal.get-quotation_workshop-select2');
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\JournalController@approve'
@@ -1057,6 +1061,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 	// });
 
 	Route::prefix('invoice')->group(function () {
+        Route::get('/select2-cash-advance', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@select2_cash_advance')->name('invoice.select2.cash-advance');
         Route::get('/', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@index')->name('invoice.index');
         Route::get('export', 'memfisfa\Finac\Controllers\Frontend\InvoiceController@export')->name('invoice.export');
 		Route::get(
