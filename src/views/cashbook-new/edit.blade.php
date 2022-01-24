@@ -120,7 +120,7 @@
 
                                         <select class="form-control m-input" name="quotation_workshop_id" id="quotation_workshop">
                                           @if (@$cashbook->quotation_workshop)
-                                            <option value="{{$cashbook->quotation_workshop->id}}" selected>{{$cashbook->quotation_workshop->code}}</option>
+                                            <option value="{{$cashbook->quotation_workshop->id}}" selected>{{$cashbook->quotation_workshop->quotation_no}}</option>
                                           @else
                                             <option value="">-- Select --</option>
                                           @endif
