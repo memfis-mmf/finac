@@ -705,7 +705,7 @@ class JournalController extends Controller
                 'approvals', 
             ])
             ->where('code', 'like', "%$q%")
-            ->whereIn('status', ['Quotation Approved', 'Project Approved'])
+            ->where('status', '!=', 'Open')
             // ->has('approvals', 2)
             ->orderBy('id', 'desc')
             ->limit(50)
