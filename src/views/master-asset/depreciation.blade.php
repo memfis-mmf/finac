@@ -72,7 +72,7 @@
                 </label>
 
                 @component('input::datepicker')
-                    @slot('id', 'date')
+                    @slot('id', 'date_depr_start')
                     @slot('name', 'depreciationstart')
                     @slot('value', $asset->depreciationstart)
                     @slot('text', 'Depr. Start Date')
