@@ -117,7 +117,7 @@ let Coa = {
                 width: 150,
             },
             {
-                field: 'quotation_workshop.code',
+                field: 'quotation_workshop.quotation_no',
                 title: 'QN Workshop',
                 class:'text-center',
                 sortable: 'asc',
@@ -256,7 +256,7 @@ let Coa = {
       }
 
       if (data.quotation_workshop) {
-        _modal.find('[name=quotation_workshop_id]').append(new Option(data.quotation_workshop.code, data.quotation_workshop_id, false, true));
+        _modal.find('[name=quotation_workshop_id]').append(new Option(data.quotation_workshop.quotation_no, data.quotation_workshop_id, false, true));
       }
 
       _modal.find('[name=id_project]').select2({
