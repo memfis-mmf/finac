@@ -182,6 +182,16 @@
             } else {
                 window.location.href=currentUrl;
             }
+
+            $("#date_depr_start").datetimepicker({
+                format: "dd-mm-yyyy",
+                todayHighlight: !0,
+                autoclose: !0,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                pickerPosition: "bottom-left"
+            })
         });
     </script>
   <script src="{{ asset('vendor/courier/frontend/functions/daterange/master-asset-dep.js')}}"></script>

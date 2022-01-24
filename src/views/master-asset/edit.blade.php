@@ -170,7 +170,7 @@
 
     if ('{{@$page}}' == 'show') {
       $('input, textarea, select').attr('disabled', 'disabled');
-    }
+    }    
   });
 </script>
 <script src="{{ asset('vendor/courier/frontend/functions/reset.js')}}"></script>
