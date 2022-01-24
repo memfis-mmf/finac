@@ -151,7 +151,6 @@ class AssetController extends Controller
 			'pono',
 			'supplier',
 			'povalue',
-			'depreciationstart',
 			'salvagevalue',
 			'usefullife',
 			'coaexpense',
@@ -164,6 +163,13 @@ class AssetController extends Controller
 		];
 
         $asset_tmp->update($request->only($list));
+
+        $depreciationstart = new Carbon(str_replace('/', "-", trim($request->depreciationstart)));
+		$depreciationstart = $depreciationstart->format('Y-m-d');
+
+        $asset_tmp->update([
+            'depreciationstart' => $depreciationstart
+        ]);
 
         return [
             'status' => true,
