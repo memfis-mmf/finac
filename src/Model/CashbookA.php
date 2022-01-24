@@ -16,7 +16,8 @@ class CashbookA extends MemfisModel
         'debit',
         'credit',
         'description',
-        'id_project'
+        'id_project',
+        'quotation_workshop_id',
     ],
     $appends = [
         'second_debit',
@@ -40,6 +41,11 @@ class CashbookA extends MemfisModel
     public function project()
     {
         return $this->belongsTo(Project::class, 'id_project');
+    }
+
+    public function quotation_workshop()
+    {
+        return $this->belongsTo(QuotationWorkshop::class, 'quotation_workshop_id', 'id');
     }
 
     public function getSecondDebitAttribute()

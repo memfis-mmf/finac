@@ -112,6 +112,21 @@
                                           @endif
                                         </select>
                                     </div>
+
+                                    <div class="col-md-6 mt-2">
+                                        <label class="form-control-label">
+                                            Quotation Workshop
+                                        </label>
+
+                                        <select class="form-control m-input" name="quotation_workshop_id" id="quotation_workshop">
+                                          @if (@$cashbook->quotation_workshop)
+                                            <option value="{{$cashbook->quotation_workshop->id}}" selected>{{$cashbook->quotation_workshop->code}}</option>
+                                          @else
+                                            <option value="">-- Select --</option>
+                                          @endif
+                                        </select>
+                                    </div>
+
                                     <div class="col-sm-6 col-md-6 col-lg-6 mt-2">
                                         <label class="form-control-label">
                                             Department
@@ -802,6 +817,13 @@
     $('#project').select2({
       ajax: {
         url: _url+'/journal/get-project-select2',
+        dataType: 'json'
+      },
+    });
+
+    $('#quotation_workshop').select2({
+      ajax: {
+        url: _url+'/journal/get-quotation_workshop-select2',
         dataType: 'json'
       },
     });
