@@ -728,7 +728,7 @@ class JournalController extends Controller
         $q = $request->q;
 
         $quotation_workshops = QuotationWorkshop::
-            where('code', 'like', "%$q%")
+            where('quotation_no', 'like', "%$q%")
             ->where('status_quot', 'like', '%Approve%')
             ->orderBy('id', 'desc')
             ->limit(50)
@@ -741,7 +741,7 @@ class JournalController extends Controller
 
             $data['results'][] = [
                 'id' => $quotation_workshop->id,
-                'text' => "{$quotation_workshop->code} | {$general_ori->name}"
+                'text' => "{$quotation_workshop->quotation_no} | {$general_ori->name}"
             ];
         }
 
