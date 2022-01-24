@@ -68,6 +68,19 @@
         <div class="form-group m-form__group row ">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <label class="form-control-label">
+                    Depr. Start Date @include('label::required')
+                </label>
+
+                @component('input::datepicker')
+                    @slot('id', 'date')
+                    @slot('name', 'depreciationstart')
+                    @slot('value', $asset->depreciationstart)
+                    @slot('text', 'Depr. Start Date')
+                @endcomponent
+            </div>
+
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <label class="form-control-label">
                     Useful Life @include('label::required')
                 </label>
 

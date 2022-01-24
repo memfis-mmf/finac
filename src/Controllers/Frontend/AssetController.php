@@ -151,6 +151,7 @@ class AssetController extends Controller
 			'pono',
 			'supplier',
 			'povalue',
+			'depreciationstart',
 			'salvagevalue',
 			'usefullife',
 			'coaexpense',
@@ -343,8 +344,14 @@ class AssetController extends Controller
                 'status' => 2
 			]);
 
-			$depreciationStart = new Carbon($date_approve);
-			$depreciationEnd = Carbon::parse($date_approve)->addMonths($asset->usefullife);
+            if ($asset->depreciationstart) {
+                $depreciationStart = $asset->depreciationstart;
+            }
+            else {
+                $depreciationStart = new Carbon($date_approve);
+            }
+			
+			$depreciationEnd = Carbon::parse($depreciationStart)->addMonths($asset->usefullife);
 
 			Asset::where('id', $asset->id)->update([
 				'depreciationstart' => $depreciationStart,
