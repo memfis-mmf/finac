@@ -99,7 +99,7 @@ class Asset extends MemfisModel
         if (!$this->depreciationstart) {
             return '-';
         }
-        return Carbon::parse($this->depreciationstart)->format('Y-m-d');
+        return Carbon::parse($this->depreciationstart)->format('d-m-Y');
     }
 
     public function getDepreciationendFormatAttribute()
@@ -107,7 +107,7 @@ class Asset extends MemfisModel
         if (!$this->depreciationend) {
             return '-';
         }
-        return Carbon::parse($this->depreciationend)->format('Y-m-d');
+        return Carbon::parse($this->depreciationend)->format('d-m-Y');
     }
 
     public function getStatusAttribute()
