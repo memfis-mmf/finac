@@ -3,6 +3,7 @@
 namespace memfisfa\Finac\Model;
 
 use App\Models\Project;
+use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
 use memfisfa\Finac\Model\MemfisModel;
 
 class CashbookA extends MemfisModel

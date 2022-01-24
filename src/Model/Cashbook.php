@@ -7,6 +7,7 @@ use App\Models\Approval;
 use App\Models\Currency;
 use App\User;
 use App\Models\Project;
+use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
