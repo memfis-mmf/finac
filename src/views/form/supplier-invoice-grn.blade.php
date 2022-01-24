@@ -9,7 +9,7 @@
         @page {
             margin: 0cm 0cm;
         }
-        
+
         html,body{
             padding: 0;
             margin: 0;
@@ -43,16 +43,16 @@
         } */
 
         ol,ul {
-            counter-reset: item; 
-            padding-left: 0; 
+            counter-reset: item;
+            padding-left: 0;
             line-height: 1;
         }
 
         ol > li,
-        ul > li{ 
-            counter-increment: item;  
+        ul > li{
+            counter-increment: item;
             padding-left:1.5em;
-            position: relative; 
+            position: relative;
             page-break-inside: avoid;
         }
 
@@ -105,8 +105,8 @@
             page-break-before: always;
         }
 
-        footer .page-number:after { 
-            content: counter(page); 
+        footer .page-number:after {
+            content: counter(page);
         }
     </style>
 </head>
@@ -222,7 +222,7 @@
                         <th valign="top" align="center">Delivery Order No.</th>
                         <th valign="top" align="center">Invoice No.</th>
                         <th valign="top" align="center">Currency</th>
-                        <th valign="top" align="center">Rate</th>
+                        {{-- <th valign="top" align="center">Rate</th> --}}
                         <th valign="top" align="center">Vat percent</th>
                         <th valign="top" align="center">Vat Amount</th>
                         <th valign="top" align="center">Total</th>
@@ -237,7 +237,7 @@
                       <td valign="top" align="center">{{json_decode($item->grn->additionals)->SupplierRefNo}} </td>
                       <td valign="top" align="center">{{$item->description}}</td>
                       <td valign="top" align="center">{{strtoupper($item->grn->purchase_order->currency->code)}}</td>
-                      <td valign="top" align="center">Rp {{$class::currency_format($item->grn->purchase_order->exchange_rate)}}</td>
+                      {{-- <td valign="top" align="center">Rp {{$class::currency_format($item->grn->purchase_order->exchange_rate)}}</td> --}}
                       <td valign="top" align="center">{{$class::currency_format($item->tax_percent)}}%</td>
                       <td valign="top" align="center">{{$class::currency_format($item->tax_amount)}}</td>
                       <td valign="top" align="right">{{$class::currency_format($item->total)}} </td>
@@ -277,14 +277,14 @@
                               <tr>
                                   <td width="40%" valign="top"><b>VAT Total {{ strtoupper($vat_row['currency']->code) }}</b></td>
                                   <td width="60%" valign="top" align="right"><b>{{$class::currency_format($vat_row['amount'])}}</b></td>
-                              </tr>   
+                              </tr>
                             @endforeach
-                            
+
                             @foreach ($grandtotal as $grandtotal_row)
                               <tr>
                                   <td width="40%" valign="top"><b>GRANDTOTAL {{ strtoupper($grandtotal_row['currency']->code) }}</b></td>
                                   <td width="60%" valign="top" align="right"><b>{{$class::currency_format($grandtotal_row['amount'])}}</b></td>
-                              </tr>   
+                              </tr>
                             @endforeach
 
                         </table>

@@ -14,7 +14,7 @@
             margin: 0;
             font-size: 12px;
         }
-        
+
         body {
             margin-top: 3.5cm;
             margin-bottom: 3cm;
@@ -44,16 +44,16 @@
         } */
 
         ol,ul {
-            counter-reset: item; 
-            padding-left: 0; 
+            counter-reset: item;
+            padding-left: 0;
             line-height: 1;
         }
 
         ol > li,
-        ul > li{ 
-            counter-increment: item;  
+        ul > li{
+            counter-increment: item;
             padding-left:1.5em;
-            position: relative; 
+            position: relative;
             page-break-inside: avoid;
         }
 
@@ -138,12 +138,12 @@
                     </td> --}}
                 {{-- </tr> --}}
                 <tr>
-                  <td>  
+                  <td>
                     <span style="margin-left:6px;">
                       Created By : {{$invoice->created_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;
-                      Approved By : {{$invoice->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; 
-                      Printed By :  {{Auth::user()->name.' '.date('d-m-Y H:i:s')}} 
-                    </span> 
+                      Approved By : {{$invoice->approved_by}} &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;
+                      Printed By :  {{Auth::user()->name.' '.date('d-m-Y H:i:s')}}
+                    </span>
                   </td>
                 </tr>
             </table>
@@ -290,8 +290,8 @@
                             @php
                                 if ($workpackage_row->is_template == 'htcrr') {
                                     echo number_format(
-                                        (float) $workpackage_row->data_htcrr['total_manhours_with_performance_factor'] 
-                                        * (float) $workpackage_row->data_htcrr['manhour_rate_amount'] 
+                                        (float) $workpackage_row->data_htcrr['total_manhours_with_performance_factor']
+                                        * (float) $workpackage_row->data_htcrr['manhour_rate_amount']
                                         * $invoice->multiple
                                         , 0
                                         , 0
@@ -561,7 +561,7 @@
                                 <td width="100%" valign="top" align="center">{{$invoice->location.', '.date('M d, Y', strtotime($invoice->transactiondate))}}</td>
                             </tr>
                             <tr>
-                                <td width="100%" height="60"></td>
+                                <td width="100%" height="85"></td>
                             </tr>
                             <tr>
                                 <td width="100%" valign="top" align="center"><b>{{$invoice->presdir}}</b></td>
