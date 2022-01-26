@@ -249,6 +249,8 @@ class APController extends Controller
         $data = APayment::with([
                 'vendor',
                 'apa',
+                'apb',
+                'apc',
                 'coa',
             ])
             ->select('a_payments.*');
