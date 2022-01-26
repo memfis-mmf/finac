@@ -995,6 +995,9 @@ class InvoiceController extends Controller
             ->addColumn('export_url', function($row) {
                 return route('invoice.export')."?uuid={$row->uuid}";
             })
+            ->addColumn('grandtotalforeign_formated', function($row) {
+                return $this->currency_format($row->grandtotalforeign);
+            })
             ->escapeColumns([])
             ->make(true);
     }

@@ -59,7 +59,7 @@ let Invoice = {
             {data: 'grandtotalforeign',
                 "render": function ( data, type, row, meta ) {
                     if (row.grandtotalforeign) {
-                        let value = addCommas(parseFloat(row.grandtotalforeign));
+                        let value = row.grandtotalforeign_formated;
                         let symbol = row.currencies.symbol;
 
                         return `<p class="text-right text-nowrap">${symbol} ${value}</p>`;
