@@ -194,7 +194,7 @@
                           <tr>
                               <td width="15%" align="center">{{$arr->coa_code}}</td>
                               <td width="20%" align="center">{{$arr->coa_name}}</td>
-                              <td width="31%" align="center">{!! $journal_detail->description_2 ?? $arr->_desc !!}</td>
+                              <td width="31%" align="left">{!! $journal_detail->description_2 ?? $arr->_desc !!}</td>
                               <td width="17%" align="center">
 																@php
 																	if ($arr->debit != 0) {
