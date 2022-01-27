@@ -524,10 +524,15 @@ class CashbookController extends Controller
 			) {
 				$arr = $cashbook_a[$index_cashbook_a];
 
+                $rate = $cashbook->exchangerate;
+                if ($cashbook->currency == 'idr') {
+                    $rate = 1;
+                }
+
 				$detail[] = (object) [
 					'coa_detail' => $arr->coa->id,
-					'credit' => $arr->credit * $cashbook->exchangerate,
-					'debit' => $arr->debit * $cashbook->exchangerate,
+					'credit' => $arr->credit * $rate,
+					'debit' => $arr->debit * $rate,
                     '_desc' => $arr->description,
                     'id_project' => $arr->id_project,
                     'quotation_workshop_id' => $arr->quotation_workshop_id

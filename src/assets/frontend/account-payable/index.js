@@ -109,10 +109,12 @@ let Journal = {
                 t.uuid +
                 '>\t\t\t\t\t\t\t<i class="la la-pencil"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t';
 
-              _html +=
+              if (!t.apa || !t.apb || !t.apc) {
+                _html +=
                 '\t\t\t\t\t\t\t<a class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill  delete" href="#" data-uuid=' +
                 t.uuid +
                 ' title="Delete"><i class="la la-trash"></i> </a>\t\t\t\t\t\t\t';
+              }              
 
               if (t.can_approve_fa) {
                 _html +=
