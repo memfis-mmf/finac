@@ -561,7 +561,7 @@
                                 <td width="100%" valign="top" align="center">{{$invoice->location.', '.date('M d, Y', strtotime($invoice->transactiondate))}}</td>
                             </tr>
                             <tr>
-                                <td width="100%" height="90"></td>
+                                <td width="100%" height="87"></td>
                             </tr>
                             <tr>
                                 <td width="100%" valign="top" align="center"><b>{{$invoice->presdir}}</b></td>
