@@ -193,21 +193,22 @@
     <div class="container">
       <table width="100%" border="1">
         <tr>
-          <td align="center" rowspan="2">Ordered By</td>
-          <td align="center" rowspan="2">Approved By <br><span style="font-size: 10px;"><b><i>
-                  Director</i></b></span></td>
-          <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
-          <td align="center" rowspan="2" width="15%">
-            Received By
-          </td>
+            <td align="center" rowspan="2">Submitted By</td>
+            <td align="center" rowspan="2">Controlled By <br><span style="font-size: 10px;"><b><i>
+                Finance Controller/GB</i></b></span></td>
+            <td align="center" rowspan="2">Approved By <br><span style="font-size: 10px;"><b><i>
+                Director/President Director</i></b></span></td>
+            <td align="center" colspan="3">FINANCE & ACCOUNTING</td>
+            <td align="center" rowspan="2" width="13%"> Received By </td>
         </tr>
         <tr>
-          <td align="center">Recorded By <br><span style="font-size: 10px;"><b><i>Accounting</i></b> </span></td>
-          <td align="center">Checked By <br><span style="font-size: 10px;"><b><i>Finance Manager</i></b> </span></td>
-          <td align="center">Processed By<br><span style="font-size: 10px;"><b><i>Cashier</i></b></span> </td>
+          <td align="center" width="15%">Executed By <br><span style="font-size: 10px;"><b><i>Finance Manager</i></b> </span></td>
+          <td align="center">Processed By <br><span style="font-size: 10px;"><b><i>Cashier</i></b> </span></td>
+          <td align="center">Recorded By<br><span style="font-size: 10px;"><b><i>Accounting</i></b></span> </td>
         </tr>
         <tr>
           <td height="50"></td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
