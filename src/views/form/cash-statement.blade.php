@@ -143,10 +143,10 @@
         <table width="100%" cellpadding="3" page-break-inside: auto;>
             <thead>
                 <tr>
-                  <td width="" align="left" valign="top" width="30px"><b>Date</b></td>
+                  <td width="10%" align="center" valign="top"><b>Date</b></td>
                   <td width="" align="center" valign="top"><b>Transaction No</b></td>
                   <td width="" align="center" valign="top"><b>Reference</b></td>
-                  <td width="" align="center" valign="top" width="100px" ><b>Description</b></td>
+                  <td width="20%" align="center" valign="top"><b>Description</b></td>
                   <td width="" align="right" valign="top"><b>Debit</b></td>
                   <td width="" align="right" valign="top"><b>Credit</b></td>
                   <td width="" align="right" valign="top"><b>Balance</b></td>
@@ -155,7 +155,7 @@
             <tbody style="font-size:11px;">
               @foreach ($data as $data_row)
                 <tr>
-                  <td>{{ $carbon::parse($data_row->date)->format('d-m-Y') }}</td>
+                  <td >{{ $carbon::parse($data_row->date)->format('d-m-Y') }}</td>
                   <td>{{ $data_row->number }}</td>
                   <td>{{ $data_row->ref }}</td>
                   <td>{{ $data_row->description }}</td>
