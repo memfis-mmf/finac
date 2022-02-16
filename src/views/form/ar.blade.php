@@ -194,7 +194,7 @@
                           <tr>
                               <td width="15%" align="center">{{$arr->coa_code}}</td>
                               <td width="20%" align="left">{{$arr->coa_name}}</td>
-                              <td width="31%" align="center">{!! $journal_detail->description_2 ?? $arr->_desc !!}</td>
+                              <td width="31%" align="left">{!! $journal_detail->description_2 ?? $arr->_desc !!}</td>
                               <td width="17%" align="right">
                                 @php
                                     if ($arr->debit != 0) {
@@ -243,28 +243,31 @@
                 <thead>
                     <tr>
                         @if ('payment' == 'payment')
-                            <td align="center" width="10%" rowspan="2">Submitted By</td>
+                            <td align="center" rowspan="2">Submitted By</td>
                         @else
-                            <td align="center" width="10%" rowspan="2">Prepared By</td>
+                            <td align="center" rowspan="2">Prepared By</td>
                         @endif
-                        <td align="center" width="10%" rowspan="2">Approve By <br><span style="font-size: 8px;"><b><i>Director</i></b></span></td>
-                        <td align="center" width="10%" colspan="3">FINANCE & ACCOUNTING</td>
+                            <td align="center"  rowspan="2">Controlled By <br><span style="font-size: 10px;"><b><i>
+                                Finance Controller/GB</i></b></span></td>
+                            <td align="center"  rowspan="2">Approve By <br><span style="font-size: 10px;"><b><i>Director/President Director</i></b></span></td>
+                            <td align="center"  colspan="3">FINANCE & ACCOUNTING</td>
 
                         @if ('payment' == 'payment')
-                            <td align="center" width="10%" rowspan="2"> Received By </td>
+                            <td align="center" width="13%" rowspan="2"> Received By </td>
                         @else
-                            <td align="center" width="10%" rowspan="2"> Paid By </td>
+                            <td align="center" width="13%" rowspan="2"> Paid By </td>
                         @endif
                     </tr>
                     <tr>
-                        <td align="center" width="10%">Recorded By <br><span style="font-size: 8px;"><b><i>Accounting</i></b> </span></td>
-                        <td align="center" width="10%">Acknowledge By <br><span style="font-size: 8px;"><b><i>Finance Manager</i></b> </span></td>
-                        <td align="center" width="10%">Processed By<br><span style="font-size: 8px;"><b><i>Cashier</i></b></span> </td>
+                        <td align="center" width="15%">Executed By <br><span style="font-size: 10px;"><b><i>Finance Manager</i></b> </span></td>
+                        <td align="center" >Processed By <br><span style="font-size: 10px;"><b><i>Cashier</i></b> </span></td>
+                        <td align="center" >Recorded By<br><span style="font-size: 10px;"><b><i>Accounting</i></b></span> </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td height="50"></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
