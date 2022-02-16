@@ -147,9 +147,9 @@
                   <td width="" align="center" valign="top"><b>Transaction No</b></td>
                   <td width="" align="center" valign="top"><b>Reference</b></td>
                   <td width="20%" align="center" valign="top"><b>Description</b></td>
-                  <td width="" align="right" valign="top"><b>Debit</b></td>
-                  <td width="" align="right" valign="top"><b>Credit</b></td>
-                  <td width="" align="right" valign="top"><b>Balance</b></td>
+                  <td width="" align="center" valign="top"><b>Debit</b></td>
+                  <td width="" align="center" valign="top"><b>Credit</b></td>
+                  <td width="" align="center" valign="top"><b>Balance</b></td>
                 </tr>
             </thead>
             <tbody style="font-size:11px;">
