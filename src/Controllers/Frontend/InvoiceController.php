@@ -835,7 +835,7 @@ class InvoiceController extends Controller
         }
 
         $quotations = Quotation::whereHas('approvals')
-            ->whereIn('status', ['Approved', 'RTS'])
+            ->whereIn('status', ['Approved', 'RTS', 'Closing W/O RTS'])
             ->whereDoesntHave('invoice')
             ->get();
 
