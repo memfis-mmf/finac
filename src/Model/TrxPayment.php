@@ -66,6 +66,10 @@ class TrxPayment extends MemfisModel
 
     public function getApAmountAttribute()
     {
+        if (strtolower($this->x_type) == "grn") {
+            return $this->ap_amount_grn();
+        }
+
         $apa = $this->apa()->whereHas('ap', function($ap) {
                 $ap->where('approve', true);
             })
@@ -92,6 +96,39 @@ class TrxPayment extends MemfisModel
         ];
 
         return $result;
+    }
+
+    private function ap_amount_grn()
+    {
+        $si_detail = $this->trxpaymenta()->first(); //get sample grn just to get grn_id
+
+        $apa = $si_detail->apa()->whereHas('ap', function($ap) {
+                $ap->where('approve', true);
+            })
+            ->get();
+
+        $debit = 0;
+        $debit_idr = 0;
+        $credit = 0;
+        $credit_idr = 0;
+
+        $result = [];
+        foreach ($apa as $apa_row) {
+            $debit += $apa_row->debit;
+            $debit_idr += $apa_row->debit_idr;
+            $credit += $apa_row->credit;
+            $credit_idr += $apa_row->credit_idr;
+        }
+        
+        $result = [
+            'debit' => $debit,
+            'debit_idr' => $debit_idr,
+            'credit' => $credit,
+            'credit_idr' => $credit_idr,
+        ];
+
+        return $result;
+
     }
 
     public function getEndingBalanceAttribute()

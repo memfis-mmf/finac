@@ -70,4 +70,9 @@ class TrxPaymentA extends MemfisModel
 			'transaction_number'
 		);
 	}
+
+    public function apa()
+    {
+        return $this->hasMany(APaymentA::class, 'id_payment', 'id_grn');
+    }
 }
