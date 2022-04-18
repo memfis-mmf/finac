@@ -102,6 +102,10 @@ class TrxPayment extends MemfisModel
     {
         $si_detail = $this->trxpaymenta()->first(); //get sample grn just to get grn_id
 
+        if (! $si_detail) {
+            return null;
+        }
+
         $apa = $si_detail->apa()->whereHas('ap', function($ap) {
                 $ap->where('approve', true);
             })
