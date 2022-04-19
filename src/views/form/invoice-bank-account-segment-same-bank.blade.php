@@ -67,6 +67,9 @@
     @endif
 
     <tr>
-        <td colspan="3" align="center"><i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i></td>
+        <td </td>
+    </tr>
+    <tr>
+        <td style="padding-top:5px;padding-bottom:0px; border-top:dotted; border-width:1px" colspan="6" align="center"><i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i></td>
     </tr>
 </table>
