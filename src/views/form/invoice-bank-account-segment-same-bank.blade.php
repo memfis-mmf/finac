@@ -35,7 +35,7 @@
           <td valign="top" width="18%">Swift Code</td>
           <td valign="top" width="1%">:</td>
           <td valign="top" width="31%">{{$bank1->swift_code}}</td>
-        @else 
+        @else
           <td valign="top" width="18%"></td>
           <td valign="top" width="1%"></td>
           <td valign="top" width="31%"></td>
@@ -65,7 +65,7 @@
           <td valign="top" width="">{{@$bank2->swift_code}}</td>
       </tr>
     @endif
-    
+
     <tr>
         <td colspan="3" align="center"><i>PAYMENT SHOULD BE RECEIVED IN FULL AMOUNT</i></td>
     </tr>

@@ -14,7 +14,7 @@
             margin: 0;
             font-size: 12px;
         }
-        
+
         body {
             margin-top: 3.5cm;
             margin-bottom: 3cm;
@@ -38,22 +38,22 @@
             height: 1cm;
             font-size: 9px;
         }
-/* 
+/*
         ul li{
             display: inline-block;
         } */
 
         ol,ul {
-            counter-reset: item; 
-            padding-left: 0; 
+            counter-reset: item;
+            padding-left: 0;
             line-height: 1;
         }
 
         ol > li,
-        ul > li{ 
-            counter-increment: item;  
+        ul > li{
+            counter-increment: item;
             padding-left:1.5em;
-            position: relative; 
+            position: relative;
             page-break-inside: avoid;
         }
 
@@ -214,7 +214,7 @@
                     </tr>
                 </thead>
                 <tbody style="font-size:10px">
-                    @for ($i = 1; $i < 12; $i++)                        
+                    @for ($i = 1; $i < 12; $i++)
                         <tr>
                             <td valign="top" align="center">{{$i}}</td>
                             <td valign="top">
@@ -283,9 +283,9 @@
                             </table>
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td colspan="7" align="center"><b><i>TERBILANG SESUAI DENGAN GRAND TOTAL</i></b></td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
         </div>
