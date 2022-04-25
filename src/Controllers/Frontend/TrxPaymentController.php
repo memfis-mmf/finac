@@ -18,6 +18,7 @@ use App\Models\GoodsReceived as GRN;
 // use App\Models\PurchaseOrder as PO;
 use App\Models\Approval;
 use App\Models\PurchaseOrder;
+use App\Models\Type;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -623,7 +624,8 @@ class TrxPaymentController extends Controller
                 'purchase_order.purchase_request',
             ])
             ->whereHas('purchase_order', function($po) use($si) {
-                $po->where('vendor_id', $si->id_supplier);
+                $po->where('vendor_id', $si->id_supplier)
+                    ->where('type_id', '!=', Type::ofPurchaseOrder()->where('code', 'service')->first()->id);
             })
             ->has('approvals')
             ->select('goods_received.*');
@@ -655,6 +657,13 @@ class TrxPaymentController extends Controller
 		DB::beginTransaction();
 		$trxpayment = TrxPayment::where('uuid', $request->si_uuid)->first();
 		$grn = GRN::where('uuid', $request->uuid)->first();
+        $po = $grn->purchase_order;
+
+        if ($po->type_id == Type::ofPurchaseOrder()->where('code', 'service')->first()->id) {
+            return [
+                'errors' => 'Cannot use from service note',
+            ];
+        }
 
 		// if ($trxpayment->currency != $grn->purchase_order->currency->code) {
 		// 	return [
