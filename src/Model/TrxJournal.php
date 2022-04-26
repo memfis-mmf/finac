@@ -477,6 +477,15 @@ class TrxJournal extends MemfisModel
 	)
 	{
 
+        $check_duplicate = self::check_duplicate_refno($header->voucher_no);
+
+        if ($check_duplicate) {
+			return [
+				'status' => false,
+				'message' => "Failed, document {$header->voucher_no} already approved"
+			];
+        }
+
 		$data['voucher_no'] = TrxJournal::generateCode($journal_prefix_number);
 		$data['ref_no'] = $header->voucher_no;
 		$data['transaction_date'] = $header->transaction_date;
@@ -558,6 +567,17 @@ class TrxJournal extends MemfisModel
 		return ['status' => true];
 	}
 	// end auto journal
+
+    private function check_duplicate_refno($ref_no)
+    {
+        $count = TrxJournal::where('ref_no', $ref_no)->count();
+
+        if ($count > 0) {
+            return true;
+        }
+        
+        return false;
+    }
 
 	static public function insertFromGRN($header, $detail)
 	{
