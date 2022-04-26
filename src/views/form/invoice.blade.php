@@ -107,18 +107,20 @@
         <div id="head">
         <table width="95%">
                 <tr>
-                    <td width="55%" valign="middle" style="font-size:12px;line-height:20px;">
-                        Juanda International Airport, Surabaya Indonesia
+                    <td width="55%" valign="middle" style="padding-bottom:15px;font-size:12px;line-height:18px;">
+                        Bandara Internasional Juanda,
+                        <br>
+                        Betro, Sedati, Sidoarjo, 61253, Indonesia
                         <br>
                         Phone : 031-8686482 &nbsp;&nbsp;&nbsp; Fax : 031-8686500
                         <br>
-                        Email : marketing@ptmmf.co.id
+                        Email : marketingmmf@ptmmf.co.id
                         <br>
                         Website : www.ptmmf.co.id
                     </td>
-                    <td width="45%" valign="top" align="center">
+                    <td width="45%" valign="middle" align="center">
                         <h1 style="font-size:40px;">INVOICE<br>
-                            <span style="font-size:12px;font-weight: none;">{{$invoice->transactionnumber}}</h1>
+                            <span style="font-size:12px;font-weight: none;">Invoice No:{{$invoice->transactionnumber}}</h1>
                     </td>
                 </tr>
             </table>
