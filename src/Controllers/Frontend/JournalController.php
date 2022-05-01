@@ -27,6 +27,7 @@ use memfisfa\Finac\Model\AReceive;
 use memfisfa\Finac\Model\Asset;
 use memfisfa\Finac\Model\Cashbook;
 use memfisfa\Finac\Model\Invoice;
+use memfisfa\Finac\Model\TrxJournal;
 use memfisfa\Finac\Model\TrxPayment;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 use Modules\Workshop\Entities\QuotationWorkshop\QuotationWorkshop;
@@ -747,4 +748,31 @@ class JournalController extends Controller
 
 		return $data;
 	}
+
+    public function generate_ref_date(TrxJournal $journal)
+    {
+        $date_column = [
+            'transaction_date',
+            'transactiondate',
+            'date',
+            'received_at'
+        ];
+
+        $ref = $journal->ref_collection;
+
+        if (!$ref) {
+            return null;
+        }
+
+        $date = $journal->transaction_date;
+
+        foreach ($date_column as $column) {
+            if ($ref->$column) {
+                $date = $ref->$column;
+                break;
+            }
+        }
+
+        return $date;
+    }
 }

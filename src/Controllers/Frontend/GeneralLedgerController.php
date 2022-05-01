@@ -118,7 +118,7 @@ class GeneralLedgerController extends Controller
             (select sum(debit-Credit) from trxjournala
             left join trxjournals on trxjournals.Voucher_No=trxjournala.Voucher_No
             where
-            cast(trxjournals.Transaction_Date as date) < @startDate
+            cast(trxjournals.ref_date as date) < @startDate
             and
             trxjournala.account_code = m_journal.id
             )
@@ -135,7 +135,7 @@ class GeneralLedgerController extends Controller
             m_journal.code in (".$coa.")
             UNION ALL
             (SELECT
-            trxjournals.transaction_date as TransactionDate,
+            trxjournals.ref_date as TransactionDate,
             trxjournals.created_at as CreatedAt,
             trxjournals.voucher_no as VoucherNo,
             trxjournals.ref_no as RefNo,
@@ -153,7 +153,7 @@ class GeneralLedgerController extends Controller
             on trxjournals.voucher_no = trxjournala.voucher_no
             left join m_journal
             on trxjournala.account_code = m_journal.id
-            where cast(trxjournals.transaction_date as date) between @startDate and @endDate";
+            where cast(trxjournals.ref_date as date) between @startDate and @endDate";
 
         if ($journal_approve) {
             $query .= "

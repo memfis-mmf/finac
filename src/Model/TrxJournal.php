@@ -17,6 +17,7 @@ use App\Models\Payroll;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use memfisfa\Finac\Controllers\Frontend\JournalController;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
 class TrxJournal extends MemfisModel
@@ -518,6 +519,13 @@ class TrxJournal extends MemfisModel
         DB::beginTransaction();
 
 		$journal = TrxJournal::create($data);
+
+        $journal_controller = new JournalController();
+        $ref_date = $journal_controller->generate_ref_date($journal);
+
+        $journal->update([
+            'ref_date' => $ref_date
+        ]);
 
 		$total_credit = 0;
 		$total_debit = 0;
