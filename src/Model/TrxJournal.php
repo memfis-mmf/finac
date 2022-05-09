@@ -576,7 +576,7 @@ class TrxJournal extends MemfisModel
 	}
 	// end auto journal
 
-    private function check_duplicate_refno($ref_no)
+    private static function check_duplicate_refno($ref_no)
     {
         $count = TrxJournal::where('ref_no', $ref_no)->count();
 
