@@ -182,11 +182,12 @@ class OutstandingInvoiceController extends Controller
 
                     // jika currency belum masuk arr
                     if (@count($arr[$currency_code]) < 1) {
+
                         $arr[$currency_code] = [
                             'symbol' => $invoice_row->currencies->symbol,
                             'grandtotalforeign' => $invoice_row->grandtotalforeign,
                             'ppnvalue' => $invoice_row->ppnvalue,
-                            'ending_value' => $invoice_row->ending_balance['amount_idr'],
+                            'ending_value' => $invoice_row->ending_balance['amount'],
                         ];
                     } else {
                         $current = $arr[$currency_code];
@@ -195,7 +196,7 @@ class OutstandingInvoiceController extends Controller
                             'symbol' => $invoice_row->currencies->symbol,
                             'grandtotalforeign' => $current['grandtotalforeign'] + $invoice_row->grandtotalforeign,
                             'ppnvalue' => $current['ppnvalue'] + $invoice_row->ppnvalue,
-                            'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount_idr'],
+                            'ending_value' => $current['ending_value'] + $invoice_row->ending_balance['amount'],
                         ];
                     }
 
