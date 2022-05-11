@@ -424,7 +424,7 @@
                 <tr>
                     <td width="35%" style="border-top:none; border-bottom:none;border-right:none;"></td>
 
-                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">VAT 10% ({{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}})</td>
+                    <td width="30%" valign="top" style="border-top:none; border-bottom:none;border-left:none;">VAT ({{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}})</td>
 
                     <td width="1%" style="border-bottom:none;border-right:none;border-top:none;text-transform:uppercase">
                         {{$invoice->currencies->code}}

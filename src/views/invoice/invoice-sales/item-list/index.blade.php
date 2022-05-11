@@ -56,7 +56,7 @@
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
         <label class="form-control-label mt-3">
-            VAT 10%
+            VAT
         </label>
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">

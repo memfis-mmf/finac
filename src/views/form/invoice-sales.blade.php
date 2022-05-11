@@ -238,7 +238,7 @@
                                     <td valign="top" align="right">000.000.000.000.000</td>
                                 </tr>
                                 <tr>
-                                    <td valign="top" width="50%">VAT 10% (Exclude)</td>
+                                    <td valign="top" width="50%">VAT (Exclude)</td>
                                     <td valign="top" width="4%">$</td>
                                     <td valign="top" align="right">000.000.000.000.000</td>
                                 </tr>

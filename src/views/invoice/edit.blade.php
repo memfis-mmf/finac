@@ -840,7 +840,7 @@
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-sm-3 col-md-3">
                                                         <div>
-                                                            Vat 10% ({{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}})
+                                                            Vat ({{$invoice->quotations->taxes[0]->TaxPaymentMethod->code}})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6 col-md-6 pr-5">

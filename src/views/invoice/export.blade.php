@@ -10,7 +10,7 @@
     <th><b>Disc Total</b></th>
     <th><b>Total Before Tax</b></th>
     <th><b>Vat Type</b></th>
-    <th><b>VAT 10%</b></th>
+    <th><b>VAT</b></th>
     <th><b>Other Cost Total</b></th>
     <th><b>Grand Total</b></th>
     <th><b>Grand Total IDR</b></th>
