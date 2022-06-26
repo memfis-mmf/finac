@@ -320,6 +320,9 @@ class ARAController extends Controller
         $invoice = $ara_tmp->invoice;
         // ambil semua data pembayaran invoice ini
         $ara = AReceiveA::where('id_invoice', $invoice->id)
+            ->whereHas('ar', function($ar) {
+                $ar->where('approve', 1);
+            })
             ->get();
 
         $paid_amount = 0;

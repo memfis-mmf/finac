@@ -389,6 +389,9 @@ class APAController extends Controller
         // ambil semua data pembayaran invoice ini
         $apa = APaymentA::where('id_payment', $apa_tmp->id_payment)
             ->where('type', $apa_tmp->type)
+            ->whereHas('ap', function($ap) {
+                $ap->where('approve', 1);
+            })
             ->get();
 
         $paid_amount = 0;

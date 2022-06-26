@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use memfisfa\Finac\Model\Exports\GLExport;
 use Maatwebsite\Excel\Facades\Excel;
 use memfisfa\Finac\Model\TrxJournal;
+use memfisfa\Finac\Model\TrxJournalA;
 
 class GeneralLedgerController extends Controller
 {
@@ -186,12 +187,19 @@ class GeneralLedgerController extends Controller
         // $total = [];
         foreach ($data as $index => $item) {
 
+            $data_coa = Coa::where('code', $item->AccountCode)->first();
+
             $data[$index]->currency = Currency::where('code', 'idr')->first();
             $data[$index]->rate = 1;
 
             if ($index > 0) {
 
                 $journal = TrxJournal::where('uuid', $item->journal_uuid)->first();
+                $journal_detail = TrxJournalA::where('voucher_no', $item->VoucherNo)
+                    ->where('account_code', $data_coa->id)
+                    ->firstOrFail(); 
+
+                $data[$index]->Description = $journal_detail->description_2 ?? $journal_detail->description;
 
                 $data[$index]->currency = $journal->ref_collection->currency ?? $data[$index]->currency;
 
@@ -203,7 +211,7 @@ class GeneralLedgerController extends Controller
 
             }
 
-            $coa_type = Coa::where('code', $item->AccountCode)->first()
+            $coa_type = $data_coa
             ->type->code;
 
             if ($index > 0) {
