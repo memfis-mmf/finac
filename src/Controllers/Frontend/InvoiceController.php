@@ -981,7 +981,7 @@ class InvoiceController extends Controller
                 datatables_search_audits($search, $query);
             })
             ->addColumn('transactiondate_formated', function($row) {
-                return $row->transactiondate->format('d-m-Y');
+                return $row->transactiondate->format('F d, Y');
             })
             ->addColumn('transaction_number_link', function($row) {
                 return '<a href="'.route('invoice.show', $row->uuid).'">'.$row->transactionnumber.'</a>';
