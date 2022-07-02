@@ -32,7 +32,8 @@ let JournalEdit = {
           {data: 'project.code', defaultContent: '-'},
           {data: 'debit',
             render: (data, type, row) => {
-                return  '<p class="text-right text-nowrap mb-0">' + row.journal.currency.symbol + ' ' + number_format.format(row.debit) + '</p>';
+                debit = (row.debit > 0)? (row.journal.currency.symbol + ' ' + number_format.format(row.debit)): '-';
+                return  '<p class="text-right text-nowrap mb-0">' + debit + '</p>';
           }},
           {data: 'credit',
             render: (data, type, row) => {
@@ -42,7 +43,8 @@ let JournalEdit = {
             $("#total_credit").val(
               number_format.format(parseFloat(row.total_credit))
             );
-            return '<p class="text-right text-nowrap mb-0">' + row.journal.currency.symbol + ' ' + number_format.format(row.credit) + '</p>';
+                credit = (row.credit > 0)? (row.journal.currency.symbol + ' ' + number_format.format(row.credit)): '-';
+                return  '<p class="text-right text-nowrap mb-0">' + credit + '</p>';
           }},
           {data: 'description_formated', class: 'text-center',
           "render": function ( data, type, row, meta ) {
