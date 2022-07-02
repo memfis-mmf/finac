@@ -59,12 +59,12 @@
             <td>{{$item->Description}}</td>
             <td>{{ strtoupper($item->currency->code) }}</td>
             <td>
-                {{ "{$item->currency->symbol} {$controller->currency_format((($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2)}" }}
+                {{ (($item->Debit != 0)? $item->Debit: $item->Credit) / $item->rate, 2 }}
             </td>
-            <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
-            <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
-            <td>Rp {{number_format(($item->Credit * -1), 2, ',', '.')}}</td>
-            <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
+            <td>{{$item->rate}}</td>
+            <td>{{$item->Debit}}</td>
+            <td>{{($item->Credit * -1)}}</td>
+            <td>{{$item->endingBalance}}</td>
             <td>{{$item->project_number}}</td>
             <td>{{$item->po_number}}</td>
         </tr>
