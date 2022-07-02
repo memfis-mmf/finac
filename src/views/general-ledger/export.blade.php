@@ -63,7 +63,7 @@
             </td>
             <td>Rp {{ $controller->currency_format($item->rate, 2) }}</td>
             <td>Rp {{number_format($item->Debit, 2, ',', '.')}}</td>
-            <td>Rp {{number_format($item->Credit, 2, ',', '.')}}</td>
+            <td>Rp {{number_format(($item->Credit * -1), 2, ',', '.')}}</td>
             <td>Rp {{number_format($item->endingBalance, 2, ',', '.')}}</td>
             <td>{{$item->project_number}}</td>
             <td>{{$item->po_number}}</td>
@@ -82,7 +82,7 @@
         <td>{{ $total_foreign }}</td>
         <td></td>
         <td>{{ $total_debit }}</td>
-        <td>{{ $total_credit }}</td>
+        <td>{{ -$total_credit }}</td>
         <td>{{ $total_ending_balance }}</td>
         <td></td>
         <td></td>

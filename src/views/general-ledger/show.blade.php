@@ -140,7 +140,7 @@
                         </td>
                         <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->rate, 2)) !!}</td>
                         <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->Debit, 2)) !!}</td>
-                        <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->Credit, 2)) !!}</td>
+                        <td>{!! $controller->fa_format('Rp', $controller->currency_format(($item->Credit * -1), 2)) !!}</td>
                         <td>{!! $controller->fa_format('Rp', $controller->currency_format($item->endingBalance, 2)) !!}</td>
                       </tr>
                       @endforeach

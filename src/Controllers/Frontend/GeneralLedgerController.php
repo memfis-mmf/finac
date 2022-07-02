@@ -264,7 +264,7 @@ class GeneralLedgerController extends Controller
 
         $data['total']['local'] = [
             'Total Debit' => $data['data']->sum('Debit'),
-            'Total Credit' => $data['data']->sum('Credit'),
+            'Total Credit' => '-'.$data['data']->sum('Credit'),
             'Total Ending Balance' => $ending_balance ?? 0,
         ];
 
