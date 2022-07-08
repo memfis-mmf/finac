@@ -24,7 +24,7 @@ let SupplierInvoice = {
         { data: 'grn.number', class: 'text-center' },
         { data: 'total', searchable: false, class: 'text-right tex-nowrap',
         render: (data, type, row) => {
-          return row.grn.purchase_order.currency.symbol + ' ' + number_format.format(parseInt(row.total_after_tax));
+          return row.grn.purchase_order.currency.symbol + ' ' + number_format.format(parseFloat(row.total_after_tax));
         }},
         { data: 'description', defaultContent: '-', className:'dt-text-left'},
         {
@@ -167,7 +167,7 @@ let SupplierInvoice = {
       console.log(data);
 
       _modal.find('input#grn_no').val(data.grn.number);
-      _modal.find('input#total_amount').val(number_format.format(parseInt(data.total_after_tax)));
+      _modal.find('input#total_amount').val(number_format.format(parseFloat(data.total_after_tax)));
       _modal.find('#invoice_no').val(data.description);
       _modal.find('input[name=uuid]').val(uuid);
       _modal.modal('show');

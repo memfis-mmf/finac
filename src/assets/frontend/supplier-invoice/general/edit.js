@@ -123,7 +123,7 @@ let SupplierInvoice = {
                             class: 'text-center',
 							filterable: !1,
 							template: function(t, e, i) {
-								return '<p class="text-right">' + addCommas(parseInt(t.total)) + '</p>';
+								return '<p class="text-right">' + addCommas(parseFloat(t.total)) + '</p>';
 						}},
                         {
 							field: 'project_formated',
@@ -178,7 +178,7 @@ let SupplierInvoice = {
 
 			_modal.find('#account_code').val(data.code);
 			_modal.find('#account_name').val(data.coa.name);
-			_modal.find('#total_amount').val(parseInt(data.total));
+			_modal.find('#total_amount').val(parseFloat(data.total));
 			_modal.find('#description').val(data.description);
 			_modal.find('input[name=uuid]').val(uuid);
 
