@@ -104,15 +104,8 @@ class GeneralLedgerController extends Controller
         return view('generalledgerview::show', $data);
     }
 
-    private function queryGetData(TrxJournalA $journal_detail, $coa, $journal_approve = true)
+    private function queryGetData($coa, $journal_approve = true)
     {
-        $journal = $journal_detail->journal;
-
-        $date_column = 'ref_date';
-        if (!$journal->$date_column) {
-            $date_column = 'transaction_date';
-        }
-
         $query =  "
             SELECT
             DATE_ADD(@startDate, INTERVAL -1 DAY) as TransactionDate,
@@ -126,7 +119,7 @@ class GeneralLedgerController extends Controller
             (select sum(debit-Credit) from trxjournala
             left join trxjournals on trxjournals.Voucher_No=trxjournala.Voucher_No
             where
-            cast(trxjournals.".$date_column." as date) < @startDate
+            cast(IFNULL(trxjournals.ref_date, trxjournals.transaction_date) as date) < @startDate
             and
             trxjournala.account_code = m_journal.id
             )
@@ -143,7 +136,7 @@ class GeneralLedgerController extends Controller
             m_journal.code in (".$coa.")
             UNION ALL
             (SELECT
-            trxjournals.".$date_column." as TransactionDate,
+            IFNULL(trxjournals.ref_date, trxjournals.transaction_date) as TransactionDate,
             trxjournals.created_at as CreatedAt,
             trxjournals.voucher_no as VoucherNo,
             trxjournals.ref_no as RefNo,
@@ -161,7 +154,7 @@ class GeneralLedgerController extends Controller
             on trxjournals.voucher_no = trxjournala.voucher_no
             left join m_journal
             on trxjournala.account_code = m_journal.id
-            where cast(trxjournals.".$date_column." as date) between @startDate and @endDate";
+            where cast(IFNULL(trxjournals.ref_date, trxjournals.transaction_date) as date) between @startDate and @endDate";
 
         if ($journal_approve) {
             $query .= "
@@ -188,7 +181,7 @@ class GeneralLedgerController extends Controller
 
         $journal_detail = TrxJournalA::where('account_code', Coa::where('code', $coa)->first()->id)->first();
 
-        $query = $this->queryGetData($journal_detail, $coa);
+        $query = $this->queryGetData($coa);
 
         DB::connection()->getpdo()->exec($queryStatement);
         $data = DB::select($query);
