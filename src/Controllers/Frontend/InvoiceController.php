@@ -1422,7 +1422,7 @@ class InvoiceController extends Controller
 
     public function print(Request $request)
     {
-        $invoice = Invoice::where('uuid', $request->uuid)->first();
+        $invoice = Invoice::where('uuid', $request->uuid)->firstOrFail();
         $quotation = $invoice->quotations;
         $workpackage = $quotation->workpackages;
 

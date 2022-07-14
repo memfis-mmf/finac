@@ -801,7 +801,7 @@
                                                         @slot('id', 'sub_total')
                                                         @slot('class', 'sub_total text-right')
                                                         @slot('text', '')
-                                                        @slot('value', $invoice->currencies->symbol.' '.number_format($invoice->subtotal, 2))
+                                                        @slot('value', $invoice->currencies->symbol.' '.number_format(memfisRound($invoice->currencies->code, $invoice->subtotal), 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -816,7 +816,8 @@
                                                         @slot('id', 'total_discount')
                                                         @slot('class', 'total_discount text-right')
                                                         @slot('text', '0')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format(abs($invoice->discountvalue) * -1, 2))
+                                                        @slot('value', 	
+                                                        $invoice->currencies->symbol.' '.number_format(memfisRound($invoice->currencies->code, (abs($invoice->discountvalue) * -1)), 2))
                                                         @endcomponent
                                                     </div>
 
@@ -832,7 +833,9 @@
                                                         @slot('id', 'total')
                                                         @slot('class', 'total text-right')
                                                         @slot('text', '0')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->total, 2))
+                                                        @slot('value', 	
+                                                          $invoice->currencies->symbol.' '.number_format(memfisRound($invoice->currencies->code, $invoice->total), 2)
+                                                          )
                                                         @endcomponent
                                                     </div>
 
@@ -848,7 +851,8 @@
                                                         @slot('id', 'tax')
                                                         @slot('class', 'tax text-right')
                                                         @slot('text', '')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->ppnvalue, 2))
+                                                        @slot('value', 	
+                                                        $invoice->currencies->symbol.' '.number_format(memfisRound($invoice->currencies->code, $invoice->ppnvalue), 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -864,7 +868,7 @@
                                                         @slot('id', 'other_price')
                                                         @slot('class', 'other_price text-right')
                                                         @slot('text', '')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->other_price, 2))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format(memfisRound($invoice->currencies->code, $invoice->other_price), 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -880,7 +884,7 @@
                                                         @slot('id', 'grandtotal')
                                                         @slot('class', 'grandtotal text-right')
                                                         @slot('text', '')
-                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format($invoice->grandtotalforeign, 2))
+                                                        @slot('value', 	$invoice->currencies->symbol.' '.number_format(memfisRound($invoice->currencies->code, $invoice->grandtotalforeign), 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -895,7 +899,7 @@
                                                         @slot('id', 'grandtotalrp')
                                                         @slot('class', 'grandtotalrp text-right')
                                                         @slot('text', '')
-                                                        @slot('value', 	'Rp.  '.number_format($invoice->grandtotal, 2))
+                                                        @slot('value', 	'Rp.  '.number_format(memfisRound($invoice->currencies->code, $invoice->grandtotal), 2))
                                                         @endcomponent
                                                     </div>
                                                 </div>

@@ -197,7 +197,7 @@
                     <td valign="top" width="18%">Rate</td>
                     <td valign="top" width="1%">:</td>
                     <td valign="top" width="31%">
-                        Rp. {{number_format($invoice->exchangerate, 0, ',', '.')}}
+                        Rp. {{number_format(memfisRound($invoice->currencies->code, $invoice->exchangerate), 2, ',', '.')}}
                     </td>
                 </tr>
             </table>
@@ -248,9 +248,9 @@
                             <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
                                 {{
                                     number_format(
-                                        $workpackage_row->facility
-                                        , 0
-                                        , 0
+                                        memfisRound($invoice->currencies->code, $workpackage_row->facility)
+                                        , 2
+                                        , ','
                                         , '.'
                                     )
                                 }}
@@ -259,7 +259,7 @@
                     @endif
                     <tr>
                         <td width="65%" valign="top" style="border-top:none;padding-left:12px;" colspan="2">
-                            Material Need {{number_format($workpackage_row->material_item, 0, ',', '.')}} Item(s)
+                            Material Need {{number_format(memfisRound($invoice->currencies->code, $workpackage_row->material_item), 2, ',', '.')}} Item(s)
                         </td>
 
                         <td width="1%" style="border-right:none;border-top:none">{{strtoupper($invoice->currencies->code)}}</td>
@@ -267,9 +267,9 @@
                         <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none; padding-right:8px;">
                             {{
                                 number_format(
-                                    $workpackage_row->mat_tool_price
-                                    , 0
-                                    , 0
+                                    memfisRound($invoice->currencies->code, $workpackage_row->mat_tool_price)
+                                    , 2
+                                    , ','
                                     , '.'
                                 )
                             }}
@@ -277,7 +277,7 @@
                     </tr>
                     <tr>
                         <td width="65%" valign="top" style="border-top:none; border-bottom:none;padding-left:12px;" colspan="2">
-                            Total {{number_format(count($workpackage_row->taskcards), 0, ',', '.')}} Taskcard(s) - {{
+                            Total {{number_format(memfisRound($invoice->currencies->code, count($workpackage_row->taskcards)), 2, ',', '.')}} Taskcard(s) - {{
                                 ($workpackage_row->is_template == 'htcrr')
                                 ? @$workpackage_row->data_htcrr['total_manhours_with_performance_factor']
                                 : @$workpackage_row->pivot->manhour_total
@@ -292,18 +292,18 @@
                             @php
                                 if ($workpackage_row->is_template == 'htcrr') {
                                     echo number_format(
-                                        (float) $workpackage_row->data_htcrr['total_manhours_with_performance_factor']
+                                        memfisRound($invoice->currencies->code, (float) $workpackage_row->data_htcrr['total_manhours_with_performance_factor']
                                         * (float) $workpackage_row->data_htcrr['manhour_rate_amount']
-                                        * $invoice->multiple
-                                        , 0
-                                        , 0
+                                        * $invoice->multiple)
+                                        , 2
+                                        , ','
                                         , '.'
                                     );
                                 }else{
                                     echo number_format(
-                                        @$workpackage_row->pivot->manhour_total * @$workpackage_row->pivot->manhour_rate_amount * $invoice->multiple
-                                        , 0
-                                        , 0
+                                        memfisRound($invoice->currencies->code, @$workpackage_row->pivot->manhour_total * @$workpackage_row->pivot->manhour_rate_amount * $invoice->multiple)
+                                        , 2
+                                        , ','
                                         , '.'
                                     );
                                 }
@@ -311,48 +311,6 @@
                         </td>
                     </tr>
                 @endfor
-                {{-- Others&Disc --}}
-                {{-- <tr>
-                    <td width="10%" align="center" valign="top"></td>
-
-                    <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Others</td>
-
-                    <td width="1%" style="border-right:none;text-transform:uppercase">
-                        {{strtoupper($invoice->currencies->code)}}
-                    </td>
-
-                    <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">
-                        {{
-                            number_format(
-                                $other_workpackage->priceother
-                                , 0
-                                , 0
-                                , '.'
-                            )
-                        }}
-                    </td>
-                </tr> --}}
-                {{-- <tr>
-                    <td width="10%" align="center" valign="top"></td>
-
-                    <td width="65%" valign="top" style="padding-left:12px;" colspan="2">Disc</td>
-
-                    <td width="1%" style="border-right:none;text-transform:uppercase">
-                        {{$invoice->currencies->code}}
-                    </td>
-
-                    <td width="24%"  align="right" valign="top" style="border-left:none;padding-right:8px;">
-                        {{
-                            number_format(
-                                $invoice->discountvalue
-                                , 0
-                                , 0
-                                , '.'
-                            )
-                        }}
-                    </td>
-                </tr> --}}
-                 {{-- TheOthers --}}
                 <tr>
                     <td width="10%" rowspan="{{($invoice->currencies->code != 'idr')? '7': '6'}}" align="center" valign="top"></td>
 
@@ -373,9 +331,9 @@
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-bottom:none; padding-right:8px;">
                         {{
                             number_format(
-                                ($invoice->subtotal)
-                                , 0
-                                , 0
+                                memfisRound($invoice->currencies->code, $invoice->subtotal)
+                                , 2
+                                , ','
                                 , '.'
                             )
                         }}
@@ -391,11 +349,11 @@
                     </td>
 
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
-                        -{{
+                        {{
                             number_format(
-                                ($invoice->discountvalue)
-                                , 0
-                                , 0
+                                memfisRound($invoice->currencies->code, ($invoice->discountvalue * -1))
+                                , 2
+                                , ','
                                 , '.'
                             )
                         }}
@@ -413,9 +371,9 @@
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
                         {{
                             number_format(
-                                $invoice->total_before_tax
-                                , 0
-                                , 0
+                                memfisRound($invoice->currencies->code, $invoice->total)
+                                , 2
+                                , ','
                                 , '.'
                             )
                         }}
@@ -433,9 +391,9 @@
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
                         {{
                             number_format(
-                                ($invoice->ppnvalue)
-                                , 0
-                                , 0
+                                memfisRound($invoice->currencies->code, $invoice->ppnvalue)
+                                , 2
+                                , ','
                                 , '.'
                             )
                         }}
@@ -453,9 +411,9 @@
                     <td width="24%"  align="right" valign="top" style="border-left:none;border-top:none;border-bottom:none; padding-right:8px;">
                         {{
                             number_format(
-                                ($invoice->other_price)
-                                , 0
-                                , 0
+                                memfisRound($invoice->currencies->code, $invoice->other_price)
+                                , 2
+                                , ','
                                 , '.'
                             )
                         }}
@@ -478,9 +436,9 @@
                           <b>
                               {{
                                   number_format(
-                                      $invoice->grandtotalforeign
-                                      , 0
-                                      , 0
+                                      memfisRound($invoice->currencies->code, $invoice->grandtotalforeign)
+                                      , 2
+                                      , ','
                                       , '.'
                                   )
                               }}
@@ -500,9 +458,9 @@
                         <b>
                             {{
                                 number_format(
-                                    $invoice->grandtotal
-                                    , 0
-                                    , 0
+                                    memfisRound($invoice->currencies->code, $invoice->grandtotal)
+                                    , 2
+                                    , ','
                                     , '.'
                                 )
                             }}
