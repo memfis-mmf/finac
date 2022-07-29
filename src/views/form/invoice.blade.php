@@ -32,7 +32,7 @@
 
         footer {
             position: fixed;
-            bottom: 0cm;
+            bottom: 0.5cm;
             left: 0cm;
             right: 0cm;
             height: 1cm;
@@ -69,6 +69,7 @@
         .container{
             width: 100%;
             margin: 0 36px;
+            position: relative;
         }
 
         .barcode{
@@ -95,6 +96,12 @@
             border-bottom:  1px solid  #d4d7db;
         }
 
+        .form_number {
+            position: absolute;
+            font-weight: bold;
+            right: 0cm;
+            top: 0.5cm;
+        }
 
         .page_break {
             page-break-before: always;
@@ -129,8 +136,10 @@
 
     <footer>
         <div class="container">
+            <div class="form_number">Form No : F02-0601</div>
             <table width="100%">
-                {{-- <tr> --}}
+                {{-- <tr>
+                    <td style="text-align: right; padding-top: 3cm"></td> --}}
                     <!-- {{-- <td><b>Form No : F02-1234</b></td> --}} --> {{-- created by hanya muncul di print yg copy --}}
                     <!-- <td>  <span style="margin-left:6px;">Created By : {{ @$invoice->created_by }} ; </span> </td> -->
                     {{-- <td style="text-align:right">

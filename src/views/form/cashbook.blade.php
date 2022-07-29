@@ -33,10 +33,12 @@
 
         footer {
             position: fixed;
-            bottom: 0cm;
+            bottom: 0.5cm;
             left: 0cm;
             right: 0cm;
-            height: 1.8cm;
+            height: .5cm;
+            font-size: 9px;
+            /* height: 1.8cm; */
         }
         ul li{
             display: inline-block;
@@ -56,6 +58,7 @@
         .container{
             width: 100%;
             margin: 0 36px;
+            position: relative;
         }
 
         .barcode{
@@ -73,6 +76,13 @@
             border-left:  2px solid  #e6eef2;
             border-right:  2px solid  #e6eef2;
             border-bottom:  2px solid  #e6eef2;
+        }
+
+        .form_number {
+            position: absolute;
+            font-weight: bold;
+            right: 0cm;
+            top: 0.5cm;
         }
 
         .page_break {
@@ -105,7 +115,9 @@
     </header>
 
     <footer>
+        
         <div class="container">
+            <div class="form_number">Form No : F02-0603</div>
             <table width="100%">
                 <tr>
                     <td>

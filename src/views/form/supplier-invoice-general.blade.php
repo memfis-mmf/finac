@@ -105,6 +105,13 @@
             page-break-before: always;
         }
 
+        .form_number {
+            position: absolute;
+            font-weight: bold;
+            right: 1cm;
+            top: 0.5cm;
+        }
+
         footer .page-number:after { 
             content: counter(page); 
         }
@@ -134,6 +141,8 @@
     </header>
 
     <footer>
+        <div class="form_number">Form No : F02-0605</div>
+        
         <div class="container">
             <table width="100%">
                 <tr>
