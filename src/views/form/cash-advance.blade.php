@@ -38,7 +38,7 @@
       bottom: 0cm;
       left: 0cm;
       right: 0cm;
-      height: 1.8cm;
+      height: 1.1cm;
     }
 
     ul li {
@@ -78,6 +78,13 @@
       border-bottom: 2px solid #e6eef2;
     }
 
+    .form_number {
+      position: absolute;
+      bottom: 0.2cm;
+      right: 0.5cm;
+      font-weight: bold;
+    }
+
     .page_break {
       page-break-before: always;
     }
@@ -110,6 +117,8 @@
   </header>
 
   <footer>
+    <div class="form_number">Form No. F02-0606</div>
+
     <div class="container">
       <table width="100%">
         <tr>

@@ -91,6 +91,13 @@
             page-break-before: always;
         }
 
+        .form_number {
+            position: absolute;
+            bottom: 1cm;
+            right: 0.5cm;
+            font-weight: bold;
+        }
+
         footer .num:after {
             content: counter(page);
         }
@@ -124,6 +131,7 @@
     </header>
 
     <footer>
+        <div class="form_number">Form No. F02-0603</div>
         <img src="./vendor/courier/img/form/trial-balance/Footer.png" width="100%" alt="" >
 
         <div class="footer-container">
