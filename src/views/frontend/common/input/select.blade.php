@@ -6,6 +6,7 @@
         style="{{ $style ?? '' }}"
         {{ $multiple ?? '' }}
         {{ $required ?? '' }}
+        {{ $disabled ?? '' }}
 >
 
     <option value="">
