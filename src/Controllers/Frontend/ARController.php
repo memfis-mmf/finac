@@ -775,6 +775,8 @@ class ARController extends Controller
         $amount = $invoice->grantotal_foreign;
         $count_cash_advance = $invoice->cash_advance()->count();
 
+        DB::beginTransaction();
+
         // generate ar as much as cash advance
         foreach ($invoice->cash_advance ?? [] as $cash_advance) {
             $request = new Request();
@@ -824,5 +826,7 @@ class ARController extends Controller
                 break;
             }
         }
+
+        DB::commit();
     }
 }
