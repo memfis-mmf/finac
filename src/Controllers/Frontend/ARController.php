@@ -13,6 +13,7 @@ use App\Models\Customer;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use App\Models\CashAdvanceReturn;
 use App\Models\Department;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -770,6 +771,7 @@ class ARController extends Controller
         return Excel::download(new ARExport($data), "{$name}.xlsx");
     }
 
+    // function ini belum kepakek
     public function generate_ar($invoice)
     {
         $amount = $invoice->grantotal_foreign;
@@ -828,5 +830,24 @@ class ARController extends Controller
         }
 
         DB::commit();
+    }
+
+    public function generateAR(CashAdvanceReturn $cash_advance_return)
+    {
+        $transaction_invoice = $cash_advance_return
+            ->transactionInvoice()
+            ->where('invoice_type', (new Invoice())->getTable())
+            ->get();
+
+        $request = new Request();
+
+        // $request->merge([
+        //     'payment_type' => 'cash',
+        //     'transactiondate' => now()->format('d-m-Y'),
+        //     'id_customer' => $cash_advance_return->id_ref, // id customer
+        //     'accountcode' => $cash_advance->coad,
+        //     'currency' => $cash_advance->currency->code,
+        //     'exchangerate' => $cash_advance->rate
+        // ]);
     }
 }

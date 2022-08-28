@@ -85,7 +85,7 @@ class OutstandingSupplierInvoiceController extends Controller
         foreach ($vendor as $vendor_row) {
             $arr = [];
 
-            // looping sebanyak inovice HM
+            // looping sebanyak invoice HM
             foreach ($vendor_row->supplier_invoice as $supplier_invoice_row) {
                 $currency_code = $supplier_invoice_row->currencies->code;
 

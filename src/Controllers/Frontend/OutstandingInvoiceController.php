@@ -163,7 +163,7 @@ class OutstandingInvoiceController extends Controller
                     $row->invoice = $invoice_from_workshop;
                 }
 
-                // looping sebanyak inovice HM
+                // looping sebanyak invoice HM
                 foreach ($row->invoice as $invoice_row) {
                     $currency_code = $invoice_row->currencies->code;
 
