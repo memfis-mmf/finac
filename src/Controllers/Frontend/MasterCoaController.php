@@ -70,7 +70,7 @@ class MasterCoaController extends Controller
 		$coa_tmp = Coa::where('uuid', $request->coa);
 		$coa = $coa_tmp->first();
 
-		$request->request->add([
+		$request->merge([
 			'warrantystart' => $this->convertDate(
 				$request->daterange_master_coa
 			)[0],

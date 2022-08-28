@@ -51,7 +51,7 @@ class AssetController extends Controller
         ]);
 
         $typeasset = TypeAsset::find($request->asset_category_id);
-		$request->request->add([
+		$request->merge([
             'transaction_number' => Asset::generateCode(),
             'povalue' => 0,
             'coaexpense' => Coa::find(214)->code,
@@ -128,7 +128,7 @@ class AssetController extends Controller
             return abort(404);
         }
 
-		$request->request->add([
+		$request->merge([
 			'warrantystart' => $this->convertDate(
 				$request->daterange_master_asset
 			)[0],

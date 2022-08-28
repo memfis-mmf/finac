@@ -183,7 +183,7 @@ class TrxPaymentController extends Controller
             'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->transaction_date)
 		]);
 
-		$request->request->add([
+		$request->merge([
 			'transaction_number' => TrxPayment::generateCode(),
 			'x_type' => 'NON GRN',
 		]);

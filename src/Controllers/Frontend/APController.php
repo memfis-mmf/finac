@@ -123,7 +123,7 @@ class APController extends Controller
             $code = 'BPYJ';
         }
 
-        $request->request->add([
+        $request->merge([
             'approve' => 0,
             'transactionnumber' => APayment::generateCode($code),
         ]);

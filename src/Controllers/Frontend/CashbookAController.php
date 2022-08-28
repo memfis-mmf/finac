@@ -73,14 +73,14 @@ class CashbookAController extends Controller
     public function store(Request $request)
     {
 		if (strpos($request->transactionnumber, 'PJ') !== false) {
-			$request->request->add([
+			$request->merge([
 				'debit' => $request->amount_a,
 				'credit' => 0,
 			]);
 		}
 
 		if (strpos($request->transactionnumber, 'RJ') !== false) {
-			$request->request->add([
+			$request->merge([
 				'debit' => 0,
 				'credit' => $request->amount_a,
 			]);
@@ -88,12 +88,12 @@ class CashbookAController extends Controller
 
 		$coa = Coa::where('code', $request->code_a)->first();
 
-		$request->request->add([
+		$request->merge([
 			'code' => $coa->code,
 			'name' => $coa->name,
 		]);
 
-		$request->request->add([
+		$request->merge([
 			'description' => $request->description_a
 		]);
 
@@ -227,7 +227,7 @@ class CashbookAController extends Controller
     public function update(Request $request)
     {
 		if (strpos($request->transactionnumber, 'PJ') !== false) {
-			$request->request->add([
+			$request->merge([
 				'debit' => $request->amount_a,
 				'credit' => 0,
 			]);
@@ -235,7 +235,7 @@ class CashbookAController extends Controller
 		}
 
 		if (strpos($request->transactionnumber, 'RJ') !== false) {
-			$request->request->add([
+			$request->merge([
 				'debit' => 0,
 				'credit' => $request->amount_a,
 			]);
@@ -248,7 +248,7 @@ class CashbookAController extends Controller
 
 		$cashbook_a_tmp = CashbookA::where('uuid', $request->uuid);
 
-		$request->request->add([
+		$request->merge([
 			'description' => $request->description_a
 		]);
 
@@ -280,7 +280,7 @@ class CashbookAController extends Controller
 		->first()->transactionnumber;
 
 		if (strpos($transactionnumber, 'PJ') !== false) {
-			$request->request->add([
+			$request->merge([
 				'debit' => $request->amount_a,
 				'credit' => 0,
 			]);
@@ -288,7 +288,7 @@ class CashbookAController extends Controller
 		}
 
 		if (strpos($transactionnumber, 'RJ') !== false) {
-			$request->request->add([
+			$request->merge([
 				'debit' => 0,
 				'credit' => $request->amount_a,
 			]);
