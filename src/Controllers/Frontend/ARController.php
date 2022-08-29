@@ -875,7 +875,7 @@ class ARController extends Controller
         $request = new Request();
 
         // insert detail
-        foreach ($cash_advance_return->transactionInvoice as $index => $transaction_invoice) {
+        foreach ($cash_advance_return->transactionInvoice as $transaction_invoice) {
             $invoice = $transaction_invoice->invoice;
 
             $request = new Request();
@@ -898,10 +898,6 @@ class ARController extends Controller
             $request->merge([
                 'credit' => $transaction_invoice->amount
             ]);
-
-            // if ($index == 1) {
-            //     dd($ar->ara->toArray(), $ara);
-            // }
 
             $ara_controller->update($request, $ara);
         }
