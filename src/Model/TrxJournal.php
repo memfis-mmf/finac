@@ -282,7 +282,7 @@ class TrxJournal extends MemfisModel
 	 *jangan copy function dibawah ini untuk membuat function lain
 	 *yang seperti ini, copy function insertFromAP saja
 	 */
-	static public function insertFromCashAdvance($header, $detail)
+	static public function insertFromCashAdvanceReturn($header, $detail)
 	{
 		$data['voucher_no'] = TrxJournal::generateCode('PRJR');
 		$data['ref_no'] = $header->transaction_number;
