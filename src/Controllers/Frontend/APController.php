@@ -1091,6 +1091,30 @@ class APController extends Controller
             $apa_controller->update($request, $apa);
         }
 
+        // insert detail ca return as adj in ap
+        foreach ($cash_advance_return->cash_advance_return_detail as $ca_return_detail_row) {
+
+            $request = new APaymentBStore();
+            $request->merge([
+                'coa_uuid' => $ca_return_detail_row->coa->uuid,
+                'ar_uuid' => $ap->uuid,
+            ]);
+
+            $apb_controller = new APBController();
+            $apb = $apb_controller->store($request)->getData();
+            $apb = APaymentB::where('uuid', $apb->uuid)->first();
+
+            $request = new APaymentBUpdate();
+            $request->merge([
+                'debit_b' => $ca_return_detail_row->debit,
+                'credit_b' => $ca_return_detail_row->credit,
+                'description_b' => $ca_return_detail_row->description,
+                'id_project_detail' => $ca_return_detail_row->project_id ?? null
+            ]);
+
+            $apb_controller->update($request, $apb->uuid);
+        }
+
         // insert adj
         foreach ($cash_advance_return->cash_advance_return_adj as $ca_return_adj) {
 
@@ -1109,7 +1133,7 @@ class APController extends Controller
                 'debit_b' => $ca_return_adj->debit,
                 'credit_b' => $ca_return_adj->credit,
                 'description_b' => $ca_return_adj->description,
-                'id_project_detail' => $ca_return_adj->project_id
+                'id_project_detail' => $ca_return_adj->project_id ?? null
             ]);
 
             $apb_controller->update($request, $apb->uuid);

@@ -179,8 +179,8 @@
               <td align="center">{{ $detail_row->coa->code }}</td>
               <td align="left">{{ $detail_row->coa->name }}</td>
               <td align="left">{{ $cash_advance->description }}</td>
-              <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->debit), true) !!}</td>
-              <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->credit), true) !!}</td>
+              <td align="right">{!! $controller->fa_format($cash_advance->currencies->symbol, $controller::currency_format($detail_row->debit), true) !!}</td>
+              <td align="right">{!! $controller->fa_format($cash_advance->currencies->symbol, $controller::currency_format($detail_row->credit), true) !!}</td>
             </tr>
             @endforeach
           </tbody>
@@ -189,9 +189,9 @@
               Total
             </td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($cash_advance->amount), true) !!}</b></td>
+                {!! $controller->fa_format($cash_advance->currencies->symbol, $controller::currency_format($cash_advance->amount), true) !!}</b></td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($cash_advance->amount), true) !!}</b></td>
+                {!! $controller->fa_format($cash_advance->currencies->symbol, $controller::currency_format($cash_advance->amount), true) !!}</b></td>
           </tr>
         </table>
       </div>

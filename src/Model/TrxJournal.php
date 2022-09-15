@@ -278,66 +278,6 @@ class TrxJournal extends MemfisModel
         return true;
     }
 
-	/*
-	 *jangan copy function dibawah ini untuk membuat function lain
-	 *yang seperti ini, copy function insertFromAP saja
-	 */
-	static public function insertFromCashAdvanceReturn($header, $detail)
-	{
-		$data['voucher_no'] = TrxJournal::generateCode('PRJR');
-		$data['ref_no'] = $header->transaction_number;
-		$data['transaction_date'] = $header->transaction_date;
-		$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
-		$data['currency_code'] = 'idr';
-		$data['exchange_rate'] = 1;
-
-        $model_journal = new TrxJournal();
-        $check_closing = $model_journal->check_closing_journal($data['transaction_date']);
-
-        if (! $check_closing) {
-			return [
-				'status' => false,
-				'message' => 'Failed, Transaction date already closed'
-			];
-        }
-
-		$journal = TrxJournal::create($data);
-
-		for($a = 0; $a < count($detail); $a++) {
-
-			if($detail[$a]) {
-
-				$debit = $header->amount;
-				$credit = 0;
-
-				/*
-				 *jika sudah bukan loopingan pertama
-				 */
-				if ($a > 0) {
-					$debit = 0;
-					$credit = $header->amount;
-				}
-
-				TrxJournalA::create([
-					'voucher_no' => $data['voucher_no'],
-					'account_code' => $detail[$a]->code,
-					'description' => $detail[$a]->description,
-					'debit' => $debit,
-					'credit' => $credit,
-				]);
-			}
-
-		}
-
-        $tmp_journal = TrxJournal::where('id', $journal->id);
-
-		$tmp_journal->update([
-			'total_transaction' => $header->amount,
-		]);
-
-        TrxJournal::do_approve($tmp_journal);
-	}
-
 	static public function insertFromBSR($header, $detail)
 	{
 		$data['voucher_no'] = $header->transaction_number;

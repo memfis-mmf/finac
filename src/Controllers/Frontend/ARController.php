@@ -902,6 +902,30 @@ class ARController extends Controller
             $ara_controller->update($request, $ara);
         }
 
+        // insert detail ca return as adj in ar
+        foreach ($cash_advance_return->cash_advance_return_detail as $ca_return_detail_row) {
+
+            $request = new AReceiveBStore();
+            $request->merge([
+                'coa_uuid' => $ca_return_detail_row->coa->uuid,
+                'ar_uuid' => $ar->uuid,
+            ]);
+
+            $arb_controller = new ARBController();
+            $arb = $arb_controller->store($request)->getData();
+            $arb = AReceiveB::where('uuid', $arb->uuid)->first();
+
+            $request = new AReceiveBUpdate();
+            $request->merge([
+                'debit_b' => $ca_return_detail_row->debit,
+                'credit_b' => $ca_return_detail_row->credit,
+                'description_b' => $ca_return_detail_row->description,
+                'id_project_detail' => $ca_return_detail_row->project_id ?? null
+            ]);
+
+            $arb_controller->update($request, $arb->uuid);
+        }
+
         // insert adj
         foreach ($cash_advance_return->cash_advance_return_adj as $ca_return_adj) {
 
@@ -920,7 +944,7 @@ class ARController extends Controller
                 'debit_b' => $ca_return_adj->debit,
                 'credit_b' => $ca_return_adj->credit,
                 'description_b' => $ca_return_adj->description,
-                'id_project_detail' => $ca_return_adj->project_id
+                'id_project_detail' => $ca_return_adj->project_id ?? null
             ]);
 
             $arb_controller->update($request, $arb->uuid);
