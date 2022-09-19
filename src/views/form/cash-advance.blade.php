@@ -107,8 +107,8 @@
             Website : www.ptmmf.co.id
           </td>
           <td width="55%" valign="top" align="center" style="padding-top:-16px">
-            <h1 style="font-size:24px;">Payment<br>
-              <span style="font-size:18px;">Cash Advance</span>
+            <h1 style="font-size:24px;">Cash Advance
+              {{-- <span style="font-size:18px;">Cash Advance</span> --}}
             </h1>
           </td>
         </tr>
