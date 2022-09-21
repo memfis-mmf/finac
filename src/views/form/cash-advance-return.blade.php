@@ -173,6 +173,10 @@
             </tr>
           </thead>
           <tbody>
+            @php
+                $total_debit = 0;
+                $total_credit = 0;
+            @endphp
             @foreach ($detail as $detail_row)
             <tr>
               <td align="center">{{ $detail_row->coa->code }}</td>
@@ -181,6 +185,10 @@
               <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->debit), true) !!}</td>
               <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->credit), true) !!}</td>
             </tr>
+            @php
+                $total_debit += $detail_row->debit;
+                $total_credit += $detail_row->credit;
+            @endphp
             @endforeach
           </tbody>
           <tr style="background:#d3e9f5;">
@@ -188,9 +196,9 @@
               Total
             </td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($cash_advance_return->amount), true) !!}</b></td>
+                {!! $controller->fa_format('Rp', $controller::currency_format($total_debit, true) !!}</b></td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($cash_advance_return->amount), true) !!}</b></td>
+                {!! $controller->fa_format('Rp', $controller::currency_format($total_credit, true) !!}</b></td>
           </tr>
         </table>
       </div>
