@@ -244,6 +244,7 @@ class ARController extends Controller
         $data = AReceive::with([
                 'customer',
                 'ara',
+                'arb',
                 'coa',
             ])
             ->select('a_receives.*');

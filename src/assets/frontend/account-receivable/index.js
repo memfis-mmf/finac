@@ -62,6 +62,12 @@ let Journal = {
                     total += x.credit;
                 }
 
+                for (var i = 0; i < t.arb.length; i++) {
+                  x = t.arb[i];
+
+                  total += x.credit;
+              }
+
                 return addCommas(parseInt(total));
 
             }},
