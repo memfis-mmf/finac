@@ -196,9 +196,9 @@
               Total
             </td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($total_debit, true) !!}</b></td>
+                {!! $controller->fa_format('Rp', $controller::currency_format($total_debit, true)) !!}</b></td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($total_credit, true) !!}</b></td>
+                {!! $controller->fa_format('Rp', $controller::currency_format($total_credit, true)) !!}</b></td>
           </tr>
         </table>
       </div>
