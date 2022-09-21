@@ -1064,7 +1064,7 @@ class APController extends Controller
 
         // insert detail
         foreach ($cash_advance_return->transactionSupplierInvoice as $transaction_supplier_invoice) {
-            $supplier_invoice = $transaction_supplier_invoice->invoice;
+            $supplier_invoice = $transaction_supplier_invoice->supplierInvoice;
 
             $request = new Request();
             $request->merge([
