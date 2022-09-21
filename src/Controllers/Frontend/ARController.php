@@ -486,7 +486,7 @@ class ARController extends Controller
                 $total_debit += $detail[count($detail) - 1]->debit;
             }
 
-            if (!$amount_header) {
+            if ($amount_header === null) {
                 // add object in first array $detai
                 array_unshift(
                     $detail,

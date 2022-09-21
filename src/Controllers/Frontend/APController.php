@@ -671,7 +671,7 @@ class APController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function approve(Request $request, $header_amount = null)
+    public function approve(Request $request, $amount_header = null)
     {
         DB::beginTransaction();
         try {
@@ -783,7 +783,7 @@ class APController extends Controller
                 $total_debit += $detail[count($detail) - 1]->debit;
             }
 
-            if (!$header_amount) {
+            if ($amount_header === null) {
                 // add object in first array $detai
                 array_unshift(
                     $detail,
@@ -800,7 +800,7 @@ class APController extends Controller
                     $detail,
                     (object) [
                         'coa_detail' => $header->coa,
-                        'credit' => $header_amount,
+                        'credit' => $amount_header,
                         'debit' => 0,
                         '_desc' => 'Receive From : ' . $header->voucher_no
                     ]
