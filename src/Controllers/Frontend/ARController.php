@@ -856,8 +856,6 @@ class ARController extends Controller
         DB::beginTransaction();
 
         $cash_advance = $cash_advance_return->refs()->first()->cashAdvance;
-        $cash_advance_ids = $cash_advance_return->refs()->pluck('cash_advance_id')->all();
-        $cash_advance_number = CashAdvance::whereIn('id', $cash_advance_ids)->pluck('transaction_number')->all();
 
         $request = new Request();
         $request->merge([
@@ -868,7 +866,7 @@ class ARController extends Controller
             'accountcode' => $cash_advance->coaTransaction()->code,
             'currency' => $cash_advance->currencies->code,
             'exchangerate' => $cash_advance_return->exchange_rate,
-            'description' => 'Generated From Cash Advance ' . implode(', ', $cash_advance_number)
+            'description' => 'Generated From Cash Advance ' . implode(', ', $cash_advance_return->getCANumber())
         ]);
 
         $store = $this->store($request)->getData();
