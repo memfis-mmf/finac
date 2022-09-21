@@ -10,6 +10,7 @@ use App\User;
 use App\Models\Approval;
 use App\Models\ARWorkshop;
 use App\Models\CashAdvance;
+use App\Models\CashAdvanceReturn;
 use App\Models\Currency;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
@@ -62,6 +63,12 @@ class TrxJournal extends MemfisModel
                 'class' => new CashAdvance(),
                 'currency' => ''
             ], // cash advance
+            'CSAR' => [
+                'number' => 'transaction_number',
+                'rate' => '',
+                'class' => new CashAdvanceReturn(),
+                'currency' => ''
+            ], // cash advance return
             'SITR' => [
                 'number' => 'transaction_number',
                 'rate' => 'exchange_rate',
