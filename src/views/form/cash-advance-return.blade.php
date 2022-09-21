@@ -100,8 +100,8 @@
             Website : www.ptmmf.co.id
           </td>
           <td width="55%" valign="top" align="center" style="padding-top:-16px">
-            <h1 style="font-size:24px;">Payment<br>
-              <span style="font-size:18px;">Cash Advance Returned</span>
+            <h1 style="font-size:24px;">Cash Advance Returned<br>
+              {{-- <span style="font-size:18px;"></span> --}}
             </h1>
           </td>
         </tr>
@@ -134,7 +134,7 @@
           <td valign="top" width="1%">:</td>
           <td valign="top" width="31%">{{$cash_advance_return->transaction_number}}</td>
           <td valign="top" width="18%">
-            Payment To
+            Return From
           </td>
           <td valign="top" width="1%">:</td>
           <td valign="top" width="31%">{{$cash_advance_return->ref_collection->name}}</td>
@@ -146,6 +146,14 @@
           <td valign="top" width="18%">Currency</td>
           <td valign="top" width="1%">:</td>
           <td valign="top" width="31%">IDR</td>
+        </tr>
+        <tr>
+          <td valign="top" width="18%">Type</td>
+          <td valign="top" width="1%">:</td>
+          <td valign="top" width="31%">{{ explode('\\', $cash_advance_return->class_ref)[2] }}</td>
+          <td valign="top" width="18%">Exchange Rate</td>
+          <td valign="top" width="1%">:</td>
+          <td valign="top" width="31%">{!! $controller->fa_format('Rp', $controller::currency_format($cash_advance_return->exchange_rate), true) !!}</td>
         </tr>
       </table>
     </div>
