@@ -1049,7 +1049,7 @@ class APController extends Controller
         $request->merge([
             'payment_type' => 'cash',
             'transactiondate' => now()->format('d-m-Y'),
-            'id_customer' => $cash_advance_return->id_ref,
+            'id_supplier' => $cash_advance_return->id_ref,
             // 'accountcode' => $cash_advance->coac_coa->code,
             'accountcode' => $cash_advance->coaTransaction()->code,
             'currency' => $cash_advance->currencies->code,
