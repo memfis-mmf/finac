@@ -1068,7 +1068,7 @@ class APController extends Controller
 
             $request = new Request();
             $request->merge([
-                'ar_uuid' => $ap->uuid,
+                'ap_uuid' => $ap->uuid,
                 'data_uuid' => $supplier_invoice->uuid,
                 'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$supplier_invoice->transaction_number} - {$supplier_invoice->vendor->name}",
             ]);
@@ -1096,7 +1096,7 @@ class APController extends Controller
             $request = new APaymentBStore();
             $request->merge([
                 'coa_uuid' => $ca_return_detail_row->coa->uuid,
-                'ar_uuid' => $ap->uuid,
+                'ap_uuid' => $ap->uuid,
             ]);
 
             $apb_controller = new APBController();
@@ -1120,7 +1120,7 @@ class APController extends Controller
             $request = new APaymentBStore();
             $request->merge([
                 'coa_uuid' => $ca_return_adj->coa->uuid,
-                'ar_uuid' => $ap->uuid,
+                'ap_uuid' => $ap->uuid,
             ]);
 
             $apb_controller = new APBController();
