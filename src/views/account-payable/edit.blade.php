@@ -435,5 +435,8 @@
 
 <script src="{{ asset('vendor/courier/frontend/account-payable/edit.js')}}"></script>
 
+{{-- TODO : Test Case --}}
+{{-- <script src="{{ asset('vendor/courier/frontend/account-payable/test-edit.js')}}"></script> --}}
+
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush

@@ -8,18 +8,38 @@
                 </button>
             </div>
             <div class="modal-body">
-							<div class="row mb-5">
-								<div class="col-md-6">
-									<div class="m-input-icon m-input-icon--left">
-											<input type="text" class="form-control m-input" placeholder="Search..."
-													id="generalSearch">
-											<span class="m-input-icon__icon m-input-icon__icon--left">
-													<span><i class="la la-search"></i></span>
-											</span>
-									</div>
-								</div>
-							</div>
-							<div class="supplier_invoice_modal_datatable" id="scrolling_both"></div>
+                <div class="row mb-5">
+                    <div class="col-md-3">
+                        {{-- <div class="m-input-icon m-input-icon--left">
+                                <input type="text" class="form-control m-input" placeholder="Search..."
+                                        id="generalSearch">
+                                <span class="m-input-icon__icon m-input-icon__icon--left">
+                                        <span><i class="la la-search"></i></span>
+                                </span>
+                        </div> --}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- // FIXME : Menambahkan Searching -->
+                        <table class="table table-striped table-bordered table-hover table-checkable supplier_invoice_modal_datatable1">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>Transaction No</th>
+                                    <th>Due Date</th>
+                                    <th>Exchange Rate</th>
+                                    <th>Total Amount</th>
+                                    <th>Total Amount (IDR)</th>
+                                    <th>Paid Amount</th>
+                                    <th>Account Code</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+							{{-- <div class="supplier_invoice_modal_datatable" id="scrolling_both"></div> --}}
             </div>
             <div class="modal-footer">
                 <div class="flex">

@@ -194,6 +194,11 @@ class APController extends Controller
 
         $data['debt_balance'] = "<span class='text-$class'>Rp " . number_format($debt_balance, 0, ',', '.') . "</span>";
 
+        // uuid : 5fdcd5c5-ae34-4202-96c0-cd1fb3cc55f0
+        // vendor : 155
+
+        // dd($data);
+
         return view('accountpayableview::edit', $data);
     }
 
@@ -497,6 +502,7 @@ class APController extends Controller
         return $payment_total_amount;
     }
 
+    // TODO : Next update akan menambahakan pagination & searching
     public function SIModalDatatables(Request $request)
     {
         $ap = APayment::where('uuid', $request->ap_uuid)
@@ -648,7 +654,7 @@ class APController extends Controller
                 return $row->RecordID;
             }, $alldata);
         }
-
+        
         header('Content-Type: application/json');
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
@@ -660,9 +666,10 @@ class APController extends Controller
                 'field' => $field,
             ],
             'data' => $data,
+        
         ];
 
-        echo json_encode($result, JSON_PRETTY_PRINT);
+        return json_encode($result, JSON_PRETTY_PRINT);
     }
 
     public function approve(Request $request)
