@@ -145,7 +145,7 @@
           <td valign="top" width="31%">{{$cash_advance_return->transaction_date->format('d-m-Y')}}</td>
           <td valign="top" width="18%">Currency</td>
           <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">IDR</td>
+          <td valign="top" width="31%">{{strtoupper($cash_advance_return->currency->code)}}</td>
         </tr>
         <tr>
           <td valign="top" width="18%">Type</td>
@@ -182,8 +182,8 @@
               <td align="center">{{ $detail_row->coa->code }}</td>
               <td align="left">{{ $detail_row->coa->name }}</td>
               <td align="left">{!! $detail_row->description !!}</td>
-              <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->debit), true) !!}</td>
-              <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->credit), true) !!}</td>
+              <td align="right">{!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($detail_row->debit), true) !!}</td>
+              <td align="right">{!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($detail_row->credit), true) !!}</td>
             </tr>
             @php
                 $total_debit += $detail_row->debit;
@@ -196,9 +196,9 @@
               Total
             </td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($total_debit), true) !!}</b></td>
+                {!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($total_debit), true) !!}</b></td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($total_credit), true) !!}</b></td>
+                {!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($total_credit), true) !!}</b></td>
           </tr>
         </table>
       </div>
