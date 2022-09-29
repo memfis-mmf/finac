@@ -37,7 +37,7 @@ class JournalAController extends Controller
 			'account_code' => $coa->id
 		]);
 
-		$request->request->add([
+		$request->merge([
 			'debit' => 0,
 			'credit' => 0,
 		]);
@@ -48,7 +48,7 @@ class JournalAController extends Controller
 			$method = 'credit';
 		}
 
-		$request->request->add([
+		$request->merge([
 			$method => $request->amount,
 			'description' => $request->remark
 		]);
@@ -83,7 +83,7 @@ class JournalAController extends Controller
             return abort(404);
         }
 
-		$request->request->add([
+		$request->merge([
 			'debit' => 0,
 			'credit' => 0,
 		]);
@@ -96,7 +96,7 @@ class JournalAController extends Controller
 			$otherMethod = 'debit';
 		}
 
-		$request->request->add([
+		$request->merge([
 			$method => $request->amount,
 			$otherMethod => 0,
 			'description' => $request->remark

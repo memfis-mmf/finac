@@ -99,7 +99,7 @@ class APAController extends Controller
             ];
         }
 
-        $request->request->add([
+        $request->merge([
             'description' => '',
             'transactionnumber' => $AP->transactionnumber,
             'ap_id' => $AP->id,

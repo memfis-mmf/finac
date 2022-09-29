@@ -13,11 +13,17 @@ use App\Models\Vendor;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use App\Models\CashAdvance;
+use App\Models\CashAdvanceReturn;
 use App\Models\Department;
 use App\Models\GoodsReceived;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\DB;
+use memfisfa\Finac\Model\APaymentB;
+use memfisfa\Finac\Request\APaymentAUpdate;
+use memfisfa\Finac\Request\APaymentBStore;
+use memfisfa\Finac\Request\APaymentBUpdate;
 
 class APController extends Controller
 {
@@ -123,7 +129,7 @@ class APController extends Controller
             $code = 'BPYJ';
         }
 
-        $request->request->add([
+        $request->merge([
             'approve' => 0,
             'transactionnumber' => APayment::generateCode($code),
         ]);
@@ -672,7 +678,7 @@ class APController extends Controller
         return json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function approve(Request $request)
+    public function approve(Request $request, $amount_header = null)
     {
         DB::beginTransaction();
         try {
@@ -784,16 +790,29 @@ class APController extends Controller
                 $total_debit += $detail[count($detail) - 1]->debit;
             }
 
-            // add object in first array $detai
-            array_unshift(
-                $detail,
-                (object) [
-                    'coa_detail' => $header->coa,
-                    'credit' => $total_debit - $total_credit,
-                    'debit' => 0,
-                    '_desc' => 'Receive From : ' . $header->voucher_no
-                ]
-            );
+            if ($amount_header === null) {
+                // add object in first array $detai
+                array_unshift(
+                    $detail,
+                    (object) [
+                        'coa_detail' => $header->coa,
+                        'credit' => $total_debit - $total_credit,
+                        'debit' => 0,
+                        '_desc' => 'Receive From : ' . $header->voucher_no
+                    ]
+                );
+            } else {
+                // add object in first array $detai
+                array_unshift(
+                    $detail,
+                    (object) [
+                        'coa_detail' => $header->coa,
+                        'credit' => $amount_header,
+                        'debit' => 0,
+                        '_desc' => 'Receive From : ' . $header->voucher_no
+                    ]
+                );
+            }
 
             $total_credit += $detail[0]->credit;
             $total_debit += $detail[0]->debit;
@@ -1025,5 +1044,117 @@ class APController extends Controller
 
         $pdf = \PDF::loadView('formview::ap', $data);
         return $pdf->stream();
+    }
+
+    public function generateAP(CashAdvanceReturn $cash_advance_return)
+    {
+        DB::beginTransaction();
+
+        $cash_advance = $cash_advance_return->refs()->first()->cashAdvance;
+
+        $request = new Request();
+        $request->merge([
+            'payment_type' => 'cash',
+            'transactiondate' => now()->format('d-m-Y'),
+            'id_supplier' => $cash_advance_return->id_ref,
+            // 'accountcode' => $cash_advance->coac_coa->code,
+            'accountcode' => $cash_advance->coaTransaction()->code,
+            'currency' => $cash_advance->currencies->code,
+            'exchangerate' => $cash_advance_return->exchange_rate,
+            'description' => 'Generated From Cash Advance ' . implode(', ', $cash_advance_return->getCANumber())
+        ]);
+
+        $store = $this->store($request)->getData();
+        $ap = APayment::where('uuid', $store->uuid)->first();
+
+        $request = new Request();
+
+        // insert detail
+        foreach ($cash_advance_return->transactionSupplierInvoice as $transaction_supplier_invoice) {
+            $supplier_invoice = $transaction_supplier_invoice->supplierInvoice;
+
+            $request = new Request();
+            $request->merge([
+                'ap_uuid' => $ap->uuid,
+                'data_uuid' => $supplier_invoice->uuid,
+                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$supplier_invoice->transaction_number} - {$supplier_invoice->vendor->name}",
+                'type' => $supplier_invoice->x_type
+            ]);
+
+            $apa_controller = new APAController();
+            $apa = $apa_controller->store($request)->getData();
+
+            if ($apa->errors ?? false) {
+                return $this->error($apa->errors);
+            }
+
+            $apa = APaymentA::where('uuid', $apa->uuid)->first();
+
+            $request = new APaymentAUpdate();
+            $request->merge([
+                'debit' => $transaction_supplier_invoice->amount
+            ]);
+
+            $apa_controller->update($request, $apa);
+        }
+
+        // insert detail ca return as adj in ap
+        foreach ($cash_advance_return->cash_advance_return_detail as $ca_return_detail_row) {
+
+            $request = new APaymentBStore();
+            $request->merge([
+                'coa_uuid' => $ca_return_detail_row->coa->uuid,
+                'ap_uuid' => $ap->uuid,
+            ]);
+
+            $apb_controller = new APBController();
+            $apb = $apb_controller->store($request)->getData();
+            $apb = APaymentB::where('uuid', $apb->uuid)->first();
+
+            $request = new APaymentBUpdate();
+            $request->merge([
+                'debit_b' => $ca_return_detail_row->debit,
+                'credit_b' => $ca_return_detail_row->credit,
+                'description_b' => $ca_return_detail_row->description,
+                'id_project_detail' => $ca_return_detail_row->project_id ?? null
+            ]);
+
+            $apb_controller->update($request, $apb->uuid);
+        }
+
+        // insert adj
+        foreach ($cash_advance_return->cash_advance_return_adj as $ca_return_adj) {
+
+            $request = new APaymentBStore();
+            $request->merge([
+                'coa_uuid' => $ca_return_adj->coa->uuid,
+                'ap_uuid' => $ap->uuid,
+            ]);
+
+            $apb_controller = new APBController();
+            $apb = $apb_controller->store($request)->getData();
+            $apb = APaymentB::where('uuid', $apb->uuid)->first();
+
+            $request = new APaymentBUpdate();
+            $request->merge([
+                'debit_b' => $ca_return_adj->debit,
+                'credit_b' => $ca_return_adj->credit,
+                'description_b' => $ca_return_adj->description,
+                'id_project_detail' => $ca_return_adj->project_id ?? null
+            ]);
+
+            $apb_controller->update($request, $apb->uuid);
+        }
+
+        $request = new Request();
+        $request->merge([
+            'uuid' => $ap->uuid
+        ]);
+
+        $approve = $this->approve($request, $cash_advance_return->refs()->sum('amount'));
+
+        DB::commit();
+
+        return $approve;
     }
 }

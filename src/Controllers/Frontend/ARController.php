@@ -13,6 +13,8 @@ use App\Models\Customer;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
 use App\Models\Approval;
+use App\Models\CashAdvance;
+use App\Models\CashAdvanceReturn;
 use App\Models\Department;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +23,10 @@ use Illuminate\Support\Facades\Auth;
 //use for export
 use memfisfa\Finac\Model\Exports\ARExport;
 use Maatwebsite\Excel\Facades\Excel;
+use memfisfa\Finac\Model\AReceiveB;
+use memfisfa\Finac\Request\AReceiveAUpdate;
+use memfisfa\Finac\Request\AReceiveBStore;
+use memfisfa\Finac\Request\AReceiveBUpdate;
 
 class ARController extends Controller
 {
@@ -238,6 +244,7 @@ class ARController extends Controller
         $data = AReceive::with([
                 'customer',
                 'ara',
+                'arb',
                 'coa',
             ])
             ->select('a_receives.*');
@@ -366,7 +373,7 @@ class ARController extends Controller
             ->make();
     }
 
-    public function approve(Request $request)
+    public function approve(Request $request, $amount_header = null)
     {
         DB::beginTransaction();
         try {
@@ -480,16 +487,29 @@ class ARController extends Controller
                 $total_debit += $detail[count($detail) - 1]->debit;
             }
 
-            // add object in first array $detai
-            array_unshift(
-                $detail,
-                (object) [
-                    'coa_detail' => $header->coa,
-                    'credit' => 0,
-                    'debit' => $total_credit - $total_debit,
-                    '_desc' => 'Receive From : ' . $header->voucher_no
-                ]
-            );
+            if ($amount_header === null) {
+                // add object in first array $detai
+                array_unshift(
+                    $detail,
+                    (object) [
+                        'coa_detail' => $header->coa,
+                        'credit' => 0,
+                        'debit' => $total_credit - $total_debit,
+                        '_desc' => 'Receive From : ' . $header->voucher_no
+                    ]
+                );
+            } else {
+                // add object in first array $detai
+                array_unshift(
+                    $detail,
+                    (object) [
+                        'coa_detail' => $header->coa,
+                        'credit' => 0,
+                        'debit' => $amount_header,
+                        '_desc' => 'Receive From : ' . $header->voucher_no
+                    ]
+                );
+            }
 
             $total_credit += $detail[0]->credit;
             $total_debit += $detail[0]->debit;
@@ -770,10 +790,13 @@ class ARController extends Controller
         return Excel::download(new ARExport($data), "{$name}.xlsx");
     }
 
+    // function ini belum kepakek
     public function generate_ar($invoice)
     {
         $amount = $invoice->grantotal_foreign;
         $count_cash_advance = $invoice->cash_advance()->count();
+
+        DB::beginTransaction();
 
         // generate ar as much as cash advance
         foreach ($invoice->cash_advance ?? [] as $cash_advance) {
@@ -824,5 +847,118 @@ class ARController extends Controller
                 break;
             }
         }
+
+        DB::commit();
+    }
+
+    public function generateAR(CashAdvanceReturn $cash_advance_return)
+    {
+        DB::beginTransaction();
+
+        $cash_advance = $cash_advance_return->refs()->first()->cashAdvance;
+
+        $request = new Request();
+        $request->merge([
+            'payment_type' => 'cash',
+            'transactiondate' => now()->format('d-m-Y'),
+            'id_customer' => $cash_advance_return->id_ref,
+            // 'accountcode' => $cash_advance->coac_coa->code,
+            'accountcode' => $cash_advance->coaTransaction()->code,
+            'currency' => $cash_advance->currencies->code,
+            'exchangerate' => $cash_advance_return->exchange_rate,
+            'description' => 'Generated From Cash Advance ' . implode(', ', $cash_advance_return->getCANumber())
+        ]);
+
+        $store = $this->store($request)->getData();
+        $ar = AReceive::where('uuid', $store->uuid)->first();
+
+        $request = new Request();
+
+        // insert detail
+        foreach ($cash_advance_return->transactionInvoice as $transaction_invoice) {
+            $invoice = $transaction_invoice->invoice;
+
+            $request = new Request();
+            $request->merge([
+                'ar_uuid' => $ar->uuid,
+                'data_uuid' => $invoice->uuid,
+                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$invoice->transactionnumber} - {$invoice->customer->name}",
+            ]);
+
+            $ara_controller = new ARAController();
+            $ara = $ara_controller->store($request)->getData();
+
+            if ($ara->errors ?? false) {
+                return $this->error($ara->errors);
+            }
+
+            $ara = AReceiveA::where('uuid', $ara->uuid)->first();
+
+            $request = new AReceiveAUpdate();
+            $request->merge([
+                'credit' => $transaction_invoice->amount
+            ]);
+
+            $ara_controller->update($request, $ara);
+        }
+
+        // insert detail ca return as adj in ar
+        foreach ($cash_advance_return->cash_advance_return_detail as $ca_return_detail_row) {
+
+            $request = new AReceiveBStore();
+            $request->merge([
+                'coa_uuid' => $ca_return_detail_row->coa->uuid,
+                'ar_uuid' => $ar->uuid,
+            ]);
+
+            $arb_controller = new ARBController();
+            $arb = $arb_controller->store($request)->getData();
+            $arb = AReceiveB::where('uuid', $arb->uuid)->first();
+
+            $request = new AReceiveBUpdate();
+            $request->merge([
+                'debit_b' => $ca_return_detail_row->debit,
+                'credit_b' => $ca_return_detail_row->credit,
+                'description_b' => $ca_return_detail_row->description,
+                'id_project_detail' => $ca_return_detail_row->project_id ?? null
+            ]);
+
+            $arb_controller->update($request, $arb->uuid);
+        }
+
+        // insert adj
+        foreach ($cash_advance_return->cash_advance_return_adj as $ca_return_adj) {
+
+            $request = new AReceiveBStore();
+            $request->merge([
+                'coa_uuid' => $ca_return_adj->coa->uuid,
+                'ar_uuid' => $ar->uuid,
+            ]);
+
+            $arb_controller = new ARBController();
+            $arb = $arb_controller->store($request)->getData();
+            $arb = AReceiveB::where('uuid', $arb->uuid)->first();
+
+            $request = new AReceiveBUpdate();
+            $request->merge([
+                'debit_b' => $ca_return_adj->debit,
+                'credit_b' => $ca_return_adj->credit,
+                'description_b' => $ca_return_adj->description,
+                'id_project_detail' => $ca_return_adj->project_id ?? null
+            ]);
+
+            $arb_controller->update($request, $arb->uuid);
+        }
+
+        $request = new Request();
+        $request->merge([
+            'uuid' => $ar->uuid
+        ]);
+
+        $approve = $this->approve($request, $cash_advance_return->refs()->sum('amount'));
+
+        DB::commit();
+
+        return $approve;
     }
 }

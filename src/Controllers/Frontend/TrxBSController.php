@@ -97,7 +97,7 @@ class TrxBSController extends Controller
         $employee = Employee::where('uuid', $request->id_employee)
             ->firstOrFail();
 
-        $request->request->add([
+        $request->merge([
             'id_employee' => $employee->id
         ]);
 
@@ -146,7 +146,7 @@ class TrxBSController extends Controller
 		 *coad itu yang bond
 		 */
 
-		$request->request->add([
+		$request->merge([
 			'closed' => 0
 		]);
 		$data = $request->all();
@@ -189,7 +189,7 @@ class TrxBSController extends Controller
             ];
         }
 
-		$request->request->add([
+		$request->merge([
 			'closed' => 0
 		]);
 

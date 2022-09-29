@@ -7,7 +7,7 @@ use memfisfa\Finac\Model\MemfisModel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Adjustment
+ * Adjustment AR
  */
 class AReceiveB extends MemfisModel
 {

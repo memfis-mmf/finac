@@ -8,7 +8,7 @@ use App\Models\Currency;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
 /**
- * Detail
+ * Detail AR
  */
 class AReceiveA extends MemfisModel
 {

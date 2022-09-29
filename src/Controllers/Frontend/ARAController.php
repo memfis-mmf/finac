@@ -41,7 +41,7 @@ class ARAController extends Controller
         if ($ARA) {
             if ($currency != $ARA->currency) {
                 return response()->json([
-                    'errors' => 'Currency not consistent'
+                    'errors' => 'Currency AR header and detail not consistent'
                 ]);
             }
         }
@@ -61,7 +61,7 @@ class ARAController extends Controller
             $description = $request->description;
         }
 
-        $request->request->add([
+        $request->merge([
             'description' => $description,
             'transactionnumber' => $AR->transactionnumber,
             'ar_id' => $AR->id,

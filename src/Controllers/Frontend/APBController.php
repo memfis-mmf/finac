@@ -30,7 +30,7 @@ class APBController extends Controller
             return abort(404);
         }
 
-        $request->request->add([
+        $request->merge([
             'transactionnumber' => $ap->transactionnumber,
             'ap_id' => $ap->id,
             'code' => $coa->code,
@@ -79,7 +79,7 @@ class APBController extends Controller
             'id_project' => $request->id_project_detail,
         ]);
 
-        $request->request->add([
+        $request->merge([
             'debit_idr' => $request->debit_b * $ap->exchangerate,
             'credit_idr' => $request->credit_b * $ap->exchangerate,
         ]);

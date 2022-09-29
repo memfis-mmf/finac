@@ -30,7 +30,7 @@ class ARBController extends Controller
             return abort(404);
         }
 
-        $request->request->add([
+        $request->merge([
             'transactionnumber' => $ar->transactionnumber,
             'ar_id' => $ar->id,
             'code' => $coa->code,
@@ -79,7 +79,7 @@ class ARBController extends Controller
             'id_project' => $request->id_project_detail,
         ]);
 
-        $request->request->add([
+        $request->merge([
             'debit_idr' => $request->debit_b * $ar->exchangerate,
             'credit_idr' => $request->credit_b * $ar->exchangerate,
         ]);
