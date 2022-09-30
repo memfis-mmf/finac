@@ -22,7 +22,7 @@ let AccountPayable = {
       // supplier_invoice_modal_table.reload();
       // account_payable_datatable.reload();
       // account_payable_datatable.reload();
-      account_payable_datatable.reload();
+      account_payable_datatable.ajax.reload(null, false);
     })
 
     $('#project').select2({
@@ -793,7 +793,9 @@ let AccountPayable = {
             $('#modal_create_supplier_invoice').modal('hide');
     
             supplier_invoice_table.reload();
-            account_payable_datatable.reload();
+            // account_payable_datatable.reload();
+            account_payable_datatable.ajax.reload(null, false);
+
     
             toastr.success('Data saved', 'Success', {
               timeOut: 2000
