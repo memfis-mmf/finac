@@ -684,15 +684,12 @@ let AccountPayable = {
       });
     });
 
-    // TODO : Ini sifatnya TEMPORARY, nantinya akan ada update untuk searching & pagination
 		let account_payable_datatable = $('.supplier_invoice_modal_datatable1').DataTable({
 			dom: '<"top"f>rt<"bottom">pil',
 			scrollX: true,
 			processing: true,
 			serverSide: true,
       responsive: true,
-      paging: false,
-      searching: false,
 			lengthMenu: [5, 10, 23, 50, 100],
 			serverSide: true,
 			order: [
