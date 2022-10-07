@@ -508,75 +508,176 @@ class APController extends Controller
         return $payment_total_amount;
     }
 
+    // public function SIModalDatatables(Request $request)
+    // {
+    //     $ap = APayment::where('uuid', $request->ap_uuid)
+    //         ->firstOrFail();
+
+    //     $trxpayment_grn = TrxPayment::with(['coa'])
+    //         ->where('id_supplier', $request->id_vendor)
+    //         ->where('x_type', 'GRN')
+    //         ->where('approve', 1)
+    //         ->get();
+
+    //     $arr = [];
+    //     $index_arr = 0;
+
+    //     // looping sebanyak supplier invoice GRN
+    //     for ($i = 0; $i < count($trxpayment_grn); $i++) {
+    //         $si = $trxpayment_grn[$i];
+
+    //         // looping sebanyak GRN
+    //         for ($j = 0; $j < count($si->trxpaymenta); $j++) {
+    //             $trxpaymenta = $si->trxpaymenta[$j];
+
+    //             if ($trxpaymenta->transaction_status != 2) { // jika bukan approved (open atau closed) maka diloncati
+    //                 continue;
+    //             }
+
+    //             $arr[$index_arr] = json_decode($si);
+    //             $arr[$index_arr]->transaction_date = Carbon::parse($arr[$index_arr]->transaction_date)->format('d-m-Y');
+    //             $arr[$index_arr]->transaction_number = $trxpaymenta->grn->number;
+    //             $arr[$index_arr]->uuid = $trxpaymenta->grn->uuid;
+    //             $arr[$index_arr]->grandtotal_foreign = $trxpaymenta->total + ($trxpaymenta->total * $trxpaymenta->tax_percent / 100);
+    //             $arr[$index_arr]->grandtotal = $trxpaymenta->total_idr + ($trxpaymenta->total_idr * $trxpaymenta->tax_percent / 100);
+    //             $arr[$index_arr]->currencies = $si->currencies;
+    //             $index_arr++;
+    //         }
+    //     }
+
+    //     $trxpayment_non_grn = TrxPayment::with(['coa'])
+    //         ->where('id_supplier', $request->id_vendor)
+    //         ->where('x_type', 'NON GRN')
+    //         ->where('approve', 1)
+    //         ->with(['currencies'])
+    //         ->where('transaction_status', 2) //mengambil invoice yang statusnya approve
+    //         ->get();
+
+    //     $si = array_merge($arr, json_decode($trxpayment_non_grn));
+
+    //     foreach ($si as $si_index => $si_row) {
+    //         $si_row->paid_amount = 
+    //             $this->countPaidAmount($si_row->uuid, $si_row->x_type); // return idr
+
+    //         // jika sudah lunas
+    //         if ($si_row->paid_amount == $si_row->grandtotal) {
+    //             unset($si[$si_index]);
+    //             continue;
+    //         }
+    //         $si_row->transaction_date = Carbon::parse($si_row->transaction_date)->format('d-m-Y');
+
+    //         $si_row->due_date = Carbon::parse($si_row->updated_at)
+    //             ->addDays($si_row->closed)
+    //             ->format('d-m-Y');
+
+    //         $si_row->amount_to_pay = $si_row->grandtotal - $si_row->paid_amount;
+    //         $si_row->exchange_rate_gap = $si_row->exchange_rate - $ap->exchangerate;
+    //     }
+
+    //     $data = array_values($si);
+
+    //     return datatables($data)->make();
+    // }
+
     public function SIModalDatatables(Request $request)
     {
-        $ap = APayment::where('uuid', $request->ap_uuid)
-            ->firstOrFail();
-
-        $trxpayment_grn = TrxPayment::with(['coa'])
+        $ap = APayment::where('uuid', $request->ap_uuid)->first();
+        $data = TrxPayment::with(['coa', 'currencies'])
             ->where('id_supplier', $request->id_vendor)
-            ->where('x_type', 'GRN')
+            ->where('x_type', TrxPayment::X_TYPE_GENERAL)
             ->where('approve', 1)
-            ->get();
+            ->where('transaction_status', 2); //mengambil invoice yang statusnya approve
 
-        $arr = [];
-        $index_arr = 0;
-
-        // looping sebanyak supplier invoice GRN
-        for ($i = 0; $i < count($trxpayment_grn); $i++) {
-            $x = $trxpayment_grn[$i];
-
-            // looping sebanyak GRN
-            for ($j = 0; $j < count($x->trxpaymenta); $j++) {
-                $z = $x->trxpaymenta[$j];
-
-                if ($z->transaction_status != 2) { // jika bukan approved (open atau closed) maka diloncati
-                    continue;
+        return datatables($data)
+            ->addColumn('paid_amount', function($si) {
+                return $this->countPaidAmount($si->uuid, $si->x_type);
+            })
+            ->addColumn('transaction_date', function($si) {
+                return Carbon::parse($si->transaction_date)->format('d-m-Y');
+            })
+            ->addColumn('due_date', function($si) {
+                return Carbon::parse($si->updated_at)
+                    ->addDays($si->closed)
+                    ->format('d-m-Y');
+            })
+            ->addColumn('amount_to_pay', function($si) {
+                return $si->grandtotal - $this->countPaidAmount($si->uuid, $si->x_type);
+            })
+            ->addColumn('exchange_rate_gap', function($si) use($ap) {
+                return $si->exchange_rate - $ap->exchangerate;
+            })
+            ->addColumn('action', function($si) use($request) {
+                if ($request->page_type == 'show') {
+                    return '';
                 }
 
-                $arr[$index_arr] = json_decode($x);
-                $arr[$index_arr]->transaction_date = Carbon::parse($arr[$index_arr]->transaction_date)->format('d-m-Y');
-                $arr[$index_arr]->transaction_number = $z->grn->number;
-                $arr[$index_arr]->uuid = $z->grn->uuid;
-                $arr[$index_arr]->grandtotal_foreign = $z->total + ($z->total * $z->tax_percent / 100);
-                $arr[$index_arr]->grandtotal = $z->total_idr + ($z->total_idr * $z->tax_percent / 100);
-                $arr[$index_arr]->currencies = $x->currencies;
-                $index_arr++;
-            }
-        }
+                $paid_amount = $this->countPaidAmount($si->uuid, $si->x_type);
 
-        $trxpayment_non_grn = TrxPayment::with(['coa'])
-            ->where('id_supplier', $request->id_vendor)
-            ->where('x_type', 'NON GRN')
-            ->where('approve', 1)
-            ->with(['currencies'])
-            ->where('transaction_status', 2) //mengambil invoice yang statusnya approve
-            ->get();
+                if ($paid_amount == $si->grandtotal) {
+                    return 'Paid off';
+                }
 
-        $si = array_merge($arr, json_decode($trxpayment_non_grn));
+                return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' . $si->x_type . '" data-uuid="' . $si->uuid . '"><span><i class="la la-edit"></i><span>Use</span></span></a>';
+            })
+            ->make();
+    }
 
-        foreach ($si as $si_index => $si_row) {
-            $si_row->paid_amount = 
-                $this->countPaidAmount($si_row->uuid, $si_row->x_type); // return idr
+    public function GRNModalDatatables(Request $request)
+    {
+        $ap = APayment::where('uuid', $request->ap_uuid)->first();
+        $data = GoodsReceived::whereHas('trxpaymenta.si', function($si) use($request) {
+            $si
+                ->with(['coa', 'currencies'])
+                ->where('id_supplier', $request->id_vendor)
+                ->where('x_type', TrxPayment::X_TYPE_GRN)
+                ->where('approve', 1)
+                ->where('transaction_status', 2); //mengambil invoice yang statusnya approve
+        });
 
-            // jika sudah lunas
-            if ($si_row->paid_amount == $si_row->grandtotal) {
-                unset($si[$si_index]);
-                continue;
-            }
-            $si_row->transaction_date = Carbon::parse($si_row->transaction_date)->format('d-m-Y');
+        return datatables($data)
+            ->addColumn('paid_amount', function($grn) {
+                $si = $grn->trxpaymenta->si;
+                return $this->countPaidAmount($si->uuid, $si->x_type);
+            })
+            ->addColumn('transaction_date', function($grn) {
+                $si = $grn->trxpaymenta->si;
+                return Carbon::parse($si->transaction_date)->format('d-m-Y');
+            })
+            ->addColumn('transaction_number', function($grn) {
+                return $grn->number;
+            })
+            ->addColumn('uuid', function($grn) {
+                return $grn->uuid;
+            })
+            ->addColumn('due_date', function($grn) {
+                $si = $grn->trxpaymenta->si;
+                return Carbon::parse($si->updated_at)
+                    ->addDays($si->closed)
+                    ->format('d-m-Y');
+            })
+            ->addColumn('amount_to_pay', function($grn) {
+                $si = $grn->trxpaymenta->si;
+                return $si->grandtotal - $this->countPaidAmount($si->uuid, $si->x_type);
+            })
+            ->addColumn('exchange_rate_gap', function($grn) use($ap) {
+                $si = $grn->trxpaymenta->si;
+                return $si->exchange_rate - $ap->exchangerate;
+            })
+            ->addColumn('action', function($grn) use($request) {
+                $si = $grn->trxpaymenta->si;
+                if ($request->page_type == 'show') {
+                    return '';
+                }
 
-            $si_row->due_date = Carbon::parse($si_row->updated_at)
-                ->addDays($si_row->closed)
-                ->format('d-m-Y');
+                $paid_amount = $this->countPaidAmount($si->uuid, $si->x_type);
 
-            $si_row->amount_to_pay = $si_row->grandtotal - $si_row->paid_amount;
-            $si_row->exchange_rate_gap = $si_row->exchange_rate - $ap->exchangerate;
-        }
+                if ($paid_amount == $si->grandtotal) {
+                    return 'Paid off';
+                }
 
-        $data = array_values($si);
-
-        return datatables($data)->make();
+                return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' . $si->x_type . '" data-uuid="' . $si->uuid . '"><span><i class="la la-edit"></i><span>Use</span></span></a>' ;
+            })
+            ->make();
     }
 
     public function approve(Request $request, $amount_header = null)

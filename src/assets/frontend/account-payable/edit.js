@@ -18,11 +18,12 @@ let AccountPayable = {
       placeholder: '-- Select --'
     });
 
-    $('#modal_create_supplier_invoice').on('shown.bs.modal', function (e) {
+    $('.modal').on('shown.bs.modal', function (e) {
       // supplier_invoice_modal_table.reload();
-      // account_payable_datatable.reload();
-      // account_payable_datatable.reload();
-      account_payable_datatable.ajax.reload(null, false);
+      // supplier_invoice_modal_datatable.reload();
+      // supplier_invoice_modal_datatable.reload();
+      supplier_invoice_modal_datatable.ajax.reload(null, false);
+      grn_modal_datatable.ajax.reload(null, false);
     })
 
     $('#project').select2({
@@ -684,7 +685,7 @@ let AccountPayable = {
       });
     });
 
-		let account_payable_datatable = $('.supplier_invoice_modal_datatable1').DataTable({
+		let supplier_invoice_modal_datatable = $('.supplier_invoice_modal_datatable').DataTable({
 			dom: '<"top"f>rt<"bottom">pil',
 			scrollX: true,
 			processing: true,
@@ -696,7 +697,10 @@ let AccountPayable = {
 				[8, 'desc'],
 				[0, 'desc'],
 			],
-			ajax: _url + '/account-payable/si/modal/datatable/?ap_uuid=' + ap_uuid + ' &id_vendor=' + id_vendor,
+			ajax: _url 
+        + '/account-payable/si/modal/datatable/?ap_uuid=' + ap_uuid 
+        + ' &id_vendor=' + id_vendor
+        + ' page_type=' + page_type,
 			oLanguage: {
             sLengthMenu: "_MENU_",
 			},
@@ -729,22 +733,71 @@ let AccountPayable = {
 						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.grandtotal)) + '</p>';
 					}
 				},
-				{ data: 'coa.code', name: 'code'},
+				{ data: 'coa.code'},
 				{
 					data: 'description', render: function (data, type, row) {
 						return '<p class="text-left">' + row.description ?? '' + '</p>';
 					}
 				},
 				{
-					data: 'actions', render: function (data, type, row) {
-						if (page_type == 'show') {
-							return '';
-						}
-	
-						return (
-							'<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' + row.x_type + '" data-uuid="' + row.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
-						);
+					data: 'action', orderable: false, searchable: false
+				}
+			]
+		});
+
+		let grn_modal_datatable = $('.grn_modal_datatable').DataTable({
+			dom: '<"top"f>rt<"bottom">pil',
+			scrollX: true,
+			processing: true,
+			serverSide: true,
+      responsive: true,
+			lengthMenu: [5, 10, 23, 50, 100],
+			serverSide: true,
+			order: [
+				[8, 'desc'],
+				[0, 'desc'],
+			],
+			ajax: _url + '/account-payable/grn/modal/datatable/?ap_uuid=' + ap_uuid + ' &id_vendor=' + id_vendor,
+			oLanguage: {
+            sLengthMenu: "_MENU_",
+			},
+			columnDefs: [
+				{
+					targets: [0,1,2,3],
+					"className": "text-left" 
+				}
+			],
+			columns: [
+				{ data: 'transaction_number'},
+				{ data: 'currency'},
+				{
+					data: 'exchange_rate', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.exchange_rate)) + '</p>';
 					}
+				},
+				{
+					data: 'grandtotal_foreign', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal_foreign', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.grandtotal)) + '</p>';
+					}
+				},
+				{ data: 'coa.code'},
+				{
+					data: 'description', render: function (data, type, row) {
+						return '<p class="text-left">' + row.description ?? '' + '</p>';
+					}
+				},
+				{
+					data: 'action', orderable: false, searchable: false
 				}
 			]
 		});
@@ -764,7 +817,7 @@ let AccountPayable = {
 	
 			let tr = $(this).parents('tr');
 	
-			let data = account_payable_datatable.row(tr).data();
+			let data = supplier_invoice_modal_datatable.row(tr).data();
 	
 			$.ajax({
 				url: _url + '/apaymenta',
@@ -787,11 +840,12 @@ let AccountPayable = {
             });
             
           } else {
-            $('#modal_create_supplier_invoice').modal('hide');
+            $('.modal').modal('hide');
     
             supplier_invoice_table.reload();
-            // account_payable_datatable.reload();
-            account_payable_datatable.ajax.reload(null, false);
+            // supplier_invoice_modal_datatable.reload();
+            supplier_invoice_modal_datatable.ajax.reload(null, false);
+            grn_modal_datatable.ajax.reload(null, false);
 
     
             toastr.success('Data saved', 'Success', {

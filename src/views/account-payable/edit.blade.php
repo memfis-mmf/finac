@@ -254,12 +254,19 @@
                             <span>Supplier Invoice</span>
                           </span>
                         </button>
+                        <button data-target="#modal_create_grn" data-toggle="modal" type="button"
+                          class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                            <i class="la la-plus-circle"></i>
+                            <span>GRN</span>
+                          </span>
+                        </button>
                         <div class="m-separator m-separator--dashed d-xl-none"></div>
                       </div>
                     </div>
                   </div>
                 </div>
                 @include('accountpayableview::modal-create-supplier-invoice')
+                @include('accountpayableview::modal-create-grn')
                 @include('accountpayableview::modal-edit-supplier-invoice')
                 {{-- datatables --}}
                 <div class="form-group m-form__group row">
