@@ -1094,7 +1094,8 @@ class APController extends Controller
 
             $request = new APaymentAUpdate();
             $request->merge([
-                'debit' => $transaction_supplier_invoice->amount * $cash_advance_return->exchange_rate
+                'debit' => $transaction_supplier_invoice->amount,
+                // 'exchangerate' => $cash_advance_return->exchange_rate //change SI rate to follow CA return rate
             ]);
 
             $apa_controller->update($request, $apa);
