@@ -896,7 +896,7 @@ class ARController extends Controller
 
             $request = new AReceiveAUpdate();
             $request->merge([
-                'credit' => $transaction_invoice->amount
+                'credit' => $transaction_invoice->amount * $cash_advance_return->exchange_rate
             ]);
 
             $ara_controller->update($request, $ara);
