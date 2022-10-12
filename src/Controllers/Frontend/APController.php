@@ -9,6 +9,7 @@ use memfisfa\Finac\Model\APaymentA;
 use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\TrxPayment;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Frontend\CashAdvanceReturnRefController;
 use App\Models\Vendor;
 use App\Models\Currency;
 use memfisfa\Finac\Model\TrxJournal;
@@ -1154,7 +1155,8 @@ class APController extends Controller
             'uuid' => $ap->uuid
         ]);
 
-        $approve = $this->approve($request, $cash_advance_return->refs()->sum('amount'));
+        $ca_total_amount = (new CashAdvanceReturnRefController)->calculateTotal($cash_advance_return);
+        $approve = $this->approve($request, $ca_total_amount);
 
         DB::commit();
 

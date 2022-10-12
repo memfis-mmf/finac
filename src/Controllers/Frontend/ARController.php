@@ -8,6 +8,7 @@ use memfisfa\Finac\Model\AReceiveA;
 use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Frontend\CashAdvanceReturnRefController;
 use App\Models\AdvancePaymentBalance;
 use App\Models\Customer;
 use App\Models\Currency;
@@ -956,7 +957,8 @@ class ARController extends Controller
             'uuid' => $ar->uuid
         ]);
 
-        $approve = $this->approve($request, $cash_advance_return->refs()->sum('amount'));
+        $ca_total_amount = (new CashAdvanceReturnRefController)->calculateTotal($cash_advance_return);
+        $approve = $this->approve($request, $ca_total_amount);
 
         DB::commit();
 
