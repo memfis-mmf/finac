@@ -261,7 +261,6 @@ class JournalController extends Controller
                 }
                 $link = route('frontend.inventory-out-material.print', $iv_out->uuid);
                 break;
-                break;
             case 'SITR':
                 $supplier_invoice = TrxPayment::where('transaction_number', $journal->ref_no)->first();
                 if (!$supplier_invoice) {
