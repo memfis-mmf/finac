@@ -61,97 +61,113 @@ class TrxJournal extends MemfisModel
                 'number' => 'transaction_number',
                 'rate' => '',
                 'class' => new CashAdvance(),
-                'currency' => ''
+                'currency' => '',
+                'total' => '',
             ], // cash advance
             'CSAR' => [
                 'number' => 'transaction_number',
                 'rate' => '',
                 'class' => new CashAdvanceReturn(),
-                'currency' => ''
+                'currency' => '',
+                'total' => '',
             ], // cash advance return
             'SITR' => [
                 'number' => 'transaction_number',
                 'rate' => 'exchange_rate',
                 'class' => new TrxPayment(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'grandtotal_foreign'
             ], // supplier invoice
             'GRNI' => [
                 'number' => 'number',
                 'rate' => 'rate',
                 'class' => new GoodsReceived(),
-                'currency' => 'currency'
+                'currency' => 'currency',
+                'total' => ''
             ], // grn
             'INVC' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Invoice(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'grandtotalforeign'
             ], // invoice
             'IOUT' => [
                 'number' => 'number',
                 'rate' => '',
                 'class' => new InventoryOut(),
                 'currency' => '',
+                'total' => ''
             ], // inventory out
             'CCPJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook cash payment
             'CBRJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook bank receive
             'FAMS' => [
                 'number' => 'transaction_number',
                 'rate' => '',
                 'class' => new Asset(),
-                'currency' => ''
+                'currency' => '',
+                'total' => 'povalue'
             ], // assets
             'CCRJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook cash receive
             'CBPJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook bank payment
             'CPYJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new APayment(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ],
             'BPYJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new APayment(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ],
             'BRCJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => [new AReceive(), new ARWorkshop()],
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ],
             'IVSL' => [
                 'number' => 'invoice_no',
                 'rate' => 'exchange_rate',
                 'class' => new InvoiceWorkshop(),
-                'currency' => 'currency'
+                'currency' => 'currency',
+                'total' => 'grand_total'
             ], // invoice sale (workshop)
             'IVSH' => [
                 'number' => 'invoice_no',
                 'rate' => 'exchange_rate',
                 'class' => new InvoiceWorkshop(),
-                'currency' => 'currency'
+                'currency' => 'currency',
+                'total' => 'grand_total'
             ], // invoice service (workshop)
         ];
 
@@ -189,10 +205,12 @@ class TrxJournal extends MemfisModel
         $number = $doc_ref[$ref_no_code]['number'];
         $rate = $doc_ref[$ref_no_code]['rate'];
         $currency = $doc_ref[$ref_no_code]['currency'];
+        $total = $doc_ref[$ref_no_code]['total'];
 
         $class_ref->number = $class_ref->$number;
         $class_ref->rate = $class_ref->$rate ?? 1;
         $class_ref->currency = $class_ref->$currency ?? $idr_currency;
+        $class_ref->total = $class_ref->$total ?? '-';
 
         return $class_ref;
     }
