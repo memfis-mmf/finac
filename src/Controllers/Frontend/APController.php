@@ -1095,7 +1095,7 @@ class APController extends Controller
 
             $request = new APaymentAUpdate();
             $request->merge([
-                'debit' => $transaction_supplier_invoice->amount,
+                'debit' => memfisRound($supplier_invoice->currencies->code, $transaction_supplier_invoice->amount),
                 // 'exchangerate' => $cash_advance_return->exchange_rate //change SI rate to follow CA return rate
             ]);
 
@@ -1117,8 +1117,8 @@ class APController extends Controller
 
             $request = new APaymentBUpdate();
             $request->merge([
-                'debit_b' => $ca_return_detail_row->debit,
-                'credit_b' => $ca_return_detail_row->credit,
+                'debit_b' => memfisRound($ap->currencies->code, $ca_return_detail_row->debit),
+                'credit_b' => memfisRound($ap->currencies->code, $ca_return_detail_row->credit),
                 'description_b' => $ca_return_detail_row->description,
                 'id_project_detail' => $ca_return_detail_row->project_id ?? null
             ]);
@@ -1141,8 +1141,8 @@ class APController extends Controller
 
             $request = new APaymentBUpdate();
             $request->merge([
-                'debit_b' => $ca_return_adj->debit,
-                'credit_b' => $ca_return_adj->credit,
+                'debit_b' => memfisRound($ap->currencies->code, $ca_return_adj->debit),
+                'credit_b' => memfisRound($ap->currencies->code, $ca_return_adj->credit),
                 'description_b' => $ca_return_adj->description,
                 'id_project_detail' => $ca_return_adj->project_id ?? null
             ]);
