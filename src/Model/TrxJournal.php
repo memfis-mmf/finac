@@ -10,6 +10,7 @@ use App\User;
 use App\Models\Approval;
 use App\Models\ARWorkshop;
 use App\Models\CashAdvance;
+use App\Models\CashAdvanceReturn;
 use App\Models\Currency;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
@@ -60,91 +61,113 @@ class TrxJournal extends MemfisModel
                 'number' => 'transaction_number',
                 'rate' => '',
                 'class' => new CashAdvance(),
-                'currency' => ''
+                'currency' => '',
+                'total' => '',
             ], // cash advance
+            'CSAR' => [
+                'number' => 'transaction_number',
+                'rate' => '',
+                'class' => new CashAdvanceReturn(),
+                'currency' => '',
+                'total' => '',
+            ], // cash advance return
             'SITR' => [
                 'number' => 'transaction_number',
                 'rate' => 'exchange_rate',
                 'class' => new TrxPayment(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'grandtotal_foreign'
             ], // supplier invoice
             'GRNI' => [
                 'number' => 'number',
                 'rate' => 'rate',
                 'class' => new GoodsReceived(),
-                'currency' => 'currency'
+                'currency' => 'currency',
+                'total' => ''
             ], // grn
             'INVC' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Invoice(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'grandtotalforeign'
             ], // invoice
             'IOUT' => [
                 'number' => 'number',
                 'rate' => '',
                 'class' => new InventoryOut(),
                 'currency' => '',
+                'total' => ''
             ], // inventory out
             'CCPJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook cash payment
             'CBRJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook bank receive
             'FAMS' => [
                 'number' => 'transaction_number',
                 'rate' => '',
                 'class' => new Asset(),
-                'currency' => ''
+                'currency' => '',
+                'total' => 'povalue'
             ], // assets
             'CCRJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook cash receive
             'CBPJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new Cashbook(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ], // cashbook bank payment
             'CPYJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new APayment(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ],
             'BPYJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => new APayment(),
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ],
             'BRCJ' => [
                 'number' => 'transactionnumber',
                 'rate' => 'exchangerate',
                 'class' => [new AReceive(), new ARWorkshop()],
-                'currency' => 'currencies'
+                'currency' => 'currencies',
+                'total' => 'totaltransaction'
             ],
             'IVSL' => [
                 'number' => 'invoice_no',
                 'rate' => 'exchange_rate',
                 'class' => new InvoiceWorkshop(),
-                'currency' => 'currency'
+                'currency' => 'currency',
+                'total' => 'grand_total'
             ], // invoice sale (workshop)
             'IVSH' => [
                 'number' => 'invoice_no',
                 'rate' => 'exchange_rate',
                 'class' => new InvoiceWorkshop(),
-                'currency' => 'currency'
+                'currency' => 'currency',
+                'total' => 'grand_total'
             ], // invoice service (workshop)
         ];
 
@@ -182,10 +205,12 @@ class TrxJournal extends MemfisModel
         $number = $doc_ref[$ref_no_code]['number'];
         $rate = $doc_ref[$ref_no_code]['rate'];
         $currency = $doc_ref[$ref_no_code]['currency'];
+        $total = $doc_ref[$ref_no_code]['total'];
 
         $class_ref->number = $class_ref->$number;
         $class_ref->rate = $class_ref->$rate ?? 1;
         $class_ref->currency = $class_ref->$currency ?? $idr_currency;
+        $class_ref->total = $class_ref->$total ?? '-';
 
         return $class_ref;
     }
@@ -277,66 +302,6 @@ class TrxJournal extends MemfisModel
         // date transaction belum di close
         return true;
     }
-
-	/*
-	 *jangan copy function dibawah ini untuk membuat function lain
-	 *yang seperti ini, copy function insertFromAP saja
-	 */
-	static public function insertFromCashAdvanceReturn($header, $detail)
-	{
-		$data['voucher_no'] = TrxJournal::generateCode('PRJR');
-		$data['ref_no'] = $header->transaction_number;
-		$data['transaction_date'] = $header->transaction_date;
-		$data['journal_type'] = TypeJurnal::where('code', 'GJV')->first()->id;
-		$data['currency_code'] = 'idr';
-		$data['exchange_rate'] = 1;
-
-        $model_journal = new TrxJournal();
-        $check_closing = $model_journal->check_closing_journal($data['transaction_date']);
-
-        if (! $check_closing) {
-			return [
-				'status' => false,
-				'message' => 'Failed, Transaction date already closed'
-			];
-        }
-
-		$journal = TrxJournal::create($data);
-
-		for($a = 0; $a < count($detail); $a++) {
-
-			if($detail[$a]) {
-
-				$debit = $header->amount;
-				$credit = 0;
-
-				/*
-				 *jika sudah bukan loopingan pertama
-				 */
-				if ($a > 0) {
-					$debit = 0;
-					$credit = $header->amount;
-				}
-
-				TrxJournalA::create([
-					'voucher_no' => $data['voucher_no'],
-					'account_code' => $detail[$a]->code,
-					'description' => $detail[$a]->description,
-					'debit' => $debit,
-					'credit' => $credit,
-				]);
-			}
-
-		}
-
-        $tmp_journal = TrxJournal::where('id', $journal->id);
-
-		$tmp_journal->update([
-			'total_transaction' => $header->amount,
-		]);
-
-        TrxJournal::do_approve($tmp_journal);
-	}
 
 	static public function insertFromBSR($header, $detail)
 	{

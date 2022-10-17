@@ -8,6 +8,7 @@ use memfisfa\Finac\Model\AReceiveA;
 use memfisfa\Finac\Model\Coa;
 use memfisfa\Finac\Model\Invoice;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Frontend\CashAdvanceReturnRefController;
 use App\Models\AdvancePaymentBalance;
 use App\Models\Customer;
 use App\Models\Currency;
@@ -244,6 +245,7 @@ class ARController extends Controller
         $data = AReceive::with([
                 'customer',
                 'ara',
+                'arb',
                 'coa',
             ])
             ->select('a_receives.*');
@@ -486,7 +488,7 @@ class ARController extends Controller
                 $total_debit += $detail[count($detail) - 1]->debit;
             }
 
-            if (!$amount_header) {
+            if ($amount_header === null) {
                 // add object in first array $detai
                 array_unshift(
                     $detail,
@@ -855,18 +857,17 @@ class ARController extends Controller
         DB::beginTransaction();
 
         $cash_advance = $cash_advance_return->refs()->first()->cashAdvance;
-        $cash_advance_ids = $cash_advance_return->refs()->pluck('cash_advance_id')->all();
-        $cash_advance_number = CashAdvance::whereIn('id', $cash_advance_ids)->pluck('transaction_number')->all();
 
         $request = new Request();
         $request->merge([
             'payment_type' => 'cash',
             'transactiondate' => now()->format('d-m-Y'),
             'id_customer' => $cash_advance_return->id_ref,
-            'accountcode' => $cash_advance->coac_coa->code,
+            // 'accountcode' => $cash_advance->coac_coa->code,
+            'accountcode' => $cash_advance->coaTransaction()->code,
             'currency' => $cash_advance->currencies->code,
             'exchangerate' => $cash_advance_return->exchange_rate,
-            'description' => 'Generated From Cash Advance ' . implode(', ', $cash_advance_number)
+            'description' => 'Generated From Cash Advance ' . implode(', ', $cash_advance_return->getCANumber())
         ]);
 
         $store = $this->store($request)->getData();
@@ -896,10 +897,35 @@ class ARController extends Controller
 
             $request = new AReceiveAUpdate();
             $request->merge([
-                'credit' => $transaction_invoice->amount
+                'credit' => memfisRound($invoice->currencies->code, $transaction_invoice->amount), 
+                // 'exchangerate' => $cash_advance_return->exchange_rate //change Invoice rate to follow CA return rate
             ]);
 
             $ara_controller->update($request, $ara);
+        }
+
+        // insert detail ca return as adj in ar
+        foreach ($cash_advance_return->cash_advance_return_detail as $ca_return_detail_row) {
+
+            $request = new AReceiveBStore();
+            $request->merge([
+                'coa_uuid' => $ca_return_detail_row->coa->uuid,
+                'ar_uuid' => $ar->uuid,
+            ]);
+
+            $arb_controller = new ARBController();
+            $arb = $arb_controller->store($request)->getData();
+            $arb = AReceiveB::where('uuid', $arb->uuid)->first();
+
+            $request = new AReceiveBUpdate();
+            $request->merge([
+                'debit_b' => memfisRound($ar->currencies->code, $ca_return_detail_row->debit),
+                'credit_b' => memfisRound($ar->currencies->code, $ca_return_detail_row->credit),
+                'description_b' => $ca_return_detail_row->description,
+                'id_project_detail' => $ca_return_detail_row->project_id ?? null
+            ]);
+
+            $arb_controller->update($request, $arb->uuid);
         }
 
         // insert adj
@@ -917,10 +943,10 @@ class ARController extends Controller
 
             $request = new AReceiveBUpdate();
             $request->merge([
-                'debit_b' => $ca_return_adj->debit,
-                'credit_b' => $ca_return_adj->credit,
+                'debit_b' => memfisRound($ar->currencies->code, $ca_return_adj->debit),
+                'credit_b' => memfisRound($ar->currencies->code, $ca_return_adj->credit),
                 'description_b' => $ca_return_adj->description,
-                'id_project_detail' => $ca_return_adj->project_id
+                'id_project_detail' => $ca_return_adj->project_id ?? null
             ]);
 
             $arb_controller->update($request, $arb->uuid);
@@ -931,7 +957,8 @@ class ARController extends Controller
             'uuid' => $ar->uuid
         ]);
 
-        $approve = $this->approve($request, $cash_advance_return->refs()->sum('amount'));
+        $ca_total_amount = (new CashAdvanceReturnRefController)->calculateTotal($cash_advance_return);
+        $approve = $this->approve($request, $ca_total_amount);
 
         DB::commit();
 

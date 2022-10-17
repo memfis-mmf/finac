@@ -18,8 +18,12 @@ let AccountPayable = {
       placeholder: '-- Select --'
     });
 
-    $('#modal_create_supplier_invoice').on('shown.bs.modal', function (e) {
-      supplier_invoice_modal_table.reload();
+    $('.modal').on('shown.bs.modal', function (e) {
+      // supplier_invoice_modal_table.reload();
+      // supplier_invoice_modal_datatable.reload();
+      // supplier_invoice_modal_datatable.reload();
+      supplier_invoice_modal_datatable.ajax.reload(null, false);
+      grn_modal_datatable.ajax.reload(null, false);
     })
 
     $('#project').select2({
@@ -137,7 +141,6 @@ let AccountPayable = {
             }
           }
         },
-        pageSize: 10,
         serverPaging: !0,
         serverSorting: !0
       },
@@ -273,7 +276,7 @@ let AccountPayable = {
         }
       ]
     });
-
+    
     let adjustment_datatable = $('.adjustment_datatable').mDatatable({
       data: {
         type: 'remote',
@@ -390,195 +393,7 @@ let AccountPayable = {
       ]
     });
 
-    let supplier_invoice_modal_table = $('.supplier_invoice_modal_datatable').mDatatable({
-      data: {
-        type: 'remote',
-        source: {
-          read: {
-            method: 'GET',
-            url: `${_url}/account-payable/si/modal/datatable/?ap_uuid=${ap_uuid}&id_vendor=${id_vendor}`,
-            map: function (raw) {
-              let dataSet = raw;
-
-              if (typeof raw.data !== 'undefined') {
-                dataSet = raw.data;
-              }
-
-              return dataSet;
-            }
-          }
-        },
-        pageSize: 10,
-        serverPaging: !0,
-        serverSorting: !0
-      },
-      layout: {
-        theme: 'default',
-        class: '',
-        scroll: false,
-        footer: !1
-      },
-      sortable: !0,
-      filterable: !1,
-      pagination: !0,
-      search: {
-        input: $('#generalSearch')
-      },
-      toolbar: {
-        items: {
-          pagination: {
-            pageSizeSelect: [5, 10, 20, 30, 50, 100]
-          }
-        }
-      },
-      columns: [
-        {
-          field: 'transaction_number',
-          title: 'Transaction No.',
-          sortable: 'asc',
-          class: 'text-center',
-          width: 150,
-          filterable: !1,
-          template: function (data, type, row) {
-            return '<b><p class="text-left text-nowrap mb-0">' + data.transaction_date + '</b></p>' + '<p class="text-left text-nowrap">' + data.transaction_number + '</p>';
-        }},
-        // {
-        //   field: 'transaction_date',
-        //   title: 'Date',
-        //   sortable: 'asc',
-        //   filterable: !1,
-        // },
-        {
-          field: 'due_date',
-          title: 'Due Date',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-        },
-        {
-          field: 'exchange_rate',
-          title: 'Exchange Rate',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-          template: function (t, e, i) {
-            return '<p class="text-right text-nowrap">' + 'Rp'+number_format.format(parseFloat(t.exchange_rate)) + '</p>';
-        }},
-        {
-          field: 'grandtotal_foreign',
-          title: 'Total Amount',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-          template: function (t, e, i) {
-            return '<p class="text-right text-nowrap">' + t.currencies.symbol+' '+number_format.format(parseFloat(t.grandtotal_foreign)) + '</p>';
-        }},
-        {
-          field: 'grnadtotal',
-          title: 'Total Amount (IDR)',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-          template: function (t, e, i) {
-            return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.grandtotal)) + '</p>';
-        }},
-        {
-          field: 'paid_amount',
-          title: 'Paid Amount',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-          template: function (t, e, i) {
-            return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.paid_amount)) + '</p>';
-        }},
-        {
-          field: 'coa.code',
-          title: 'Account Code',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-        },
-        // {
-        //   field: '',
-        //   title: 'Exchange Rate Gap',
-        //   sortable: 'asc',
-        //   class: 'text-center',
-        //   filterable: !1,
-        //   template: function (t, e, i) {
-        //     return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap))+ '</p>';
-        // }}hide krn cukup menampilkan exchange gap di datatable edit AP aja,
-        {
-          field: 'description',
-          title: 'Description',
-          sortable: 'asc',
-          class: 'text-center',
-          filterable: !1,
-          template: function (data, type, row) {
-            return '<p class="text-left">' + data.description ?? '-' + '</p>';
-        }},
-        {
-          field: 'actions',
-          title: 'Actions',
-          sortable: !1,
-          class: 'text-nowrap',
-          overflow: 'visible',
-          template: function (t, e, i) {
-            if (page_type == 'show') {
-              return '';
-            }
-            return (
-              '<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
-            );
-          }
-        }
-
-      ]
-    });
-
-    $('body').on('click', '.select-supplier-invoice', function () {
-
-      let data_uuid = $(this).data('uuid');
-      let type = $(this).data('type');
-
-      let tr = $(this).parents('tr');
-      let tr_index = tr.index();
-
-      let data = supplier_invoice_modal_table.row(tr).data().mDatatable.dataSet[tr_index];
-
-      $.ajax({
-        url: _url + '/apaymenta',
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: 'post',
-        dataType: 'json',
-        data: {
-          'account_code': data.code,
-          'ap_uuid': ap_uuid,
-          'data_uuid': data_uuid,
-          'type': type,
-        },
-        success: function (data) {
-
-          if (data.errors) {
-            toastr.error(data.errors, 'Invalid', {
-              timeOut: 2000
-            });
-          } else {
-            $('#modal_create_supplier_invoice').modal('hide');
-
-            supplier_invoice_table.reload();
-            supplier_invoice_modal_table.reload();
-
-            toastr.success('Data saved', 'Success', {
-              timeOut: 2000
-            });
-          }
-
-        }
-      });
-
-    });
+   
 
     $('#coa_datatables').on('click', '.select-coa', function () {
       let tr = $(this).parents('tr');
@@ -870,9 +685,372 @@ let AccountPayable = {
       });
     });
 
+		let supplier_invoice_modal_datatable = $('.supplier_invoice_modal_datatable').DataTable({
+			dom: '<"top"f>rt<"bottom">pil',
+			scrollX: true,
+			processing: true,
+			serverSide: true,
+      responsive: true,
+			lengthMenu: [5, 10, 23, 50, 100],
+			serverSide: true,
+			order: [
+				[8, 'desc'],
+				[0, 'desc'],
+			],
+			ajax: _url 
+        + '/account-payable/si/modal/datatable/?ap_uuid=' + ap_uuid 
+        + ' &id_vendor=' + id_vendor
+        + ' page_type=' + page_type,
+			oLanguage: {
+            sLengthMenu: "_MENU_",
+			},
+			columnDefs: [
+				{
+					targets: [0,1,2,3],
+					"className": "text-left" 
+				}
+			],
+			columns: [
+				{ data: 'transaction_number'},
+				{ data: 'currency'},
+				{
+					data: 'exchange_rate', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.exchange_rate)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal_foreign', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal_foreign', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.grandtotal)) + '</p>';
+					}
+				},
+				{ data: 'coa.code'},
+				{
+					data: 'description', render: function (data, type, row) {
+						return '<p class="text-left">' + row.description ?? '' + '</p>';
+					}
+				},
+				{
+					data: 'action', orderable: false, searchable: false
+				}
+			]
+		});
+
+		let grn_modal_datatable = $('.grn_modal_datatable').DataTable({
+			dom: '<"top"f>rt<"bottom">pil',
+			scrollX: true,
+			processing: true,
+			serverSide: true,
+      responsive: true,
+			lengthMenu: [5, 10, 23, 50, 100],
+			serverSide: true,
+			order: [
+				[8, 'desc'],
+				[0, 'desc'],
+			],
+			ajax: _url + '/account-payable/grn/modal/datatable/?ap_uuid=' + ap_uuid + ' &id_vendor=' + id_vendor,
+			oLanguage: {
+            sLengthMenu: "_MENU_",
+			},
+			columnDefs: [
+				{
+					targets: [0,1,2,3],
+					"className": "text-left" 
+				}
+			],
+			columns: [
+				{ data: 'transaction_number'},
+				{ data: 'currency'},
+				{
+					data: 'exchange_rate', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.exchange_rate)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal_foreign', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal_foreign', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					}
+				},
+				{
+					data: 'grandtotal', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.grandtotal)) + '</p>';
+					}
+				},
+				{ data: 'coa.code'},
+				{
+					data: 'description', render: function (data, type, row) {
+						return '<p class="text-left">' + row.description ?? '' + '</p>';
+					}
+				},
+				{
+					data: 'action', orderable: false, searchable: false
+				}
+			]
+		});
+
+		$(".dataTables_length select").addClass("form-control m-input");
+		$(".dataTables_filter").addClass("pull-left");
+		$(".paging_simple_numbers").addClass("pull-left");
+		$(".dataTables_length").addClass("pull-right");
+		$(".dataTables_info").addClass("pull-right");
+		$(".dataTables_info").addClass("margin-info");
+		$(".paging_simple_numbers").addClass("padding-datatable");
+
+		$('body').on('click', '.select-supplier-invoice', function () {
+
+			let data_uuid = $(this).data('uuid');
+			let type = $(this).data('type');
+	
+			let tr = $(this).parents('tr');
+	
+			let data = supplier_invoice_modal_datatable.row(tr).data();
+	
+			$.ajax({
+				url: _url + '/apaymenta',
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				type: 'post',
+				dataType: 'json',
+				data: {
+					'account_code': data.account_code,
+					'ap_uuid': ap_uuid,
+					'data_uuid': data_uuid,
+					'type': type,
+				},
+				success: function (data) {
+
+          if (data.errors) {
+            toastr.error(data.errors, 'Invalid', {
+              timeOut: 2000
+            });
+            
+          } else {
+            $('.modal').modal('hide');
+    
+            supplier_invoice_table.reload();
+            // supplier_invoice_modal_datatable.reload();
+            supplier_invoice_modal_datatable.ajax.reload(null, false);
+            grn_modal_datatable.ajax.reload(null, false);
+
+    
+            toastr.success('Data saved', 'Success', {
+              timeOut: 2000
+            });
+          }
+				}
+			});
+		});
   }
 };
 
 jQuery(document).ready(function () {
   AccountPayable.init();
 });
+
+
+
+// File Temporary
+
+// let supplier_invoice_modal_table = $('.supplier_invoice_modal_datatable').mDatatable({
+    //   data: {
+    //     type: 'remote',
+    //     source: {
+    //       read: {
+    //         method: 'GET',
+    //         url: `${_url}/account-payable/si/modal/datatable/?ap_uuid=${ap_uuid}&id_vendor=${id_vendor}`,
+    //         map: function (raw) {
+    //           let dataSet = raw;
+
+    //           if (typeof raw.data !== 'undefined') {
+    //             dataSet = raw.data;
+    //           }
+
+    //           return dataSet;
+    //         }
+    //       }
+    //     },
+    //     serverPaging: !0,
+    //     serverSorting: !0
+    //   },
+    //   layout: {
+    //     theme: 'default',
+    //     class: '',
+    //     scroll: false,
+    //     footer: !1
+    //   },
+    //   sortable: !0,
+    //   filterable: !1,
+    //   pagination: !1,
+    //   search: {
+    //     input: $('#generalSearch')
+    //   },
+    //   toolbar: {
+    //     items: {
+    //       pagination: {
+    //         pageSizeSelect: [5, 10, 20, 30, 50, 100]
+    //       }
+    //     }
+    //   },
+    //   columns: [
+    //     {
+    //       field: 'transaction_number',
+    //       title: 'Transaction No.',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       width: 150,
+    //       filterable: !1,
+    //       template: function (data, type, row) {
+    //         return '<b><p class="text-left text-nowrap mb-0">' + data.transaction_date + '</b></p>' + '<p class="text-left text-nowrap">' + data.transaction_number + '</p>';
+    //     }},
+    //     // {
+    //     //   field: 'transaction_date',
+    //     //   title: 'Date',
+    //     //   sortable: 'asc',
+    //     //   filterable: !1,
+    //     // },
+    //     {
+    //       field: 'due_date',
+    //       title: 'Due Date',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       filterable: !1,
+    //     },
+    //     {
+    //       field: 'exchange_rate',
+    //       title: 'Exchange Rate',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       filterable: !1,
+    //       template: function (t, e, i) {
+    //         return '<p class="text-right text-nowrap">' + 'Rp'+number_format.format(parseFloat(t.exchange_rate)) + '</p>';
+    //     }},
+    //     {
+    //       field: 'grandtotal_foreign',
+    //       title: 'Total Amount',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       filterable: !1,
+    //       template: function (t, e, i) {
+    //         return '<p class="text-right text-nowrap">' + t.currencies.symbol+' '+number_format.format(parseFloat(t.grandtotal_foreign)) + '</p>';
+    //     }},
+    //     {
+    //       field: 'grnadtotal',
+    //       title: 'Total Amount (IDR)',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       filterable: !1,
+    //       template: function (t, e, i) {
+    //         return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.grandtotal)) + '</p>';
+    //     }},
+    //     {
+    //       field: 'paid_amount',
+    //       title: 'Paid Amount',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       filterable: !1,
+    //       template: function (t, e, i) {
+    //         return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.paid_amount)) + '</p>';
+    //     }},
+    //     {
+    //       field: 'coa.code',
+    //       title: 'Account Code',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       filterable: !1,
+    //     },
+    //     // {
+    //     //   field: '',
+    //     //   title: 'Exchange Rate Gap',
+    //     //   sortable: 'asc',
+    //     //   class: 'text-center',
+    //     //   filterable: !1,
+    //     //   template: function (t, e, i) {
+    //     //     return '<p class="text-right text-nowrap">' + 'Rp '+number_format.format(parseFloat(t.exchange_rate_gap))+ '</p>';
+    //     // }}hide krn cukup menampilkan exchange gap di datatable edit AP aja,
+    //     {
+    //       field: 'description',
+    //       title: 'Description',
+    //       sortable: 'asc',
+    //       class: 'text-center',
+    //       filterable: !1,
+    //       template: function (data, type, row) {
+    //         return '<p class="text-left">' + data.description ?? '-' + '</p>';
+    //     }},
+    //     {
+    //       field: 'actions',
+    //       title: 'Actions',
+    //       sortable: !1,
+    //       class: 'text-nowrap',
+    //       overflow: 'visible',
+    //       template: function (t, e, i) {
+    //         if (page_type == 'show') {
+    //           return '';
+    //         }
+    //         return (
+    //           '<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' + t.x_type + '" data-uuid="' + t.uuid + '">\n<span><i class="la la-edit"></i><span>Use</span></span></a>'
+    //         );
+    //       }
+    //     }
+
+    //   ]
+    // });
+
+    // $('body').on('click', '.select-supplier-invoice', function () {
+
+    //   let data_uuid = $(this).data('uuid');
+    //   let type = $(this).data('type');
+
+    //   let tr = $(this).parents('tr');
+    //   let tr_index = tr.index();
+
+    //   let data = supplier_invoice_modal_table.row(tr).data().mDatatable.dataSet[tr_index];
+
+    //   $.ajax({
+    //     url: _url + '/apaymenta',
+    //     headers: {
+    //       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     type: 'post',
+    //     dataType: 'json',
+    //     data: {
+    //       'account_code': data.code,
+    //       'ap_uuid': ap_uuid,
+    //       'data_uuid': data_uuid,
+    //       'type': type,
+    //     },
+    //     success: function (data) {
+
+    //       if (data.errors) {
+    //         toastr.error(data.errors, 'Invalid', {
+    //           timeOut: 2000
+    //         });
+    //       } else {
+    //         $('#modal_create_supplier_invoice').modal('hide');
+
+    //         supplier_invoice_table.reload();
+    //         supplier_invoice_modal_table.reload();
+
+    //         toastr.success('Data saved', 'Success', {
+    //           timeOut: 2000
+    //         });
+    //       }
+
+    //     }
+    //   });
+
+    // });

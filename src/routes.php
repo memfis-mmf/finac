@@ -742,7 +742,18 @@ Route::group(['middleware' => ['web','auth']], function () {
 		Route::get(
 			'/si/modal/datatable',
 			'memfisfa\Finac\Controllers\Frontend\APController@SIModalDatatables'
-		)->name('apayment.datatables');
+		);
+		Route::get(
+			'/grn/modal/datatable',
+			'memfisfa\Finac\Controllers\Frontend\APController@GRNModalDatatables'
+		);
+		
+		// NOTE : Testing
+		// Route::get(
+		// 	'/test',
+		// 	'memfisfa\Finac\Controllers\Frontend\APController@Test'
+		// )->name('apayment.test');
+
 		Route::post(
 			'/approve',
 			'memfisfa\Finac\Controllers\Frontend\APController@approve'

@@ -107,8 +107,8 @@
             Website : www.ptmmf.co.id
           </td>
           <td width="55%" valign="top" align="center" style="padding-top:-16px">
-            <h1 style="font-size:24px;">Payment<br>
-              <span style="font-size:18px;">Cash Advance</span>
+            <h1 style="font-size:24px;">Cash Advance
+              {{-- <span style="font-size:18px;">Cash Advance</span> --}}
             </h1>
           </td>
         </tr>
@@ -178,7 +178,7 @@
             <tr>
               <td align="center">{{ $detail_row->coa->code }}</td>
               <td align="left">{{ $detail_row->coa->name }}</td>
-              <td align="left">{{ $cash_advance->description }}</td>
+              <td align="left">{{ $detail_row->_desc }}</td>
               <td align="right">{!! $controller->fa_format($cash_advance->currencies->symbol, $controller::currency_format($detail_row->debit), true) !!}</td>
               <td align="right">{!! $controller->fa_format($cash_advance->currencies->symbol, $controller::currency_format($detail_row->credit), true) !!}</td>
             </tr>

@@ -100,8 +100,8 @@
             Website : www.ptmmf.co.id
           </td>
           <td width="55%" valign="top" align="center" style="padding-top:-16px">
-            <h1 style="font-size:24px;">Payment<br>
-              <span style="font-size:18px;">Cash Advance Returned</span>
+            <h1 style="font-size:24px;">Cash Advance Returned<br>
+              {{-- <span style="font-size:18px;"></span> --}}
             </h1>
           </td>
         </tr>
@@ -134,7 +134,7 @@
           <td valign="top" width="1%">:</td>
           <td valign="top" width="31%">{{$cash_advance_return->transaction_number}}</td>
           <td valign="top" width="18%">
-            Payment To
+            Return From
           </td>
           <td valign="top" width="1%">:</td>
           <td valign="top" width="31%">{{$cash_advance_return->ref_collection->name}}</td>
@@ -145,7 +145,15 @@
           <td valign="top" width="31%">{{$cash_advance_return->transaction_date->format('d-m-Y')}}</td>
           <td valign="top" width="18%">Currency</td>
           <td valign="top" width="1%">:</td>
-          <td valign="top" width="31%">IDR</td>
+          <td valign="top" width="31%">{{strtoupper($cash_advance_return->currency->code)}}</td>
+        </tr>
+        <tr>
+          <td valign="top" width="18%">Type</td>
+          <td valign="top" width="1%">:</td>
+          <td valign="top" width="31%">{{ explode('\\', $cash_advance_return->class_ref)[2] }}</td>
+          <td valign="top" width="18%">Exchange Rate</td>
+          <td valign="top" width="1%">:</td>
+          <td valign="top" width="31%">{!! $controller->fa_format('Rp', $controller::currency_format($cash_advance_return->exchange_rate), true) !!}</td>
         </tr>
       </table>
     </div>
@@ -165,14 +173,22 @@
             </tr>
           </thead>
           <tbody>
+            @php
+                $total_debit = 0;
+                $total_credit = 0;
+            @endphp
             @foreach ($detail as $detail_row)
             <tr>
               <td align="center">{{ $detail_row->coa->code }}</td>
               <td align="left">{{ $detail_row->coa->name }}</td>
-              <td align="left">{{ $detail_row->description }}</td>
-              <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->debit), true) !!}</td>
-              <td align="right">{!! $controller->fa_format('Rp', $controller::currency_format($detail_row->credit), true) !!}</td>
+              <td align="left">{!! $detail_row->description !!}</td>
+              <td align="right">{!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($detail_row->debit), true) !!}</td>
+              <td align="right">{!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($detail_row->credit), true) !!}</td>
             </tr>
+            @php
+                $total_debit += $detail_row->debit;
+                $total_credit += $detail_row->credit;
+            @endphp
             @endforeach
           </tbody>
           <tr style="background:#d3e9f5;">
@@ -180,9 +196,9 @@
               Total
             </td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($cash_advance_return->amount), true) !!}</b></td>
+                {!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($total_debit), true) !!}</b></td>
             <td style="background:#e6eef2"><b>
-                {!! $controller->fa_format('Rp', $controller::currency_format($cash_advance_return->amount), true) !!}</b></td>
+                {!! $controller->fa_format($cash_advance_return->currency->symbol, $controller::currency_format($total_credit), true) !!}</b></td>
           </tr>
         </table>
       </div>

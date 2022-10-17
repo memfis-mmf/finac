@@ -17,6 +17,7 @@ use App\Models\Currency;
 use App\Models\Approval;
 use App\Models\ARWorkshop;
 use App\Models\CashAdvance;
+use App\Models\CashAdvanceReturn;
 use App\Models\GoodsReceived;
 use App\Models\InventoryOut;
 use DataTables;
@@ -245,11 +246,12 @@ class JournalController extends Controller
         $ref_no = explode('-', $journal->ref_no)[0];
 
         // 1. jika dari cash advance, direct page mengarah pada halaman print out cash advance
-        // 2. jika dari invoice, direct page mengarah pada halaman show invoice
-        // 3. jika dari cashbook, direct page mengarah pada halaman print out cashbook
-        // 4. jika dari AP/AR, direct page mengarah pada halaman print out AP/AR
-        // 5. jika dari depr asset, direct page mengarah pada halaman show asset nya
-        // 6. jika dari GRN, direct page mengarah pada halaman print out GRN
+        // 2. jika dari cash advance, direct page mengarah pada halaman print out cash advance
+        // 3. jika dari invoice, direct page mengarah pada halaman show invoice
+        // 4. jika dari cashbook, direct page mengarah pada halaman print out cashbook
+        // 5. jika dari AP/AR, direct page mengarah pada halaman print out AP/AR
+        // 6. jika dari depr asset, direct page mengarah pada halaman show asset nya
+        // 7. jika dari GRN, direct page mengarah pada halaman print out GRN
 
         switch ($ref_no) {
             case 'IOUT':
@@ -258,7 +260,6 @@ class JournalController extends Controller
                     return $journal->ref_no;
                 }
                 $link = route('frontend.inventory-out-material.print', $iv_out->uuid);
-                break;
                 break;
             case 'SITR':
                 $supplier_invoice = TrxPayment::where('transaction_number', $journal->ref_no)->first();
@@ -273,6 +274,13 @@ class JournalController extends Controller
                     return $journal->ref_no;
                 }
                 $link = route('frontend.cash-advance.show', $cash_advance->uuid);
+                break;
+            case 'CSAR':
+                $cash_advance_return = CashAdvanceReturn::where('transaction_number', $journal->ref_no)->first();
+                if (!$cash_advance_return) {
+                    return $journal->ref_no;
+                }
+                $link = route('frontend.cash-advance-return.show', $cash_advance_return->uuid);
                 break;
             case 'INVC':
                 $invoice = Invoice::where('transactionnumber', $journal->ref_no)->first();

@@ -17,6 +17,9 @@ use App\Models\TrxPaymentAdj;
 
 class TrxPayment extends MemfisModel
 {
+    const X_TYPE_GRN = 'GRN';
+    const X_TYPE_GENERAL = 'NON GRN';
+
     protected $table = "trxpayments";
 
     protected $fillable = [

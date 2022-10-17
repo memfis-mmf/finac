@@ -254,12 +254,19 @@
                             <span>Supplier Invoice</span>
                           </span>
                         </button>
+                        <button data-target="#modal_create_grn" data-toggle="modal" type="button"
+                          class="btn m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-primary btn-md"><span>
+                            <i class="la la-plus-circle"></i>
+                            <span>GRN</span>
+                          </span>
+                        </button>
                         <div class="m-separator m-separator--dashed d-xl-none"></div>
                       </div>
                     </div>
                   </div>
                 </div>
                 @include('accountpayableview::modal-create-supplier-invoice')
+                @include('accountpayableview::modal-create-grn')
                 @include('accountpayableview::modal-edit-supplier-invoice')
                 {{-- datatables --}}
                 <div class="form-group m-form__group row">
@@ -434,6 +441,9 @@
 <script src="{{ asset('vendor/courier/frontend/functions/select2/vendor.js')}}"></script>
 
 <script src="{{ asset('vendor/courier/frontend/account-payable/edit.js')}}"></script>
+
+{{-- TODO : Test Case --}}
+{{-- <script src="{{ asset('vendor/courier/frontend/account-payable/test-edit.js')}}"></script> --}}
 
 <script src="{{ asset('vendor/courier/vendors/custom/datatables/datatables.bundle.js')}}"></script>
 @endpush

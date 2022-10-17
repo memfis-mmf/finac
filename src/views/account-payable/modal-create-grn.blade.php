@@ -1,8 +1,8 @@
-<div class="modal fade" id="modal_create_supplier_invoice" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_create_grn" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-supplier-invoice" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="TitleModalSupplierInvoice">Supplier Invoice</h5>
+                <h5 class="modal-title" id="TitleModalSupplierInvoice">GRN</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-striped table-bordered table-hover table-checkable supplier_invoice_modal_datatable">
+                        <table class="table table-striped table-bordered table-hover table-checkable grn_modal_datatable">
                             <thead class="text-center">
                                 <tr>
                                     <th>Transaction No</th>
@@ -38,7 +38,6 @@
                         </table>
                     </div>
                 </div>
-							{{-- <div class="supplier_invoice_modal_datatable" id="scrolling_both"></div> --}}
             </div>
             <div class="modal-footer">
                 <div class="flex">
