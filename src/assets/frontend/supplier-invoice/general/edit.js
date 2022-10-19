@@ -123,7 +123,7 @@ let SupplierInvoice = {
                             class: 'text-center',
 							filterable: !1,
 							template: function(t, e, i) {
-								return '<p class="text-right">' + addCommas(parseFloat(t.total)) + '</p>';
+								return '<p class="text-right">' + t.total_formated + '</p>';
 						}},
                         {
 							field: 'project_formated',

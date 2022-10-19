@@ -107,7 +107,14 @@ class TrxPaymentAController extends Controller
 		$data = $alldata = json_decode(
 			TrxPaymentA::with([
 				'grn'
-			])->orderBy('id', 'DESC')->get()
+			])->orderBy('id', 'DESC')
+            ->get()
+            ->transform(function($row) {
+                $row->total_formated = $this->currency_format(memfisRound($row->si->currencies->code, $row->total));
+                $row->total_idr_formated = $this->currency_format(memfisRound('idr', $row->total_idr));
+
+                return $row;
+            })
 		);
 
 		$datatable = array_merge([

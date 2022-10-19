@@ -90,7 +90,7 @@ class TrxPaymentController extends Controller
 
 				$detail[] = (object) [
 					'coa_detail' => $x->coa->id,
-					'debit' => $x->total * $exchange_rate,
+					'debit' => memfisRound('idr', $x->total * $exchange_rate),
 					'credit' => 0,
 					'_desc' => 'Supplier Invoice : '
 					.$si->transaction_number.' '
@@ -104,8 +104,8 @@ class TrxPaymentController extends Controller
             foreach ($si->adjustment as $adjustment_row) {
 				$detail[] = (object) [
 					'coa_detail' => $adjustment_row->coa->id,
-					'debit' => $adjustment_row->debit_idr,
-					'credit' => $adjustment_row->credit_idr,
+					'debit' => memfisRound('idr', $adjustment_row->debit_idr),
+					'credit' => memfisRound('idr', $adjustment_row->credit_idr),
 					'_desc' => 'Supplier Invoice : '
 					.$si->transaction_number.' '
 					.$si->vendor->name.'-'
@@ -121,7 +121,7 @@ class TrxPaymentController extends Controller
 				$detail,
 				(object) [
 					'coa_detail' => $header->coa,
-					'credit' => $total_debit - $total_credit,
+					'credit' => memfisRound('idr', $total_debit - $total_credit),
 					'debit' => 0,
 					'_desc' => 'Account Payable : '
 					.$si->transaction_number.' '
@@ -325,17 +325,18 @@ class TrxPaymentController extends Controller
                 return $row->currencies->symbol." ".$this->currency_format($grandtotal_foreign);
             })
             ->addColumn('grandtotal_foreign_formated', function($row) {
-                return "<span class='m-badge m-badge--primary m-badge--wide'>{$row->currencies->symbol} {$this->currency_format($row->grandtotal_foreign)}</span>";
+                $amount = memfisRound($row->currencies->code, $row->grandtotal_foreign);
+                return "<span class='m-badge m-badge--primary m-badge--wide'>{$row->currencies->symbol} {$this->currency_format($amount)}</span>";
             })
             ->addColumn('grandtotal_before_adj', function($row) {
                 $grandtotal = $row->grandtotal;
                 $grandtotal += $row->adjustment()->get()->sum('credit_idr');
                 $grandtotal -= $row->adjustment()->get()->sum('debit_idr');
 
-                return "Rp ".$this->currency_format($grandtotal);
+                return "Rp ".$this->currency_format(memfisRound('idr', $grandtotal));
             })
             ->addColumn('grandtotal_formated', function($row) {
-                return "<span class='m-badge m-badge--primary m-badge--wide'>Rp {$this->currency_format($row->grandtotal)}</span>";
+                return "<span class='m-badge m-badge--primary m-badge--wide'>Rp {$this->currency_format(memfisRound('idr', $row->grandtotal))}</span>";
             })
             ->addColumn('show_url', function($row) {
                 $url = route('supplier_invoice.show', $row->uuid);
@@ -377,6 +378,11 @@ class TrxPaymentController extends Controller
                     'project',
                 ])
                 ->get()
+                ->transform(function($row) {
+                    $row->total_formated = $this->currency_format(memfisRound($row->si->currencies->code, $row->total));
+
+                    return $row;
+                })
 		);
 
 		$datatable = array_merge([
@@ -883,11 +889,11 @@ class TrxPaymentController extends Controller
             });
 
 		if ($si->currencies->code == 'idr') {
-            $grandtotal_foreign = $total;
-            $grandtotal = $total;
+            $grandtotal_foreign = memfisRound('idr', $total);
+            $grandtotal = memfisRound('idr', $total);
 		}else{
-            $grandtotal_foreign = $total;
-            $grandtotal = ($total*$si->exchange_rate);
+            $grandtotal_foreign = memfisRound($si->currencies->code, $total);
+            $grandtotal = memfisRound('idr', $total * $si->exchange_rate);
         }
 
         $si->approvals()->save(new Approval([
