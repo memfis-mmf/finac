@@ -527,7 +527,7 @@
                     <td width="50%" valign="top">
                         <table width="100%">
                             <tr>
-                                <td width="100%" valign="top" align="center">{{$invoice->location.', '.date('M d, Y', strtotime($invoice->transactiondate))}}</td>
+                                <td width="100%" valign="top" align="center">{{$invoice->location.', '.date('M d, Y', strtotime($invoice->transactiondate))}} </td>
                             </tr>
                             <tr>
                                 <td width="100%" height="85"></td>
