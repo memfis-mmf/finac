@@ -141,8 +141,8 @@ class TrxPayment extends MemfisModel
     public function getEndingBalanceAttribute()
     {
         $result = [
-            'amount' => $this->grandtotal_foreign - $this->ap_amount['debit'],
-            'amount_idr' => $this->grandtotal - $this->ap_amount['debit_idr'],
+            'amount' => $this->grandtotal_foreign - ($this->ap_amount['debit'] ?? 0),
+            'amount_idr' => $this->grandtotal - ($this->ap_amount['debit_idr'] ?? 0),
         ];
 
         return $result;
