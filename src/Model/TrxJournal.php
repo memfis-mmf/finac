@@ -502,11 +502,11 @@ class TrxJournal extends MemfisModel
 
 			// if ($x->debit != 0 || $x->credit != 0) {
 
-				TrxJournalA::create([
+				$journal_detail = TrxJournalA::create([
 					'voucher_no' => $data['voucher_no'],
 					'account_code' => $x->coa_detail,
-					'credit' => $x->credit ?? 0,
-					'debit' => $x->debit ?? 0,
+					'credit' => memfisRound('idr', $x->credit) ?? 0,
+					'debit' => memfisRound('idr', $x->debit) ?? 0,
 					// 'description' => 'Generate from auto journal, '.$header->voucher_no,
                     'description' => $x->_desc,
                     'id_project' => $x->id_project ?? null
@@ -514,8 +514,8 @@ class TrxJournal extends MemfisModel
 
 			// }
 
-			$total_credit += $x->credit;
-			$total_debit += $x->debit;
+			$total_credit += $journal_detail->credit;
+			$total_debit += $journal_detail->debit;
 		}
 
 		$tmp_journal = TrxJournal::where('id', $journal->id);
