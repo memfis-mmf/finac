@@ -18,6 +18,7 @@ use App\Models\Payroll;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Log;
 use memfisfa\Finac\Controllers\Frontend\JournalController;
 use Modules\Workshop\Entities\InvoiceWorkshop\InvoiceWorkshop;
 
@@ -528,11 +529,32 @@ class TrxJournal extends MemfisModel
             TrxJournal::do_approve($tmp_journal);
         }
 
-		if (bccomp($total_debit, $total_credit, 5) != 0) {
-			return [
-				'status' => false,
-				'message' => 'Invalid debit or credit value'
-			];
+        //check balance
+        if (bccomp($total_debit, $total_credit, 5) != 0) {
+            // return [
+            // 	'status' => false,
+            // 	'message' => 'Invalid debit or credit value'
+            // ];
+
+            $diff = $total_debit - $total_credit;
+
+            Log::warning("Invalid debit or credit value. diff = {$diff}");
+
+            $debit = $diff;
+            $credit = 0;
+            if ($diff > 0) {
+                $credit = $diff;
+                $debit = 0;
+            }
+
+            TrxJournalA::create([
+                'voucher_no' => $data['voucher_no'],
+                'account_code' => Coa::where('code', '81112003')->first()->id,
+                'credit' => $credit ?? 0,
+                'debit' => $debit ?? 0,
+                'description' => $x->_desc . ' -> Difference',
+                'id_project' => $x->id_project ?? null
+            ]);
         }
 
         DB::commit();
