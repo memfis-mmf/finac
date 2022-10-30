@@ -481,13 +481,13 @@ class APController extends Controller
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
-    public function countPaidAmount($si_uuid, $type)
+    public function countPaidAmount($uuid, $type)
     {
         
         if ($type == 'GRN') {
-            $data = GoodsReceived::where('uuid', $si_uuid)->first();
+            $data = GoodsReceived::where('uuid', $uuid)->first();
         }else{
-            $data = TrxPayment::where('uuid', $si_uuid)->first();
+            $data = TrxPayment::where('uuid', $uuid)->first();
         }
 
         $apa = APaymentA::where('id_payment', $data->id)
@@ -638,7 +638,7 @@ class APController extends Controller
         return datatables($data)
             ->addColumn('paid_amount', function($grn) {
                 $si = $grn->trxpaymenta->si;
-                return $this->countPaidAmount($si->uuid, $si->x_type);
+                return $this->countPaidAmount($grn->uuid, $si->x_type);
             })
             ->addColumn('transaction_date', function($grn) {
                 $si = $grn->trxpaymenta->si;
@@ -658,7 +658,7 @@ class APController extends Controller
             })
             ->addColumn('amount_to_pay', function($grn) {
                 $si = $grn->trxpaymenta->si;
-                return $si->grandtotal - $this->countPaidAmount($si->uuid, $si->x_type);
+                return $si->grandtotal - $this->countPaidAmount($grn->uuid, $si->x_type);
             })
             ->addColumn('exchange_rate_gap', function($grn) use($ap) {
                 $si = $grn->trxpaymenta->si;
@@ -670,7 +670,7 @@ class APController extends Controller
                     return '';
                 }
 
-                $paid_amount = $this->countPaidAmount($si->uuid, $si->x_type);
+                $paid_amount = $this->countPaidAmount($grn->uuid, $si->x_type);
 
                 if ($paid_amount == $si->grandtotal) {
                     return 'Paid off';
