@@ -492,6 +492,10 @@ class GeneralLedgerController extends Controller
 
     public function export(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        ini_set('set_time_limit', '-1');
+        ini_set('max_execution_time', '-1');
+
         $code = explode(',', $request->data);
         $coa = Coa::whereIn('code', $code)->get();
 
