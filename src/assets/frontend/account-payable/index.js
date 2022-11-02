@@ -21,8 +21,8 @@ let Journal = {
     let account_payable_datatable = $('.account_payable_datatable').DataTable({
       dom: '<"top"f>rt<"bottom">pil',
       scrollX: true,
-      processing: false,
-      serverSide: false,
+      processing: true,
+      serverSide: true,
       ajax: account_payable_datatable_url,
       order: [
         [9, 'desc'],
