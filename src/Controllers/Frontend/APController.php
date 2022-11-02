@@ -725,7 +725,7 @@ class APController extends Controller
 
             $detail = [];
 
-            // looping sebenayak invoice
+            // looping sebanyak invoice
             foreach ($apa as $apa_row) {
 
                 $apc_first = $apa_row->apc;
@@ -742,7 +742,7 @@ class APController extends Controller
                     'credit' => 0,
                     'debit' => $apa_row->debit_idr - $substract,
                     '_desc' => 'Payment From : ' . $apa_row->transactionnumber . ' '
-                        . $apa_row->ap->vendor->name,
+                        . $apa_row->ap->vendor->name . " | {$apa_row->description}",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -759,7 +759,8 @@ class APController extends Controller
                     'debit' => $y->debit_idr,
                     '_desc' => 'Payment From : ' . $apa_row->transactionnumber 
                     . ' '
-                    . $apa_row->ap->vendor->name,
+                    . $apa_row->ap->vendor->name
+                    . " | {$y->description}"
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -786,7 +787,7 @@ class APController extends Controller
                     $side => $val,
                     $x_side => 0,
                     '_desc' => 'Payment From : ' . $apa_row->transactionnumber . ' '
-                        . $apa_row->ap->vendor->name,
+                        . $apa_row->ap->vendor->name . " | {$z->description}",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;

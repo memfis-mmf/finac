@@ -428,7 +428,7 @@ class ARController extends Controller
                 $desc = 'Payment From : ' . $ara_row->transactionnumber 
                     . ' '
                     . $ara_row->ar->customer->name
-                    . " ({$ara_row->invoice->transactionnumber})";
+                    . " ({$ara_row->invoice->transactionnumber}) | {$ara_row->description}";
 
                 if ($ara_row->description) {
                     $desc = $ara_row->description;
@@ -454,7 +454,7 @@ class ARController extends Controller
                     'credit' => $y->credit_idr,
                     'debit' => $y->debit_idr,
                     '_desc' => 'Payment From : ' . $ara_row->transactionnumber . ' '
-                        . $ara_row->ar->customer->name." (ADJ)",
+                        . $ara_row->ar->customer->name." (ADJ) | {$y->description}",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
@@ -481,7 +481,7 @@ class ARController extends Controller
                     $side => $val,
                     $x_side => 0,
                     '_desc' => 'Payment From : ' . $ara_row->transactionnumber . ' '
-                        . $ara_row->ar->customer->name. " (GAP)",
+                        . $ara_row->ar->customer->name. " (GAP) | {$z->description}",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
