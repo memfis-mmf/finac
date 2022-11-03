@@ -21,7 +21,7 @@ class GeneralLedgerController extends Controller
     public function index()
     {
         $data = [
-            'all_coa' => json_encode(Coa::orderBy('code')->get()->toArray()),
+            'all_coa' => json_encode(Coa::orderBy('code')->where('description', 'Detail')->get()->toArray()),
         ];
 
         return view('generalledgerview::index', $data);
