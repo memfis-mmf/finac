@@ -626,8 +626,16 @@ class APController extends Controller
     public function GRNModalDatatables(Request $request)
     {
         $ap = APayment::where('uuid', $request->ap_uuid)->first();
-        $data = GoodsReceived::whereHas('trxpaymenta.si', function($si) use($request) {
-            $si
+        $data = GoodsReceived::with(['trxpaymenta.si' => function($si_query) use($request) {
+            $si_query
+                ->with(['coa', 'currencies'])
+                ->where('id_supplier', $request->id_vendor)
+                ->where('x_type', TrxPayment::X_TYPE_GRN)
+                ->where('approve', 1)
+                ->where('transaction_status', 2); //mengambil invoice yang statusnya approve
+        }])
+        ->whereHas('trxpaymenta.si', function($si_query) use($request) {
+            $si_query
                 ->with(['coa', 'currencies'])
                 ->where('id_supplier', $request->id_vendor)
                 ->where('x_type', TrxPayment::X_TYPE_GRN)
@@ -636,6 +644,10 @@ class APController extends Controller
         });
 
         return datatables($data)
+            ->addColumn('account_code', function($grn) {
+                $si = $grn->trxpaymenta->si;
+                return $si->coa->code;
+            })
             ->addColumn('paid_amount', function($grn) {
                 $si = $grn->trxpaymenta->si;
                 return $this->countPaidAmount($grn->uuid, $si->x_type);
@@ -676,7 +688,7 @@ class APController extends Controller
                     return 'Paid off';
                 }
 
-                return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-supplier-invoice" title="View" data-type="' . $si->x_type . '" data-uuid="' . $si->uuid . '"><span><i class="la la-edit"></i><span>Use</span></span></a>' ;
+                return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-type="' . $si->x_type . '" data-uuid="' . $si->uuid . '"><span><i class="la la-edit"></i><span>Use</span></span></a>' ;
             })
             ->make();
     }

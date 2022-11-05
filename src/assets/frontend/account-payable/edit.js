@@ -724,13 +724,13 @@ let AccountPayable = {
 					}
 				},
 				{
-					data: 'grandtotal_foreign', render: function (data, type, row) {
-						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					data: 'grandtotal', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal)) + '</p>';
 					}
 				},
 				{
 					data: 'grandtotal', render: function (data, type, row) {
-						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.grandtotal)) + '</p>';
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.paid_amount)) + '</p>';
 					}
 				},
 				{ data: 'coa.code'},
@@ -772,25 +772,25 @@ let AccountPayable = {
 				{ data: 'currency'},
 				{
 					data: 'exchange_rate', render: function (data, type, row) {
-						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.exchange_rate)) + '</p>';
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.trxpaymenta.si.exchange_rate)) + '</p>';
 					}
 				},
 				{
-					data: 'grandtotal_foreign', render: function (data, type, row) {
-						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					data: 'total_amount', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.trxpaymenta.si.currencies.symbol + number_format.format(parseFloat(row.total_amount)) + '</p>';
 					}
 				},
 				{
-					data: 'grandtotal_foreign', render: function (data, type, row) {
-						return '<p class="text-left text-nowrap">' + row.currencies.symbol + number_format.format(parseFloat(row.grandtotal_foreign)) + '</p>';
+					data: 'total_amount', render: function (data, type, row) {
+						return '<p class="text-left text-nowrap">' + row.trxpaymenta.si.currencies.symbol + number_format.format(parseFloat(row.total_amount * row.rate)) + '</p>';
 					}
 				},
 				{
 					data: 'grandtotal', render: function (data, type, row) {
-						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.grandtotal)) + '</p>';
+						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.paid_amount)) + '</p>';
 					}
 				},
-				{ data: 'coa.code'},
+				{ data: 'trxpaymenta.si.coa.code'},
 				{
 					data: 'description', render: function (data, type, row) {
 						return '<p class="text-left">' + row.description ?? '' + '</p>';
@@ -810,14 +810,14 @@ let AccountPayable = {
 		$(".dataTables_info").addClass("margin-info");
 		$(".paging_simple_numbers").addClass("padding-datatable");
 
-		$('body').on('click', '.select-supplier-invoice', function () {
+    function selectSI(elem, datatable) {
 
-			let data_uuid = $(this).data('uuid');
-			let type = $(this).data('type');
+			let data_uuid = elem.data('uuid');
+			let type = elem.data('type');
 	
-			let tr = $(this).parents('tr');
+			let tr = elem.parents('tr');
 	
-			let data = supplier_invoice_modal_datatable.row(tr).data();
+			let data = datatable.row(tr).data();
 	
 			$.ajax({
 				url: _url + '/apaymenta',
@@ -853,7 +853,15 @@ let AccountPayable = {
             });
           }
 				}
-			});
+			});     
+    }
+
+		$('body').on('click', '.select-supplier-invoice', function () {
+      selectSI($(this), supplier_invoice_modal_datatable)
+		});
+
+    $('body').on('click', '.select-grn', function () {
+      selectSI($(this), grn_modal_datatable)
 		});
   }
 };
