@@ -688,7 +688,7 @@ class APController extends Controller
                     return 'Paid off';
                 }
 
-                return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-type="' . $si->x_type . '" data-uuid="' . $si->uuid . '"><span><i class="la la-edit"></i><span>Use</span></span></a>' ;
+                return '<a class="btn btn-primary btn-sm m-btn--hover-brand select-grn" title="View" data-type="' . $si->x_type . '" data-uuid="' . $grn->uuid . '"><span><i class="la la-edit"></i><span>Use</span></span></a>' ;
             })
             ->make();
     }
