@@ -937,6 +937,7 @@ class APController extends Controller
                 'debit' => $apa_row->debit_idr - $substract,
                 'debit_foreign' => ($apa_row->debit_idr / $ap_rate),
                 '_desc' => $apa_row->description,
+                '_desc' => "{$apa_row->description} <b>({$apa_row->getSI()->transaction_number})</b>",
             ];
 
             $total_credit += $detail[count($detail) - 1]->credit;
