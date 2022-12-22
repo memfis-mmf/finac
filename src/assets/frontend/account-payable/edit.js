@@ -769,7 +769,7 @@ let AccountPayable = {
 			],
 			columns: [
 				{ data: 'transaction_number'},
-				{ data: 'currency'},
+				{ data: 'due_date'},
 				{
 					data: 'exchange_rate', render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.trxpaymenta.si.exchange_rate)) + '</p>';
