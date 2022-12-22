@@ -339,7 +339,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-12 mb-4">
+                                    {{-- <div class="col-12 mb-4">
                                       <label class="form-control-label">
                                           Cash Advance
                                       </label>
@@ -350,7 +350,7 @@
                                           <option value=""></option>
                                         @endif
                                       </select>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="form-group m-form__group row">

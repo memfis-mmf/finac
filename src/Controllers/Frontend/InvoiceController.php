@@ -243,15 +243,15 @@ class InvoiceController extends Controller
             'grandtotal' => $grandtotal_val * $exchange_rate,
         ]);
 
-        if ($request->cash_advance_id) {
-            $cash_advance_controller = new CashAdvanceController();
+        // if ($request->cash_advance_id) {
+        //     $cash_advance_controller = new CashAdvanceController();
 
-            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
+        //     $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
 
-            $cash_advance_controller->check_cash_advance($invoice, $customer, $cash_advance, $project);
+        //     $cash_advance_controller->check_cash_advance($invoice, $customer, $cash_advance, $project);
 
-            $invoice->cash_advance()->attach($request->cash_advance_id);
-        }
+        //     $invoice->cash_advance()->attach($request->cash_advance_id);
+        // }
 
         $list = [
             'manhours' => $request->manhoursprice,
@@ -517,16 +517,16 @@ class InvoiceController extends Controller
         $description = $request->description;
         $term_and_condition = $request->term_and_condition;
 
-        if ($request->cash_advance_id) {
-            $cash_advance_controller = new CashAdvanceController();
+        // if ($request->cash_advance_id) {
+        //     $cash_advance_controller = new CashAdvanceController();
 
-            $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
+        //     $cash_advance = CashAdvance::findOrFail($request->cash_advance_id);
 
-            $cash_advance_controller->check_cash_advance($invoice, $invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
+        //     $cash_advance_controller->check_cash_advance($invoice, $invoice->customer, $cash_advance, $invoice->quotation->quotationable()->first());
 
-            $invoice->cash_advance()->detach();
-            $invoice->cash_advance()->attach($request->cash_advance_id);
-        }
+        //     $invoice->cash_advance()->detach();
+        //     $invoice->cash_advance()->attach($request->cash_advance_id);
+        // }
 
         $invoice1 = Invoice::where('id', $invoice->id)
             ->update([

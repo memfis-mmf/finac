@@ -349,7 +349,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                       <label class="form-control-label">
                                         Cash Advance
                                       </label>
@@ -359,7 +359,7 @@
                                       @slot('class', 'cash_advance_id')
                                       @slot('id_error', 'cash_advance_id')
                                       @endcomponent
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="form-group m-form__group row">
