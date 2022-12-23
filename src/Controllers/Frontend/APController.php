@@ -754,7 +754,8 @@ class APController extends Controller
                     'credit' => 0,
                     'debit' => $apa_row->debit_idr - $substract,
                     '_desc' => 'Payment From : ' . $apa_row->transactionnumber . ' '
-                        . $apa_row->ap->vendor->name . " | {$apa_row->description}",
+                        . $apa_row->ap->vendor->name 
+                        . " ({$apa_row->getSI()->transaction_number}) | {$apa_row->description}",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;

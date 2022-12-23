@@ -416,6 +416,7 @@ class ARController extends Controller
 
             $detail = [];
 
+            // looping sebenayak invoice
             foreach ($ara as $ara_row) {
 
                 $arc_first = $ara_row->arc;
