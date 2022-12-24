@@ -203,12 +203,12 @@ class GeneralLedgerController extends Controller
 
                 $data[$index]->Description = $journal_detail->description_2 ?? $journal_detail->description;
 
-                $data[$index]->currency = $journal->ref_collection->currency ?? $data[$index]->currency;
+                $data[$index]->currency = $journal->ref_collection->currency ?? $journal->currency;
 
                 if ($data[$index]->currency->code == 'idr') {
                     $data[$index]->rate = 1;
                 } else {
-                    $data[$index]->rate = $journal->ref_collection->rate ?? $data[$index]->rate;
+                    $data[$index]->rate = $journal->ref_collection->rate ?? $journal->exchange_rate;
                 }
 
             }
