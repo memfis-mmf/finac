@@ -734,11 +734,7 @@ let AccountPayable = {
 					}
 				},
 				{ data: 'coa.code'},
-				{
-					data: 'description', render: function (data, type, row) {
-						return '<p class="text-left">' + row.description ?? '' + '</p>';
-					}
-				},
+				{ data: 'description', defaultContent: '-'},
 				{
 					data: 'action', orderable: false, searchable: false
 				}
@@ -792,11 +788,7 @@ let AccountPayable = {
 					}
 				},
 				{ data: 'trxpaymenta.si.coa.code'},
-				{
-					data: 'description', render: function (data, type, row) {
-						return '<p class="text-left">' + row.description ?? '' + '</p>';
-					}
-				},
+				{ data: 'description', defaultContent: '-'},
 				{
 					data: 'action', orderable: false, searchable: false
 				}

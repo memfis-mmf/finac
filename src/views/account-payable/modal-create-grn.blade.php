@@ -24,8 +24,8 @@
                         <table class="table table-striped table-bordered table-hover table-checkable grn_modal_datatable">
                             <thead class="text-center">
                                 <tr>
-                                    <th>Transaction No</th>
-                                    <th>SI Transaction No</th>
+                                    <th>GRN No</th>
+                                    <th>SI No</th>
                                     <th>Due Date</th>
                                     <th>Exchange Rate</th>
                                     <th>Total Amount</th>
