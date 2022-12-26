@@ -768,25 +768,25 @@ let AccountPayable = {
 				}
 			],
 			columns: [
-				{ data: 'transaction_number'},
+				{ data: 'number'},
 				{ data: 'due_date'},
 				{
-					data: 'exchange_rate', render: function (data, type, row) {
+					data: 'exchange_rate', searchable: false, orderable: false, render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.trxpaymenta.si.exchange_rate)) + '</p>';
 					}
 				},
 				{
-					data: 'total_amount', render: function (data, type, row) {
+					data: 'total_amount', searchable: false, orderable: false, render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + row.trxpaymenta.si.currencies.symbol + number_format.format(parseFloat(row.total_amount)) + '</p>';
 					}
 				},
 				{
-					data: 'total_amount', render: function (data, type, row) {
+					data: 'total_amount', searchable: false, orderable: false, render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + row.trxpaymenta.si.currencies.symbol + number_format.format(parseFloat(row.total_amount * row.rate)) + '</p>';
 					}
 				},
 				{
-					data: 'grandtotal', render: function (data, type, row) {
+					data: 'grandtotal', searchable: false, orderable: false, render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.paid_amount)) + '</p>';
 					}
 				},

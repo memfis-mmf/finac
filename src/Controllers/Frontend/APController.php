@@ -626,17 +626,9 @@ class APController extends Controller
     public function GRNModalDatatables(Request $request)
     {
         $ap = APayment::where('uuid', $request->ap_uuid)->first();
-        $data = GoodsReceived::with(['trxpaymenta.si' => function($si_query) use($request) {
-            $si_query
-                ->with(['coa', 'currencies'])
-                ->where('id_supplier', $request->id_vendor)
-                ->where('x_type', TrxPayment::X_TYPE_GRN)
-                ->where('approve', 1)
-                ->where('transaction_status', 2); //mengambil invoice yang statusnya approve
-        }])
+        $data = GoodsReceived::with(['trxpaymenta.si.coa', 'trxpaymenta.si.currencies'])
         ->whereHas('trxpaymenta.si', function($si_query) use($request) {
             $si_query
-                ->with(['coa', 'currencies'])
                 ->where('id_supplier', $request->id_vendor)
                 ->where('x_type', TrxPayment::X_TYPE_GRN)
                 ->where('approve', 1)
@@ -655,12 +647,6 @@ class APController extends Controller
             ->addColumn('transaction_date', function($grn) {
                 $si = $grn->trxpaymenta->si;
                 return Carbon::parse($si->transaction_date)->format('d-m-Y');
-            })
-            ->addColumn('transaction_number', function($grn) {
-                return $grn->number;
-            })
-            ->addColumn('uuid', function($grn) {
-                return $grn->uuid;
             })
             ->addColumn('due_date', function($grn) {
                 $si = $grn->trxpaymenta->si;
