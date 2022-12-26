@@ -769,6 +769,7 @@ let AccountPayable = {
 			],
 			columns: [
 				{ data: 'number'},
+				{ data: 'trxpaymenta.si.transaction_number'},
 				{ data: 'due_date'},
 				{
 					data: 'exchange_rate', searchable: false, orderable: false, render: function (data, type, row) {

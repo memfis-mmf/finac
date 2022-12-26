@@ -25,6 +25,7 @@
                             <thead class="text-center">
                                 <tr>
                                     <th>Transaction No</th>
+                                    <th>SI Transaction No</th>
                                     <th>Due Date</th>
                                     <th>Exchange Rate</th>
                                     <th>Total Amount</th>
