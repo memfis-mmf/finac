@@ -693,7 +693,8 @@ class APController extends Controller
                 ];
             }
 
-            if (count($ap->apa) < 1) {
+            // jika tidak ada AP dan bukan dari auto generate AP (Cash Advance Return, etc)
+            if (count($ap->apa) < 1 AND $amount_header == null) {
                 return [
                     'errors' => 'please select Supplier Invoice'
                 ];
@@ -756,9 +757,9 @@ class APController extends Controller
                     'coa_detail' => $y->coa->id,
                     'credit' => $y->credit_idr,
                     'debit' => $y->debit_idr,
-                    '_desc' => 'Payment From : ' . $apa_row->transactionnumber 
+                    '_desc' => 'Payment From : ' . $ap->transactionnumber 
                     . ' '
-                    . $apa_row->ap->vendor->name
+                    . $ap->vendor->name
                     . " | {$y->description}"
                 ];
 

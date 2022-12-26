@@ -386,7 +386,7 @@ class ARController extends Controller
                 return abort(404);
             }
 
-            if (count($ar->ara) < 1) {
+            if (count($ar->ara) < 1 AND $amount_header == null) {
                 return response()->json([
                     'errors' => 'Invoice not selected yet'
                 ]);
@@ -454,8 +454,8 @@ class ARController extends Controller
                     'coa_detail' => $y->coa->id,
                     'credit' => $y->credit_idr,
                     'debit' => $y->debit_idr,
-                    '_desc' => 'Payment From : ' . $ara_row->transactionnumber . ' '
-                        . $ara_row->ar->customer->name." (ADJ) | {$y->description}",
+                    '_desc' => 'Payment From : ' . $ar->transactionnumber . ' '
+                        . $ar->customer->name." (ADJ) | {$y->description}",
                 ];
 
                 $total_credit += $detail[count($detail) - 1]->credit;
