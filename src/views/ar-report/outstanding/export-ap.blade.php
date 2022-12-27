@@ -24,7 +24,7 @@
   @foreach ($vendor_row->supplier_invoice as $supplier_invoice_row)
   <tr>
     <td style="padding-left:8px;">{{ $supplier_invoice_row->transaction_number }}</td>
-    <td>{{ Carbon::parse($supplier_invoice_row->updated_at)->format('d F Y') }}</td>
+    <td>{{ Carbon::parse($supplier_invoice_row->transaction_date)->format('d F Y') }}</td>
     <td>{{ $supplier_invoice_row->due_date }}</td>
     <td>{{ $supplier_invoice_row->quotations->number ?? '-' }}</td>
     <td>{{ $supplier_invoice_row->currencies->code }}</td>
