@@ -265,6 +265,12 @@ class TrxPaymentController extends Controller
 
     public function destroy(TrxPayment $trxpayment)
     {
+        if ($trxpayment->approve) {
+            return [
+                'errors' => 'Data Already Approved'
+            ];
+        }
+
         $trxpayment->delete();
 
         return response()->json($trxpayment);
