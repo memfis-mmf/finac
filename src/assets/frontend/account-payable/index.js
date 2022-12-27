@@ -63,6 +63,12 @@ let Journal = {
               total += x.debit;
             }
 
+            for (var i = 0; i < t.apb.length; i++) {
+              x = t.apb[i];
+
+              total += x.debit;
+            }
+
             return '<p class="text-right text-nowrap">' + addCommas(parseInt(total)) + '</p>';
 
         }},
