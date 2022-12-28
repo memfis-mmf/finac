@@ -643,6 +643,12 @@ class InvoiceController extends Controller
 
             if ($vat_type == 'include') {
                 $divider = 1.1;
+
+                $qn_percent = $invoice->quotations->taxes()->first()->percent;
+
+                if ($qn_percent) {
+                    $divider = 1 + ($qn_percent/100);
+                }
             }
 
             $amount = $detail_row->amount;
