@@ -1087,7 +1087,8 @@ class APController extends Controller
                 'ap_uuid' => $ap->uuid,
                 'data_uuid' => $supplier_invoice->uuid,
                 'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$supplier_invoice->transaction_number} - {$supplier_invoice->vendor->name}",
-                'type' => $supplier_invoice->x_type
+                // 'type' => $supplier_invoice->x_type
+                'type' => 'NON GRN'
             ]);
 
             $apa_controller = new APAController();
