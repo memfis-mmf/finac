@@ -687,23 +687,23 @@ class InvoiceController extends Controller
                 . $invoice->customer->name,
         ];
 
-        if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
-            $coa_diff = Coa::where('code', '71112001')->first();
-            if (!$coa_diff) {
-                return [
-                    'errors' => 'Coa (Cash Balances Differential) not found'
-                ];
-            }
+        // if ($invoice->grandtotal != $total_credit && $vat_type == 'include') {
+        //     $coa_diff = Coa::where('code', '71112001')->first();
+        //     if (!$coa_diff) {
+        //         return [
+        //             'errors' => 'Coa (Cash Balances Differential) not found'
+        //         ];
+        //     }
 
-            $detail[] = (object) [
-                'coa_detail' => $coa_diff->id,
-                'credit' => 0,
-                'debit' => ($invoice->grandtotal - $total_credit) * -1,
-                '_desc' => 'Differential : '
-                    . $invoice->transactionnumber . ' '
-                    . $invoice->customer->name,
-            ];
-        }
+        //     $detail[] = (object) [
+        //         'coa_detail' => $coa_diff->id,
+        //         'credit' => 0,
+        //         'debit' => ($invoice->grandtotal - $total_credit) * -1,
+        //         '_desc' => 'Differential : '
+        //             . $invoice->transactionnumber . ' '
+        //             . $invoice->customer->name,
+        //     ];
+        // }
 
         $autoJournal = TrxJournal::autoJournal(
             $header,
