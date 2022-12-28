@@ -135,9 +135,8 @@
     buttonClasses: "m-btn btn",
     applyClass: "btn-primary",
     cancelClass: "btn-secondary",
-    singleDatePicker: true,
     locale: {
-      format: 'DD-MM-YYYY'
+      format: 'DD/MM/YYYY'
     }
   });
 
