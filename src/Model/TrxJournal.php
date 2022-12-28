@@ -531,30 +531,31 @@ class TrxJournal extends MemfisModel
 
         //check balance
         if (bccomp($total_debit, $total_credit, 5) != 0) {
-            // return [
-            // 	'status' => false,
-            // 	'message' => 'Invalid debit or credit value'
-            // ];
 
-            $diff = $total_debit - $total_credit;
+            return [
+            	'status' => false,
+            	'message' => 'Invalid debit or credit value'
+            ];
 
-            Log::warning("Invalid debit or credit value. diff = {$diff}");
+            // $diff = $total_debit - $total_credit;
 
-            $debit = $diff;
-            $credit = 0;
-            if ($diff > 0) {
-                $credit = $diff;
-                $debit = 0;
-            }
+            // Log::warning("Invalid debit or credit value. diff = {$diff}");
 
-            TrxJournalA::create([
-                'voucher_no' => $data['voucher_no'],
-                'account_code' => Coa::where('code', '81112003')->first()->id,
-                'credit' => $credit ?? 0,
-                'debit' => $debit ?? 0,
-                'description' => $x->_desc . ' -> Difference',
-                'id_project' => $x->id_project ?? null
-            ]);
+            // $debit = $diff;
+            // $credit = 0;
+            // if ($diff > 0) {
+            //     $credit = $diff;
+            //     $debit = 0;
+            // }
+
+            // TrxJournalA::create([
+            //     'voucher_no' => $data['voucher_no'],
+            //     'account_code' => Coa::where('code', '81112003')->first()->id,
+            //     'credit' => $credit ?? 0,
+            //     'debit' => $debit ?? 0,
+            //     'description' => $x->_desc . ' -> Difference',
+            //     'id_project' => $x->id_project ?? null
+            // ]);
         }
 
         DB::commit();
