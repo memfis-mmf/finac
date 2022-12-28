@@ -1051,6 +1051,9 @@ class APController extends Controller
         return $pdf->stream();
     }
 
+    /**
+     * Generate AP from Cash Advance Return
+     */
     public function generateAP(CashAdvanceReturn $cash_advance_return)
     {
         DB::beginTransaction();
@@ -1064,9 +1067,10 @@ class APController extends Controller
             'id_supplier' => $cash_advance_return->id_ref,
             // 'accountcode' => $cash_advance->coac_coa->code,
             'accountcode' => $cash_advance->coaTransaction()->code,
-            'currency' => $cash_advance->currencies->code,
+            // 'currency' => $cash_advance->currencies->code,
+            'currency' => $cash_advance_return->currency->code,
             'exchangerate' => $cash_advance_return->exchange_rate,
-            'description' => 'Generated From Cash Advance ' . implode(', ', $cash_advance_return->getCANumber())
+            'description' => 'Generated From Cash Advance Return ' . implode(', ', $cash_advance_return->getCANumber())
         ]);
 
         $store = $this->store($request)->getData();
