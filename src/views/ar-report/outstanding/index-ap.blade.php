@@ -71,7 +71,7 @@
                             <div class="form-group m-form__group row ">
                                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
                                  <h1>OUTSTANDING SUPPLIER INVOICE</h1>
-                                 <h4>As of Date. {{ Carbon::parse($date)->format('d F Y')  }}</h4>
+                                 <h4>As of Date. {{ Carbon::parse($date[0])->format('d F Y')  }} - {{ Carbon::parse($date[1])->format('d F Y')  }}</h4>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row ">

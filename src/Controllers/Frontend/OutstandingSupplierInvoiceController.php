@@ -17,8 +17,11 @@ class OutstandingSupplierInvoiceController extends Controller
 {
 	public function convertDate($param)
 	{
-		$tmp_date = new Carbon($param);
-		$date = $tmp_date->format('Y-m-d');
+
+        $date = [
+            Carbon::createFromFormat('d/m/Y', explode(' - ', $param)[0])->format('Y-m-d'),
+            Carbon::createFromFormat('d/m/Y', explode(' - ', $param)[1])->format('Y-m-d'),
+        ];
 
 		return $date;
     }
@@ -35,7 +38,8 @@ class OutstandingSupplierInvoiceController extends Controller
                 'supplier_invoice' => function($supplier_invoice) use ($request, $department, $date, $currency) {
                     $supplier_invoice
                         ->where('approve', true)
-                        ->whereDate('transaction_date', '<=', $date);
+                        ->whereDate('transaction_date', '>=', $date[0])
+                        ->whereDate('transaction_date', '<=', $date[1]);
 
                     if ($request->vendor) {
                         $supplier_invoice = $supplier_invoice->whereIn('id_supplier', $request->vendor);
@@ -157,10 +161,9 @@ class OutstandingSupplierInvoiceController extends Controller
     public function outStandingInvoiceExport(Request $request)
     {
         $data = $this->getOutstandingInvoice($request);
-        $date = str_replace('/', '-', $request->date);
 
         // return view('arreport-accountrhview::export', $data);
-		return Excel::download(new OutstandingSupplierInvoiceExport($data), "Outstanding Supplier Invoice $date.xlsx");
+		return Excel::download(new OutstandingSupplierInvoiceExport($data), "Outstanding Supplier Invoice.xlsx");
     }
 
     public function outstandingInvoicePrint(Request $request)
