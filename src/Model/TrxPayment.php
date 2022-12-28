@@ -109,7 +109,9 @@ class TrxPayment extends MemfisModel
             return null;
         }
 
-        $apa = $si_detail->apa()->whereHas('ap', function($ap) {
+        $apa = $si_detail->apa()
+            ->where("type", "GRN")
+            ->whereHas('ap', function($ap) {
                 $ap->where('approve', true);
             })
             ->get();
