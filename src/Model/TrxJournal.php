@@ -520,11 +520,6 @@ class TrxJournal extends MemfisModel
 
 		$tmp_journal = TrxJournal::where('id', $journal->id);
 
-		$tmp_journal->update([
-			// income outcome tidak pengaruh untu variable satu ini
-			'total_transaction' => $total_credit
-		]);
-
         if ($auto_approve) {
             TrxJournal::do_approve($tmp_journal);
         }
@@ -557,6 +552,11 @@ class TrxJournal extends MemfisModel
                 'id_project' => $x->id_project ?? null
             ]);
         }
+
+		$tmp_journal->update([
+			// income outcome tidak pengaruh untu variable satu ini
+			'total_transaction' => TrxJournalA::where('voucher_no', $data['voucher_no'])->sum('credit')
+		]);
 
         DB::commit();
 
