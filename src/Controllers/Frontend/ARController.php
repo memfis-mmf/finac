@@ -865,7 +865,8 @@ class ARController extends Controller
         $request = new Request();
         $request->merge([
             'payment_type' => 'cash',
-            'transactiondate' => now()->format('d-m-Y'),
+            // 'transactiondate' => now()->format('d-m-Y'),
+            'transactiondate' => $cash_advance_return->transaction_date->format('d-m-Y'),
             'id_customer' => $cash_advance_return->id_ref,
             // 'accountcode' => $cash_advance->coac_coa->code,
             'accountcode' => $cash_advance->coaTransaction()->code,
