@@ -889,7 +889,7 @@ class ARController extends Controller
             $request->merge([
                 'ar_uuid' => $ar->uuid,
                 'data_uuid' => $invoice->uuid,
-                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$invoice->transactionnumber} - {$invoice->customer->name}",
+                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$invoice->transactionnumber} - {$invoice->customer->name} | {$invoice->description}",
             ]);
 
             $ara_controller = new ARAController();

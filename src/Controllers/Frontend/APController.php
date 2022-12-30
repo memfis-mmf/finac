@@ -1087,7 +1087,7 @@ class APController extends Controller
             $request->merge([
                 'ap_uuid' => $ap->uuid,
                 'data_uuid' => $supplier_invoice->uuid,
-                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$supplier_invoice->transaction_number} - {$supplier_invoice->vendor->name}",
+                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$supplier_invoice->transaction_number} - {$supplier_invoice->vendor->name} | {$supplier_invoice->description}",
                 // 'type' => $supplier_invoice->x_type
                 'type' => 'NON GRN'
             ]);
