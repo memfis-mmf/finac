@@ -315,7 +315,8 @@ class AssetController extends Controller
 
 			$header = (object) [
 				'voucher_no' => $asset->transaction_number,
-				'transaction_date' => $asset->initiation_date,
+				// 'transaction_date' => $asset->initiation_date,
+				'transaction_date' => $asset->depreciationstart,
 				'coa' => $asset->category->coa->id,
 			];
 
