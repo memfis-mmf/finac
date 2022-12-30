@@ -374,7 +374,7 @@ class ARController extends Controller
             ->make();
     }
 
-    public function approve(Request $request, $amount_header = null)
+    public function approve(Request $request, $amount_header = null, $number = null)
     {
         DB::beginTransaction();
         try {
@@ -392,7 +392,7 @@ class ARController extends Controller
                 ]);
             }
 
-            $transaction_number = $ar->transactionnumber;
+            $transaction_number = $number ?? $ar->transactionnumber;
 
             $ar->approvals()->save(new Approval([
                 'approvable_id' => $ar->id,

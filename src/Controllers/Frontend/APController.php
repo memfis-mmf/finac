@@ -679,7 +679,7 @@ class APController extends Controller
             ->make();
     }
 
-    public function approve(Request $request, $amount_header = null)
+    public function approve(Request $request, $amount_header = null, $number = null)
     {
         DB::beginTransaction();
         try {
@@ -700,7 +700,7 @@ class APController extends Controller
                 ];
             }
 
-            $transaction_number = $ap->transactionnumber;
+            $transaction_number = $number ?? $ap->transactionnumber;
 
             $ap->approvals()->save(new Approval([
                 'approvable_id' => $ap->id,
