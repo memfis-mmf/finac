@@ -669,7 +669,8 @@ class InvoiceController extends Controller
                 'coa_detail' => $detail_row->accountcode,
                 'credit' => $credit,
                 'debit' => 0,
-                '_desc' => 'Income : '
+                '_desc' => $invoice->description
+                    . ' | Income : '
                     . $detail_row->invoice->transactionnumber . ' '
                     . $detail_row->invoice->customer->name,
             ];
@@ -688,7 +689,8 @@ class InvoiceController extends Controller
             'coa_detail' => $header->coa,
             'credit' => 0,
             'debit' => $invoice->grandtotal,
-            '_desc' => 'Account Receivable : '
+            '_desc' => $invoice->description
+                . ' | Account Receivable : '
                 . $invoice->transactionnumber . ' '
                 . $invoice->customer->name,
         ];
