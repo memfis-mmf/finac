@@ -178,6 +178,26 @@ class JournalAController extends Controller
             ->addColumn('total_credit', function() use($total_credit){
                 return $total_credit;
             })
+            ->addColumn('ref_debit', function($row){
+                $amount = $this->getRefAmount($row, $row->debit);
+
+                if (!$amount) {
+                    return '-';
+                }
+
+                $format_amount = number_format($amount, 0, ',', '.');
+                return "{$row->journal->ref_collection->currency->symbol} {$format_amount}";
+            })
+            ->addColumn('ref_credit', function($row){
+                $amount = $this->getRefAmount($row, $row->credit);
+
+                if (!$amount) {
+                    return '-';
+                }
+
+                $format_amount = number_format($amount, 0, ',', '.');
+                return "{$row->journal->ref_collection->currency->symbol} {$format_amount}";
+            })
             ->addColumn('description_formated', function($row) {
                 return $row->description_2 ?? $row->description;
             })
@@ -251,4 +271,16 @@ class JournalAController extends Controller
 			'total_transaction' => $total
 		]);
 	}
+
+    public function getRefAmount(TrxJournalA $journal_detail, $amount)
+    {
+        $journal = $journal_detail->journal;
+        $ref = $journal->ref_collection;
+
+        if ($ref->currency->code == 'idr') {
+            return null;
+        }
+
+        return $amount / $ref->rate;
+    }
 }

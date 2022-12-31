@@ -35,6 +35,7 @@ let JournalEdit = {
                 debit = (row.debit > 0)? (row.journal.currency.symbol + ' ' + number_format.format(row.debit)): '-';
                 return  '<p class="text-right text-nowrap mb-0">' + debit + '</p>';
           }},
+          {data: 'ref_debit', defaultContent: '-'},
           {data: 'credit',
             render: (data, type, row) => {
             $("#total_debit").val(
@@ -46,6 +47,7 @@ let JournalEdit = {
                 credit = (row.credit > 0)? (row.journal.currency.symbol + ' ' + number_format.format(row.credit)): '-';
                 return  '<p class="text-right text-nowrap mb-0">' + credit + '</p>';
           }},
+          {data: 'ref_credit', defaultContent: '-'},
           {data: 'description_formated', class: 'text-center',
           "render": function ( data, type, row, meta ) {
               if (row.description_formated) {
