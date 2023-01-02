@@ -41,6 +41,12 @@
                     continue;
                 @endphp
             @endif
+
+            @php
+                $total_debit_coa = 0;
+                $total_credit_coa = 0;
+            @endphp
+
             @foreach ($items['data'] as $index => $item)
                 @if ($item->Debit == 0 and $item->Credit == 0)
                     @php
@@ -50,8 +56,13 @@
                 @php
                     $number++;
                     $total_foreign += ($item->Debit != 0 ? $item->Debit : $item->Credit) / $item->rate;
+
                     $total_debit += $item->Debit;
-                    $total_credit += $item->Credit;
+                    $total_credit += ($item->Credit * -1);
+
+                    $total_debit_coa += $item->Debit;
+                    $total_credit_coa += ($item->Credit * -1);
+
                     $total_ending_balance += $item->endingBalance;
                 @endphp
                 <tr>
@@ -74,6 +85,23 @@
                     <td>{{ $item->po_number }}</td>
                 </tr>
             @endforeach
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ $total_debit_coa }}</td>
+                <td>{{ $total_credit_coa }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
         @endforeach
         <tr>
             <td>{{ $number }}</td>
@@ -87,7 +115,7 @@
             <td>{{ $total_foreign }}</td>
             <td></td>
             <td>{{ $total_debit }}</td>
-            <td>{{ -$total_credit }}</td>
+            <td>{{ $total_credit }}</td>
             <td>{{ $total_ending_balance }}</td>
             <td></td>
             <td></td>
