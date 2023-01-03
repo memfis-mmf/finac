@@ -963,7 +963,13 @@ class ARController extends Controller
             'uuid' => $ar->uuid
         ]);
 
-        $ca_total_amount = (new CashAdvanceReturnRefController)->calculateTotal($cash_advance_return);
+        //dikasih param CAR rate agar ngga berubah ke rate CA
+        $ca_total_amount = (new CashAdvanceReturnRefController)->calculateTotal($cash_advance_return, $cash_advance_return->exchange_rate);
+
+        if ($cash_advance_return->currency->code != 'idr') {
+            $ca_total_amount = $ca_total_amount * $cash_advance_return->exchange_rate;
+        }
+
         $approve = $this->approve($request, $ca_total_amount);
 
         DB::commit();

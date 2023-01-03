@@ -536,6 +536,14 @@ class TrxJournal extends MemfisModel
 
             Log::warning("Invalid debit or credit value. diff = {$diff}");
 
+            // jika lebih dari 500 rupiah
+            if ($diff > 500) {
+                return [
+                    'status' => false,
+                    'message' => 'Invalid debit or credit value'
+                ];
+            }
+
             $debit = $diff;
             $credit = 0;
             if ($diff > 0) {
