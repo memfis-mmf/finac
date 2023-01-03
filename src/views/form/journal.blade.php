@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{$journal->voucher_no}} - Journal</title>
+    <title>{!!$journal->voucher_no!!} - Journal</title>
     <style>        
         @page {
             margin: 0cm, 0cm;
@@ -138,7 +138,7 @@
             <div id="footer">
                 <table width="100%">
                     <tr>
-                        <td>  <span style="margin-left:6px;">Created By : {{ $journal->created_by }} ;  &nbsp;&nbsp;&nbsp; Approved By : {{ $journal->approved_by }} ; </span> </td>
+                        <td>  <span style="margin-left:6px;">Created By : {!! $journal->created_by !!} ;  &nbsp;&nbsp;&nbsp; Approved By : {!! $journal->approved_by !!} ; </span> </td>
                         <td align="right">Page <span class="num"></span></td>
                     </tr>
                 </table>
@@ -152,15 +152,15 @@
                 <tr>
                     <td valign="top" width="20%">Date</td>
                     <td valign="top"width="1%">:</td>
-                    <td valign="top" width="29%">{{ $carbon::parse($journal->transaction_date)->format('d-m-Y') }}</td>
+                    <td valign="top" width="29%">{!! $carbon::parse($journal->transaction_date)->format('d-m-Y') !!}</td>
                     <td valign="top" width="20%">Ref. Doc</td>
                     <td valign="top"width="1%">:</td>
-                    <td valign="top" width="29%">{{ $journal->ref_no }}</td>
+                    <td valign="top" width="29%">{!! $journal->ref_no !!}</td>
                 </tr>
                 <tr>
                     <td valign="top" width="20%">Transaction No.</td>
                     <td valign="top"width="1%">:</td>
-                    <td valign="top" width="29%">{{ $journal->voucher_no }}</td>
+                    <td valign="top" width="29%">{!! $journal->voucher_no !!}</td>
                     <td valign="top" width="20%"></td>
                     <td valign="top"width="1%"></td>
                     <td valign="top" width="29%"></td>
@@ -188,12 +188,12 @@
 										$x = $journala[$i];
 									@endphp
 	                <tr>
-	                    <td valign="top" align="center" width="4%">{{ $i+1 }}</td>
-	                    <td valign="top" align="center" width="13%">{{ $x->coa->code }}</td>
-	                    <td valign="top" width="19%">{{ $x->coa->name }}</th>
-	                    <td valign="top"  width="24%">{{ $x->description_2 ?? $x->description }}</td>
-	                    <td valign="top" align="right" width="20%">{{ ($x->debit == 0)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 2, ',', '.').",-" }}</td>
-	                    <td valign="top" align="right" width="20%">{{ ($x->credit == 0)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 2, ',', '.').",-" }}</td>
+	                    <td valign="top" align="center" width="4%">{!! $i+1 !!}</td>
+	                    <td valign="top" align="center" width="13%">{!! $x->coa->code !!}</td>
+	                    <td valign="top" width="19%">{!! $x->coa->name !!}</th>
+	                    <td valign="top"  width="24%">{!! $x->description_2 ?? $x->description !!}</td>
+	                    <td valign="top" align="right" width="20%">{!! ($x->debit == 0)? '': "Rp. ".number_format($x->debit * $journal->exchange_rate, 2, ',', '.').",-" !!}</td>
+	                    <td valign="top" align="right" width="20%">{!! ($x->credit == 0)? '': "Rp. ".number_format($x->credit * $journal->exchange_rate, 2, ',', '.').",-" !!}</td>
 	                </tr>
                 @endfor
                 </tbody>
@@ -201,8 +201,8 @@
             <table width="100%" cellpadding="6">
                 <tr>
                     <td valign="top" align="right" width="60%"><b>Total</b></td>
-                    <td valign="top" align="right" width="" class="kredit-debet">Rp. {{ number_format($debit * $journal->exchange_rate, 2, ',', '.') }},-</td>
-                    <td valign="top" align="right" width="" class="kredit-debet">Rp. {{ number_format($credit * $journal->exchange_rate, 2, ',', '.') }},-</td>
+                    <td valign="top" align="right" width="" class="kredit-debet">Rp. {!! number_format($debit * $journal->exchange_rate, 2, ',', '.') !!},-</td>
+                    <td valign="top" align="right" width="" class="kredit-debet">Rp. {!! number_format($credit * $journal->exchange_rate, 2, ',', '.') !!},-</td>
                 </tr>
             </table>
         </div>
