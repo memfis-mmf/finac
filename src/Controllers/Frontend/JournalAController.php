@@ -181,7 +181,7 @@ class JournalAController extends Controller
             ->addColumn('ref_debit', function($row){
                 $amount = $this->getRefAmount($row, $row->debit);
 
-                if (!$amount) {
+                if (!$amount OR $row->journal->ref_collection == '' OR !$row->journal->ref_collection) {
                     return '-';
                 }
 
@@ -191,7 +191,7 @@ class JournalAController extends Controller
             ->addColumn('ref_credit', function($row){
                 $amount = $this->getRefAmount($row, $row->credit);
 
-                if (!$amount) {
+                if (!$amount OR $row->journal->ref_collection == '' OR !$row->journal->ref_collection) {
                     return '-';
                 }
 
