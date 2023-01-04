@@ -271,6 +271,9 @@ class TrxPaymentController extends Controller
             ];
         }
 
+        $trxpayment->trxpaymenta()->delete();
+        $trxpayment->trxpaymentb()->delete();
+
         $trxpayment->delete();
 
         return response()->json($trxpayment);
