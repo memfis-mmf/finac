@@ -638,7 +638,7 @@ class APController extends Controller
         return datatables($data)
             ->addColumn('account_code', function($grn) {
                 $si = $grn->trxpaymenta->si;
-                return $si->coa->code;
+                return $si->coa->code ?? '';
             })
             ->addColumn('paid_amount', function($grn) {
                 $si = $grn->trxpaymenta->si;
