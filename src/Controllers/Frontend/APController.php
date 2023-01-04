@@ -638,32 +638,55 @@ class APController extends Controller
         return datatables($data)
             ->addColumn('account_code', function($grn) {
                 $si = $grn->trxpaymenta->si;
-                return $si->coa->code ?? '';
+
+                if (!$si) {
+                    return '-';
+                }
+
+                return $si->coa->code;
             })
             ->addColumn('paid_amount', function($grn) {
                 $si = $grn->trxpaymenta->si;
+                if (!$si) {
+                    return '-';
+                }
                 return $this->countPaidAmount($grn->uuid, $si->x_type);
             })
             ->addColumn('transaction_date', function($grn) {
                 $si = $grn->trxpaymenta->si;
+                if (!$si) {
+                    return '-';
+                }
                 return Carbon::parse($si->transaction_date)->format('d-m-Y');
             })
             ->addColumn('due_date', function($grn) {
                 $si = $grn->trxpaymenta->si;
+                if (!$si) {
+                    return '-';
+                }
                 return Carbon::parse($si->updated_at)
                     ->addDays($si->closed)
                     ->format('d-m-Y');
             })
             ->addColumn('amount_to_pay', function($grn) {
                 $si = $grn->trxpaymenta->si;
+                if (!$si) {
+                    return '-';
+                }
                 return $si->grandtotal - $this->countPaidAmount($grn->uuid, $si->x_type);
             })
             ->addColumn('exchange_rate_gap', function($grn) use($ap) {
                 $si = $grn->trxpaymenta->si;
+                if (!$si) {
+                    return '-';
+                }
                 return $si->exchange_rate - $ap->exchangerate;
             })
             ->addColumn('action', function($grn) use($request) {
                 $si = $grn->trxpaymenta->si;
+                if (!$si) {
+                    return '-';
+                }
                 if ($request->page_type == 'show') {
                     return '';
                 }
