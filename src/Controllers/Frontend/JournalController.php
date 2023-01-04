@@ -633,7 +633,7 @@ class JournalController extends Controller
 
 	public function print(Request $request)
 	{
-		$journal = Journal::where('uuid', $request->uuid)->first();
+		$journal = Journal::where('uuid', $request->uuid)->firstOrFail();
 		$journala = $journal->journala;
 
         if (count($journala) < 1) {
