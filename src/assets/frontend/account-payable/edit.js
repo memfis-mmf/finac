@@ -764,33 +764,33 @@ let AccountPayable = {
 				}
 			],
 			columns: [
-				{ data: 'number'},
-				{ data: 'trxpaymenta.si.transaction_number'},
-				{ data: 'due_date'},
+				{ data: 'number', defaultContent: '-'},
+				{ data: 'trxpaymenta.si.transaction_number', defaultContent: '-'},
+				{ data: 'due_date', defaultContent: '-'},
 				{
-					data: 'exchange_rate', searchable: false, orderable: false, render: function (data, type, row) {
+					data: 'exchange_rate', searchable: false, orderable: false, defaultContent: '-', render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.trxpaymenta.si.exchange_rate)) + '</p>';
 					}
 				},
 				{
-					data: 'total_amount', searchable: false, orderable: false, render: function (data, type, row) {
+					data: 'total_amount', searchable: false, orderable: false, defaultContent: '-', render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + row.trxpaymenta.si.currencies.symbol + number_format.format(parseFloat(row.total_amount)) + '</p>';
 					}
 				},
 				{
-					data: 'total_amount', searchable: false, orderable: false, render: function (data, type, row) {
+					data: 'total_amount', searchable: false, orderable: false, defaultContent: '-', render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + row.trxpaymenta.si.currencies.symbol + number_format.format(parseFloat(row.total_amount * row.rate)) + '</p>';
 					}
 				},
 				{
-					data: 'grandtotal', searchable: false, orderable: false, render: function (data, type, row) {
+					data: 'grandtotal', searchable: false, orderable: false, defaultContent: '-', render: function (data, type, row) {
 						return '<p class="text-left text-nowrap">' + 'Rp' + number_format.format(parseFloat(row.paid_amount)) + '</p>';
 					}
 				},
-				{ data: 'trxpaymenta.si.coa.code'},
+				{ data: 'trxpaymenta.si.coa.code', defaultContent: '-'},
 				{ data: 'description', defaultContent: '-'},
 				{
-					data: 'action', orderable: false, searchable: false
+					data: 'action', orderable: false, searchable: false, defaultContent: '-'
 				}
 			]
 		});
