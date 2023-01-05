@@ -719,6 +719,8 @@ class AssetController extends Controller
         $data['journal'] = TrxJournal::where('ref_no', $asset->transaction_number)
             ->orderBy('id', 'desc')
             ->get();
+        $data['asset'] = $asset;
+        $data['carbon'] = Carbon::class;
 
         return view('masterassetview::history-depreciation', $data);
     }

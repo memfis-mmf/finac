@@ -1,3 +1,16 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <td style="width: 1px; white-space: nowrap;">Depreciation Start</td>
+      <td>: {{ $carbon::parse($asset->depreciationstart)->format('d-m-Y') }}</td>
+    </tr>
+    <tr>
+      <td style="width: 1px; white-space: nowrap;">Depreciation End</td>
+      <td>: {{ $carbon::parse($asset->depreciationend)->format('d-m-Y') }}</td>
+    </tr>
+  </tbody>
+</table>
+
 <table class="table table-hover table-striped table-bordered">
   <thead>
     <tr>
