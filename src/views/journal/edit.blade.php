@@ -235,9 +235,9 @@
                                                         {{-- <th>Account Name</th>  --}}
                                                         <th>Project</th>
                                                         <th>Debit</th>
-                                                        <th>Ref Debit</th>
+                                                        <th>Foreign Debit</th>
                                                         <th>Credit</th>
-                                                        <th>Ref Credit</th>
+                                                        <th>Foreign Credit</th>
                                                         <th>Remark</th>
                                                         <th>Action</th>
                                                       </thead>
