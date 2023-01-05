@@ -60,16 +60,16 @@ class TrxJournal extends MemfisModel
         $doc_ref = [
             'CSAD' => [
                 'number' => 'transaction_number',
-                'rate' => '',
+                'rate' => 'rate',
                 'class' => new CashAdvance(),
-                'currency' => '',
+                'currency' => 'currency',
                 'total' => '',
             ], // cash advance
             'CSAR' => [
                 'number' => 'transaction_number',
-                'rate' => '',
+                'rate' => 'exchange_rate',
                 'class' => new CashAdvanceReturn(),
-                'currency' => '',
+                'currency' => 'currency',
                 'total' => '',
             ], // cash advance return
             'SITR' => [
