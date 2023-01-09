@@ -9,7 +9,7 @@ use App\Models\Currency;
 use memfisfa\Finac\Model\QueryFunction as QF;
 use memfisfa\Finac\Model\Coa;
 use Carbon\Carbon;
-
+use Log;
 //use for export
 use memfisfa\Finac\Model\Exports\GLExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -199,16 +199,28 @@ class GeneralLedgerController extends Controller
                 $journal = TrxJournal::where('uuid', $item->journal_uuid)->first();
                 $journal_detail = TrxJournalA::where('voucher_no', $item->VoucherNo)
                     ->where('account_code', $data_coa->id)
-                    ->firstOrFail(); 
+                    ->first(); 
+
+                if (!$journal_detail) {
+                    Log::warning("Journal detail not found {$journal->voucher_no}");
+                    continue;
+                }
+
+                $journal_ref_coll_curr = null;
+                $journal_ref_coll_rate = null;
+                if ($journal->ref_collection) {
+                    $journal_ref_coll_curr = $journal->ref_collection->currency;
+                    $journal_ref_coll_rate = $journal->ref_collection->rate;
+                }
 
                 $data[$index]->Description = $journal_detail->description_2 ?? $journal_detail->description;
 
-                $data[$index]->currency = $journal->ref_collection->currency ?? $journal->currency;
+                $data[$index]->currency = $journal_ref_coll_curr ?? $journal->currency;
 
                 if ($data[$index]->currency->code == 'idr') {
                     $data[$index]->rate = 1;
                 } else {
-                    $data[$index]->rate = $journal->ref_collection->rate ?? $journal->exchange_rate;
+                    $data[$index]->rate = $journal_ref_coll_rate ?? $journal->exchange_rate;
                 }
 
             }
