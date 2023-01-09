@@ -1087,7 +1087,7 @@ class APController extends Controller
             $request->merge([
                 'ap_uuid' => $ap->uuid,
                 'data_uuid' => $supplier_invoice->uuid,
-                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$supplier_invoice->transaction_number} - {$supplier_invoice->vendor->name} | {$supplier_invoice->description}",
+                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$supplier_invoice->transaction_number} - {$supplier_invoice->vendor->name} | {$supplier_invoice->description} - {$cash_advance_return->transaction_number}",
                 // 'type' => $supplier_invoice->x_type
                 'type' => 'NON GRN'
             ]);
@@ -1127,7 +1127,7 @@ class APController extends Controller
             $request->merge([
                 'debit_b' => memfisRound($ap->currencies->code, $ca_return_detail_row->debit),
                 'credit_b' => memfisRound($ap->currencies->code, $ca_return_detail_row->credit),
-                'description_b' => $ca_return_detail_row->description,
+                'description_b' => $ca_return_detail_row->description . " - {$cash_advance_return->transaction_number}",
                 'id_project_detail' => $ca_return_detail_row->project_id ?? null
             ]);
 
@@ -1151,7 +1151,7 @@ class APController extends Controller
             $request->merge([
                 'debit_b' => memfisRound($ap->currencies->code, $ca_return_adj->debit),
                 'credit_b' => memfisRound($ap->currencies->code, $ca_return_adj->credit),
-                'description_b' => $ca_return_adj->description,
+                'description_b' => $ca_return_adj->description . " - {$cash_advance_return->transaction_number}",
                 'id_project_detail' => $ca_return_adj->project_id ?? null
             ]);
 
