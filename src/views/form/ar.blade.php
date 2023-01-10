@@ -209,7 +209,7 @@
                                         echo 'Rp '.
                                         number_format($arr->debit, 0, ',', '.');
 
-                                      if (($invoice_sample->currencies->code != 'idr' or $data->currency != 'idr') and $arr->debit_foreign != 0) {
+                                      if ((($invoice_sample->currencies->code ?? null) != 'idr' or $data->currency != 'idr') and $arr->debit_foreign != 0) {
                                         echo "<br>($ ".number_format($arr->debit_foreign, 2, ',', '.').' )';
                                       }
                                     }
@@ -221,7 +221,7 @@
                                       echo 'Rp '.
                                       number_format($arr->credit, 0, ',', '.');
 
-                                      if (($invoice_sample->currencies->code != 'idr' or $data->currency != 'idr') and $arr->credit_foreign != 0) {
+                                      if ((($invoice_sample->currencies->code ?? null) != 'idr' or $data->currency != 'idr') and $arr->credit_foreign != 0) {
                                         echo "<br>($ ".number_format($arr->credit_foreign, 2, ',', '.').' )';
                                       }
                                     }

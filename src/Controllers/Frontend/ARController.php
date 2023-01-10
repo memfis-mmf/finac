@@ -573,7 +573,7 @@ class ARController extends Controller
             $date_approve = '-';
         }
 
-        if (count($ar->ara) < 1) {
+        if (count($ar->ara) < 1 AND !str_contains($ar->description, 'Generated From Cash Advance Return ')) {
             return redirect()->route('areceive.index')->with(['errors' => 'Invoice not selected yet']);
         }
 
@@ -587,7 +587,7 @@ class ARController extends Controller
 
         $invoice_sample = ($ara->first())? $ara->first()->invoice: null;
         //jika sama" idr
-        if ($ar->currencies->code == 'idr' and $ar->currencies->code == $invoice_sample->currencies->code) {
+        if ($ar->currencies->code == 'idr' AND $ar->currencies->code == ($invoice_sample->currencies->code ?? null)) {
             $ar_rate = ($ar->currency == 'idr')? 1: $ar->exchangerate;
         } else {
             $ar_rate = $ar->exchangerate;
@@ -722,7 +722,7 @@ class ARController extends Controller
 
         $to = $ar->customer;
 
-        if ($ar->currencies->code == 'idr' and $ar->currencies->code == $invoice_sample->currencies->code) {
+        if ($ar->currencies->code == 'idr' and $ar->currencies->code == ($invoice_sample->currencies->code ?? null)) {
             $total_credit_foreign = 0;
         }
 
