@@ -59,16 +59,16 @@ let Journal = {
                 for (var i = 0; i < t.ara.length; i++) {
                     x = t.ara[i];
 
-                    total += x.credit;
+                  total += parseFloat(x.credit);
                 }
 
                 for (var i = 0; i < t.arb.length; i++) {
                   x = t.arb[i];
 
-                  total += x.credit;
+                  total += parseFloat(x.credit);
               }
 
-                return addCommas(parseInt(total));
+              return '<p class="text-right text-nowrap">' + addCommas(parseInt(total)) + '</p>';
 
             }},
             {data: 'coa.code', defaultContent: '-', class: 'text-center text-nowrap'},
