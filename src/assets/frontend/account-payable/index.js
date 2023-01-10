@@ -60,13 +60,13 @@ let Journal = {
             for (var i = 0; i < t.apa.length; i++) {
               x = t.apa[i];
 
-              total += x.debit;
+              total += parseFloat(x.debit);
             }
 
             for (var i = 0; i < t.apb.length; i++) {
               x = t.apb[i];
 
-              total += x.debit;
+              total += parseFloat(x.debit);
             }
 
             return '<p class="text-right text-nowrap">' + addCommas(parseInt(total)) + '</p>';
