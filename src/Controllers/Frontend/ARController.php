@@ -889,7 +889,7 @@ class ARController extends Controller
             $request->merge([
                 'ar_uuid' => $ar->uuid,
                 'data_uuid' => $invoice->uuid,
-                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$invoice->transactionnumber} - {$invoice->customer->name} | {$invoice->description}",
+                'description' => "Auto Generated From {$cash_advance_return->transaction_number} - {$invoice->transactionnumber} - {$invoice->customer->name} | {$invoice->description} - {$cash_advance_return->transaction_number}",
             ]);
 
             $ara_controller = new ARAController();
@@ -927,7 +927,7 @@ class ARController extends Controller
             $request->merge([
                 'debit_b' => memfisRound($ar->currencies->code, $ca_return_detail_row->debit),
                 'credit_b' => memfisRound($ar->currencies->code, $ca_return_detail_row->credit),
-                'description_b' => $ca_return_detail_row->description,
+                'description_b' => $ca_return_detail_row->description . " - {$cash_advance_return->transaction_number}",
                 'id_project_detail' => $ca_return_detail_row->project_id ?? null
             ]);
 
@@ -951,7 +951,7 @@ class ARController extends Controller
             $request->merge([
                 'debit_b' => memfisRound($ar->currencies->code, $ca_return_adj->debit),
                 'credit_b' => memfisRound($ar->currencies->code, $ca_return_adj->credit),
-                'description_b' => $ca_return_adj->description,
+                'description_b' => $ca_return_adj->description . " - {$cash_advance_return->transaction_number}",
                 'id_project_detail' => $ca_return_adj->project_id ?? null
             ]);
 
