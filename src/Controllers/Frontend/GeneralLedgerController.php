@@ -201,11 +201,6 @@ class GeneralLedgerController extends Controller
                     ->where('account_code', $data_coa->id)
                     ->first(); 
 
-                if (!$journal_detail) {
-                    Log::warning("Journal detail not found {$journal->voucher_no}");
-                    continue;
-                }
-
                 $journal_ref_coll_curr = null;
                 $journal_ref_coll_rate = null;
                 if ($journal->ref_collection) {
@@ -213,7 +208,7 @@ class GeneralLedgerController extends Controller
                     $journal_ref_coll_rate = $journal->ref_collection->rate;
                 }
 
-                $data[$index]->Description = $journal_detail->description_2 ?? $journal_detail->description;
+                $data[$index]->Description = $journal_detail->description_2 ?? $journal_detail->description ?? '';
 
                 $data[$index]->currency = $journal_ref_coll_curr ?? $journal->currency;
 
