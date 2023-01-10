@@ -879,7 +879,8 @@ class APController extends Controller
             $date_approve = '-';
         }
 
-        if (count($ap->apa) < 1) {
+        // jika tida ada detail SI dan bukan AP generate an
+        if (count($ap->apa) < 1 AND !str_contains($ap->description, 'Generated From Cash Advance Return ')) {
             return redirect()->route('apayment.index')->with(['errors' => 'Supplier Invoice not selected yet']);
         }
 
@@ -894,7 +895,7 @@ class APController extends Controller
         $si_sample = ($apa->first())? $apa->first()->getSI(): null;
 
         //jika sama" idr
-        if ($ap->currencies->code == 'idr' and $ap->currencies->code == $si_sample->currencies->code) {
+        if ($ap->currencies->code == 'idr' AND $ap->currencies->code == ($si_sample->currencies->code ?? null)) {
             $ap_rate = ($ap->currency == 'idr')? 1: $ap->exchangerate;
         } else {
             $ap_rate = $ap->exchangerate;
@@ -1032,7 +1033,7 @@ class APController extends Controller
 
         $to = $ap->vendor;
 
-        if ($ap->currencies->code == 'idr' and $ap->currencies->code == $si_sample->currencies->code) {
+        if ($ap->currencies->code == 'idr' and $ap->currencies->code == ($si_sample->currencies->code ?? null)) {
             $total_debit_foreign = 0;
         }
 
