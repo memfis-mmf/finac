@@ -1177,38 +1177,4 @@ class APController extends Controller
 
         return $approve;
     }
-
-    public function findCAR(APayment $ap)
-    {
-        $explode = explode('Generated From Cash Advance Return ', $ap->description);
-        $ca_number = explode(', ', end($explode));
-        $cas = CashAdvance::whereIn('transaction_number', $ca_number)->get();
-
-        if (count($cas) < 1) {
-            throw ValidationException::withMessages(['default' => 'CA not found']);
-        }
-
-        // mengambil CAR yg punya semua nomor CA
-        $cars = CashAdvanceReturn::whereHas('refs', function($refs) use($cas) {
-                $refs->whereIn('cash_advance_id', $cas->pluck('id')->all());
-            })
-            ->get();
-
-        $result = null;
-        foreach ($cars as $car) {
-            // jika jumlah CA dari CAR berbeda dengan jumlah nomor CA
-            // maka nomor CA tersebut bukan dari CAR ini
-            if ($car->refs()->count() == count($cas)) {
-                $result = $car;
-                break;
-            }
-
-        }
-
-        if (!$result) {
-            throw ValidationException::withMessages(['default' => 'CAR not found']);
-        }
-
-        return $result;
-    }
 }
