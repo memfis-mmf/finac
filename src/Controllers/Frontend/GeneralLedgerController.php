@@ -5,6 +5,8 @@ namespace memfisfa\Finac\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Jobs\ExportGL;
+use App\Jobs\PrintGL;
 use App\Models\Currency;
 use memfisfa\Finac\Model\QueryFunction as QF;
 use memfisfa\Finac\Model\Coa;
@@ -453,48 +455,14 @@ class GeneralLedgerController extends Controller
     {
         ini_set('max_execution_time', '-1');
         ini_set('memory_limit', '-1');
+        ini_set('set_time_limit', '-1');
 
-        $code = explode(',', $request->data);
-        $coa = Coa::whereIn('code', $code)->get();
+        PrintGL::dispatch(auth()->user());
 
-        if (count($coa) < 1) {
-            return redirect()->back()->with(['errors' => 'Coa not found']);
-        }
-
-        $date = $this->convertDate($request->date);
-
-        $beginDate = $date[0];
-        $endingDate = $date[1];
-
-        for ($i=0; $i < count($coa); $i++) {
-
-            $get_data = $this->getData(
-                    $beginDate, $endingDate, $coa[$i]->code
-                );
-
-            $data_coa[] = $get_data;
-        }
-
-        $data_coa = array_values(array_filter($data_coa));
-
-        foreach ($data_coa as $data_coa_row) {
-            foreach ($data_coa_row['data'] as $data_row) {
-                $data_row->description_formated = $data_row->Description_2 ?? $data_row->Description;
-            }
-        }
-
-        $data = [
-            'data' => $data_coa,
-            'beginDate' => $beginDate,
-            'endingDate' => $endingDate,
-            'coa' => $coa,
-            'carbon' => Carbon::class,
-            'controller' => new Controller()
+        return [
+            'success' => true,
+            'message' => "Generating Prinout please be patient, we'll send you an email"
         ];
-
-        $pdf = \PDF::loadView('formview::general-ledger-docs', $data);
-        $pdf->setPaper('A4', 'landscape');
-        return $pdf->stream();
     }
 
     public function export(Request $request)
@@ -503,41 +471,11 @@ class GeneralLedgerController extends Controller
         ini_set('set_time_limit', '-1');
         ini_set('max_execution_time', '-1');
 
-        $code = explode(',', $request->data);
-        $coa = Coa::whereIn('code', $code)->get();
+        ExportGL::dispatch(auth()->user());
 
-        if (count($coa) < 1) {
-            return redirect()->back()->with([
-                'errors' => 'Coa not found'
-            ]);
-        }
-
-        $date = $this->convertDate($request->date);
-
-        $beginDate = $date[0];
-        $endingDate = $date[1];
-
-        for ($i=0; $i < count($coa); $i++) {
-
-            $data_coa[] = $this->getData(
-                $beginDate, $endingDate, $coa[$i]->code
-            );
-
-        }
-
-        $data = [
-            'data' => $data_coa,
-            'beginDate' => $beginDate,
-            'endingDate' => $endingDate,
-            'coa' => $coa,
-            'carbon' => Carbon::class,
-            'controller' => new Controller(),
-            'total_foreign' => 0,
-            'total_debit' => 0,
-            'total_credit' => 0,
-            'total_ending_balance' => 0,
+        return [
+            'success' => true,
+            'message' => "Generating Excel please be patient, we'll send you an email"
         ];
-
-        return Excel::download(new GLExport($data), 'GL.xlsx');
     }
 }
