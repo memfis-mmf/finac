@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ExportGL;
 use App\Jobs\PrintGL;
 use App\Models\Currency;
+use App\User;
 use memfisfa\Finac\Model\QueryFunction as QF;
 use memfisfa\Finac\Model\Coa;
 use Carbon\Carbon;
@@ -205,14 +206,14 @@ class GeneralLedgerController extends Controller
 
                 $journal_ref_coll_curr = null;
                 $journal_ref_coll_rate = null;
-                if ($journal->ref_collection) {
+                if ($journal->ref_collection ?? null) {
                     $journal_ref_coll_curr = $journal->ref_collection->currency;
                     $journal_ref_coll_rate = $journal->ref_collection->rate;
                 }
 
                 $data[$index]->Description = $journal_detail->description_2 ?? $journal_detail->description ?? '';
 
-                $data[$index]->currency = $journal_ref_coll_curr ?? $journal->currency;
+                $data[$index]->currency = $journal_ref_coll_curr ?? $journal->currency ?? Currency::where('code', 'idr')->first();
 
                 if ($data[$index]->currency->code == 'idr') {
                     $data[$index]->rate = 1;
@@ -457,12 +458,9 @@ class GeneralLedgerController extends Controller
         ini_set('memory_limit', '-1');
         ini_set('set_time_limit', '-1');
 
-        PrintGL::dispatch(auth()->user());
+        PrintGL::dispatch($request->all(), auth()->user());
 
-        return [
-            'success' => true,
-            'message' => "Generating Prinout please be patient, we'll send you an email"
-        ];
+        return redirect()->back()->with(['success' => "Generating Print out please be patient, we'll send you an email"]);
     }
 
     public function export(Request $request)
@@ -471,11 +469,8 @@ class GeneralLedgerController extends Controller
         ini_set('set_time_limit', '-1');
         ini_set('max_execution_time', '-1');
 
-        ExportGL::dispatch(auth()->user());
+        ExportGL::dispatch($request->all(), auth()->user());
 
-        return [
-            'success' => true,
-            'message' => "Generating Excel please be patient, we'll send you an email"
-        ];
+        return redirect()->back()->with(['success' => "Generating Excel please be patient, we'll send you an email"]);
     }
 }

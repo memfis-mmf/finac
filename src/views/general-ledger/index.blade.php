@@ -139,4 +139,13 @@
 	});
 </script>
 @endif
+@if (Session::get('success'))
+<script type="text/javascript">
+	$(document).ready(function () {
+		toastr.success(`{{Session::get('success')}}`, 'Success', {
+				timeOut: 3000
+		});
+	});
+</script>
+@endif
 @endpush
