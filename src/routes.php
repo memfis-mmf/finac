@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GLExportHistoryController;
 use Illuminate\Support\Facades\Route;
 
 require('view-only.php');
@@ -445,6 +446,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 			'memfisfa\Finac\Controllers\Frontend\GeneralLedgerController@showDatatables'
 		)->name('general_ledger.datatables');
 	});
+
+    Route::prefix('general-ledger-export-history')->name('general-ledger-export-history.')->group(function() {
+        Route::get('/', [GLExportHistoryController::class, 'index'])->name('index');
+        Route::get('datatable', [GLExportHistoryController::class, 'datatable'])->name('datatable');
+    });
 
     Route::prefix('journala')->group(function () {
 		Route::get(

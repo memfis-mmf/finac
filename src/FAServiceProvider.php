@@ -66,6 +66,7 @@ class FAServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views/trial-balance', 'trialbalanceview');
         $this->loadViewsFrom(__DIR__.'/views/profit-loss', 'profitlossview');
         $this->loadViewsFrom(__DIR__.'/views/general-ledger', 'generalledgerview');
+        $this->loadViewsFrom(__DIR__.'/views/general-ledger-export-history', 'generalledgerexporthistoryview');
         $this->loadViewsFrom(__DIR__.'/views/balance-sheet', 'balancesheetview');
         $this->loadViewsFrom(__DIR__.'/views/master-asset', 'masterassetview');
         $this->loadViewsFrom(__DIR__.'/views/bond', 'bondview');
