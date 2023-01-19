@@ -450,6 +450,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::prefix('general-ledger-export-history')->name('general-ledger-export-history.')->group(function() {
         Route::get('/', [GLExportHistoryController::class, 'index'])->name('index');
         Route::get('datatable', [GLExportHistoryController::class, 'datatable'])->name('datatable');
+        Route::get('download/{gl_export_history}', [GLExportHistoryController::class, 'download'])->name('download');
     });
 
     Route::prefix('journala')->group(function () {
