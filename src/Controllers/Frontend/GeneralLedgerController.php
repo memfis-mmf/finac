@@ -460,7 +460,7 @@ class GeneralLedgerController extends Controller
 
         PrintGL::dispatch($request->all(), auth()->user());
 
-        return redirect()->back()->with(['success' => "Generating Print out please be patient, we'll send you an email"]);
+        return redirect()->back()->with(['success' => "Generating Print out please be patient"]);
     }
 
     public function export(Request $request)
@@ -471,6 +471,6 @@ class GeneralLedgerController extends Controller
 
         ExportGL::dispatch($request->all(), auth()->user());
 
-        return redirect()->back()->with(['success' => "Generating Excel please be patient, we'll send you an email"]);
+        return redirect()->back()->with(['success' => "Generating Excel please be patient"]);
     }
 }
