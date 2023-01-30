@@ -58,7 +58,7 @@
                               <table class="table table-striped table-bordered table-hover table-checkable datatable">
                                 <thead>
                                   <th></th>
-                                  <th>Name</th>
+                                  <th>Period</th>
                                   <th>Type</th>
                                   <th>Generate By</th>
                                   <th></th>
