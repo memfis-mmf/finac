@@ -43,6 +43,7 @@
             @endif
 
             @php
+                $count_data = 0;
                 $total_debit_coa = 0;
                 $total_credit_coa = 0;
             @endphp
@@ -55,6 +56,7 @@
                 @endif
                 @php
                     $number++;
+                    $count_data++;
                     $total_foreign += ($item->Debit != 0 ? $item->Debit : $item->Credit) / $item->rate;
 
                     $total_debit += $item->Debit;
@@ -85,6 +87,11 @@
                     <td>{{ $item->po_number }}</td>
                 </tr>
             @endforeach
+            @if ($count_data < 1)
+                @php
+                    continue;
+                @endphp
+            @endif
             <tr>
                 <td></td>
                 <td></td>
