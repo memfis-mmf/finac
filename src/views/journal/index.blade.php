@@ -105,6 +105,7 @@
                               <table class="table table-striped table-bordered table-hover table-checkable journal_datatable">
                                 <thead class="text-center">
                                   <th></th>
+                                  <th></th>
                                   <th>Transaction No</th>
                                   <th>Transaction No</th>
                                   <th>Ref Doc</th>

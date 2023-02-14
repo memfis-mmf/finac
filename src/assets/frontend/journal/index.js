@@ -31,9 +31,10 @@ let Journal = {
           ],
           columns: [
             {data: 'created_at', visible: false},
-            {data: 'transaction_date_formated', name: 'transaction_date', class: 'text-left text-nowrap',
+            {data: 'transaction_date', visible: false},
+            {data: 'ref_date_formated', name: 'ref_date', class: 'text-left text-nowrap',
             "render": function ( data, type, row, meta ) {
-                return '<b>' + row.transaction_date_formated + '</b><br>' + row.voucher_no_formated ;
+                return '<b>' + row.ref_date_formated + '</b><br>' + row.voucher_no_formated ;
             }},
             {data: 'voucher_no_formated', name: 'voucher_no', visible:false},
             {data: 'ref_no_link', name: 'ref_no', class:'text-nowrap'},

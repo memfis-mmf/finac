@@ -421,6 +421,9 @@ class JournalController extends Controller
             ->filterColumn('transaction_date', function($query, $search) {
                 datatables_search_date('transaction_date', $search, $query);
             })
+            ->filterColumn('ref_date', function($query, $search) {
+                datatables_search_date('ref_date', $search, $query);
+            })
             ->filterColumn('approvals.created_at', function($query, $search) {
                 datatables_search_approved_by($search, $query);
             })
@@ -431,6 +434,9 @@ class JournalController extends Controller
                 datatables_search_audits($search, $query);
             })
             ->addColumn('transaction_date_formated', function($row) {
+                return $row->transaction_date->format('d-m-Y');
+            })
+            ->addColumn('ref_date_formated', function($row) {
                 return $row->transaction_date->format('d-m-Y');
             })
             ->addColumn('voucher_no_formated', function($row) {
