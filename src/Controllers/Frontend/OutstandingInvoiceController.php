@@ -18,7 +18,11 @@ class OutstandingInvoiceController extends Controller
 {
 	public function convertDate($param)
 	{
-		$date = Carbon::createFromFormat('d-m-Y', $param)->format('Y-m-d');
+
+        $date = [
+            Carbon::createFromFormat('d/m/Y', explode(' - ', $param)[0])->format('Y-m-d'),
+            Carbon::createFromFormat('d/m/Y', explode(' - ', $param)[1])->format('Y-m-d'),
+        ];
 
 		return $date;
     }
@@ -32,13 +36,14 @@ class OutstandingInvoiceController extends Controller
         $currency = Currency::find($request->currency);
 
         $customer = Customer::with([
-                'invoice' => function($invoice) use ($request, $department, $date) {
+                'invoice' => function($invoice) use ($request, $department, $date, $currency) {
                     $invoice
                         ->with([
                             'quotations:id,number,term_of_payment'
                         ])
                         ->where('approve', true)
-                        ->whereDate('transactiondate', '<=', $date);
+                        ->whereDate('transactiondate', '>=', $date[0])
+                        ->whereDate('transactiondate', '<=', $date[1]);
                         // ->whereHas('ara.ar', function($ar) {
                         //     $ar->where('approve', true);
                         // });
@@ -62,7 +67,8 @@ class OutstandingInvoiceController extends Controller
                 'invoice_workshop' => function($invoice_workshop) use ($request, $date) {
                     $invoice_workshop
                         ->where('status_inv', 'Approved')
-                        ->whereDate('date', '<=', $date);
+                        ->whereDate('date', '>=', $date[0])
+                        ->whereDate('date', '<=', $date[1]);
 
                     if ($request->customer) {
                         $_customer = Customer::whereIn('id', $request->customer)->get()->pluck('uuid');
@@ -80,7 +86,8 @@ class OutstandingInvoiceController extends Controller
             ])
             ->whereHas('invoice', function($invoice) use($request, $department, $date) {
                 $invoice->where('approve', true)
-                    ->whereDate('transactiondate', '<=', $date);
+                    ->whereDate('transactiondate', '>=', $date[0])
+                    ->whereDate('transactiondate', '<=', $date[1]);
                     // ->whereHas('ara.ar', function($ar) {
                     //     $ar->where('approve', true);
                     // });
@@ -103,7 +110,8 @@ class OutstandingInvoiceController extends Controller
             })
             ->orWhereHas('invoice_workshop', function($invoice_workshop) use($request, $date) {
                 $invoice_workshop->where('status_inv', 'Approved')
-                    ->whereDate('date', '<=', $date);
+                    ->whereDate('date', '>=', $date[0])
+                    ->whereDate('date', '<=', $date[1]);
 
                 if ($request->customer) {
                     $_customer = Customer::whereIn('id', $request->customer)->get()->pluck('uuid');

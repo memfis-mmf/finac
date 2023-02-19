@@ -60,7 +60,8 @@ class OutstandingSupplierInvoiceController extends Controller
             ])
             ->whereHas('supplier_invoice', function($supplier_invoice) use($request, $department, $date, $currency) {
                 $supplier_invoice->where('approve', true)
-                    ->whereDate('transaction_date', '<=', $date);
+                    ->whereDate('transaction_date', '>=', $date[0])
+                    ->whereDate('transaction_date', '<=', $date[1]);
 
                 if ($request->vendor) {
                     $supplier_invoice = $supplier_invoice->whereIn('id_supplier', $request->vendor);
