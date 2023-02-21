@@ -668,7 +668,13 @@ class JournalController extends Controller
 			$credit += $x->credit ?? 0;
 		}
 
+        $date = $journal->ref_date;
+        if (!$date) {
+            $date = $journal->transaction_date;
+        }
+
 		$data = [
+			'date' => $date,
 			'journal' => $journal,
 			'journala' => $journala,
 			'debit' => $debit,
