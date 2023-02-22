@@ -31,6 +31,7 @@ class TrxJournal extends MemfisModel
 		'voucher_no',
 		'transaction_date',
 		'ref_no',
+		'ref_date',
 		'description_2',
 		'currency_code',
 		'exchange_rate',
