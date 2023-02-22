@@ -437,7 +437,11 @@ class JournalController extends Controller
                 return $row->transaction_date->format('d-m-Y');
             })
             ->addColumn('ref_date_formated', function($row) {
-                return $row->transaction_date->format('d-m-Y');
+                if ($row->ref_date) {
+                    return Carbon::make($row->ref_date)->format('d-m-Y');
+                } else {
+                    return $row->transaction_date->format('d-m-Y');
+                }
             })
             ->addColumn('voucher_no_formated', function($row) {
                 return '<a href="'.route('journal.show', $row->uuid).'">'
@@ -775,16 +779,18 @@ class JournalController extends Controller
             'transaction_date',
             'transactiondate',
             'date',
-            'received_at'
+            'received_at',
+            'inventoried_at',
+            'depreciationstart'
         ];
+
+        $date = $journal->transaction_date;
 
         $ref = $journal->ref_collection;
 
         if (!$ref) {
-            return null;
+            return $date;
         }
-
-        $date = $journal->transaction_date;
 
         foreach ($date_column as $column) {
             if ($ref->$column) {
