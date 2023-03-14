@@ -525,6 +525,13 @@ class TrxJournal extends MemfisModel
             TrxJournal::do_approve($tmp_journal);
         }
 
+        if ($total_credit == 0 AND $total_credit == 0) {
+            return [
+                'status' => false,
+                'message' => 'Invalid debit or credit value zero'
+            ];
+        }
+
         //check balance
         if (bccomp($total_debit, $total_credit, 5) != 0) {
 
@@ -538,12 +545,12 @@ class TrxJournal extends MemfisModel
             Log::warning("Invalid debit or credit value. diff = {$diff}");
 
             // jika lebih dari 500 rupiah
-            if ($diff > 500) {
+            // if ($diff > 500) {
                 return [
                     'status' => false,
                     'message' => 'Invalid debit or credit value'
                 ];
-            }
+            // }
 
             $debit = $diff;
             $credit = 0;
