@@ -525,14 +525,14 @@ class TrxJournal extends MemfisModel
             TrxJournal::do_approve($tmp_journal);
         }
 
-        if ($total_credit == 0 OR $total_credit == 0) {
+        if ($total_credit == 0 OR $total_debit == 0) {
             return [
                 'status' => false,
                 'message' => 'Invalid debit or credit value zero'
             ];
         }
 
-        if ($total_credit < 0 OR $total_credit < 0) {
+        if ($total_credit < 0 OR $total_debit < 0) {
             return [
                 'status' => false,
                 'message' => 'Invalid, total debit or credit cannot less than Rp 1'
